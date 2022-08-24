@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Target Name="GenerateSpotifyClient" BeforeTargets="CoreCompile" Inputs="Specs/spotify-open-api.yml" Outputs="GeneratedCode/GeneratedSpotifyClient.cs">
+        <Exec Command="$(NSwagExe_Net60) openapi2csclient /Input:Specs/spotify-open-api.yml /Output:GeneratedCode/GeneratedSpotifyClient.cs /Namespace:Haly.GeneratedClients /ClassName:GeneratedSpotifyClient /GenerateNullableReferenceTypes:true /GenerateOptionalParameters:true" />
+    </Target>
+
+    <Target Name="RemoveGeneratedClients" AfterTargets="CoreClean">
+        <RemoveDir Directories="$(ProjectDir)GeneratedCode" />
+        <Message Text="Removed generated clients" />
+    </Target>
+
+    <ItemGroup>
+        <PackageReference Include="Mapster" Version="7.3.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="NSwag.MSBuild" Version="13.16.1">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    </ItemGroup>
+
+</Project>

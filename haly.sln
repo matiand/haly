@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haly.WebApp", "Haly.WebApp\Haly.WebApp.csproj", "{FE74E7CB-EF44-4774-90A5-4ADB6908B8FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{44CC07C3-E7F1-47E0-A017-B9BADD50317A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		.prettierrc = .prettierrc
+		.config/dotnet-tools.json = .config/dotnet-tools.json
+		.husky/task-runner.json = .husky/task-runner.json
+		.stylelintrc.json = .stylelintrc.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haly.GeneratedClients", "Haly.GeneratedClients\Haly.GeneratedClients.csproj", "{82D5652B-643F-4788-B82E-D9E779BDD03C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE74E7CB-EF44-4774-90A5-4ADB6908B8FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE74E7CB-EF44-4774-90A5-4ADB6908B8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE74E7CB-EF44-4774-90A5-4ADB6908B8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE74E7CB-EF44-4774-90A5-4ADB6908B8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82D5652B-643F-4788-B82E-D9E779BDD03C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82D5652B-643F-4788-B82E-D9E779BDD03C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82D5652B-643F-4788-B82E-D9E779BDD03C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82D5652B-643F-4788-B82E-D9E779BDD03C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
