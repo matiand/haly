@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.prettierrc = .prettierrc
 		.config/dotnet-tools.json = .config/dotnet-tools.json
 		.husky/task-runner.json = .husky/task-runner.json
-		.stylelintrc.json = .stylelintrc.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haly.GeneratedClients", "Haly.GeneratedClients\Haly.GeneratedClients.csproj", "{82D5652B-643F-4788-B82E-D9E779BDD03C}"
