@@ -23,7 +23,7 @@ public class UsersController : ApiControllerBase
     }
 
     [HttpPut("playlists")]
-    [CallsSpotifyApi]
+    [CallsSpotifyApi(SpotifyScopes.PlaylistReadPrivate)]
     [SwaggerOperation(
         Summary = "Update user playlists",
         Description = "Fetches user playlists from Spotify API, updates our cache with that data.")]

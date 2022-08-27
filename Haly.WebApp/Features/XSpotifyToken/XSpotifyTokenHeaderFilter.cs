@@ -11,16 +11,19 @@ public class XSpotifyTokenHeaderFilter : IOperationFilter
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         var methodAttributes = context.MethodInfo.GetCustomAttributes(inherit: true);
-        if (methodAttributes.OfType<CallsSpotifyApiAttribute>().Any())
+        var callsSpotifyApiAttr = methodAttributes.OfType<CallsSpotifyApiAttribute>().SingleOrDefault();
+
+        if (callsSpotifyApiAttr is not null)
         {
             operation.Parameters ??= new List<OpenApiParameter>();
-            operation.Parameters.Add(new OpenApiParameter()
+            operation.Parameters.Add(new OpenApiParameter
             {
                 Name = "X-Spotify-Token",
                 In = ParameterLocation.Header,
                 Required = true,
-                Description =
-                    "Access token to Spotify Web API, required for making requests to it.\nVisit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.",
+                Description = $@"Access token to Spotify Web API, required for making requests to it.
+                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>
+                            Scopes needed: {callsSpotifyApiAttr.Scopes}",
             });
 
             operation.Responses.Add("400", ProblemDetailsResponse(context, "Bad request"));

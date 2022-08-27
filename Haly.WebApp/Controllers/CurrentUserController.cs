@@ -12,7 +12,7 @@ namespace Haly.WebApp.Controllers;
 public class CurrentUserController : ApiControllerBase
 {
     [HttpPut]
-    [CallsSpotifyApi]
+    [CallsSpotifyApi(SpotifyScopes.UserReadPrivate)]
     [SwaggerOperation(
         Summary = "Update current user",
         Description =
@@ -32,7 +32,7 @@ public class CurrentUserController : ApiControllerBase
 
     [HttpGet]
     [Route("tracks")]
-    [CallsSpotifyApi]
+    [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
     [SwaggerOperation(Summary = "Get current user 'Liked Songs' collection")]
     [SwaggerResponse(statusCode: 200, "'Liked Songs' returned", typeof(IEnumerable<TrackDto>))]
     public async Task<IEnumerable<TrackDto>> GetLikedSongs([FromQuery] string market)
