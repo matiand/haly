@@ -14,12 +14,14 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
 
     // Their docs say that GET PlaylistTracks endpoint has a limit of 50, but actually it's 100
     private const int PlaylistTracksLimit = 100;
+    private const int LikedSongsLimit = 50;
 
     public SpotifyService(IHttpClientFactory httpClientFactory, SpotifyAccessToken accessToken)
     {
         _innerHttpClient = httpClientFactory.CreateClient();
         _innerHttpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", accessToken.Value);
+        Console.WriteLine($"Calling Spotify API with {_innerHttpClient.DefaultRequestHeaders.Authorization}");
 
         _spotifyClient = new GeneratedSpotifyClient(_innerHttpClient);
     }
@@ -44,14 +46,33 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
 
         do
         {
-            var response =
-                await _spotifyClient.GetPlaylistsTracksAsync(playlistId, offset: offset, limit: PlaylistTracksLimit, market: userMarket);
+            var response = await _spotifyClient.GetPlaylistsTracksAsync(playlistId, offset: offset,
+                limit: PlaylistTracksLimit,
+                market: userMarket);
             spotifyTracks.AddRange(response.Items);
 
             offset = response.Next is not null ? response.Offset + response.Limit : -1;
         } while (offset != -1);
 
         return spotifyTracks.Adapt<List<Track>>();
+    }
+
+    public async Task<List<Track>> GetLikedSongs(string userMarket)
+    {
+        var likedSongs = new List<SavedTrackObject>();
+        var offset = 0;
+
+        do
+        {
+            var response = await _spotifyClient.GetUsersSavedTracksAsync(offset: offset,
+                limit: LikedSongsLimit,
+                market: userMarket);
+            likedSongs.AddRange(response.Items);
+
+            offset = response.Next is not null ? response.Offset + response.Limit : -1;
+        } while (offset != -1);
+
+        return likedSongs.Adapt<List<Track>>();
     }
 
     public void Dispose()

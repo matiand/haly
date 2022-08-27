@@ -1,4 +1,6 @@
+using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.User;
+using Haly.WebApp.Features.User.GetLikedSongs;
 using Haly.WebApp.Features.User.UpdateCurrentUser;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
@@ -26,5 +28,15 @@ public class CurrentUserController : ApiControllerBase
         }
 
         return response.User;
+    }
+
+    [HttpGet]
+    [Route("tracks")]
+    [CallsSpotifyApi]
+    [SwaggerOperation(Summary = "Get current user 'Liked Songs' collection")]
+    [SwaggerResponse(statusCode: 200, "'Liked Songs' returned", typeof(IEnumerable<TrackDto>))]
+    public async Task<IEnumerable<TrackDto>> GetLikedSongs([FromQuery] string market)
+    {
+        return await Mediator.Send(new GetLikedSongsQuery(market));
     }
 }

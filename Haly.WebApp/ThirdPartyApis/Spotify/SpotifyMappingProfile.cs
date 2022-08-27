@@ -19,6 +19,14 @@ public class SpotifyMappingProfile : IRegister
             .Ignore(dest => dest.Owner);
 
         config.ForType<PlaylistTrackObject, Track>()
+            .Map(dest => dest.SpotifyId, src => src)
+            .Map(dest => dest.Name, src => src.Track.Name)
+            .Map(dest => dest.Album, src => src.Track.Album)
+            .Map(dest => dest.Artists, src => src.Track.Artists)
+            .Map(dest => dest.AddedAt, src => src.Added_at)
+            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms);
+
+        config.ForType<SavedTrackObject, Track>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
             .Map(dest => dest.Name, src => src.Track.Name)
             .Map(dest => dest.Album, src => src.Track.Album)

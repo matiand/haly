@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { Route, Routes } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import FollowedArtists from "./me/FollowedArtists";
 import HalySettings from "./me/HalySettings";
 import Me from "./me/Me";
 import { UserContext } from "./me/UserContext";
+import LikedSongs from "./playlist/LikedSongs";
 import Playlist from "./playlist/Playlist";
 import Sidebar from "./sidebar/Sidebar";
 import TopBar from "./topbar/TopBar";
@@ -46,6 +47,7 @@ function App() {
                             <Route path="following" element={<FollowedArtists />} />
                             <Route path="appsettings" element={<HalySettings />} />
                         </Route>
+                        <Route path="/collection/tracks" element={<LikedSongs />} />
                     </Routes>
                 </React.Suspense>
                 <Toaster />
