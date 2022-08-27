@@ -63,7 +63,7 @@ app.MapHub<PlaylistHub>("/hubs/playlist");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options => { options.EnableTryItOutByDefault(); });
 }
 
 if (app.Environment.IsProduction())
