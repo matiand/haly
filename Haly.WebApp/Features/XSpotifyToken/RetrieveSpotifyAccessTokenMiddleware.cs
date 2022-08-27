@@ -13,6 +13,7 @@ public class RetrieveSpotifyAccessTokenMiddleware
 
     public async Task InvokeAsync(HttpContext ctx)
     {
+        Console.WriteLine($"x-spotify-token Retrieve middleware {ctx.Request.Path} {ctx.Request.Headers["x-spotify-token"]}");
         _spotifyAccessToken.Value = ctx.Request.Headers["x-spotify-token"];
         await _next(ctx);
     }

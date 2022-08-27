@@ -8,6 +8,8 @@ public class User
     public Plan Plan { get; set; }
 
     public List<Playlist> Playlists { get; set; }
+
+    public bool CanUseSpotifyPlayer => Plan is Plan.Premium;
 }
 
 public enum Plan
