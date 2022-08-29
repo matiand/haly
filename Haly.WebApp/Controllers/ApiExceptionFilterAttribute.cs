@@ -12,12 +12,19 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         // Make sure this does not interfere with Polly
         var ex = context.Exception;
 
-        Console.WriteLine($"Inside filter, exception happened: {ex.Message}");
+        Console.WriteLine($"Inside filter, exception happened:\n{ex.Message}");
 
         switch (ex)
         {
             case ApiException apiException:
                 {
+                    var isDeserializationError = apiException.Message.Contains("Could not deserialize");
+                    if (isDeserializationError)
+                    {
+                        context.Result = InternalServerProblem("Failed to deserialize response from Spotify API");
+                        break;
+                    }
+
                     context.Result = apiException.StatusCode switch
                     {
                         400 => BadRequestProblem("X-Spotify-Token header is missing",
@@ -29,6 +36,18 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
                     break;
                 }
         }
+    }
+
+    private static IActionResult InternalServerProblem(string title)
+    {
+        var problem = new ProblemDetails
+        {
+            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.6.1",
+            Status = 500,
+            Title = title,
+        };
+
+        return new ObjectResult(problem);
     }
 
     private static IActionResult BadRequestProblem(string title, string? details)
