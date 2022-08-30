@@ -28,11 +28,9 @@ public class UsersController : ApiControllerBase
         Summary = "Update user playlists",
         Description = "Fetches user playlists from Spotify API, updates our cache with that data.")]
     [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(UserPlaylistDto))]
-    [SwaggerResponse(statusCode: 404, "User not found", typeof(ProblemDetails))]
-    public async Task<ActionResult<IEnumerable<UserPlaylistDto>>> UpdateUserPlaylists(string id)
+    public async Task<ActionResult<IEnumerable<UserPlaylistDto>>> UpdateUserPlaylists(string market)
     {
-        var response = await Mediator.Send(new UpdateUserPlaylistsCommand(id));
-        if (response is null) return NotFound();
+        var response = await Mediator.Send(new UpdateUserPlaylistsCommand(market));
 
         return Ok(response);
     }

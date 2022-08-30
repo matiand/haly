@@ -13,6 +13,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         var ex = context.Exception;
 
         Console.WriteLine($"Inside filter, exception happened:\n{ex.Message}");
+        Console.WriteLine(ex.InnerException);
 
         switch (ex)
         {

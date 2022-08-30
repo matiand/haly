@@ -30,7 +30,7 @@ function UserPlaylists() {
 }
 
 async function fetchPlaylists(userId: string, accessToken: string) {
-    const resp = await fetch(`${import.meta.env.VITE_API_ORIGIN}/users/${userId}/playlists`, {
+    const resp = await fetch(`${import.meta.env.VITE_API_ORIGIN}/users/${userId}/playlists?market=pl`, {
         method: "PUT",
         headers: { "x-spotify-token": accessToken },
     });

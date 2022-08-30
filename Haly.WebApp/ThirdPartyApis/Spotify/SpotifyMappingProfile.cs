@@ -16,6 +16,7 @@ public class SpotifyMappingProfile : IRegister
 
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
+            .Map(dest => dest.OwnerId, src => src.Owner.Id)
             .Ignore(dest => dest.Owner);
 
         config.ForType<PlaylistTrackObject, Track>()
