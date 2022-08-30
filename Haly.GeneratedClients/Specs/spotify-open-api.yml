@@ -4195,10 +4195,12 @@ components:
             A list of the genres the artist is associated with. If not yet classified, the array is empty.
         href:
           type: string
+          nullable: true
           description: |
             A link to the Web API endpoint providing full details of the artist.
         id:
           type: string
+          nullable: true
           description: |
             The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the artist.
         images:
@@ -4223,6 +4225,7 @@ components:
             The object type.
         uri:
           type: string
+          nullable: true
           description: |
             The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the artist.
     SimplifiedArtistObject:
@@ -5718,10 +5721,12 @@ components:
             Known external URLs for this track.
         href:
           type: string
+          nullable: true
           description: |
             A link to the Web API endpoint providing full details of the track.
         id:
           type: string
+          nullable: true
           description: |
             The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the track.
         is_playable:
@@ -6052,7 +6057,7 @@ components:
       type: object
       required:
       - album_type
-      - total_tracks
+#      - total_tracks
 #      When calling GetPlaylistTracksAsync with specified market, this field is null
 #      also we have to set below in properties available_markets to nullable: true
 #      - available_markets
@@ -6074,6 +6079,7 @@ components:
           - album
           - single
           - compilation
+          nullable: true
           example: compilation
         total_tracks:
           type: integer
@@ -6099,10 +6105,12 @@ components:
           type: string
           description: |
             A link to the Web API endpoint providing full details of the album.
+          nullable: true
         id:
           type: string
           description: |
             The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the album.
+          nullable: true
           example: 2up3OPMp9Tb4dAKM2erWXQ
         images:
           type: array
@@ -6116,6 +6124,7 @@ components:
             The name of the album. In case of an album takedown, the value may be an empty string.
         release_date:
           type: string
+          nullable: true
           example: 1981-12
           description: |
             The date the album was first released.
@@ -6125,6 +6134,7 @@ components:
           - year
           - month
           - day
+          nullable: true
           example: year
           description: |
             The precision with which `release_date` value is known.
@@ -6141,6 +6151,7 @@ components:
             The object type.
         uri:
           type: string
+          nullable: true
           example: spotify:album:2up3OPMp9Tb4dAKM2erWXQ
           description: |
             The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the album.
