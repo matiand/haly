@@ -8,6 +8,7 @@ import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
 import { usePlaylistHub } from "./common/useHub";
 import Home from "./home/Home";
+import SimplePlayer from "./home/SimplePlayer";
 import FollowedArtists from "./me/FollowedArtists";
 import HalySettings from "./me/HalySettings";
 import Me from "./me/Me";
@@ -48,6 +49,7 @@ function App() {
                             <Route path="appsettings" element={<HalySettings />} />
                         </Route>
                         <Route path="/collection/tracks" element={<LikedSongs />} />
+                        <Route path="/player" element={<SimplePlayer />} />
                     </Routes>
                 </React.Suspense>
                 <Toaster />
