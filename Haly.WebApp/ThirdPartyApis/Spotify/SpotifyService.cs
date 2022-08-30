@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.Player;
+using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Features.XSpotifyToken;
 using Haly.WebApp.Models;
 using Mapster;
@@ -74,6 +76,12 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
         } while (offset != -1);
 
         return likedSongs.Adapt<List<Track>>();
+    }
+
+    public async Task<List<DeviceDto>> GetAvailableDevices()
+    {
+        var response = await _spotifyClient.GetAUsersAvailableDevicesAsync();
+        return response.Devices.Adapt<List<DeviceDto>>();
     }
 
     public void Dispose()

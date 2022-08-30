@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import useAccessToken from "../auth/useAccessToken";
 import useInterval from "../common/useInterval";
 import PlaybackState = Spotify.PlaybackState;
+import ConnectMenu from "../player/ConnectMenu";
 
 function SimplePlayer() {
     const accessToken = useAccessToken();
@@ -66,6 +67,8 @@ function SimplePlayer() {
             <p>
                 Player progress: {format(positionInMs, "m:ss")} / {format(totalTrackDuration, "m:ss")}
             </p>
+
+            <ConnectMenu />
         </main>
     );
 }

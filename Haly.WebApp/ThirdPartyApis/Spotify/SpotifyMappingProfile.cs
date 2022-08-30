@@ -1,4 +1,5 @@
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
 using Track = Haly.WebApp.Models.Track;
@@ -37,5 +38,9 @@ public class SpotifyMappingProfile : IRegister
 
         config.ForType<SimplifiedAlbumObject, Album>();
         config.ForType<SimplifiedArtistObject, Artist>();
+
+        config.ForType<DeviceObject, DeviceDto>()
+            .Map(dest => dest.IsActive, src => src.Is_active)
+            .Map(dest => dest.VolumePercent, src => src.Volume_percent);
     }
 }

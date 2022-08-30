@@ -1,3 +1,5 @@
+using Haly.WebApp.Features.Player;
+using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.User;
 using Haly.WebApp.Features.User.GetLikedSongs;
@@ -38,5 +40,14 @@ public class CurrentUserController : ApiControllerBase
     public async Task<IEnumerable<TrackDto>> GetLikedSongs([FromQuery] string market)
     {
         return await Mediator.Send(new GetLikedSongsQuery(market));
+    }
+
+    [HttpGet]
+    [Route("player/devices")]
+    [CallsSpotifyApi(SpotifyScopes.UserReadPlaybackState)]
+    [SwaggerOperation(Summary = "Get available devices that current user can connect to")]
+    public async Task<IEnumerable<DeviceDto>> GetAvailableDevices([FromServices] ISpotifyService spotifyService)
+    {
+        return await Mediator.Send(new GetAvailableDevicesQuery());
     }
 }
