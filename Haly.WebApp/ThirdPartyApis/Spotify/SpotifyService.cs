@@ -3,6 +3,7 @@ using Haly.GeneratedClients;
 using Haly.WebApp.Features.XSpotifyToken;
 using Haly.WebApp.Models;
 using Mapster;
+using Newtonsoft.Json;
 using Track = Haly.WebApp.Models.Track;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
@@ -23,7 +24,7 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
             new AuthenticationHeaderValue("Bearer", accessToken.Value);
         Console.WriteLine($"Calling Spotify API with {_innerHttpClient.DefaultRequestHeaders.Authorization}");
 
-        _spotifyClient = new GeneratedSpotifyClient(_innerHttpClient);
+        _spotifyClient = new GeneratedSpotifyClient(_innerHttpClient, throwDeserializationErrors: false);
     }
 
     public async Task<User> GetCurrentUser()
