@@ -1,5 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { useQuery } from "react-query";
 import { Route, Routes } from "react-router-dom";
 
 import useAccessToken from "./auth/useAccessToken";

@@ -1,5 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { useQuery } from "react-query";
 
 import useAccessToken from "../auth/useAccessToken";
 import { UserContext } from "../me/UserContext";

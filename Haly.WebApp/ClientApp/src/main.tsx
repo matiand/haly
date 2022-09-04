@@ -1,10 +1,10 @@
 import "./common/globalStyles";
 
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import toast from "react-hot-toast";
 import { AuthProvider } from "react-oidc-context";
-import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";

@@ -8997,15 +8997,15 @@ namespace Haly.GeneratedClients
         /// A link to the Web API endpoint providing full details of the artist.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("href", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Href { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("href", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Href { get; set; } = default!;
 
         /// <summary>
         /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the artist.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Id { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id { get; set; } = default!;
 
         /// <summary>
         /// Images of the artist in various sizes, widest first.
@@ -9040,8 +9040,8 @@ namespace Haly.GeneratedClients
         /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the artist.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Uri { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Uri { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
 
@@ -11129,15 +11129,15 @@ namespace Haly.GeneratedClients
         /// A link to the Web API endpoint providing full details of the track.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("href", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Href { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("href", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Href { get; set; } = default!;
 
         /// <summary>
         /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the track.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Id { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id { get; set; } = default!;
 
         /// <summary>
         /// Part of the response when [Track Relinking](/documentation/general/guides/track-relinking-guide/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.
@@ -11601,14 +11601,15 @@ namespace Haly.GeneratedClients
         /// The type of the album.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("album_type", Required = Newtonsoft.Json.Required.AllowNull)]
+        [Newtonsoft.Json.JsonProperty("album_type", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public AlbumBaseAlbum_type? Album_type { get; set; } = default!;
+        public AlbumBaseAlbum_type Album_type { get; set; } = default!;
 
         /// <summary>
         /// The number of tracks in the album.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("total_tracks", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("total_tracks", Required = Newtonsoft.Json.Required.Always)]
         public int Total_tracks { get; set; } = default!;
 
         /// <summary>
@@ -11630,15 +11631,17 @@ namespace Haly.GeneratedClients
         /// A link to the Web API endpoint providing full details of the album.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("href", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string? Href { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("href", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Href { get; set; } = default!;
 
         /// <summary>
         /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the album.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string? Id { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Id { get; set; } = default!;
 
         /// <summary>
         /// The cover art for the album in various sizes, widest first.
@@ -11660,16 +11663,18 @@ namespace Haly.GeneratedClients
         /// The date the album was first released.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("release_date", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string? Release_date { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("release_date", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Release_date { get; set; } = default!;
 
         /// <summary>
         /// The precision with which `release_date` value is known.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("release_date_precision", Required = Newtonsoft.Json.Required.AllowNull)]
+        [Newtonsoft.Json.JsonProperty("release_date_precision", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public AlbumBaseRelease_date_precision? Release_date_precision { get; set; } = default!;
+        public AlbumBaseRelease_date_precision Release_date_precision { get; set; } = default!;
 
         /// <summary>
         /// Included in the response when a content restriction is applied.
@@ -11691,8 +11696,9 @@ namespace Haly.GeneratedClients
         /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the album.
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string? Uri { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Uri { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
 

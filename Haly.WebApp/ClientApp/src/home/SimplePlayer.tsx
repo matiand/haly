@@ -1,6 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 
 import useAccessToken from "../auth/useAccessToken";
 import useInterval from "../common/useInterval";
