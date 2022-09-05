@@ -1,10 +1,10 @@
 import { differenceInMonths, format, formatDistanceToNow } from "date-fns";
 
 import { styled } from "../common/theme";
-import { PlaylistDto } from "./Playlist";
+import { TrackDto } from "../halyClient";
 
 type CollectionProps = {
-    items: PlaylistDto["tracks"];
+    items: TrackDto[];
 };
 
 function Collection({ items }: CollectionProps) {
@@ -30,7 +30,7 @@ function Collection({ items }: CollectionProps) {
     );
 }
 
-function formatAddedAt(addedAtIso: string) {
+function formatAddedAt(addedAtIso: Date) {
     const addedAt = new Date(addedAtIso);
     const diffInMonths = differenceInMonths(new Date(), addedAt);
 

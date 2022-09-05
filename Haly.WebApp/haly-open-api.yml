@@ -1,0 +1,374 @@
+openapi: 3.0.1
+info:
+  title: Haly API
+  description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
+  version: v1
+paths:
+  /users/me:
+    put:
+      tags:
+        - CurrentUser
+      summary: Update current user
+      description: 'Fetches current user from Spotify API, updates our cache with that data, creates new User if he''s missing'
+      operationId: PutCurrentUser
+      parameters:
+        - name: X-Spotify-Token
+          in: header
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-read-private"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too many requests
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /users/me/tracks:
+    get:
+      tags:
+        - CurrentUser
+      summary: Get current user 'Liked Songs' collection
+      operationId: GetLikedSongs
+      parameters:
+        - name: market
+          in: query
+          schema:
+            type: string
+        - name: X-Spotify-Token
+          in: header
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-library-read"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '''Liked Songs'' returned'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
+        '400':
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too many requests
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /users/me/player/devices:
+    get:
+      tags:
+        - CurrentUser
+      summary: Get available devices that current user can connect to
+      operationId: GetAvailableDevices
+      parameters:
+        - name: X-Spotify-Token
+          in: header
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-read-playback-state"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceDto'
+        '400':
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too many requests
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/Playlists/{id}':
+    get:
+      tags:
+        - Playlists
+      summary: Get playlist by id
+      description: Get playlist from our cache
+      operationId: GetPlaylist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Playlist found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistDto'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/users/{id}':
+    get:
+      tags:
+        - Users
+      summary: Get user by id
+      description: Get user from our cache
+      operationId: GetUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/users/{id}/playlists':
+    put:
+      tags:
+        - Users
+      summary: Update user playlists
+      description: 'Fetches user playlists from Spotify API, updates our cache with that data.'
+      operationId: PutUserPlaylists
+      parameters:
+        - name: market
+          in: query
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: X-Spotify-Token
+          in: header
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: playlist-read-private"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User playlists updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserPlaylistDto'
+        '400':
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too many requests
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  schemas:
+    AlbumDto:
+      required:
+        - artists
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistDto'
+      additionalProperties: false
+    ArtistDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      additionalProperties: false
+    DeviceDto:
+      required:
+        - id
+        - isActive
+        - name
+        - volumePercent
+      type: object
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        name:
+          type: string
+        volumePercent:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PlaylistDto:
+      required:
+        - id
+        - name
+        - tracks
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackDto'
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: { }
+    TrackDto:
+      required:
+        - addedAt
+        - album
+        - artists
+        - duration
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        duration:
+          type: string
+        addedAt:
+          type: string
+          format: date-time
+        album:
+          $ref: '#/components/schemas/AlbumDto'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistDto'
+      additionalProperties: false
+    UserDto:
+      required:
+        - canUseSpotifyPlayer
+        - id
+        - market
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        market:
+          type: string
+        canUseSpotifyPlayer:
+          type: boolean
+      additionalProperties: false
+    UserPlaylistDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      additionalProperties: false

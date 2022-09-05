@@ -26,7 +26,8 @@
                 "**/*.html",
                 "**/*.json",
                 "**/*.md"
-            ]
+            ],
+            "exclude": ["**/generated/*"]
         },
         {
             "name": "Eslint",

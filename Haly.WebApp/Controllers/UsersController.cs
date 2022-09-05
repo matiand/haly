@@ -14,7 +14,7 @@ public class UsersController : ApiControllerBase
     [SwaggerOperation(Summary = "Get user by id", Description = "Get user from our cache")]
     [SwaggerResponse(statusCode: 200, "User found", typeof(UserDto))]
     [SwaggerResponse(statusCode: 404, "User not found", typeof(ProblemDetails))]
-    public async Task<ActionResult<UserDto>> Get(string id)
+    public async Task<ActionResult<UserDto>> GetUser(string id)
     {
         var response = await Mediator.Send(new GetUserQuery(id));
         if (response is null) return NotFound();
@@ -27,8 +27,8 @@ public class UsersController : ApiControllerBase
     [SwaggerOperation(
         Summary = "Update user playlists",
         Description = "Fetches user playlists from Spotify API, updates our cache with that data.")]
-    [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(UserPlaylistDto))]
-    public async Task<ActionResult<IEnumerable<UserPlaylistDto>>> UpdateUserPlaylists(string market)
+    [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(IEnumerable<UserPlaylistDto>))]
+    public async Task<ActionResult<IEnumerable<UserPlaylistDto>>> PutUserPlaylists(string market)
     {
         var response = await Mediator.Send(new UpdateUserPlaylistsCommand(market));
 

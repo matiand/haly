@@ -7,6 +7,7 @@ import Loading from "./common/Loading";
 import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
 import { usePlaylistHub } from "./common/useHub";
+import halyClient from "./halyClient";
 import Home from "./home/Home";
 import SimplePlayer from "./home/SimplePlayer";
 import FollowedArtists from "./me/FollowedArtists";
@@ -30,7 +31,9 @@ function App() {
         isLoading,
         data: user,
         error,
-    } = useQuery(["users", "me"], () => fetchUserInfo(accessToken), { enabled: isConnected });
+    } = useQuery(["users", "me"], () => halyClient.currentUser.putCurrentUser({ xSpotifyToken: accessToken }), {
+        enabled: isConnected,
+    });
 
     if (isLoading) return <Loading />;
     if (error || !user) return <Toaster />;
@@ -78,16 +81,5 @@ const Layout = styled("div", {
         padding: "0 $800",
     },
 });
-
-async function fetchUserInfo(accessToken: string) {
-    const resp = await fetch(`${import.meta.env.VITE_API_ORIGIN}/users/me`, {
-        method: "PUT",
-        headers: { "x-spotify-token": accessToken },
-    });
-    if (!resp.ok) throw new Error(resp.statusText);
-
-    console.log("User:", resp.statusText);
-    return resp.json();
-}
 
 export default App;

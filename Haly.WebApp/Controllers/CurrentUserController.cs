@@ -1,4 +1,3 @@
-using Haly.WebApp.Features.Player;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.User;
@@ -21,7 +20,7 @@ public class CurrentUserController : ApiControllerBase
             "Fetches current user from Spotify API, updates our cache with that data, creates new User if he's missing")]
     [SwaggerResponse(statusCode: 200, "User updated", typeof(UserDto))]
     [SwaggerResponse(statusCode: 201, "User created", typeof(UserDto))]
-    public async Task<ActionResult<UserDto>> Put()
+    public async Task<ActionResult<UserDto>> PutCurrentUser()
     {
         var response = await Mediator.Send(new UpdateCurrentUserCommand());
         if (response.Created)

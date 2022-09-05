@@ -3,10 +3,16 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
+        <RootNamespace>Haly.GeneratedClients</RootNamespace>
+        <SpotifySpecFile>Specs/spotify-open-api.yml</SpotifySpecFile>
     </PropertyGroup>
 
-    <Target Name="GenerateSpotifyClient" BeforeTargets="CoreCompile" Inputs="Specs/spotify-open-api.yml" Outputs="GeneratedCode/GeneratedSpotifyClient.cs">
-        <Exec Command="$(NSwagExe_Net60) openapi2csclient /Input:Specs/spotify-open-api.yml /Output:GeneratedCode/GeneratedSpotifyClient.cs /Namespace:Haly.GeneratedClients /ClassName:GeneratedSpotifyClient /GenerateNullableReferenceTypes:true /GenerateOptionalParameters:true" />
+    <Target Name="GenerateSpotifyClient" BeforeTargets="CoreCompile" Inputs="$(SpotifySpecFile)" Outputs="GeneratedCode/GeneratedSpotifyClient.cs">
+        <PropertyGroup>
+            <OutputFile>GeneratedCode/GeneratedSpotifyClient.cs</OutputFile>
+            <ClassName>GeneratedSpotifyClient</ClassName>
+        </PropertyGroup>
+        <Exec Command="$(NSwagExe_Net60) openapi2csclient /Input:$(SpotifySpecFile) /Output:$(OutputFile) /Namespace:$(RootNamespace) /ClassName:$(ClassName) /GenerateNullableReferenceTypes:true /GenerateOptionalParameters:true" />
     </Target>
 
     <Target Name="RemoveGeneratedClients" AfterTargets="CoreClean">

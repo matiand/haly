@@ -1,52 +1,18 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "react-oidc-context";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
+import halyClient from "../halyClient";
 import Collection from "./Collection";
 
-export type PlaylistDto = {
-    id: string;
-    name: string;
-    tracks: {
-        id: string;
-        name: string;
-        duration: string;
-        addedAt: string;
-        album: {
-            id: string;
-            name: string;
-            artists: { id: string; name: string }[];
-        };
-        artists: { id: string; name: string }[];
-    }[];
-};
-
 function Playlist() {
-    const { user } = useAuth();
-    const { id: playlistId } = useParams();
-    const [playlist, setPlaylist] = useState<PlaylistDto>();
+    const { id } = useParams();
+    const query = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id: id! }), { suspense: true });
 
-    useEffect(() => {
-        async function fetchPlaylists() {
-            try {
-                const resp = await fetch(`${import.meta.env.VITE_API_ORIGIN}/playlists/${playlistId}`, {
-                    headers: { "x-spotify-token": user!.access_token! },
-                });
-                if (resp.ok) {
-                    console.log(resp.statusText);
-                    setPlaylist(await resp.json());
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        fetchPlaylists();
-    }, [playlistId, user]);
-
-    if (!playlist) {
+    if (!query.data) {
         return null;
     }
+
+    const playlist = query.data;
 
     return (
         <main>

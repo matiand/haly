@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 
 import useAccessToken from "../auth/useAccessToken";
+import halyClient from "../halyClient";
 import { UserContext } from "../me/UserContext";
 import Collection from "./Collection";
 
@@ -11,14 +12,11 @@ function LikedSongs() {
 
     const query = useQuery(
         ["users", "me", "tracks"],
-        async () => {
-            const resp = await fetch(`${import.meta.env.VITE_API_ORIGIN}/users/me/tracks?market=${user.market}`, {
-                headers: { "x-spotify-token": accessToken },
-            });
-            if (!resp.ok) throw new Error(resp.statusText);
-
-            return await resp.json();
-        },
+        () =>
+            halyClient.currentUser.getLikedSongs({
+                market: user.market,
+                xSpotifyToken: accessToken,
+            }),
         { suspense: true },
     );
 

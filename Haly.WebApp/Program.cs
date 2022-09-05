@@ -1,3 +1,4 @@
+using Haly.WebApp.Controllers;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.XSpotifyToken;
 using Haly.WebApp.Hubs;
@@ -29,7 +30,9 @@ builder.Services.AddSwaggerGen(options =>
         Description =
             "An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration",
     });
+    options.CustomOperationIds(description => description.ActionDescriptor.RouteValues["action"]);
     options.OperationFilter<XSpotifyTokenHeaderFilter>();
+    options.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
     options.EnableAnnotations();
     options.SupportNonNullableReferenceTypes();
 });

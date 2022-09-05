@@ -11,7 +11,7 @@ public class PlaylistsController : ApiControllerBase
     [SwaggerOperation(Summary = "Get playlist by id", Description = "Get playlist from our cache")]
     [SwaggerResponse(statusCode: 200, "Playlist found", typeof(PlaylistDto))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(ProblemDetails))]
-    public async Task<ActionResult<PlaylistDto>> Get(string id)
+    public async Task<ActionResult<PlaylistDto>> GetPlaylist(string id)
     {
         var response = await Mediator.Send(new GetPlaylistQuery(id));
         if (response is null) return NotFound();

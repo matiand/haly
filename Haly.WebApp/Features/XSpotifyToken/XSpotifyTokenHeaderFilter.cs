@@ -24,6 +24,7 @@ public class XSpotifyTokenHeaderFilter : IOperationFilter
                 Description = $@"Access token to Spotify Web API, required for making requests to it.
                             Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>
                             Scopes needed: {callsSpotifyApiAttr.Scopes}",
+                Schema = new OpenApiSchema { Type = "string" },
             });
 
             operation.Responses.Add("400", ProblemDetailsResponse(context, "Bad request"));
