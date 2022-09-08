@@ -15,16 +15,17 @@ import halyClient from "./halyClient";
 const queryClient = new QueryClient({
     queryCache: new QueryCache({
         async onError(error) {
-            if (!(error instanceof ResponseError)) {
-                console.log("Unknown error", error);
-                toast.error(`Unknown error: ${error instanceof Error ? error.message : "N/A"}`);
-                return;
+            if (!(error instanceof Error)) return;
+
+            if (error instanceof ResponseError) {
+                const respBody = await error.response.json();
+                if (halyClient.isProblemDetails(respBody)) {
+                    toast.error(respBody.title!);
+                    return;
+                }
             }
 
-            const respBody = await error.response.json();
-            if (halyClient.isProblemDetails(respBody)) {
-                toast.error(respBody.title!);
-            }
+            console.log("Unknown error", error.message);
         },
     }),
 });
