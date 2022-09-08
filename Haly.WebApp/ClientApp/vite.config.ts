@@ -7,4 +7,7 @@ export default defineConfig({
     build: {
         outDir: "../wwwroot",
     },
+    server: {
+        port: 3000,
+    },
 });
