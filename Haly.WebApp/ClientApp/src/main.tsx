@@ -7,21 +7,23 @@ import toast from "react-hot-toast";
 import { AuthProvider } from "react-oidc-context";
 import { BrowserRouter } from "react-router-dom";
 
+import { ResponseError } from "../generated/haly";
 import App from "./App";
 import Authentication, { oAuthConfig } from "./auth/Authentication";
+import halyClient from "./halyClient";
 
 const queryClient = new QueryClient({
     queryCache: new QueryCache({
-        onError(error, query) {
-            // TODO: specify toast msg based on request status code
-            console.error(`Query error: ${error instanceof Error && error.message}`);
+        async onError(error) {
+            if (!(error instanceof ResponseError)) {
+                console.log("Unknown error", error);
+                toast.error(`Unknown error: ${error instanceof Error ? error.message : "N/A"}`);
+                return;
+            }
 
-            const { queryKey } = query.options;
-            console.log("Query key: ", queryKey);
-            if (queryKey?.[0] === "users" && queryKey[1] === "me") {
-                toast.error("Authentication failed.\nRefresh page to try again.");
-            } else {
-                toast.error("Backend error");
+            const respBody = await error.response.json();
+            if (halyClient.isProblemDetails(respBody)) {
+                toast.error(respBody.title!);
             }
         },
     }),

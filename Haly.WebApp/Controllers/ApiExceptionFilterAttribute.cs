@@ -30,7 +30,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
                     {
                         400 => BadRequestProblem("X-Spotify-Token header is missing",
                             "It should contain a valid Spotify API access token"),
-                        401 => UnauthorizedProblem("Bad or expired access token for Spotify API"),
+                        401 => UnauthorizedProblem("Bad or expired access token for using Spotify API"),
                         429 => TooManyRequestsProblem("You have exceeded Spotify API rate limits"),
                         _ => throw apiException,
                     };
