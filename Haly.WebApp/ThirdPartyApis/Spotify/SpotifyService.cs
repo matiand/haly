@@ -15,6 +15,7 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
     private readonly HttpClient _innerHttpClient;
     private readonly GeneratedSpotifyClient _spotifyClient;
 
+    private const int PlaylistLimit = 50;
     // Their docs say that GET PlaylistTracks endpoint has a limit of 50, but actually it's 100
     private const int PlaylistTracksLimit = 100;
     private const int LikedSongsLimit = 50;
@@ -37,7 +38,7 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
 
     public async Task<List<Playlist>> GetCurrentUserPlaylists()
     {
-        var spotifyPlaylists = await _spotifyClient.GetAListOfCurrentUsersPlaylistsAsync();
+        var spotifyPlaylists = await _spotifyClient.GetAListOfCurrentUsersPlaylistsAsync(limit: PlaylistLimit);
 
         return spotifyPlaylists.Items.Adapt<List<Playlist>>();
     }

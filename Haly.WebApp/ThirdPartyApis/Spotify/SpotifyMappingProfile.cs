@@ -13,12 +13,11 @@ public class SpotifyMappingProfile : IRegister
         config.ForType<PrivateUserObject, User>()
             .Map(dest => dest.Name, src => src.Display_name)
             .Map(dest => dest.Market, src => src.Country)
-            .Map(dest => dest.Plan, src => src.Product == "product" ? Plan.Premium : Plan.Free);
+            .Map(dest => dest.Plan, src => src.Product == "premium" ? Plan.Premium : Plan.Free);
 
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
-            .Map(dest => dest.OwnerId, src => src.Owner.Id)
-            .Ignore(dest => dest.Owner);
+            .Map(dest => dest.Owner.Name, src => src.Owner.Display_name);
 
         config.ForType<PlaylistTrackObject, Track>()
             .Map(dest => dest.SpotifyId, src => src)
