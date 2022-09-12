@@ -1,5 +1,5 @@
-using Haly.WebApp.Controllers;
 using Haly.WebApp.Data;
+using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.XSpotifyToken;
 using Haly.WebApp.Hubs;
 using Haly.WebApp.ThirdPartyApis.Spotify;

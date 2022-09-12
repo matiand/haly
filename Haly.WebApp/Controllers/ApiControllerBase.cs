@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.ErrorHandling;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

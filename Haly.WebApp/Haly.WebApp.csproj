@@ -12,35 +12,35 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot"/>
+        <Folder Include="wwwroot" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Haly.GeneratedClients\Haly.GeneratedClients.csproj"/>
+        <ProjectReference Include="..\Haly.GeneratedClients\Haly.GeneratedClients.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Mapster" Version="7.3.0"/>
-        <PackageReference Include="MediatR" Version="10.0.1"/>
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
+        <PackageReference Include="Mapster" Version="7.3.0" />
+        <PackageReference Include="MediatR" Version="10.0.1" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
     </ItemGroup>
 
     <Target Name="Husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
-        <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High"/>
-        <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory=".."/>
+        <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
+        <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory=".." />
     </Target>
 
     <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="$(Configuration) == 'Debug'" Inputs="ClientApp/package-lock.json" Outputs="ClientApp/node_modules/.install-stamp">
-        <Exec Command="npm i" WorkingDirectory="ClientApp" StandardOutputImportance="low"/>
-        <Touch Files="ClientApp/node_modules/.install-stamp" AlwaysCreate="true"/>
-        <Message Text="Npm packages have been installed" Importance="high"/>
+        <Exec Command="npm i" WorkingDirectory="ClientApp" StandardOutputImportance="low" />
+        <Touch Files="ClientApp/node_modules/.install-stamp" AlwaysCreate="true" />
+        <Message Text="Npm packages have been installed" Importance="high" />
     </Target>
 
     <!--    To improve build times, this has to be invoked manually whenever our API changes
@@ -53,14 +53,14 @@
             <Envs>ASPNETCORE_ENVIRONMENT=DEVELOPMENT</Envs>
         </PropertyGroup>
 
-        <Exec Command="$(Envs) dotnet swagger tofile --yaml --output $(SchemaOutput) $(Assembly) $(SchemaName)" StandardOutputImportance="low"/>
-        <Message Text="Generated Haly's OpenAPI schema" Importance="high"/>
+        <Exec Command="$(Envs) dotnet swagger tofile --yaml --output $(SchemaOutput) $(Assembly) $(SchemaName)" StandardOutputImportance="low" />
+        <Message Text="Generated Haly's OpenAPI schema" Importance="high" />
     </Target>
 
     <!--    This one only runs after invoking GenerateHalyApiSchema -->
     <Target Name="GenerateHalyApiClient" AfterTargets="GenerateHalyApiSchema">
-        <Exec Command="npm run codegen" WorkingDirectory="ClientApp" StandardOutputImportance="low"/>
-        <Message Text="Generated Haly's OpenAPI client for our app" Importance="high"/>
+        <Exec Command="npm run codegen" WorkingDirectory="ClientApp" StandardOutputImportance="low" />
+        <Message Text="Generated Haly's OpenAPI client for our app" Importance="high" />
     </Target>
 
 </Project>

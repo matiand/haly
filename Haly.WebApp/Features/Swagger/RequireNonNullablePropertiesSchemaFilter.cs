@@ -1,7 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Haly.WebApp.Controllers;
+namespace Haly.WebApp.Features.Swagger;
 
 public class RequireNonNullablePropertiesSchemaFilter : ISchemaFilter
 {
