@@ -1,6 +1,7 @@
 import "./common/globalStyles";
 
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import toast from "react-hot-toast";
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <AuthProvider {...oAuthConfig}>
             <BrowserRouter>
                 <QueryClientProvider client={queryClient}>
+                    <ReactQueryDevtools position="top-left" />
                     <Authentication>
                         <App />
                     </Authentication>
