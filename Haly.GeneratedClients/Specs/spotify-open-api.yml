@@ -4246,6 +4246,7 @@ components:
           type: string
           enum:
           - artist
+          - show
           description: |
             The object type.
         uri:
@@ -4278,6 +4279,7 @@ components:
           type: string
           enum:
           - artist
+          - show
           description: |
             The object type.
         uri:
@@ -6190,6 +6192,7 @@ components:
           type: string
           enum:
           - album
+          - show
           description: |
             The object type.
         uri:

@@ -13196,6 +13196,9 @@ namespace Haly.GeneratedClients
         [System.Runtime.Serialization.EnumMember(Value = @"artist")]
         Artist = 0,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"show")]
+        Show = 1,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -13204,6 +13207,9 @@ namespace Haly.GeneratedClients
 
         [System.Runtime.Serialization.EnumMember(Value = @"artist")]
         Artist = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"show")]
+        Show = 1,
 
     }
 
@@ -13538,6 +13544,9 @@ namespace Haly.GeneratedClients
 
         [System.Runtime.Serialization.EnumMember(Value = @"album")]
         Album = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"show")]
+        Show = 1,
 
     }
 
