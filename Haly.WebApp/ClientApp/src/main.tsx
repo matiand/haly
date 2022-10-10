@@ -36,7 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <AuthProvider {...oAuthConfig}>
             <BrowserRouter>
                 <QueryClientProvider client={queryClient}>
-                    <ReactQueryDevtools position="top-left" />
+                    <ReactQueryDevtools position="top-right" toggleButtonProps={{ className: "rq-toggle" }} />
                     <Authentication>
                         <App />
                     </Authentication>

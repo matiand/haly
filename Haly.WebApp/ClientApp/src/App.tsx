@@ -14,6 +14,7 @@ import FollowedArtists from "./me/FollowedArtists";
 import HalySettings from "./me/HalySettings";
 import Me from "./me/Me";
 import { UserContext } from "./me/UserContext";
+import PlayingBar from "./playlingbar/PlayingBar";
 import LikedSongs from "./playlist/LikedSongs";
 import Playlist from "./playlist/Playlist";
 import Sidebar from "./sidebar/Sidebar";
@@ -55,30 +56,38 @@ function App() {
                         <Route path="/player" element={<SimplePlayer />} />
                     </Routes>
                 </React.Suspense>
+                <PlayingBar />
                 <Toaster />
             </Layout>
         </UserContext.Provider>
     );
 }
 
-const Layout = styled("div", {
+export const Layout = styled("div", {
     position: "relative",
     display: "grid",
     gridTemplateAreas: `"sidebar topbar"
-                        "sidebar main"`,
+                        "sidebar main"
+                        "playingbar playingbar"`,
     gridTemplateColumns: "auto 1fr",
-    gridTemplateRows: "auto 1fr",
+    gridTemplateRows: "auto 1fr auto",
     height: "100%",
 
-    "& > header": {
+    "& > #topbar": {
         gridArea: "topbar",
     },
-    "& > nav": {
-        gridArea: "sidebar",
-    },
     "& > main": {
+        // TODO: clean this up
+        background: "$black600",
+        color: "$white",
         gridArea: "main",
         padding: "0 $800",
+    },
+    "& > #sidebar": {
+        gridArea: "sidebar",
+    },
+    "& > #playingbar": {
+        gridArea: "playingbar",
     },
 });
 

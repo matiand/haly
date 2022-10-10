@@ -19,7 +19,7 @@ const globalStyles = globalCss({
         "-moz-osx-font-smoothing": "grayscale",
     },
 
-    ".hiddenVisually": {
+    ".hidden-visually": {
         clip: "rect(0 0 0 0)",
         clipPath: "inset(50%)",
         height: "1px",
@@ -27,6 +27,11 @@ const globalStyles = globalCss({
         overflow: "hidden",
         position: "absolute",
         whiteSpace: "nowrap",
+    },
+
+    // Used to position react query devtools toggle btn
+    ".rq-toggle": {
+        right: "210px !important",
     },
 });
 

@@ -4,7 +4,7 @@ function Home() {
 
     return (
         <main>
-            <h1 style={{ fontSize: "72px" }}>{randomGretting}</h1>
+            <h1 style={{ color: "#fff", fontSize: "72px" }}>{randomGretting}</h1>
             <br />
             <br />
         </main>

@@ -18,7 +18,7 @@ function UserDropdown() {
 
     return (
         <DropdownMenu.Root>
-            <Trigger>
+            <Trigger title="User actions">
                 <TriggerTitle>{user.name}</TriggerTitle>
                 <AccessibleIcon label="User actions">
                     <ArrorDown />
@@ -47,13 +47,13 @@ const Trigger = styled(DropdownMenu.Trigger, {
     borderRadius: "23px",
     border: 0,
     color: "$white",
-    backgroundColor: "$black700",
+    backgroundColor: "$black500",
     fontSize: "$300",
     fontWeight: 700,
     userSelect: "none",
+    pointerEvents: "auto",
 
     '&:hover, &:focus, &[data-state="open"]': {
-        backgroundColor: "$black500",
         cursor: "pointer",
     },
 });

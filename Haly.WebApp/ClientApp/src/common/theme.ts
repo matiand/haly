@@ -8,8 +8,10 @@ export const theme = {
         grey200: "#bdbdbd",
         black300: "#3e3e3e",
         black500: "#282828",
+        black600: "#121212",
         black700: "#0a0a0a",
         black800: "#000000",
+        primary400: "#7b2cbf",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',
@@ -32,15 +34,21 @@ export const theme = {
     },
     sizes: {
         topbarHeight: "64px",
+        playingbarHeight: "64px",
         spotifyBannerMaxWidth: "36px",
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
         navIconSize: "24px",
+        historyNavBtnSize: "32px",
+        historyNavIconSize: "24px",
+        searchBarWidth: "364px",
+        searchBarHeight: "40px",
+        searchIconSize: "24px",
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {
         minWidth: 190,
-        defaultWidth: 240,
+        defaultWidth: 270,
         maxWidth: 390,
     },
 };
