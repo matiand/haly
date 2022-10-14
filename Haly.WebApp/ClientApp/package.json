@@ -6,7 +6,8 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "codegen": "openapi-generator-cli generate -i ../haly-open-api.yml -g typescript-fetch -o generated/haly"
+        "codegen": "openapi-generator-cli generate -i ../haly-open-api.yml -g typescript-fetch -o generated/haly",
+        "lint": "eslint --fix --format=pretty --ext=js,jsx,ts,tsx src"
     },
     "dependencies": {
         "@fontsource/plus-jakarta-sans": "^4.5.8",
