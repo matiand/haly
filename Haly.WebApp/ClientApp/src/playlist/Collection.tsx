@@ -18,7 +18,7 @@ function Collection({ items }: CollectionProps) {
                     <Track key={id}>
                         <div>
                             <div>{name}</div>
-                            <span>{artistLine}</span>
+                            {item.type === "Song" && <span>{artistLine}</span>}
                         </div>
                         <div>{album.name}</div>
                         <div>{duration}</div>
