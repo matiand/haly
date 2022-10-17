@@ -20,7 +20,7 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.Owner.Name, src => src.Owner.Display_name);
 
         config.ForType<PlaylistTrackObject, Track>()
-            .Map(dest => dest.SpotifyId, src => src)
+            .Map(dest => dest.SpotifyId, src => src.Track.Id)
             .Map(dest => dest.Name, src => src.Track.Name)
             .Map(dest => dest.Album, src => src.Track.Album)
             .Map(dest => dest.Artists, src => src.Track.Artists)
