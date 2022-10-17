@@ -1,6 +1,6 @@
 import formatISO from "date-fns/formatISO";
 import { WebStorageStateStore } from "oidc-client-ts";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { AuthProviderProps, useAuth } from "react-oidc-context";
 
 import Loading from "../common/Loading";
@@ -12,6 +12,21 @@ type AuthenticationProps = {
 
 function Authentication(props: AuthenticationProps) {
     const auth = useAuth();
+    const needsToHandleTokenExpirations = useRef(true);
+
+    // Normally automatic token renewals in 'auth' are enabled
+    // We had to turn them off, cause our app would crash from React's StrictMode rerenders
+    // This effect makes sure that when a token is expiring, its renewal is attempted only once
+    useEffect(() => {
+        if (needsToHandleTokenExpirations.current) {
+            auth.events.addAccessTokenExpiring(() => {
+                auth.signinSilent().then(() => console.log("Token refreshed"));
+            });
+            console.log("Am I the only one?");
+
+            needsToHandleTokenExpirations.current = false;
+        }
+    }, [auth]);
 
     if (auth.error) {
         return (
@@ -58,6 +73,7 @@ export const oAuthConfig: AuthProviderProps = {
     onSigninCallback() {
         window.history.replaceState({}, document.title, window.location.pathname);
     },
+    automaticSilentRenew: false,
 };
 
 export default Authentication;
