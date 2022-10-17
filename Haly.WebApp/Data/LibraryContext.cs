@@ -6,7 +6,9 @@ namespace Haly.WebApp.Data;
 
 public class LibraryContext : DbContext
 {
-    static LibraryContext() => NpgsqlConnection.GlobalTypeMapper.MapEnum<Plan>();
+    static LibraryContext() => NpgsqlConnection.GlobalTypeMapper
+        .MapEnum<Plan>()
+        .MapEnum<TrackType>();
 
     public LibraryContext(DbContextOptions options) : base(options)
     {
@@ -18,7 +20,9 @@ public class LibraryContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasPostgresEnum<Plan>();
+        modelBuilder
+            .HasPostgresEnum<Plan>()
+            .HasPostgresEnum<TrackType>();
     }
 }
 

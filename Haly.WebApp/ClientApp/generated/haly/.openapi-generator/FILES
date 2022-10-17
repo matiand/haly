@@ -9,6 +9,7 @@ models/DeviceDto.ts
 models/PlaylistDto.ts
 models/ProblemDetails.ts
 models/TrackDto.ts
+models/TrackType.ts
 models/UserDto.ts
 models/UserPlaylistDto.ts
 models/index.ts

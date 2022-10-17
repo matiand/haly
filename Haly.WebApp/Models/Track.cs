@@ -12,6 +12,7 @@ public class Track
     public string Name { get; set; }
     public int DurationInMs { get; set; }
     public DateTimeOffset AddedAt { get; set; }
+    public TrackType Type { get; set; }
 
     [Column(TypeName = "jsonb")]
     public Album Album { get; set; }
@@ -23,4 +24,10 @@ public class Track
     public Playlist Playlist { get; set; }
 
     public string Duration => TimeSpan.FromMilliseconds(DurationInMs).ToString(@"m\:ss", CultureInfo.InvariantCulture);
+}
+
+public enum TrackType
+{
+    Song,
+    Podcast,
 }

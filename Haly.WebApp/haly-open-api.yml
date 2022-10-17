@@ -326,6 +326,7 @@ components:
         - duration
         - id
         - name
+        - type
       type: object
       properties:
         id:
@@ -337,6 +338,8 @@ components:
         addedAt:
           type: string
           format: date-time
+        type:
+          $ref: '#/components/schemas/TrackType'
         album:
           $ref: '#/components/schemas/AlbumDto'
         artists:
@@ -344,6 +347,11 @@ components:
           items:
             $ref: '#/components/schemas/ArtistDto'
       additionalProperties: false
+    TrackType:
+      enum:
+        - Song
+        - Podcast
+      type: string
     UserDto:
       required:
         - canUseSpotifyPlayer

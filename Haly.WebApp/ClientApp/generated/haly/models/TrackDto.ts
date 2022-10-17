@@ -25,6 +25,12 @@ import {
     ArtistDtoFromJSONTyped,
     ArtistDtoToJSON,
 } from './ArtistDto';
+import type { TrackType } from './TrackType';
+import {
+    TrackTypeFromJSON,
+    TrackTypeFromJSONTyped,
+    TrackTypeToJSON,
+} from './TrackType';
 
 /**
  * 
@@ -58,6 +64,12 @@ export interface TrackDto {
     addedAt: Date;
     /**
      * 
+     * @type {TrackType}
+     * @memberof TrackDto
+     */
+    type: TrackType;
+    /**
+     * 
      * @type {AlbumDto}
      * @memberof TrackDto
      */
@@ -79,6 +91,7 @@ export function instanceOfTrackDto(value: object): boolean {
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "addedAt" in value;
+    isInstance = isInstance && "type" in value;
     isInstance = isInstance && "album" in value;
     isInstance = isInstance && "artists" in value;
 
@@ -99,6 +112,7 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'name': json['name'],
         'duration': json['duration'],
         'addedAt': (new Date(json['addedAt'])),
+        'type': TrackTypeFromJSON(json['type']),
         'album': AlbumDtoFromJSON(json['album']),
         'artists': ((json['artists'] as Array<any>).map(ArtistDtoFromJSON)),
     };
@@ -117,6 +131,7 @@ export function TrackDtoToJSON(value?: TrackDto | null): any {
         'name': value.name,
         'duration': value.duration,
         'addedAt': (value.addedAt.toISOString()),
+        'type': TrackTypeToJSON(value.type),
         'album': AlbumDtoToJSON(value.album),
         'artists': ((value.artists as Array<any>).map(ArtistDtoToJSON)),
     };

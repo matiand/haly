@@ -6,5 +6,6 @@ export * from './DeviceDto';
 export * from './PlaylistDto';
 export * from './ProblemDetails';
 export * from './TrackDto';
+export * from './TrackType';
 export * from './UserDto';
 export * from './UserPlaylistDto';

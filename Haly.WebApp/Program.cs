@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.XSpotifyToken;
@@ -18,8 +19,12 @@ builder.Services.AddHttpClient();
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddSingleton<SpotifyAccessToken>();
 builder.Services.AddTransient<ISpotifyService, SpotifyService>();
-builder.Services.AddControllers();
 builder.Services.AddSignalR();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -61,7 +66,6 @@ app.UseRetrieveSpotifyAccessToken();
 
 app.MapControllers();
 app.MapHub<PlaylistHub>("/hubs/playlist");
-
 
 if (app.Environment.IsDevelopment())
 {

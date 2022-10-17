@@ -1,5 +1,6 @@
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
+using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Models;
 using Mapster;
 using Track = Haly.WebApp.Models.Track;
@@ -25,7 +26,8 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.Album, src => src.Track.Album)
             .Map(dest => dest.Artists, src => src.Track.Artists)
             .Map(dest => dest.AddedAt, src => src.Added_at)
-            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms);
+            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
+            .Map(dest => dest.Type, src => src.Track.Type == "track" ? TrackType.Song : TrackType.Podcast);
 
         config.ForType<SavedTrackObject, Track>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
@@ -33,7 +35,8 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.Album, src => src.Track.Album)
             .Map(dest => dest.Artists, src => src.Track.Artists)
             .Map(dest => dest.AddedAt, src => src.Added_at)
-            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms);
+            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
+            .Map(dest => dest.Type, src => src.Track.Type == "track" ? TrackType.Song : TrackType.Podcast);
 
         config.ForType<SimplifiedAlbumObject, Album>();
         config.ForType<SimplifiedArtistObject, Artist>();
