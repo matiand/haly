@@ -32,7 +32,7 @@ function App() {
         isLoading,
         data: user,
         error,
-    } = useQuery(["users", "me"], () => halyClient.currentUser.putCurrentUser({ xSpotifyToken: accessToken }), {
+    } = useQuery(["users", "me"], () => halyClient.users.putCurrentUser({ xSpotifyToken: accessToken }), {
         enabled: isConnected,
     });
 

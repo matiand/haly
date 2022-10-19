@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
 
 import useAccessToken from "../auth/useAccessToken";
 import halyClient from "../halyClient";
+import { UserContext } from "../me/UserContext";
 
 function ConnectMenu() {
     const accessToken = useAccessToken();
+    const user = useContext(UserContext);
     const query = useQuery(["me", "player", "devices"], () =>
-        halyClient.currentUser.getAvailableDevices({ xSpotifyToken: accessToken }),
+        halyClient.player.getAvailableDevices({ userId: user.id, xSpotifyToken: accessToken }),
     );
 
     if (!query.data) return null;

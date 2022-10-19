@@ -16,24 +16,37 @@
 import * as runtime from '../runtime';
 import type {
   ProblemDetails,
+  TrackDto,
   UserDto,
   UserPlaylistDto,
 } from '../models';
 import {
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
+    TrackDtoFromJSON,
+    TrackDtoToJSON,
     UserDtoFromJSON,
     UserDtoToJSON,
     UserPlaylistDtoFromJSON,
     UserPlaylistDtoToJSON,
 } from '../models';
 
+export interface GetLikedSongsRequest {
+    userId: string;
+    xSpotifyToken: string;
+    market?: string;
+}
+
 export interface GetUserRequest {
-    id: string;
+    userId: string;
+}
+
+export interface PutCurrentUserRequest {
+    xSpotifyToken: string;
 }
 
 export interface PutUserPlaylistsRequest {
-    id: string;
+    userId: string;
     xSpotifyToken: string;
     market?: string;
 }
@@ -44,12 +57,54 @@ export interface PutUserPlaylistsRequest {
 export class UsersApi extends runtime.BaseAPI {
 
     /**
+     * Get current user \'Liked Songs\' collection
+     */
+    async getLikedSongsRaw(requestParameters: GetLikedSongsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TrackDto>>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getLikedSongs.');
+        }
+
+        if (requestParameters.xSpotifyToken === null || requestParameters.xSpotifyToken === undefined) {
+            throw new runtime.RequiredError('xSpotifyToken','Required parameter requestParameters.xSpotifyToken was null or undefined when calling getLikedSongs.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.market !== undefined) {
+            queryParameters['market'] = requestParameters.market;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.xSpotifyToken !== undefined && requestParameters.xSpotifyToken !== null) {
+            headerParameters['X-Spotify-Token'] = String(requestParameters.xSpotifyToken);
+        }
+
+        const response = await this.request({
+            path: `/Users/{userId}/tracks`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TrackDtoFromJSON));
+    }
+
+    /**
+     * Get current user \'Liked Songs\' collection
+     */
+    async getLikedSongs(requestParameters: GetLikedSongsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TrackDto>> {
+        const response = await this.getLikedSongsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Get user from our cache
      * Get user by id
      */
     async getUserRaw(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getUser.');
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUser.');
         }
 
         const queryParameters: any = {};
@@ -57,7 +112,7 @@ export class UsersApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/Users/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -76,12 +131,48 @@ export class UsersApi extends runtime.BaseAPI {
     }
 
     /**
+     * Fetches current user from Spotify API, updates our cache with that data, creates new User if he\'s missing
+     * Update current user
+     */
+    async putCurrentUserRaw(requestParameters: PutCurrentUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
+        if (requestParameters.xSpotifyToken === null || requestParameters.xSpotifyToken === undefined) {
+            throw new runtime.RequiredError('xSpotifyToken','Required parameter requestParameters.xSpotifyToken was null or undefined when calling putCurrentUser.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.xSpotifyToken !== undefined && requestParameters.xSpotifyToken !== null) {
+            headerParameters['X-Spotify-Token'] = String(requestParameters.xSpotifyToken);
+        }
+
+        const response = await this.request({
+            path: `/Users/me`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * Fetches current user from Spotify API, updates our cache with that data, creates new User if he\'s missing
+     * Update current user
+     */
+    async putCurrentUser(requestParameters: PutCurrentUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDto> {
+        const response = await this.putCurrentUserRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Fetches user playlists from Spotify API, updates our cache with that data.
      * Update user playlists
      */
     async putUserPlaylistsRaw(requestParameters: PutUserPlaylistsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserPlaylistDto>>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling putUserPlaylists.');
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling putUserPlaylists.');
         }
 
         if (requestParameters.xSpotifyToken === null || requestParameters.xSpotifyToken === undefined) {
@@ -101,7 +192,7 @@ export class UsersApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/users/{id}/playlists`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/Users/{userId}/playlists`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

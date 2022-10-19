@@ -4,102 +4,18 @@ info:
   description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
   version: v1
 paths:
-  /users/me:
-    put:
-      tags:
-        - CurrentUser
-      summary: Update current user
-      description: 'Fetches current user from Spotify API, updates our cache with that data, creates new User if he''s missing'
-      operationId: PutCurrentUser
-      parameters:
-        - name: X-Spotify-Token
-          in: header
-          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-read-private"
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: User updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserDto'
-        '201':
-          description: User created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserDto'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '401':
-          description: Unauthorized
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '429':
-          description: Too many requests
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-  /users/me/tracks:
+  '/Users/{userId}/player/devices':
     get:
       tags:
-        - CurrentUser
-      summary: Get current user 'Liked Songs' collection
-      operationId: GetLikedSongs
-      parameters:
-        - name: market
-          in: query
-          schema:
-            type: string
-        - name: X-Spotify-Token
-          in: header
-          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-library-read"
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: '''Liked Songs'' returned'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TrackDto'
-        '400':
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '401':
-          description: Unauthorized
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '429':
-          description: Too many requests
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-  /users/me/player/devices:
-    get:
-      tags:
-        - CurrentUser
+        - Player
       summary: Get available devices that current user can connect to
       operationId: GetAvailableDevices
       parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
         - name: X-Spotify-Token
           in: header
           description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-read-playback-state"
@@ -159,7 +75,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  '/users/{id}':
+  '/Users/{userId}':
     get:
       tags:
         - Users
@@ -167,7 +83,7 @@ paths:
       description: Get user from our cache
       operationId: GetUser
       parameters:
-        - name: id
+        - name: userId
           in: path
           required: true
           schema:
@@ -185,7 +101,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-  '/users/{id}/playlists':
+  /Users/me:
+    put:
+      tags:
+        - Users
+      summary: Update current user
+      description: 'Fetches current user from Spotify API, updates our cache with that data, creates new User if he''s missing'
+      operationId: PutCurrentUser
+      parameters:
+        - name: X-Spotify-Token
+          in: header
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-read-private"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too many requests
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/Users/{userId}/playlists':
     put:
       tags:
         - Users
@@ -197,7 +158,7 @@ paths:
           in: query
           schema:
             type: string
-        - name: id
+        - name: userId
           in: path
           required: true
           schema:
@@ -217,6 +178,55 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserPlaylistDto'
+        '400':
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too many requests
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/Users/{userId}/tracks':
+    get:
+      tags:
+        - Users
+      summary: Get current user 'Liked Songs' collection
+      operationId: GetLikedSongs
+      parameters:
+        - name: market
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: X-Spotify-Token
+          in: header
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-library-read"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '''Liked Songs'' returned'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
         '400':
           description: Bad request
           content:

@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 
+[Route("[controller]")]
 public class PlaylistsController : ApiControllerBase
 {
     [HttpGet("{id}")]

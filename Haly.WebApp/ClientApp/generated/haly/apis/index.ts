@@ -1,5 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './CurrentUserApi';
+export * from './PlayerApi';
 export * from './PlaylistsApi';
 export * from './UsersApi';

@@ -13,7 +13,8 @@ function LikedSongs() {
     const query = useQuery(
         ["users", "me", "tracks"],
         () =>
-            halyClient.currentUser.getLikedSongs({
+            halyClient.users.getLikedSongs({
+                userId: user.id,
                 market: user.market,
                 xSpotifyToken: accessToken,
             }),

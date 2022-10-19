@@ -1,4 +1,4 @@
-apis/CurrentUserApi.ts
+apis/PlayerApi.ts
 apis/PlaylistsApi.ts
 apis/UsersApi.ts
 apis/index.ts
