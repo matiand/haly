@@ -13,7 +13,8 @@ namespace Haly.WebApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:plan", "free,premium");
+                .Annotation("Npgsql:Enum:plan", "free,premium")
+                .Annotation("Npgsql:Enum:track_type", "song,podcast");
 
             migrationBuilder.CreateTable(
                 name: "Users",
@@ -34,16 +35,17 @@ namespace Haly.WebApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     SnapshotId = table.Column<string>(type: "text", nullable: false),
-                    OwnerId = table.Column<string>(type: "text", nullable: false)
+                    Owner = table.Column<Owner>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Playlists", x => x.Id);
+                    table.PrimaryKey("PK_Playlists", x => new { x.Id, x.UserId });
                     table.ForeignKey(
-                        name: "FK_Playlists_Users_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_Playlists_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -59,30 +61,32 @@ namespace Haly.WebApp.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     DurationInMs = table.Column<int>(type: "integer", nullable: false),
                     AddedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Type = table.Column<TrackType>(type: "track_type", nullable: false),
                     Album = table.Column<Album>(type: "jsonb", nullable: false),
                     Artists = table.Column<List<Artist>>(type: "jsonb", nullable: false),
-                    PlaylistId = table.Column<string>(type: "text", nullable: false)
+                    PlaylistId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tracks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tracks_Playlists_PlaylistId",
-                        column: x => x.PlaylistId,
+                        name: "FK_Tracks_Playlists_PlaylistId_UserId",
+                        columns: x => new { x.PlaylistId, x.UserId },
                         principalTable: "Playlists",
-                        principalColumn: "Id",
+                        principalColumns: new[] { "Id", "UserId" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Playlists_OwnerId",
+                name: "IX_Playlists_UserId",
                 table: "Playlists",
-                column: "OwnerId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tracks_PlaylistId",
+                name: "IX_Tracks_PlaylistId_UserId",
                 table: "Tracks",
-                column: "PlaylistId");
+                columns: new[] { "PlaylistId", "UserId" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

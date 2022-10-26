@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Haly.WebApp.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20220824171711_InitialCreate")]
+    [Migration("20221023105606_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,7 @@ namespace Haly.WebApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "plan", new[] { "free", "premium" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "track_type", new[] { "song", "podcast" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Haly.WebApp.Models.Playlist", b =>
@@ -32,21 +33,24 @@ namespace Haly.WebApp.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("OwnerId")
+                    b.Property<Owner>("Owner")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("SnapshotId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "UserId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Playlists");
                 });
@@ -85,9 +89,16 @@ namespace Haly.WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<TrackType>("Type")
+                        .HasColumnType("track_type");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PlaylistId");
+                    b.HasIndex("PlaylistId", "UserId");
 
                     b.ToTable("Tracks");
                 });
@@ -115,20 +126,20 @@ namespace Haly.WebApp.Migrations
 
             modelBuilder.Entity("Haly.WebApp.Models.Playlist", b =>
                 {
-                    b.HasOne("Haly.WebApp.Models.User", "Owner")
-                        .WithMany("Playlists")
-                        .HasForeignKey("OwnerId")
+                    b.HasOne("Haly.WebApp.Models.User", "User")
+                        .WithMany("LinkedPlaylists")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
                 {
                     b.HasOne("Haly.WebApp.Models.Playlist", "Playlist")
                         .WithMany("Tracks")
-                        .HasForeignKey("PlaylistId")
+                        .HasForeignKey("PlaylistId", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -142,7 +153,7 @@ namespace Haly.WebApp.Migrations
 
             modelBuilder.Entity("Haly.WebApp.Models.User", b =>
                 {
-                    b.Navigation("Playlists");
+                    b.Navigation("LinkedPlaylists");
                 });
 #pragma warning restore 612, 618
         }

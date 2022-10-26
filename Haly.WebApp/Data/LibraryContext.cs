@@ -23,6 +23,14 @@ public class LibraryContext : DbContext
         modelBuilder
             .HasPostgresEnum<Plan>()
             .HasPostgresEnum<TrackType>();
+
+        modelBuilder.Entity<Playlist>()
+            .HasKey(playlist => new { playlist.Id, playlist.UserId });
+
+        modelBuilder.Entity<Track>()
+            .HasOne(track => track.Playlist)
+            .WithMany(playlist => playlist.Tracks)
+            .HasForeignKey(track => new { track.PlaylistId, track.UserId });
     }
 }
 

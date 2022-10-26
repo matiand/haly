@@ -31,9 +31,15 @@ namespace Haly.WebApp.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
 
                     b.Property<Owner>("Owner")
                         .IsRequired()
@@ -43,7 +49,9 @@ namespace Haly.WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "UserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Playlists");
                 });
@@ -85,9 +93,13 @@ namespace Haly.WebApp.Migrations
                     b.Property<TrackType>("Type")
                         .HasColumnType("track_type");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PlaylistId");
+                    b.HasIndex("PlaylistId", "UserId");
 
                     b.ToTable("Tracks");
                 });
@@ -113,11 +125,22 @@ namespace Haly.WebApp.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Haly.WebApp.Models.Playlist", b =>
+                {
+                    b.HasOne("Haly.WebApp.Models.User", "User")
+                        .WithMany("LinkedPlaylists")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
                 {
                     b.HasOne("Haly.WebApp.Models.Playlist", "Playlist")
                         .WithMany("Tracks")
-                        .HasForeignKey("PlaylistId")
+                        .HasForeignKey("PlaylistId", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -127,6 +150,11 @@ namespace Haly.WebApp.Migrations
             modelBuilder.Entity("Haly.WebApp.Models.Playlist", b =>
                 {
                     b.Navigation("Tracks");
+                });
+
+            modelBuilder.Entity("Haly.WebApp.Models.User", b =>
+                {
+                    b.Navigation("LinkedPlaylists");
                 });
 #pragma warning restore 612, 618
         }

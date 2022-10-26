@@ -38,7 +38,7 @@ public class UsersController : ApiControllerBase
         var response = await Mediator.Send(new UpdateCurrentUserCommand());
         if (response.Created)
         {
-            return CreatedAtRoute("GetUser", new { id = response.User.Id }, response.User);
+            return CreatedAtRoute("GetUser", new { userId = response.User.Id }, response.User);
         }
 
         return response.User;
@@ -50,9 +50,11 @@ public class UsersController : ApiControllerBase
         Summary = "Update user playlists",
         Description = "Fetches user playlists from Spotify API, updates our cache with that data.")]
     [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(IEnumerable<UserPlaylistDto>))]
-    public async Task<ActionResult<IEnumerable<UserPlaylistDto>>> PutUserPlaylists(string market)
+    [SwaggerResponse(statusCode: 404, "User not found", typeof(ProblemDetails))]
+    public async Task<ActionResult<IEnumerable<UserPlaylistDto>>> PutUserPlaylists(string userId)
     {
-        var response = await Mediator.Send(new UpdateUserPlaylistsCommand(market));
+        var response = await Mediator.Send(new UpdateUserPlaylistsCommand(userId));
+        if (response is null) return NotFound();
 
         return Ok(response);
     }

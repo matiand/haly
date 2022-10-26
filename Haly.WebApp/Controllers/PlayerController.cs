@@ -6,7 +6,6 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Haly.WebApp.Controllers;
 
 [Route("/Users/{userId}/player")]
-[ApiController]
 public class PlayerController : ApiControllerBase
 {
     [HttpGet]

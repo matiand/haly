@@ -38,9 +38,27 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
 
     public async Task<List<Playlist>> GetCurrentUserPlaylists()
     {
-        var spotifyPlaylists = await _spotifyClient.GetAListOfCurrentUsersPlaylistsAsync(limit: PlaylistLimit);
+        var userPlaylists = new List<SimplifiedPlaylistObject>();
+        var offset = 0;
 
-        return spotifyPlaylists.Items.Adapt<List<Playlist>>();
+        do
+        {
+            var response = await _spotifyClient.GetAListOfCurrentUsersPlaylistsAsync(offset: offset, limit: PlaylistLimit);
+            userPlaylists.AddRange(response.Items);
+
+            offset = response.Next is not null ? response.Offset + response.Limit : -1;
+        } while (offset != -1);
+
+        // We have to add order data to each playlist manually
+        var mappedPlaylists = new List<Playlist>();
+        for (var i = 0; i < userPlaylists.Count; i++)
+        {
+            var dto = userPlaylists[i].Adapt<Playlist>();
+            dto.Order = i;
+            mappedPlaylists.Add(dto);
+        }
+
+        return mappedPlaylists;
     }
 
     public async Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket)

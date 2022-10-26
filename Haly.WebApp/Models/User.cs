@@ -7,6 +7,8 @@ public class User
     public string Market { get; set; }
     public Plan Plan { get; set; }
 
+    public List<Playlist> LinkedPlaylists { get; set; }
+
     public bool CanUseSpotifyPlayer => Plan is Plan.Premium;
 }
 

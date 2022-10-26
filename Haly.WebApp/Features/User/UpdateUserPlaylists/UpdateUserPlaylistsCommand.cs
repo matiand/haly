@@ -1,5 +1,4 @@
 using Haly.WebApp.Data;
-using Haly.WebApp.Events;
 using Haly.WebApp.Models;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
@@ -8,67 +7,73 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.User.UpdateUserPlaylists;
 
-public record UpdateUserPlaylistsCommand(string Market) : IRequest<IEnumerable<UserPlaylistDto>?>;
+public record UpdateUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<UserPlaylistDto>?>;
 
 public class
     UpdateUserPlaylistsCommandHandler : IRequestHandler<UpdateUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
-    private readonly IPublisher _mediator;
+    private readonly List<Playlist> _playlistsWithStaleTracks = new();
+    private readonly List<Playlist> _playlistsWithStalePhoto = new();
 
-    public UpdateUserPlaylistsCommandHandler(LibraryContext db, ISpotifyService spotify, IPublisher mediator)
+    public UpdateUserPlaylistsCommandHandler(LibraryContext db, ISpotifyService spotify)
     {
         _db = db;
         _spotify = spotify;
-        _mediator = mediator;
     }
 
     public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateUserPlaylistsCommand request,
         CancellationToken cancellationToken)
     {
-        var fetchedPlaylists = await _spotify.GetCurrentUserPlaylists();
-        var fetchedIds = fetchedPlaylists.Select(p => p.Id);
+        var user = await _db.Users.Where(u => u.Id == request.UserId)
+            .Include(u => u.LinkedPlaylists)
+            .FirstOrDefaultAsync(cancellationToken);
 
-        var cachedPlaylists = await _db.Playlists.Where(p => fetchedIds.Any(id => p.Id == id))
-            .ToListAsync(cancellationToken: cancellationToken);
-        var newPlaylists = fetchedPlaylists.ExceptBy(cachedPlaylists.Select(p => p.Id), p => p.Id);
+        if (user is null) return null;
 
-        await UpdatePlaylists(cachedPlaylists, fetchedPlaylists, request.Market, cancellationToken);
-        await AddPlaylists(newPlaylists, request.Market, cancellationToken);
-        // No need to remove stuff, it will just stay in our db and if other user has that playlist it will be updated then
+        var freshPlaylists = await _spotify.GetCurrentUserPlaylists();
+        UpdateLinkedPlaylists(user, freshPlaylists);
+        DeleteUnlinkedPlaylists(user, freshPlaylists);
 
-        // Use 'spotifyPlaylists' instead of calling our db, because we want them ordered just like in native app
-        // and we don't store any order info on our side yet
-        return fetchedPlaylists.Adapt<IEnumerable<UserPlaylistDto>>();
+        await _db.SaveChangesAsync(cancellationToken);
+
+        // ScheduleBackgroundJobs(user, cancellationToken);
+
+        return user.LinkedPlaylists
+            .OrderBy(playlist => playlist.Order)
+            .Adapt<IEnumerable<UserPlaylistDto>>();
     }
 
-    private async Task UpdatePlaylists(IEnumerable<Playlist> cachedPlaylists, IReadOnlyCollection<Playlist> newPlaylists, string market,
-        CancellationToken cancellationToken)
+    private static void UpdateLinkedPlaylists(Models.User user, List<Playlist> freshPlaylists)
     {
-        foreach (var cachedPlaylist in cachedPlaylists)
+        foreach (var freshPlaylist in freshPlaylists)
         {
-            var newPlaylist = newPlaylists.First(p => p.Id == cachedPlaylist.Id);
-
-            if (cachedPlaylist.SnapshotId != newPlaylist.SnapshotId)
+            var cachedPlaylist = user.LinkedPlaylists.FirstOrDefault(cp => cp.Id == freshPlaylist.Id);
+            if (cachedPlaylist is not null)
             {
-                cachedPlaylist.Name = newPlaylist.Name;
-                cachedPlaylist.SnapshotId = newPlaylist.SnapshotId;
+                // and order has to be the same
+                if (cachedPlaylist.SnapshotId == freshPlaylist.SnapshotId &&
+                    cachedPlaylist.Order == freshPlaylist.Order) continue;
 
-                await _db.SaveChangesAsync(cancellationToken);
-                await _mediator.Publish(new PlaylistUpserted(cachedPlaylist.Id, market), cancellationToken);
+                freshPlaylist.Tracks = cachedPlaylist.Tracks;
+                // _playlistsWithStaleTracks add
+
+                // only pursue photo update if photo changed
+                // _playlistsWithStalePhoto add
+
+                user.LinkedPlaylists.Remove(cachedPlaylist);
             }
+
+            user.LinkedPlaylists.Add(freshPlaylist);
         }
     }
 
-    private async Task AddPlaylists(IEnumerable<Playlist> newPlaylists, string market,
-        CancellationToken cancellationToken)
+    // Delete playlists that the user is no longer linked to
+    private void DeleteUnlinkedPlaylists(Models.User user, List<Playlist> freshPlaylists)
     {
-        foreach (var newPlaylist in newPlaylists)
-        {
-            _db.Playlists.Add(newPlaylist);
-            await _db.SaveChangesAsync(cancellationToken);
-            await _mediator.Publish(new PlaylistUpserted(newPlaylist.Id, market), cancellationToken);
-        }
+        var freshPlaylistIds = freshPlaylists.Select(fp => fp.Id).ToList();
+
+        user.LinkedPlaylists.RemoveAll(cp => !freshPlaylistIds.Contains(cp.Id));
     }
 }
