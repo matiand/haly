@@ -5,8 +5,9 @@ namespace Haly.WebApp.Models;
 
 public class Track
 {
+    // We use our own Id, cause tracks from user's local library have SpotifyId set to null
     public int Id { get; set; }
-    public string SpotifyId { get; set; }
+    public string? SpotifyId { get; set; }
     public string Name { get; set; }
     public int DurationInMs { get; set; }
     public DateTimeOffset AddedAt { get; set; }
