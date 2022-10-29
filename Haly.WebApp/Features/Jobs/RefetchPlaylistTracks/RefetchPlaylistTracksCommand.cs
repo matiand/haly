@@ -29,12 +29,16 @@ public class RefetchPlaylistTracksCommandHandler : IRequestHandler<RefetchPlayli
 
         foreach (var job in user.RefetchPlaylistTracksJobs.ToList())
         {
-            var tracks = await _spotify.GetPlaylistTracks(job.PlaylistId, user.Market);
-            var playlist = await _db.Playlists.FirstOrDefaultAsync(p => p.Id == job.PlaylistId, cancellationToken);
+            var playlist = await _db.Playlists
+                .Include(p => p.Tracks)
+                .FirstOrDefaultAsync(p => p.Id == job.PlaylistId, cancellationToken);
+            if (playlist is not null)
+            {
+                var tracks = await _spotify.GetPlaylistTracks(job.PlaylistId, user.Market);
+                // _db.RemoveRange(playlist.Tracks);   // We need to remove old ones
+                playlist.Tracks = tracks;
+            }
 
-            // todo: ignore if playlist does not exist
-            // todo: make sure old tracks are removed
-            playlist!.Tracks = tracks;
             _db.Remove(job);
 
             // Treat each job as a transaction

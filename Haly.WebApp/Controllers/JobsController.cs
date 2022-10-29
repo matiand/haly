@@ -1,11 +1,9 @@
-using System.Net;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Jobs.RefetchPlaylistTracks;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Writers;
 
 namespace Haly.WebApp.Controllers;
 // Don't show a warning about not awaiting Task.Run, because we want our job to run in background
@@ -31,10 +29,18 @@ public class JobsController : ApiControllerBase
 
         Task.Run(async () =>
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            try
+            {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-            return await mediator.Send(new RefetchPlaylistTracksCommand(userId));
+                return await mediator.Send(new RefetchPlaylistTracksCommand(userId));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         });
 
         return Accepted();
