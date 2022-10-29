@@ -22,8 +22,8 @@ public class XSpotifyTokenHeaderFilter : IOperationFilter
                 In = ParameterLocation.Header,
                 Required = true,
                 Description = $@"Access token to Spotify Web API, required for making requests to it.
-                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>
-                            Scopes needed: {callsSpotifyApiAttr.Scopes}",
+                            Visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.<br/>
+                            Scopes needed: <b> {callsSpotifyApiAttr.Scopes} </b>",
                 Schema = new OpenApiSchema { Type = "string" },
             });
 
