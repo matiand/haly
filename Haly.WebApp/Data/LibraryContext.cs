@@ -35,12 +35,6 @@ public class LibraryContext : DbContext
             .WithMany(playlist => playlist.Tracks)
             .HasForeignKey(track => new { track.PlaylistId, track.UserId });
     }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        // todo: delete this
-        optionsBuilder.LogTo(Console.WriteLine);
-    }
 }
 
 public static class WebApplicationExtensions
