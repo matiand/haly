@@ -1,5 +1,6 @@
 using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.Playlists.GetPlaylist;
+using Haly.WebApp.Features.Playlists.GetTracks;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,5 +19,17 @@ public class PlaylistsController : ApiControllerBase
         if (response is null) return NotFound();
 
         return response;
+    }
+
+    [HttpGet("{playlistId}/tracks")]
+    [SwaggerOperation(Summary = "Get playlist's tracks by id", Description = "Get playlist's tracks from our cache")]
+    [SwaggerResponse(statusCode: 200, "Returns tracks", typeof(IEnumerable<TrackDto>))]
+    [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(ProblemDetails))]
+    public async Task<ActionResult<IEnumerable<TrackDto>>> GetTracks(string playlistId)
+    {
+        var response = await Mediator.Send(new GetPlaylistTracksQuery(playlistId));
+        if (response is null) return NotFound();
+
+        return Ok(response);
     }
 }
