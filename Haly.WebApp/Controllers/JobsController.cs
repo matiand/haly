@@ -34,7 +34,7 @@ public class JobsController : ApiControllerBase
                 using var scope = _serviceScopeFactory.CreateScope();
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                return await mediator.Send(new RefetchPlaylistTracksCommand(userId));
+                return await mediator.Send(new DealWithRefetchPlaylistTracksJobsCommand(userId));
             }
             catch (Exception e)
             {
