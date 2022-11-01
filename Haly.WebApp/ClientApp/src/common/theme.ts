@@ -17,9 +17,15 @@ export const theme = {
         primary: '"Plus Jakarta Sans", sans-serif',
     },
     fontSizes: {
+        100: "0.75rem",
         200: "0.81rem",
         300: "0.875rem",
         400: "1rem",
+        500: "1.5rem",
+        600: "2rem",
+        700: "3rem",
+        800: "4.5rem",
+        900: "6rem",
     },
     space: {
         100: "0.125rem",
