@@ -1,3 +1,4 @@
+apis/JobsApi.ts
 apis/PlayerApi.ts
 apis/PlaylistsApi.ts
 apis/UsersApi.ts

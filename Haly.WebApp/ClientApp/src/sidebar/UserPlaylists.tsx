@@ -14,7 +14,6 @@ function UserPlaylists() {
         () =>
             halyApi.users.putUserPlaylists({
                 userId: user.id,
-                market: user.market,
                 xSpotifyToken: accessToken,
             }),
         {

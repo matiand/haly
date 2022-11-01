@@ -17,16 +17,23 @@ import * as runtime from '../runtime';
 import type {
   PlaylistDto,
   ProblemDetails,
+  TrackDto,
 } from '../models';
 import {
     PlaylistDtoFromJSON,
     PlaylistDtoToJSON,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
+    TrackDtoFromJSON,
+    TrackDtoToJSON,
 } from '../models';
 
 export interface GetPlaylistRequest {
     id: string;
+}
+
+export interface GetTracksRequest {
+    playlistId: string;
 }
 
 /**
@@ -63,6 +70,38 @@ export class PlaylistsApi extends runtime.BaseAPI {
      */
     async getPlaylist(requestParameters: GetPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistDto> {
         const response = await this.getPlaylistRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get playlist\'s tracks from our cache
+     * Get playlist\'s tracks by id
+     */
+    async getTracksRaw(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TrackDto>>> {
+        if (requestParameters.playlistId === null || requestParameters.playlistId === undefined) {
+            throw new runtime.RequiredError('playlistId','Required parameter requestParameters.playlistId was null or undefined when calling getTracks.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Playlists/{playlistId}/tracks`.replace(`{${"playlistId"}}`, encodeURIComponent(String(requestParameters.playlistId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TrackDtoFromJSON));
+    }
+
+    /**
+     * Get playlist\'s tracks from our cache
+     * Get playlist\'s tracks by id
+     */
+    async getTracks(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TrackDto>> {
+        const response = await this.getTracksRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

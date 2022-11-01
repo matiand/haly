@@ -48,7 +48,6 @@ export interface PutCurrentUserRequest {
 export interface PutUserPlaylistsRequest {
     userId: string;
     xSpotifyToken: string;
-    market?: string;
 }
 
 /**
@@ -180,10 +179,6 @@ export class UsersApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.market !== undefined) {
-            queryParameters['market'] = requestParameters.market;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 

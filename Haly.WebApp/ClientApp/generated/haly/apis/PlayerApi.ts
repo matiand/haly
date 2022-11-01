@@ -56,7 +56,7 @@ export class PlayerApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/Users/{userId}/player/devices`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/Users/{userId}/Player/devices`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

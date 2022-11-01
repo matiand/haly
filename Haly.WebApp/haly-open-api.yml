@@ -4,7 +4,45 @@ info:
   description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
   version: v1
 paths:
-  '/Users/{userId}/player/devices':
+  '/Users/{userId}/Jobs/refetch-playlist-tracks':
+    post:
+      tags:
+        - Jobs
+      operationId: Get
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: X-Spotify-Token
+          in: header
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: <b> playlist-read-private </b>"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          description: Too many requests
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/Users/{userId}/Player/devices':
     get:
       tags:
         - Player
@@ -18,7 +56,7 @@ paths:
             type: string
         - name: X-Spotify-Token
           in: header
-          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-read-playback-state"
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: <b> user-read-playback-state </b>"
           required: true
           schema:
             type: string
@@ -75,6 +113,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+  '/Playlists/{playlistId}/tracks':
+    get:
+      tags:
+        - Playlists
+      summary: Get playlist's tracks by id
+      description: Get playlist's tracks from our cache
+      operationId: GetTracks
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
   '/Users/{userId}':
     get:
       tags:
@@ -111,7 +177,7 @@ paths:
       parameters:
         - name: X-Spotify-Token
           in: header
-          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-read-private"
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: <b> user-read-private </b>"
           required: true
           schema:
             type: string
@@ -154,10 +220,6 @@ paths:
       description: 'Fetches user playlists from Spotify API, updates our cache with that data.'
       operationId: PutUserPlaylists
       parameters:
-        - name: market
-          in: query
-          schema:
-            type: string
         - name: userId
           in: path
           required: true
@@ -165,7 +227,7 @@ paths:
             type: string
         - name: X-Spotify-Token
           in: header
-          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: playlist-read-private"
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: <b> playlist-read-private </b>"
           required: true
           schema:
             type: string
@@ -178,6 +240,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserPlaylistDto'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
         '400':
           description: Bad request
           content:
@@ -214,7 +282,7 @@ paths:
             type: string
         - name: X-Spotify-Token
           in: header
-          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: user-library-read"
+          description: "Access token to Spotify Web API, required for making requests to it.\n                            Visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.<br/>\n                            Scopes needed: <b> user-library-read </b>"
           required: true
           schema:
             type: string
