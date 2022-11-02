@@ -1,9 +1,9 @@
-import formatISO from "date-fns/formatISO";
 import { WebStorageStateStore } from "oidc-client-ts";
 import React, { useEffect, useRef } from "react";
 import { AuthProviderProps, useAuth } from "react-oidc-context";
 
 import Loading from "../common/Loading";
+import AuthenticationError from "./AuthenticationError";
 import { Login, SilentLogin } from "./Login";
 
 type AuthenticationProps = {
@@ -29,14 +29,7 @@ function Authentication(props: AuthenticationProps) {
     }, [auth]);
 
     if (auth.error) {
-        return (
-            <div>
-                <h1>Authentication error</h1>
-                <pre>{auth.error.message}</pre>
-                <pre>{formatISO(new Date())}</pre>
-                <button onClick={() => auth.removeUser()}>Force logout</button>
-            </div>
-        );
+        return <AuthenticationError logout={auth.removeUser} message={auth.error!.message} />;
     }
 
     if (auth.isLoading) {

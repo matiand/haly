@@ -12,6 +12,7 @@ export const theme = {
         black700: "#0a0a0a",
         black800: "#000000",
         primary400: "#7b2cbf",
+        danger: "#e91429",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',
