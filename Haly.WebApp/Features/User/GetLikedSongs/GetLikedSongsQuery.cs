@@ -7,11 +7,11 @@ namespace Haly.WebApp.Features.User.GetLikedSongs;
 
 public record GetLikedSongsQuery(string UserMarket) : IRequest<IEnumerable<TrackDto>>;
 
-public record GetLikedSongsQueryHandler : IRequestHandler<GetLikedSongsQuery, IEnumerable<TrackDto>>
+public record GetLikedSongsHandler : IRequestHandler<GetLikedSongsQuery, IEnumerable<TrackDto>>
 {
     private readonly ISpotifyService _spotifyService;
 
-    public GetLikedSongsQueryHandler(ISpotifyService spotifyService)
+    public GetLikedSongsHandler(ISpotifyService spotifyService)
     {
         _spotifyService = spotifyService;
     }

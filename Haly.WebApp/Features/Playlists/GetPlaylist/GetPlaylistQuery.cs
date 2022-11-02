@@ -7,11 +7,11 @@ namespace Haly.WebApp.Features.Playlists.GetPlaylist;
 
 public record GetPlaylistQuery(string Id) : IRequest<PlaylistDto?>;
 
-public class GetPlaylistQueryHandler : IRequestHandler<GetPlaylistQuery, PlaylistDto?>
+public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistDto?>
 {
     private readonly LibraryContext _db;
 
-    public GetPlaylistQueryHandler(LibraryContext db)
+    public GetPlaylistHandler(LibraryContext db)
     {
         _db = db;
     }

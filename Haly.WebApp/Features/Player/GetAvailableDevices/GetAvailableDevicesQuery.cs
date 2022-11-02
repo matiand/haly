@@ -5,11 +5,11 @@ namespace Haly.WebApp.Features.Player.GetAvailableDevices;
 
 public record GetAvailableDevicesQuery : IRequest<IEnumerable<DeviceDto>>;
 
-public record GetAvailableDevicesQueryHandler : IRequestHandler<GetAvailableDevicesQuery, IEnumerable<DeviceDto>>
+public record GetAvailableDevicesHandler : IRequestHandler<GetAvailableDevicesQuery, IEnumerable<DeviceDto>>
 {
     private readonly ISpotifyService _spotifyService;
 
-    public GetAvailableDevicesQueryHandler(ISpotifyService spotifyService)
+    public GetAvailableDevicesHandler(ISpotifyService spotifyService)
     {
         _spotifyService = spotifyService;
     }

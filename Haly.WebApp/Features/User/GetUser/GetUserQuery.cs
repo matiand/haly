@@ -7,11 +7,11 @@ namespace Haly.WebApp.Features.User.GetUser;
 
 public record GetUserQuery(string Id) : IRequest<UserDto?>;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto?>
+public class GetUserHandler : IRequestHandler<GetUserQuery, UserDto?>
 {
     private readonly LibraryContext _db;
 
-    public GetUserQueryHandler(LibraryContext db)
+    public GetUserHandler(LibraryContext db)
     {
         _db = db;
     }

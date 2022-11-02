@@ -10,12 +10,12 @@ public record UpdateCurrentUserResponse(bool Created, UserDto User);
 
 public record UpdateCurrentUserCommand : IRequest<UpdateCurrentUserResponse>;
 
-public class UpdateCurrentUserCommandHandler : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserResponse>
+public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserResponse>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
 
-    public UpdateCurrentUserCommandHandler(LibraryContext db, ISpotifyService spotify)
+    public UpdateCurrentUserHandler(LibraryContext db, ISpotifyService spotify)
     {
         _db = db;
         _spotify = spotify;

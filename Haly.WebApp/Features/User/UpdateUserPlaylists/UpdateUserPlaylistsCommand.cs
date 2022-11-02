@@ -10,15 +10,14 @@ namespace Haly.WebApp.Features.User.UpdateUserPlaylists;
 
 public record UpdateUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<UserPlaylistDto>?>;
 
-public class
-    UpdateUserPlaylistsCommandHandler : IRequestHandler<UpdateUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
+public class UpdateUserPlaylistsHandler : IRequestHandler<UpdateUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
     private readonly List<Playlist> _playlistsWithStaleTracks = new();
     private readonly List<Playlist> _playlistsWithStalePhoto = new();
 
-    public UpdateUserPlaylistsCommandHandler(LibraryContext db, ISpotifyService spotify)
+    public UpdateUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
     {
         _db = db;
         _spotify = spotify;
