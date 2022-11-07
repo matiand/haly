@@ -1,4 +1,12 @@
-import { Configuration, PlayerApi, PlaylistsApi, ProblemDetails, TrackDto, UsersApi } from "../generated/haly";
+import {
+    Configuration,
+    PlayerApi,
+    PlaylistsApi,
+    ProblemDetails,
+    TrackDto,
+    TrackDtoPaginatedList,
+    UsersApi,
+} from "../generated/haly";
 
 const config = new Configuration({ basePath: import.meta.env.VITE_API_ORIGIN });
 
@@ -11,4 +19,4 @@ export default {
     },
 };
 
-export type { TrackDto };
+export type { TrackDto, TrackDtoPaginatedList };

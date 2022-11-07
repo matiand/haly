@@ -1,4 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 
 import { styled } from "../common/theme";
@@ -7,21 +9,59 @@ import Collection from "./Collection";
 import PlaylistControls from "./PlaylistControls";
 import PlaylistHeader from "./PlaylistHeader";
 
+const MaxTrackQueryLimit = 100;
+
 function Playlist() {
     const { id } = useParams();
-    const query = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id: id! }), { suspense: true });
+    const { ref, inView } = useInView({ rootMargin: "400px" });
+    const playlistQuery = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id: id! }), {
+        suspense: true,
+    });
+    const tracksQuery = useInfiniteQuery(
+        ["playlists", id, "tracks"],
+        ({ pageParam = 0 }) => {
+            return halyClient.playlists.getTracks({
+                playlistId: id!,
+                limit: MaxTrackQueryLimit,
+                offset: pageParam,
+            });
+        },
+        {
+            initialData: { pages: [playlistQuery.data!.tracks], pageParams: [0] },
+            getNextPageParam: (lastPage) => {
+                const nextOffset = lastPage.offset + lastPage.limit;
+                return lastPage.total > nextOffset ? nextOffset : undefined;
+            },
+        },
+    );
 
-    if (!query.data) {
+    useEffect(() => {
+        if (inView && !playlistQuery.isFetching && !tracksQuery.isFetchingNextPage) {
+            tracksQuery.fetchNextPage();
+        }
+    }, [inView, playlistQuery, tracksQuery]);
+
+    if (!playlistQuery.data || !tracksQuery.data) {
         return null;
     }
 
-    const playlist = query.data;
+    // console.log("prev", tracksQuery.hasPreviousPage);
+    // console.log("next", tracksQuery.hasNextPage);
+    // console.log(inView);
+
+    const playlist = playlistQuery.data;
 
     return (
         <Main>
-            <PlaylistHeader name={playlist.name} owner="junco" songsCount={44} totalDuration="1hr 51min" />
+            <PlaylistHeader
+                name={playlist.name}
+                owner="junco"
+                songsCount={tracksQuery.data.pages[0].total}
+                totalDuration="1hr 51min"
+            />
             <PlaylistControls />
-            <Collection items={playlist.tracks} />
+            <Collection pages={tracksQuery.data.pages} />
+            <div aria-hidden="true" ref={ref} />
         </Main>
     );
 }

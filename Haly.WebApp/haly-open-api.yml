@@ -91,7 +91,7 @@ paths:
     get:
       tags:
         - Playlists
-      summary: Get playlist by id
+      summary: Get playlist
       description: Get playlist from our cache
       operationId: GetPlaylist
       parameters:
@@ -106,7 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaylistDto'
+                $ref: '#/components/schemas/GetPlaylistResponse'
         '404':
           description: Playlist not found
           content:
@@ -117,7 +117,7 @@ paths:
     get:
       tags:
         - Playlists
-      summary: Get playlist's tracks by id
+      summary: Get playlist's tracks
       description: Get playlist's tracks from our cache
       operationId: GetTracks
       parameters:
@@ -126,15 +126,25 @@ paths:
           required: true
           schema:
             type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 0
       responses:
         '200':
           description: Returns tracks
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TrackDto'
+                $ref: '#/components/schemas/TrackDtoPaginatedList'
         '404':
           description: Playlist not found
           content:
@@ -360,7 +370,7 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    PlaylistDto:
+    GetPlaylistResponse:
       required:
         - id
         - name
@@ -372,9 +382,7 @@ components:
         name:
           type: string
         tracks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TrackDto'
+          $ref: '#/components/schemas/TrackDtoPaginatedList'
       additionalProperties: false
     ProblemDetails:
       type: object
@@ -408,7 +416,8 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int32
         name:
           type: string
         duration:
@@ -424,6 +433,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ArtistDto'
+      additionalProperties: false
+    TrackDtoPaginatedList:
+      required:
+        - items
+        - limit
+        - offset
+        - total
+      type: object
+      properties:
+        limit:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackDto'
       additionalProperties: false
     TrackType:
       enum:

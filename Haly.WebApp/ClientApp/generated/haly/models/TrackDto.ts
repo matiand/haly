@@ -40,10 +40,10 @@ import {
 export interface TrackDto {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof TrackDto
      */
-    id: string;
+    id: number;
     /**
      * 
      * @type {string}

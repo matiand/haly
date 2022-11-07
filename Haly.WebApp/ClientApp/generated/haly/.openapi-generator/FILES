@@ -7,9 +7,10 @@ index.ts
 models/AlbumDto.ts
 models/ArtistDto.ts
 models/DeviceDto.ts
-models/PlaylistDto.ts
+models/GetPlaylistResponse.ts
 models/ProblemDetails.ts
 models/TrackDto.ts
+models/TrackDtoPaginatedList.ts
 models/TrackType.ts
 models/UserDto.ts
 models/UserPlaylistDto.ts

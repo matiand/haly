@@ -1,29 +1,37 @@
+import { InfiniteData } from "@tanstack/react-query";
 import { differenceInMonths, format, formatDistanceToNow } from "date-fns";
+import { Fragment } from "react";
 
 import { styled } from "../common/theme";
-import { TrackDto } from "../halyClient";
+import { TrackDtoPaginatedList } from "../halyClient";
 
 type CollectionProps = {
-    items: TrackDto[];
+    pages: TrackDtoPaginatedList[];
 };
 
-function Collection({ items }: CollectionProps) {
+function Collection({ pages }: CollectionProps) {
     return (
         <Tracklist>
-            {items.map((item) => {
-                const { id, name, duration, album, artists, addedAt } = item;
-                const artistLine = artists.map((artist) => artist.name).join(", ");
-
+            {pages.map((page) => {
                 return (
-                    <Track key={id}>
-                        <div>
-                            <div>{name}</div>
-                            {item.type === "Song" && <span>{artistLine}</span>}
-                        </div>
-                        <div>{album.name}</div>
-                        <div>{duration}</div>
-                        <div>{formatAddedAt(addedAt)}</div>
-                    </Track>
+                    <Fragment key={page.offset}>
+                        {page.items.map((item) => {
+                            const { id, name, duration, album, artists, addedAt } = item;
+                            const artistLine = artists.map((artist) => artist.name).join(", ");
+
+                            return (
+                                <Track key={id}>
+                                    <div>
+                                        <div>{name}</div>
+                                        {item.type === "Song" && <span>{artistLine}</span>}
+                                    </div>
+                                    <div>{album.name}</div>
+                                    <div>{duration}</div>
+                                    <div>{formatAddedAt(addedAt)}</div>
+                                </Track>
+                            );
+                        })}
+                    </Fragment>
                 );
             })}
         </Tracklist>

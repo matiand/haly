@@ -16,10 +16,10 @@ public static class QueryableExtensions
 
         return new PaginatedList<T>
         {
-            Items = items,
             Offset = offset,
             Limit = limit,
             Total = total,
+            Items = items,
         };
     }
 }
