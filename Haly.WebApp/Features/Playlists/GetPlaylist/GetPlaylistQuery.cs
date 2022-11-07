@@ -1,29 +1,40 @@
 using Haly.WebApp.Data;
+using Haly.WebApp.Features.Pagination;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.GetPlaylist;
 
-public record GetPlaylistQuery(string Id) : IRequest<PlaylistDto?>;
+public record GetPlaylistQuery(string Id) : IRequest<GetPlaylistResponse?>;
 
-public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistDto?>
+public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, GetPlaylistResponse?>
 {
     private readonly LibraryContext _db;
+    private const int TracksPaginationLimit = 100;
 
     public GetPlaylistHandler(LibraryContext db)
     {
         _db = db;
     }
 
-    public async Task<PlaylistDto?> Handle(GetPlaylistQuery request, CancellationToken cancellationToken)
+    public async Task<GetPlaylistResponse?> Handle(GetPlaylistQuery request, CancellationToken cancellationToken)
     {
-        var cachedPlaylist = await _db.Playlists.Include(p => p.Tracks)
+        var playlist = await _db.Playlists
             .Where(p => p.Id == request.Id)
-            // When using ProjectToType, we crash here, but everything works fine if we use Adapt on returned data
-            // .ProjectToType<PlaylistDto>()
-            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            .ProjectToType<GetPlaylistResponse>()
+            .FirstOrDefaultAsync(cancellationToken);
 
-        return cachedPlaylist?.Adapt<PlaylistDto>();
+        if (playlist is null) return null;
+
+        playlist.Tracks = (await _db.Tracks
+                .Where(t => t.PlaylistId == request.Id)
+                // This projection throws an error, that it can't translate ArtistDto
+                // I think it has something to do with storing them as jsonb column
+                // .ProjectToType<TrackDto>()
+                .ToPaginatedListAsync(offset: 0, TracksPaginationLimit))
+            .Adapt<PaginatedList<TrackDto>>();
+
+        return playlist;
     }
 }

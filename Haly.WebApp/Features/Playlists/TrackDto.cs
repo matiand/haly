@@ -1,11 +1,10 @@
-using System.Text.Json.Serialization;
 using Haly.WebApp.Models;
 
 namespace Haly.WebApp.Features.Playlists;
 
 public record TrackDto
 {
-    public string Id { get; init; }
+    public int Id { get; init; }
     public string Name { get; init; }
     public string Duration { get; init; }
     public DateTimeOffset AddedAt { get; init; }
