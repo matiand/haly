@@ -3,40 +3,55 @@ import { differenceInMonths, format, formatDistanceToNow } from "date-fns";
 import { Fragment } from "react";
 
 import { styled } from "../common/theme";
-import { TrackDtoPaginatedList } from "../halyClient";
+import { TrackDto } from "../halyClient";
 
 type CollectionProps = {
-    pages: TrackDtoPaginatedList[];
+    // pages: TrackDtoPaginatedList[];
+    items: TrackDto[];
 };
 
-function Collection({ pages }: CollectionProps) {
+function Collection({ items }: CollectionProps) {
     return (
         <Tracklist>
-            {pages.map((page) => {
-                return (
-                    <Fragment key={page.offset}>
-                        {page.items.map((item) => {
-                            const { id, name, duration, album, artists, addedAt } = item;
-                            const artistLine = artists.map((artist) => artist.name).join(", ");
+            {items.map((item) => {
+                const { id, name, duration, album, artists, addedAt } = item;
+                const artistLine = artists.map((artist) => artist.name).join(", ");
 
-                            return (
-                                <Track key={id}>
-                                    <div>
-                                        <div>{name}</div>
-                                        {item.type === "Song" && <span>{artistLine}</span>}
-                                    </div>
-                                    <div>{album.name}</div>
-                                    <div>{duration}</div>
-                                    <div>{formatAddedAt(addedAt)}</div>
-                                </Track>
-                            );
-                        })}
-                    </Fragment>
+                return (
+                    <Track key={id}>
+                        <div>
+                            <div>{name}</div>
+                            {item.type === "Song" && <span>{artistLine}</span>}
+                        </div>
+                        <div>{album.name}</div>
+                        <div>{duration}</div>
+                        <div>{formatAddedAt(addedAt)}</div>
+                    </Track>
                 );
             })}
         </Tracklist>
     );
 }
+
+// old way with fragments
+// <Fragment key={page.offset}>
+//     {page.items.map((item) => {
+//         const { id, name, duration, album, artists, addedAt } = item;
+//         const artistLine = artists.map((artist) => artist.name).join(", ");
+//
+//         return (
+//             <Track key={id}>
+//                 <div>
+//                     <div>{name}</div>
+//                     {item.type === "Song" && <span>{artistLine}</span>}
+//                 </div>
+//                 <div>{album.name}</div>
+//                 <div>{duration}</div>
+//                 <div>{formatAddedAt(addedAt)}</div>
+//             </Track>
+//         );
+//     })}
+// </Fragment>
 
 function formatAddedAt(addedAtIso: Date) {
     const addedAt = new Date(addedAtIso);

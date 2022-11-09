@@ -11,7 +11,7 @@ public record GetPlaylistQuery(string Id) : IRequest<GetPlaylistResponse?>;
 public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, GetPlaylistResponse?>
 {
     private readonly LibraryContext _db;
-    private const int TracksPaginationLimit = 100;
+    private const int TracksPaginationLimit = 25;
 
     public GetPlaylistHandler(LibraryContext db)
     {
@@ -27,13 +27,13 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, GetPlaylistR
 
         if (playlist is null) return null;
 
-        playlist.Tracks = (await _db.Tracks
-                .Where(t => t.PlaylistId == request.Id)
-                // This projection throws an error, that it can't translate ArtistDto
-                // I think it has something to do with storing them as jsonb column
-                // .ProjectToType<TrackDto>()
-                .ToPaginatedListAsync(offset: 0, TracksPaginationLimit))
-            .Adapt<PaginatedList<TrackDto>>();
+        var tracks = await _db.Tracks
+            .Where(t => t.PlaylistId == request.Id)
+            // This projection throws an error, that it can't translate ArtistDto
+            // I think it has something to do with storing them as jsonb column
+            // .ProjectToType<TrackDto>()
+            .ToPaginatedListAsync(offset: 0, TracksPaginationLimit, cancellationToken);
+        playlist.Tracks = tracks.Adapt<PaginatedList<TrackDto>>();
 
         return playlist;
     }

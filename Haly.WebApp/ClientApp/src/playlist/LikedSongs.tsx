@@ -26,7 +26,7 @@ function LikedSongs() {
     return (
         <main>
             <h1>Liked Songs</h1>
-            <Collection pages={query.data} />
+            <Collection items={query.data} />
         </main>
     );
 }
