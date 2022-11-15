@@ -6,12 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.GetPlaylist;
 
-public record GetPlaylistQuery(string Id) : IRequest<GetPlaylistResponse?>;
+public record GetPlaylistQuery(string Id) : IRequest<GetPlaylistResponse?>
+{
+    public int TracksLimit { get; } = 25;
+}
 
 public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, GetPlaylistResponse?>
 {
     private readonly LibraryContext _db;
-    private const int TracksPaginationLimit = 25;
 
     public GetPlaylistHandler(LibraryContext db)
     {
@@ -32,7 +34,7 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, GetPlaylistR
             // This projection throws an error, that it can't translate ArtistDto
             // I think it has something to do with storing them as jsonb column
             // .ProjectToType<TrackDto>()
-            .ToPaginatedListAsync(offset: 0, TracksPaginationLimit, cancellationToken);
+            .ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
         playlist.Tracks = tracks.Adapt<PaginatedList<TrackDto>>();
 
         return playlist;
