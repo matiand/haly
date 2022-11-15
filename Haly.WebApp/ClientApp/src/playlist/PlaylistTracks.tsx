@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import React, { Ref, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 
@@ -16,7 +16,11 @@ const MinTrackQueryOffset = 25;
 
 function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
     const { id } = useParams();
-    const { ref, inView } = useInView({ rootMargin: "400px" });
+    const { ref, inView, entry } = useInView({
+        rootMargin: "0px 0px 600px 0px",
+        // Default root doesn't work (I think it's cause our layout has fixed footer)
+        root: document.getElementById("playlist-container"),
+    });
 
     const tracksQuery = useInfiniteQuery(
         ["playlists", id, "tracks"],
@@ -40,12 +44,15 @@ function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
     );
 
     useEffect(() => {
+        console.log("inEffect");
         if (inView && tracksQuery.hasNextPage && !tracksQuery.isFetchingNextPage) {
+            console.log("twice");
             tracksQuery.fetchNextPage();
         }
     }, [inView, tracksQuery]);
 
     console.log("shouldRenderMore", inView);
+    console.log("entry", entry);
 
     if (!tracksQuery.isFetchedAfterMount) {
         return (

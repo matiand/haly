@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import { styled } from "../common/theme";
@@ -10,6 +10,7 @@ import PlaylistTracks from "./PlaylistTracks";
 
 function Playlist() {
     const { id } = useParams();
+
     const playlistQuery = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id: id! }), {
         suspense: true,
     });
@@ -17,15 +18,12 @@ function Playlist() {
         return null;
     }
 
-    // console.log("prev", tracksQuery.hasPreviousPage);
-    // console.log("next", tracksQuery.hasNextPage);
-    // console.log(inView);
-
     const playlist = playlistQuery.data;
     const songsCount = playlist.tracks.total;
 
     return (
-        <Main>
+        // This id is used by PlaylistTracks for its useInView hook
+        <Main id="playlist-container">
             <PlaylistHeader name={playlist.name} owner="junco" songsCount={songsCount} totalDuration="1hr 51min" />
             <PlaylistControls />
             <PlaylistTracks initialTracks={playlist.tracks.items} />

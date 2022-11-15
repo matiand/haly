@@ -82,6 +82,7 @@ export const Layout = styled("div", {
         color: "$white",
         gridArea: "main",
         padding: "0 $800",
+        overflow: "auto",
     },
     "& > #sidebar": {
         gridArea: "sidebar",
