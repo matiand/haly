@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
@@ -27,24 +28,24 @@ public class XSpotifyTokenHeaderFilter : IOperationFilter
                 Schema = new OpenApiSchema { Type = "string" },
             });
 
-            operation.Responses.Add("400", ProblemDetailsResponse(context, "Bad request"));
-            operation.Responses.Add("401", ProblemDetailsResponse(context, "Unauthorized"));
-            operation.Responses.Add("429", ProblemDetailsResponse(context, "Too many requests"));
+            operation.Responses.Add("400", ProblemResponse(context, "Bad request"));
+            operation.Responses.Add("401", ProblemResponse(context, "Unauthorized"));
+            operation.Responses.Add("429", ProblemResponse(context, "Too many requests"));
         }
     }
 
-    private static OpenApiResponse ProblemDetailsResponse(OperationFilterContext context, string description)
+    private static OpenApiResponse ProblemResponse(OperationFilterContext context, string description)
     {
-        var problemDetailsMediaType = new OpenApiMediaType
+        var problemMediaType = new OpenApiMediaType
         {
-            Schema = context.SchemaGenerator.GenerateSchema(typeof(ProblemDetails), context.SchemaRepository),
+            Schema = context.SchemaGenerator.GenerateSchema(typeof(Problem), context.SchemaRepository),
         };
 
         return new OpenApiResponse
         {
             Description = description,
             Content = new Dictionary<string, OpenApiMediaType>
-                { { "application/problem+json", problemDetailsMediaType } },
+                { { "application/json", problemMediaType } },
         };
     }
 }

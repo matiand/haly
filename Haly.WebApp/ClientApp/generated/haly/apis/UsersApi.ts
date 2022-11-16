@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  ProblemDetails,
+  Problem,
   TrackDto,
   UserDto,
   UserPlaylistDto,
 } from '../models';
 import {
-    ProblemDetailsFromJSON,
-    ProblemDetailsToJSON,
+    ProblemFromJSON,
+    ProblemToJSON,
     TrackDtoFromJSON,
     TrackDtoToJSON,
     UserDtoFromJSON,

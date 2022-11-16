@@ -15,11 +15,11 @@
 
 import * as runtime from '../runtime';
 import type {
-  ProblemDetails,
+  Problem,
 } from '../models';
 import {
-    ProblemDetailsFromJSON,
-    ProblemDetailsToJSON,
+    ProblemFromJSON,
+    ProblemToJSON,
 } from '../models';
 
 export interface GetRequest {

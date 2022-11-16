@@ -2,7 +2,7 @@ import {
     Configuration,
     PlayerApi,
     PlaylistsApi,
-    ProblemDetails,
+    Problem,
     TrackDto,
     TrackDtoPaginatedList,
     UsersApi,
@@ -14,7 +14,7 @@ export default {
     users: new UsersApi(config),
     playlists: new PlaylistsApi(config),
     player: new PlayerApi(config),
-    isProblemDetails: (obj: unknown): obj is ProblemDetails => {
+    isProblem: (obj: unknown): obj is Problem => {
         return typeof obj == "object" && obj !== null && "type" in obj && "status" in obj && "title" in obj;
     },
 };

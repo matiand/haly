@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   DeviceDto,
-  ProblemDetails,
+  Problem,
 } from '../models';
 import {
     DeviceDtoFromJSON,
     DeviceDtoToJSON,
-    ProblemDetailsFromJSON,
-    ProblemDetailsToJSON,
+    ProblemFromJSON,
+    ProblemToJSON,
 } from '../models';
 
 export interface GetAvailableDevicesRequest {

@@ -20,7 +20,7 @@ const queryClient = new QueryClient({
 
             if (error instanceof ResponseError) {
                 const respBody = await error.response.json();
-                if (halyClient.isProblemDetails(respBody)) {
+                if (halyClient.isProblem(respBody)) {
                     toast.error(respBody.title!);
                     return;
                 }

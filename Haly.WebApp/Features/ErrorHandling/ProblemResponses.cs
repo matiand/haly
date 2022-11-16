@@ -5,66 +5,65 @@ namespace Haly.WebApp.Features.ErrorHandling;
 
 public class ProblemResponses
 {
-    public static IActionResult InternalServerProblem(string title)
-    {
-        var problem = new ProblemDetails
-        {
-            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.6.1",
-            Status = 500,
-            Title = title,
-        };
-
-        return new ObjectResult(problem);
-    }
-
-    public static IActionResult BadRequestProblem(string title, string? details)
-    {
-        var problem = new ProblemDetails
-        {
-            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1",
-            Status = 400,
-            Title = title,
-            Detail = details,
-        };
-
-        return new ObjectResult(problem);
-    }
-
     public static IActionResult BadRequestProblem(ValidationException exception)
     {
         var errors = exception.Errors.Select(failure => failure.ErrorMessage);
-        var problem = new ProblemDetails
+        var problem = new ValidationProblem()
         {
-            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1",
+            Type = "https://httpstatuses.io/400",
             Status = 400,
             Title = "One or more validation errors occured",
-            Extensions = { { "errors", errors } },
+            Errors = errors,
         };
 
-        return new ObjectResult(problem);
+        return new ObjectResult(problem) { StatusCode = 400 };
+    }
+
+    public static IActionResult BadRequestProblem(string title)
+    {
+        var problem = new Problem
+        {
+            Type = "https://httpstatuses.io/400",
+            Status = 400,
+            Title = title,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 400 };
     }
 
     public static IActionResult UnauthorizedProblem(string title)
     {
-        var problem = new ProblemDetails
+        var problem = new Problem
         {
-            Type = "https://www.rfc-editor.org/rfc/rfc7235#section-3.1",
+            Type = "https://httpstatuses.io/401",
             Status = 401,
             Title = title,
         };
 
-        return new ObjectResult(problem);
+        return new ObjectResult(problem) { StatusCode = 401 };
     }
 
     public static IActionResult TooManyRequestsProblem(string title)
     {
-        var problem = new ProblemDetails
+        var problem = new Problem
         {
-            Type = "https://www.rfc-editor.org/rfc/rfc6585#section-4",
+            Type = "https://httpstatuses.io/429",
             Status = 429,
             Title = title,
         };
 
-        return new ObjectResult(problem);
+        return new ObjectResult(problem) { StatusCode = 429 };
+    }
+
+    public static IActionResult InternalServerProblem(string title)
+    {
+        var problem = new Problem()
+        {
+            Type = "https://httpstatuses.io/500",
+            Status = 500,
+            Title = title,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 500 };
     }
 }

@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.User;
 using Haly.WebApp.Features.User.GetLikedSongs;
@@ -16,7 +17,7 @@ public class UsersController : ApiControllerBase
     [HttpGet("", Name = "GetUser")]
     [SwaggerOperation(Summary = "Get user by id", Description = "Get user from our cache")]
     [SwaggerResponse(statusCode: 200, "User found", typeof(UserDto))]
-    [SwaggerResponse(statusCode: 404, "User not found", typeof(ProblemDetails))]
+    [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
     public async Task<ActionResult<UserDto>> GetUser(string userId)
     {
         var response = await Mediator.Send(new GetUserQuery(userId));
@@ -50,7 +51,7 @@ public class UsersController : ApiControllerBase
         Summary = "Update user playlists",
         Description = "Fetches user playlists from Spotify API, updates our cache with that data.")]
     [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(IEnumerable<UserPlaylistDto>))]
-    [SwaggerResponse(statusCode: 404, "User not found", typeof(ProblemDetails))]
+    [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
     public async Task<ActionResult<IEnumerable<UserPlaylistDto>>> PutUserPlaylists(string userId)
     {
         var response = await Mediator.Send(new UpdateUserPlaylistsCommand(userId));

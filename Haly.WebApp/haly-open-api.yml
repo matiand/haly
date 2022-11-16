@@ -27,21 +27,21 @@ paths:
         '400':
           description: Bad request
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '401':
           description: Unauthorized
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '429':
           description: Too many requests
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
   '/Users/{userId}/Player/devices':
     get:
       tags:
@@ -72,21 +72,21 @@ paths:
         '400':
           description: Bad request
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '401':
           description: Unauthorized
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '429':
           description: Too many requests
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
   '/Playlists/{id}':
     get:
       tags:
@@ -112,7 +112,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
   '/Playlists/{playlistId}/tracks':
     get:
       tags:
@@ -131,13 +131,11 @@ paths:
           schema:
             type: integer
             format: int32
-            default: 100
         - name: offset
           in: query
           schema:
             type: integer
             format: int32
-            default: 0
       responses:
         '200':
           description: Returns tracks
@@ -145,12 +143,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackDtoPaginatedList'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationProblem'
         '404':
           description: Playlist not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
   '/Users/{userId}':
     get:
       tags:
@@ -176,7 +180,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
   /Users/me:
     put:
       tags:
@@ -207,21 +211,21 @@ paths:
         '400':
           description: Bad request
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '401':
           description: Unauthorized
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '429':
           description: Too many requests
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
   '/Users/{userId}/playlists':
     put:
       tags:
@@ -255,25 +259,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '400':
           description: Bad request
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '401':
           description: Unauthorized
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '429':
           description: Too many requests
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
   '/Users/{userId}/tracks':
     get:
       tags:
@@ -308,21 +312,21 @@ paths:
         '400':
           description: Bad request
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '401':
           description: Unauthorized
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
         '429':
           description: Too many requests
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: '#/components/schemas/Problem'
 components:
   schemas:
     AlbumDto:
@@ -384,26 +388,21 @@ components:
         tracks:
           $ref: '#/components/schemas/TrackDtoPaginatedList'
       additionalProperties: false
-    ProblemDetails:
+    Problem:
+      required:
+        - status
+        - title
+        - type
       type: object
       properties:
         type:
           type: string
-          nullable: true
-        title:
-          type: string
-          nullable: true
         status:
           type: integer
           format: int32
-          nullable: true
-        detail:
+        title:
           type: string
-          nullable: true
-        instance:
-          type: string
-          nullable: true
-      additionalProperties: { }
+      additionalProperties: false
     TrackDto:
       required:
         - addedAt
@@ -488,4 +487,24 @@ components:
           type: string
         name:
           type: string
+      additionalProperties: false
+    ValidationProblem:
+      required:
+        - errors
+        - status
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+        status:
+          type: integer
+          format: int32
+        title:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
       additionalProperties: false

@@ -16,16 +16,19 @@
 import * as runtime from '../runtime';
 import type {
   GetPlaylistResponse,
-  ProblemDetails,
+  Problem,
   TrackDtoPaginatedList,
+  ValidationProblem,
 } from '../models';
 import {
     GetPlaylistResponseFromJSON,
     GetPlaylistResponseToJSON,
-    ProblemDetailsFromJSON,
-    ProblemDetailsToJSON,
+    ProblemFromJSON,
+    ProblemToJSON,
     TrackDtoPaginatedListFromJSON,
     TrackDtoPaginatedListToJSON,
+    ValidationProblemFromJSON,
+    ValidationProblemToJSON,
 } from '../models';
 
 export interface GetPlaylistRequest {
