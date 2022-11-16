@@ -1,6 +1,6 @@
-using Haly.GeneratedClients;
-using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Filters;
+using GeneratedClient = Haly.GeneratedClients;
 
 namespace Haly.WebApp.Features.ErrorHandling;
 
@@ -17,7 +17,12 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         switch (ex)
         {
-            case ApiException apiException:
+            case ValidationException validationException:
+                {
+                    context.Result = ProblemResponses.BadRequestProblem(validationException);
+                    break;
+                }
+            case GeneratedClient.ApiException apiException:
                 {
                     var isDeserializationError = apiException.Message.Contains("Could not deserialize");
                     if (isDeserializationError)

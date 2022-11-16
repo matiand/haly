@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Haly.WebApp.Features.ErrorHandling;
@@ -24,6 +25,20 @@ public class ProblemResponses
             Status = 400,
             Title = title,
             Detail = details,
+        };
+
+        return new ObjectResult(problem);
+    }
+
+    public static IActionResult BadRequestProblem(ValidationException exception)
+    {
+        var errors = exception.Errors.Select(failure => failure.ErrorMessage);
+        var problem = new ProblemDetails
+        {
+            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.1",
+            Status = 400,
+            Title = "One or more validation errors occured",
+            Extensions = { { "errors", errors } },
         };
 
         return new ObjectResult(problem);

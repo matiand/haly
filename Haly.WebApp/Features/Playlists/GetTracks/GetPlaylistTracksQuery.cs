@@ -1,4 +1,3 @@
-using FluentValidation;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Pagination;
 using Mapster;
@@ -30,14 +29,5 @@ public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, 
 
         // We have to do the projection client side, cause it fails on server side
         return tracks.Adapt<PaginatedList<TrackDto>>();
-    }
-}
-
-public class GetPlaylistTracksQueryValidator : AbstractValidator<GetPlaylistTracksQuery>
-{
-    public GetPlaylistTracksQueryValidator()
-    {
-        RuleFor(x => x.Limit).InclusiveBetween(from: 1, to: 100);
-        RuleFor(x => x.Offset).GreaterThanOrEqualTo(valueToCompare: 0);
     }
 }

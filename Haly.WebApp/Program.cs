@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Swagger;
+using Haly.WebApp.Features.Validation;
 using Haly.WebApp.Features.XSpotifyToken;
 using Haly.WebApp.Hubs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
@@ -28,6 +28,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddSwaggerGen(options =>
 {

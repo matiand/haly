@@ -1,4 +1,3 @@
-using FluentValidation;
 using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.Playlists.GetPlaylist;
@@ -26,13 +25,11 @@ public class PlaylistsController : ApiControllerBase
     [HttpGet("{playlistId}/tracks")]
     [SwaggerOperation(Summary = "Get playlist's tracks", Description = "Get playlist's tracks from our cache")]
     [SwaggerResponse(statusCode: 200, "Returns tracks", typeof(PaginatedList<TrackDto>))]
+    [SwaggerResponse(statusCode: 400, "Bad request", typeof(ProblemDetails))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(ProblemDetails))]
-    public async Task<ActionResult<PaginatedList<TrackDto>>> GetTracks(string playlistId, int limit, int offset, [FromServices] IValidator<GetPlaylistTracksQuery> validator)
+    public async Task<ActionResult<PaginatedList<TrackDto>>> GetTracks(string playlistId, int limit, int offset)
     {
-        var request = new GetPlaylistTracksQuery(playlistId, limit, offset);
-        validator.ValidateAndThrow(request);
-
-        var response = await Mediator.Send(request);
+        var response = await Mediator.Send(new GetPlaylistTracksQuery(playlistId, limit, offset));
         if (response is null) return NotFound();
 
         return Ok(response);
