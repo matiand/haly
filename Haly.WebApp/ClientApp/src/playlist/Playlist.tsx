@@ -26,7 +26,7 @@ function Playlist() {
         <Main id="playlist-container">
             <PlaylistHeader name={playlist.name} owner="junco" songsCount={songsCount} totalDuration="1hr 51min" />
             <PlaylistControls />
-            <PlaylistTracks initialTracks={playlist.tracks.items} />
+            <PlaylistTracks initialTracks={playlist.tracks} />
         </Main>
     );
 }

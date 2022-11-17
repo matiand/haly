@@ -1,17 +1,17 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { Ref, useEffect } from "react";
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 
-import { TrackDto } from "../../generated/haly";
+import { TrackDtoPaginatedList } from "../../generated/haly";
 import halyClient from "../halyClient";
 import Collection from "./Collection";
 
 type PlaylistTracksProps = {
-    initialTracks: TrackDto[];
+    initialTracks: TrackDtoPaginatedList;
 };
 
-const MaxTrackQueryLimit = 44;
+const MaxTrackQueryLimit = 100;
 const MinTrackQueryOffset = 25;
 
 function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
@@ -32,6 +32,9 @@ function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
             });
         },
         {
+            // 15 seconds of staleTime, without this the query will immediately refetch, negating any advantage of using initialData
+            staleTime: 1000 * 15,
+            initialData: { pages: [initialTracks], pageParams: [initialTracks.offset] },
             getPreviousPageParam: (firstPage) => {
                 const nextOffset = firstPage.offset - firstPage.limit;
                 return nextOffset > MinTrackQueryOffset ? nextOffset : undefined;
@@ -54,20 +57,10 @@ function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
     console.log("shouldRenderMore", inView);
     console.log("entry", entry);
 
-    if (!tracksQuery.isFetchedAfterMount) {
-        return (
-            <>
-                <Collection items={initialTracks} />
-                <div aria-hidden="true" ref={ref} />
-            </>
-        );
-    }
-
-    const fetchedTracks = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
-    const tracks = initialTracks.concat(fetchedTracks);
+    const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     return (
         <>
-            <Collection items={tracks} />
+            <Collection items={items} />
             <div aria-hidden="true" ref={ref} />
         </>
     );
