@@ -1,57 +1,63 @@
-import { InfiniteData } from "@tanstack/react-query";
+import { flexRender } from "@tanstack/react-table";
 import { differenceInMonths, format, formatDistanceToNow } from "date-fns";
-import { Fragment } from "react";
 
 import { styled } from "../common/theme";
 import { TrackDto } from "../halyClient";
+import useTrackCollection from "./useTrackCollection";
 
 type CollectionProps = {
-    // pages: TrackDtoPaginatedList[];
     items: TrackDto[];
 };
 
 function Collection({ items }: CollectionProps) {
+    const { table, renderHeaderCell, renderRowCell } = useTrackCollection(items);
+
     return (
-        <Tracklist>
-            {items.map((item) => {
-                const { id, name, duration, album, artists, addedAt } = item;
-                const artistLine = artists.map((artist) => artist.name).join(", ");
-
-                return (
-                    <Track key={id}>
-                        <div>
-                            <div>{name}</div>
-                            {item.type === "Song" && <span>{artistLine}</span>}
-                        </div>
-                        <div>{album.name}</div>
-                        <div>{duration}</div>
-                        <div>{formatAddedAt(addedAt)}</div>
-                    </Track>
-                );
-            })}
-        </Tracklist>
+        <table>
+            <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                    <tr key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => (
+                            // <th key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
+                            <th key={header.id}>{renderHeaderCell(header)}</th>
+                        ))}
+                    </tr>
+                ))}
+            </thead>
+            <tbody>
+                {table.getRowModel().rows.map((row) => (
+                    <tr key={row.id}>
+                        {row.getVisibleCells().map((cell) => (
+                            // <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                            <td key={cell.id}>{renderRowCell(cell)}</td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     );
-}
 
-// old way with fragments
-// <Fragment key={page.offset}>
-//     {page.items.map((item) => {
-//         const { id, name, duration, album, artists, addedAt } = item;
-//         const artistLine = artists.map((artist) => artist.name).join(", ");
-//
-//         return (
-//             <Track key={id}>
-//                 <div>
-//                     <div>{name}</div>
-//                     {item.type === "Song" && <span>{artistLine}</span>}
-//                 </div>
-//                 <div>{album.name}</div>
-//                 <div>{duration}</div>
-//                 <div>{formatAddedAt(addedAt)}</div>
-//             </Track>
-//         );
-//     })}
-// </Fragment>
+    // return (
+    //     <Tracklist>
+    //         {items.map((item) => {
+    //             const { id, name, duration, album, artists, addedAt } = item;
+    //             const artistLine = artists.map((artist) => artist.name).join(", ");
+    //
+    //             return (
+    //                 <Track key={id}>
+    //                     <div>
+    //                         <div>{name}</div>
+    //                         {item.type === "Song" && <span>{artistLine}</span>}
+    //                     </div>
+    //                     <div>{album.name}</div>
+    //                     <div>{duration}</div>
+    //                     <div>{formatAddedAt(addedAt)}</div>
+    //                 </Track>
+    //             );
+    //         })}
+    //     </Tracklist>
+    // );
+}
 
 function formatAddedAt(addedAtIso: Date) {
     const addedAt = new Date(addedAtIso);
