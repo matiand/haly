@@ -38,7 +38,9 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
             .Map(dest => dest.Type, src => src.Track.Type == "track" ? TrackType.Song : TrackType.Podcast);
 
-        config.ForType<SimplifiedAlbumObject, Album>();
+        config.ForType<SimplifiedAlbumObject, Album>()
+            .Map(dest => dest.ImageUrl, src => src.Images.Any() ? src.Images.First().Url : null);
+
         config.ForType<SimplifiedArtistObject, Artist>();
 
         config.ForType<DeviceObject, DeviceDto>()
