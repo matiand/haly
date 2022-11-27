@@ -11,7 +11,9 @@ export const theme = {
         black600: "#121212",
         black700: "#0a0a0a",
         black800: "#000000",
+        primary300: "#842fcf",
         primary400: "#7b2cbf",
+        primary500: "#7128b2",
         danger: "#e91429",
     },
     fonts: {
@@ -48,9 +50,7 @@ export const theme = {
         navIconSize: "24px",
         historyNavBtnSize: "32px",
         historyNavIconSize: "24px",
-        searchBarWidth: "364px",
-        searchBarHeight: "40px",
-        searchIconSize: "24px",
+        playlistControlsHeight: "80px",
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {

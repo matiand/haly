@@ -1,6 +1,8 @@
 import { Waveform } from "@uiball/loaders";
 import React from "react";
-import { HiHeart, HiOutlineFire, HiPlus, MdOutlineLibraryMusic, TbShip } from "react-icons/all";
+import { HiHeart, HiOutlineFire, HiPlus } from "react-icons/hi2";
+import { MdOutlineLibraryMusic } from "react-icons/md";
+import { TbShip } from "react-icons/tb";
 
 import { styled, theme } from "../common/theme";
 import NavigationItem from "./NavigationItem";

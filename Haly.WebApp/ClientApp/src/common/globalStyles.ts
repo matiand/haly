@@ -33,6 +33,10 @@ const globalStyles = globalCss({
     ".rq-toggle": {
         right: "210px !important",
     },
+
+    "a, button": {
+        touchAction: "manipulation",
+    },
 });
 
 globalStyles();

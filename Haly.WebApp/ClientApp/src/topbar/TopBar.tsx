@@ -7,7 +7,7 @@ function TopBar() {
     return (
         <Header id="topbar" aria-label="Top bar and user menu">
             <HistoryNavigationButtons />
-            <SearchBar />
+            <SearchBar variant="topbar" />
             <UserDropdown />
         </Header>
     );
