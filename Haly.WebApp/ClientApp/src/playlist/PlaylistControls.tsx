@@ -23,8 +23,7 @@ function PlaylistControls({ name }: PlaylistControlsProps) {
 const Wrapper = styled("div", {
     alignItems: "center",
     display: "flex",
-    height: "$playlistControlsHeight",
-    padding: "$600 0",
+    padding: "$700 0",
 
     "> :first-child": {
         marginRight: "$700",
@@ -33,10 +32,6 @@ const Wrapper = styled("div", {
     "> :last-child": {
         marginLeft: "auto",
     },
-});
-
-const PlayBtn = styled("button", {
-    marginRight: "$800",
 });
 
 const MoreOptionsBtn = styled("button", {

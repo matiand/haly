@@ -8,6 +8,7 @@ export const theme = {
         grey200: "#bdbdbd",
         black300: "#3e3e3e",
         black500: "#282828",
+        black550: "#181818",
         black600: "#121212",
         black700: "#0a0a0a",
         black800: "#000000",
@@ -50,7 +51,6 @@ export const theme = {
         navIconSize: "24px",
         historyNavBtnSize: "32px",
         historyNavIconSize: "24px",
-        playlistControlsHeight: "80px",
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {
@@ -60,4 +60,10 @@ export const theme = {
     },
 };
 
-export const { styled, globalCss } = createStitches({ theme });
+const media = {
+    bp1: "(min-width: 750px)",
+    bp2: "(min-width: 960px)",
+    bp3: "(min-width: 1060px)",
+};
+
+export const { styled, globalCss } = createStitches({ theme, media });

@@ -1,5 +1,4 @@
-import { flexRender } from "@tanstack/react-table";
-import { differenceInMonths, format, formatDistanceToNow } from "date-fns";
+import { useInView } from "react-intersection-observer";
 
 import { styled } from "../common/theme";
 import { TrackDto } from "../halyClient";
@@ -11,89 +10,120 @@ type CollectionProps = {
 
 function Collection({ items }: CollectionProps) {
     const { table, renderHeaderCell, renderRowCell } = useTrackCollection(items);
+    const { ref, inView } = useInView();
 
     return (
-        <table>
-            <thead>
+        <Table>
+            <div aria-hidden="true" ref={ref} />
+            <THead className={inView ? "" : "sticky-head"}>
                 {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header) => (
-                            // <th key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
                             <th key={header.id}>{renderHeaderCell(header)}</th>
                         ))}
                     </tr>
                 ))}
-            </thead>
-            <tbody>
+            </THead>
+            <TBody>
                 {table.getRowModel().rows.map((row) => (
                     <tr key={row.id}>
                         {row.getVisibleCells().map((cell) => (
-                            // <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                             <td key={cell.id}>{renderRowCell(cell)}</td>
                         ))}
                     </tr>
                 ))}
-            </tbody>
-        </table>
+            </TBody>
+        </Table>
     );
-
-    // return (
-    //     <Tracklist>
-    //         {items.map((item) => {
-    //             const { id, name, duration, album, artists, addedAt } = item;
-    //             const artistLine = artists.map((artist) => artist.name).join(", ");
-    //
-    //             return (
-    //                 <Track key={id}>
-    //                     <div>
-    //                         <div>{name}</div>
-    //                         {item.type === "Song" && <span>{artistLine}</span>}
-    //                     </div>
-    //                     <div>{album.name}</div>
-    //                     <div>{duration}</div>
-    //                     <div>{formatAddedAt(addedAt)}</div>
-    //                 </Track>
-    //             );
-    //         })}
-    //     </Tracklist>
-    // );
 }
 
-function formatAddedAt(addedAtIso: Date) {
-    const addedAt = new Date(addedAtIso);
-    const diffInMonths = differenceInMonths(new Date(), addedAt);
-
-    return diffInMonths > 0 ? format(addedAt, "MMM d, y") : formatDistanceToNow(addedAt, { addSuffix: true });
-}
-
-const Tracklist = styled("ul", {
-    padding: 0,
+const Table = styled("table", {
+    display: "block",
 });
 
-const Track = styled("li", {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+const THead = styled("thead", {
+    background: "",
+    display: "block",
+    position: "sticky",
+    top: "0px",
+    zIndex: "2",
+    margin: "0 -$800 $600",
+    padding: "0 $800",
 
-    "& > div": {
-        marginRight: "$600",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        marginBottom: "$400",
+    "&.sticky-head": {
+        background: "$black550",
+        boxShadow: "0 -1px 0 0 $black550",
+    },
 
-        "&:nth-of-type(1)": {
-            width: "400px",
+    "& > tr": {
+        borderBottom: "1px solid $black300",
+        display: "grid",
+        gridGap: "$600",
+        gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
+        height: "36px",
+        padding: "0 $600",
+
+        "& > th": {
+            alignItems: "center",
+            color: "$grey100",
+            display: "flex",
+            fontSize: "$100",
+            fontWeight: "500",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
         },
-        "&:nth-of-type(2)": {
-            width: "300px",
+
+        "& > th:nth-of-type(1), & > th:nth-of-type(5)": {
+            justifySelf: "end",
         },
-        "&:nth-of-type(3)": {
-            width: "80px",
+
+        "& > th:nth-of-type(4)": {
+            display: "none",
+        },
+
+        "& > th:last-of-type": {
+            marginRight: "$800",
+        },
+
+        "@bp3": {
+            gridTemplateColumns: "16px 6fr 4fr 3fr minmax(120px, 1fr)",
+
+            "& > th:nth-of-type(4)": {
+                display: "flex",
+            },
         },
     },
-    span: {
-        fontSize: "$200",
+});
+
+const TBody = styled("tbody", {
+    display: "block",
+
+    "& > tr": {
+        display: "grid",
+        gridGap: "$600",
+        gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
+        height: "56px",
+        padding: "0 $600",
+
+        "& > td": {
+            display: "flex",
+        },
+
+        "& > td:nth-of-type(1), & > td:nth-of-type(5)": {
+            justifySelf: "end",
+        },
+
+        "& > td:nth-of-type(4)": {
+            display: "none",
+        },
+
+        "@bp3": {
+            gridTemplateColumns: "16px 6fr 4fr 3fr minmax(120px, 1fr)",
+
+            "& >td:nth-of-type(4)": {
+                display: "flex",
+            },
+        },
     },
 });
 
