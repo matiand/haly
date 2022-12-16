@@ -1,27 +1,33 @@
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Header, useReactTable } from "@tanstack/react-table";
-import { differenceInMonths, format, formatDistanceToNow } from "date-fns";
-import { HiOutlineClock } from "react-icons/hi2";
 
 import { TrackDto } from "../../generated/haly";
-import TrackTitleCell from "./TrackTitleCell";
+import { TrackAlbumCell, TrackAlbumHeader } from "./TrackAlbumCell";
+import { TrackDateAddedCell, TrackDateAddedHeader } from "./TrackDateAddedCell";
+import { TrackDurationCell, TrackDurationHeader } from "./TrackDurationCell";
+import { TrackIndexCell, TrackIndexHeader } from "./TrackIndexCell";
+import { TrackTitleCell, TrackTitleHeader } from "./TrackTitleCell";
 
 const columns: ColumnDef<TrackDto>[] = [
     {
-        header: "#",
-        cell: (props) => props.row.index + 1,
-    },
-    { header: "title", cell: (props) => <TrackTitleCell track={props.row.original} /> },
-    {
-        header: "album",
-        cell: (props) => props.row.original.album.name,
+        header: TrackIndexHeader,
+        cell: TrackIndexCell,
     },
     {
-        header: "date added",
-        cell: (props) => formatAddedAt(props.row.original.addedAt),
+        header: TrackTitleHeader,
+        cell: TrackTitleCell,
     },
     {
-        header: () => <DurationHeader />,
-        accessorKey: "duration",
+        header: TrackAlbumHeader,
+        cell: TrackAlbumCell,
+    },
+    {
+        header: TrackDateAddedHeader,
+        cell: TrackDateAddedCell,
+    },
+    {
+        id: "duration",
+        header: TrackDurationHeader,
+        cell: TrackDurationCell,
     },
 ];
 
@@ -35,21 +41,6 @@ function useTrackCollection(data: TrackDto[]) {
         renderHeaderCell: (cell: Header<TrackDto, unknown>) =>
             flexRender(cell.column.columnDef.header, cell.getContext()),
     };
-}
-
-function formatAddedAt(addedAtIso: Date) {
-    const addedAt = new Date(addedAtIso);
-    const diffInMonths = differenceInMonths(new Date(), addedAt);
-
-    return diffInMonths > 0 ? format(addedAt, "MMM d, y") : formatDistanceToNow(addedAt, { addSuffix: true });
-}
-
-function DurationHeader() {
-    return (
-        <div aria-label="duration" title="duration">
-            <HiOutlineClock style={{ height: "18px", width: "18px" }} />
-        </div>
-    );
 }
 
 export default useTrackCollection;

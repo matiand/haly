@@ -15,6 +15,7 @@ const globalStyles = globalCss({
 
     body: {
         fontFamily: "$primary",
+        lineHeight: 1.6,
         "-webkit-font-smoothing": "antialiased",
         "-moz-osx-font-smoothing": "grayscale",
     },
@@ -27,6 +28,13 @@ const globalStyles = globalCss({
         overflow: "hidden",
         position: "absolute",
         whiteSpace: "nowrap",
+    },
+
+    ".truncate": {
+        "-webkit-line-clamp": 1,
+        "-webkit-box-orient": "vertical",
+        display: "-webkit-box",
+        overflow: "hidden",
     },
 
     // Used to position react query devtools toggle btn

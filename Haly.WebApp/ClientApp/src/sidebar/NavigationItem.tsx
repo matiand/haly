@@ -28,7 +28,7 @@ function NavigationItem({ href, title, icon, onClick }: NavigationItemProps) {
 const ListItem = styled("li", {
     padding: "0 $700",
     fontSize: "$300",
-    color: "$grey100",
+    color: "$grey200",
     display: "flex",
 
     "a, button": {

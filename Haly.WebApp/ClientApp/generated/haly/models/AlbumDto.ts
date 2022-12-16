@@ -40,6 +40,12 @@ export interface AlbumDto {
     name: string;
     /**
      * 
+     * @type {string}
+     * @memberof AlbumDto
+     */
+    imageUrl?: string | null;
+    /**
+     * 
      * @type {Array<ArtistDto>}
      * @memberof AlbumDto
      */
@@ -70,6 +76,7 @@ export function AlbumDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': json['id'],
         'name': json['name'],
+        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'artists': ((json['artists'] as Array<any>).map(ArtistDtoFromJSON)),
     };
 }
@@ -85,6 +92,7 @@ export function AlbumDtoToJSON(value?: AlbumDto | null): any {
         
         'id': value.id,
         'name': value.name,
+        'imageUrl': value.imageUrl,
         'artists': ((value.artists as Array<any>).map(ArtistDtoToJSON)),
     };
 }

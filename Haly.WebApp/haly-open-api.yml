@@ -340,6 +340,9 @@ components:
           type: string
         name:
           type: string
+        imageUrl:
+          type: string
+          nullable: true
         artists:
           type: array
           items:
@@ -385,6 +388,9 @@ components:
           type: string
         name:
           type: string
+        imageUrl:
+          type: string
+          nullable: true
         tracks:
           $ref: '#/components/schemas/TrackDtoPaginatedList'
       additionalProperties: false

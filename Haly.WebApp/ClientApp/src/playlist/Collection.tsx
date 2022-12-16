@@ -13,32 +13,39 @@ function Collection({ items }: CollectionProps) {
     const { ref, inView } = useInView();
 
     return (
-        <Table>
-            <div aria-hidden="true" ref={ref} />
-            <THead className={inView ? "" : "sticky-head"}>
-                {table.getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => (
-                            <th key={header.id}>{renderHeaderCell(header)}</th>
-                        ))}
-                    </tr>
-                ))}
-            </THead>
-            <TBody>
-                {table.getRowModel().rows.map((row) => (
-                    <tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id}>{renderRowCell(cell)}</td>
-                        ))}
-                    </tr>
-                ))}
-            </TBody>
-        </Table>
+        <>
+            <div ref={ref} aria-hidden={true}></div>
+            <Table>
+                <THead className={inView ? "" : "sticky-head"}>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => (
+                                <th key={header.id}>{renderHeaderCell(header)}</th>
+                            ))}
+                        </tr>
+                    ))}
+                </THead>
+                <TBody>
+                    {table.getRowModel().rows.map((row) => (
+                        <tr key={row.id}>
+                            {row.getVisibleCells().map((cell) => (
+                                <td key={cell.id}>{renderRowCell(cell)}</td>
+                            ))}
+                        </tr>
+                    ))}
+                </TBody>
+            </Table>
+        </>
     );
 }
 
 const Table = styled("table", {
     display: "block",
+    userSelect: "none",
+
+    "& th, td": {
+        padding: 0,
+    },
 });
 
 const THead = styled("thead", {
@@ -65,7 +72,7 @@ const THead = styled("thead", {
 
         "& > th": {
             alignItems: "center",
-            color: "$grey100",
+            color: "$grey200",
             display: "flex",
             fontSize: "$100",
             fontWeight: "500",
@@ -106,15 +113,48 @@ const TBody = styled("tbody", {
         padding: "0 $600",
 
         "& > td": {
+            alignItems: "center",
             display: "flex",
+
+            "& button": {
+                opacity: 0,
+            },
         },
 
-        "& > td:nth-of-type(1), & > td:nth-of-type(5)": {
-            justifySelf: "end",
+        "&:hover": {
+            background: "$black500",
+            // todo: this is ugly
+            "& td:nth-of-type(1) span": {
+                display: "none",
+            },
+
+            "& a": {
+                color: "$white",
+            },
+
+            "& button": {
+                opacity: 1,
+            },
+        },
+
+        "& > td:nth-of-type(1)": {
+            color: "$grey200",
+            justifySelf: "center",
+        },
+
+        "& > td:nth-of-type(2)": {
+            color: "$grey200",
+            fontSize: "$300",
         },
 
         "& > td:nth-of-type(4)": {
+            color: "$grey300",
             display: "none",
+            fontSize: "$300",
+        },
+
+        "& > td:nth-of-type(5)": {
+            justifySelf: "end",
         },
 
         "@bp3": {

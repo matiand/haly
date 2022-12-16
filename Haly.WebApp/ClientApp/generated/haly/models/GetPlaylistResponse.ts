@@ -40,6 +40,12 @@ export interface GetPlaylistResponse {
     name: string;
     /**
      * 
+     * @type {string}
+     * @memberof GetPlaylistResponse
+     */
+    imageUrl?: string | null;
+    /**
+     * 
      * @type {TrackDtoPaginatedList}
      * @memberof GetPlaylistResponse
      */
@@ -70,6 +76,7 @@ export function GetPlaylistResponseFromJSONTyped(json: any, ignoreDiscriminator:
         
         'id': json['id'],
         'name': json['name'],
+        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'tracks': TrackDtoPaginatedListFromJSON(json['tracks']),
     };
 }
@@ -85,6 +92,7 @@ export function GetPlaylistResponseToJSON(value?: GetPlaylistResponse | null): a
         
         'id': value.id,
         'name': value.name,
+        'imageUrl': value.imageUrl,
         'tracks': TrackDtoPaginatedListToJSON(value.tracks),
     };
 }
