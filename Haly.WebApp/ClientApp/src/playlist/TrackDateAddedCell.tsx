@@ -1,5 +1,5 @@
 import { CellContext } from "@tanstack/react-table";
-import { differenceInMonths, format, formatDistanceToNow } from "date-fns";
+import { differenceInMonths, format, formatDistanceToNowStrict } from "date-fns";
 
 import { TrackDto } from "../../generated/haly";
 
@@ -13,5 +13,5 @@ function formatAddedAt(addedAtIso: Date) {
     const addedAt = new Date(addedAtIso);
     const diffInMonths = differenceInMonths(new Date(), addedAt);
 
-    return diffInMonths > 0 ? format(addedAt, "MMM d, y") : formatDistanceToNow(addedAt, { addSuffix: true });
+    return diffInMonths > 0 ? format(addedAt, "MMM d, y") : formatDistanceToNowStrict(addedAt, { addSuffix: true });
 }
