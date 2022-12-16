@@ -2,15 +2,17 @@ import { styled } from "../common/theme";
 
 type PlaylistHeaderProps = {
     name: string;
+    // todo: use playlistDto in the future when this is finished
+    imageUrl: string | null | undefined;
     owner: string;
     songsCount: number;
     totalDuration: string;
 };
 
-function PlaylistHeader({ name, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
+function PlaylistHeader({ name, imageUrl, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
     return (
         <Wrapper>
-            <Image />
+            {imageUrl && <Image />}
             <PlaylistInfo>
                 <Subtitle>Playlist</Subtitle>
                 <Title>{name}</Title>

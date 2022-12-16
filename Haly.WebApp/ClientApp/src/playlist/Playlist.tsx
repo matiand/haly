@@ -24,7 +24,13 @@ function Playlist() {
     return (
         // This id is used by PlaylistTracks for its useInView hook
         <Main id="playlist-container">
-            <PlaylistHeader name={playlist.name} owner="junco" songsCount={songsCount} totalDuration="1hr 51min" />
+            <PlaylistHeader
+                name={playlist.name}
+                imageUrl={null}
+                owner="junco"
+                songsCount={songsCount}
+                totalDuration="1hr 51min"
+            />
             <PlaylistControls name={playlist.name} />
             <PlaylistTracks initialTracks={playlist.tracks} />
         </Main>
