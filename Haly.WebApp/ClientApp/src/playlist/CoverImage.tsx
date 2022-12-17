@@ -7,7 +7,7 @@ type AlbumCoverProps = {
     imageUrl: AlbumDto["imageUrl"];
 };
 
-function AlbumCover({ imageUrl }: AlbumCoverProps) {
+function CoverImage({ imageUrl }: AlbumCoverProps) {
     if (!imageUrl)
         return (
             <EmptyCover aria-hidden="true">
@@ -15,10 +15,10 @@ function AlbumCover({ imageUrl }: AlbumCoverProps) {
             </EmptyCover>
         );
 
-    return <TrackCover src={imageUrl} loading="eager" />;
+    return <Image src={imageUrl} loading="eager" />;
 }
 
-const TrackCover = styled("img", {
+const Image = styled("img", {
     height: "40px",
     // todo: why is there a margin here, it shouldn't be here
     marginRight: "$600",
@@ -41,4 +41,4 @@ const MusicNoteIcon = styled(MdOutlineMusicNote, {
     color: "$white",
 });
 
-export default AlbumCover;
+export default CoverImage;
