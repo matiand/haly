@@ -5,7 +5,7 @@ import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import AlbumCover from "./AlbumCover";
 
-export function TrackTitleCell(ctx: CellContext<TrackDto, unknown>) {
+function TrackTitleCell(ctx: CellContext<TrackDto, unknown>) {
     const track = ctx.row.original;
 
     return (
@@ -26,8 +26,6 @@ export function TrackTitleCell(ctx: CellContext<TrackDto, unknown>) {
         </Wrapper>
     );
 }
-
-export const TrackTitleHeader = "title";
 
 const Wrapper = styled("div", {
     alignItems: "center",
@@ -57,3 +55,5 @@ const TrackContents = styled("div", {
         width: "0.6em",
     },
 });
+
+export default TrackTitleCell;

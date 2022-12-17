@@ -1,12 +1,11 @@
 import { CellContext } from "@tanstack/react-table";
-import { HiOutlineClock } from "react-icons/hi2";
 
 import { TrackDto } from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import { styled } from "../common/theme";
 
-export function TrackDurationCell(ctx: CellContext<TrackDto, unknown>) {
+function TrackDurationCell(ctx: CellContext<TrackDto, unknown>) {
     const track = ctx.row.original;
 
     return (
@@ -15,14 +14,6 @@ export function TrackDurationCell(ctx: CellContext<TrackDto, unknown>) {
             <Duration>{track.duration}</Duration>
             <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
         </Wrapper>
-    );
-}
-
-export function TrackDurationHeader() {
-    return (
-        <div aria-label="duration" title="duration">
-            <HiOutlineClock style={{ height: "18px", width: "18px" }} />
-        </div>
     );
 }
 
@@ -45,3 +36,5 @@ const Duration = styled("span", {
     textAlign: "end",
     width: "4.5ch",
 });
+
+export default TrackDurationCell;

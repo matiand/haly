@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
-export function TrackAlbumCell(ctx: CellContext<TrackDto, unknown>) {
+function TrackAlbumCell(ctx: CellContext<TrackDto, unknown>) {
     const track = ctx.row.original;
     return (
         <Wrapper className="truncate">
@@ -25,4 +25,4 @@ const Wrapper = styled("div", {
     },
 });
 
-export const TrackAlbumHeader = "album";
+export default TrackAlbumCell;

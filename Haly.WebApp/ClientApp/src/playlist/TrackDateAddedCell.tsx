@@ -3,11 +3,9 @@ import { differenceInMonths, format, formatDistanceToNowStrict } from "date-fns"
 
 import { TrackDto } from "../../generated/haly";
 
-export function TrackDateAddedCell(ctx: CellContext<TrackDto, unknown>) {
-    return formatAddedAt(ctx.row.original.addedAt);
+function TrackDateAddedCell(ctx: CellContext<TrackDto, unknown>) {
+    return <div>{formatAddedAt(ctx.row.original.addedAt)}</div>;
 }
-
-export const TrackDateAddedHeader = "date added";
 
 function formatAddedAt(addedAtIso: Date) {
     const addedAt = new Date(addedAtIso);
@@ -15,3 +13,5 @@ function formatAddedAt(addedAtIso: Date) {
 
     return diffInMonths > 0 ? format(addedAt, "MMM d, y") : formatDistanceToNowStrict(addedAt, { addSuffix: true });
 }
+
+export default TrackDateAddedCell;

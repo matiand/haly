@@ -4,7 +4,7 @@ import { IoPlay } from "react-icons/all";
 import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
-export function TrackIndexCell(ctx: CellContext<TrackDto, unknown>) {
+function TrackIndexCell(ctx: CellContext<TrackDto, unknown>) {
     const track = ctx.row.original;
     const label = `Play ${track.name}`;
 
@@ -43,4 +43,4 @@ const PlayBtn = styled("button", {
     width: "16px",
 });
 
-export const TrackIndexHeader = "#";
+export default TrackIndexCell;

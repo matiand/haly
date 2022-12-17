@@ -1,27 +1,28 @@
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Header, useReactTable } from "@tanstack/react-table";
 
 import { TrackDto } from "../../generated/haly";
-import { TrackAlbumCell, TrackAlbumHeader } from "./TrackAlbumCell";
-import { TrackDateAddedCell, TrackDateAddedHeader } from "./TrackDateAddedCell";
-import { TrackDurationCell, TrackDurationHeader } from "./TrackDurationCell";
-import { TrackIndexCell, TrackIndexHeader } from "./TrackIndexCell";
-import { TrackTitleCell, TrackTitleHeader } from "./TrackTitleCell";
+import TrackAlbumCell from "./TrackAlbumCell";
+import TrackDateAddedCell from "./TrackDateAddedCell";
+import TrackDurationCell from "./TrackDurationCell";
+import TrackDurationHeader from "./TrackDurationHeader";
+import TrackIndexCell from "./TrackIndexCell";
+import TrackTitleCell from "./TrackTitleCell";
 
 const columns: ColumnDef<TrackDto>[] = [
     {
-        header: TrackIndexHeader,
+        header: "#",
         cell: TrackIndexCell,
     },
     {
-        header: TrackTitleHeader,
+        header: "title",
         cell: TrackTitleCell,
     },
     {
-        header: TrackAlbumHeader,
+        header: "album",
         cell: TrackAlbumCell,
     },
     {
-        header: TrackDateAddedHeader,
+        header: "date added",
         cell: TrackDateAddedCell,
     },
     {

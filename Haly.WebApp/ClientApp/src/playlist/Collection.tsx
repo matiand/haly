@@ -19,12 +19,13 @@ function Collection({ items }: CollectionProps) {
                 <THead className={inView ? "" : "sticky-head"}>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <th key={header.id}>{renderHeaderCell(header)}</th>
+                            {headerGroup.headers.map((cell) => (
+                                <th key={cell.id}>{renderHeaderCell(cell)}</th>
                             ))}
                         </tr>
                     ))}
                 </THead>
+
                 <TBody>
                     {table.getRowModel().rows.map((row) => (
                         <tr key={row.id}>
