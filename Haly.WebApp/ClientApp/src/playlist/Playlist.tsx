@@ -26,8 +26,9 @@ function Playlist() {
         <Main id="playlist-container">
             <PlaylistHeader
                 name={playlist.name}
-                imageUrl={null}
-                owner="junco"
+                imageUrl={playlist.imageUrl}
+                description={playlist.description}
+                owner={playlist.owner.name}
                 songsCount={songsCount}
                 totalDuration="1hr 51min"
             />

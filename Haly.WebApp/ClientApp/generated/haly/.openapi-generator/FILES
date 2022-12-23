@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/JobsApi.ts
 apis/PlayerApi.ts
 apis/PlaylistsApi.ts
@@ -8,6 +9,7 @@ models/AlbumDto.ts
 models/ArtistDto.ts
 models/DeviceDto.ts
 models/GetPlaylistResponse.ts
+models/OwnerDto.ts
 models/Problem.ts
 models/TrackDto.ts
 models/TrackDtoPaginatedList.ts

@@ -4,6 +4,7 @@ export * from './AlbumDto';
 export * from './ArtistDto';
 export * from './DeviceDto';
 export * from './GetPlaylistResponse';
+export * from './OwnerDto';
 export * from './Problem';
 export * from './TrackDto';
 export * from './TrackDtoPaginatedList';

@@ -7,6 +7,8 @@ public class Playlist
     public string Id { get; set; }
     public string Name { get; set; }
     public string SnapshotId { get; set; }
+    public string? Description { get; set; }
+    public string? ImageUrl { get; set; }
     public int Order { get; set; }
 
     public string UserId { get; set; }

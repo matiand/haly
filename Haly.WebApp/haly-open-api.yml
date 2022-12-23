@@ -381,6 +381,7 @@ components:
       required:
         - id
         - name
+        - owner
         - tracks
       type: object
       properties:
@@ -388,11 +389,27 @@ components:
           type: string
         name:
           type: string
+        owner:
+          $ref: '#/components/schemas/OwnerDto'
         imageUrl:
+          type: string
+          nullable: true
+        description:
           type: string
           nullable: true
         tracks:
           $ref: '#/components/schemas/TrackDtoPaginatedList'
+      additionalProperties: false
+    OwnerDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
       additionalProperties: false
     Problem:
       required:

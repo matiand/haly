@@ -3,38 +3,66 @@ import { MdOutlineMusicNote } from "react-icons/all";
 import { AlbumDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
-type AlbumCoverProps = {
+type CoverImageProps = {
+    alt: string;
     imageUrl: AlbumDto["imageUrl"];
+    type: "playlist" | "track";
 };
 
-function CoverImage({ imageUrl }: AlbumCoverProps) {
+function CoverImage({ imageUrl, type }: CoverImageProps) {
     if (!imageUrl)
         return (
-            <EmptyCover aria-hidden="true">
+            <EmptyCover aria-hidden="true" type={type}>
                 <MusicNoteIcon />
             </EmptyCover>
         );
 
-    return <Image src={imageUrl} loading="eager" />;
+    return <Image src={imageUrl} loading="eager" type={type} />;
 }
 
 const Image = styled("img", {
-    height: "40px",
-    // todo: why is there a margin here, it shouldn't be here
-    marginRight: "$600",
-    width: "40px",
+    $$playlistSize: "200px",
+    $$trackSize: "40px",
+
+    variants: {
+        type: {
+            playlist: {
+                height: "$$playlistSize",
+                width: "$$playlistSize",
+            },
+            track: {
+                height: "$$trackSize",
+                width: "$$trackSize",
+            },
+        },
+    },
 });
 
 const EmptyCover = styled("div", {
+    $$playlistSize: "200px",
+    $$trackSize: "40px",
+
     alignItems: "center",
     background: "$black500",
     display: "flex",
-    height: "40px",
     justifyContent: "center",
-    // todo: why is there a margin here, it shouldn't be here
-    marginRight: "$600",
-    minWidth: "40px",
-    width: "40px",
+
+    variants: {
+        type: {
+            playlist: {
+                minHeight: "$$playlistSize",
+                height: "$$playlistSize",
+                minWidth: "$$playlistSize",
+                width: "$$playlistSize",
+            },
+            track: {
+                minHeight: "$$trackSize",
+                height: "$$trackSize",
+                minWidth: "$$trackSize",
+                width: "$$trackSize",
+            },
+        },
+    },
 });
 
 const MusicNoteIcon = styled(MdOutlineMusicNote, {

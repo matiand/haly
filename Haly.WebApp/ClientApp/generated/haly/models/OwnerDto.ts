@@ -13,56 +13,42 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { TrackDto } from './TrackDto';
-import {
-    TrackDtoFromJSON,
-    TrackDtoFromJSONTyped,
-    TrackDtoToJSON,
-} from './TrackDto';
-
 /**
  * 
  * @export
- * @interface PlaylistDto
+ * @interface OwnerDto
  */
-export interface PlaylistDto {
+export interface OwnerDto {
     /**
      * 
      * @type {string}
-     * @memberof PlaylistDto
+     * @memberof OwnerDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof PlaylistDto
+     * @memberof OwnerDto
      */
     name: string;
-    /**
-     * 
-     * @type {Array<TrackDto>}
-     * @memberof PlaylistDto
-     */
-    tracks: Array<TrackDto>;
 }
 
 /**
- * Check if a given object implements the PlaylistDto interface.
+ * Check if a given object implements the OwnerDto interface.
  */
-export function instanceOfPlaylistDto(value: object): boolean {
+export function instanceOfOwnerDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "tracks" in value;
 
     return isInstance;
 }
 
-export function PlaylistDtoFromJSON(json: any): PlaylistDto {
-    return PlaylistDtoFromJSONTyped(json, false);
+export function OwnerDtoFromJSON(json: any): OwnerDto {
+    return OwnerDtoFromJSONTyped(json, false);
 }
 
-export function PlaylistDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistDto {
+export function OwnerDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): OwnerDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,11 +56,10 @@ export function PlaylistDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'id': json['id'],
         'name': json['name'],
-        'tracks': ((json['tracks'] as Array<any>).map(TrackDtoFromJSON)),
     };
 }
 
-export function PlaylistDtoToJSON(value?: PlaylistDto | null): any {
+export function OwnerDtoToJSON(value?: OwnerDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -85,7 +70,6 @@ export function PlaylistDtoToJSON(value?: PlaylistDto | null): any {
         
         'id': value.id,
         'name': value.name,
-        'tracks': ((value.tracks as Array<any>).map(TrackDtoToJSON)),
     };
 }
 
