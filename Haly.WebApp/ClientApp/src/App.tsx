@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 
 import useAccessToken from "./auth/useAccessToken";
 import Loading from "./common/Loading";
+import NotFound from "./common/NotFound";
 import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
 import { usePlaylistHub } from "./common/useHub";
@@ -64,6 +65,7 @@ function App() {
 }
 
 export const Layout = styled("div", {
+    background: "$black800",
     position: "relative",
     display: "grid",
     gridTemplateAreas: `"sidebar topbar"
@@ -78,7 +80,7 @@ export const Layout = styled("div", {
     },
     "& > main": {
         // TODO: clean this up
-        background: "$black600",
+        background: "$black800",
         color: "$white",
         gridArea: "main",
         padding: "0 $800",
