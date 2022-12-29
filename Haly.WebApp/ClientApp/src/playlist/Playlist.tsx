@@ -30,7 +30,7 @@ function Playlist() {
                 description={playlist.description}
                 owner={playlist.owner.name}
                 songsCount={songsCount}
-                totalDuration="1hr 51min"
+                totalDuration="N/A"
             />
             <PlaylistControls name={playlist.name} />
             <PlaylistTracks initialTracks={playlist.tracks} />
