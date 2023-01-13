@@ -1,8 +1,7 @@
 .openapi-generator-ignore
-apis/JobsApi.ts
+apis/MeApi.ts
 apis/PlayerApi.ts
 apis/PlaylistsApi.ts
-apis/UsersApi.ts
 apis/index.ts
 index.ts
 models/AlbumDto.ts

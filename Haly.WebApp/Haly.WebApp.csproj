@@ -55,7 +55,7 @@
         </PropertyGroup>
 
         <Exec Command="dotnet build" StandardOutputImportance="low" />
-        <Message Text="Build api project" Importance="high" />
+        <Message Text="Built Haly's API project" Importance="high" />
         <Exec Command="$(Envs) dotnet swagger tofile --yaml --output $(SchemaOutput) $(Assembly) $(SchemaName)" StandardOutputImportance="low" />
         <Message Text="Generated Haly's OpenAPI schema" Importance="high" />
     </Target>

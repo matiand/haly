@@ -1,9 +1,10 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
 using Haly.WebApp.Data;
+using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.Validation;
-using Haly.WebApp.Features.XSpotifyToken;
+using Haly.WebApp.HostedServices;
 using Haly.WebApp.Hubs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
@@ -19,9 +20,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
 builder.Services.AddMediatR(typeof(Program));
-builder.Services.AddSingleton<SpotifyAccessToken>();
+
+builder.Services.AddSingleton<CurrentUserStore>();
+builder.Services.AddSingleton<ValidateCurrentUserStoreFilterService>();
+builder.Services.AddSingleton<UpdateCurrentUserStoreFilterService>();
+
 builder.Services.AddTransient<ISpotifyService, SpotifyService>();
 builder.Services.AddSignalR();
+builder.Services.AddHostedService<RefetchPlaylistTracksService>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -40,10 +46,12 @@ builder.Services.AddSwaggerGen(options =>
             "An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration",
     });
     options.CustomOperationIds(description => description.ActionDescriptor.RouteValues["action"]);
-    options.OperationFilter<XSpotifyTokenHeaderFilter>();
     options.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
     options.EnableAnnotations();
     options.SupportNonNullableReferenceTypes();
+
+    options.DocumentFilter<TagOrderFilter>();
+    options.OperationFilter<CallsSpotifyApiFilter>();
 });
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
@@ -66,7 +74,6 @@ builder.Services.AddDbContext<LibraryContext>(opts =>
 // Configure App
 var app = builder.Build();
 app.UseCors();
-app.UseRetrieveSpotifyAccessToken();
 
 app.MapControllers();
 app.MapHub<PlaylistHub>("/hubs/playlist");

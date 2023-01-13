@@ -25,38 +25,22 @@ import {
     ProblemToJSON,
 } from '../models';
 
-export interface GetAvailableDevicesRequest {
-    userId: string;
-    xSpotifyToken: string;
-}
-
 /**
  * 
  */
 export class PlayerApi extends runtime.BaseAPI {
 
     /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>
      * Get available devices that current user can connect to
      */
-    async getAvailableDevicesRaw(requestParameters: GetAvailableDevicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeviceDto>>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getAvailableDevices.');
-        }
-
-        if (requestParameters.xSpotifyToken === null || requestParameters.xSpotifyToken === undefined) {
-            throw new runtime.RequiredError('xSpotifyToken','Required parameter requestParameters.xSpotifyToken was null or undefined when calling getAvailableDevices.');
-        }
-
+    async getAvailableDevicesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeviceDto>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (requestParameters.xSpotifyToken !== undefined && requestParameters.xSpotifyToken !== null) {
-            headerParameters['X-Spotify-Token'] = String(requestParameters.xSpotifyToken);
-        }
-
         const response = await this.request({
-            path: `/Users/{userId}/Player/devices`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/Me/Player/devices`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -66,10 +50,11 @@ export class PlayerApi extends runtime.BaseAPI {
     }
 
     /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>
      * Get available devices that current user can connect to
      */
-    async getAvailableDevices(requestParameters: GetAvailableDevicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DeviceDto>> {
-        const response = await this.getAvailableDevicesRaw(requestParameters, initOverrides);
+    async getAvailableDevices(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DeviceDto>> {
+        const response = await this.getAvailableDevicesRaw(initOverrides);
         return await response.value();
     }
 

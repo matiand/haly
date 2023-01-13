@@ -1,6 +1,6 @@
 import { useAuth } from "react-oidc-context";
 
-const useAccessToken = () => {
+const useSpotifyToken = () => {
     const auth = useAuth();
 
     const accessToken = auth.user?.access_token;
@@ -9,4 +9,4 @@ const useAccessToken = () => {
     return accessToken;
 };
 
-export default useAccessToken;
+export default useSpotifyToken;

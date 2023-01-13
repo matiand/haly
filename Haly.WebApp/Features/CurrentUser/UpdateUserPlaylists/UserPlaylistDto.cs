@@ -1,4 +1,4 @@
-namespace Haly.WebApp.Features.User.UpdateUserPlaylists;
+namespace Haly.WebApp.Features.CurrentUser.UpdateUserPlaylists;
 
 public record UserPlaylistDto
 {

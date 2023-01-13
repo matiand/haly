@@ -2,13 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 
-import useAccessToken from "../auth/useAccessToken";
+import useSpotifyToken from "../auth/useSpotifyToken";
 import useInterval from "../common/useInterval";
 import PlaybackState = Spotify.PlaybackState;
 import ConnectMenu from "../player/ConnectMenu";
 
 function SimplePlayer() {
-    const accessToken = useAccessToken();
+    const accessToken = useSpotifyToken();
     const [currentTrack, setCurrentTrack] = useState<Spotify.Track>();
     const [isPaused, setIsPaused] = useState(true);
     const [positionInMs, setPositionInMs] = useState(0);

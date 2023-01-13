@@ -1,8 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { WebStorageStateStore } from "oidc-client-ts";
 import React, { useEffect, useRef } from "react";
 import { AuthProviderProps, useAuth } from "react-oidc-context";
 
 import Loading from "../common/Loading";
+import halyClient from "../halyClient";
 import AuthenticationError from "./AuthenticationError";
 import { Login, SilentLogin } from "./Login";
 
@@ -14,13 +16,17 @@ function Authentication(props: AuthenticationProps) {
     const auth = useAuth();
     const needsToHandleTokenExpirations = useRef(true);
 
+    console.log(auth.user);
+
     // Normally automatic token renewals in 'auth' are enabled
-    // We had to turn them off, cause our app would crash from React's StrictMode rerenders
+    // I had to turn them off, cause the app would crash from React's StrictMode rerenders
     // This effect makes sure that when a token is expiring, its renewal is attempted only once
     useEffect(() => {
         if (needsToHandleTokenExpirations.current) {
             auth.events.addAccessTokenExpiring(() => {
-                auth.signinSilent().then(() => console.log("Token refreshed"));
+                auth.signinSilent()
+                    .then(() => halyClient.me.putCurrentUser({ spotifyToken: auth.user!.access_token! }))
+                    .then(() => console.log("Token refreshed"));
             });
             console.log("Am I the only one?");
 

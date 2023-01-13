@@ -6,24 +6,24 @@ using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Haly.WebApp.Features.User.UpdateUserPlaylists;
+namespace Haly.WebApp.Features.CurrentUser.UpdateUserPlaylists;
 
-public record UpdateUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<UserPlaylistDto>?>;
+public record UpdateCurrentUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<UserPlaylistDto>?>;
 
-public class UpdateUserPlaylistsHandler : IRequestHandler<UpdateUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
+public class UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
     private readonly List<Playlist> _playlistsWithStaleTracks = new();
     private readonly List<Playlist> _playlistsWithStalePhoto = new();
 
-    public UpdateUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
+    public UpdateCurrentUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
     {
         _db = db;
         _spotify = spotify;
     }
 
-    public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateUserPlaylistsCommand request,
+    public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
         CancellationToken cancellationToken)
     {
         var user = await _db.Users.Where(u => u.Id == request.UserId)
@@ -36,7 +36,7 @@ public class UpdateUserPlaylistsHandler : IRequestHandler<UpdateUserPlaylistsCom
         UpdateLinkedPlaylists(user, freshPlaylists);
         DeleteOldLinkedPlaylists(user, freshPlaylists);
 
-        ScheduleBackgroundJobs(user, cancellationToken);
+        ScheduleBackgroundJobs(user);
 
         await _db.SaveChangesAsync(cancellationToken);
 
@@ -71,14 +71,14 @@ public class UpdateUserPlaylistsHandler : IRequestHandler<UpdateUserPlaylistsCom
     }
 
     // Delete playlists that the user is no longer linked to
-    private void DeleteOldLinkedPlaylists(Models.User user, List<Playlist> freshPlaylists)
+    private static void DeleteOldLinkedPlaylists(Models.User user, List<Playlist> freshPlaylists)
     {
         var freshPlaylistIds = freshPlaylists.Select(fp => fp.Id).ToList();
 
         user.LinkedPlaylists.RemoveAll(cp => !freshPlaylistIds.Contains(cp.Id));
     }
 
-    private void ScheduleBackgroundJobs(Models.User user, CancellationToken cancellationToken)
+    private void ScheduleBackgroundJobs(Models.User user)
     {
         var refetchTracksJobs = _playlistsWithStaleTracks.Select(p => new RefetchPlaylistTracksJob(user, p));
         _db.RefetchPlaylistTracksJobs.AddRange(refetchTracksJobs);

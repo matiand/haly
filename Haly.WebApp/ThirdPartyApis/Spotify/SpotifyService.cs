@@ -1,8 +1,8 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Features.Player;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
-using Haly.WebApp.Features.XSpotifyToken;
 using Haly.WebApp.Models;
 using Mapster;
 using Newtonsoft.Json;
@@ -20,12 +20,11 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
     private const int PlaylistTracksLimit = 100;
     private const int LikedSongsLimit = 50;
 
-    public SpotifyService(IHttpClientFactory httpClientFactory, SpotifyAccessToken accessToken)
+    public SpotifyService(IHttpClientFactory httpClientFactory, CurrentUserStore currentUserStore)
     {
         _innerHttpClient = httpClientFactory.CreateClient();
         _innerHttpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", accessToken.Value);
-        Console.WriteLine($"Calling Spotify API with {_innerHttpClient.DefaultRequestHeaders.Authorization}");
+            new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
 
         _spotifyClient = new GeneratedSpotifyClient(_innerHttpClient, throwDeserializationErrors: false);
     }
@@ -61,6 +60,10 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
         return mappedPlaylists;
     }
 
+    // Spotify documentation states that when you omit 'userMarket', the market
+    // associated with user account that requests data will be used (based on
+    // access token). From testing this seems not true, so when you need data
+    // for your market, set 'userMarket' explicitly.
     public async Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket)
     {
         var spotifyTracks = new List<PlaylistTrackObject>();

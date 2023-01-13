@@ -4,11 +4,11 @@ using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Haly.WebApp.Features.User.UpdateCurrentUser;
+namespace Haly.WebApp.Features.CurrentUser.UpdateCurrentUser;
 
 public record UpdateCurrentUserResponse(bool Created, UserDto User);
 
-public record UpdateCurrentUserCommand : IRequest<UpdateCurrentUserResponse>;
+public record UpdateCurrentUserCommand(string SpotifyToken) : IRequest<UpdateCurrentUserResponse>;
 
 public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserResponse>
 {

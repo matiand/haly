@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import useAccessToken from "./auth/useAccessToken";
+import useSpotifyToken from "./auth/useSpotifyToken";
 import Loading from "./common/Loading";
 import NotFound from "./common/NotFound";
 import { styled } from "./common/theme";
@@ -19,10 +19,11 @@ import PlayingBar from "./playlingbar/PlayingBar";
 import LikedSongs from "./playlist/LikedSongs";
 import Playlist from "./playlist/Playlist";
 import Sidebar from "./sidebar/Sidebar";
+import StatusBar from "./statusbar/StatusBar";
 import TopBar from "./topbar/TopBar";
 
 function App() {
-    const accessToken = useAccessToken();
+    const spotifyToken = useSpotifyToken();
 
     const { isConnected } = usePlaylistHub({
         onPlaylistTracksRefetchStarted: (data) => console.log("PlaylistTracksRefetchStarted:", data),
@@ -33,7 +34,7 @@ function App() {
         isLoading,
         data: user,
         error,
-    } = useQuery(["users", "me"], () => halyClient.users.putCurrentUser({ xSpotifyToken: accessToken }), {
+    } = useQuery(["me"], () => halyClient.me.putCurrentUser({ spotifyToken }), {
         enabled: isConnected,
     });
 
@@ -43,7 +44,6 @@ function App() {
     return (
         <UserContext.Provider value={user}>
             <Layout>
-                <TopBar />
                 <Sidebar />
                 <React.Suspense fallback={<Loading />}>
                     <Routes>
@@ -58,6 +58,7 @@ function App() {
                     </Routes>
                 </React.Suspense>
                 <PlayingBar />
+                <StatusBar />
                 <Toaster />
             </Layout>
         </UserContext.Provider>
@@ -68,11 +69,12 @@ export const Layout = styled("div", {
     background: "$black800",
     position: "relative",
     display: "grid",
-    gridTemplateAreas: `"sidebar topbar"
+    gridTemplateAreas: `"sidebar main"
                         "sidebar main"
-                        "playingbar playingbar"`,
+                        "playingbar playingbar"
+                        "statusbar statusbar"`,
     gridTemplateColumns: "auto 1fr",
-    gridTemplateRows: "auto 1fr auto",
+    gridTemplateRows: "auto 1fr auto auto",
     height: "100%",
 
     "& > #topbar": {

@@ -1,13 +1,14 @@
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.ThirdPartyApis.Spotify;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Haly.WebApp.Features.XSpotifyToken;
+namespace Haly.WebApp.Features.Swagger;
 
-// Description of endpoints that need X-Spotify-Token header for Swagger UI
-public class XSpotifyTokenHeaderFilter : IOperationFilter
+// Operation filter that adds documentation to endpoints that call Spotify API
+// When using it in conjunction with SwaggerResponse, avoid using the Description field
+// or this description will be overwritten
+public class CallsSpotifyApiFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
@@ -16,21 +17,27 @@ public class XSpotifyTokenHeaderFilter : IOperationFilter
 
         if (callsSpotifyApiAttr is not null)
         {
-            operation.Parameters ??= new List<OpenApiParameter>();
-            operation.Parameters.Add(new OpenApiParameter
-            {
-                Name = "X-Spotify-Token",
-                In = ParameterLocation.Header,
-                Required = true,
-                Description = $@"Access token to Spotify Web API.
-                            Visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.<br/>
-                            Scopes needed: <b> {callsSpotifyApiAttr.Scopes} </b>",
-                Schema = new OpenApiSchema { Type = "string" },
-            });
+            UpdateDescription(operation, callsSpotifyApiAttr);
 
             operation.Responses.Add("400", ProblemResponse(context, "Bad request"));
             operation.Responses.Add("401", ProblemResponse(context, "Unauthorized"));
             operation.Responses.Add("429", ProblemResponse(context, "Too many requests"));
+        }
+    }
+
+    private static void UpdateDescription(OpenApiOperation operation, CallsSpotifyApiAttribute callsSpotifyApiAttr)
+    {
+        if (string.IsNullOrEmpty(operation.Description))
+        {
+            operation.Description = string.Join("<br/>", "This endpoint calls Spotify API.",
+                $@"Scopes needed: <b> {callsSpotifyApiAttr.Scopes} </b>");
+        }
+        else
+        {
+            operation.Description =
+                string.Join("<br/>", operation.Description,
+                    "This endpoint calls Spotify API.",
+                    $@"Scopes needed: <b> {callsSpotifyApiAttr.Scopes} </b>");
         }
     }
 

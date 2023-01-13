@@ -1,4 +1,4 @@
-namespace Haly.WebApp.Features.User;
+namespace Haly.WebApp.Features.CurrentUser;
 
 public record UserDto
 {

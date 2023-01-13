@@ -3,7 +3,7 @@ using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
 
-namespace Haly.WebApp.Features.User.GetLikedSongs;
+namespace Haly.WebApp.Features.CurrentUser.GetLikedSongs;
 
 public record GetLikedSongsQuery(string UserMarket) : IRequest<IEnumerable<TrackDto>>;
 
