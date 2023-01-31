@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { WebStorageStateStore } from "oidc-client-ts";
 import React, { useEffect, useRef } from "react";
 import { AuthProviderProps, useAuth } from "react-oidc-context";
@@ -15,8 +14,6 @@ type AuthenticationProps = {
 function Authentication(props: AuthenticationProps) {
     const auth = useAuth();
     const needsToHandleTokenExpirations = useRef(true);
-
-    console.log(auth.user);
 
     // Normally automatic token renewals in 'auth' are enabled
     // I had to turn them off, cause the app would crash from React's StrictMode rerenders

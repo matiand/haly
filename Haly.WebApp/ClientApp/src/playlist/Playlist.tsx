@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useRef } from "react";
+import { useAtom } from "jotai";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
+import { playlistHasOldTracksAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistControls from "./PlaylistControls";
@@ -10,6 +12,7 @@ import PlaylistTracks from "./PlaylistTracks";
 
 function Playlist() {
     const { id } = useParams();
+    const [hasOldTracks] = useAtom(useMemo(() => playlistHasOldTracksAtom(id!), [id]));
 
     const playlistQuery = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id: id! }), {
         suspense: true,
@@ -18,6 +21,7 @@ function Playlist() {
         return null;
     }
 
+    if (hasOldTracks) console.log(id, " has old tracks");
     const playlist = playlistQuery.data;
     const songsCount = playlist.tracks.total;
 

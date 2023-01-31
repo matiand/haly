@@ -4,8 +4,7 @@ namespace Haly.WebApp.Hubs;
 
 public interface IPlaylistHubClient
 {
-    public Task PlaylistTracksRefetchStarted(string playlistId);
-    public Task PlaylistTracksRefetchCompleted(string playlistId);
+    public Task PlaylistsWithOldTracks(IEnumerable<string> playlistIds);
 }
 
 public class PlaylistHub : Hub<IPlaylistHubClient>
