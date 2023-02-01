@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import useSpotifyToken from "./auth/useSpotifyToken";
-import { playlistIdsWithOldTracksAtom } from "./common/atoms";
 import Loading from "./common/Loading";
 import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
-import { usePlaylistHub } from "./common/useHub";
+import { useMessageHub } from "./common/useMessageHub";
 import halyClient from "./halyClient";
 import Home from "./home/Home";
 import SimplePlayer from "./home/SimplePlayer";
@@ -24,14 +22,7 @@ import StatusBar from "./statusbar/StatusBar";
 
 function App() {
     const spotifyToken = useSpotifyToken();
-    const [_, setPlaylistIdsWithOldTracks] = useAtom(playlistIdsWithOldTracksAtom);
-    console.log(_, "playlist (but from app)");
-
-    const { isConnected } = usePlaylistHub({
-        onPlaylistsWithOldTracks: (playlistIds) => {
-            setPlaylistIdsWithOldTracks(playlistIds);
-        },
-    });
+    const { isConnected } = useMessageHub();
 
     const {
         isLoading,

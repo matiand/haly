@@ -12,10 +12,10 @@ public class RefetchPlaylistTracksService : BackgroundService
     private static readonly TimeSpan PollingRate = TimeSpan.FromSeconds(value: 15);
     private readonly CurrentUserStore _currentUserStore;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly IHubContext<PlaylistHub, IPlaylistHubClient> _playlistHub;
+    private readonly IHubContext<MessageHub, IMessageHubClient> _playlistHub;
 
     public RefetchPlaylistTracksService(CurrentUserStore currentUserStore, IServiceScopeFactory serviceScopeFactory,
-        IHubContext<PlaylistHub, IPlaylistHubClient> playlistHub)
+        IHubContext<MessageHub, IMessageHubClient> playlistHub)
     {
         _currentUserStore = currentUserStore;
         _serviceScopeFactory = serviceScopeFactory;
