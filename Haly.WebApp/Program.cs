@@ -27,7 +27,11 @@ builder.Services.AddSingleton<UpdateCurrentUserStoreFilterService>();
 
 builder.Services.AddTransient<ISpotifyService, SpotifyService>();
 builder.Services.AddSignalR();
+
+// Don't crash on failure inside background services
 builder.Services.AddHostedService<RefetchPlaylistTracksService>();
+builder.Services.Configure<HostOptions>(options =>
+    options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
