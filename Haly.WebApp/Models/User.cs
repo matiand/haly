@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Haly.WebApp.Models.Jobs;
 
 namespace Haly.WebApp.Models;
@@ -10,6 +11,7 @@ public class User
     public Plan Plan { get; set; }
 
     public List<Playlist> LinkedPlaylists { get; set; }
+
     public List<RefetchPlaylistTracksJob> RefetchPlaylistTracksJobs { get; set; }
     public List<FindPlaylistMainColorJob> FindPlaylistMainColorJobs { get; set; }
 

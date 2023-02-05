@@ -1,28 +1,37 @@
+using System.Diagnostics.CodeAnalysis;
 using Haly.WebApp.Data;
+using Haly.WebApp.Hubs;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Jobs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.UpdateUserPlaylists;
 
 public record UpdateCurrentUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<UserPlaylistDto>?>;
 
-public class UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
+public class
+    UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<UserPlaylistDto>
+        ?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
-    private readonly List<Playlist> _playlistsWithStaleTracks = new();
-    private readonly List<Playlist> _playlistsWithStalePhoto = new();
+    private readonly IHubContext<MessageHub, IMessageHubClient> _messageHub;
+    private readonly List<Playlist> _playlistsWithOldTracks = new();
+    private readonly List<Playlist> _playlistsWithOldPhoto = new();
 
-    public UpdateCurrentUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
+    public UpdateCurrentUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify,
+        IHubContext<MessageHub, IMessageHubClient> messageHub)
     {
         _db = db;
         _spotify = spotify;
+        _messageHub = messageHub;
     }
 
+    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 5")]
     public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
         CancellationToken cancellationToken)
     {
@@ -32,18 +41,17 @@ public class UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUs
 
         if (user is null) return null;
 
-        var freshPlaylists = await _spotify.GetCurrentUserPlaylists();
-        UpdateLinkedPlaylists(user, freshPlaylists);
-        DeleteOldLinkedPlaylists(user, freshPlaylists);
+        var response = await _spotify.GetCurrentUserPlaylists();
 
+        UpdateLinkedPlaylists(user, response.Playlists);
+        DeleteOldLinkedPlaylists(user, response.Playlists);
         ScheduleBackgroundJobs(user);
 
         await _db.SaveChangesAsync(cancellationToken);
+        await _messageHub.Clients.All.PlaylistsWithOldTracks(_playlistsWithOldTracks.Select(p => p.Id));
 
-        // todo: make this whole thing one transaction
-
-        return user.LinkedPlaylists
-            .OrderBy(playlist => playlist.Order)
+        return response.PlaylistsOrder
+            .Select(playlistId => user.LinkedPlaylists.First(item => item.Id == playlistId))
             .Adapt<IEnumerable<UserPlaylistDto>>();
     }
 
@@ -54,8 +62,7 @@ public class UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUs
             var cachedPlaylist = user.LinkedPlaylists.FirstOrDefault(cp => cp.Id == freshPlaylist.Id);
             if (cachedPlaylist is not null)
             {
-                if (cachedPlaylist.SnapshotId == freshPlaylist.SnapshotId &&
-                    cachedPlaylist.Order == freshPlaylist.Order) continue;
+                if (cachedPlaylist.SnapshotId == freshPlaylist.SnapshotId) continue;
 
                 freshPlaylist.Tracks = cachedPlaylist.Tracks;
 
@@ -66,7 +73,7 @@ public class UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUs
             }
 
             user.LinkedPlaylists.Add(freshPlaylist);
-            _playlistsWithStaleTracks.Add(freshPlaylist);
+            _playlistsWithOldTracks.Add(freshPlaylist);
         }
     }
 
@@ -80,7 +87,7 @@ public class UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUs
 
     private void ScheduleBackgroundJobs(Models.User user)
     {
-        var refetchTracksJobs = _playlistsWithStaleTracks.Select(p => new RefetchPlaylistTracksJob(user, p));
+        var refetchTracksJobs = _playlistsWithOldTracks.Select(p => new RefetchPlaylistTracksJob(user, p));
         _db.RefetchPlaylistTracksJobs.AddRange(refetchTracksJobs);
     }
 }

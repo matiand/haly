@@ -12,21 +12,21 @@ public class RefetchPlaylistTracksService : BackgroundService
     private static readonly TimeSpan PollingRate = TimeSpan.FromSeconds(value: 15);
     private readonly CurrentUserStore _currentUserStore;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly IHubContext<MessageHub, IMessageHubClient> _playlistHub;
+    private readonly IHubContext<MessageHub, IMessageHubClient> _messageHub;
 
     public RefetchPlaylistTracksService(CurrentUserStore currentUserStore, IServiceScopeFactory serviceScopeFactory,
-        IHubContext<MessageHub, IMessageHubClient> playlistHub)
+        IHubContext<MessageHub, IMessageHubClient> messageHub)
     {
         _currentUserStore = currentUserStore;
         _serviceScopeFactory = serviceScopeFactory;
-        _playlistHub = playlistHub;
+        _messageHub = messageHub;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (!_currentUserStore.IsEmpty)
+            if (!_currentUserStore.IsEmpty || false)
             {
                 using var scope = _serviceScopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<LibraryContext>();
@@ -53,7 +53,7 @@ public class RefetchPlaylistTracksService : BackgroundService
         for (var i = 0; i < jobs.Count; i++)
         {
             var job = jobs[i];
-            await _playlistHub.Clients.All.PlaylistsWithOldTracks(jobs.Skip(i).Select(j => j.PlaylistId));
+            await _messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Skip(i).Select(j => j.PlaylistId));
 
             var playlist = await db.Playlists
                 .Include(p => p.Tracks)
@@ -70,6 +70,6 @@ public class RefetchPlaylistTracksService : BackgroundService
             await db.SaveChangesAsync(stoppingToken);
         }
 
-        await _playlistHub.Clients.All.PlaylistsWithOldTracks(Array.Empty<string>());
+        await _messageHub.Clients.All.PlaylistsWithOldTracks(Array.Empty<string>());
     }
 }

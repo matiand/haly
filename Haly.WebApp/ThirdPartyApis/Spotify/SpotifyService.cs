@@ -35,7 +35,7 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
         return spotifyUser.Adapt<User>();
     }
 
-    public async Task<List<Playlist>> GetCurrentUserPlaylists()
+    public async Task<CurrentUserPlaylistsDto> GetCurrentUserPlaylists()
     {
         var userPlaylists = new List<SimplifiedPlaylistObject>();
         var offset = 0;
@@ -48,16 +48,10 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
             offset = response.Next is not null ? response.Offset + response.Limit : -1;
         } while (offset != -1);
 
-        // We have to add order data to each playlist manually
-        var mappedPlaylists = new List<Playlist>();
-        for (var i = 0; i < userPlaylists.Count; i++)
-        {
-            var dto = userPlaylists[i].Adapt<Playlist>();
-            dto.Order = i;
-            mappedPlaylists.Add(dto);
-        }
+        var playlistsDto = userPlaylists.Adapt<List<Playlist>>();
+        var orderDto = userPlaylists.Select(p => p.Id).ToList();
 
-        return mappedPlaylists;
+        return new CurrentUserPlaylistsDto(playlistsDto, orderDto);
     }
 
     // Spotify documentation states that when you omit 'userMarket', the market
