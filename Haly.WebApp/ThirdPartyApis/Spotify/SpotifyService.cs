@@ -1,11 +1,9 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.CurrentUser;
-using Haly.WebApp.Features.Player;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
-using Newtonsoft.Json;
 using Track = Haly.WebApp.Models.Track;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;

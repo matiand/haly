@@ -18,6 +18,7 @@ export const theme = {
         primary400: "#7b2cbf",
         primary500: "#7128b2",
         danger: "#e91429",
+        defaultDominantColor: "#535353",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',

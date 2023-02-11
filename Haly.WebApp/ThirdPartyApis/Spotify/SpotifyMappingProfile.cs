@@ -1,6 +1,5 @@
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
-using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Models;
 using Mapster;
 using Track = Haly.WebApp.Models.Track;

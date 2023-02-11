@@ -1,4 +1,3 @@
-using Haly.WebApp.Features.Player;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 

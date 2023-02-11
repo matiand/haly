@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using Haly.WebApp.Models.Jobs;
 
 namespace Haly.WebApp.Models;

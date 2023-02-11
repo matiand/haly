@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="ColorThief.ImageSharp" Version="1.0.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.3.0" />
         <PackageReference Include="Mapster" Version="7.3.0" />
         <PackageReference Include="MediatR" Version="10.0.1" />

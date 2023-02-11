@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import CoverImage from "./CoverImage";
+import TrackCoverImage from "../common/TrackCoverImage";
 
 function TrackTitleCell(ctx: CellContext<TrackDto, unknown>) {
     const track = ctx.row.original;
 
     return (
         <Wrapper>
-            <CoverImage imageUrl={track.album.imageUrl} type="track" alt="Track cover image" />
+            <TrackCoverImage imageUrl={track.album.imageUrl} alt="Track cover image" />
             <TrackContents>
                 <div className="truncate">{track.name}</div>
                 {track.type === "Song" && (
@@ -31,7 +31,7 @@ const Wrapper = styled("div", {
     alignItems: "center",
     display: "flex",
 
-    "& > img": {
+    "& > *:first-child": {
         marginRight: "$600",
     },
 });

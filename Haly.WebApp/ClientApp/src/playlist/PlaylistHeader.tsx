@@ -1,6 +1,10 @@
+import { useAtom } from "jotai";
+import { useEffect } from "react";
+
 import { GetPlaylistResponse } from "../../generated/haly";
-import { styled } from "../common/theme";
-import CoverImage from "./CoverImage";
+import { collectionDominantColorAtom } from "../common/atoms";
+import { styled, theme } from "../common/theme";
+import CollectionCoverImage from "./CollectionCoverImage";
 
 type PlaylistHeaderProps = {
     name: string;
@@ -12,9 +16,21 @@ type PlaylistHeaderProps = {
 };
 
 function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
+    const [dominantColor, setDominantColor] = useAtom(collectionDominantColorAtom);
+    console.log("Playlist dominant color", dominantColor);
+
+    // todo: do I need this
+    useEffect(() => {
+        if (!imageUrl) {
+            setDominantColor(theme.colors.defaultDominantColor);
+        } else {
+            setDominantColor(null);
+        }
+    }, [imageUrl, setDominantColor]);
+
     return (
         <Wrapper>
-            <CoverImage imageUrl={imageUrl} type="playlist" alt={`${name} cover image`} />
+            {imageUrl && <CollectionCoverImage imageUrl={imageUrl} alt={`${name} playlist image`} />}
             <PlaylistInfo>
                 <Subtitle>Playlist</Subtitle>
                 <Title>{name}</Title>
@@ -26,9 +42,21 @@ function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalD
                     </CollectionInfo>
                 </Details>
             </PlaylistInfo>
+
+            {dominantColor && <Gradient css={{ $$dominantColor: dominantColor }} />}
         </Wrapper>
     );
 }
+
+const Gradient = styled("div", {
+    width: "400px",
+    height: "400px",
+    zIndex: 1,
+
+    "&&": {
+        background: "linear-gradient(to bottom, $$dominantColor, $black600 500px)",
+    },
+});
 
 const Wrapper = styled("div", {
     alignItems: "flex-end",

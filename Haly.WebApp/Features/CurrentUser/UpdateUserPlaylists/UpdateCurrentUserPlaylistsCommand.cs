@@ -55,7 +55,7 @@ public class
             .Adapt<IEnumerable<UserPlaylistDto>>();
     }
 
-    private void UpdateLinkedPlaylists(Models.User user, List<Playlist> freshPlaylists)
+    private void UpdateLinkedPlaylists(User user, List<Playlist> freshPlaylists)
     {
         foreach (var freshPlaylist in freshPlaylists)
         {
@@ -78,14 +78,14 @@ public class
     }
 
     // Delete playlists that the user is no longer linked to
-    private static void DeleteOldLinkedPlaylists(Models.User user, List<Playlist> freshPlaylists)
+    private static void DeleteOldLinkedPlaylists(User user, List<Playlist> freshPlaylists)
     {
         var freshPlaylistIds = freshPlaylists.Select(fp => fp.Id).ToList();
 
         user.LinkedPlaylists.RemoveAll(cp => !freshPlaylistIds.Contains(cp.Id));
     }
 
-    private void ScheduleBackgroundJobs(Models.User user)
+    private void ScheduleBackgroundJobs(User user)
     {
         var refetchTracksJobs = _playlistsWithOldTracks.Select(p => new RefetchPlaylistTracksJob(user, p));
         _db.RefetchPlaylistTracksJobs.AddRange(refetchTracksJobs);

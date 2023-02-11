@@ -11,7 +11,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 
-[Route("[controller]")]
 public class MeController : ApiControllerBase
 {
     [HttpPut("")]

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
-import { useMemo } from "react";
+import { useAtom, useSetAtom } from "jotai";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { playlistHasOldTracksAtom } from "../common/atoms";
+import { collectionDominantColorAtom, playlistHasOldTracksAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistControls from "./PlaylistControls";
@@ -17,6 +17,7 @@ function Playlist() {
     const playlistQuery = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id: id! }), {
         suspense: true,
     });
+
     if (!playlistQuery.data) {
         return null;
     }
@@ -44,9 +45,7 @@ function Playlist() {
 
 const Main = styled("main", {
     position: "relative",
-    "&&": {
-        background: "linear-gradient(to bottom, #535353, $black600 500px)",
-    },
+    zIndex: 1,
 });
 
 export default Playlist;
