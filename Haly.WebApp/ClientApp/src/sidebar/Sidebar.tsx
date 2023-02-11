@@ -1,4 +1,3 @@
-import { Waveform } from "@uiball/loaders";
 import React from "react";
 import { HiHeart, HiOutlineFire, HiPlus } from "react-icons/hi2";
 import { MdOutlineLibraryMusic } from "react-icons/md";
@@ -35,11 +34,9 @@ function Sidebar() {
 
             <HorizontalBreak />
 
-            <React.Suspense fallback={<Waveform />}>
-                <UserPlaylistsSection>
-                    <UserPlaylists />
-                </UserPlaylistsSection>
-            </React.Suspense>
+            <UserPlaylistsSection>
+                <UserPlaylists />
+            </UserPlaylistsSection>
             <Resizer />
         </Nav>
     );

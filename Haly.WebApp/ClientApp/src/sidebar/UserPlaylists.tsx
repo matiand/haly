@@ -4,9 +4,7 @@ import halyApi from "../halyClient";
 import NavigationItem from "./NavigationItem";
 
 function UserPlaylists() {
-    const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists(), {
-        suspense: true,
-    });
+    const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
 
     if (!query.data) {
         return null;

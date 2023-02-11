@@ -21,7 +21,6 @@ public class
     private readonly ISpotifyService _spotify;
     private readonly IHubContext<MessageHub, IMessageHubClient> _messageHub;
     private readonly List<Playlist> _playlistsWithOldTracks = new();
-    private readonly List<Playlist> _playlistsWithOldPhoto = new();
 
     public UpdateCurrentUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify,
         IHubContext<MessageHub, IMessageHubClient> messageHub)
@@ -31,7 +30,6 @@ public class
         _messageHub = messageHub;
     }
 
-    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 5")]
     public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
         CancellationToken cancellationToken)
     {
@@ -65,10 +63,6 @@ public class
                 if (cachedPlaylist.SnapshotId == freshPlaylist.SnapshotId) continue;
 
                 freshPlaylist.Tracks = cachedPlaylist.Tracks;
-
-                // only pursue photo update if photo changed
-                // _playlistsWithStalePhoto add
-
                 user.LinkedPlaylists.Remove(cachedPlaylist);
             }
 
