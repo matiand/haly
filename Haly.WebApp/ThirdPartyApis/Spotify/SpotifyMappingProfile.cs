@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+using System.Web;
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
@@ -18,6 +20,7 @@ public class SpotifyMappingProfile : IRegister
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
             .Map(dest => dest.ImageUrl, src => src.Images.Any() ? src.Images.First().Url : null)
+            .Map(dest => dest.Description, src => TrimAndDecodePlaylistDescription(src.Description))
             .Map(dest => dest.Owner.Name, src => src.Owner.Display_name);
 
         config.ForType<PlaylistTrackObject, Track>()
@@ -46,5 +49,18 @@ public class SpotifyMappingProfile : IRegister
         config.ForType<DeviceObject, DeviceDto>()
             .Map(dest => dest.IsActive, src => src.Is_active)
             .Map(dest => dest.VolumePercent, src => src.Volume_percent);
+    }
+
+    // Trims descriptions from anchor tags, because we can't render them correctly and their hrefs
+    // often contain internal Spotify links. After we Html decode remaining text.
+    private string? TrimAndDecodePlaylistDescription(string? description)
+    {
+        if (string.IsNullOrEmpty(description)) return description;
+
+        var sentences = Regex.Split(description, @"(?<=[.!?])\s+");
+
+        return HttpUtility.HtmlDecode(
+            string.Join(" ", sentences.Where(s => !s.Contains("</a>")))
+        );
     }
 }
