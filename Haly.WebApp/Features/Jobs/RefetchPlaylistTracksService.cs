@@ -47,13 +47,13 @@ public class RefetchPlaylistTracksService : BackgroundService
             .AsNoTracking()
             .FirstOrDefaultAsync(user => user.Id == currentUserId, stoppingToken);
 
-        if (user is null) return;
+        if (user is null || user.RefetchPlaylistTracksJobs.Count == 0) return;
 
         var jobs = user.RefetchPlaylistTracksJobs.ToList();
+        await _messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Select(j => j.PlaylistId));
         for (var i = 0; i < jobs.Count; i++)
         {
             var job = jobs[i];
-            await _messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Skip(i).Select(j => j.PlaylistId));
 
             var playlist = await db.Playlists
                 .Include(p => p.Tracks)
@@ -68,8 +68,7 @@ public class RefetchPlaylistTracksService : BackgroundService
 
             // Treat each job as a transaction
             await db.SaveChangesAsync(stoppingToken);
+            await _messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Skip(i + 1).Select(j => j.PlaylistId));
         }
-
-        await _messageHub.Clients.All.PlaylistsWithOldTracks(Array.Empty<string>());
     }
 }

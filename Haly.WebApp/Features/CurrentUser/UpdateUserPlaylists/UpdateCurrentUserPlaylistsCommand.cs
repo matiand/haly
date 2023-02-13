@@ -1,12 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
 using Haly.WebApp.Data;
-using Haly.WebApp.Hubs;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Jobs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.UpdateUserPlaylists;
@@ -19,15 +16,12 @@ public class
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
-    private readonly IHubContext<MessageHub, IMessageHubClient> _messageHub;
     private readonly List<Playlist> _playlistsWithOldTracks = new();
 
-    public UpdateCurrentUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify,
-        IHubContext<MessageHub, IMessageHubClient> messageHub)
+    public UpdateCurrentUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
     {
         _db = db;
         _spotify = spotify;
-        _messageHub = messageHub;
     }
 
     public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
@@ -46,7 +40,6 @@ public class
         ScheduleBackgroundJobs(user);
 
         await _db.SaveChangesAsync(cancellationToken);
-        await _messageHub.Clients.All.PlaylistsWithOldTracks(_playlistsWithOldTracks.Select(p => p.Id));
 
         return response.PlaylistsOrder
             .Select(playlistId => user.LinkedPlaylists.First(item => item.Id == playlistId))
