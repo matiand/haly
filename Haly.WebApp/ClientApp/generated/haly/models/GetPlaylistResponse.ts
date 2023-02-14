@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { OwnerDto } from './OwnerDto';
+import type { PlaylistMetadataDto } from './PlaylistMetadataDto';
 import {
-    OwnerDtoFromJSON,
-    OwnerDtoFromJSONTyped,
-    OwnerDtoToJSON,
-} from './OwnerDto';
+    PlaylistMetadataDtoFromJSON,
+    PlaylistMetadataDtoFromJSONTyped,
+    PlaylistMetadataDtoToJSON,
+} from './PlaylistMetadataDto';
 import type { TrackDtoPaginatedList } from './TrackDtoPaginatedList';
 import {
     TrackDtoPaginatedListFromJSON,
@@ -46,22 +46,10 @@ export interface GetPlaylistResponse {
     name: string;
     /**
      * 
-     * @type {OwnerDto}
+     * @type {PlaylistMetadataDto}
      * @memberof GetPlaylistResponse
      */
-    owner: OwnerDto;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetPlaylistResponse
-     */
-    imageUrl?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetPlaylistResponse
-     */
-    description?: string | null;
+    metadata: PlaylistMetadataDto;
     /**
      * 
      * @type {TrackDtoPaginatedList}
@@ -77,7 +65,7 @@ export function instanceOfGetPlaylistResponse(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "owner" in value;
+    isInstance = isInstance && "metadata" in value;
     isInstance = isInstance && "tracks" in value;
 
     return isInstance;
@@ -95,9 +83,7 @@ export function GetPlaylistResponseFromJSONTyped(json: any, ignoreDiscriminator:
         
         'id': json['id'],
         'name': json['name'],
-        'owner': OwnerDtoFromJSON(json['owner']),
-        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
+        'metadata': PlaylistMetadataDtoFromJSON(json['metadata']),
         'tracks': TrackDtoPaginatedListFromJSON(json['tracks']),
     };
 }
@@ -113,9 +99,7 @@ export function GetPlaylistResponseToJSON(value?: GetPlaylistResponse | null): a
         
         'id': value.id,
         'name': value.name,
-        'owner': OwnerDtoToJSON(value.owner),
-        'imageUrl': value.imageUrl,
-        'description': value.description,
+        'metadata': PlaylistMetadataDtoToJSON(value.metadata),
         'tracks': TrackDtoPaginatedListToJSON(value.tracks),
     };
 }

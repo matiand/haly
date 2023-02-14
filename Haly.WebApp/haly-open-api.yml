@@ -4,6 +4,19 @@ info:
   description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
   version: v1
 paths:
+  /Color:
+    get:
+      tags:
+        - Color
+      operationId: Get
+      parameters:
+        - name: imageUrl
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
   /Me:
     put:
       tags:
@@ -277,8 +290,8 @@ components:
     GetPlaylistResponse:
       required:
         - id
+        - metadata
         - name
-        - owner
         - tracks
       type: object
       properties:
@@ -286,14 +299,8 @@ components:
           type: string
         name:
           type: string
-        owner:
-          $ref: '#/components/schemas/OwnerDto'
-        imageUrl:
-          type: string
-          nullable: true
-        description:
-          type: string
-          nullable: true
+        metadata:
+          $ref: '#/components/schemas/PlaylistMetadataDto'
         tracks:
           $ref: '#/components/schemas/TrackDtoPaginatedList'
       additionalProperties: false
@@ -307,6 +314,20 @@ components:
           type: string
         name:
           type: string
+      additionalProperties: false
+    PlaylistMetadataDto:
+      required:
+        - owner
+      type: object
+      properties:
+        description:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+        owner:
+          $ref: '#/components/schemas/OwnerDto'
       additionalProperties: false
     Problem:
       required:
@@ -430,5 +451,6 @@ components:
       additionalProperties: false
 tags:
   - name: Me
+  - name: Color
   - name: Player
   - name: Playlists

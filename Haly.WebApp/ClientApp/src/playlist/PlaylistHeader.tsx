@@ -8,8 +8,8 @@ import CollectionCoverImage from "./CollectionCoverImage";
 
 type PlaylistHeaderProps = {
     name: string;
-    imageUrl: GetPlaylistResponse["imageUrl"];
-    description: GetPlaylistResponse["description"];
+    imageUrl: GetPlaylistResponse["metadata"]["imageUrl"];
+    description: GetPlaylistResponse["metadata"]["description"];
     owner: string;
     songsCount: number;
     totalDuration: string;
@@ -34,7 +34,7 @@ function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalD
             <PlaylistInfo>
                 <Subtitle>Playlist</Subtitle>
                 <Title>{name}</Title>
-                <Description>{description}</Description>
+                {description && <Description>{description}</Description>}
                 <Details>
                     <Owner>{owner}</Owner>
                     <CollectionInfo>
@@ -107,6 +107,7 @@ const Details = styled("div", {
 
 const Description = styled("p", {
     color: "$grey200",
+    fontSize: "$200",
 });
 
 const Owner = styled("span", {

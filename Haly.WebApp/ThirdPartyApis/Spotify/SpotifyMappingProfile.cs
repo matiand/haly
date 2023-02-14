@@ -19,9 +19,10 @@ public class SpotifyMappingProfile : IRegister
 
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
-            .Map(dest => dest.ImageUrl, src => src.Images.Any() ? src.Images.First().Url : null)
-            .Map(dest => dest.Description, src => TrimAndDecodePlaylistDescription(src.Description))
-            .Map(dest => dest.Owner.Name, src => src.Owner.Display_name);
+            .Map(dest => dest.Metadata.ImageUrl, src => src.Images.Any() ? src.Images.First().Url : null)
+            .Map(dest => dest.Metadata.Description, src => TrimAndDecodePlaylistDescription(src.Description))
+            .Map(dest => dest.Metadata.Owner.Id, src => src.Owner.Id)
+            .Map(dest => dest.Metadata.Owner.Name, src => src.Owner.Display_name);
 
         config.ForType<PlaylistTrackObject, Track>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
@@ -53,7 +54,7 @@ public class SpotifyMappingProfile : IRegister
 
     // Trims descriptions from anchor tags, because we can't render them correctly and their hrefs
     // often contain internal Spotify links. After we Html decode remaining text.
-    private string? TrimAndDecodePlaylistDescription(string? description)
+    private static string? TrimAndDecodePlaylistDescription(string? description)
     {
         if (string.IsNullOrEmpty(description)) return description;
 
