@@ -19,7 +19,7 @@ public class MeController : ApiControllerBase
     [ServiceFilter(typeof(UpdateCurrentUserStoreFilterService), Order = int.MinValue)]
     [SwaggerOperationFilter(typeof(GettingStartedFilter))]
     [CallsSpotifyApi(SpotifyScopes.UserReadPrivate)]
-    public async Task<ActionResult<UserDto>> PutCurrentUser(string spotifyToken)
+    public async Task<ActionResult<UserDto>> PutCurrentUser([FromBody] string spotifyToken)
     {
         var response = await Mediator.Send(new UpdateCurrentUserCommand(spotifyToken));
         if (response.Created)

@@ -14,7 +14,7 @@ public class GettingStartedFilter : IOperationFilter
             "Updates the User linked with specified token by fetching him from Spotify API, creates a new one for first time clients. Successful response links that token with our CurrentUser, and allows us to use endpoints that call Spotify API.",
             operation.Description);
 
-        operation.Parameters.First().Description =
-            "For debugging purposes you can visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.";
+        operation.RequestBody.Description =
+            "Spotify's access token. For debugging purposes you can visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.";
     }
 }

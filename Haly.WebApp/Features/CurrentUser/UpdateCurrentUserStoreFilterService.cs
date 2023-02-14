@@ -13,7 +13,7 @@ public class UpdateCurrentUserStoreFilterService : IAsyncActionFilter
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var tokenArg = context.ActionArguments.First().Value;
+        var tokenArg = context.ActionArguments.Values.First();
         if (tokenArg is string spotifyToken)
         {
             await _currentUserStore.Update(spotifyToken);

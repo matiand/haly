@@ -32,7 +32,7 @@ import {
 } from '../models';
 
 export interface PutCurrentUserRequest {
-    spotifyToken?: string;
+    body?: string;
 }
 
 /**
@@ -75,17 +75,16 @@ export class MeApi extends runtime.BaseAPI {
     async putCurrentUserRaw(requestParameters: PutCurrentUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDto>> {
         const queryParameters: any = {};
 
-        if (requestParameters.spotifyToken !== undefined) {
-            queryParameters['spotifyToken'] = requestParameters.spotifyToken;
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/Me`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
+            body: requestParameters.body as any,
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserDtoFromJSON(jsonValue));

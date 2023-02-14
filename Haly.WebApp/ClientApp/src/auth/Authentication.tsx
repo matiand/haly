@@ -22,7 +22,7 @@ function Authentication(props: AuthenticationProps) {
         if (needsToHandleTokenExpirations.current) {
             auth.events.addAccessTokenExpiring(() => {
                 auth.signinSilent()
-                    .then(() => halyClient.me.putCurrentUser({ spotifyToken: auth.user!.access_token! }))
+                    .then(() => halyClient.me.putCurrentUser({ body: auth.user!.access_token! }))
                     .then(() => console.log("Token refreshed"));
             });
             console.log("Am I the only one?");

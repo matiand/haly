@@ -28,7 +28,7 @@ function App() {
         isLoading,
         data: user,
         error,
-    } = useQuery(["me"], () => halyClient.me.putCurrentUser({ spotifyToken }), {
+    } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }), {
         enabled: isConnected,
     });
 
