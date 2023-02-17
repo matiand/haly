@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
                 }
             }
 
-            console.log("Unknown error", error.message);
+            console.error("Unknown error", error.message);
         },
     }),
 });

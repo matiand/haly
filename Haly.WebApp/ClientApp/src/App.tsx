@@ -22,17 +22,16 @@ import StatusBar from "./statusbar/StatusBar";
 
 function App() {
     const spotifyToken = useSpotifyToken();
-    const { isConnected } = useMessageHub();
+    useMessageHub();
 
     const {
         isLoading,
         data: user,
         error,
-    } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }), {
-        enabled: isConnected,
-    });
+    } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }));
 
     if (isLoading) return <Loading />;
+    // todo: show some error page instead of this toaster
     if (error || !user) return <Toaster />;
 
     return (

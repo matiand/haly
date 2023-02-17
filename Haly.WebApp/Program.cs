@@ -76,7 +76,7 @@ var app = builder.Build();
 app.UseCors();
 
 app.MapControllers();
-app.MapHub<MessageHub>("/hubs/playlist");
+app.MapHub<MessageHub>("/hub");
 
 if (app.Environment.IsDevelopment())
 {

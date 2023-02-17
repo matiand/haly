@@ -1,26 +1,34 @@
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 
 import { playlistIdsWithOldTracksAtom } from "./atoms";
 
-// Handle messages from SignalR hub
+// MessageHub is a SignalR hub used for minor communication with our backend. These messages improve
+// the user experience, but aren't necessary for enjoying this app
 export const useMessageHub = () => {
-    const [_, setPlaylistIdsWithOldTracks] = useAtom(playlistIdsWithOldTracksAtom);
-    console.log("curr playlists", _);
+    // Avoid pointless rerenders for clients of this hook, by using useSetAtom
+    const setPlaylistIdsWithOldTracks = useSetAtom(playlistIdsWithOldTracksAtom);
 
     const connection = new HubConnectionBuilder()
-        .withUrl(`${import.meta.env.VITE_API_ORIGIN}/hubs/playlist`)
+        .withUrl(`${import.meta.env.VITE_API_ORIGIN}/hub`)
         .withAutomaticReconnect()
-        .configureLogging(LogLevel.Error)
+        .configureLogging(import.meta.env.DEV ? LogLevel.Information : LogLevel.Error)
         .build();
 
     connection.on("PlaylistsWithOldTracks", (playlistIds: string[]) => {
-        console.log("update playlists, old, new", _, playlistIds);
+        console.log("PlaylistsWithOldTracks", playlistIds);
         setPlaylistIdsWithOldTracks(playlistIds);
     });
 
     const query = useQuery(["hub"], () => connection.start().then(() => 1), { staleTime: Infinity });
 
-    return { isConnected: query.data === 1 };
+    connection.onclose(() => {
+        console.log("MessageHub is offline");
+    });
+
+    console.log("MessageHub query.isSuccess: ", query.isSuccess);
+    console.log("MessageHub query.isPaused: ", query.isPaused);
+
+    return { isMessageHubReady: query.isSuccess };
 };
