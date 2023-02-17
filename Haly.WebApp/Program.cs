@@ -68,7 +68,9 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
 builder.Services.AddDbContext<LibraryContext>(opts =>
 {
-    opts.UseNpgsql(builder.Configuration.GetConnectionString("LibraryConnection"));
+    opts.UseNpgsql(builder.Configuration.GetConnectionString("LibraryConnection"),
+        connectionOpts => connectionOpts.EnableRetryOnFailure());
+
     if (builder.Environment.IsDevelopment())
     {
         opts.EnableSensitiveDataLogging();
