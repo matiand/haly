@@ -1,3 +1,4 @@
+using Haly.GeneratedClients;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Hubs;
@@ -58,10 +59,21 @@ public class RefetchPlaylistTracksService : BackgroundService
             var playlist = await db.Playlists
                 .Include(p => p.Tracks)
                 .FirstOrDefaultAsync(p => p.Id == job.PlaylistId, stoppingToken);
+
             if (playlist is not null)
             {
-                var tracks = await spotify.GetPlaylistTracks(job.PlaylistId, job.User.Market);
-                playlist.Tracks = tracks;
+                try
+                {
+                    var tracks = await spotify.GetPlaylistTracks(job.PlaylistId, job.User.Market);
+                    playlist.Tracks = tracks;
+                }
+                catch (ApiException)
+                {
+                    // Our spotify service uses Polly for fault handling, this should only fail if
+                    // Spotify servers are offline for a significant amount of time. In that case we
+                    // just skip this job and return to it later.
+                    continue;
+                }
             }
 
             db.Remove(job);
