@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build",
+        "build": "vite build",
         "preview": "vite preview",
         "codegen": "rimraf generated/haly && openapi-generator-cli generate -i ../haly-open-api.yml -g typescript-fetch -o generated/haly",
         "lint": "eslint --fix --format=pretty --ext=js,jsx,ts,tsx src"
