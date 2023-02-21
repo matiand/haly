@@ -1,5 +1,5 @@
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 
 import { playlistIdsWithOldTracksAtom } from "./atoms";
@@ -9,6 +9,7 @@ import { playlistIdsWithOldTracksAtom } from "./atoms";
 export const useMessageHub = () => {
     // Avoid pointless rerenders for clients of this hook, by using useSetAtom
     const setPlaylistIdsWithOldTracks = useSetAtom(playlistIdsWithOldTracksAtom);
+    const queryClient = useQueryClient();
 
     const connection = new HubConnectionBuilder()
         .withUrl(`${import.meta.env.VITE_API_ORIGIN}/hub`)
@@ -24,11 +25,11 @@ export const useMessageHub = () => {
     const query = useQuery(["hub"], () => connection.start().then(() => 1), { staleTime: Infinity });
 
     connection.onclose(() => {
+        // The connection is usually closed by having no internet access. By invalidating this query
+        // we make sure we'll get automatically reconnected when internet is back.
         console.log("MessageHub is offline");
+        queryClient.invalidateQueries(["hub"]);
     });
-
-    console.log("MessageHub query.isSuccess: ", query.isSuccess);
-    console.log("MessageHub query.isPaused: ", query.isPaused);
 
     return { isMessageHubReady: query.isSuccess };
 };

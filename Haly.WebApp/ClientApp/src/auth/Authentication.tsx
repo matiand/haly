@@ -22,7 +22,11 @@ function Authentication(props: AuthenticationProps) {
         if (needsToHandleTokenExpirations.current) {
             auth.events.addAccessTokenExpiring(() => {
                 auth.signinSilent()
-                    .then(() => halyClient.me.putCurrentUser({ body: auth.user!.access_token! }))
+                    .then((user) => {
+                        if (!user) debugger; // eslint-disable-line
+
+                        return halyClient.me.putCurrentUser({ body: user?.access_token });
+                    })
                     .then(() => console.log("Token refreshed"));
             });
             console.log("Am I the only one?");
