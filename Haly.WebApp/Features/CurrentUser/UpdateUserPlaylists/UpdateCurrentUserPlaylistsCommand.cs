@@ -10,9 +10,8 @@ namespace Haly.WebApp.Features.CurrentUser.UpdateUserPlaylists;
 
 public record UpdateCurrentUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<UserPlaylistDto>?>;
 
-public class
-    UpdateCurrentUserPlaylistsHandler : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<UserPlaylistDto>
-        ?>
+public class UpdateCurrentUserPlaylistsHandler
+    : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
@@ -27,49 +26,49 @@ public class
     public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
         CancellationToken cancellationToken)
     {
-        var user = await _db.Users.Where(u => u.Id == request.UserId)
-            .Include(u => u.LinkedPlaylists)
-            .FirstOrDefaultAsync(cancellationToken);
+        var userTask = _db.Users.Where(u => u.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
+        var responseTask = _spotify.GetCurrentUserPlaylists();
+        var (user, response) = (await userTask, await responseTask);
 
         if (user is null) return null;
 
-        var response = await _spotify.GetCurrentUserPlaylists();
-
-        UpdateLinkedPlaylists(user, response.Playlists);
-        DeleteOldLinkedPlaylists(user, response.Playlists);
+        user.LinkedPlaylistsOrder = response.PlaylistsOrder;
+        await UpdateLinkedPlaylists(user, response.Playlists);
         ScheduleBackgroundJobs(user);
 
         await _db.SaveChangesAsync(cancellationToken);
 
-        return response.PlaylistsOrder
-            .Select(playlistId => user.LinkedPlaylists.First(item => item.Id == playlistId))
+        return user.LinkedPlaylistsOrder
+            .Select(playlistId => response.Playlists.First(item => item.Id == playlistId))
             .Adapt<IEnumerable<UserPlaylistDto>>();
     }
 
-    private void UpdateLinkedPlaylists(User user, List<Playlist> freshPlaylists)
+    private async Task UpdateLinkedPlaylists(User user, List<Playlist> freshPlaylists)
     {
+        var cachedPlaylists = await _db.Playlists
+            .Where(cp => user.LinkedPlaylistsOrder.Any(pId => pId == cp.Id))
+            .ToListAsync();
+
         foreach (var freshPlaylist in freshPlaylists)
         {
-            var cachedPlaylist = user.LinkedPlaylists.FirstOrDefault(cp => cp.Id == freshPlaylist.Id);
+            var cachedPlaylist = cachedPlaylists.FirstOrDefault(cp => cp.Id == freshPlaylist.Id);
             if (cachedPlaylist is not null)
             {
                 if (cachedPlaylist.SnapshotId == freshPlaylist.SnapshotId) continue;
 
-                freshPlaylist.Tracks = cachedPlaylist.Tracks;
-                user.LinkedPlaylists.Remove(cachedPlaylist);
+                // todo: maybe add a method in model for updates
+                cachedPlaylist.Name = freshPlaylist.Name;
+                cachedPlaylist.Metadata = freshPlaylist.Metadata;
+                cachedPlaylist.SnapshotId = freshPlaylist.SnapshotId;
+
+                _playlistsWithOldTracks.Add(cachedPlaylist);
             }
-
-            user.LinkedPlaylists.Add(freshPlaylist);
-            _playlistsWithOldTracks.Add(freshPlaylist);
+            else
+            {
+                _db.Playlists.Add(freshPlaylist);
+                _playlistsWithOldTracks.Add(freshPlaylist);
+            }
         }
-    }
-
-    // Delete playlists that the user is no longer linked to
-    private static void DeleteOldLinkedPlaylists(User user, List<Playlist> freshPlaylists)
-    {
-        var freshPlaylistIds = freshPlaylists.Select(fp => fp.Id).ToList();
-
-        user.LinkedPlaylists.RemoveAll(cp => !freshPlaylistIds.Contains(cp.Id));
     }
 
     private void ScheduleBackgroundJobs(User user)

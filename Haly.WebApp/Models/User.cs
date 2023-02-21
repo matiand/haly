@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Haly.WebApp.Models.Jobs;
 
 namespace Haly.WebApp.Models;
@@ -9,10 +10,10 @@ public class User
     public string Market { get; set; }
     public Plan Plan { get; set; }
 
-    public List<Playlist> LinkedPlaylists { get; set; }
+    [Column(TypeName = "jsonb")]
+    public List<string> LinkedPlaylistsOrder { get; set; } = new();
 
     public List<RefetchPlaylistTracksJob> RefetchPlaylistTracksJobs { get; set; }
-    public List<FindPlaylistMainColorJob> FindPlaylistMainColorJobs { get; set; }
 
     public bool CanUseSpotifyPlayer => Plan is Plan.Premium;
 }

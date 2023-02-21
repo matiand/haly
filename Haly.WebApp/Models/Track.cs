@@ -20,7 +20,6 @@ public class Track
     public List<Artist> Artists { get; set; }
 
     public string PlaylistId { get; set; }
-    public string UserId { get; set; }
     public Playlist Playlist { get; set; }
 
     public string Duration => TimeSpan.FromMilliseconds(DurationInMs).ToString(@"m\:ss", CultureInfo.InvariantCulture);

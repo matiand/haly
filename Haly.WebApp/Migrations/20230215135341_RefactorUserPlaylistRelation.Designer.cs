@@ -5,6 +5,7 @@ using Haly.WebApp.Data;
 using Haly.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,9 +14,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Haly.WebApp.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20230215135341_RefactorUserPlaylistRelation")]
+    partial class RefactorUserPlaylistRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +27,29 @@ namespace Haly.WebApp.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "plan", new[] { "free", "premium" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "track_type", new[] { "song", "podcast" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Haly.WebApp.Models.Jobs.FindPlaylistMainColorJob", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PlaylistId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FindPlaylistMainColorJobs");
+                });
 
             modelBuilder.Entity("Haly.WebApp.Models.Jobs.RefetchPlaylistTracksJob", b =>
                 {
@@ -139,6 +164,17 @@ namespace Haly.WebApp.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Haly.WebApp.Models.Jobs.FindPlaylistMainColorJob", b =>
+                {
+                    b.HasOne("Haly.WebApp.Models.User", "User")
+                        .WithMany("FindPlaylistMainColorJobs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Haly.WebApp.Models.Jobs.RefetchPlaylistTracksJob", b =>
                 {
                     b.HasOne("Haly.WebApp.Models.User", "User")
@@ -168,6 +204,8 @@ namespace Haly.WebApp.Migrations
 
             modelBuilder.Entity("Haly.WebApp.Models.User", b =>
                 {
+                    b.Navigation("FindPlaylistMainColorJobs");
+
                     b.Navigation("RefetchPlaylistTracksJobs");
                 });
 #pragma warning restore 612, 618

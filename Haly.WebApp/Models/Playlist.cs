@@ -8,9 +8,6 @@ public class Playlist
     public string Name { get; set; }
     public string SnapshotId { get; set; }
 
-    public string UserId { get; set; }
-    public User User { get; set; }
-
     [Column(TypeName = "jsonb")]
     public PlaylistMetadata Metadata { get; set; }
 

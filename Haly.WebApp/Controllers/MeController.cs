@@ -24,7 +24,10 @@ public class MeController : ApiControllerBase
         var response = await Mediator.Send(new UpdateCurrentUserCommand(spotifyToken));
         if (response.Created)
         {
-            return CreatedAtRoute("GetUser", new { userId = response.User.Id }, response.User);
+            // This is the only endpoint that returns a 'User', so it's not even possible to provide
+            // a valid 'Location' header with CreatedAtAction method. That's why we return a
+            // barebones 201 response with the 'User' in its body.
+            return StatusCode(StatusCodes.Status201Created, response.User);
         }
 
         return response.User;
