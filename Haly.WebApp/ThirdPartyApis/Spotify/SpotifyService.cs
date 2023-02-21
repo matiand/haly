@@ -8,9 +8,8 @@ using Track = Haly.WebApp.Models.Track;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
 
-public sealed class SpotifyService : IDisposable, ISpotifyService
+public sealed class SpotifyService : ISpotifyService
 {
-    private readonly HttpClient _innerHttpClient;
     private readonly GeneratedSpotifyClient _spotifyClient;
 
     private const int PlaylistLimit = 50;
@@ -18,13 +17,12 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
     private const int PlaylistTracksLimit = 100;
     private const int LikedSongsLimit = 50;
 
-    public SpotifyService(IHttpClientFactory httpClientFactory, CurrentUserStore currentUserStore)
+    public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore)
     {
-        _innerHttpClient = httpClientFactory.CreateClient();
-        _innerHttpClient.DefaultRequestHeaders.Authorization =
+        httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
 
-        _spotifyClient = new GeneratedSpotifyClient(_innerHttpClient, throwDeserializationErrors: false);
+        _spotifyClient = new GeneratedSpotifyClient(httpClient, throwDeserializationErrors: false);
     }
 
     public async Task<User> GetCurrentUser()
@@ -96,10 +94,5 @@ public sealed class SpotifyService : IDisposable, ISpotifyService
     {
         var response = await _spotifyClient.GetAUsersAvailableDevicesAsync();
         return response.Devices.Adapt<List<DeviceDto>>();
-    }
-
-    public void Dispose()
-    {
-        _innerHttpClient.Dispose();
     }
 }

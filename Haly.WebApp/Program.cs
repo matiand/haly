@@ -18,14 +18,13 @@ TypeAdapterConfig.GlobalSettings.Scan(typeof(Program).Assembly);
 // Configure Services
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<ISpotifyService, SpotifyService>().AddExponentialRetryPolicy();
 builder.Services.AddMediatR(typeof(Program));
 
 builder.Services.AddSingleton<CurrentUserStore>();
 builder.Services.AddSingleton<ValidateCurrentUserStoreFilterService>();
 builder.Services.AddSingleton<UpdateCurrentUserStoreFilterService>();
 
-builder.Services.AddTransient<ISpotifyService, SpotifyService>();
 builder.Services.AddSignalR();
 builder.Services.AddHostedService<RefetchPlaylistTracksService>();
 
