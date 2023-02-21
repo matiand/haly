@@ -1,4 +1,3 @@
-import React from "react";
 import { HiHeart, HiOutlineFire, HiPlus } from "react-icons/hi2";
 import { MdOutlineLibraryMusic } from "react-icons/md";
 import { TbShip } from "react-icons/tb";

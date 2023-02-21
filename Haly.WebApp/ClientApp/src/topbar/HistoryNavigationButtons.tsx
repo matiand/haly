@@ -6,12 +6,12 @@ import { styled } from "../common/theme";
 function HistoryNavigationButtons() {
     return (
         <ButtonContainer>
-            <Button type="button" title="Go back" onClick={(_) => console.log("Go Back")}>
+            <Button type="button" title="Go back" onClick={() => console.log("Go Back")}>
                 <AccessibleIcon label="Go back">
                     <VscChevronLeft className="history-icon" />
                 </AccessibleIcon>
             </Button>
-            <Button type="button" title="Go forward" onClick={(_) => console.log("Go Forward")}>
+            <Button type="button" title="Go forward" onClick={() => console.log("Go Forward")}>
                 <AccessibleIcon label="Go forward">
                     <VscChevronRight className="history-icon" />
                 </AccessibleIcon>

@@ -6,7 +6,7 @@ using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Haly.WebApp.HostedServices;
+namespace Haly.WebApp.Features.Jobs;
 
 public class RefetchPlaylistTracksService : BackgroundService
 {
@@ -27,7 +27,7 @@ public class RefetchPlaylistTracksService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (!_currentUserStore.IsEmpty || false)
+            if (!_currentUserStore.IsEmpty)
             {
                 using var scope = _serviceScopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<LibraryContext>();

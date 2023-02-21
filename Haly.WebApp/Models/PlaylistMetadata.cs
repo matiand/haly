@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Haly.WebApp.Models;
 
 public class PlaylistMetadata

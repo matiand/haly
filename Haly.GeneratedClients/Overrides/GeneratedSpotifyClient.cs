@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using Newtonsoft.Json;
 
+// ReSharper disable once CheckNamespace
 namespace Haly.GeneratedClients
 {
     public partial class GeneratedSpotifyClient

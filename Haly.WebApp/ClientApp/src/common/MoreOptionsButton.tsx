@@ -1,4 +1,4 @@
-import { FiMoreHorizontal, HiEllipsisHorizontal, IoIosMore, RiMoreFill, TfiMoreAlt } from "react-icons/all";
+import { FiMoreHorizontal } from "react-icons/all";
 
 import { styled } from "./theme";
 

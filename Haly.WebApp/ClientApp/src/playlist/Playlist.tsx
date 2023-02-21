@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtom, useSetAtom } from "jotai";
-import { useEffect, useMemo } from "react";
+import { useAtom } from "jotai";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { collectionDominantColorAtom, playlistHasOldTracksAtom } from "../common/atoms";
+import { playlistHasOldTracksAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistControls from "./PlaylistControls";

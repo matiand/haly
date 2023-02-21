@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { HiOutlineHeart } from "react-icons/hi2";
 
 import { styled } from "./theme";
 
@@ -13,7 +12,7 @@ function HeartButton({ size }: HeartButtonProps) {
 
     return (
         <Button
-            onClick={(_) => setIsOn((prev) => !prev)}
+            onClick={() => setIsOn((prev) => !prev)}
             type="button"
             aria-label={btnLabel}
             title={btnLabel}

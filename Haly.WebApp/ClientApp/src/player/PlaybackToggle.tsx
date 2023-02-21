@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ImPlay3, IoPause, IoPlay } from "react-icons/all";
+import { IoPause, IoPlay } from "react-icons/all";
 
 import { styled } from "../common/theme";
 
