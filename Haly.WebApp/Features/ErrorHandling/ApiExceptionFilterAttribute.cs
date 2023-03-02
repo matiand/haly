@@ -34,7 +34,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
                     context.Result = apiException.StatusCode switch
                     {
-                        400 => ProblemResponses.BadRequestProblem("X-Spotify-Token header with Spotify API access token is missing"),
+                        400 => ProblemResponses.BadRequestProblem("Bad request"),
                         401 => ProblemResponses.UnauthorizedProblem("Bad or expired access token for using Spotify API"),
                         429 => ProblemResponses.TooManyRequestsProblem("You have exceeded Spotify API rate limits"),
                         _ => throw apiException,
