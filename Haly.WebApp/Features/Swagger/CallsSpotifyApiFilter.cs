@@ -27,18 +27,16 @@ public class CallsSpotifyApiFilter : IOperationFilter
 
     private static void UpdateDescription(OpenApiOperation operation, CallsSpotifyApiAttribute callsSpotifyApiAttr)
     {
-        if (string.IsNullOrEmpty(operation.Description))
+        var textToAdd = "This endpoint calls Spotify API.";
+
+        if (callsSpotifyApiAttr.Scopes.Length > 0)
         {
-            operation.Description = string.Join("<br/>", "This endpoint calls Spotify API.",
-                $@"Scopes needed: <b> {callsSpotifyApiAttr.Scopes} </b>");
+            textToAdd = string.Join("<br/>", textToAdd, $@"Scopes needed: <b> {callsSpotifyApiAttr.Scopes} </b>");
         }
-        else
-        {
-            operation.Description =
-                string.Join("<br/>", operation.Description,
-                    "This endpoint calls Spotify API.",
-                    $@"Scopes needed: <b> {callsSpotifyApiAttr.Scopes} </b>");
-        }
+
+        operation.Description = string.IsNullOrEmpty(operation.Description)
+            ? textToAdd
+            : string.Join("<br/>", operation.Description, textToAdd);
     }
 
     private static OpenApiResponse ProblemResponse(OperationFilterContext context, string description)
