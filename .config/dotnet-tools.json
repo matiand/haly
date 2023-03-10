@@ -3,15 +3,15 @@
     "isRoot": true,
     "tools": {
         "husky": {
-            "version": "0.4.4",
+            "version": "0.5.4",
             "commands": ["husky"]
         },
         "dotnet-ef": {
-            "version": "6.0.6",
+            "version": "7.0.3",
             "commands": ["dotnet-ef"]
         },
         "swashbuckle.aspnetcore.cli": {
-            "version": "6.4.0",
+            "version": "6.5.0",
             "commands": ["swagger"]
         }
     }
