@@ -36,6 +36,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
                     {
                         400 => ProblemResponses.BadRequestProblem("Bad request"),
                         401 => ProblemResponses.UnauthorizedProblem("Bad or expired access token for using Spotify API"),
+                        404 => ProblemResponses.NotFound("Resource not found"),
                         429 => ProblemResponses.TooManyRequestsProblem("You have exceeded Spotify API rate limits"),
                         _ => throw apiException,
                     };

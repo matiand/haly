@@ -43,6 +43,18 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 401 };
     }
 
+    public static IActionResult NotFound(string title)
+    {
+        var problem = new Problem
+        {
+            Type = "https://httpstatuses.io/404",
+            Status = 404,
+            Title = title,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 404 };
+    }
+
     public static IActionResult TooManyRequestsProblem(string title)
     {
         var problem = new Problem
