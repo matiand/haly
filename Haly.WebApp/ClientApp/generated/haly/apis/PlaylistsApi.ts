@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetPlaylistResponse,
+  PlaylistWithTracksDto,
   Problem,
   TrackDtoPaginatedList,
   ValidationProblem,
 } from '../models';
 import {
-    GetPlaylistResponseFromJSON,
-    GetPlaylistResponseToJSON,
+    PlaylistWithTracksDtoFromJSON,
+    PlaylistWithTracksDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
     TrackDtoPaginatedListFromJSON,
@@ -41,6 +41,10 @@ export interface GetTracksRequest {
     offset?: number;
 }
 
+export interface PutPlaylistRequest {
+    id: string;
+}
+
 /**
  * 
  */
@@ -50,7 +54,7 @@ export class PlaylistsApi extends runtime.BaseAPI {
      * Get playlist from our cache
      * Get playlist
      */
-    async getPlaylistRaw(requestParameters: GetPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPlaylistResponse>> {
+    async getPlaylistRaw(requestParameters: GetPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistWithTracksDto>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPlaylist.');
         }
@@ -66,14 +70,14 @@ export class PlaylistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetPlaylistResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistWithTracksDtoFromJSON(jsonValue));
     }
 
     /**
      * Get playlist from our cache
      * Get playlist
      */
-    async getPlaylist(requestParameters: GetPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetPlaylistResponse> {
+    async getPlaylist(requestParameters: GetPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistWithTracksDto> {
         const response = await this.getPlaylistRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -115,6 +119,38 @@ export class PlaylistsApi extends runtime.BaseAPI {
      */
     async getTracks(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TrackDtoPaginatedList> {
         const response = await this.getTracksRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Fetch playlist from Spotify and update it if it\'s changed<br/>This endpoint calls Spotify API.
+     * Update playlist
+     */
+    async putPlaylistRaw(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistWithTracksDto>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling putPlaylist.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Playlists/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistWithTracksDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * Fetch playlist from Spotify and update it if it\'s changed<br/>This endpoint calls Spotify API.
+     * Update playlist
+     */
+    async putPlaylist(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistWithTracksDto> {
+        const response = await this.putPlaylistRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

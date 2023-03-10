@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.GetPlaylist;
 
-public record GetPlaylistQuery(string Id) : IRequest<GetPlaylistResponse?>
+public record GetPlaylistQuery(string Id) : IRequest<PlaylistWithTracksDto?>
 {
     public int TracksLimit { get; } = 25;
 }
 
-public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, GetPlaylistResponse?>
+public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWithTracksDto?>
 {
     private readonly LibraryContext _db;
 
@@ -20,11 +20,11 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, GetPlaylistR
         _db = db;
     }
 
-    public async Task<GetPlaylistResponse?> Handle(GetPlaylistQuery request, CancellationToken cancellationToken)
+    public async Task<PlaylistWithTracksDto?> Handle(GetPlaylistQuery request, CancellationToken cancellationToken)
     {
         var playlist = await _db.Playlists
             .Where(p => p.Id == request.Id)
-            .ProjectToType<GetPlaylistResponse>()
+            .ProjectToType<PlaylistWithTracksDto>()
             .FirstOrDefaultAsync(cancellationToken);
 
         if (playlist is null) return null;

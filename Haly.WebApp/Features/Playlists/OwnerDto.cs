@@ -1,4 +1,4 @@
-namespace Haly.WebApp.Features.Playlists.GetPlaylist;
+namespace Haly.WebApp.Features.Playlists;
 
 public record OwnerDto
 {

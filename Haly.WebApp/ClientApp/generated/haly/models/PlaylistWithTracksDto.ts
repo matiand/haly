@@ -29,39 +29,39 @@ import {
 /**
  * 
  * @export
- * @interface GetPlaylistResponse
+ * @interface PlaylistWithTracksDto
  */
-export interface GetPlaylistResponse {
+export interface PlaylistWithTracksDto {
     /**
      * 
      * @type {string}
-     * @memberof GetPlaylistResponse
+     * @memberof PlaylistWithTracksDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof GetPlaylistResponse
+     * @memberof PlaylistWithTracksDto
      */
     name: string;
     /**
      * 
      * @type {PlaylistMetadataDto}
-     * @memberof GetPlaylistResponse
+     * @memberof PlaylistWithTracksDto
      */
     metadata: PlaylistMetadataDto;
     /**
      * 
      * @type {TrackDtoPaginatedList}
-     * @memberof GetPlaylistResponse
+     * @memberof PlaylistWithTracksDto
      */
     tracks: TrackDtoPaginatedList;
 }
 
 /**
- * Check if a given object implements the GetPlaylistResponse interface.
+ * Check if a given object implements the PlaylistWithTracksDto interface.
  */
-export function instanceOfGetPlaylistResponse(value: object): boolean {
+export function instanceOfPlaylistWithTracksDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -71,11 +71,11 @@ export function instanceOfGetPlaylistResponse(value: object): boolean {
     return isInstance;
 }
 
-export function GetPlaylistResponseFromJSON(json: any): GetPlaylistResponse {
-    return GetPlaylistResponseFromJSONTyped(json, false);
+export function PlaylistWithTracksDtoFromJSON(json: any): PlaylistWithTracksDto {
+    return PlaylistWithTracksDtoFromJSONTyped(json, false);
 }
 
-export function GetPlaylistResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPlaylistResponse {
+export function PlaylistWithTracksDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistWithTracksDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -88,7 +88,7 @@ export function GetPlaylistResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function GetPlaylistResponseToJSON(value?: GetPlaylistResponse | null): any {
+export function PlaylistWithTracksDtoToJSON(value?: PlaylistWithTracksDto | null): any {
     if (value === undefined) {
         return undefined;
     }

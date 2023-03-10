@@ -56,11 +56,7 @@ public class UpdateCurrentUserPlaylistsHandler
             {
                 if (cachedPlaylist.SnapshotId == freshPlaylist.SnapshotId) continue;
 
-                // todo: maybe add a method in model for updates
-                cachedPlaylist.Name = freshPlaylist.Name;
-                cachedPlaylist.Metadata = freshPlaylist.Metadata;
-                cachedPlaylist.SnapshotId = freshPlaylist.SnapshotId;
-
+                cachedPlaylist.UpdateModel(freshPlaylist);
                 _playlistsWithOldTracks.Add(cachedPlaylist);
             }
             else

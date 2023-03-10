@@ -1,5 +1,4 @@
 .openapi-generator-ignore
-apis/ColorApi.ts
 apis/MeApi.ts
 apis/PlayerApi.ts
 apis/PlaylistsApi.ts
@@ -8,9 +7,9 @@ index.ts
 models/AlbumDto.ts
 models/ArtistDto.ts
 models/DeviceDto.ts
-models/GetPlaylistResponse.ts
 models/OwnerDto.ts
 models/PlaylistMetadataDto.ts
+models/PlaylistWithTracksDto.ts
 models/Problem.ts
 models/TrackDto.ts
 models/TrackDtoPaginatedList.ts

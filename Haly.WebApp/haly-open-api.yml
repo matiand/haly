@@ -4,19 +4,6 @@ info:
   description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
   version: v1
 paths:
-  /Color:
-    get:
-      tags:
-        - Color
-      operationId: Get
-      parameters:
-        - name: imageUrl
-          in: query
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
   /Me:
     put:
       tags:
@@ -25,7 +12,7 @@ paths:
       description: 'Updates the User linked with specified token by fetching him from Spotify API, creates a new one for first time clients. Successful response links that token with our CurrentUser, and allows us to use endpoints that call Spotify API.<br/><br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-private </b>'
       operationId: PutCurrentUser
       requestBody:
-        description: For debugging purposes you can visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.
+        description: Spotify's access token. For debugging purposes you can visit <a href='https://developer.spotify.com/console/get-current-user' target='_blank'>Spotify Web Console</a> to get one.
         content:
           application/json:
             schema:
@@ -194,9 +181,58 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetPlaylistResponse'
+                $ref: '#/components/schemas/PlaylistWithTracksDto'
         '404':
           description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      tags:
+        - Playlists
+      summary: Update playlist
+      description: Fetch playlist from Spotify and update it if it's changed<br/>This endpoint calls Spotify API.
+      operationId: PutPlaylist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Playlist updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistWithTracksDto'
+        '201':
+          description: Playlist created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistWithTracksDto'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
           content:
             application/json:
               schema:
@@ -293,23 +329,6 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    GetPlaylistResponse:
-      required:
-        - id
-        - metadata
-        - name
-        - tracks
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        metadata:
-          $ref: '#/components/schemas/PlaylistMetadataDto'
-        tracks:
-          $ref: '#/components/schemas/TrackDtoPaginatedList'
-      additionalProperties: false
     OwnerDto:
       required:
         - id
@@ -334,6 +353,23 @@ components:
           nullable: true
         owner:
           $ref: '#/components/schemas/OwnerDto'
+      additionalProperties: false
+    PlaylistWithTracksDto:
+      required:
+        - id
+        - metadata
+        - name
+        - tracks
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/PlaylistMetadataDto'
+        tracks:
+          $ref: '#/components/schemas/TrackDtoPaginatedList'
       additionalProperties: false
     Problem:
       required:
@@ -457,6 +493,5 @@ components:
       additionalProperties: false
 tags:
   - name: Me
-  - name: Color
   - name: Player
   - name: Playlists

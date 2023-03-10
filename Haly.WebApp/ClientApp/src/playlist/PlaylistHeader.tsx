@@ -1,15 +1,15 @@
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
-import { GetPlaylistResponse } from "../../generated/haly";
+import { PlaylistWithTracksDto } from "../../generated/haly";
 import { collectionDominantColorAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 import CollectionCoverImage from "./CollectionCoverImage";
 
 type PlaylistHeaderProps = {
     name: string;
-    imageUrl: GetPlaylistResponse["metadata"]["imageUrl"];
-    description: GetPlaylistResponse["metadata"]["description"];
+    imageUrl: PlaylistWithTracksDto["metadata"]["imageUrl"];
+    description: PlaylistWithTracksDto["metadata"]["description"];
     owner: string;
     songsCount: number;
     totalDuration: string;

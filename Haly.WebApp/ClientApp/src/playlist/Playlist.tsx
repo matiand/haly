@@ -1,29 +1,44 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { playlistHasOldTracksAtom } from "../common/atoms";
+import { isPlaylistCachedAtom, playlistHasOldTracksAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistControls from "./PlaylistControls";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
 
-function Playlist() {
-    const { id } = useParams();
-    const [hasOldTracks] = useAtom(useMemo(() => playlistHasOldTracksAtom(id!), [id]));
+// todo: move to seperate file?
+const usePlaylistQuery = (playlistId: string) => {
+    const isCached = useAtomValue(useMemo(() => isPlaylistCachedAtom(playlistId), [playlistId]));
 
-    const playlistQuery = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id: id! }), {
+    const queryFn = useMemo(() => {
+        console.log(`Playlist with id ${playlistId}, isCached: ${isCached}`);
+
+        return isCached
+            ? () => halyClient.playlists.getPlaylist({ id: playlistId })
+            : () => halyClient.playlists.putPlaylist({ id: playlistId });
+    }, [playlistId, isCached]);
+
+    // todo: remove all suspense, check if gradient renders ok
+    return useQuery(["playlists", playlistId], queryFn, {
         suspense: true,
     });
+};
 
-    if (!playlistQuery.data) {
+function Playlist() {
+    const { id } = useParams();
+    const query = usePlaylistQuery(id!);
+    const hasOldTracks = useAtomValue(useMemo(() => playlistHasOldTracksAtom(id!), [id]));
+
+    if (!query.data) {
         return null;
     }
 
     if (hasOldTracks) console.log(id, " has old tracks");
-    const playlist = playlistQuery.data;
+    const playlist = query.data;
     const songsCount = playlist.tracks.total;
 
     return (
