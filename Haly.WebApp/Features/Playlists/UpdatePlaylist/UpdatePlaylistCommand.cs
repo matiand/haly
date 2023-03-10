@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.UpdatePlaylist;
 
-public record UpdatePlaylistResponse(bool Created, PlaylistWithTracksDto Playlist);
-
 public record UpdatePlaylistCommand(string PlaylistId, string UserMarket) : IRequest<UpdatePlaylistResponse?>;
 
 public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, UpdatePlaylistResponse?>
