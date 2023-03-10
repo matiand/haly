@@ -8,7 +8,6 @@ using Haly.WebApp.Features.Validation;
 using Haly.WebApp.Hubs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -20,7 +19,6 @@ TypeAdapterConfig.GlobalSettings.Compile();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient<ISpotifyService, SpotifyService>().AddExponentialRetryPolicy();
-builder.Services.AddMediatR(typeof(Program));
 
 builder.Services.AddSingleton<CurrentUserStore>();
 builder.Services.AddSingleton<ValidateCurrentUserStoreFilterService>();
@@ -29,10 +27,17 @@ builder.Services.AddSingleton<UpdateCurrentUserStoreFilterService>();
 builder.Services.AddSignalR();
 builder.Services.AddHostedService<RefetchPlaylistTracksService>();
 
+// Configure MediatR
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblyContaining<Program>();
+    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
+// Configure FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 builder.Services.AddControllers()
     .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -62,7 +67,7 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
 builder.Services.AddDbContext<LibraryContext>(opts =>
 {
-    opts.UseNpgsql(builder.Configuration.GetConnectionString("LibraryConnection"),
+    opts.UseNpgsql(builder.Configuration.GetConnectionString("LibraryConnection")!,
         connectionOpts => connectionOpts.EnableRetryOnFailure());
 
     if (builder.Environment.IsDevelopment())

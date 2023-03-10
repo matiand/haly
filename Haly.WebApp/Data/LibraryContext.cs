@@ -7,6 +7,7 @@ namespace Haly.WebApp.Data;
 
 public class LibraryContext : DbContext
 {
+    [Obsolete("Obsolete")]
     static LibraryContext() => NpgsqlConnection.GlobalTypeMapper
         .MapEnum<Plan>()
         .MapEnum<TrackType>();
