@@ -12,8 +12,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-// Configure Mapster
+// Configure Mapster and validate that our mappings are correct
 TypeAdapterConfig.GlobalSettings.Scan(typeof(Program).Assembly);
+TypeAdapterConfig.GlobalSettings.Compile();
 
 // Configure Services
 var builder = WebApplication.CreateBuilder(args);
