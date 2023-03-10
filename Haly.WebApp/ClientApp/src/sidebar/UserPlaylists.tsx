@@ -8,6 +8,7 @@ import NavigationItem from "./NavigationItem";
 
 // todo: move to seperate file?
 const usePutUserPlaylistsQuery = () => {
+    // We treat this PUT as query, because it's idempotent
     const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
     const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
 
