@@ -39,7 +39,8 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.Artists, src => src.Track.Artists)
             .Map(dest => dest.AddedAt, src => src.Added_at)
             .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
-            .Map(dest => dest.Type, src => src.Track.Type == "track" ? TrackType.Song : TrackType.Podcast);
+            .Map(dest => dest.Type,
+                src => src.Track.Type == TrackObjectType.Track ? TrackType.Song : TrackType.Podcast);
 
         config.ForType<SavedTrackObject, Track>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
@@ -48,7 +49,8 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.Artists, src => src.Track.Artists)
             .Map(dest => dest.AddedAt, src => src.Added_at)
             .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
-            .Map(dest => dest.Type, src => src.Track.Type == "track" ? TrackType.Song : TrackType.Podcast);
+            .Map(dest => dest.Type,
+                src => src.Track.Type == TrackObjectType.Track ? TrackType.Song : TrackType.Podcast);
 
         config.ForType<SimplifiedAlbumObject, Album>()
             .Map(dest => dest.ImageUrl, src => src.Images.Any() ? src.Images.First().Url : null);

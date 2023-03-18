@@ -120,7 +120,7 @@ public sealed class SpotifyService : ISpotifyService
 
     // Fetch remaining tracks, 2 requests at the same time
     private async Task<List<PlaylistTrackObject>> GetRemainingPlaylistTracks(string playlistId, string userMarket,
-        PlaylistTracksPagingObject pagingObject)
+        PagingPlaylistTrackObject pagingObject)
     {
         var spotifyTracks = new List<PlaylistTrackObject>();
         var nextOffset = pagingObject.Offset + pagingObject.Limit;
