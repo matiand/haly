@@ -56,6 +56,12 @@ export interface PlaylistWithTracksDto {
      * @memberof PlaylistWithTracksDto
      */
     tracks: TrackDtoPaginatedList;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistWithTracksDto
+     */
+    totalDuration: string;
 }
 
 /**
@@ -67,6 +73,7 @@ export function instanceOfPlaylistWithTracksDto(value: object): boolean {
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "metadata" in value;
     isInstance = isInstance && "tracks" in value;
+    isInstance = isInstance && "totalDuration" in value;
 
     return isInstance;
 }
@@ -85,6 +92,7 @@ export function PlaylistWithTracksDtoFromJSONTyped(json: any, ignoreDiscriminato
         'name': json['name'],
         'metadata': PlaylistMetadataDtoFromJSON(json['metadata']),
         'tracks': TrackDtoPaginatedListFromJSON(json['tracks']),
+        'totalDuration': json['totalDuration'],
     };
 }
 
@@ -101,6 +109,7 @@ export function PlaylistWithTracksDtoToJSON(value?: PlaylistWithTracksDto | null
         'name': value.name,
         'metadata': PlaylistMetadataDtoToJSON(value.metadata),
         'tracks': TrackDtoPaginatedListToJSON(value.tracks),
+        'totalDuration': value.totalDuration,
     };
 }
 

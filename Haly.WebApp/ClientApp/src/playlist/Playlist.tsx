@@ -40,6 +40,7 @@ function Playlist() {
     if (hasOldTracks) console.log(id, " has old tracks");
     const playlist = query.data;
     const songsCount = playlist.tracks.total;
+    const totalDuration = playlist.totalDuration;
 
     return (
         // This id is used by PlaylistTracks for its useInView hook
@@ -50,7 +51,7 @@ function Playlist() {
                 description={playlist.metadata.description}
                 owner={playlist.metadata.owner.name}
                 songsCount={songsCount}
-                totalDuration="N/A"
+                totalDuration={totalDuration}
             />
             <PlaylistControls name={playlist.name} />
             <PlaylistTracks initialTracks={playlist.tracks} />

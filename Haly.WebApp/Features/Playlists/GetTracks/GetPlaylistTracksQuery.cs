@@ -25,7 +25,9 @@ public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, 
 
         var tracks = await _db.Tracks
             .Where(t => t.PlaylistId == request.PlaylistId)
-            .ToPaginatedListAsync(limit: request.Limit, offset: request.Offset, cancellationToken: cancellationToken);
+            .OrderBy(t => t.Id)
+            // .ProjectToType<TrackDto>()
+            .ToPaginatedListAsync(request.Limit, request.Offset, cancellationToken);
 
         // We have to do the projection client side, cause it fails on server side
         return tracks.Adapt<PaginatedList<TrackDto>>();

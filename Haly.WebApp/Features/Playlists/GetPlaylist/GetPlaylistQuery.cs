@@ -1,5 +1,6 @@
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Pagination;
+using Haly.WebApp.Features.Playlists.TotalDuration;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,12 @@ public record GetPlaylistQuery(string Id) : IRequest<PlaylistWithTracksDto?>
 public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWithTracksDto?>
 {
     private readonly LibraryContext _db;
+    private readonly ITotalDurationService _totalDurationService;
 
-    public GetPlaylistHandler(LibraryContext db)
+    public GetPlaylistHandler(LibraryContext db, ITotalDurationService totalDurationService)
     {
         _db = db;
+        _totalDurationService = totalDurationService;
     }
 
     public async Task<PlaylistWithTracksDto?> Handle(GetPlaylistQuery request, CancellationToken cancellationToken)
@@ -31,11 +34,15 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
 
         var tracks = await _db.Tracks
             .Where(t => t.PlaylistId == request.Id)
+            .OrderBy(t => t.Id)
             // This projection throws an error, that it can't translate ArtistDto
             // I think it has something to do with storing them as jsonb column
             // .ProjectToType<TrackDto>()
             .ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
         playlist.Tracks = tracks.Adapt<PaginatedList<TrackDto>>();
+
+        var totalDuration = await _totalDurationService.FromPlaylistStore(request.Id);
+        playlist.TotalDuration = totalDuration.Format();
 
         return playlist;
     }

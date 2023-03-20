@@ -1,4 +1,6 @@
 using Haly.WebApp.Data;
+using Haly.WebApp.Features.Playlists.TotalDuration;
+using Haly.WebApp.Models;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
@@ -12,11 +14,14 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotifyService;
+    private readonly ITotalDurationService _totalDurationService;
 
-    public UpdatePlaylistHandler(LibraryContext db, ISpotifyService spotifyService)
+    public UpdatePlaylistHandler(LibraryContext db, ISpotifyService spotifyService,
+        ITotalDurationService totalDurationService)
     {
         _db = db;
         _spotifyService = spotifyService;
+        _totalDurationService = totalDurationService;
     }
 
     public async Task<UpdatePlaylistResponse?> Handle(UpdatePlaylistCommand request,
@@ -35,7 +40,7 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
         {
             _db.Playlists.Add(freshPlaylist);
             await _db.SaveChangesAsync(cancellationToken);
-            return new UpdatePlaylistResponse(Created: true, freshPlaylist.Adapt<PlaylistWithTracksDto>());
+            return new UpdatePlaylistResponse(Created: true, MapToPlaylistWithTracksDto(freshPlaylist));
         }
 
         if (cachedPlaylist.SnapshotId != freshPlaylist.SnapshotId)
@@ -44,6 +49,15 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
             await _db.SaveChangesAsync(cancellationToken);
         }
 
-        return new UpdatePlaylistResponse(Created: false, cachedPlaylist.Adapt<PlaylistWithTracksDto>());
+        return new UpdatePlaylistResponse(Created: false, MapToPlaylistWithTracksDto(cachedPlaylist));
+    }
+
+    private PlaylistWithTracksDto MapToPlaylistWithTracksDto(Playlist playlistWithTracks)
+    {
+        var dto = playlistWithTracks.Adapt<PlaylistWithTracksDto>();
+        var duration = _totalDurationService.FromTracks(playlistWithTracks.Tracks);
+        dto.TotalDuration = duration.Format();
+
+        return dto;
     }
 }

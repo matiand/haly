@@ -359,6 +359,7 @@ components:
         - id
         - metadata
         - name
+        - totalDuration
         - tracks
       type: object
       properties:
@@ -370,6 +371,8 @@ components:
           $ref: '#/components/schemas/PlaylistMetadataDto'
         tracks:
           $ref: '#/components/schemas/TrackDtoPaginatedList'
+        totalDuration:
+          type: string
       additionalProperties: false
     Problem:
       required:

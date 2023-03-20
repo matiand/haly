@@ -3,6 +3,7 @@ using FluentValidation;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Features.Jobs;
+using Haly.WebApp.Features.Playlists.TotalDuration;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.Validation;
 using Haly.WebApp.Hubs;
@@ -23,6 +24,8 @@ builder.Services.AddHttpClient<ISpotifyService, SpotifyService>().AddExponential
 builder.Services.AddSingleton<CurrentUserStore>();
 builder.Services.AddSingleton<ValidateCurrentUserStoreFilterService>();
 builder.Services.AddSingleton<UpdateCurrentUserStoreFilterService>();
+
+builder.Services.AddTransient<ITotalDurationService, TotalDurationService>();
 
 builder.Services.AddSignalR();
 builder.Services.AddHostedService<RefetchPlaylistTracksService>();
