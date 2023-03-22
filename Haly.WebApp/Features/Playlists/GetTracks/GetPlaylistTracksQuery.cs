@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.GetTracks;
 
-public record GetPlaylistTracksQuery(string PlaylistId, int Limit = 25, int Offset = 0) : IRequest<PaginatedList<TrackDto>?>;
+public record GetPlaylistTracksQuery(string PlaylistId, int Limit = 25, int Offset = 0)
+    : IRequest<PaginatedList<TrackDto>?>;
 
 public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, PaginatedList<TrackDto>?>
 {
@@ -27,7 +28,7 @@ public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, 
             .Where(t => t.PlaylistId == request.PlaylistId)
             .OrderBy(t => t.Id)
             // .ProjectToType<TrackDto>()
-            .ToPaginatedListAsync(request.Limit, request.Offset, cancellationToken);
+            .ToPaginatedListAsync(offset: request.Offset, limit: request.Limit, cancellationToken);
 
         // We have to do the projection client side, cause it fails on server side
         return tracks.Adapt<PaginatedList<TrackDto>>();
