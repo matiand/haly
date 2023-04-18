@@ -13,7 +13,7 @@ public class TotalDurationValue
     {
         var timespan = TimeSpan.FromMilliseconds(_valueInMs);
 
-        if (timespan.Hours > 0)
+        if ((int)timespan.TotalHours > 0)
         {
             if (timespan.Minutes > 0) return $"{(int)timespan.TotalHours} hr {timespan.Minutes} min";
             return $"{(int)timespan.TotalHours} hr";

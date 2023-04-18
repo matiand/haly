@@ -966,7 +966,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A show</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ShowObject> GetAShowAsync(string id, string? market = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ShowObject> GestAShowAsync(string id, string? market = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");

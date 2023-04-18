@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.TotalDuration;
 
-// todo: better name?
 public class TotalDurationService : ITotalDurationService
 {
     private readonly LibraryContext _db;
