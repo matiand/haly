@@ -10,24 +10,6 @@ import PlaylistControls from "./PlaylistControls";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
 
-// todo: move to seperate file?
-const usePlaylistQuery = (playlistId: string) => {
-    const isCached = useAtomValue(useMemo(() => isPlaylistCachedAtom(playlistId), [playlistId]));
-
-    const queryFn = useMemo(() => {
-        console.log(`Playlist with id ${playlistId}, isCached: ${isCached}`);
-
-        return isCached
-            ? () => halyClient.playlists.getPlaylist({ id: playlistId })
-            : () => halyClient.playlists.putPlaylist({ id: playlistId });
-    }, [playlistId, isCached]);
-
-    // todo: remove all suspense, check if gradient renders ok
-    return useQuery(["playlists", playlistId], queryFn, {
-        suspense: true,
-    });
-};
-
 function Playlist() {
     const { id } = useParams();
     const query = usePlaylistQuery(id!);
@@ -58,6 +40,23 @@ function Playlist() {
         </Main>
     );
 }
+
+const usePlaylistQuery = (playlistId: string) => {
+    const isCached = useAtomValue(useMemo(() => isPlaylistCachedAtom(playlistId), [playlistId]));
+
+    const queryFn = useMemo(() => {
+        console.log(`Playlist with id ${playlistId}, isCached: ${isCached}`);
+
+        return isCached
+            ? () => halyClient.playlists.getPlaylist({ id: playlistId })
+            : () => halyClient.playlists.putPlaylist({ id: playlistId });
+    }, [playlistId, isCached]);
+
+    // todo: remove all suspense, check if gradient renders ok
+    return useQuery(["playlists", playlistId], queryFn, {
+        suspense: true,
+    });
+};
 
 const Main = styled("main", {
     position: "relative",

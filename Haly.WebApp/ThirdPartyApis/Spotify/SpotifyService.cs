@@ -73,26 +73,6 @@ public sealed class SpotifyService : ISpotifyService
 
         return playlistWithTracks?.Tracks ?? new List<Track>();
     }
-    // todo: delete this stuff below
-    //     var spotifyTracks = new List<PlaylistTrackObject>();
-    //     var offset = 0;
-    //     
-    //     var firstBatch = await _spotifyClient.GetPlaylistsTracksAsync(playlistId, offset: offset,
-    //         limit: PlaylistTracksLimit,
-    //         market: userMarket);
-    //
-    //     // do
-    //     // {
-    //     //     var response = await _spotifyClient.GetPlaylistsTracksAsync(playlistId, offset: offset,
-    //     //         limit: PlaylistTracksLimit,
-    //     //         market: userMarket);
-    //     //     spotifyTracks.AddRange(response.Items);
-    //     //
-    //     //     offset = response.Next is not null ? response.Offset + response.Limit : -1;
-    //     // } while (offset != -1);
-    //
-    //     return spotifyTracks.Adapt<List<Track>>();
-    // }
 
     public async Task<List<Track>> GetLikedSongs(string userMarket)
     {

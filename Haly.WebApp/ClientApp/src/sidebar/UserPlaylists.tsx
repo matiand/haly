@@ -6,22 +6,6 @@ import { cachedPlaylistIdsAtom } from "../common/atoms";
 import halyApi from "../halyClient";
 import NavigationItem from "./NavigationItem";
 
-// todo: move to seperate file?
-const usePutUserPlaylistsQuery = () => {
-    // We treat this PUT as query, because it's idempotent
-    const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
-    const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
-
-    useEffect(() => {
-        if (query.data) {
-            const ids = query.data.map((p) => p.id);
-            setCachedPlaylistIds(ids);
-        }
-    }, [query.data, setCachedPlaylistIds]);
-
-    return query;
-};
-
 function UserPlaylists() {
     const query = usePutUserPlaylistsQuery();
 
@@ -39,5 +23,20 @@ function UserPlaylists() {
         </>
     );
 }
+
+const usePutUserPlaylistsQuery = () => {
+    // We treat this PUT as query, because it's idempotent
+    const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
+    const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
+
+    useEffect(() => {
+        if (query.data) {
+            const ids = query.data.map((p) => p.id);
+            setCachedPlaylistIds(ids);
+        }
+    }, [query.data, setCachedPlaylistIds]);
+
+    return query;
+};
 
 export default UserPlaylists;

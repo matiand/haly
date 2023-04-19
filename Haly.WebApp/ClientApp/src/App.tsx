@@ -31,7 +31,6 @@ function App() {
     } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }));
 
     if (isLoading) return <Loading />;
-    // todo: show some error page instead of this toaster
     if (error || !user) return <Toaster />;
 
     return (
