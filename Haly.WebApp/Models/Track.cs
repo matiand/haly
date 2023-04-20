@@ -22,7 +22,9 @@ public class Track
     public string PlaylistId { get; set; }
     public Playlist Playlist { get; set; }
 
-    public string Duration => TimeSpan.FromMilliseconds(DurationInMs).ToString(@"m\:ss", CultureInfo.InvariantCulture);
+    public string Duration => DurationInMs >= 3600000
+        ? TimeSpan.FromMilliseconds(DurationInMs).ToString(@"h\:mm\:ss", CultureInfo.InvariantCulture)
+        : TimeSpan.FromMilliseconds(DurationInMs).ToString(@"m\:ss", CultureInfo.InvariantCulture);
 }
 
 public enum TrackType
