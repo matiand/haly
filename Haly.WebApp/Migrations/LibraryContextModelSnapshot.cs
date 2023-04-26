@@ -19,7 +19,7 @@ namespace Haly.WebApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.1.23111.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "plan", new[] { "free", "premium" });
@@ -73,11 +73,11 @@ namespace Haly.WebApp.Migrations
 
             modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                    b.Property<string>("PlaylistId")
+                        .HasColumnType("text");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<int>("PositionInPlaylist")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("AddedAt")
                         .HasColumnType("timestamp with time zone");
@@ -97,19 +97,13 @@ namespace Haly.WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PlaylistId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("SpotifyId")
                         .HasColumnType("text");
 
                     b.Property<TrackType>("Type")
                         .HasColumnType("track_type");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlaylistId");
+                    b.HasKey("PlaylistId", "PositionInPlaylist");
 
                     b.ToTable("Tracks");
                 });
@@ -152,13 +146,11 @@ namespace Haly.WebApp.Migrations
 
             modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
                 {
-                    b.HasOne("Haly.WebApp.Models.Playlist", "Playlist")
+                    b.HasOne("Haly.WebApp.Models.Playlist", null)
                         .WithMany("Tracks")
                         .HasForeignKey("PlaylistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Playlist");
                 });
 
             modelBuilder.Entity("Haly.WebApp.Models.Playlist", b =>
