@@ -4,7 +4,7 @@ namespace Haly.WebApp.Features.Playlists;
 
 public record TrackDto
 {
-    public int Id { get; init; }
+    public int PositionInPlaylist { get; init; }
     public string Name { get; init; }
     public string Duration { get; init; }
     public DateTimeOffset AddedAt { get; init; }
