@@ -2,7 +2,11 @@ import { createStitches } from "@stitches/react";
 
 export const theme = {
     colors: {
-        primary: "#001f3f",
+        primary: "#fee715",
+        // todo: use actual tints
+        primary300: "#fee715",
+        primary400: "#fee715",
+        primary500: "#fee715",
         white: "#fff",
         grey100: "#bdbdbd",
         grey150: "#bababa",
@@ -14,9 +18,6 @@ export const theme = {
         black600: "#121212",
         black700: "#0a0a0a",
         black800: "#000000",
-        primary300: "#842fcf",
-        primary400: "#7b2cbf",
-        primary500: "#7128b2",
         danger: "#e91429",
         defaultDominantColor: "#535353",
     },
