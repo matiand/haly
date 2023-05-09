@@ -13,21 +13,11 @@ export function Login(props: { loginFn: () => unknown }) {
     );
 }
 
-const Main = styled("main", {
-    width: "40vw",
-    margin: "$900 auto",
-    color: "$black700",
-    textAlign: "center",
-    "& h1": {
-        marginBottom: "$500",
-    },
-});
-
+// todo: remove if not needed
 export function SilentLogin({ loginFn }: { loginFn: () => unknown }) {
     // This is a workaround for double renders in React 18 when using development mode.
     // SilentLogin usually crashes when it renders twice, so we use a ref to prevent it.
     const isFirstSilentLogin = useRef(true);
-
     useEffect(() => {
         if (isFirstSilentLogin.current) {
             isFirstSilentLogin.current = false;
@@ -38,3 +28,13 @@ export function SilentLogin({ loginFn }: { loginFn: () => unknown }) {
 
     return null;
 }
+
+const Main = styled("main", {
+    width: "40vw",
+    margin: "$900 auto",
+    color: "$black700",
+    textAlign: "center",
+    "& h1": {
+        marginBottom: "$500",
+    },
+});

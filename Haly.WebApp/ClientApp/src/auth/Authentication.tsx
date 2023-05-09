@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { WebStorageStateStore } from "oidc-client-ts";
 import React, { useEffect, useRef } from "react";
 import { AuthProviderProps, useAuth } from "react-oidc-context";
@@ -5,7 +6,7 @@ import { AuthProviderProps, useAuth } from "react-oidc-context";
 import Loading from "../common/Loading";
 import halyClient from "../halyClient";
 import AuthenticationError from "./AuthenticationError";
-import { Login, SilentLogin } from "./Login";
+import { Login } from "./Login";
 
 type AuthenticationProps = {
     children: React.ReactNode;
@@ -13,27 +14,34 @@ type AuthenticationProps = {
 
 function Authentication(props: AuthenticationProps) {
     const auth = useAuth();
-    const needsToHandleTokenExpirations = useRef(true);
+    // todo: this name is confusing
+    const isTokenExpirationHandlerRegistered = useRef(false);
+    const refreshToken = useMutation(() =>
+        auth
+            .signinSilent()
+            .then((user) => halyClient.me.putCurrentUser({ body: user!.access_token }))
+            .then(() => console.log("Token refreshed")),
+    );
 
-    // Normally automatic token renewals in 'auth' are enabled
+    // Normally automatic token renewals in 'auth' are enabled by default.
     // I had to turn them off, cause the app would crash from React's StrictMode rerenders
     // This effect makes sure that when a token is expiring, its renewal is attempted only once
     useEffect(() => {
-        if (needsToHandleTokenExpirations.current) {
+        if (!isTokenExpirationHandlerRegistered.current) {
             auth.events.addAccessTokenExpiring(() => {
-                auth.signinSilent()
-                    .then((user) => {
-                        if (!user) debugger; // eslint-disable-line
-
-                        return halyClient.me.putCurrentUser({ body: user?.access_token });
-                    })
-                    .then(() => console.log("Token refreshed"));
+                refreshToken.mutate();
             });
             console.log("Am I the only one?");
 
-            needsToHandleTokenExpirations.current = false;
+            isTokenExpirationHandlerRegistered.current = true;
         }
-    }, [auth]);
+
+        const oldLoginExists = auth.user && !auth.isAuthenticated;
+        if (oldLoginExists) {
+            console.log("Silently logging in");
+            refreshToken.mutate();
+        }
+    }, [auth, refreshToken]);
 
     if (auth.error) {
         return <AuthenticationError logout={auth.removeUser} message={auth.error!.message} />;
@@ -45,11 +53,6 @@ function Authentication(props: AuthenticationProps) {
 
     if (auth.isAuthenticated) {
         return <>{props.children}</>;
-    }
-
-    const oldLoginExists = auth.user && !auth.isAuthenticated;
-    if (oldLoginExists) {
-        return <SilentLogin loginFn={auth.signinSilent} />;
     }
 
     return <Login loginFn={auth.signinRedirect} />;
