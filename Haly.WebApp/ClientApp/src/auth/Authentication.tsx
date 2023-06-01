@@ -37,7 +37,7 @@ function Authentication(props: AuthenticationProps) {
         }
 
         const oldLoginExists = auth.user && !auth.isAuthenticated;
-        if (oldLoginExists) {
+        if (oldLoginExists && refreshToken.isIdle) {
             console.log("Silently logging in");
             refreshToken.mutate();
         }
