@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useCallback, useDeferredValue, useEffect } from "react";
+import { useWindowSize } from "usehooks-ts";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import { collectionDominantColorAtom } from "../common/atoms";
@@ -15,9 +16,38 @@ type PlaylistHeaderProps = {
     totalDuration: string;
 };
 
+const titleSizeSteps = [96, 72, 48, 32];
+
 function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
     const [dominantColor, setDominantColor] = useAtom(collectionDominantColorAtom);
-    console.log("Playlist dominant color", dominantColor);
+    const { width: windowWidth } = useWindowSize();
+    const width = useDeferredValue(windowWidth);
+
+    // todo: refactor into hook
+    const titleRef = useCallback(
+        (node: HTMLHeadingElement) => {
+            if (!node) return;
+
+            const height = node.getBoundingClientRect().height;
+            console.log("PlaylistHeader", height);
+
+            node.style.setProperty("visibility", "hidden");
+
+            for (let i = 0; i < titleSizeSteps.length; i++) {
+                const baseVal = titleSizeSteps[i];
+                const val = (baseVal + baseVal * 0.08 + baseVal * 0.12) * 1.5;
+
+                node.style.setProperty("font-size", `${baseVal}px`);
+
+                const newHeight = node.getBoundingClientRect().height;
+
+                if (val >= newHeight) break;
+            }
+
+            node.style.setProperty("visibility", "visible");
+        },
+        [name, width],
+    );
 
     // todo: do I need this
     useEffect(() => {
@@ -33,7 +63,7 @@ function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalD
             {imageUrl && <CollectionCoverImage imageUrl={imageUrl} alt={`${name} playlist image`} />}
             <PlaylistInfo>
                 <Subtitle>Playlist</Subtitle>
-                <Title>{name}</Title>
+                <Title ref={titleRef}>{name}</Title>
                 {description && <Description>{description}</Description>}
                 <Details>
                     <Owner>{owner}</Owner>
@@ -43,7 +73,7 @@ function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalD
                 </Details>
             </PlaylistInfo>
 
-            {dominantColor && <Gradient css={{ $$dominantColor: dominantColor }} />}
+            {/*{dominantColor && <Gradient css={{ $$dominantColor: dominantColor }} />}*/}
         </Wrapper>
     );
 }
@@ -79,22 +109,22 @@ const PlaylistInfo = styled("div", {
 });
 
 const Title = styled("h1", {
-    fontSize: "$800",
-    lineHeight: "normal",
-    marginBottom: "$500",
-    // marginTop: "$600",
+    fontSize: "$700",
+    fontWeight: "800",
+    letterSpacing: "-0.03em",
+    lineHeight: 1.15,
+    margin: "0.08em 0px 0.12em",
     overflow: "hidden",
     userSelect: "none",
-    wordBreak: "break-all",
+    wordBreak: "break-word",
     "-webkit-line-clamp": 3,
     "-webkit-box-orient": "vertical",
     display: "-webkit-box",
 });
 
 const Subtitle = styled("h2", {
-    fontSize: "$100",
+    fontSize: "$300",
     fontWeight: "700",
-    textTransform: "uppercase",
 });
 
 const Details = styled("div", {
