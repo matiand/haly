@@ -47,15 +47,10 @@ function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
     );
 
     useEffect(() => {
-        console.log("inEffect");
         if (inView && tracksQuery.hasNextPage && !tracksQuery.isFetchingNextPage) {
-            console.log("twice");
             tracksQuery.fetchNextPage();
         }
     }, [inView, tracksQuery]);
-
-    console.log("shouldRenderMore", inView);
-    console.log("entry", entry);
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     return (
