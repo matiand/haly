@@ -19,6 +19,7 @@ TypeAdapterConfig.GlobalSettings.Compile();
 // Configure Services
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<ISpotifyEndpointCollector, SpotifyEndpointCollector>();
 builder.Services.AddHttpClient<ISpotifyService, SpotifyService>().AddExponentialRetryPolicy();
 
 builder.Services.AddSingleton<CurrentUserStore>();

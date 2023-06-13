@@ -34,7 +34,7 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
 
         var tracks = await _db.Tracks
             .Where(t => t.PlaylistId == request.Id)
-            .OrderBy(t => t.Id)
+            .OrderBy(t => t.PositionInPlaylist)
             // This projection throws an error, that it can't translate ArtistDto
             // I think it has something to do with storing them as jsonb column
             // .ProjectToType<TrackDto>()

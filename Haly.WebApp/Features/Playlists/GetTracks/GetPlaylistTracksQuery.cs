@@ -26,7 +26,7 @@ public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, 
 
         var tracks = await _db.Tracks
             .Where(t => t.PlaylistId == request.PlaylistId)
-            .OrderBy(t => t.Id)
+            .OrderBy(t => t.PositionInPlaylist)
             // .ProjectToType<TrackDto>()
             .ToPaginatedListAsync(offset: request.Offset, limit: request.Limit, cancellationToken);
 
