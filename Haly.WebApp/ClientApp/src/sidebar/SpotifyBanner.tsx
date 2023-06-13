@@ -1,5 +1,3 @@
-import { NavLink } from "react-router-dom";
-
 import { styled } from "../common/theme";
 
 const logoOnlyVariant = {
@@ -16,14 +14,14 @@ function SpotifyBanner() {
     const { viewBox, d } = logoOnlyVariant;
 
     return (
-        <NavLink to="/">
+        <a href="https://open.spotify.com" target="_blank" rel="noreferrer">
             <BannerWrapper>
                 <Svg viewBox={viewBox} role="img">
                     <title>Spotify</title>
                     <path fill="currentColor" d={d}></path>
                 </Svg>
             </BannerWrapper>
-        </NavLink>
+        </a>
     );
 }
 
@@ -36,7 +34,7 @@ const BannerWrapper = styled("div", {
     width: "100%",
     height: "$topbarHeight",
     padding: "16px",
-    background: "linear-gradient(to right, $primary400, $black800)",
+    // background: "linear-gradient(to right, $primary400, $black800)",
 });
 
 const Svg = styled("svg", {
