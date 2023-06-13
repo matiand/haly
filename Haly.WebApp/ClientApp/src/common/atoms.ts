@@ -5,7 +5,7 @@ export const isPlaylistCachePopulatedAtom = atom((get) => Array.isArray(get(cach
 export const isPlaylistCachedAtom = (playlistId: string) =>
     atom((get) => get(cachedPlaylistIdsAtom)?.includes(playlistId) ?? false);
 
-export const collectionDominantColorAtom = atom<string | null>(null);
+export const dominantColorsAtom = atom<Record<string, string | undefined>>({});
 
 export const playlistIdsWithOldTracksAtom = atom<string[]>([]);
 export const playlistHasOldTracksAtom = (playlistId: string) =>

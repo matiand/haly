@@ -1,9 +1,9 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useDeferredValue, useEffect } from "react";
 import { useWindowSize } from "usehooks-ts";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { collectionDominantColorAtom } from "../common/atoms";
+import { dominantColorsAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 import CollectionCoverImage from "./CollectionCoverImage";
 
@@ -19,9 +19,18 @@ type PlaylistHeaderProps = {
 const titleSizeSteps = [96, 72, 48, 32];
 
 function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
-    const [dominantColor, setDominantColor] = useAtom(collectionDominantColorAtom);
+    console.log("PlaylistHeader", name);
+    const dominantColors = useAtomValue(dominantColorsAtom);
     const { width: windowWidth } = useWindowSize();
     const width = useDeferredValue(windowWidth);
+
+    const dominantColor = imageUrl ? dominantColors[imageUrl] : theme.colors.defaultDominantColor;
+
+    console.log("Dominant color", dominantColor);
+
+    useEffect(() => {
+        console.log("imageUrl has changed");
+    }, [imageUrl]);
 
     // todo: refactor into hook
     const titleRef = useCallback(
@@ -46,17 +55,9 @@ function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalD
 
             node.style.setProperty("visibility", "visible");
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [name, width],
     );
-
-    // todo: do I need this
-    useEffect(() => {
-        if (!imageUrl) {
-            setDominantColor(theme.colors.defaultDominantColor);
-        } else {
-            setDominantColor(null);
-        }
-    }, [imageUrl, setDominantColor]);
 
     return (
         <Wrapper>
@@ -73,18 +74,60 @@ function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalD
                 </Details>
             </PlaylistInfo>
 
-            {/*{dominantColor && <Gradient css={{ $$dominantColor: dominantColor }} />}*/}
+            {dominantColor && (
+                <>
+                    <GradientColor css={{ $$dominantColor: dominantColor }} />
+                    <GradientMaskMinor css={{ $$dominantColor: dominantColor }} />
+                </>
+            )}
         </Wrapper>
     );
 }
 
-const Gradient = styled("div", {
-    width: "400px",
-    height: "400px",
-    zIndex: 1,
+// todo: make it an asset, so that the base64 is automatically generated
+// todo: they don't use zIndex for major + color
+const gradientNoise =
+    "data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGZpbHRlciBpZD0iYSIgeD0iMCIgeT0iMCI+PGZlVHVyYnVsZW5jZSBiYXNlRnJlcXVlbmN5PSIuNzc3IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiB0eXBlPSJmcmFjdGFsTm9pc2UiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PC9maWx0ZXI+PHBhdGggZD0iTTAgMGgzMDB2MzAwSDB6IiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9Ii4wNSIvPjwvc3ZnPg==";
+
+const GradientColor = styled("div", {
+    display: "block",
+    height: "100%",
+    left: 0,
+    top: 0,
+    position: "absolute",
+    width: "100%",
+    zIndex: -1,
 
     "&&": {
-        background: "linear-gradient(to bottom, $$dominantColor, $black600 500px)",
+        // background: "$$dominantColor",
+        background: `linear-gradient(transparent 0%, rgba(0,0,0,.5) 100%), url(${gradientNoise}), $$dominantColor`,
+    },
+});
+
+const GradientMaskMajor = styled("div", {
+    display: "block",
+    height: "100%",
+    left: 0,
+    top: 0,
+    position: "absolute",
+    width: "100%",
+    zIndex: -1,
+
+    "&&": {
+        background: `linear-gradient(transparent 0%, rgba(0,0,0,.5) 100%), url(${gradientNoise})`,
+    },
+});
+
+const GradientMaskMinor = styled("div", {
+    display: "block",
+    height: "100%",
+    top: 272,
+    position: "absolute",
+    width: "100%",
+    zIndex: -1,
+
+    "&&": {
+        background: `linear-gradient(rgba(0,0,0,.6) 0%, $black600 100%), url(${gradientNoise}), $$dominantColor`,
     },
 });
 
@@ -96,6 +139,7 @@ const Wrapper = styled("div", {
     maxHeight: "400px",
     minHeight: "272px",
     padding: "0 0 $700",
+    position: "relative",
 
     "& > img": {
         marginRight: "$700",

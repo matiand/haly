@@ -19,6 +19,8 @@ export const theme = {
         black700: "#0a0a0a",
         black800: "#000000",
         danger: "#e91429",
+        // 'Liked Songs' purple
+        purple: "#5038a0",
         defaultDominantColor: "#535353",
     },
     fonts: {
@@ -71,4 +73,7 @@ const media = {
     bp3: "(min-width: 1060px)",
 };
 
-export const { styled, globalCss } = createStitches({ theme, media });
+export const { styled, globalCss } = createStitches({
+    theme,
+    media,
+});

@@ -74,7 +74,7 @@ export const Layout = styled("div", {
     },
     "& > main": {
         // TODO: clean this up
-        background: "$black800",
+        background: "$black600",
         color: "$white",
         gridArea: "main",
         padding: "0 $800",
