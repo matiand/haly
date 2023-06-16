@@ -1,5 +1,5 @@
-import { useAtom, useAtomValue } from "jotai";
-import { useCallback, useDeferredValue, useEffect } from "react";
+import { useAtomValue } from "jotai";
+import { useCallback, useDeferredValue } from "react";
 import { useWindowSize } from "usehooks-ts";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
@@ -95,22 +95,7 @@ const GradientColor = styled("div", {
     zIndex: -1,
 
     "&&": {
-        // background: "$$dominantColor",
         background: `linear-gradient(transparent 0%, rgba(0,0,0,.5) 100%), url(${gradientNoise}), $$dominantColor`,
-    },
-});
-
-const GradientMaskMajor = styled("div", {
-    display: "block",
-    height: "100%",
-    left: 0,
-    top: 0,
-    position: "absolute",
-    width: "100%",
-    zIndex: -1,
-
-    "&&": {
-        background: `linear-gradient(transparent 0%, rgba(0,0,0,.5) 100%), url(${gradientNoise})`,
     },
 });
 

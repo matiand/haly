@@ -1,7 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useParams } from "react-router-dom";
 
 import { TrackDtoPaginatedList } from "../../generated/haly";
 import halyClient from "../halyClient";
@@ -16,7 +15,7 @@ const MaxTrackQueryLimit = 100;
 const MinTrackQueryOffset = 25;
 
 function PlaylistTracks({ playlistId, initialTracks }: PlaylistTracksProps) {
-    const { ref, inView, entry } = useInView({
+    const { ref, inView } = useInView({
         rootMargin: "0px 0px 600px 0px",
         // Default root doesn't work (I think it's cause our layout has fixed footer)
         root: document.getElementById("playlist-container"),

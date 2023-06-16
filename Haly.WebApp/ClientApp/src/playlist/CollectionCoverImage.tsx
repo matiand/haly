@@ -43,7 +43,7 @@ function CollectionCoverImage({ playlistId, alt, imageUrl }: CoverImageProps) {
         }
 
         console.timeEnd("Dominant color extraction");
-    }, [imageUrl, setDominantColors]);
+    }, [imageUrl, playlistId, setDominantColors]);
 
     if (!imageUrl) return null;
 
