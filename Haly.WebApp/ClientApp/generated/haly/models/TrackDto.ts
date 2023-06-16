@@ -43,7 +43,7 @@ export interface TrackDto {
      * @type {number}
      * @memberof TrackDto
      */
-    id: number;
+    positionInPlaylist: number;
     /**
      * 
      * @type {string}
@@ -87,7 +87,7 @@ export interface TrackDto {
  */
 export function instanceOfTrackDto(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "positionInPlaylist" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "addedAt" in value;
@@ -108,7 +108,7 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'id': json['id'],
+        'positionInPlaylist': json['positionInPlaylist'],
         'name': json['name'],
         'duration': json['duration'],
         'addedAt': (new Date(json['addedAt'])),
@@ -127,7 +127,7 @@ export function TrackDtoToJSON(value?: TrackDto | null): any {
     }
     return {
         
-        'id': value.id,
+        'positionInPlaylist': value.positionInPlaylist,
         'name': value.name,
         'duration': value.duration,
         'addedAt': (value.addedAt.toISOString()),

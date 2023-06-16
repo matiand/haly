@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
-using Haly.WebApp.Features.CurrentUser.UpdateLikes;
+using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
@@ -97,7 +97,7 @@ public sealed class SpotifyService : ISpotifyService
         var response =
             await _spotifyClient.GetUsersSavedTracksAsync(offset: 0, limit: LikedSongsLimit, market: userMarket);
 
-        var currSnapshot = response.Adapt<LikesSnapshot>();
+        var currSnapshot = response.Adapt<LikedSongsSnapshot>();
         if (currSnapshot.Equals(prevSnapshotId)) return null;
 
         var remainingSongs = await _endpointCollector.FetchConcurrently(

@@ -69,7 +69,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserPlaylistDto'
+                  $ref: '#/components/schemas/PlaylistBriefDto'
         '404':
           description: User not found
           content:
@@ -95,21 +95,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/Problem'
   /Me/tracks:
-    get:
+    put:
       tags:
         - Me
-      summary: Get current user 'Liked Songs' collection
+      summary: Update current user's 'Liked Songs' collection
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>'
-      operationId: GetLikedSongs
+      operationId: PutCurrentUserLikedSongs
       responses:
         '200':
-          description: '''Liked Songs'' returned'
+          description: '''Liked Songs'' updated'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TrackDto'
+                $ref: '#/components/schemas/PlaylistBriefDto'
+        '201':
+          description: '''Liked Songs'' created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistBriefDto'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '400':
           description: Bad request
           content:
@@ -340,6 +350,17 @@ components:
         name:
           type: string
       additionalProperties: false
+    PlaylistBriefDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      additionalProperties: false
     PlaylistMetadataDto:
       required:
         - owner
@@ -395,12 +416,12 @@ components:
         - album
         - artists
         - duration
-        - id
         - name
+        - positionInPlaylist
         - type
       type: object
       properties:
-        id:
+        positionInPlaylist:
           type: integer
           format: int32
         name:
@@ -462,17 +483,6 @@ components:
           type: string
         canUseSpotifyPlayer:
           type: boolean
-      additionalProperties: false
-    UserPlaylistDto:
-      required:
-        - id
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
       additionalProperties: false
     ValidationProblem:
       required:

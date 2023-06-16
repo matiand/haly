@@ -1,23 +1,21 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { PaletteColor, paletteFromImage } from "palette-from-image";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 import { dominantColorsAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 
 type CoverImageProps = {
+    playlistId: string;
     alt: string;
     imageUrl: string;
 };
 
-function CollectionCoverImage({ alt, imageUrl }: CoverImageProps) {
-    // const setDominantColors = useSetAtom(dominantColorsAtom);
-    const [dominantColors, setDominantColors] = useAtom(dominantColorsAtom);
+function CollectionCoverImage({ playlistId, alt, imageUrl }: CoverImageProps) {
+    const setDominantColors = useSetAtom(dominantColorsAtom);
     const imageRef = useRef<HTMLImageElement>(null);
 
     const onImageLoad = useCallback(() => {
-        if (dominantColors[imageUrl]) return;
-
         console.time("Dominant color extraction");
 
         if (imageUrl.includes("//mosaic")) {
@@ -32,7 +30,7 @@ function CollectionCoverImage({ alt, imageUrl }: CoverImageProps) {
             });
 
             const dominantColor = selectDominantColor(palette?.colors);
-            setDominantColors((prev) => ({ ...prev, [imageUrl]: dominantColor }));
+            setDominantColors((prev) => ({ ...prev, [playlistId]: dominantColor }));
         } else {
             const palette = paletteFromImage(imageRef.current!, {
                 colorCount: 8,
@@ -41,11 +39,11 @@ function CollectionCoverImage({ alt, imageUrl }: CoverImageProps) {
             });
 
             const dominantColor = selectDominantColor(palette?.colors);
-            setDominantColors((prev) => ({ ...prev, [imageUrl]: dominantColor }));
+            setDominantColors((prev) => ({ ...prev, [playlistId]: dominantColor }));
         }
 
         console.timeEnd("Dominant color extraction");
-    }, [imageUrl, dominantColors, setDominantColors]);
+    }, [imageUrl, setDominantColors]);
 
     if (!imageUrl) return null;
 

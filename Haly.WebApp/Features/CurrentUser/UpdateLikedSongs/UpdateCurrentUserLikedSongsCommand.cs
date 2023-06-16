@@ -7,17 +7,17 @@ using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Haly.WebApp.Features.CurrentUser.UpdateLikes;
+namespace Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 
-public record UpdateCurrentUserLikesCommand(string UserId, string UserMarket) : IRequest<UpdateCurrentUserLikesResponse?>;
+public record UpdateCurrentUserLikedSongsCommand(string UserId, string UserMarket) : IRequest<UpdateCurrentUserLikedSongsResponse?>;
 
-public record UpdateCurrentUserLikesHandler : IRequestHandler<UpdateCurrentUserLikesCommand, UpdateCurrentUserLikesResponse?>
+public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrentUserLikedSongsCommand, UpdateCurrentUserLikedSongsResponse?>
 {
     private readonly ISpotifyService _spotifyService;
     private readonly CurrentUserStore _currentUserStore;
     private readonly LibraryContext _db;
 
-    public UpdateCurrentUserLikesHandler(ISpotifyService spotifyService, CurrentUserStore currentUserStore, LibraryContext db)
+    public UpdateCurrentUserLikedSongsHandler(ISpotifyService spotifyService, CurrentUserStore currentUserStore, LibraryContext db)
     {
         _spotifyService = spotifyService;
         _currentUserStore = currentUserStore;
@@ -25,18 +25,20 @@ public record UpdateCurrentUserLikesHandler : IRequestHandler<UpdateCurrentUserL
     }
 
     // todo: refactor into helper methods
-    public async Task<UpdateCurrentUserLikesResponse?> Handle(UpdateCurrentUserLikesCommand request,
+    public async Task<UpdateCurrentUserLikedSongsResponse?> Handle(UpdateCurrentUserLikedSongsCommand request,
         CancellationToken cancellationToken)
     {
         var playlistId = GetLikedSongsPlaylistId(request);
         var cachedPlaylist =
-            await _db.Playlists.FirstOrDefaultAsync(p => p.Id == playlistId, cancellationToken);
+            await _db.Playlists
+                .Include(p => p.Tracks)
+                .FirstOrDefaultAsync(p => p.Id == playlistId, cancellationToken);
 
         var apiResponse = await _spotifyService.GetLikedSongsIfChanged(request.UserMarket, cachedPlaylist?.SnapshotId);
 
         if (apiResponse is null && cachedPlaylist is null) return null;
         if (apiResponse is null)
-            return new UpdateCurrentUserLikesResponse(Created: false, cachedPlaylist!.Adapt<PlaylistBriefDto>());
+            return new UpdateCurrentUserLikedSongsResponse(Created: false, cachedPlaylist!.Adapt<PlaylistBriefDto>());
 
         if (cachedPlaylist is null)
         {
@@ -55,15 +57,15 @@ public record UpdateCurrentUserLikesHandler : IRequestHandler<UpdateCurrentUserL
             _db.Playlists.Add(newPlaylist);
             await _db.SaveChangesAsync(cancellationToken);
 
-            return new UpdateCurrentUserLikesResponse(Created: true, newPlaylist.Adapt<PlaylistBriefDto>());
+            return new UpdateCurrentUserLikedSongsResponse(Created: true, newPlaylist.Adapt<PlaylistBriefDto>());
         }
 
         cachedPlaylist.SnapshotId = apiResponse.SnapshotId;
         cachedPlaylist.Tracks = apiResponse.Tracks;
         await _db.SaveChangesAsync(cancellationToken);
 
-        return new UpdateCurrentUserLikesResponse(Created: false, cachedPlaylist.Adapt<PlaylistBriefDto>());
+        return new UpdateCurrentUserLikedSongsResponse(Created: false, cachedPlaylist.Adapt<PlaylistBriefDto>());
     }
 
-    private static string GetLikedSongsPlaylistId(UpdateCurrentUserLikesCommand request) => $"LikesOf_{request.UserId}";
+    private static string GetLikedSongsPlaylistId(UpdateCurrentUserLikedSongsCommand request) => $"LikesOf_{request.UserId}";
 }

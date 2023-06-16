@@ -8,6 +8,7 @@ models/AlbumDto.ts
 models/ArtistDto.ts
 models/DeviceDto.ts
 models/OwnerDto.ts
+models/PlaylistBriefDto.ts
 models/PlaylistMetadataDto.ts
 models/PlaylistWithTracksDto.ts
 models/Problem.ts
@@ -15,7 +16,6 @@ models/TrackDto.ts
 models/TrackDtoPaginatedList.ts
 models/TrackType.ts
 models/UserDto.ts
-models/UserPlaylistDto.ts
 models/ValidationProblem.ts
 models/index.ts
 runtime.ts

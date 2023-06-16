@@ -28,6 +28,7 @@ function Playlist() {
         // This id is used by PlaylistTracks for its useInView hook
         <Main id="playlist-container">
             <PlaylistHeader
+                id={playlist.id}
                 name={playlist.name}
                 imageUrl={playlist.metadata.imageUrl}
                 description={playlist.metadata.description}
@@ -36,7 +37,7 @@ function Playlist() {
                 totalDuration={totalDuration}
             />
             <PlaylistControls name={playlist.name} />
-            <PlaylistTracks initialTracks={playlist.tracks} />
+            <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
         </Main>
     );
 }

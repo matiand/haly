@@ -8,6 +8,7 @@ import { styled, theme } from "../common/theme";
 import CollectionCoverImage from "./CollectionCoverImage";
 
 type PlaylistHeaderProps = {
+    id: string;
     name: string;
     imageUrl: PlaylistWithTracksDto["metadata"]["imageUrl"];
     description: PlaylistWithTracksDto["metadata"]["description"];
@@ -18,19 +19,14 @@ type PlaylistHeaderProps = {
 
 const titleSizeSteps = [96, 72, 48, 32];
 
-function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
+function PlaylistHeader({ id, name, imageUrl, description, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
     console.log("PlaylistHeader", name);
     const dominantColors = useAtomValue(dominantColorsAtom);
     const { width: windowWidth } = useWindowSize();
     const width = useDeferredValue(windowWidth);
 
-    const dominantColor = imageUrl ? dominantColors[imageUrl] : theme.colors.defaultDominantColor;
-
+    const dominantColor = dominantColors[id] ?? theme.colors.defaultDominantColor;
     console.log("Dominant color", dominantColor);
-
-    useEffect(() => {
-        console.log("imageUrl has changed");
-    }, [imageUrl]);
 
     // todo: refactor into hook
     const titleRef = useCallback(
@@ -61,7 +57,7 @@ function PlaylistHeader({ name, imageUrl, description, owner, songsCount, totalD
 
     return (
         <Wrapper>
-            {imageUrl && <CollectionCoverImage imageUrl={imageUrl} alt={`${name} playlist image`} />}
+            {imageUrl && <CollectionCoverImage playlistId={id} imageUrl={imageUrl} alt={`${name} playlist image`} />}
             <PlaylistInfo>
                 <Subtitle>Playlist</Subtitle>
                 <Title ref={titleRef}>{name}</Title>

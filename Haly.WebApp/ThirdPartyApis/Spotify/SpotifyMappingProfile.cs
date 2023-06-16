@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using Haly.GeneratedClients;
-using Haly.WebApp.Features.CurrentUser.UpdateLikes;
+using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
@@ -65,7 +65,7 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.VolumePercent, src => src.Volume_percent);
 
 
-        config.ForType<PagingSavedTrackObject, LikesSnapshot>()
+        config.ForType<PagingSavedTrackObject, LikedSongsSnapshot>()
             .Map(dest => dest.LastTrackId,
                 src => src.Items.FirstOrDefault() != null ? src.Items.FirstOrDefault()!.Track.Id : null);
     }

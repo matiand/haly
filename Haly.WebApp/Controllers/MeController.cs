@@ -1,7 +1,7 @@
 using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdateCurrentUser;
-using Haly.WebApp.Features.CurrentUser.UpdateLikes;
+using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Playlists;
@@ -57,12 +57,12 @@ public class MeController : ApiControllerBase
     [SwaggerResponse(statusCode: 201, "'Liked Songs' created", typeof(PlaylistBriefDto))]
     [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
-    public async Task<ActionResult<PlaylistBriefDto>> PutCurrentUserLikes(
+    public async Task<ActionResult<PlaylistBriefDto>> PutCurrentUserLikedSongs(
         [FromServices] CurrentUserStore currentUserStore)
     {
         var currentUser = currentUserStore.User!;
 
-        var response = await Mediator.Send(new UpdateCurrentUserLikesCommand(currentUser.Id, currentUser.Market));
+        var response = await Mediator.Send(new UpdateCurrentUserLikedSongsCommand(currentUser.Id, currentUser.Market));
         if (response is null) return NotFound();
 
         // todo: test this, cause we hardcoded it

@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface UserPlaylistDto
+ * @interface PlaylistBriefDto
  */
-export interface UserPlaylistDto {
+export interface PlaylistBriefDto {
     /**
      * 
      * @type {string}
-     * @memberof UserPlaylistDto
+     * @memberof PlaylistBriefDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof UserPlaylistDto
+     * @memberof PlaylistBriefDto
      */
     name: string;
 }
 
 /**
- * Check if a given object implements the UserPlaylistDto interface.
+ * Check if a given object implements the PlaylistBriefDto interface.
  */
-export function instanceOfUserPlaylistDto(value: object): boolean {
+export function instanceOfPlaylistBriefDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -44,11 +44,11 @@ export function instanceOfUserPlaylistDto(value: object): boolean {
     return isInstance;
 }
 
-export function UserPlaylistDtoFromJSON(json: any): UserPlaylistDto {
-    return UserPlaylistDtoFromJSONTyped(json, false);
+export function PlaylistBriefDtoFromJSON(json: any): PlaylistBriefDto {
+    return PlaylistBriefDtoFromJSONTyped(json, false);
 }
 
-export function UserPlaylistDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserPlaylistDto {
+export function PlaylistBriefDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistBriefDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function UserPlaylistDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function UserPlaylistDtoToJSON(value?: UserPlaylistDto | null): any {
+export function PlaylistBriefDtoToJSON(value?: PlaylistBriefDto | null): any {
     if (value === undefined) {
         return undefined;
     }

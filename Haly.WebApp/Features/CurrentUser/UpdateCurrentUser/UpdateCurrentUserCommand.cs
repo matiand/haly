@@ -22,9 +22,8 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand
     public async Task<UpdateCurrentUserResponse?> Handle(UpdateCurrentUserCommand request,
         CancellationToken cancellationToken)
     {
+        // todo: run together
         var spotifyUser = await _spotify.GetCurrentUser();
-        if (spotifyUser is null) return null;
-
         var cachedUser =
             await _db.Users.FirstOrDefaultAsync(u => u.Id == spotifyUser.Id, cancellationToken: cancellationToken);
 

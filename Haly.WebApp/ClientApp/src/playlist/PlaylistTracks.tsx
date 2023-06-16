@@ -8,14 +8,14 @@ import halyClient from "../halyClient";
 import Collection from "./Collection";
 
 type PlaylistTracksProps = {
+    playlistId: string;
     initialTracks: TrackDtoPaginatedList;
 };
 
 const MaxTrackQueryLimit = 100;
 const MinTrackQueryOffset = 25;
 
-function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
-    const { id } = useParams();
+function PlaylistTracks({ playlistId, initialTracks }: PlaylistTracksProps) {
     const { ref, inView, entry } = useInView({
         rootMargin: "0px 0px 600px 0px",
         // Default root doesn't work (I think it's cause our layout has fixed footer)
@@ -23,10 +23,10 @@ function PlaylistTracks({ initialTracks }: PlaylistTracksProps) {
     });
 
     const tracksQuery = useInfiniteQuery(
-        ["playlists", id, "tracks"],
+        ["playlists", playlistId, "tracks"],
         ({ pageParam = MinTrackQueryOffset }) => {
             return halyClient.playlists.getTracks({
-                playlistId: id!,
+                playlistId: playlistId,
                 limit: MaxTrackQueryLimit,
                 offset: pageParam,
             });

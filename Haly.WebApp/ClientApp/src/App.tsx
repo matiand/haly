@@ -2,7 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
+import { UserDto } from "../generated/haly";
 import useSpotifyToken from "./auth/useSpotifyToken";
+import LikedSongs from "./collections/LikedSongs";
 import Loading from "./common/Loading";
 import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
@@ -15,7 +17,6 @@ import HalySettings from "./me/HalySettings";
 import Me from "./me/Me";
 import { UserContext } from "./me/UserContext";
 import PlayingBar from "./playlingbar/PlayingBar";
-import LikedSongs from "./playlist/LikedSongs";
 import Playlist from "./playlist/Playlist";
 import Sidebar from "./sidebar/Sidebar";
 import StatusBar from "./statusbar/StatusBar";
@@ -29,6 +30,7 @@ function App() {
         data: user,
         error,
     } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }));
+    useSyncedLikedSongs(user);
 
     if (isLoading) return <Loading />;
     if (error || !user) return <Toaster />;
@@ -55,6 +57,13 @@ function App() {
             </Layout>
         </UserContext.Provider>
     );
+}
+
+function useSyncedLikedSongs(user: UserDto | undefined) {
+    useQuery(["me", "tracks"], () => halyClient.me.putCurrentUserLikedSongs(), {
+        enabled: !!user,
+        staleTime: 12 * 60 * 1000,
+    });
 }
 
 export const Layout = styled("div", {
