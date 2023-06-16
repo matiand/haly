@@ -4,7 +4,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { styled } from "../common/theme";
 
 type SearchBarProps = {
-    variant: "topbar" | "playlist";
+    variant: "app" | "playlist";
 };
 
 function SearchBar({ variant }: SearchBarProps) {
@@ -31,10 +31,10 @@ function SearchBar({ variant }: SearchBarProps) {
 }
 
 const inputPropsByVariant: Record<SearchBarProps["variant"], Record<string, string>> = {
-    topbar: {
+    app: {
         placeholder: "What do you want to listen to?",
         "aria-label": "Search Haly",
-        variant: "topbar",
+        variant: "app",
     },
     playlist: {
         placeholder: "Search in playlist",
@@ -49,7 +49,7 @@ const Form = styled("form", {
 
     variants: {
         variant: {
-            topbar: {
+            app: {
                 height: "40px",
 
                 "& > input": {

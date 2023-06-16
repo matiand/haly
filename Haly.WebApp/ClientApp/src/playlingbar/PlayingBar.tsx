@@ -5,8 +5,8 @@ function PlayingBar() {
 }
 
 const Wrapper = styled("div", {
-    background: "$black550",
-    height: "$topbarHeight",
+    background: "$black800",
+    height: "$playingbarHeight",
 });
 
 export default PlayingBar;

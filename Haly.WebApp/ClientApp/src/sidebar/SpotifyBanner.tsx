@@ -32,9 +32,8 @@ function SpotifyBanner() {
 const BannerWrapper = styled("div", {
     display: "flex",
     width: "100%",
-    height: "$topbarHeight",
+    height: "$spotifyBannerHeight",
     padding: "16px",
-    // background: "linear-gradient(to right, $primary400, $black800)",
 });
 
 const Svg = styled("svg", {

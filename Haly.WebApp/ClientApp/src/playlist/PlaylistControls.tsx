@@ -1,7 +1,7 @@
+import SearchBar from "../collections/SearchBar";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import { styled } from "../common/theme";
 import PlaybackToggle from "../player/PlaybackToggle";
-import SearchBar from "../topbar/SearchBar";
 
 type PlaylistControlsProps = {
     name: string;

@@ -78,9 +78,6 @@ export const Layout = styled("div", {
     gridTemplateRows: "auto 1fr auto auto",
     height: "100%",
 
-    "& > #topbar": {
-        gridArea: "topbar",
-    },
     "& > main": {
         // TODO: clean this up
         background: "$black600",

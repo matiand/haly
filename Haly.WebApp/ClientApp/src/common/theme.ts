@@ -50,9 +50,8 @@ export const theme = {
         900: "3rem",
     },
     sizes: {
-        topbarHeight: "64px",
         playingbarHeight: "64px",
-        spotifyBannerMaxWidth: "36px",
+        spotifyBannerHeight: "64px",
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
         navIconSize: "24px",
