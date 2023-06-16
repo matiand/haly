@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 
-public record UpdateCurrentUserLikedSongsCommand(string UserId, string UserMarket) : IRequest<UpdateCurrentUserLikedSongsResponse?>;
+public record UpdateCurrentUserLikedSongsCommand(string UserId, string UserMarket) : IRequest<UpdateCurrentUserLikedSongsResponse>;
 
-public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrentUserLikedSongsCommand, UpdateCurrentUserLikedSongsResponse?>
+public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrentUserLikedSongsCommand, UpdateCurrentUserLikedSongsResponse>
 {
     private readonly ISpotifyService _spotifyService;
     private readonly CurrentUserStore _currentUserStore;
@@ -24,7 +24,7 @@ public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrent
         _db = db;
     }
 
-    public async Task<UpdateCurrentUserLikedSongsResponse?> Handle(UpdateCurrentUserLikedSongsCommand request,
+    public async Task<UpdateCurrentUserLikedSongsResponse> Handle(UpdateCurrentUserLikedSongsCommand request,
         CancellationToken cancellationToken)
     {
         var playlistId = GetLikedSongsPlaylistId(request);
@@ -40,7 +40,6 @@ public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrent
             // cause we had to fetch them (remember that any errors are handled by our API
             // middleware, so we don't care about them).
             var newPlaylist = await AddNewPlaylist(playlistId, likedSongs!, cancellationToken);
-
             return new UpdateCurrentUserLikedSongsResponse(Created: true, newPlaylist.Adapt<PlaylistBriefDto>());
         }
 

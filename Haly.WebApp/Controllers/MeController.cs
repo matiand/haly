@@ -22,9 +22,9 @@ public class MeController : ApiControllerBase
     [CallsSpotifyApi(SpotifyScopes.UserReadPrivate)]
     public async Task<ActionResult<UserDto>> PutCurrentUser([FromBody] string spotifyToken)
     {
-        await Mediator.Send(new UpdateAccessTokenCommand(spotifyToken));
+        var user = await Mediator.Send(new UpdateAccessTokenCommand(spotifyToken));
 
-        var response = await Mediator.Send(new UpdateCurrentUserCommand());
+        var response = await Mediator.Send(new UpdateCurrentUserCommand(user));
         if (response.Created)
         {
             // This is the only endpoint that returns a 'User', so it's not even possible to provide
