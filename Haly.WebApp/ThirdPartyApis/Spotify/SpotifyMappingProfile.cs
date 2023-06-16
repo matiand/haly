@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.CurrentUser.UpdateLikes;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
@@ -62,25 +63,32 @@ public class SpotifyMappingProfile : IRegister
         config.ForType<DeviceObject, DeviceDto>()
             .Map(dest => dest.IsActive, src => src.Is_active)
             .Map(dest => dest.VolumePercent, src => src.Volume_percent);
-        private static string? GetPlaylistImage(ICollection<ImageObject> image)
-        {
-            // If there is more than one image, we want to use the second one, because it has similar
-            // dimensions to what we want to display to the user.
-            if (image.Count > 1) return image.ElementAt(index: 1).Url;
 
-            return image.FirstOrDefault()?.Url;
-        }
 
-        // Trims descriptions from anchor tags, because we can't render them correctly and their hrefs
-        // often contain internal Spotify links. After we Html decode remaining text.
-        private static string? TrimAndDecodePlaylistDescription(string? description)
-        {
-            if (string.IsNullOrEmpty(description)) return description;
-
-            var sentences = Regex.Split(description, @"(?<=[.!?])\s+");
-
-            return HttpUtility.HtmlDecode(
-                string.Join(" ", sentences.Where(s => !s.Contains("</a>")))
-            );
-        }
+        config.ForType<PagingSavedTrackObject, LikesSnapshot>()
+            .Map(dest => dest.LastTrackId,
+                src => src.Items.FirstOrDefault() != null ? src.Items.FirstOrDefault()!.Track.Id : null);
     }
+
+    private static string? GetPlaylistImage(ICollection<ImageObject> image)
+    {
+        // If there is more than one image, we want to use the second one, because it has similar
+        // dimensions to what we want to display to the user.
+        if (image.Count > 1) return image.ElementAt(index: 1).Url;
+
+        return image.FirstOrDefault()?.Url;
+    }
+
+    // Trims descriptions from anchor tags, because we can't render them correctly and their hrefs
+    // often contain internal Spotify links. After we Html decode remaining text.
+    private static string? TrimAndDecodePlaylistDescription(string? description)
+    {
+        if (string.IsNullOrEmpty(description)) return description;
+
+        var sentences = Regex.Split(description, @"(?<=[.!?])\s+");
+
+        return HttpUtility.HtmlDecode(
+            string.Join(" ", sentences.Where(s => !s.Contains("</a>")))
+        );
+    }
+}

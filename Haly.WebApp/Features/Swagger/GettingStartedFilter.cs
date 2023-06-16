@@ -3,6 +3,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Haly.WebApp.Features.Swagger;
 
+// todo: make sure this still makes sense
 // Explains why you need to call the PutCurrentUser action before other endpoints
 public class GettingStartedFilter : IOperationFilter
 {

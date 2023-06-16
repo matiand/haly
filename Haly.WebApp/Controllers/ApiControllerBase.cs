@@ -1,4 +1,4 @@
-using Haly.WebApp.Features.CurrentUser;
+using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.ErrorHandling;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ namespace Haly.WebApp.Controllers;
 
 [ApiController]
 [ApiExceptionFilter]
-[ServiceFilter(typeof(ValidateCurrentUserStoreFilterService))]
+[ServiceFilter(typeof(ValidateAccessTokenFilterService))]
 [Route("[controller]")]
 [Produces("application/json")]
 public abstract class ApiControllerBase : ControllerBase

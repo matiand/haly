@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
-using Haly.WebApp.Features.CurrentUser;
+using Haly.WebApp.Features.CurrentUser.TokenManagement;
+using Haly.WebApp.Features.CurrentUser.UpdateLikes;
 using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
@@ -91,22 +92,26 @@ public sealed class SpotifyService : ISpotifyService
             .AnnotateWithPosition();
     }
 
-    public async Task<List<Track>> GetLikedSongs(string userMarket)
+    public async Task<LikedSongsDto?> GetLikedSongsIfChanged(string userMarket, string? prevSnapshotId)
     {
-        var likedSongs = new List<SavedTrackObject>();
-        var offset = 0;
+        var response =
+            await _spotifyClient.GetUsersSavedTracksAsync(offset: 0, limit: LikedSongsLimit, market: userMarket);
 
-        do
-        {
-            var response = await _spotifyClient.GetUsersSavedTracksAsync(offset: offset,
-                limit: LikedSongsLimit,
-                market: userMarket);
-            likedSongs.AddRange(response.Items);
+        var currSnapshot = response.Adapt<LikesSnapshot>();
+        if (currSnapshot.Equals(prevSnapshotId)) return null;
 
-            offset = response.Next is not null ? response.Offset + response.Limit : -1;
-        } while (offset != -1);
+        var remainingSongs = await _endpointCollector.FetchConcurrently(
+            endpointFn: (limit, offset) =>
+                _spotifyClient.GetUsersSavedTracksAsync(userMarket, limit: limit, offset: offset),
+            dataFn: pagingObj => pagingObj.Items,
+            endpointLimit: LikedSongsLimit, maxConcurrentRequests: 4, startingOffset: response.Limit);
 
-        return likedSongs.Adapt<List<Track>>();
+        var songsDto = response.Items
+            .Concat(remainingSongs)
+            .Adapt<List<Track>>()
+            .AnnotateWithPosition();
+
+        return new LikedSongsDto(currSnapshot.SnapshotId, songsDto);
     }
 
     public async Task<List<DeviceDto>> GetAvailableDevices()

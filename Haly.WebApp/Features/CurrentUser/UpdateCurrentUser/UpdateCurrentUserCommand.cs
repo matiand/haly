@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.UpdateCurrentUser;
 
-public record UpdateCurrentUserCommand(string SpotifyToken) : IRequest<UpdateCurrentUserResponse>;
+public record UpdateCurrentUserCommand : IRequest<UpdateCurrentUserResponse>;
 
-public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserResponse>
+public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserResponse?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
@@ -19,10 +19,12 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand
         _spotify = spotify;
     }
 
-    public async Task<UpdateCurrentUserResponse> Handle(UpdateCurrentUserCommand request,
+    public async Task<UpdateCurrentUserResponse?> Handle(UpdateCurrentUserCommand request,
         CancellationToken cancellationToken)
     {
         var spotifyUser = await _spotify.GetCurrentUser();
+        if (spotifyUser is null) return null;
+
         var cachedUser =
             await _db.Users.FirstOrDefaultAsync(u => u.Id == spotifyUser.Id, cancellationToken: cancellationToken);
 

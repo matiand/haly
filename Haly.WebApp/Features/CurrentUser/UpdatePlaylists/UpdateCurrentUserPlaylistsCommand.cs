@@ -1,4 +1,5 @@
 using Haly.WebApp.Data;
+using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Jobs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
@@ -6,12 +7,12 @@ using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Haly.WebApp.Features.CurrentUser.UpdateUserPlaylists;
+namespace Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
 
-public record UpdateCurrentUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<UserPlaylistDto>?>;
+public record UpdateCurrentUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<PlaylistBriefDto>?>;
 
 public class UpdateCurrentUserPlaylistsHandler
-    : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<UserPlaylistDto>?>
+    : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<PlaylistBriefDto>?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
@@ -23,7 +24,7 @@ public class UpdateCurrentUserPlaylistsHandler
         _spotify = spotify;
     }
 
-    public async Task<IEnumerable<UserPlaylistDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
+    public async Task<IEnumerable<PlaylistBriefDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
         CancellationToken cancellationToken)
     {
         var userTask = _db.Users.Where(u => u.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
@@ -32,7 +33,7 @@ public class UpdateCurrentUserPlaylistsHandler
 
         if (user is null) return null;
 
-        user.LinkedPlaylistsOrder = response.PlaylistsOrder;
+        user.LinkedPlaylistsOrder = response.PlaylistOrder;
         await UpdateLinkedPlaylists(user, response.Playlists);
         ScheduleBackgroundJobs(user);
 
@@ -40,7 +41,7 @@ public class UpdateCurrentUserPlaylistsHandler
 
         return user.LinkedPlaylistsOrder
             .Select(playlistId => response.Playlists.First(item => item.Id == playlistId))
-            .Adapt<IEnumerable<UserPlaylistDto>>();
+            .Adapt<IEnumerable<PlaylistBriefDto>>();
     }
 
     private async Task UpdateLinkedPlaylists(User user, List<Playlist> freshPlaylists)

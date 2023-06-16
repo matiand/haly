@@ -1,6 +1,6 @@
 using Haly.GeneratedClients;
 using Haly.WebApp.Data;
-using Haly.WebApp.Features.CurrentUser;
+using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Hubs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.SignalR;
@@ -42,7 +42,7 @@ public class RefetchPlaylistTracksService : BackgroundService
 
     private async Task HandleQueuedJobs(LibraryContext db, ISpotifyService spotify, CancellationToken stoppingToken)
     {
-        var currentUserId = _currentUserStore.UserId!;
+        var currentUserId = _currentUserStore.User!.Id;
         var user = await db.Users
             .Include(user => user.RefetchPlaylistTracksJobs)
             .AsNoTracking()

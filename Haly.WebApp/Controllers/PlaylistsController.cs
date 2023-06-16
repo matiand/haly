@@ -1,4 +1,4 @@
-using Haly.WebApp.Features.CurrentUser;
+using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Playlists;
@@ -13,7 +13,7 @@ namespace Haly.WebApp.Controllers;
 
 public class PlaylistsController : ApiControllerBase
 {
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = nameof(GetPlaylist))]
     [SwaggerOperation(Summary = "Get playlist", Description = "Get playlist from our cache")]
     [SwaggerResponse(statusCode: 200, "Playlist found", typeof(PlaylistWithTracksDto))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
@@ -33,7 +33,7 @@ public class PlaylistsController : ApiControllerBase
     [CallsSpotifyApi()]
     public async Task<ActionResult<PlaylistWithTracksDto>> PutPlaylist(string id, [FromServices] CurrentUserStore currentUserStore)
     {
-        var response = await Mediator.Send(new UpdatePlaylistCommand(id, currentUserStore.Market!));
+        var response = await Mediator.Send(new UpdatePlaylistCommand(id, currentUserStore.User!.Market));
         if (response is null) return NotFound();
 
         if (response.Created)
