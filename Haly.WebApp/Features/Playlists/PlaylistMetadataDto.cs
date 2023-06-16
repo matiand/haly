@@ -1,6 +1,6 @@
 namespace Haly.WebApp.Features.Playlists;
 
-public class PlaylistMetadataDto
+public record PlaylistMetadataDto
 {
     public string? Description { get; init; }
     public string? ImageUrl { get; init; }

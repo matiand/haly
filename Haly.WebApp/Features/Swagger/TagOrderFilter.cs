@@ -13,7 +13,6 @@ public class TagOrderFilter : IDocumentFilter
     {
         // Workaround for swaggerDoc having Tags not populated
         // https://github.com/domaindrivendev/Swashbuckle.WebApi/issues/1215
-        // var controllerNames = context.ApiDescriptionsGroups.Items
         var controllerNames = context.ApiDescriptions.Select(x => x.ActionDescriptor)
             .OfType<ControllerActionDescriptor>()
             .Select(x => x.ControllerName)

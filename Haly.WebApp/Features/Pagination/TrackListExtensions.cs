@@ -2,7 +2,6 @@ using Haly.WebApp.Models;
 
 namespace Haly.WebApp.Features.Pagination;
 
-// todo: add pretty docs (so you can see the description in docs popup)
 public static class TrackListExtensions
 {
     /**
