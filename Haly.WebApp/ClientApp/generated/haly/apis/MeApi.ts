@@ -70,7 +70,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
-     * Update current user\'s \'Liked Songs\' collection
+     * Fetch current user\'s \'Liked Songs\' collection from Spotify and update our cache if it\'s changed
      */
     async putCurrentUserLikedSongsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistBriefDto>> {
         const queryParameters: any = {};
@@ -89,7 +89,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
-     * Update current user\'s \'Liked Songs\' collection
+     * Fetch current user\'s \'Liked Songs\' collection from Spotify and update our cache if it\'s changed
      */
     async putCurrentUserLikedSongs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistBriefDto> {
         const response = await this.putCurrentUserLikedSongsRaw(initOverrides);
@@ -98,7 +98,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>
-     * Update current user\'s playlists
+     * Fetch current user\'s playlists from Spotify and update our cache if they\'re changed
      */
     async putCurrentUserPlaylistsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PlaylistBriefDto>>> {
         const queryParameters: any = {};
@@ -117,7 +117,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>
-     * Update current user\'s playlists
+     * Fetch current user\'s playlists from Spotify and update our cache if they\'re changed
      */
     async putCurrentUserPlaylists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PlaylistBriefDto>> {
         const response = await this.putCurrentUserPlaylistsRaw(initOverrides);

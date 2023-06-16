@@ -58,7 +58,7 @@ paths:
     put:
       tags:
         - Me
-      summary: Update current user's playlists
+      summary: Fetch current user's playlists from Spotify and update our cache if they're changed
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>'
       operationId: PutCurrentUserPlaylists
       responses:
@@ -98,7 +98,7 @@ paths:
     put:
       tags:
         - Me
-      summary: Update current user's 'Liked Songs' collection
+      summary: Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>'
       operationId: PutCurrentUserLikedSongs
       responses:
@@ -147,7 +147,7 @@ paths:
       operationId: GetAvailableDevices
       responses:
         '200':
-          description: Success
+          description: Devices found
           content:
             application/json:
               schema:
@@ -202,7 +202,7 @@ paths:
       tags:
         - Playlists
       summary: Update playlist
-      description: Fetch playlist from Spotify and update it if it's changed<br/>This endpoint calls Spotify API.
+      description: Fetch playlist from Spotify and update our cache if it's changed<br/>This endpoint calls Spotify API.
       operationId: PutPlaylist
       parameters:
         - name: id

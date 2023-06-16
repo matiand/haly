@@ -123,7 +123,7 @@ export class PlaylistsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch playlist from Spotify and update it if it\'s changed<br/>This endpoint calls Spotify API.
+     * Fetch playlist from Spotify and update our cache if it\'s changed<br/>This endpoint calls Spotify API.
      * Update playlist
      */
     async putPlaylistRaw(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistWithTracksDto>> {
@@ -146,7 +146,7 @@ export class PlaylistsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch playlist from Spotify and update it if it\'s changed<br/>This endpoint calls Spotify API.
+     * Fetch playlist from Spotify and update our cache if it\'s changed<br/>This endpoint calls Spotify API.
      * Update playlist
      */
     async putPlaylist(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistWithTracksDto> {

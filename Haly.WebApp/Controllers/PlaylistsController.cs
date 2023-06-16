@@ -26,7 +26,7 @@ public class PlaylistsController : ApiControllerBase
     }
 
     [HttpPut("{id}")]
-    [SwaggerOperation(Summary = "Update playlist", Description = "Fetch playlist from Spotify and update it if it's changed")]
+    [SwaggerOperation(Summary = "Update playlist", Description = "Fetch playlist from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 200, "Playlist updated", typeof(PlaylistWithTracksDto))]
     [SwaggerResponse(statusCode: 201, "Playlist created", typeof(PlaylistWithTracksDto))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]

@@ -15,6 +15,7 @@ namespace Haly.WebApp.Controllers;
 public class MeController : ApiControllerBase
 {
     [HttpPut("", Name = nameof(PutCurrentUser))]
+    [SwaggerOperation(Summary = "Fetch current user from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 200, "User updated", typeof(UserDto))]
     [SwaggerResponse(statusCode: 201, "User created", typeof(UserDto))]
     [SwaggerOperationFilter(typeof(GettingStartedFilter))]
@@ -36,7 +37,7 @@ public class MeController : ApiControllerBase
     }
 
     [HttpPut("playlists")]
-    [SwaggerOperation(Summary = "Update current user's playlists")]
+    [SwaggerOperation(Summary = "Fetch current user's playlists from Spotify and update our cache if they're changed")]
     [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(IEnumerable<PlaylistBriefDto>))]
     [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistReadPrivate)]
@@ -52,7 +53,7 @@ public class MeController : ApiControllerBase
 
     [HttpPut]
     [Route("tracks")]
-    [SwaggerOperation(Summary = "Update current user's 'Liked Songs' collection")]
+    [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 200, "'Liked Songs' updated", typeof(PlaylistBriefDto))]
     [SwaggerResponse(statusCode: 201, "'Liked Songs' created", typeof(PlaylistBriefDto))]
     [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
