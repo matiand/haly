@@ -53,7 +53,6 @@ const usePlaylistQuery = (playlistId: string) => {
             : () => halyClient.playlists.putPlaylist({ id: playlistId });
     }, [playlistId, isCached]);
 
-    // todo: remove all suspense, check if gradient renders ok
     return useQuery(["playlists", playlistId], queryFn, {
         suspense: true,
     });

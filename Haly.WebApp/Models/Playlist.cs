@@ -23,11 +23,5 @@ public class Playlist
         {
             Tracks = other.Tracks;
         }
-
-        // todo: delete this later
-        if (string.IsNullOrEmpty(SnapshotId))
-        {
-            throw new ArgumentException($"Playlist {Id} has {nameof(SnapshotId)} that is empty or null");
-        }
     }
 }

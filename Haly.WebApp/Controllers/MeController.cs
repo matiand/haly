@@ -9,7 +9,6 @@ using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Microsoft.AspNetCore.Http;
 
 namespace Haly.WebApp.Controllers;
 
@@ -58,17 +57,13 @@ public class MeController : ApiControllerBase
     [SwaggerResponse(statusCode: 200, "'Liked Songs' updated", typeof(PlaylistBriefDto))]
     [SwaggerResponse(statusCode: 201, "'Liked Songs' created", typeof(PlaylistBriefDto))]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesDefaultResponseType]
     public async Task<ActionResult<PlaylistBriefDto>> PutCurrentUserLikedSongs(
         [FromServices] CurrentUserStore currentUserStore)
     {
         var currentUser = currentUserStore.User!;
 
         var response = await Mediator.Send(new UpdateCurrentUserLikedSongsCommand(currentUser.Id, currentUser.Market));
-        if (response is null) return NotFound();
 
-        // todo: test this, cause we hardcoded it
         return response.Created
             ? CreatedAtAction("GetPlaylist", "Playlists", new { response.Playlist.Id }, response.Playlist)
             : Ok(response.Playlist);

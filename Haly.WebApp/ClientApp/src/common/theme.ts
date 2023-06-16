@@ -3,7 +3,6 @@ import { createStitches } from "@stitches/react";
 export const theme = {
     colors: {
         primary: "#fee715",
-        // todo: use actual tints
         primary300: "#fee715",
         primary400: "#fee715",
         primary500: "#fee715",

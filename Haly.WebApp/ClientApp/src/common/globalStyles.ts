@@ -15,6 +15,7 @@ const globalStyles = globalCss({
     },
 
     body: {
+        color: "$white",
         fontFamily: "$primary",
         lineHeight: 1.6,
         "-webkit-font-smoothing": "antialiased",

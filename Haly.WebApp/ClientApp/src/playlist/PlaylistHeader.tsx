@@ -28,7 +28,6 @@ function PlaylistHeader({ id, name, imageUrl, description, owner, songsCount, to
     const dominantColor = dominantColors[id] ?? theme.colors.defaultDominantColor;
     console.log("Dominant color", dominantColor);
 
-    // todo: refactor into hook
     const titleRef = useCallback(
         (node: HTMLHeadingElement) => {
             if (!node) return;
@@ -80,8 +79,6 @@ function PlaylistHeader({ id, name, imageUrl, description, owner, songsCount, to
     );
 }
 
-// todo: make it an asset, so that the base64 is automatically generated
-// todo: they don't use zIndex for major + color
 const gradientNoise =
     "data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGZpbHRlciBpZD0iYSIgeD0iMCIgeT0iMCI+PGZlVHVyYnVsZW5jZSBiYXNlRnJlcXVlbmN5PSIuNzc3IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiB0eXBlPSJmcmFjdGFsTm9pc2UiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PC9maWx0ZXI+PHBhdGggZD0iTTAgMGgzMDB2MzAwSDB6IiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9Ii4wNSIvPjwvc3ZnPg==";
 

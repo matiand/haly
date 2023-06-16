@@ -79,9 +79,7 @@ export const Layout = styled("div", {
     height: "100%",
 
     "& > main": {
-        // TODO: clean this up
         background: "$black600",
-        color: "$white",
         gridArea: "main",
         padding: "0 $800",
         overflow: "auto",

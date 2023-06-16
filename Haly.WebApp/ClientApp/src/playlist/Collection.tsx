@@ -124,7 +124,6 @@ const TBody = styled("tbody", {
 
         "&:hover": {
             background: "$black500",
-            // todo: this is ugly
             "& td:nth-of-type(1) span": {
                 display: "none",
             },

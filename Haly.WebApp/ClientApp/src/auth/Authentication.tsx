@@ -14,7 +14,6 @@ type AuthenticationProps = {
 
 function Authentication(props: AuthenticationProps) {
     const auth = useAuth();
-    // todo: this name is confusing
     const isTokenExpirationHandlerRegistered = useRef(false);
     const refreshToken = useMutation(() =>
         auth
