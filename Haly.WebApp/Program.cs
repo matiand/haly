@@ -12,6 +12,10 @@ using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
+// CA1852 Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
+// todo: remove this pragma when this is fixes: https://github.com/dotnet/roslyn-analyzers/issues/6141
+#pragma warning disable CA1852
+
 // Configure Mapster and validate that our mappings are correct
 TypeAdapterConfig.GlobalSettings.Scan(typeof(Program).Assembly);
 TypeAdapterConfig.GlobalSettings.Compile();

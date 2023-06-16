@@ -56,7 +56,7 @@ public class SpotifyEndpointCollector : ISpotifyEndpointCollector
         return data.ToList();
     }
 
-    private int CalculateBatchSize(int remaining, int endpointLimit, int maxConcurrentRequests)
+    private static int CalculateBatchSize(int remaining, int endpointLimit, int maxConcurrentRequests)
     {
         var ceil = Math.Ceiling((double)remaining / endpointLimit);
         return Math.Min((int)ceil, maxConcurrentRequests);
