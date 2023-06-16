@@ -24,7 +24,6 @@ public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrent
         _db = db;
     }
 
-    // todo: refactor into helper methods
     public async Task<UpdateCurrentUserLikedSongsResponse?> Handle(UpdateCurrentUserLikedSongsCommand request,
         CancellationToken cancellationToken)
     {
@@ -33,39 +32,55 @@ public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrent
             await _db.Playlists
                 .Include(p => p.Tracks)
                 .FirstOrDefaultAsync(p => p.Id == playlistId, cancellationToken);
-
-        var apiResponse = await _spotifyService.GetLikedSongsIfChanged(request.UserMarket, cachedPlaylist?.SnapshotId);
-
-        if (apiResponse is null && cachedPlaylist is null) return null;
-        if (apiResponse is null)
-            return new UpdateCurrentUserLikedSongsResponse(Created: false, cachedPlaylist!.Adapt<PlaylistBriefDto>());
+        var likedSongs = await _spotifyService.GetLikedSongsIfChanged(request.UserMarket, cachedPlaylist?.SnapshotId);
 
         if (cachedPlaylist is null)
         {
-            var newPlaylist = new Playlist()
-            {
-                Id = playlistId,
-                Name = "Liked Songs",
-                SnapshotId = apiResponse.SnapshotId,
-                Tracks = apiResponse.Tracks,
-                Metadata = new PlaylistMetadata()
-                {
-                    Owner = _currentUserStore.User!.Adapt<Owner>(),
-                }
-            };
-
-            _db.Playlists.Add(newPlaylist);
-            await _db.SaveChangesAsync(cancellationToken);
+            // If cachedPlaylist is null, then its snapshotId was null, therefore likedSongs exist
+            // cause we had to fetch them (remember that any errors are handled by our API
+            // middleware, so we don't care about them).
+            var newPlaylist = await AddNewPlaylist(playlistId, likedSongs!, cancellationToken);
 
             return new UpdateCurrentUserLikedSongsResponse(Created: true, newPlaylist.Adapt<PlaylistBriefDto>());
         }
 
-        cachedPlaylist.SnapshotId = apiResponse.SnapshotId;
-        cachedPlaylist.Tracks = apiResponse.Tracks;
-        await _db.SaveChangesAsync(cancellationToken);
+        if (likedSongs is null)
+        {
+            return new UpdateCurrentUserLikedSongsResponse(Created: false, cachedPlaylist.Adapt<PlaylistBriefDto>());
+        }
+
+        await UpdatePlaylist(cachedPlaylist, likedSongs, cancellationToken);
 
         return new UpdateCurrentUserLikedSongsResponse(Created: false, cachedPlaylist.Adapt<PlaylistBriefDto>());
     }
 
     private static string GetLikedSongsPlaylistId(UpdateCurrentUserLikedSongsCommand request) => $"LikesOf_{request.UserId}";
+
+    private async Task<Playlist> AddNewPlaylist(string playlistId, LikedSongsDto apiResponse, CancellationToken cancellationToken)
+    {
+        var newPlaylist = new Playlist()
+        {
+            Id = playlistId,
+            Name = "Liked Songs",
+            SnapshotId = apiResponse.SnapshotId,
+            Tracks = apiResponse.Tracks,
+            Metadata = new PlaylistMetadata()
+            {
+                Owner = _currentUserStore.User!.Adapt<Owner>(),
+            },
+        };
+
+        _db.Playlists.Add(newPlaylist);
+        await _db.SaveChangesAsync(cancellationToken);
+
+        return newPlaylist;
+    }
+
+    private async Task UpdatePlaylist(Playlist cachedPlaylist, LikedSongsDto apiResponse, CancellationToken cancellationToken)
+    {
+        cachedPlaylist.SnapshotId = apiResponse.SnapshotId;
+        cachedPlaylist.Tracks = apiResponse.Tracks;
+
+        await _db.SaveChangesAsync(cancellationToken);
+    }
 }

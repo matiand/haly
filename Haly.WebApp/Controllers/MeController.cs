@@ -9,6 +9,7 @@ using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Haly.WebApp.Controllers;
 
@@ -56,8 +57,9 @@ public class MeController : ApiControllerBase
     [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 200, "'Liked Songs' updated", typeof(PlaylistBriefDto))]
     [SwaggerResponse(statusCode: 201, "'Liked Songs' created", typeof(PlaylistBriefDto))]
-    [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     public async Task<ActionResult<PlaylistBriefDto>> PutCurrentUserLikedSongs(
         [FromServices] CurrentUserStore currentUserStore)
     {
