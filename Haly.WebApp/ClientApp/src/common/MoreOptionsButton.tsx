@@ -1,4 +1,4 @@
-import { FiMoreHorizontal } from "react-icons/all";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 import { styled } from "./theme";
 

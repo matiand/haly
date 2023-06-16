@@ -1,5 +1,5 @@
 import { CellContext } from "@tanstack/react-table";
-import { IoPlay } from "react-icons/all";
+import { IoPlay } from "react-icons/io5";
 
 import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";

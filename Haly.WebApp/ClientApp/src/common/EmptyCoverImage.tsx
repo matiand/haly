@@ -1,4 +1,4 @@
-import { MdOutlineMusicNote } from "react-icons/all";
+import { MdOutlineMusicNote } from "react-icons/md";
 
 import { styled } from "./theme";
 

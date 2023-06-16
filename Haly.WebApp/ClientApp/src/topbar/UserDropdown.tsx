@@ -1,7 +1,7 @@
 import { AccessibleIcon } from "@radix-ui/react-accessible-icon";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useContext } from "react";
-import { MdArrowDropDown } from "react-icons/all";
+import { MdArrowDropDown } from "react-icons/md";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
 
