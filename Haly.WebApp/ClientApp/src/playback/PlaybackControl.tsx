@@ -1,6 +1,6 @@
 import { styled } from "../common/theme";
 
-function PlayingBar() {
+function PlaybackControl() {
     return <Wrapper id="playingbar"></Wrapper>;
 }
 
@@ -9,4 +9,4 @@ const Wrapper = styled("div", {
     height: "$playingbarHeight",
 });
 
-export default PlayingBar;
+export default PlaybackControl;

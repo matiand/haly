@@ -11,12 +11,12 @@ import Toaster from "./common/Toaster";
 import { useMessageHub } from "./common/useMessageHub";
 import halyClient from "./halyClient";
 import Home from "./home/Home";
-import SimplePlayer from "./home/SimplePlayer";
 import FollowedArtists from "./me/FollowedArtists";
 import HalySettings from "./me/HalySettings";
 import Me from "./me/Me";
 import { UserContext } from "./me/UserContext";
-import PlayingBar from "./playlingbar/PlayingBar";
+import PlaybackControl from "./playback/PlaybackControl";
+import SimplePlayer from "./playback/SimplePlayer";
 import Playlist from "./playlist/Playlist";
 import Sidebar from "./sidebar/Sidebar";
 import StatusBar from "./statusbar/StatusBar";
@@ -30,7 +30,7 @@ function App() {
         data: user,
         error,
     } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }));
-    useSyncedLikedSongs(user);
+    // useSyncedLikedSongs(user);
 
     if (isLoading) return <Loading />;
     if (error || !user) return <Toaster />;
@@ -51,8 +51,8 @@ function App() {
                         <Route path="/player" element={<SimplePlayer />} />
                     </Routes>
                 </React.Suspense>
-                <PlayingBar />
-                <StatusBar />
+                <PlaybackControl />
+                {/*<StatusBar />*/}
                 <Toaster />
             </Layout>
         </UserContext.Provider>
