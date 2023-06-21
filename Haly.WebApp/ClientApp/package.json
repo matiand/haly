@@ -23,6 +23,8 @@
         "jotai": "^2.2.0",
         "modern-css-reset": "^1.4.0",
         "oidc-client-ts": "^2.0.5",
+        "overlayscrollbars": "^2.2.0",
+        "overlayscrollbars-react": "^0.5.0",
         "palette-from-image": "^1.0.0",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",

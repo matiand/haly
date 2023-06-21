@@ -1,4 +1,5 @@
 import "modern-css-reset";
+import "overlayscrollbars/overlayscrollbars.css";
 import "@fontsource/plus-jakarta-sans/200.css";
 import "@fontsource/plus-jakarta-sans/400.css";
 import "@fontsource/plus-jakarta-sans/500.css";

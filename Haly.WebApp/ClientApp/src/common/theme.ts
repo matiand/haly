@@ -20,6 +20,7 @@ export const theme = {
         danger: "#e91429",
         // 'Liked Songs' purple
         purple: "#5038a0",
+        scrollbarThumb: "rgba(255, 255, 255, 0.3)",
         defaultDominantColor: "#535353",
     },
     fonts: {
