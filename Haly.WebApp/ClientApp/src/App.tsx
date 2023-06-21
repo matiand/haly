@@ -15,11 +15,10 @@ import FollowedArtists from "./me/FollowedArtists";
 import HalySettings from "./me/HalySettings";
 import Me from "./me/Me";
 import { UserContext } from "./me/UserContext";
-import PlaybackControl from "./playback/PlaybackControl";
+import Playback from "./playback/Playback";
 import SimplePlayer from "./playback/SimplePlayer";
 import Playlist from "./playlist/Playlist";
 import Sidebar from "./sidebar/Sidebar";
-import StatusBar from "./statusbar/StatusBar";
 
 function App() {
     const spotifyToken = useSpotifyToken();
@@ -51,7 +50,7 @@ function App() {
                         <Route path="/player" element={<SimplePlayer />} />
                     </Routes>
                 </React.Suspense>
-                <PlaybackControl />
+                <Playback />
                 {/*<StatusBar />*/}
                 <Toaster />
             </Layout>
@@ -70,25 +69,25 @@ export const Layout = styled("div", {
     background: "$black800",
     position: "relative",
     display: "grid",
+    gap: "$400",
     gridTemplateAreas: `"sidebar main"
-                        "sidebar main"
-                        "playingbar playingbar"
-                        "statusbar statusbar"`,
+                        "playback playback"`,
     gridTemplateColumns: "auto 1fr",
-    gridTemplateRows: "auto 1fr auto auto",
+    gridTemplateRows: "1fr auto",
     height: "100%",
+    padding: "$400",
 
     "& > main": {
         background: "$black600",
+        borderRadius: "8px",
         gridArea: "main",
-        padding: "0 $800",
         overflow: "auto",
     },
     "& > #sidebar": {
         gridArea: "sidebar",
     },
-    "& > #playingbar": {
-        gridArea: "playingbar",
+    "& > #playback": {
+        gridArea: "playback",
     },
 });
 

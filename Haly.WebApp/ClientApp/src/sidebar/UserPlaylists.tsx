@@ -3,28 +3,11 @@ import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import { cachedPlaylistIdsAtom } from "../common/atoms";
+import { styled } from "../common/theme";
 import halyApi from "../halyClient";
-import NavigationItem from "./NavigationItem";
+import UserLibraryLink from "./UserLibraryLink";
 
 function UserPlaylists() {
-    const query = usePutUserPlaylistsQuery();
-
-    if (!query.data) {
-        return null;
-    }
-
-    return (
-        <>
-            {query.data.map((p) => {
-                const to = `playlists/${p.id}`;
-
-                return <NavigationItem key={p.id} title={p.name} href={to} />;
-            })}
-        </>
-    );
-}
-
-const usePutUserPlaylistsQuery = () => {
     // We treat this PUT as query, because it's idempotent
     const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
     const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
@@ -36,7 +19,36 @@ const usePutUserPlaylistsQuery = () => {
         }
     }, [query.data, setCachedPlaylistIds]);
 
-    return query;
-};
+    if (!query.data) {
+        return null;
+    }
+
+    return (
+        <List>
+            <li>
+                <UserLibraryLink name="Liked Songs" href="/collection/tracks" />
+            </li>
+
+            {query.data.map((p) => {
+                const href = `playlists/${p.id}`;
+
+                return (
+                    <li key={p.id}>
+                        <UserLibraryLink name={p.name} href={href} />
+                    </li>
+                );
+            })}
+        </List>
+    );
+}
+
+const List = styled("ul", {
+    padding: "$400",
+
+    "& > li": {
+        cursor: "pointer",
+        height: "32px",
+    },
+});
 
 export default UserPlaylists;

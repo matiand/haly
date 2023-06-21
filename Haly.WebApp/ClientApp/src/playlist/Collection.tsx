@@ -123,8 +123,8 @@ const TBody = styled("tbody", {
         },
 
         "&:hover": {
-            background: "$black500",
-            "& td:nth-of-type(1) span": {
+            // background: "$black400",
+            "& td:nth-of-type(1) > div > span": {
                 display: "none",
             },
 

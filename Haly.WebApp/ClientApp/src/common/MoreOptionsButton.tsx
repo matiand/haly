@@ -10,7 +10,9 @@ type MoreOptionsButtonProps = {
 function MoreOptionsButton({ label, size }: MoreOptionsButtonProps) {
     return (
         <Button type="button" aria-haspopup="menu" aria-label={label} title={label}>
-            <Icon size={size} />
+            <span>
+                <Icon size={size} />
+            </span>
         </Button>
     );
 }
@@ -30,8 +32,6 @@ const Button = styled("button", {
 });
 
 const Icon = styled(FiMoreHorizontal, {
-    //     const Icon = styled(IoIosMore, {
-    // const Icon = styled(FiMoreHorizontal, {
     variants: {
         size: {
             small: {

@@ -1,91 +1,40 @@
-import { HiHeart, HiOutlineFire, HiPlus } from "react-icons/hi2";
-import { MdOutlineLibraryMusic } from "react-icons/md";
-import { TbShip } from "react-icons/tb";
-
 import { styled, theme } from "../common/theme";
-import NavigationItem from "./NavigationItem";
+import NavigationList from "./NavigationList";
 import Resizer from "./Resizer";
-import SpotifyBanner from "./SpotifyBanner";
 import useResize from "./useResize";
-import UserPlaylists from "./UserPlaylists";
+import UserLibrary from "./UserLibrary";
 
 function Sidebar() {
     const { defaultWidth, minWidth, maxWidth } = theme.sidebar;
-    const { width, enableResize } = useResize({ defaultWidth, minWidth, maxWidth });
+    const { width, enableResize } = useResize({
+        initialWidth: defaultWidth,
+        minWidth,
+        maxWidth,
+    });
 
     return (
         <Nav id="sidebar" style={{ width }} onMouseDown={enableResize}>
-            <SpotifyBanner />
-            <List>
-                <NavigationItem title="Your Library" href="/" icon={<MdOutlineLibraryMusic />} />
-                <NavigationItem title="New Releases" href="/me" icon={<HiOutlineFire />} />
-                <NavigationItem title="Voyages?" href="/me" icon={<TbShip />} />
-            </List>
-            <List>
-                <NavigationItem
-                    title="Create Playlist"
-                    href=""
-                    onClick={() => console.log("TODO: add playlist")}
-                    icon={<HiPlus />}
-                />
-                <NavigationItem title="Liked Songs" href="/collection/tracks" icon={<HeartIcon />} />
-            </List>
+            <NavigationList />
+            <UserLibrary />
 
-            <HorizontalBreak />
-
-            <UserPlaylistsSection>
-                <UserPlaylists />
-            </UserPlaylistsSection>
             <Resizer />
         </Nav>
     );
 }
 
 const Nav = styled("nav", {
-    background: "$black600",
     display: "flex",
     flexFlow: "column",
+    gap: "$400",
+    height: "100%",
+    minHeight: 0,
     position: "relative",
     userSelect: "none",
-});
 
-const List = styled("ul", {
-    margin: 0,
-    padding: 0,
-    listStyle: "none",
-    fontWeight: "bold",
-
-    "&:first-of-type": {
-        margin: "$700 0",
+    "& > *": {
+        background: "$black600",
+        borderRadius: "8px",
     },
-
-    li: {
-        cursor: "pointer",
-        height: "40px",
-        transition: "color 0.2s linear",
-    },
-});
-
-const UserPlaylistsSection = styled(List, {
-    overflowY: "auto",
-
-    li: {
-        cursor: "default",
-        height: "32px",
-        fontWeight: 500,
-        transition: "none",
-    },
-});
-
-const HorizontalBreak = styled("hr", {
-    background: "$black300",
-    border: "none",
-    height: "1px",
-    margin: "$400 $700",
-});
-
-const HeartIcon = styled(HiHeart, {
-    color: "$primary400",
 });
 
 export default Sidebar;

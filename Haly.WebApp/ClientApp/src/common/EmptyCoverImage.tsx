@@ -19,7 +19,7 @@ const Wrapper = styled("div", {
     $$trackSize: "40px",
 
     alignItems: "center",
-    background: "$black500",
+    background: "$black400",
     display: "flex",
     justifyContent: "center",
 

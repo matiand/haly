@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IoPause, IoPlay } from "react-icons/io5";
+import { HiPause, HiPlay } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
 
@@ -11,7 +11,7 @@ function PlaybackToggle() {
 
     return (
         <Button type="button" onClick={onClick} aria-label={label} title={label}>
-            {isPaused ? <PlaySvg /> : <PauseSvg />}
+            <span>{isPaused ? <PlaySvg /> : <PauseSvg />}</span>
         </Button>
     );
 }
@@ -38,13 +38,13 @@ const Button = styled("button", {
     },
 });
 
-const PlaySvg = styled(IoPlay, {
+const PlaySvg = styled(HiPlay, {
     height: "28px",
     marginLeft: "2px",
     width: "28px",
 });
 
-const PauseSvg = styled(IoPause, {
+const PauseSvg = styled(HiPause, {
     height: "28px",
     width: "28px",
 });

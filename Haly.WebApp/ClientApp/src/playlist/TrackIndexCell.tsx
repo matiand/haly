@@ -1,5 +1,5 @@
 import { CellContext } from "@tanstack/react-table";
-import { IoPlay } from "react-icons/io5";
+import { HiPlay } from "react-icons/hi2";
 
 import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
@@ -12,7 +12,9 @@ function TrackIndexCell(ctx: CellContext<TrackDto, unknown>) {
         <Wrapper>
             <Index>{ctx.row.index + 1}</Index>
             <PlayBtn type="button" aria-label={label} title={label}>
-                <IoPlay />
+                <span>
+                    <HiPlay />
+                </span>
             </PlayBtn>
         </Wrapper>
     );

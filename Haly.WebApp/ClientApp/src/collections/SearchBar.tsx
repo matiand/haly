@@ -16,7 +16,10 @@ function SearchBar({ variant }: SearchBarProps) {
     };
     return (
         <Form variant={variant} role="search" onSubmit={onSubmit}>
-            <SearchIcon aria-hidden="true" />
+            <span>
+                <SearchIcon aria-hidden="true" />
+            </span>
+
             <Input
                 {...inputPropsByVariant[variant]}
                 type="search"
@@ -59,7 +62,7 @@ const Form = styled("form", {
                     width: "320px",
                 },
 
-                "& > svg": {
+                "& > span > svg": {
                     height: "24px",
                     left: "$500",
                     top: "$400",
@@ -74,7 +77,7 @@ const Form = styled("form", {
                     padding: "$200 $500 $200 $800",
                     width: "220px",
                 },
-                "& > svg": {
+                "& > span > svg": {
                     // color: "$white",
                     height: "18px",
                     left: "$400",

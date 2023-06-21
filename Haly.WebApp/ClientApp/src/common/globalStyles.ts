@@ -23,6 +23,16 @@ const globalStyles = globalCss({
         "-moz-osx-font-smoothing": "grayscale",
     },
 
+    ul: {
+        listStyle: "none",
+        margin: 0,
+        padding: 0,
+    },
+
+    "span, svg": {
+        display: "block",
+    },
+
     ".hidden-visually": {
         clip: "rect(0 0 0 0)",
         clipPath: "inset(50%)",

@@ -12,7 +12,9 @@ export const theme = {
         grey200: "#b3b3b3",
         grey300: "#a7a7a7",
         black300: "#3e3e3e",
-        black500: "#282828",
+        black400: "#282828",
+        black450: "#232323",
+        black500: "#1a1a1a",
         black550: "#181818",
         black600: "#121212",
         black700: "#0a0a0a",
@@ -50,13 +52,10 @@ export const theme = {
         900: "3rem",
     },
     sizes: {
-        playingbarHeight: "64px",
-        spotifyBannerHeight: "64px",
+        playbackHeight: "64px",
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
         navIconSize: "24px",
-        historyNavBtnSize: "32px",
-        historyNavIconSize: "24px",
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {
