@@ -6,6 +6,7 @@ import { UserDto } from "../generated/haly";
 import useSpotifyToken from "./auth/useSpotifyToken";
 import LikedSongs from "./collections/LikedSongs";
 import Loading from "./common/Loading";
+import ScrollArea from "./common/ScrollArea";
 import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
 import { useMessageHub } from "./common/useMessageHub";
@@ -38,18 +39,24 @@ function App() {
         <UserContext.Provider value={user}>
             <Layout>
                 <Sidebar />
-                <React.Suspense fallback={<Loading />}>
-                    <Routes>
-                        <Route index element={<Home />} />
-                        <Route path="/playlists/:id" element={<Playlist />} />
-                        <Route path="/me" element={<Me />}>
-                            <Route path="following" element={<FollowedArtists />} />
-                            <Route path="appsettings" element={<HalySettings />} />
-                        </Route>
-                        <Route path="/collection/tracks" element={<LikedSongs />} />
-                        <Route path="/player" element={<SimplePlayer />} />
-                    </Routes>
-                </React.Suspense>
+
+                <Main>
+                    <ScrollArea>
+                        <React.Suspense fallback={<Loading />}>
+                            <Routes>
+                                <Route index element={<Home />} />
+                                <Route path="/playlists/:id" element={<Playlist />} />
+                                <Route path="/me" element={<Me />}>
+                                    <Route path="following" element={<FollowedArtists />} />
+                                    <Route path="appsettings" element={<HalySettings />} />
+                                </Route>
+                                <Route path="/collection/tracks" element={<LikedSongs />} />
+                                <Route path="/player" element={<SimplePlayer />} />
+                            </Routes>
+                        </React.Suspense>
+                    </ScrollArea>
+                </Main>
+
                 <Playback />
                 {/*<StatusBar />*/}
                 <Toaster />
@@ -76,19 +83,13 @@ export const Layout = styled("div", {
     gridTemplateRows: "1fr auto",
     height: "100%",
     padding: "$400",
+});
 
-    "& > main": {
-        background: "$black600",
-        borderRadius: "8px",
-        gridArea: "main",
-        overflow: "auto",
-    },
-    "& > #sidebar": {
-        gridArea: "sidebar",
-    },
-    "& > #playback": {
-        gridArea: "playback",
-    },
+const Main = styled("main", {
+    background: "$black600",
+    borderRadius: "8px",
+    display: "flex",
+    minHeight: 0,
 });
 
 export default App;

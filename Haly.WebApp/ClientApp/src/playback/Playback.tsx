@@ -1,7 +1,7 @@
 import { styled } from "../common/theme";
 
 function Playback() {
-    return <Wrapper id="playback"></Wrapper>;
+    return <Wrapper />;
 }
 
 const Wrapper = styled("div", {

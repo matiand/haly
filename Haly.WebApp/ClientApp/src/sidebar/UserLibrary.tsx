@@ -2,7 +2,7 @@ import { HiPlus } from "react-icons/hi2";
 import { MdLibraryMusic } from "react-icons/md";
 
 import ScrollArea from "../common/ScrollArea";
-import { styled, theme } from "../common/theme";
+import { styled } from "../common/theme";
 import UserPlaylists from "./UserPlaylists";
 
 function UserLibrary() {
@@ -23,7 +23,7 @@ function UserLibrary() {
                 </AddButton>
             </Header>
 
-            <ScrollArea variant="sidebar">
+            <ScrollArea>
                 <UserPlaylists />
             </ScrollArea>
         </Wrapper>
@@ -35,12 +35,6 @@ const Wrapper = styled("div", {
     flexFlow: "column",
     height: "100%",
     minHeight: 0,
-
-    "& .os-scrollbar": {
-        "$os-size": "16px",
-        "$os-handle-bg": `${theme.colors.scrollbarThumb}`,
-        "$os-handle-border-radius": 0,
-    },
 });
 
 const Header = styled("header", {

@@ -55,8 +55,8 @@ const THead = styled("thead", {
     position: "sticky",
     top: "0px",
     zIndex: "2",
-    margin: "0 -$800 $600",
-    padding: "0 $800",
+    // margin: "0 -$800 $600",
+    // padding: "0 $800",
 
     "&.sticky-head": {
         background: "$black550",

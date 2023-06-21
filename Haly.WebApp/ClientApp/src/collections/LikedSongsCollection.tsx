@@ -21,7 +21,7 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
 
     return (
         // This id is used by PlaylistTracks for its useInView hook
-        <Main id="playlist-container">
+        <Wrapper id="playlist-container">
             <PlaylistHeader
                 id={playlist.id}
                 name={playlist.name}
@@ -33,11 +33,11 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
             />
             <PlaylistControls name={playlist.name} />
             <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
-        </Main>
+        </Wrapper>
     );
 }
 
-const Main = styled("main", {
+const Wrapper = styled("div", {
     position: "relative",
     zIndex: 1,
 });

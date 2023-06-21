@@ -45,10 +45,10 @@ function SimplePlayer() {
 
     if (!player) {
         return (
-            <main>
+            <div>
                 <h1>I am a simple player!</h1>
                 <p>Offline</p>
-            </main>
+            </div>
         );
     }
 

@@ -13,7 +13,7 @@ function Sidebar() {
     });
 
     return (
-        <Nav id="sidebar" style={{ width }} onMouseDown={enableResize}>
+        <Nav style={{ width }} onMouseDown={enableResize}>
             <NavigationList />
             <UserLibrary />
 

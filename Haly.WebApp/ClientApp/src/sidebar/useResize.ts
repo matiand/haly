@@ -13,7 +13,7 @@ const useResize = ({ minWidth, maxWidth, initialWidth }: UseResizeProps) => {
 
     const enableResize = useCallback<MouseEventHandler<HTMLElement>>(
         (e) => {
-            const isCloseToResizer = e.clientX - width <= 12 && e.clientX - width >= 3;
+            const isCloseToResizer = e.clientX - width <= 15 && e.clientX - width >= 3;
             if (isCloseToResizer) {
                 setIsResizing(true);
             }

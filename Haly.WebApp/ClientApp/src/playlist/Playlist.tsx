@@ -26,7 +26,7 @@ function Playlist() {
 
     return (
         // This id is used by PlaylistTracks for its useInView hook
-        <Main id="playlist-container">
+        <Wrapper id="playlist-container">
             <PlaylistHeader
                 id={playlist.id}
                 name={playlist.name}
@@ -38,7 +38,7 @@ function Playlist() {
             />
             <PlaylistControls name={playlist.name} />
             <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
-        </Main>
+        </Wrapper>
     );
 }
 
@@ -58,7 +58,9 @@ const usePlaylistQuery = (playlistId: string) => {
     });
 };
 
-const Main = styled("main", {
+const Wrapper = styled("div", {
+    // border: "1px solid $white",
+    padding: "24px",
     position: "relative",
     zIndex: 1,
 });

@@ -1,35 +1,36 @@
+import { PartialOptions } from "overlayscrollbars";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import React from "react";
 
-import { theme } from "./theme";
+import { styled, theme } from "./theme";
 
 type ScrollAreaProps = {
-    variant: "sidebar" | "main";
     children: React.ReactNode;
 };
 
 function ScrollArea({ children }: ScrollAreaProps) {
     return (
-        <OverlayScrollbarsComponent
-            style={sidebarStyles}
-            options={{
-                scrollbars: {
-                    autoHide: "leave",
-                    autoHideDelay: 800,
-                    theme: "os-theme-light",
-                },
-            }}
-            defer
-        >
+        <Overlay options={options} defer>
             {children}
-        </OverlayScrollbarsComponent>
+        </Overlay>
     );
 }
 
-const sidebarStyles = {
-    "--os-size": "16px",
-    "--os-handle-bg": `${theme.colors.scrollbarThumb}`,
-    "--os-handle-border-radius": 0,
-} as React.CSSProperties;
+const options: PartialOptions = {
+    scrollbars: {
+        autoHide: "leave",
+        autoHideDelay: 800,
+        theme: "os-theme-light",
+    },
+};
 
+const Overlay = styled(OverlayScrollbarsComponent, {
+    "& .os-theme-light": {
+        "$os-size": "16px",
+        "$os-handle-bg": `${theme.colors.scrollbarThumb}`,
+        "$os-handle-border-radius": 0,
+
+        transition: "opacity .3s, visibility .3s",
+    },
+});
 export default ScrollArea;
