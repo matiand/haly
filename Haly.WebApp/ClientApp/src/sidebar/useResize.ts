@@ -1,19 +1,25 @@
 // Taken from https://stackoverflow.com/a/68742668
-import { useCallback, useEffect, useState } from "react";
+import { MouseEventHandler, useCallback, useEffect, useState } from "react";
 
 type UseResizeProps = {
-    defaultWidth: number;
+    initialWidth: number;
     minWidth: number;
     maxWidth: number;
 };
 
-const useResize = ({ minWidth, maxWidth, defaultWidth }: UseResizeProps) => {
+const useResize = ({ minWidth, maxWidth, initialWidth }: UseResizeProps) => {
     const [isResizing, setIsResizing] = useState(false);
-    const [width, setWidth] = useState(defaultWidth);
+    const [width, setWidth] = useState(initialWidth);
 
-    const enableResize = useCallback(() => {
-        setIsResizing(true);
-    }, [setIsResizing]);
+    const enableResize = useCallback<MouseEventHandler<HTMLElement>>(
+        (e) => {
+            const isCloseToResizer = e.clientX - width <= 12 && e.clientX - width >= 3;
+            if (isCloseToResizer) {
+                setIsResizing(true);
+            }
+        },
+        [width, setIsResizing],
+    );
 
     const disableResize = useCallback(() => {
         setIsResizing(false);
@@ -22,7 +28,7 @@ const useResize = ({ minWidth, maxWidth, defaultWidth }: UseResizeProps) => {
     const resize = useCallback(
         (e: MouseEvent) => {
             if (isResizing) {
-                const newWidth = e.clientX; // You may want to add some offset here from props
+                const newWidth = e.clientX;
                 if (newWidth >= minWidth && newWidth <= maxWidth) {
                     setWidth(newWidth);
                 }
@@ -32,16 +38,21 @@ const useResize = ({ minWidth, maxWidth, defaultWidth }: UseResizeProps) => {
     );
 
     useEffect(() => {
-        document.addEventListener("mousemove", resize);
-        document.addEventListener("mouseup", disableResize);
+        if (isResizing) {
+            document.addEventListener("mousemove", resize);
+            document.addEventListener("mouseup", disableResize);
 
-        return () => {
-            document.removeEventListener("mousemove", resize);
-            document.removeEventListener("mouseup", disableResize);
-        };
-    }, [disableResize, resize]);
+            return () => {
+                document.removeEventListener("mousemove", resize);
+                document.removeEventListener("mouseup", disableResize);
+            };
+        }
+    }, [disableResize, isResizing, resize]);
 
-    return { width, enableResize };
+    return {
+        width,
+        enableResize,
+    };
 };
 
 export default useResize;
