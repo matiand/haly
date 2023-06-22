@@ -14,15 +14,15 @@ const columns: ColumnDef<TrackDto>[] = [
         cell: TrackIndexCell,
     },
     {
-        header: "title",
+        header: "Title",
         cell: TrackTitleCell,
     },
     {
-        header: "album",
+        header: "Album",
         cell: TrackAlbumCell,
     },
     {
-        header: "date added",
+        header: "Date added",
         cell: TrackDateAddedCell,
     },
     {

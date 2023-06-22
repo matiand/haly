@@ -17,7 +17,7 @@ type PlaylistHeaderProps = {
     totalDuration: string;
 };
 
-const titleSizeSteps = [96, 72, 48, 32];
+const titleSizeSteps = [90, 66, 42, 30];
 
 function PlaylistHeader({ id, name, imageUrl, description, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
     console.log("PlaylistHeader", name);
@@ -62,10 +62,10 @@ function PlaylistHeader({ id, name, imageUrl, description, owner, songsCount, to
                 <Title ref={titleRef}>{name}</Title>
                 {description && <Description>{description}</Description>}
                 <Details>
-                    <Owner>{owner}</Owner>
-                    <CollectionInfo>
-                        {songsCount} songs, {totalDuration}
-                    </CollectionInfo>
+                    <span>{owner}</span>
+                    <span>1 like</span>
+                    <span>{songsCount} songs,</span>
+                    <span>{totalDuration}</span>
                 </Details>
             </PlaylistInfo>
 
@@ -92,7 +92,7 @@ const GradientColor = styled("div", {
     zIndex: -1,
 
     "&&": {
-        background: `linear-gradient(transparent 0%, rgba(0,0,0,.5) 100%), url(${gradientNoise}), $$dominantColor`,
+        background: `linear-gradient(transparent 0%, rgba(0,0,0,.6) 100%), url(${gradientNoise}), $$dominantColor`,
     },
 });
 
@@ -105,7 +105,7 @@ const GradientMaskMinor = styled("div", {
     zIndex: -1,
 
     "&&": {
-        background: `linear-gradient(rgba(0,0,0,.6) 0%, $black600 100%), url(${gradientNoise}), $$dominantColor`,
+        background: `linear-gradient(rgba(0,0,0,.7) 0%, $black600 100%), url(${gradientNoise}), $$dominantColor`,
     },
 });
 
@@ -132,10 +132,10 @@ const PlaylistInfo = styled("div", {
 
 const Title = styled("h1", {
     fontSize: "$700",
-    fontWeight: "800",
+    fontWeight: 800,
     letterSpacing: "-0.03em",
-    lineHeight: 1.15,
-    margin: "0.08em 0px 0.12em",
+    lineHeight: 1.25,
+    margin: "0 0 $600",
     overflow: "hidden",
     userSelect: "none",
     wordBreak: "break-word",
@@ -145,8 +145,14 @@ const Title = styled("h1", {
 });
 
 const Subtitle = styled("h2", {
-    fontSize: "$300",
-    fontWeight: "700",
+    fontSize: "$200",
+    fontWeight: 700,
+});
+
+const Description = styled("p", {
+    color: "rgba(255, 255, 255, 0.8)",
+    fontSize: "$200",
+    fontWeight: 500,
 });
 
 const Details = styled("div", {
@@ -154,23 +160,23 @@ const Details = styled("div", {
     display: "flex",
     flexWrap: "wrap",
     fontSize: "$200",
+    fontWeight: 500,
     marginTop: "$400",
-});
 
-const Description = styled("p", {
-    color: "$grey200",
-    fontSize: "$200",
-});
+    "& > span:first-of-type": {
+        fontWeight: 700,
+        userSelect: "none",
+    },
 
-const Owner = styled("span", {
-    fontWeight: "700",
-    userSelect: "none",
-});
-
-const CollectionInfo = styled("span", {
-    "&::before": {
+    "& > span:not(:first-child):not(:last-child)::before": {
         content: "•",
+        fontWeight: 400,
         margin: "0 $200",
+    },
+
+    "& > span:last-child": {
+        color: "rgba(255, 255, 255, 0.8)",
+        marginLeft: "$200",
     },
 });
 

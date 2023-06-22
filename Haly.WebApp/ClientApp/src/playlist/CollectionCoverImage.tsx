@@ -71,6 +71,7 @@ function selectDominantColor(palette: PaletteColor[] | undefined) {
 const Image = styled("img", {
     $$size: "220px",
 
+    boxShadow: "0 4px 60px rgba(0, 0, 0, 0.5)",
     height: "$$size",
     width: "$$size",
 });

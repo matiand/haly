@@ -59,8 +59,7 @@ const usePlaylistQuery = (playlistId: string) => {
 };
 
 const Wrapper = styled("div", {
-    // border: "1px solid $white",
-    padding: "24px",
+    padding: "$800 $700",
     position: "relative",
     zIndex: 1,
 });

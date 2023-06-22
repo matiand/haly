@@ -55,8 +55,7 @@ const THead = styled("thead", {
     position: "sticky",
     top: "0px",
     zIndex: "2",
-    // margin: "0 -$800 $600",
-    // padding: "0 $800",
+    margin: "0 0 $600",
 
     "&.sticky-head": {
         background: "$black550",
@@ -64,7 +63,7 @@ const THead = styled("thead", {
     },
 
     "& > tr": {
-        borderBottom: "1px solid $black300",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
         display: "grid",
         gridGap: "$600",
         gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
@@ -73,12 +72,10 @@ const THead = styled("thead", {
 
         "& > th": {
             alignItems: "center",
-            color: "$grey200",
+            color: "$grey150",
             display: "flex",
-            fontSize: "$100",
+            fontSize: "$300",
             fontWeight: "500",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
         },
 
         "& > th:nth-of-type(1), & > th:nth-of-type(5)": {
@@ -123,7 +120,8 @@ const TBody = styled("tbody", {
         },
 
         "&:hover": {
-            // background: "$black400",
+            background: "rgba(255, 255, 255, 0.1)",
+            borderRadius: "4px",
             "& td:nth-of-type(1) > div > span": {
                 display: "none",
             },
@@ -139,6 +137,8 @@ const TBody = styled("tbody", {
 
         "& > td:nth-of-type(1)": {
             color: "$grey200",
+            fontSize: "$300",
+            fontWeight: 500,
             justifySelf: "center",
         },
 
@@ -151,10 +151,12 @@ const TBody = styled("tbody", {
             color: "$grey300",
             display: "none",
             fontSize: "$300",
+            fontWeight: 500,
         },
 
         "& > td:nth-of-type(5)": {
             justifySelf: "end",
+            fontWeight: 500,
         },
 
         "@bp3": {
