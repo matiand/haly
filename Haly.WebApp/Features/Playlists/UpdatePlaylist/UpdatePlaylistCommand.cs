@@ -27,7 +27,8 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
     public async Task<UpdatePlaylistResponse?> Handle(UpdatePlaylistCommand request,
         CancellationToken cancellationToken)
     {
-        var cachedPlaylistTask = _db.Playlists.Include(p => p.Tracks)
+        var cachedPlaylistTask = _db.Playlists
+            .Include(p => p.Tracks.OrderBy(t => t.PositionInPlaylist))
             .Where(p => p.Id == request.PlaylistId)
             .SingleOrDefaultAsync(cancellationToken);
         var freshPlaylistTask = _spotifyService.GetPlaylistWithTracks(request.PlaylistId, request.UserMarket);
