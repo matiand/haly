@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { UserDto } from "../generated/haly";
 import useSpotifyToken from "./auth/useSpotifyToken";
 import LikedSongs from "./collections/LikedSongs";
-import Loading from "./common/Loading";
+import LoadingIndicator from "./common/LoadingIndicator";
 import ScrollArea from "./common/ScrollArea";
 import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
@@ -32,7 +32,7 @@ function App() {
     } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }));
     // useSyncedLikedSongs(user);
 
-    if (isLoading) return <Loading />;
+    if (isLoading) return <LoadingIndicator />;
     if (error || !user) return <Toaster />;
 
     return (
@@ -42,18 +42,16 @@ function App() {
 
                 <Main>
                     <ScrollArea>
-                        <React.Suspense fallback={<Loading />}>
-                            <Routes>
-                                <Route index element={<Home />} />
-                                <Route path="/playlists/:id" element={<Playlist />} />
-                                <Route path="/me" element={<Me />}>
-                                    <Route path="following" element={<FollowedArtists />} />
-                                    <Route path="appsettings" element={<HalySettings />} />
-                                </Route>
-                                <Route path="/collection/tracks" element={<LikedSongs />} />
-                                <Route path="/player" element={<SimplePlayer />} />
-                            </Routes>
-                        </React.Suspense>
+                        <Routes>
+                            <Route index element={<Home />} />
+                            <Route path="/playlists/:id" element={<Playlist />} />
+                            <Route path="/me" element={<Me />}>
+                                <Route path="following" element={<FollowedArtists />} />
+                                <Route path="appsettings" element={<HalySettings />} />
+                            </Route>
+                            <Route path="/collection/tracks" element={<LikedSongs />} />
+                            <Route path="/player" element={<SimplePlayer />} />
+                        </Routes>
                     </ScrollArea>
                 </Main>
 
@@ -90,6 +88,11 @@ const Main = styled("main", {
     borderRadius: "8px",
     display: "flex",
     minHeight: 0,
+
+    // Allows our loading indicator to be centered
+    "[data-overlayscrollbars=host]": {
+        width: "100%",
+    },
 });
 
 export default App;

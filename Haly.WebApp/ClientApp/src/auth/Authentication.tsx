@@ -3,7 +3,7 @@ import { WebStorageStateStore } from "oidc-client-ts";
 import React, { useEffect, useRef } from "react";
 import { AuthProviderProps, useAuth } from "react-oidc-context";
 
-import Loading from "../common/Loading";
+import LoadingIndicator from "../common/LoadingIndicator";
 import halyClient from "../halyClient";
 import AuthenticationError from "./AuthenticationError";
 import { Login } from "./Login";
@@ -47,7 +47,7 @@ function Authentication(props: AuthenticationProps) {
     }
 
     if (auth.isLoading) {
-        return <Loading />;
+        return <LoadingIndicator />;
     }
 
     if (auth.isAuthenticated) {

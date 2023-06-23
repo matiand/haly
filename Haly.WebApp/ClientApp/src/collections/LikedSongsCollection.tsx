@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import React from "react";
 
+import LoadingIndicator from "../common/LoadingIndicator";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistControls from "../playlist/PlaylistControls";
@@ -13,7 +15,9 @@ type LikedSongsCollectionProps = {
 export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
     const query = useQuery(["playlists", id], () => halyClient.playlists.getPlaylist({ id }));
 
-    if (!query.data) return null;
+    if (!query.data) {
+        return <LoadingIndicator />;
+    }
 
     const playlist = query.data;
     const songsCount = playlist.tracks.total;

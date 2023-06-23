@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { isPlaylistCachedAtom, playlistHasOldTracksAtom } from "../common/atoms";
+import LoadingIndicator from "../common/LoadingIndicator";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistControls from "./PlaylistControls";
@@ -16,7 +17,7 @@ function Playlist() {
     const hasOldTracks = useAtomValue(useMemo(() => playlistHasOldTracksAtom(id!), [id]));
 
     if (!query.data) {
-        return null;
+        return <LoadingIndicator />;
     }
 
     if (hasOldTracks) console.log(id, " has old tracks");
