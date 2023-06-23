@@ -10,7 +10,7 @@ type CoverImageProps = {
 function TrackCoverImage({ alt, imageUrl }: CoverImageProps) {
     if (!imageUrl) return <EmptyCoverImage type="track" />;
 
-    return <Image alt={alt} src={imageUrl} loading="eager" />;
+    return <Image alt={alt} src={imageUrl} loading="eager" width="40px" height="40px" />;
 }
 
 const Image = styled("img", {
