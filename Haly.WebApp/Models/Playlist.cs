@@ -20,12 +20,12 @@ public class Playlist
 
         // When want to update a playlist we first get it from Spotify, but sometimes we don't get the likes.
         // In that case we want to keep the old likes, we will fetch them later.
+        var oldLikes = Metadata.LikesTotal;
+        Metadata = other.Metadata;
         if (!includingLikes)
         {
-            var currentLikes = Metadata.LikesTotal;
-            other.Metadata.LikesTotal = currentLikes;
+            Metadata.LikesTotal = oldLikes;
         }
-        Metadata = other.Metadata;
 
         if (includingTracks)
         {
