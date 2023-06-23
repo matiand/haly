@@ -1,35 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
-import { useEffect } from "react";
-
-import { cachedPlaylistIdsAtom } from "../common/atoms";
+import { PlaylistBriefDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import halyApi from "../halyClient";
 import UserLibraryLink from "./UserLibraryLink";
 
-function UserPlaylists() {
-    // We treat this PUT as query, because it's idempotent
-    const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
-    const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
+type UserPlaylistsProps = {
+    playlists: PlaylistBriefDto[];
+};
 
-    useEffect(() => {
-        if (query.data) {
-            const ids = query.data.map((p) => p.id);
-            setCachedPlaylistIds(ids);
-        }
-    }, [query.data, setCachedPlaylistIds]);
-
-    if (!query.data) {
-        return null;
-    }
-
+function UserPlaylists({ playlists }: UserPlaylistsProps) {
     return (
         <List>
             <li>
                 <UserLibraryLink name="Liked Songs" href="/collection/tracks" />
             </li>
 
-            {query.data.map((p) => {
+            {playlists.map((p) => {
                 const href = `playlists/${p.id}`;
 
                 return (

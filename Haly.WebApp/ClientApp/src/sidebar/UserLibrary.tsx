@@ -1,30 +1,34 @@
-import { HiPlus } from "react-icons/hi2";
-import { MdLibraryMusic } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
+import { useEffect } from "react";
 
+import { cachedPlaylistIdsAtom } from "../common/atoms";
 import ScrollArea from "../common/ScrollArea";
 import { styled } from "../common/theme";
+import halyApi from "../halyClient";
+import UserLibraryHeader from "./UserLibraryHeader";
 import UserPlaylists from "./UserPlaylists";
 
 function UserLibrary() {
+    // We treat this PUT as query, because it's idempotent
+    const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
+    const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
+
+    useEffect(() => {
+        if (query.data) {
+            const ids = query.data.map((p) => p.id);
+            setCachedPlaylistIds(ids);
+        }
+    }, [query.data, setCachedPlaylistIds]);
+
+    if (!query.data) return <Wrapper />;
+
     return (
         <Wrapper>
-            <Header>
-                <Title>
-                    <span>
-                        <TitleIcon />
-                    </span>
-                    <h2>Your Library</h2>
-                </Title>
-
-                <AddButton type="button" aria-label="Create playlist" title="Create playlist">
-                    <span>
-                        <AddButtonIcon />
-                    </span>
-                </AddButton>
-            </Header>
+            <UserLibraryHeader />
 
             <ScrollArea>
-                <UserPlaylists />
+                <UserPlaylists playlists={query.data} />
             </ScrollArea>
         </Wrapper>
     );
@@ -35,57 +39,6 @@ const Wrapper = styled("div", {
     flexFlow: "column",
     height: "100%",
     minHeight: 0,
-});
-
-const Header = styled("header", {
-    alignItems: "center",
-    boxShadow: "0 3px 6px rgba(0,0,0,.5)",
-    color: "$grey200",
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "$400 $600",
-});
-
-const Title = styled("div", {
-    alignItems: "center",
-    display: "flex",
-    gap: "$400",
-    height: "40px",
-
-    "& > h2": {
-        fontSize: "$400",
-    },
-});
-
-const TitleIcon = styled(MdLibraryMusic, {
-    height: "24px",
-    width: "24px",
-});
-
-const AddButton = styled("button", {
-    background: "inherit",
-    border: 0,
-    borderRadius: "50%",
-    color: "inherit",
-    cursor: "pointer",
-    display: "flex",
-    padding: "$200",
-    transition: "color 0.2s linear",
-
-    "&:hover": {
-        background: "$black500",
-        color: "$white",
-    },
-
-    "&:active": {
-        background: "$black800",
-        color: "$white",
-    },
-});
-
-const AddButtonIcon = styled(HiPlus, {
-    height: "$navIconSize",
-    width: "$navIconSize",
 });
 
 export default UserLibrary;
