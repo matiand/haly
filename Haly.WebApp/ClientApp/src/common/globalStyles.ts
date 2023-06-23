@@ -48,6 +48,7 @@ const globalStyles = globalCss({
         "-webkit-box-orient": "vertical",
         display: "-webkit-box",
         overflow: "hidden",
+        wordBreak: "unset",
     },
 
     // Used to position react query devtools toggle btn
