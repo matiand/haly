@@ -46,7 +46,7 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
 
         if (cachedPlaylist.SnapshotId != freshPlaylist.SnapshotId)
         {
-            cachedPlaylist.UpdateModel(freshPlaylist, includingTracks: true);
+            cachedPlaylist.UpdateModel(freshPlaylist, includingTracks: true, includingLikes: true);
             await _db.SaveChangesAsync(cancellationToken);
         }
 

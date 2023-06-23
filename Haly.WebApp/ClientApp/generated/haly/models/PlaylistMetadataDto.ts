@@ -40,6 +40,12 @@ export interface PlaylistMetadataDto {
     imageUrl?: string | null;
     /**
      * 
+     * @type {number}
+     * @memberof PlaylistMetadataDto
+     */
+    likesTotal: number;
+    /**
+     * 
      * @type {OwnerDto}
      * @memberof PlaylistMetadataDto
      */
@@ -51,6 +57,7 @@ export interface PlaylistMetadataDto {
  */
 export function instanceOfPlaylistMetadataDto(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "likesTotal" in value;
     isInstance = isInstance && "owner" in value;
 
     return isInstance;
@@ -68,6 +75,7 @@ export function PlaylistMetadataDtoFromJSONTyped(json: any, ignoreDiscriminator:
         
         'description': !exists(json, 'description') ? undefined : json['description'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
+        'likesTotal': json['likesTotal'],
         'owner': OwnerDtoFromJSON(json['owner']),
     };
 }
@@ -83,6 +91,7 @@ export function PlaylistMetadataDtoToJSON(value?: PlaylistMetadataDto | null): a
         
         'description': value.description,
         'imageUrl': value.imageUrl,
+        'likesTotal': value.likesTotal,
         'owner': OwnerDtoToJSON(value.owner),
     };
 }

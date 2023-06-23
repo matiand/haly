@@ -64,8 +64,8 @@ public class RefetchPlaylistTracksService : BackgroundService
             {
                 try
                 {
-                    var tracks = await spotify.GetPlaylistTracks(job.PlaylistId, job.User.Market);
-                    playlist.Tracks = tracks;
+                    var freshPlaylist = await spotify.GetPlaylistWithTracks(job.PlaylistId, job.User.Market);
+                    playlist.UpdateModel(freshPlaylist!, includingTracks: true, includingLikes: true);
                 }
                 catch (ApiException)
                 {

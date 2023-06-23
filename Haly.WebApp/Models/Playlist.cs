@@ -13,11 +13,19 @@ public class Playlist
 
     public List<Track> Tracks { get; set; }
 
-    public void UpdateModel(Playlist other, bool includingTracks = false)
+    public void UpdateModel(Playlist other, bool includingTracks = false, bool includingLikes = false)
     {
         Name = other.Name;
-        Metadata = other.Metadata;
         SnapshotId = other.SnapshotId;
+
+        // When want to update a playlist we first get it from Spotify, but sometimes we don't get the likes.
+        // In that case we want to keep the old likes, we will fetch them later.
+        if (!includingLikes)
+        {
+            var currentLikes = Metadata.LikesTotal;
+            other.Metadata.LikesTotal = currentLikes;
+        }
+        Metadata = other.Metadata;
 
         if (includingTracks)
         {

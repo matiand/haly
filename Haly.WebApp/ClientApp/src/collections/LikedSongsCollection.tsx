@@ -27,6 +27,7 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
                 name={playlist.name}
                 imageUrl={playlist.metadata.imageUrl}
                 description={playlist.metadata.description}
+                likesTotal={playlist.metadata.likesTotal}
                 owner={playlist.metadata.owner.name}
                 songsCount={songsCount}
                 totalDuration={totalDuration}

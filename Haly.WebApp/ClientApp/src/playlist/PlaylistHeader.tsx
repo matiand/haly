@@ -12,6 +12,7 @@ type PlaylistHeaderProps = {
     name: string;
     imageUrl: PlaylistWithTracksDto["metadata"]["imageUrl"];
     description: PlaylistWithTracksDto["metadata"]["description"];
+    likesTotal: PlaylistWithTracksDto["metadata"]["likesTotal"];
     owner: string;
     songsCount: number;
     totalDuration: string;
@@ -19,7 +20,16 @@ type PlaylistHeaderProps = {
 
 const titleSizeSteps = [90, 66, 42, 30];
 
-function PlaylistHeader({ id, name, imageUrl, description, owner, songsCount, totalDuration }: PlaylistHeaderProps) {
+function PlaylistHeader({
+    id,
+    name,
+    imageUrl,
+    description,
+    likesTotal,
+    owner,
+    songsCount,
+    totalDuration,
+}: PlaylistHeaderProps) {
     console.log("PlaylistHeader", name);
     const dominantColors = useAtomValue(dominantColorsAtom);
     const { width: windowWidth } = useWindowSize();
@@ -63,7 +73,7 @@ function PlaylistHeader({ id, name, imageUrl, description, owner, songsCount, to
                 {description && <Description>{description}</Description>}
                 <Details>
                     <span>{owner}</span>
-                    <span>1 like</span>
+                    {likesTotal > 0 && <span>{formatLikes(likesTotal)}</span>}
                     <span>{songsCount} songs,</span>
                     <span>{totalDuration}</span>
                 </Details>
@@ -108,6 +118,11 @@ const GradientMaskMinor = styled("div", {
         background: `linear-gradient(rgba(0,0,0,.7) 0%, $black600 100%), url(${gradientNoise}), $$dominantColor`,
     },
 });
+function formatLikes(likes: number) {
+    const amount = likes.toLocaleString();
+
+    return likes > 1 ? `${amount} likes` : `${amount} like`;
+}
 
 const Wrapper = styled("div", {
     alignItems: "flex-end",

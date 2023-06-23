@@ -4,5 +4,6 @@ public class PlaylistMetadata
 {
     public string? Description { get; set; }
     public string? ImageUrl { get; set; }
+    public int LikesTotal { get; set; }
     public Owner Owner { get; set; }
 }
