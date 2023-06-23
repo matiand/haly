@@ -9,15 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 
-public record UpdateCurrentUserLikedSongsCommand(string UserId, string UserMarket) : IRequest<UpdateCurrentUserLikedSongsResponse>;
+public record UpdateCurrentUserLikedSongsCommand(string UserId, string UserMarket)
+    : IRequest<UpdateCurrentUserLikedSongsResponse>;
 
-public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrentUserLikedSongsCommand, UpdateCurrentUserLikedSongsResponse>
+public record UpdateCurrentUserLikedSongsHandler
+    : IRequestHandler<UpdateCurrentUserLikedSongsCommand, UpdateCurrentUserLikedSongsResponse>
 {
     private readonly ISpotifyService _spotifyService;
     private readonly CurrentUserStore _currentUserStore;
     private readonly LibraryContext _db;
 
-    public UpdateCurrentUserLikedSongsHandler(ISpotifyService spotifyService, CurrentUserStore currentUserStore, LibraryContext db)
+    public UpdateCurrentUserLikedSongsHandler(ISpotifyService spotifyService, CurrentUserStore currentUserStore,
+        LibraryContext db)
     {
         _spotifyService = spotifyService;
         _currentUserStore = currentUserStore;
@@ -30,7 +33,6 @@ public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrent
         var playlistId = GetLikedSongsPlaylistId(request);
         var cachedPlaylist =
             await _db.Playlists
-                .Include(p => p.Tracks)
                 .FirstOrDefaultAsync(p => p.Id == playlistId, cancellationToken);
         var likedSongs = await _spotifyService.GetLikedSongsIfChanged(request.UserMarket, cachedPlaylist?.SnapshotId);
 
@@ -53,9 +55,11 @@ public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrent
         return new UpdateCurrentUserLikedSongsResponse(Created: false, cachedPlaylist.Adapt<PlaylistBriefDto>());
     }
 
-    private static string GetLikedSongsPlaylistId(UpdateCurrentUserLikedSongsCommand request) => $"LikesOf_{request.UserId}";
+    private static string GetLikedSongsPlaylistId(UpdateCurrentUserLikedSongsCommand request) =>
+        $"LikesOf_{request.UserId}";
 
-    private async Task<Playlist> AddNewPlaylist(string playlistId, LikedSongsDto apiResponse, CancellationToken cancellationToken)
+    private async Task<Playlist> AddNewPlaylist(string playlistId, LikedSongsDto apiResponse,
+        CancellationToken cancellationToken)
     {
         var newPlaylist = new Playlist()
         {
@@ -75,9 +79,12 @@ public record UpdateCurrentUserLikedSongsHandler : IRequestHandler<UpdateCurrent
         return newPlaylist;
     }
 
-    private async Task UpdatePlaylist(Playlist cachedPlaylist, LikedSongsDto apiResponse, CancellationToken cancellationToken)
+    private async Task UpdatePlaylist(Playlist cachedPlaylist, LikedSongsDto apiResponse,
+        CancellationToken cancellationToken)
     {
         cachedPlaylist.SnapshotId = apiResponse.SnapshotId;
+
+        await _db.Entry(cachedPlaylist).Collection(p => p.Tracks).LoadAsync(cancellationToken);
         cachedPlaylist.Tracks = apiResponse.Tracks;
 
         await _db.SaveChangesAsync(cancellationToken);
