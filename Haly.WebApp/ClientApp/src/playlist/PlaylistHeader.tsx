@@ -1,11 +1,10 @@
 import { useAtomValue } from "jotai";
-import { useCallback, useDeferredValue } from "react";
-import { useWindowSize } from "usehooks-ts";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import { dominantColorsAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 import CollectionCoverImage from "./CollectionCoverImage";
+import PlaylistTitle from "./PlaylistTitle";
 
 type PlaylistHeaderProps = {
     id: string;
@@ -18,8 +17,6 @@ type PlaylistHeaderProps = {
     totalDuration: string;
 };
 
-const titleSizeSteps = [90, 66, 42, 30];
-
 function PlaylistHeader({
     id,
     name,
@@ -30,46 +27,16 @@ function PlaylistHeader({
     songsCount,
     totalDuration,
 }: PlaylistHeaderProps) {
-    console.log("PlaylistHeader", name);
     const dominantColors = useAtomValue(dominantColorsAtom);
-    const { width: windowWidth } = useWindowSize();
-    const width = useDeferredValue(windowWidth);
 
     const dominantColor = dominantColors[id] ?? theme.colors.defaultDominantColor;
     console.log("Dominant color", dominantColor);
-
-    const titleRef = useCallback(
-        (node: HTMLHeadingElement) => {
-            if (!node) return;
-
-            const height = node.getBoundingClientRect().height;
-            console.log("PlaylistHeader", height);
-
-            node.style.setProperty("visibility", "hidden");
-
-            for (let i = 0; i < titleSizeSteps.length; i++) {
-                const baseVal = titleSizeSteps[i];
-                const val = (baseVal + baseVal * 0.08 + baseVal * 0.12) * 1.5;
-
-                node.style.setProperty("font-size", `${baseVal}px`);
-
-                const newHeight = node.getBoundingClientRect().height;
-
-                if (val >= newHeight) break;
-            }
-
-            node.style.setProperty("visibility", "visible");
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [name, width],
-    );
-
     return (
         <Wrapper>
             {imageUrl && <CollectionCoverImage playlistId={id} imageUrl={imageUrl} alt={`${name} playlist image`} />}
             <PlaylistInfo>
                 <Subtitle>Playlist</Subtitle>
-                <Title ref={titleRef}>{name}</Title>
+                <PlaylistTitle name={name} />
                 {description && <Description>{description}</Description>}
                 <Details>
                     <span>{owner}</span>
@@ -143,20 +110,6 @@ const PlaylistInfo = styled("div", {
     display: "flex",
     flexFlow: "column",
     justifyContent: "flex-end",
-});
-
-const Title = styled("h1", {
-    fontSize: "$700",
-    fontWeight: 800,
-    letterSpacing: "-0.03em",
-    lineHeight: 1.25,
-    margin: "0 0 $600",
-    overflow: "hidden",
-    userSelect: "none",
-    wordBreak: "break-word",
-    "-webkit-line-clamp": 3,
-    "-webkit-box-orient": "vertical",
-    display: "-webkit-box",
 });
 
 const Subtitle = styled("h2", {
