@@ -47,9 +47,9 @@ function Playlist() {
 const usePlaylistQuery = (playlistId: string) => {
     const isCached = useAtomValue(useMemo(() => isPlaylistCachedAtom(playlistId), [playlistId]));
 
+    // Playlist that are linked with our user are cached (i.e. appear in the sidebar). For those we
+    // can use a GET request. For other playlists we need to use a PUT request to cache them first.
     const queryFn = useMemo(() => {
-        console.log(`Playlist with id ${playlistId}, isCached: ${isCached}`);
-
         return isCached
             ? () => halyClient.playlists.getPlaylist({ id: playlistId })
             : () => halyClient.playlists.putPlaylist({ id: playlistId });
