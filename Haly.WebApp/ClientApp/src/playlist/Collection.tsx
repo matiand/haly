@@ -1,6 +1,6 @@
 import { useInView } from "react-intersection-observer";
 
-import { styled } from "../common/theme";
+import { styled, theme } from "../common/theme";
 import { TrackDto } from "../halyClient";
 import useTrackCollection from "./useTrackCollection";
 
@@ -53,13 +53,19 @@ const THead = styled("thead", {
     background: "",
     display: "block",
     position: "sticky",
-    top: "0px",
+    top: `${theme.sizes.userMenuHeight}`,
     zIndex: "2",
-    margin: "0 0 $600",
+    margin: "0 -$700 $600",
+    padding: "0 $700",
 
     "&.sticky-head": {
         background: "$black550",
-        boxShadow: "0 -1px 0 0 $black550",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+        boxShadow: "0 -1px 0 0 rgba(0, 0, 0, 0, 0.5)",
+
+        "& > tr": {
+            borderBottom: "none",
+        },
     },
 
     "& > tr": {
