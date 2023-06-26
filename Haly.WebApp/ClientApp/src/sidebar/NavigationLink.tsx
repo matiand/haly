@@ -12,7 +12,7 @@ type NavigationLinkProps = {
 function NavigationLink({ title, href, icon }: NavigationLinkProps) {
     return (
         <Link to={href}>
-            <span>{icon}</span>
+            <span aria-hidden>{icon}</span>
             <span>{title}</span>
         </Link>
     );

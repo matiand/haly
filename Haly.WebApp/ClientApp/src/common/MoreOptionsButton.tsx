@@ -10,7 +10,7 @@ type MoreOptionsButtonProps = {
 function MoreOptionsButton({ label, size }: MoreOptionsButtonProps) {
     return (
         <Button type="button" aria-haspopup="menu" aria-label={label} title={label}>
-            <span>
+            <span aria-hidden>
                 <Icon size={size} />
             </span>
         </Button>

@@ -16,8 +16,8 @@ function SearchBar({ variant }: SearchBarProps) {
     };
     return (
         <Form variant={variant} role="search" onSubmit={onSubmit}>
-            <span>
-                <SearchIcon aria-hidden="true" />
+            <span aria-hidden>
+                <SearchIcon />
             </span>
 
             <Input

@@ -8,7 +8,7 @@ type EmptyCoverImageProps = {
 
 function EmptyCoverImage({ type }: EmptyCoverImageProps) {
     return (
-        <Wrapper aria-hidden="true" type={type}>
+        <Wrapper aria-hidden type={type}>
             <MusicNoteIcon />
         </Wrapper>
     );

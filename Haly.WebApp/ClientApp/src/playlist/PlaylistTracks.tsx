@@ -55,7 +55,7 @@ function PlaylistTracks({ playlistId, initialTracks }: PlaylistTracksProps) {
     return (
         <>
             <Collection items={items} />
-            <div aria-hidden="true" ref={ref} />
+            <div aria-hidden ref={ref} />
         </>
     );
 }

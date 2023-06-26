@@ -14,7 +14,7 @@ function Collection({ items }: CollectionProps) {
 
     return (
         <>
-            <div ref={ref} aria-hidden={true}></div>
+            <div ref={ref} aria-hidden></div>
             <Table>
                 <THead className={inView ? "" : "sticky-head"}>
                     {table.getHeaderGroups().map((headerGroup) => (

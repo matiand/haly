@@ -7,7 +7,7 @@ function UserLibraryHeader() {
     return (
         <Header>
             <Title>
-                <span>
+                <span aria-hidden>
                     <TitleIcon />
                 </span>
                 <h2>Your Library</h2>
