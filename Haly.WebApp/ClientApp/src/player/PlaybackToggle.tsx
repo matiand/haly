@@ -3,50 +3,86 @@ import { HiPause, HiPlay } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
 
-function PlaybackToggle() {
+function PlaybackToggle({ size }: { size: "small" | "medium" | "large" }) {
     const [isPaused, setIsPaused] = useState(true);
     const label = isPaused ? "Play" : "Pause";
 
     const onClick = () => setIsPaused((prev) => !prev);
 
     return (
-        <Button type="button" onClick={onClick} aria-label={label} title={label}>
-            <span>{isPaused ? <PlaySvg /> : <PauseSvg />}</span>
+        <Button size={size} type="button" onClick={onClick} aria-label={label} title={label}>
+            <span aria-hidden>{isPaused ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
         </Button>
     );
 }
 
 const Button = styled("button", {
+    variants: {
+        size: {
+            small: {
+                background: "$white",
+                color: "$black800",
+                $$size: "36px",
+                $$iconSize: "20px",
+
+                "& .pause-icon": {
+                    $$iconSize: "26px",
+                    left: "0px",
+                },
+
+                "&:active": {
+                    background: "$white",
+                },
+            },
+            medium: {
+                $$size: "44px",
+                $$iconSize: "24px",
+
+                "& .pause-icon": {
+                    $$iconSize: "30px",
+                    left: "0px",
+                },
+            },
+            large: {
+                $$size: "56px",
+                $$iconSize: "28px",
+
+                "& .pause-icon": {
+                    $$iconSize: "36px",
+                    left: "0px",
+                },
+            },
+        },
+    },
+
     alignItems: "center",
     background: "$primary400",
     border: "0",
     borderRadius: "500px",
+    cursor: "pointer",
     display: "flex",
-    height: "56px",
+    height: "$$size",
     justifyContent: "center",
     padding: "0",
-    transitionDuration: "33ms",
+    transition: "transform 0.033s ease, background 0.033s ease",
     userSelect: "none",
-    width: "56px",
+    width: "$$size",
+
+    "& svg": {
+        height: "$$iconSize",
+        left: "1px",
+        position: "relative",
+        width: "$$iconSize",
+    },
 
     "&:hover": {
-        background: "$primary300",
+        transform: "scale(1.06)",
     },
 
     "&:active": {
         background: "$primary500",
+        transform: "scale(1)",
     },
-});
-
-const PlaySvg = styled(HiPlay, {
-    height: "28px",
-    marginLeft: "2px",
-    width: "28px",
-});
-
-const PauseSvg = styled(HiPause, {
-    height: "28px",
-    width: "28px",
 });
 
 export default PlaybackToggle;

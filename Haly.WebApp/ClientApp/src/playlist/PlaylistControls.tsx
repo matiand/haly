@@ -10,7 +10,7 @@ type PlaylistControlsProps = {
 function PlaylistControls({ name }: PlaylistControlsProps) {
     return (
         <Wrapper>
-            <PlaybackToggle />
+            <PlaybackToggle size="large" />
             <MoreOptionsButton label={`More options for playlist ${name}`} size="medium" />
             <SearchBar variant="playlist" />
         </Wrapper>
