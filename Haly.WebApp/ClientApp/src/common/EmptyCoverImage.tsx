@@ -19,7 +19,7 @@ const Wrapper = styled("div", {
     $$trackSize: "40px",
 
     alignItems: "center",
-    background: "$black400",
+    background: "$black200",
     display: "flex",
     justifyContent: "center",
 
@@ -42,7 +42,7 @@ const Wrapper = styled("div", {
 });
 
 const MusicNoteIcon = styled(MdOutlineMusicNote, {
-    color: "$white",
+    color: "$white800",
 });
 
 export default EmptyCoverImage;

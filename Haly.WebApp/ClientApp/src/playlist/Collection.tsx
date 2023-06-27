@@ -59,9 +59,9 @@ const THead = styled("thead", {
     padding: "0 $700",
 
     "&.sticky-head": {
-        background: "$black550",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-        boxShadow: "0 -1px 0 0 rgba(0, 0, 0, 0, 0.5)",
+        background: "$black500",
+        borderBottom: "1px solid $collectionHeadBorder",
+        boxShadow: "0 -1px 0 0 $collectionHeadShadow",
 
         "& > tr": {
             borderBottom: "none",
@@ -69,7 +69,7 @@ const THead = styled("thead", {
     },
 
     "& > tr": {
-        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+        borderBottom: "1px solid $collectionHeadBorder",
         display: "grid",
         gridGap: "$600",
         gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
@@ -78,7 +78,7 @@ const THead = styled("thead", {
 
         "& > th": {
             alignItems: "center",
-            color: "$grey150",
+            color: "$white700",
             display: "flex",
             fontSize: "$300",
             fontWeight: "500",
@@ -126,14 +126,14 @@ const TBody = styled("tbody", {
         },
 
         "&:hover": {
-            background: "rgba(255, 255, 255, 0.1)",
+            background: "$trackHover",
             borderRadius: "4px",
             "& td:nth-of-type(1) > div > span": {
                 display: "none",
             },
 
             "& a": {
-                color: "$white",
+                color: "$white800",
             },
 
             "& button": {
@@ -142,19 +142,19 @@ const TBody = styled("tbody", {
         },
 
         "& > td:nth-of-type(1)": {
-            color: "$grey200",
+            color: "$white500",
             fontSize: "$300",
             fontWeight: 500,
             justifySelf: "center",
         },
 
         "& > td:nth-of-type(2)": {
-            color: "$grey200",
+            color: "$white500",
             fontSize: "$300",
         },
 
         "& > td:nth-of-type(4)": {
-            color: "$grey300",
+            color: "$white400",
             display: "none",
             fontSize: "$300",
             fontWeight: 500,

@@ -2,28 +2,37 @@ import { createStitches } from "@stitches/react";
 
 export const theme = {
     colors: {
-        primary: "#fee715",
         primary300: "#feea37",
         primary400: "#fee826",
         primary500: "#c4b001",
-        white: "#fff",
-        grey100: "#bdbdbd",
-        grey150: "#bababa",
-        grey200: "#b3b3b3",
-        grey300: "#a7a7a7",
-        black300: "#3e3e3e",
-        black400: "#282828",
-        black450: "#232323",
-        black500: "#1a1a1a",
-        black550: "#181818",
+
+        white400: "#a7a7a7",
+        white500: "#b3b3b3",
+        white600: "#bababa",
+        white700: "#bdbdbd",
+        white800: "#ffffff",
+
+        black100: "#3e3e3e",
+        black200: "#282828",
+        black300: "#232323",
+        black400: "#1a1a1a",
+        black500: "#181818",
         black600: "#121212",
         black700: "#0a0a0a",
         black800: "#000000",
-        danger: "#e91429",
-        // 'Liked Songs' purple
-        purple: "#5038a0",
+
+        danger400: "#e91429",
+
         scrollbarThumb: "rgba(255, 255, 255, 0.3)",
-        defaultDominantColor: "#535353",
+        collectionImageShadow: "rgba(0, 0, 0, 0.5)",
+        collectionTextFaded: "rgba(255, 255, 255, 0.8)",
+        collectionHeadBorder: "rgba(255, 255, 255, 0.1)",
+        collectionHeadShadow: "rgba(0, 0, 0, 0.5)",
+        trackHover: "rgba(255, 255, 255, 0.1)",
+
+        dominantDefault: "#535353",
+        // 'Liked Songs' purple
+        dominantPurple: "#5038a0",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',

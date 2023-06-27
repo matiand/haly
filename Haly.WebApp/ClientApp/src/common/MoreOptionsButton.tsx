@@ -21,13 +21,13 @@ const Button = styled("button", {
     alignItems: "center",
     background: "transparent",
     border: "0",
-    color: "$grey100",
+    color: "$white700",
     display: "flex",
     justifyContent: "center",
     padding: "0",
 
     "&:hover, &:active, &:focus": {
-        color: "$white",
+        color: "$white800",
     },
 });
 
@@ -35,7 +35,7 @@ const Icon = styled(FiMoreHorizontal, {
     variants: {
         size: {
             small: {
-                color: "$white",
+                color: "$white800",
                 height: "24px",
                 width: "16px",
             },

@@ -78,7 +78,7 @@ const Form = styled("form", {
                     width: "220px",
                 },
                 "& > span > svg": {
-                    // color: "$white",
+                    // color: "$white800",
                     height: "18px",
                     left: "$400",
                     top: "$300",

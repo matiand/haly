@@ -34,7 +34,7 @@ const Anchor = styled("a", {
 });
 
 const Svg = styled("svg", {
-    color: "$white",
+    color: "$white800",
     height: "32px",
     minWidth: "70px",
 });

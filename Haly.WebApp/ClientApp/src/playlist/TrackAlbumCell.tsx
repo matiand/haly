@@ -15,7 +15,7 @@ function TrackAlbumCell(ctx: CellContext<TrackDto, unknown>) {
 
 const Wrapper = styled("div", {
     "& a": {
-        color: "$grey200",
+        color: "$white500",
         fontSize: "$300",
         fontWeight: 500,
         textDecoration: "none",

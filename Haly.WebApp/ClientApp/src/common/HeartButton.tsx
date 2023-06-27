@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { keyframes,styled } from "./theme";
+import { keyframes, styled } from "./theme";
 
 type HeartButtonProps = {
     size: "small" | "medium";
@@ -73,11 +73,11 @@ const wiggle = keyframes({
 const Button = styled("button", {
     background: "transparent",
     border: "0",
-    color: "$grey150",
+    color: "$white700",
     padding: "0",
 
     "&:hover": {
-        color: "$white",
+        color: "$white800",
     },
 
     "&[aria-checked=true]": {

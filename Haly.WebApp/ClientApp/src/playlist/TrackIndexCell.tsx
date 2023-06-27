@@ -38,7 +38,7 @@ const Index = styled("span", {
 const PlayBtn = styled("button", {
     background: "transparent",
     border: 0,
-    color: "$white",
+    color: "$white800",
     height: "16px",
     padding: 0,
     position: "absolute",

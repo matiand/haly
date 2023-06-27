@@ -25,7 +25,7 @@ function UserLibraryHeader() {
 const Header = styled("header", {
     alignItems: "center",
     boxShadow: "0 3px 6px rgba(0,0,0,.5)",
-    color: "$grey200",
+    color: "$white600",
     display: "flex",
     justifyContent: "space-between",
     padding: "$400 $600",
@@ -58,13 +58,13 @@ const AddButton = styled("button", {
     transition: "color 0.2s linear",
 
     "&:hover": {
-        background: "$black500",
-        color: "$white",
+        background: "$black400",
+        color: "$white800",
     },
 
     "&:active": {
         background: "$black800",
-        color: "$white",
+        color: "$white800",
     },
 });
 

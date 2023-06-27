@@ -28,7 +28,7 @@ const Link = styled(NavLink, {
     width: "100%",
 
     "&.active": {
-        color: "$white",
+        color: "$white800",
     },
 
     svg: {

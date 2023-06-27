@@ -20,7 +20,7 @@ const Button = styled("button", {
     variants: {
         size: {
             small: {
-                background: "$white",
+                background: "$white800",
                 color: "$black800",
                 $$size: "36px",
                 $$iconSize: "20px",
@@ -31,7 +31,7 @@ const Button = styled("button", {
                 },
 
                 "&:active": {
-                    background: "$white",
+                    background: "$white800",
                 },
             },
             medium: {

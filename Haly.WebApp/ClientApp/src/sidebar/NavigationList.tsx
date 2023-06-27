@@ -1,6 +1,5 @@
 import { HiSearch } from "react-icons/hi";
-import { HiHome, HiOutlineFire } from "react-icons/hi2";
-import { TbShip } from "react-icons/tb";
+import { HiDocument, HiFire, HiHome } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
 import NavigationLink from "./NavigationLink";
@@ -20,10 +19,10 @@ function NavigationList() {
                 <NavigationLink title="Search" href="/search" icon={<HiSearch />} />
             </li>
             <li>
-                <NavigationLink title="New Releases" href="/me" icon={<HiOutlineFire />} />
+                <NavigationLink title="New Releases" href="/me" icon={<HiFire />} />
             </li>
             <li>
-                <NavigationLink title="Voyages?" href="/me" icon={<TbShip />} />
+                <NavigationLink title="Backlog" href="/bae" icon={<HiDocument />} />
             </li>
         </List>
     );
@@ -34,7 +33,7 @@ const List = styled("ul", {
     paddingBottom: "$600",
 
     "& > :not(li:first-of-type)": {
-        color: "$grey200",
+        color: "$white500",
         display: "flex",
         fontSize: "$300",
         minHeight: "40px",
@@ -42,7 +41,7 @@ const List = styled("ul", {
         transition: "color 0.2s linear",
 
         "&:hover": {
-            color: "$white",
+            color: "$white800",
         },
     },
 });

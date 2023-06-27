@@ -13,7 +13,7 @@ function NotFound() {
 }
 
 const Wrapper = styled("div", {
-    color: "$white",
+    color: "$white800",
     marginTop: "25vh",
     textAlign: "center",
     fontWeight: "500",
@@ -30,8 +30,8 @@ const Wrapper = styled("div", {
     },
 
     "& > a": {
-        background: "$white",
-        border: "1px solid $black400",
+        background: "$white800",
+        border: "1px solid $black200",
         borderRadius: "48px",
         color: "$black800",
         fontWeight: "700",

@@ -18,7 +18,7 @@ function StatusBar() {
 const Footer = styled("footer", {
     alignItems: "center",
     display: "flex",
-    color: "$white",
+    color: "$white800",
     fontSize: "$300",
     padding: "$200 $600",
 

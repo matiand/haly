@@ -23,7 +23,7 @@ function UserLibraryLink({ name, href }: UserLibraryLinkProps) {
 const Link = styled(NavLink, {
     alignItems: "center",
     borderRadius: "4px",
-    color: "$white",
+    color: "$white800",
     display: "flex",
     gap: "$600",
     justifyContent: "space-between",
@@ -47,16 +47,16 @@ const Link = styled(NavLink, {
     },
 
     "&.active": {
-        background: "$black450",
+        background: "$black300",
 
         "&:hover": {
-            background: "$black300",
+            background: "$black100",
         },
     },
 });
 
 const Icon = styled(HiSpeakerWave, {
-    color: "$primary",
+    color: "$primary400",
     height: "14px",
     width: "14px",
 });

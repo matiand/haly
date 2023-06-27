@@ -29,7 +29,7 @@ const Wrapper = styled("div", {
 });
 
 const Duration = styled("span", {
-    color: "$grey150",
+    color: "$white700",
     fontSize: "$300",
     fontVariantNumeric: "tabular-nums",
     marginRight: "$600",

@@ -28,7 +28,7 @@ const Main = styled("main", {
 });
 
 const ErrorBox = styled("div", {
-    border: "2px solid $danger",
+    border: "2px solid $danger400",
     borderRadius: "4px",
     padding: "$600",
     width: "60vw",

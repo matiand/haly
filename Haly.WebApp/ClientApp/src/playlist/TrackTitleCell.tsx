@@ -37,7 +37,7 @@ const Wrapper = styled("div", {
 });
 
 const TrackContents = styled("div", {
-    color: "$white",
+    color: "$white800",
     display: "flex",
     flexFlow: "column",
     fontSize: "$350",
@@ -45,7 +45,7 @@ const TrackContents = styled("div", {
     paddingRight: "$400",
 
     "& a": {
-        color: "$grey200",
+        color: "$white500",
         fontSize: "$200",
         textDecoration: "none",
 

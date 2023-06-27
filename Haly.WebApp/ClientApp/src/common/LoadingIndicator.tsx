@@ -17,7 +17,7 @@ function LoadingIndicator() {
 
     return (
         <Wrapper>
-            <Waveform color={theme.colors.white} />
+            <Waveform color={theme.colors.white800} />
         </Wrapper>
     );
 }
