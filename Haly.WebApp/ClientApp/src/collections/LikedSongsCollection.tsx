@@ -44,5 +44,4 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
 
 const Wrapper = styled("div", {
     position: "relative",
-    zIndex: 1,
 });

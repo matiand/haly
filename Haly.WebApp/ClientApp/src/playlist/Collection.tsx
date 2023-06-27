@@ -54,14 +54,14 @@ const THead = styled("thead", {
     display: "block",
     position: "sticky",
     top: `${theme.sizes.userMenuHeight}`,
-    zIndex: "2",
+    zIndex: "$collectionHead",
     margin: "0 -$700 $600",
     padding: "0 $700",
 
     "&.sticky-head": {
         background: "$black500",
         borderBottom: "1px solid $collectionHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionHeadShadow",
+        boxShadow: "0 -1px 0 0 $collectionHead",
 
         "& > tr": {
             borderBottom: "none",

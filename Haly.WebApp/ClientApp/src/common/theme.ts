@@ -24,15 +24,17 @@ export const theme = {
         danger400: "#e91429",
 
         scrollbarThumb: "rgba(255, 255, 255, 0.3)",
-        collectionImageShadow: "rgba(0, 0, 0, 0.5)",
         collectionTextFaded: "rgba(255, 255, 255, 0.8)",
         collectionHeadBorder: "rgba(255, 255, 255, 0.1)",
-        collectionHeadShadow: "rgba(0, 0, 0, 0.5)",
         trackHover: "rgba(255, 255, 255, 0.1)",
 
         dominantDefault: "#535353",
         // 'Liked Songs' purple
         dominantPurple: "#5038a0",
+    },
+    shadows: {
+        collectionImage: "rgba(0, 0, 0, 0.5)",
+        collectionHead: "rgba(0, 0, 0, 0.5)",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',
@@ -71,6 +73,12 @@ export const theme = {
         minWidth: 190,
         defaultWidth: 270,
         maxWidth: 390,
+    },
+    zIndices: {
+        collectionHead: 2,
+        resizer: 10,
+        verticalScrollbar: 10,
+        userMenu: 9,
     },
 };
 

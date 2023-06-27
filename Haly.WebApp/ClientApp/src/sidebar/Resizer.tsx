@@ -16,7 +16,7 @@ const ResizerWrapper = styled("div", {
     top: "-1px",
     right: "-5px",
     bottom: 0,
-    zIndex: 100,
+    zIndex: "$resizer",
     background: "linear-gradient($white800, $white800) no-repeat center/1px 100%",
 
     "&:hover": {
