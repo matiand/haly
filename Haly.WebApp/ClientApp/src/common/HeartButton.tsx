@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { styled } from "./theme";
+import { keyframes,styled } from "./theme";
 
 type HeartButtonProps = {
     size: "small" | "medium";
@@ -8,11 +8,18 @@ type HeartButtonProps = {
 
 function HeartButton({ size }: HeartButtonProps) {
     const [isOn, setIsOn] = useState(false);
+    const [isAnimated, setIsAnimated] = useState(false);
     const btnLabel = isOn ? "Remove from Your Library" : "Save to Your Library";
+
+    const toggle = () => {
+        setIsOn((prev) => !prev);
+        setIsAnimated(true);
+    };
 
     return (
         <Button
-            onClick={() => setIsOn((prev) => !prev)}
+            onClick={toggle}
+            className={isAnimated ? "animated" : ""}
             type="button"
             aria-label={btnLabel}
             title={btnLabel}
@@ -31,6 +38,38 @@ function HeartButton({ size }: HeartButtonProps) {
     );
 }
 
+const hearbeat = keyframes({
+    "40%": {
+        transform: "scale(1.3)",
+        color: "$primary300",
+    },
+    "100%": {
+        transform: "scale(1)",
+        color: "$primary400",
+    },
+});
+
+const wiggle = keyframes({
+    "10%": {
+        transform: "rotate(10deg)",
+    },
+    "20%": {
+        transform: "translateX(-3px)",
+    },
+    "40%": {
+        transform: "rotate(-5deg)",
+    },
+    "50%": {
+        transform: "translateX(1px)",
+    },
+    "70%": {
+        transform: "translateX(-2px) rotate(5deg)",
+    },
+    "100%": {
+        transform: "translateX(0px) rotate(0deg)",
+    },
+});
+
 const Button = styled("button", {
     background: "transparent",
     border: "0",
@@ -39,6 +78,20 @@ const Button = styled("button", {
 
     "&:hover": {
         color: "$white",
+    },
+
+    "&[aria-checked=true]": {
+        color: "$primary400",
+    },
+
+    "@media (prefers-reduced-motion: no-preference)": {
+        "&.animated[aria-checked=true]": {
+            animation: `${hearbeat} 0.3s ease-out`,
+        },
+
+        "&.animated[aria-checked=false]": {
+            animation: `${wiggle} 0.33s ease-out`,
+        },
     },
 });
 const Icon = styled("svg", {

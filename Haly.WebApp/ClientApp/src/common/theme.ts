@@ -3,9 +3,9 @@ import { createStitches } from "@stitches/react";
 export const theme = {
     colors: {
         primary: "#fee715",
-        primary300: "#fee715",
-        primary400: "#fee715",
-        primary500: "#fee715",
+        primary300: "#feea37",
+        primary400: "#fee826",
+        primary500: "#c4b001",
         white: "#fff",
         grey100: "#bdbdbd",
         grey150: "#bababa",
@@ -71,7 +71,7 @@ const media = {
     bp3: "(min-width: 1060px)",
 };
 
-export const { styled, globalCss } = createStitches({
+export const { styled, globalCss, keyframes } = createStitches({
     theme,
     media,
 });
