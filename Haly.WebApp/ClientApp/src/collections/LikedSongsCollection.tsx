@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 
 import LoadingIndicator from "../common/LoadingIndicator";
 import { styled } from "../common/theme";

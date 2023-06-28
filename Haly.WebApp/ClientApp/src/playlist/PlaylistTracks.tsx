@@ -40,7 +40,8 @@ function PlaylistTracks({ playlistId, initialTracks }: PlaylistTracksProps) {
             },
             getNextPageParam: (lastPage) => {
                 const nextOffset = lastPage.offset + lastPage.limit;
-                return lastPage.total > nextOffset ? nextOffset : undefined;
+                // return lastPage.total > nextOffset ? nextOffset : undefined;
+                return false;
             },
         },
     );
@@ -53,10 +54,10 @@ function PlaylistTracks({ playlistId, initialTracks }: PlaylistTracksProps) {
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     return (
-        <>
+        <div>
             <Collection items={items} />
             <div aria-hidden ref={ref} />
-        </>
+        </div>
     );
 }
 

@@ -64,7 +64,7 @@ const Button = styled("button", {
     height: "$$size",
     justifyContent: "center",
     padding: "0",
-    transition: "transform 0.033s ease, background 0.033s ease",
+    transition: "background 0.033s ease",
     userSelect: "none",
     width: "$$size",
 

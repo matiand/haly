@@ -1,29 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import { useMemo } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { isPlaylistCachedAtom, playlistHasOldTracksAtom } from "../common/atoms";
+import { dominantColorsAtom, isPlaylistCachedAtom, pageContextAtom } from "../common/atoms";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistControls from "./PlaylistControls";
+import PlaylistGradient from "./PlaylistGradient";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
 
 function Playlist() {
     const { id } = useParams();
     const query = usePlaylistQuery(id!);
-    const hasOldTracks = useAtomValue(useMemo(() => playlistHasOldTracksAtom(id!), [id]));
+    const dominantColors = useAtomValue(dominantColorsAtom);
+    const setPageContext = useSetAtom(pageContextAtom);
+
+    useEffect(() => {
+        if (query.data) {
+            setPageContext(query.data);
+        }
+
+        return () => setPageContext(null);
+    }, [query.data, setPageContext]);
 
     if (!query.data) {
         return <LoadingIndicator />;
     }
 
-    if (hasOldTracks) console.log(id, " has old tracks");
     const playlist = query.data;
     const songsCount = playlist.tracks.total;
     const totalDuration = playlist.totalDuration;
+    const dominantColor = dominantColors[playlist.metadata.imageUrl ?? ""];
 
     return (
         // This id is used by PlaylistTracks for its useInView hook
@@ -40,6 +50,9 @@ function Playlist() {
             />
             <PlaylistControls name={playlist.name} />
             <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
+
+            <PlaylistGradient color={dominantColor} type="major" />
+            <PlaylistGradient color={dominantColor} type="minor" />
         </Wrapper>
     );
 }
@@ -55,15 +68,12 @@ const usePlaylistQuery = (playlistId: string) => {
             : () => halyClient.playlists.putPlaylist({ id: playlistId });
     }, [playlistId, isCached]);
 
-    return useQuery(["playlists", playlistId], queryFn, {
-        suspense: true,
-    });
+    return useQuery(["playlists", playlistId], queryFn);
 };
 
 const Wrapper = styled("div", {
     padding: "$800 $700",
     position: "relative",
-    zIndex: 1,
 });
 
 export default Playlist;

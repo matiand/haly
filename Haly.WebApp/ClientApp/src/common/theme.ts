@@ -25,8 +25,9 @@ export const theme = {
 
         scrollbarThumb: "rgba(255, 255, 255, 0.3)",
         collectionTextFaded: "rgba(255, 255, 255, 0.8)",
-        collectionHeadBorder: "rgba(255, 255, 255, 0.1)",
+        collectionTableHeadBorder: "rgba(255, 255, 255, 0.1)",
         trackHover: "rgba(255, 255, 255, 0.1)",
+        userMenuMask: "rgba(0, 0, 0, 0.6)",
 
         dominantDefault: "#535353",
         // 'Liked Songs' purple
@@ -34,7 +35,7 @@ export const theme = {
     },
     shadows: {
         collectionImage: "rgba(0, 0, 0, 0.5)",
-        collectionHead: "rgba(0, 0, 0, 0.5)",
+        collectionTableHead: "rgba(0, 0, 0, 0.5)",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',
@@ -45,7 +46,7 @@ export const theme = {
         300: "0.875rem",
         350: "0.94rem",
         400: "1rem",
-        500: "1.5rem",
+        500: "1.25rem",
         600: "2rem",
         700: "3rem",
         800: "4.5rem",
@@ -63,10 +64,13 @@ export const theme = {
         900: "3rem",
     },
     sizes: {
+        majorCollectionBackgroundHeight: "304px",
+        minorCollectionBackgroundHeight: "230px",
+        navIconSize: "24px",
         playbackHeight: "64px",
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
-        navIconSize: "24px",
+        userMenuHeight: "64px",
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {
@@ -75,10 +79,11 @@ export const theme = {
         maxWidth: 390,
     },
     zIndices: {
-        collectionHead: 2,
-        resizer: 10,
         verticalScrollbar: 10,
+        resizer: 10,
         userMenu: 9,
+        collectionTableHead: 2,
+        collectionBackground: -1,
     },
 };
 

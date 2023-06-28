@@ -32,5 +32,9 @@ const Overlay = styled(OverlayScrollbarsComponent, {
 
         transition: "opacity .3s, visibility .3s",
     },
+
+    "& .os-scrollbar-vertical": {
+        zIndex: "$verticalScrollbar",
+    },
 });
 export default ScrollArea;

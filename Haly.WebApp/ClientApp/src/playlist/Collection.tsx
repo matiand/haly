@@ -56,14 +56,14 @@ const THead = styled("thead", {
     display: "block",
     position: "sticky",
     top: `${theme.sizes.userMenuHeight}`,
-    zIndex: "$collectionHead",
+    zIndex: "$collectionTableHead",
     margin: "0 -$700 $600",
     padding: "0 $700",
 
     "&.sticky-head": {
         background: "$black500",
-        borderBottom: "1px solid $collectionHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionHead",
+        borderBottom: "1px solid $collectionTableHeadBorder",
+        boxShadow: "0 -1px 0 0 $collectionTableHead",
 
         "& > tr": {
             borderBottom: "none",
@@ -71,7 +71,7 @@ const THead = styled("thead", {
     },
 
     "& > tr": {
-        borderBottom: "1px solid $collectionHeadBorder",
+        borderBottom: "1px solid $collectionTableHeadBorder",
         display: "grid",
         gridGap: "$600",
         gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
