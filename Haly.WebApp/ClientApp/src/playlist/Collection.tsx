@@ -12,6 +12,8 @@ function Collection({ items }: CollectionProps) {
     const { table, renderHeaderCell, renderRowCell } = useTrackCollection(items);
     const { ref, inView } = useInView();
 
+    if (items.length === 0) return null;
+
     return (
         <>
             <div ref={ref} aria-hidden></div>
