@@ -36,18 +36,18 @@ function UserDropdown() {
 }
 
 const Trigger = styled(DropdownMenu.Trigger, {
-    height: "32px",
-    position: "absolute",
-    top: "$600",
-    right: "$800",
+    // height: "32px",
+    // position: "absolute",
+    // top: "$600",
+    // right: "$800",
     display: "flex",
     alignItems: "center",
     gap: "$400",
     padding: "$100",
     borderRadius: "23px",
     border: 0,
-    color: "$white",
-    backgroundColor: "$black400",
+    color: "$white800",
+    backgroundColor: "$black200",
     fontSize: "$300",
     fontWeight: 700,
     userSelect: "none",
@@ -75,8 +75,8 @@ const ArrorDown = styled(MdArrowDropDown, {
 const Content = styled(DropdownMenu.Content, {
     width: "$userDropdownMinWidth",
     padding: "$300",
-    color: "$white",
-    backgroundColor: "$black400",
+    color: "$white800",
+    backgroundColor: "$black200",
     fontSize: "$200",
     marginTop: "$400",
     borderRadius: "4px",
@@ -86,7 +86,7 @@ const Item = styled(DropdownMenu.Item, {
     padding: "$500",
     cursor: "default",
     "&:hover": {
-        backgroundColor: "$black300",
+        backgroundColor: "$black100",
         outline: 0,
     },
     a: {
@@ -98,7 +98,7 @@ const Item = styled(DropdownMenu.Item, {
 
 const Separator = styled(DropdownMenu.Separator, {
     height: "1px",
-    backgroundColor: "$black300",
+    backgroundColor: "$black100",
 });
 
 export default UserDropdown;

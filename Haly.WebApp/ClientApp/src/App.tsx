@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { UserDto } from "../generated/haly";
 import useSpotifyToken from "./auth/useSpotifyToken";
 import LikedSongs from "./collections/LikedSongs";
 import LoadingIndicator from "./common/LoadingIndicator";
@@ -20,6 +18,7 @@ import Playback from "./playback/Playback";
 import SimplePlayer from "./playback/SimplePlayer";
 import Playlist from "./playlist/Playlist";
 import Sidebar from "./sidebar/Sidebar";
+import UpperMenu from "./uppermenu/UpperMenu";
 
 function App() {
     const spotifyToken = useSpotifyToken();
@@ -30,7 +29,6 @@ function App() {
         data: user,
         error,
     } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }));
-    // useSyncedLikedSongs(user);
 
     if (isLoading) return <LoadingIndicator />;
     if (error || !user) return <Toaster />;
@@ -38,10 +36,12 @@ function App() {
     return (
         <UserContext.Provider value={user}>
             <Layout>
+                <UpperMenu />
                 <Sidebar />
 
                 <Main>
                     <ScrollArea>
+                        {/*<React.Suspense fallback={<Loading />}>*/}
                         <Routes>
                             <Route index element={<Home />} />
                             <Route path="/playlists/:id" element={<Playlist />} />
@@ -52,6 +52,7 @@ function App() {
                             <Route path="/collection/tracks" element={<LikedSongs />} />
                             <Route path="/player" element={<SimplePlayer />} />
                         </Routes>
+                        {/*</React.Suspense>*/}
                     </ScrollArea>
                 </Main>
 
@@ -61,13 +62,6 @@ function App() {
             </Layout>
         </UserContext.Provider>
     );
-}
-
-function useSyncedLikedSongs(user: UserDto | undefined) {
-    useQuery(["me", "tracks"], () => halyClient.me.putCurrentUserLikedSongs(), {
-        enabled: !!user,
-        staleTime: 12 * 60 * 1000,
-    });
 }
 
 export const Layout = styled("div", {
@@ -87,6 +81,7 @@ const Main = styled("main", {
     background: "$black600",
     borderRadius: "8px",
     display: "flex",
+    gridArea: "main",
     minHeight: 0,
 
     // Allows our loading indicator to be centered
