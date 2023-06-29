@@ -17,8 +17,8 @@ public interface ISpotifyEndpointCollector
     /// A lambda expression that extracts the relevant items from the paging object returned by the endpoint.
     /// Takes a single parameter of type <typeparamref name="TPaging"/>.
     /// </param>
-    /// <param name="endpointLimit">The maximum number of items that can be retrieved from the endpoint in a single request.</param>
-    /// <param name="maxConcurrentRequests">The maximum number of concurrent requests that can be made to the endpoint.</param>
+    /// <param name="endpointLimit">The number of items that will be retrieved from the endpoint in a single request.</param>
+    /// <param name="maxConcurrentRequests">The maximum number of concurrent requests that will be made to the endpoint.</param>
     /// <param name="startingOffset">The starting offset for the data collection. Default is 0</param>
     Task<List<TItem>> FetchConcurrently<TPaging, TItem>(
         Func<int, int, Task<TPaging>> endpointFn,
