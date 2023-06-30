@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 
 import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import { styled } from "../common/theme";
-import PlaybackToggle from "../player/PlaybackToggle";
+import PlaybackToggle from "../playback/PlaybackToggle";
 import UserDropdown from "./UserDropdown";
 
 function UpperMenu() {

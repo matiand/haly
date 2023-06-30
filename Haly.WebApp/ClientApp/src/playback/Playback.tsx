@@ -1,24 +1,30 @@
 import { styled } from "../common/theme";
-import PlaybackToggle from "../player/PlaybackToggle";
+import PlaybackToggle from "../playback/PlaybackToggle";
+import ConnectBar from "./ConnectBar";
 
 function Playback() {
     return (
-        <Wrapper>
-            <PlaybackToggle size="small" />
-        </Wrapper>
+        <Footer>
+            <PlaybackControls>
+                <PlaybackToggle size="small" />
+            </PlaybackControls>
+
+            <ConnectBar />
+        </Footer>
     );
 }
 
-const Wrapper = styled("div", {
-    background: "$black800",
-    gridArea: "playback",
-    height: "$playbackHeight",
-
-    display: "flex",
+const Footer = styled("footer", {
     alignItems: "center",
+    background: "$black800",
+    display: "flex",
+    flexFlow: "column nowrap",
+    gridArea: "playback",
     justifyContent: "center",
+});
 
-    "& > div": {},
+const PlaybackControls = styled("div", {
+    height: "$playbackControlsHeight",
 });
 
 export default Playback;
