@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import useSpotifyToken from "../auth/useSpotifyToken";
 import useInterval from "../common/useInterval";
 import PlaybackState = Spotify.PlaybackState;
-import ConnectMenu from "../player/ConnectMenu";
+import ConnectMenu from "../playback/ConnectMenu";
 
 function SimplePlayer() {
     const accessToken = useSpotifyToken();
