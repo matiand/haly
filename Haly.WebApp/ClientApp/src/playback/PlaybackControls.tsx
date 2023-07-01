@@ -1,6 +1,7 @@
 import { LuMonitorSpeaker } from "react-icons/lu";
 
 import { TrackDto } from "../../generated/haly";
+import HeartButton from "../common/HeartButton";
 import { styled } from "../common/theme";
 import TrackInformation from "../playlist/TrackInformation";
 import PlaybackToggle from "./PlaybackToggle";
@@ -10,6 +11,7 @@ function PlaybackControls() {
         <Wrapper>
             <div>
                 <TrackInformation track={tempTrack} type="playback" />
+                <HeartButton size="small" />
             </div>
 
             <div>
@@ -45,6 +47,11 @@ const Wrapper = styled("div", {
 
     "& > div:first-child": {
         width: "30%",
+        gap: "$600",
+
+        "& > :last-child": {
+            padding: "0 $400",
+        },
     },
 
     "& > div:nth-child(2)": {
