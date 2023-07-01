@@ -3,18 +3,31 @@ import EmptyCoverImage from "./EmptyCoverImage";
 import { styled } from "./theme";
 
 type CoverImageProps = {
-    alt: string;
     imageUrl: AlbumDto["imageUrl"];
+    type: "cell" | "playback";
 };
 
-function TrackCoverImage({ alt, imageUrl }: CoverImageProps) {
+function TrackCoverImage({ imageUrl, type }: CoverImageProps) {
+    if (type === "playback" && !imageUrl) return null;
+
     if (!imageUrl) return <EmptyCoverImage type="track" />;
 
-    return <Image alt={alt} src={imageUrl} loading="eager" width="40px" height="40px" />;
+    return <Image type={type} aria-hidden src={imageUrl} loading="eager" width="40px" height="40px" />;
 }
 
 const Image = styled("img", {
-    $$size: "40px",
+    variants: {
+        type: {
+            cell: {
+                $$size: "40px",
+            },
+            playback: {
+                $$size: "56px",
+
+                borderRadius: "4px",
+            },
+        },
+    },
 
     height: "$$size",
     width: "$$size",

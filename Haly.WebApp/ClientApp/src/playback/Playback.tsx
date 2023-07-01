@@ -1,15 +1,12 @@
 import { styled } from "../common/theme";
-import PlaybackToggle from "../playback/PlaybackToggle";
 import ConnectBar from "./ConnectBar";
+import PlaybackControls from "./PlaybackControls";
 
 function Playback() {
     return (
         <Footer>
-            <PlaybackControls>
-                <PlaybackToggle size="small" />
-            </PlaybackControls>
-
-            <ConnectBar />
+            <PlaybackControls />
+            {/*<ConnectBar />*/}
         </Footer>
     );
 }
@@ -21,10 +18,6 @@ const Footer = styled("footer", {
     flexFlow: "column nowrap",
     gridArea: "playback",
     justifyContent: "center",
-});
-
-const PlaybackControls = styled("div", {
-    height: "$playbackControlsHeight",
 });
 
 export default Playback;

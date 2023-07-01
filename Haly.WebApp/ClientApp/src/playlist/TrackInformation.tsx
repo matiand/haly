@@ -1,21 +1,25 @@
-import { CellContext } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
 import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import TrackCoverImage from "../common/TrackCoverImage";
 
-function TrackTitleCell(ctx: CellContext<TrackDto, unknown>) {
-    const track = ctx.row.original;
+type TrackInformationProps = {
+    track: TrackDto;
+    type: "cell" | "playback";
+};
+
+function TrackInformation({ track, type }: TrackInformationProps) {
+    const { name, type: trackType, album, artists } = track;
 
     return (
         <Wrapper>
-            <TrackCoverImage imageUrl={track.album.imageUrl} alt="Track cover image" />
-            <TrackContents>
-                <div className="truncate">{track.name}</div>
-                {track.type === "Song" && (
+            <TrackCoverImage type={type} imageUrl={album.imageUrl} />
+            <TrackContents type={type}>
+                <div className="truncate">{name}</div>
+                {trackType === "Song" && (
                     <div className="truncate">
-                        {track.artists.map(({ name, id }) => (
+                        {artists.map(({ name, id }) => (
                             <Link key={id} to={`/artist/${id}`}>
                                 {name}
                             </Link>
@@ -37,12 +41,27 @@ const Wrapper = styled("div", {
 });
 
 const TrackContents = styled("div", {
+    variants: {
+        type: {
+            playback: {
+                fontSize: "$200",
+                lineHeight: 1.5,
+                
+                "& a": {
+                    fontSize: "$50",
+                },
+            },
+            cell: {
+                paddingRight: "$400",
+            }
+        }
+    },
+    
     color: "$white800",
     display: "flex",
     flexFlow: "column",
     fontSize: "$350",
     fontWeight: "500",
-    paddingRight: "$400",
 
     "& a": {
         color: "$white500",
@@ -60,4 +79,4 @@ const TrackContents = styled("div", {
     },
 });
 
-export default TrackTitleCell;
+export default TrackInformation;
