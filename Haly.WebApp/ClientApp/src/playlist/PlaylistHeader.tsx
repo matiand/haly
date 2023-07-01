@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { PlaylistMetadataDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import CollectionImage from "./CollectionImage";
@@ -9,7 +11,7 @@ type PlaylistHeaderProps = {
     imageUrl: PlaylistMetadataDto["imageUrl"];
     description: PlaylistMetadataDto["description"];
     likesTotal: PlaylistMetadataDto["likesTotal"];
-    owner: string;
+    owner: PlaylistMetadataDto["owner"];
     songsCount: number;
     totalDuration: string;
 };
@@ -32,7 +34,9 @@ function PlaylistHeader({
                 <PlaylistTitle name={name} />
                 {description && <Description>{description}</Description>}
                 <Details>
-                    <span>{owner}</span>
+                    <span>
+                        <Link to={`/user/${owner.id}`}>{owner.name}</Link>
+                    </span>
                     {likesTotal > 0 && <span>{formatLikes(likesTotal)}</span>}
                     <span>{songsCount} songs,</span>
                     <span>{totalDuration}</span>
@@ -90,6 +94,14 @@ const Details = styled("div", {
 
     "& > span:first-of-type": {
         fontWeight: 700,
+        a: {
+            color: "inherit",
+            textDecoration: "none",
+
+            "&:hover": {
+                textDecoration: "underline",
+            },
+        },
     },
 
     "& > span:not(:first-child):not(:last-child)::before": {

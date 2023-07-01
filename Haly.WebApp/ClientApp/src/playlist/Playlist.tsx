@@ -44,7 +44,7 @@ function Playlist() {
                 imageUrl={playlist.metadata.imageUrl}
                 description={playlist.metadata.description}
                 likesTotal={playlist.metadata.likesTotal}
-                owner={playlist.metadata.owner.name}
+                owner={playlist.metadata.owner}
                 songsCount={songsCount}
                 totalDuration={totalDuration}
             />
