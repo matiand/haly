@@ -4,6 +4,120 @@ info:
   description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
   version: v1
 paths:
+  /me/Following/contains:
+    get:
+      tags:
+        - Following
+      summary: Check if current user follows a creator
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>'
+      operationId: CheckIfCurrentUserFollows
+      parameters:
+        - name: type
+          in: query
+          schema:
+            $ref: '#/components/schemas/CreatorType'
+        - name: creatorId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /me/Following:
+    put:
+      tags:
+        - Following
+      summary: Follow a creator
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>'
+      operationId: Follow
+      parameters:
+        - name: type
+          in: query
+          schema:
+            $ref: '#/components/schemas/CreatorType'
+        - name: creatorId
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      tags:
+        - Following
+      summary: Unfollow a creator
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>'
+      operationId: Unfollow
+      parameters:
+        - name: type
+          in: query
+          schema:
+            $ref: '#/components/schemas/CreatorType'
+        - name: creatorId
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /Me:
     put:
       tags:
@@ -315,6 +429,11 @@ components:
         name:
           type: string
       additionalProperties: false
+    CreatorType:
+      enum:
+        - Artist
+        - User
+      type: string
     DeviceDto:
       required:
         - id
@@ -504,5 +623,6 @@ components:
       additionalProperties: false
 tags:
   - name: Me
+  - name: Following
   - name: Player
   - name: Playlists

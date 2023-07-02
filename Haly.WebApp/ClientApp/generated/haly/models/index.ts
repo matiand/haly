@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './AlbumDto';
 export * from './ArtistDto';
+export * from './CreatorType';
 export * from './DeviceDto';
 export * from './OwnerDto';
 export * from './PlaylistBriefDto';

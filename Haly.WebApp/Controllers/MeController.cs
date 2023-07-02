@@ -51,8 +51,7 @@ public class MeController : ApiControllerBase
         return Ok(response);
     }
 
-    [HttpPut]
-    [Route("tracks")]
+    [HttpPut("tracks")]
     [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 200, "'Liked Songs' updated", typeof(PlaylistBriefDto))]
     [SwaggerResponse(statusCode: 201, "'Liked Songs' created", typeof(PlaylistBriefDto))]

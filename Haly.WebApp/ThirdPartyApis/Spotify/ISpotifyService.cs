@@ -11,8 +11,18 @@ public interface ISpotifyService
     Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket);
     Task<LikedSongsDto?> GetLikedSongsIfChanged(string userMarket, string? prevSnapshotId);
     Task<List<DeviceDto>> GetAvailableDevices();
+
+    Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId);
+    Task Follow(CreatorType creatorType, string creatorId);
+    Task Unfollow(CreatorType creatorType, string creatorId);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);
 
 public record LikedSongsDto(string SnapshotId, List<Track> Tracks);
+
+public enum CreatorType
+{
+    Artist,
+    User
+}

@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
@@ -6,6 +7,7 @@ using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Track = Haly.WebApp.Models.Track;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
@@ -118,5 +120,25 @@ public sealed class SpotifyService : ISpotifyService
     {
         var response = await _spotifyClient.GetAUsersAvailableDevicesAsync();
         return response.Devices.Adapt<List<DeviceDto>>();
+    }
+
+    public async Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId)
+    {
+        var type = creatorType is CreatorType.Artist ? Type4.Artist : Type4.User;
+        var response = await _spotifyClient.CheckCurrentUserFollowsAsync(type, creatorId);
+
+        return response.First();
+    }
+
+    public async Task Follow(CreatorType creatorType, string creatorId)
+    {
+        var type = creatorType is CreatorType.Artist ? Type2.Artist : Type2.User;
+        await _spotifyClient.FollowArtistsUsersAsync(type, creatorId);
+    }
+
+    public async Task Unfollow(CreatorType creatorType, string creatorId)
+    {
+        var type = creatorType is CreatorType.Artist ? Type3.Artist : Type3.User;
+        await _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
     }
 }
