@@ -8,4 +8,5 @@ public class SpotifyScopes
     public const string UserFollowModify = "user-follow-modify";
     public const string UserReadPlaybackState = "user-read-playback-state";
     public const string PlaylistReadPrivate = "playlist-read-private";
+    public const string PlaylistReadCollaborative = "playlist-read-collaborative";
 }

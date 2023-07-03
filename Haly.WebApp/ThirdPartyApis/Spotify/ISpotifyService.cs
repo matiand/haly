@@ -7,6 +7,7 @@ public interface ISpotifyService
 {
     Task<PublicUser?> GetUser(string id);
     Task<PrivateUser> GetCurrentUser();
+    Task<List<Playlist>> GetUserPlaylists(string userId);
     Task<CurrentUserPlaylistsDto> GetCurrentUserPlaylists();
     Task<Playlist?> GetPlaylistWithTracks(string playlistId, string userMarket);
     Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket);

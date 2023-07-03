@@ -43,6 +43,17 @@ public sealed class SpotifyService : ISpotifyService
         return spotifyUser.Adapt<PrivateUser>();
     }
 
+    public async Task<List<Playlist>> GetUserPlaylists(string userId)
+    {
+        var playlists = await _endpointCollector.FetchConcurrently(
+            endpointFn: (limit, offset) =>
+                _spotifyClient.GetListUsersPlaylistsAsync(userId, limit, offset),
+            dataFn: pagingObj => pagingObj.Items,
+            endpointLimit: PlaylistLimit, maxConcurrentRequests: 2);
+
+        return playlists.Adapt<List<Playlist>>();
+    }
+
     public async Task<CurrentUserPlaylistsDto> GetCurrentUserPlaylists()
     {
         var userPlaylists =

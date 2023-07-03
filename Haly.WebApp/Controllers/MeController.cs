@@ -40,7 +40,7 @@ public class MeController : ApiControllerBase
     [SwaggerOperation(Summary = "Fetch current user's playlists from Spotify and update our cache if they're changed")]
     [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(IEnumerable<PlaylistBriefDto>))]
     [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
-    [CallsSpotifyApi(SpotifyScopes.PlaylistReadPrivate)]
+    [CallsSpotifyApi(SpotifyScopes.PlaylistReadPrivate, SpotifyScopes.PlaylistReadCollaborative)]
     public async Task<ActionResult<IEnumerable<PlaylistBriefDto>>> PutCurrentUserPlaylists(
         [FromServices] CurrentUserStore currentUserStore)
     {
