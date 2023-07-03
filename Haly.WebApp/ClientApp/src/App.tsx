@@ -10,13 +10,12 @@ import Toaster from "./common/Toaster";
 import { useMessageHub } from "./common/useMessageHub";
 import halyClient from "./halyClient";
 import Home from "./home/Home";
-import FollowedArtists from "./me/FollowedArtists";
 import HalySettings from "./me/HalySettings";
-import Me from "./me/Me";
 import { UserContext } from "./me/UserContext";
 import Playback from "./playback/Playback";
 import SimplePlayer from "./playback/SimplePlayer";
 import Playlist from "./playlist/Playlist";
+import Profile from "./profile/Profile";
 import Sidebar from "./sidebar/Sidebar";
 import UpperMenu from "./uppermenu/UpperMenu";
 
@@ -41,18 +40,14 @@ function App() {
 
                 <Main>
                     <ScrollArea>
-                        {/*<React.Suspense fallback={<Loading />}>*/}
                         <Routes>
                             <Route index element={<Home />} />
                             <Route path="/playlists/:id" element={<Playlist />} />
-                            <Route path="/me" element={<Me />}>
-                                <Route path="following" element={<FollowedArtists />} />
-                                <Route path="appsettings" element={<HalySettings />} />
-                            </Route>
+                            <Route path="/user/:id" element={<Profile />} />
+                            <Route path="/preferences" element={<HalySettings />} />
                             <Route path="/collection/tracks" element={<LikedSongs />} />
                             <Route path="/player" element={<SimplePlayer />} />
                         </Routes>
-                        {/*</React.Suspense>*/}
                     </ScrollArea>
                 </Main>
 
