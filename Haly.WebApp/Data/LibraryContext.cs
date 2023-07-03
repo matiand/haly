@@ -16,7 +16,7 @@ public class LibraryContext : DbContext
     {
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<PrivateUser> Users { get; set; }
     public DbSet<Playlist> Playlists { get; set; }
     public DbSet<Track> Tracks { get; set; }
     public DbSet<RefetchPlaylistTracksJob> RefetchPlaylistTracksJobs { get; set; }

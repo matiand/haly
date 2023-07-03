@@ -3,7 +3,7 @@ using Haly.WebApp.Models.Jobs;
 
 namespace Haly.WebApp.Models;
 
-public class User
+public class PrivateUser
 {
     public string Id { get; set; }
     public string Name { get; set; }

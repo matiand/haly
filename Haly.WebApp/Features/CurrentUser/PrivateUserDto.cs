@@ -1,6 +1,6 @@
 namespace Haly.WebApp.Features.CurrentUser;
 
-public record UserDto
+public record PrivateUserDto
 {
     public string Id { get; init; }
     public string Name { get; init; }

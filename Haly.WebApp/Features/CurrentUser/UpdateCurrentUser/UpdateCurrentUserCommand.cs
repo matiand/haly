@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.UpdateCurrentUser;
 
-public record UpdateCurrentUserCommand(User User) : IRequest<UpdateCurrentUserResponse>;
+public record UpdateCurrentUserCommand(PrivateUser User) : IRequest<UpdateCurrentUserResponse>;
 
 public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserResponse?>
 {
@@ -27,7 +27,7 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand
         {
             _db.Users.Add(freshUser);
             await _db.SaveChangesAsync(cancellationToken);
-            return new UpdateCurrentUserResponse(Created: true, freshUser.Adapt<UserDto>());
+            return new UpdateCurrentUserResponse(Created: true, freshUser.Adapt<PrivateUserDto>());
         }
 
         cachedUser.Name = freshUser.Name;
@@ -35,6 +35,6 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand
         cachedUser.Plan = freshUser.Plan;
         await _db.SaveChangesAsync(cancellationToken);
 
-        return new UpdateCurrentUserResponse(Created: false, cachedUser.Adapt<UserDto>());
+        return new UpdateCurrentUserResponse(Created: false, cachedUser.Adapt<PrivateUserDto>());
     }
 }

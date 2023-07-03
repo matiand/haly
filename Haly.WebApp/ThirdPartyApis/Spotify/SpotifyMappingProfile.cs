@@ -13,10 +13,15 @@ public class SpotifyMappingProfile : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<PrivateUserObject, User>()
+        config.ForType<PrivateUserObject, PrivateUser>()
             .Map(dest => dest.Name, src => src.Display_name)
             .Map(dest => dest.Market, src => src.Country)
             .Map(dest => dest.Plan, src => src.Product == "premium" ? Plan.Premium : Plan.Free);
+
+        config.ForType<PublicUserObject, PublicUser>()
+            .Map(dest => dest.Name, src => src.Display_name)
+            .Map(dest => dest.FollowersTotal, src => src.Followers.Total)
+            .Map(dest => dest.ImageUrl, src => GetUserImage(src.Images));
 
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
@@ -69,6 +74,12 @@ public class SpotifyMappingProfile : IRegister
         config.ForType<PagingSavedTrackObject, LikedSongsSnapshot>()
             .Map(dest => dest.LastTrackId,
                 src => src.Items.FirstOrDefault() != null ? src.Items.FirstOrDefault()!.Track.Id : null);
+    }
+
+    private static string? GetUserImage(ICollection<ImageObject> image)
+    {
+        // The last one is the biggest
+        return image.LastOrDefault()?.Url;
     }
 
     private static string? GetPlaylistImage(ICollection<ImageObject> image)

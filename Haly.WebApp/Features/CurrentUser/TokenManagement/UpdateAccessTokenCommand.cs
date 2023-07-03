@@ -6,9 +6,9 @@ using MediatR;
 
 namespace Haly.WebApp.Features.CurrentUser.TokenManagement;
 
-public record UpdateAccessTokenCommand(string Token) : IRequest<User>;
+public record UpdateAccessTokenCommand(string Token) : IRequest<PrivateUser>;
 
-public class UpdateAccessTokenHandler : IRequestHandler<UpdateAccessTokenCommand, User>
+public class UpdateAccessTokenHandler : IRequestHandler<UpdateAccessTokenCommand, PrivateUser>
 {
     private readonly CurrentUserStore _currentUserStore;
     private readonly IHttpClientFactory _httpClientFactory;
@@ -19,15 +19,15 @@ public class UpdateAccessTokenHandler : IRequestHandler<UpdateAccessTokenCommand
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<User> Handle(UpdateAccessTokenCommand request, CancellationToken cancellationToken)
+    public async Task<PrivateUser> Handle(UpdateAccessTokenCommand request, CancellationToken cancellationToken)
     {
         var innerClient = _httpClientFactory.CreateClient();
         innerClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.Token);
         var spotifyClient = new GeneratedSpotifyClient(innerClient);
 
         var user = await spotifyClient.GetCurrentUsersProfileAsync(cancellationToken);
-        _currentUserStore.Update(request.Token, user.Adapt<UserDto>());
+        _currentUserStore.Update(request.Token, user.Adapt<PrivateUserDto>());
 
-        return user.Adapt<User>();
+        return user.Adapt<PrivateUser>();
     }
 }

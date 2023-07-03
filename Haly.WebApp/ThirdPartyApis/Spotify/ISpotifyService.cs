@@ -5,7 +5,8 @@ namespace Haly.WebApp.ThirdPartyApis.Spotify;
 
 public interface ISpotifyService
 {
-    Task<User> GetCurrentUser();
+    Task<PublicUser?> GetUser(string id);
+    Task<PrivateUser> GetCurrentUser();
     Task<CurrentUserPlaylistsDto> GetCurrentUserPlaylists();
     Task<Playlist?> GetPlaylistWithTracks(string playlistId, string userMarket);
     Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket);

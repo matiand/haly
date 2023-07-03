@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
@@ -7,7 +6,6 @@ using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Track = Haly.WebApp.Models.Track;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
@@ -33,10 +31,16 @@ public sealed class SpotifyService : ISpotifyService
         _endpointCollector = endpointCollector;
     }
 
-    public async Task<User> GetCurrentUser()
+    public async Task<PublicUser?> GetUser(string id)
+    {
+        var spotifyUser = await _spotifyClient.GetUsersProfileAsync(id);
+        return spotifyUser.Adapt<PublicUser>();
+    }
+
+    public async Task<PrivateUser> GetCurrentUser()
     {
         var spotifyUser = await _spotifyClient.GetCurrentUsersProfileAsync();
-        return spotifyUser.Adapt<User>();
+        return spotifyUser.Adapt<PrivateUser>();
     }
 
     public async Task<CurrentUserPlaylistsDto> GetCurrentUserPlaylists()

@@ -16,11 +16,11 @@ public class MeController : ApiControllerBase
 {
     [HttpPut("", Name = nameof(PutCurrentUser))]
     [SwaggerOperation(Summary = "Fetch current user from Spotify and update our cache if it's changed")]
-    [SwaggerResponse(statusCode: 200, "User updated", typeof(UserDto))]
-    [SwaggerResponse(statusCode: 201, "User created", typeof(UserDto))]
+    [SwaggerResponse(statusCode: 200, "User updated", typeof(PrivateUserDto))]
+    [SwaggerResponse(statusCode: 201, "User created", typeof(PrivateUserDto))]
     [SwaggerOperationFilter(typeof(GettingStartedFilter))]
     [CallsSpotifyApi(SpotifyScopes.UserReadPrivate)]
-    public async Task<ActionResult<UserDto>> PutCurrentUser([FromBody] string spotifyToken)
+    public async Task<ActionResult<PrivateUserDto>> PutCurrentUser([FromBody] string spotifyToken)
     {
         var user = await Mediator.Send(new UpdateAccessTokenCommand(spotifyToken));
 

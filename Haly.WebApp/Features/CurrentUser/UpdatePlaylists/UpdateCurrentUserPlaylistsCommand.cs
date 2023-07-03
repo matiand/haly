@@ -44,7 +44,7 @@ public class UpdateCurrentUserPlaylistsHandler
             .Adapt<IEnumerable<PlaylistBriefDto>>();
     }
 
-    private async Task UpdateLinkedPlaylists(User user, List<Playlist> freshPlaylists)
+    private async Task UpdateLinkedPlaylists(PrivateUser user, List<Playlist> freshPlaylists)
     {
         var cachedPlaylists = await _db.Playlists
             .Where(cp => user.LinkedPlaylistsOrder.Any(pId => pId == cp.Id))
@@ -68,7 +68,7 @@ public class UpdateCurrentUserPlaylistsHandler
         }
     }
 
-    private void ScheduleBackgroundJobs(User user)
+    private void ScheduleBackgroundJobs(PrivateUser user)
     {
         var refetchTracksJobs = _playlistsWithOldTracks.Select(p => new RefetchPlaylistTracksJob(user, p));
         _db.RefetchPlaylistTracksJobs.AddRange(refetchTracksJobs);
