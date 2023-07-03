@@ -20,9 +20,3 @@ public interface ISpotifyService
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);
 
 public record LikedSongsDto(string SnapshotId, List<Track> Tracks);
-
-public enum CreatorType
-{
-    Artist,
-    User
-}
