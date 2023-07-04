@@ -35,6 +35,9 @@ const Image = styled("img", {
 
     boxShadow: "0 4px 60px $collectionImage",
     height: "$$size",
+    objectFit: "cover",
+    objectPosition: "center center",
+    textAlign: "center",
     width: "$$size",
 });
 

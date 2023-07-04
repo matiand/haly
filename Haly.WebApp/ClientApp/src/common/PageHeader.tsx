@@ -54,6 +54,7 @@ const PlaylistInfo = styled("div", {
 const Subtitle = styled("h2", {
     fontSize: "$200",
     fontWeight: 700,
+    marginBottom: "$200",
 });
 
 const Description = styled("p", {
