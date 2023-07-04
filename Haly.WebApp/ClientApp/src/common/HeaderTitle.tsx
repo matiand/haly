@@ -1,11 +1,11 @@
 import { useCallback, useDeferredValue } from "react";
 import { useWindowSize } from "usehooks-ts";
 
-import { styled } from "../common/theme";
+import { styled } from "./theme";
 
 const titleSizeSteps = [90, 66, 42, 30];
 
-function PlaylistTitle({ name }: { name: string }) {
+function HeaderTitle({ name }: { name: string }) {
     const { width: windowWidth } = useWindowSize();
     const width = useDeferredValue(windowWidth);
 
@@ -52,4 +52,4 @@ const Title = styled("h1", {
     display: "-webkit-box",
 });
 
-export default PlaylistTitle;
+export default HeaderTitle;

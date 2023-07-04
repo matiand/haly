@@ -1,14 +1,14 @@
 import { PlaylistMetadataDto } from "../../generated/haly";
-import { styled } from "../common/theme";
-import useDominantColorExtraction from "./useDominantColorExtraction";
+import useDominantColorExtraction from "../playlist/useDominantColorExtraction";
+import { styled } from "./theme";
 
-type CollectionImageProps = {
-    playlistId: string;
+type HeaderImageProps = {
     alt: string;
     imageUrl: PlaylistMetadataDto["imageUrl"];
+    isRounded?: boolean;
 };
 
-function CollectionImage({ alt, imageUrl }: CollectionImageProps) {
+function HeaderImage({ alt, imageUrl, isRounded }: HeaderImageProps) {
     const { imageRef, onImageLoad } = useDominantColorExtraction(imageUrl!);
 
     if (!imageUrl) return null;
@@ -17,6 +17,7 @@ function CollectionImage({ alt, imageUrl }: CollectionImageProps) {
         <Image
             alt={alt}
             src={imageUrl}
+            style={{ borderRadius: isRounded ? "50%" : undefined }}
             loading="eager"
             crossOrigin="anonymous"
             ref={imageRef}
@@ -37,4 +38,4 @@ const Image = styled("img", {
     width: "$$size",
 });
 
-export default CollectionImage;
+export default HeaderImage;

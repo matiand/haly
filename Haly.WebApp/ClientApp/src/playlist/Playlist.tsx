@@ -42,13 +42,9 @@ function Playlist() {
         // This id is used by PlaylistTracks for its useInView hook
         <Wrapper id="playlist-container">
             <PlaylistHeader
-                id={playlist.id}
                 name={playlist.name}
-                imageUrl={playlist.metadata.imageUrl}
-                description={playlist.metadata.description}
-                likesTotal={playlist.metadata.likesTotal}
-                owner={playlist.metadata.owner}
-                songsCount={songsCount}
+                metadata={playlist.metadata}
+                songsTotal={songsCount}
                 totalDuration={totalDuration}
             />
             <PageControls>
