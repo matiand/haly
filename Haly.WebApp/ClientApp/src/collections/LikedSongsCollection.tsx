@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
 import LoadingIndicator from "../common/LoadingIndicator";
+import MoreOptionsButton from "../common/MoreOptionsButton";
+import PageControls from "../common/PageControls";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
-import PlaylistControls from "../playlist/PlaylistControls";
+import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistHeader from "../playlist/PlaylistHeader";
 import PlaylistTracks from "../playlist/PlaylistTracks";
+import SearchBar from "./SearchBar";
 
 type LikedSongsCollectionProps = {
     id: string;
@@ -35,7 +38,11 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
                 songsCount={songsCount}
                 totalDuration={totalDuration}
             />
-            <PlaylistControls name={playlist.name} />
+            <PageControls>
+                <PlaybackToggle size="large" />
+                <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />
+                <SearchBar variant="playlist" />
+            </PageControls>
             <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
         </Wrapper>
     );

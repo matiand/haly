@@ -3,11 +3,14 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
+import SearchBar from "../collections/SearchBar";
 import { dominantColorsAtom, isPlaylistCachedAtom, pageContextAtom } from "../common/atoms";
 import LoadingIndicator from "../common/LoadingIndicator";
+import MoreOptionsButton from "../common/MoreOptionsButton";
+import PageControls from "../common/PageControls";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
-import PlaylistControls from "./PlaylistControls";
+import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistGradient from "./PlaylistGradient";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
@@ -48,7 +51,12 @@ function Playlist() {
                 songsCount={songsCount}
                 totalDuration={totalDuration}
             />
-            <PlaylistControls name={playlist.name} />
+            <PageControls>
+                <PlaybackToggle size="large" />
+                <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />
+                <SearchBar variant="playlist" />
+            </PageControls>
+
             <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
 
             <PlaylistGradient color={dominantColor} type="major" />
