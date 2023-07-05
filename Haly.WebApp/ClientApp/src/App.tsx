@@ -78,11 +78,6 @@ const Main = styled("main", {
     display: "flex",
     gridArea: "main",
     minHeight: 0,
-
-    // Allows our loading indicator to be centered
-    "[data-overlayscrollbars=host]": {
-        width: "100%",
-    },
 });
 
 export default App;

@@ -25,6 +25,8 @@ const options: PartialOptions = {
 };
 
 const Overlay = styled(OverlayScrollbarsComponent, {
+    width: "100%",
+
     "& .os-theme-light": {
         "$os-size": "16px",
         "$os-handle-bg": `${theme.colors.scrollbarThumb}`,
