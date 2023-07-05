@@ -49,6 +49,7 @@ const PlaylistInfo = styled("div", {
     display: "flex",
     flexFlow: "column",
     justifyContent: "flex-end",
+    width: "100%",
 });
 
 const Subtitle = styled("h2", {

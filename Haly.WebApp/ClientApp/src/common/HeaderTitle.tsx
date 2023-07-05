@@ -1,37 +1,35 @@
-import { useCallback, useDeferredValue } from "react";
-import { useWindowSize } from "usehooks-ts";
+import { useCallback, useRef } from "react";
+import { useResizeDetector } from "react-resize-detector";
 
 import { styled } from "./theme";
 
 const titleSizeSteps = [90, 66, 42, 30];
 
 function HeaderTitle({ name }: { name: string }) {
-    const { width: windowWidth } = useWindowSize();
-    const width = useDeferredValue(windowWidth);
+    const titleRef = useRef<HTMLHeadingElement>(null);
 
     // Measure the title size and adjust it to fit the container
-    const titleRef = useCallback(
-        (node: HTMLHeadingElement) => {
-            if (!node) return;
+    const onResize = useCallback(() => {
+        const node = titleRef.current;
+        if (!node) return;
 
-            node.style.setProperty("visibility", "hidden");
+        node.style.setProperty("visibility", "hidden");
 
-            for (let i = 0; i < titleSizeSteps.length; i++) {
-                const baseVal = titleSizeSteps[i];
-                const val = (baseVal + baseVal * 0.08 + baseVal * 0.12) * 1.5;
+        for (let i = 0; i < titleSizeSteps.length; i++) {
+            const baseVal = titleSizeSteps[i];
+            const val = (baseVal + baseVal * 0.08 + baseVal * 0.12) * 1.5;
 
-                node.style.setProperty("font-size", `${baseVal}px`);
+            node.style.setProperty("font-size", `${baseVal}px`);
 
-                const newHeight = node.getBoundingClientRect().height;
+            const newHeight = node.getBoundingClientRect().height;
 
-                if (val >= newHeight) break;
-            }
+            if (val >= newHeight) break;
+        }
 
-            node.style.setProperty("visibility", "visible");
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [name, width],
-    );
+        node.style.setProperty("visibility", "visible");
+    }, []);
+
+    useResizeDetector({ targetRef: titleRef, onResize });
 
     return <Title ref={titleRef}>{name}</Title>;
 }
