@@ -43,12 +43,19 @@ const globalStyles = globalCss({
         whiteSpace: "nowrap",
     },
 
-    ".truncate": {
+    ".ellipsis": {
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+    },
+
+    ".line-clamp-ellipsis": {
+        // This property specifies how many lines of text will be shown before ellipsis is applied.
         "-webkit-line-clamp": 1,
         "-webkit-box-orient": "vertical",
         display: "-webkit-box",
         overflow: "hidden",
-        wordBreak: "unset",
+        wordBreak: "break-all",
     },
 
     // Used to position react query devtools toggle btn

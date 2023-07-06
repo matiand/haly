@@ -24,7 +24,7 @@ function UpperMenu() {
 
             <EntityDetails>
                 <PlaybackToggle size="medium" />
-                <span className="truncate">{pageContext.name}</span>
+                <span className="line-clamp-ellipsis">{pageContext.name}</span>
             </EntityDetails>
             <UserDropdown />
         </Header>
@@ -55,7 +55,7 @@ const Background = styled("div", {
     position: "absolute",
     left: 0,
     right: 0,
-    zIndex: 1,
+    // zIndex: -1,
 });
 
 const EntityDetails = styled("div", {

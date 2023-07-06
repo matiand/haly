@@ -16,15 +16,15 @@ function TrackInformation({ track, type }: TrackInformationProps) {
         <Wrapper>
             <TrackCoverImage type={type} imageUrl={album.imageUrl} />
             <TrackContents type={type}>
-                <div className="truncate">{name}</div>
+                <div className="line-clamp-ellipsis">{name}</div>
                 {trackType === "Song" && (
-                    <div className="truncate">
+                    <span className="line-clamp-ellipsis">
                         {artists.map(({ name, id }) => (
                             <Link key={id} to={`/artist/${id}`}>
                                 {name}
                             </Link>
                         ))}
-                    </div>
+                    </span>
                 )}
             </TrackContents>
         </Wrapper>
@@ -46,17 +46,17 @@ const TrackContents = styled("div", {
             playback: {
                 fontSize: "$200",
                 lineHeight: 1.5,
-                
+
                 "& a": {
                     fontSize: "$50",
                 },
             },
             cell: {
                 paddingRight: "$400",
-            }
-        }
+            },
+        },
     },
-    
+
     color: "$white800",
     display: "flex",
     flexFlow: "column",

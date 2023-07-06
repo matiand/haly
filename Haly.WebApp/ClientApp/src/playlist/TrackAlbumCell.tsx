@@ -7,13 +7,15 @@ import { styled } from "../common/theme";
 function TrackAlbumCell(ctx: CellContext<TrackDto, unknown>) {
     const track = ctx.row.original;
     return (
-        <Wrapper className="truncate">
-            <Link to={`/album/${track.album.id}`}>{track.album.name}</Link>
+        <Wrapper>
+            <Link className="line-clamp-ellipsis" to={`/album/${track.album.id}`}>
+                {track.album.name}
+            </Link>
         </Wrapper>
     );
 }
 
-const Wrapper = styled("div", {
+const Wrapper = styled("span", {
     "& a": {
         color: "$white500",
         fontSize: "$300",
