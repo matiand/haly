@@ -1,4 +1,6 @@
 using Haly.WebApp.Features.CurrentUser;
+using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
+using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdateCurrentUser;
 using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
@@ -66,5 +68,27 @@ public class MeController : ApiControllerBase
         return response.Created
             ? CreatedAtAction("GetPlaylist", "Playlists", new { response.Playlist.Id }, response.Playlist)
             : Ok(response.Playlist);
+    }
+
+    [HttpGet("artists")]
+    [SwaggerOperation(Summary = "Fetch current user's followed artists from Spotify")]
+    [SwaggerResponse(statusCode: 200, "A list of artists", typeof(IEnumerable<FollowedArtistDto>))]
+    [CallsSpotifyApi(SpotifyScopes.UserFollowRead)]
+    public async Task<IEnumerable<FollowedArtistDto>> GetFollowedArtists()
+    {
+        var response = await Mediator.Send(new GetMyFollowedArtistsQuery());
+
+        return response;
+    }
+
+    [HttpGet("top/artists")]
+    [SwaggerOperation(Summary = "Fetch current user's top artists from Spotify")]
+    [SwaggerResponse(statusCode: 200, "A list of top artists", typeof(IEnumerable<TopArtistDto>))]
+    [CallsSpotifyApi(SpotifyScopes.UserTopRead)]
+    public async Task<IEnumerable<TopArtistDto>> GetTopArtists()
+    {
+        var response = await Mediator.Send(new GetMyTopArtistsQuery());
+
+        return response;
     }
 }

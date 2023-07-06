@@ -11717,14 +11717,14 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// The cursor to use as key to find the next page of items.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("after", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string After { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("after", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? After { get; set; } = default!;
 
         /// <summary>
         /// The cursor to use as key to find the previous page of items.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("before", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Before { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("before", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Before { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -11755,8 +11755,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// URL to the next page of items. ( `null` if none)
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("next", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Next { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("next", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Next { get; set; } = default!;
 
         /// <summary>
         /// The cursors used to find the next set of items.

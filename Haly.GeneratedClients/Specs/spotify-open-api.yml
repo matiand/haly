@@ -5526,9 +5526,11 @@ components:
       properties:
         after:
           type: string
+          nullable: true
           description: The cursor to use as key to find the next page of items.
         before:
           type: string
+          nullable: true
           description: The cursor to use as key to find the previous page of items.
     CursorPagingObject:
       type: object
@@ -5544,6 +5546,7 @@ components:
             query or by default).
         next:
           type: string
+          nullable: true
           description: URL to the next page of items. ( `null` if none)
         cursors:
           allOf:

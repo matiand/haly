@@ -19,4 +19,6 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `AlbumBase`: remove **total_tracks**, **available_markets** from required list
 -   `AlbumBase`: set as _nullable_ **album_type**, **available_markets**, **href**, **id**, **release_date**, **release_date_precision**, **uri**
 -   `AlbumBase`: add _show_ value to **type** enum
+-   `CursorPagingObject`: set as _nullable_ **next**
+-   `CursorObject`: set as _nullable_ **after** and **before**
 -   `unfollow-artists-users`: replace _200_ response with _204_

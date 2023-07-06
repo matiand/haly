@@ -143,13 +143,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDto'
+                $ref: '#/components/schemas/PrivateUserDto'
         '201':
           description: User created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDto'
+                $ref: '#/components/schemas/PrivateUserDto'
         '400':
           description: Bad request
           content:
@@ -173,7 +173,7 @@ paths:
       tags:
         - Me
       summary: Fetch current user's playlists from Spotify and update our cache if they're changed
-      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>'
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private, playlist-read-collaborative </b>'
       operationId: PutCurrentUserPlaylists
       responses:
         '200':
@@ -228,6 +228,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlaylistBriefDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/artists:
+    get:
+      tags:
+        - Me
+      summary: Fetch current user's followed artists from Spotify
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>'
+      operationId: GetFollowedArtists
+      responses:
+        '200':
+          description: A list of artists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FollowedArtistDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/top/artists:
+    get:
+      tags:
+        - Me
+      summary: Fetch current user's top artists from Spotify
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read </b>'
+      operationId: GetTopArtists
+      responses:
+        '200':
+          description: A list of top artists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TopArtistDto'
         '400':
           description: Bad request
           content:
@@ -397,6 +465,90 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  '/Users/{id}':
+    get:
+      tags:
+        - Users
+      summary: Get user
+      description: Fetch user from Spotify<br/>This endpoint calls Spotify API.
+      operationId: GetUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicUserDto'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  '/Users/{userId}/playlists':
+    get:
+      tags:
+        - Users
+      summary: Get user's playlists
+      description: 'Fetch a list of the playlists owned or followed by user from Spotify<br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-collaborative </b>'
+      operationId: GetPlaylists
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of playlists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlaylistCardDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
 components:
   schemas:
     AlbumDto:
@@ -452,6 +604,24 @@ components:
           type: integer
           format: int32
       additionalProperties: false
+    FollowedArtistDto:
+      required:
+        - followersTotal
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        followersTotal:
+          type: integer
+          format: int32
+      additionalProperties: false
     OwnerDto:
       required:
         - id
@@ -473,6 +643,20 @@ components:
           type: string
         name:
           type: string
+      additionalProperties: false
+    PlaylistCardDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
       additionalProperties: false
     PlaylistMetadataDto:
       required:
@@ -512,6 +696,23 @@ components:
         totalDuration:
           type: string
       additionalProperties: false
+    PrivateUserDto:
+      required:
+        - canUseSpotifyPlayer
+        - id
+        - market
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        market:
+          type: string
+        canUseSpotifyPlayer:
+          type: boolean
+      additionalProperties: false
     Problem:
       required:
         - status
@@ -526,6 +727,43 @@ components:
           format: int32
         title:
           type: string
+      additionalProperties: false
+    PublicUserDto:
+      required:
+        - followersTotal
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        followersTotal:
+          type: integer
+          format: int32
+        imageUrl:
+          type: string
+          nullable: true
+      additionalProperties: false
+    TopArtistDto:
+      required:
+        - genres
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        genres:
+          type: array
+          items:
+            type: string
       additionalProperties: false
     TrackDto:
       required:
@@ -584,23 +822,6 @@ components:
         - Song
         - Podcast
       type: string
-    UserDto:
-      required:
-        - canUseSpotifyPlayer
-        - id
-        - market
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        market:
-          type: string
-        canUseSpotifyPlayer:
-          type: boolean
-      additionalProperties: false
     ValidationProblem:
       required:
         - errors
@@ -626,3 +847,4 @@ tags:
   - name: Following
   - name: Player
   - name: Playlists
+  - name: Users

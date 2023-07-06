@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
+using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.Pagination;
@@ -7,6 +9,7 @@ using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
 using Track = Haly.WebApp.Models.Track;
+using Type = Haly.GeneratedClients.Type;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
 
@@ -20,6 +23,8 @@ public sealed class SpotifyService : ISpotifyService
     // Their docs say that GET PlaylistTracks endpoint has a limit of 50, but actually it's 100
     private const int PlaylistTracksLimit = 100;
     private const int LikedSongsLimit = 50;
+    private const int UserFollowsLimit = 50;
+    private const int UserTopArtistsLimit = 10;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
         ISpotifyEndpointCollector endpointCollector)
@@ -45,13 +50,10 @@ public sealed class SpotifyService : ISpotifyService
 
     public async Task<List<Playlist>> GetUserPlaylists(string userId)
     {
-        var playlists = await _endpointCollector.FetchConcurrently(
-            endpointFn: (limit, offset) =>
-                _spotifyClient.GetListUsersPlaylistsAsync(userId, limit, offset),
-            dataFn: pagingObj => pagingObj.Items,
-            endpointLimit: PlaylistLimit, maxConcurrentRequests: 2);
+        // We only fetch first 50 playlists, maybe in future we'll add pagination
+        var playlists = await _spotifyClient.GetListUsersPlaylistsAsync(userId, PlaylistLimit, offset: 0);
 
-        return playlists.Adapt<List<Playlist>>();
+        return playlists.Items.Adapt<List<Playlist>>();
     }
 
     public async Task<CurrentUserPlaylistsDto> GetCurrentUserPlaylists()
@@ -155,5 +157,28 @@ public sealed class SpotifyService : ISpotifyService
     {
         var type = creatorType is CreatorType.Artist ? Type3.Artist : Type3.User;
         await _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
+    }
+
+    public async Task<List<FollowedArtistDto>> GetCurrentUserFollows()
+    {
+        var response = await _spotifyClient.GetFollowedAsync(Type.Artist, limit: UserFollowsLimit);
+        var follows = new List<ArtistObject>(response.Artists.Items);
+
+        while (response.Artists.Next is not null)
+        {
+            follows.AddRange(response.Artists.Items);
+
+            response = await _spotifyClient.GetFollowedAsync(Type.Artist, limit: UserFollowsLimit,
+                after: response.Artists.Cursors.After);
+        }
+
+        return follows.Adapt<List<FollowedArtistDto>>();
+    }
+
+    public async Task<List<TopArtistDto>> GetCurrentUserTopArtists()
+    {
+        var artists = await _spotifyClient.GetUsersTopArtistsAsync("short_term", limit: UserTopArtistsLimit);
+
+        return artists.Items.Adapt<List<TopArtistDto>>();
     }
 }

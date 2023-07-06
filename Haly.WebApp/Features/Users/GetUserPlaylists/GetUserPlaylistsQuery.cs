@@ -1,13 +1,12 @@
-using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
 
 namespace Haly.WebApp.Features.Users.GetUserPlaylists;
 
-public record GetUserPlaylistsQuery(string UserId) : IRequest<IEnumerable<PlaylistBriefDto>>;
+public record GetUserPlaylistsQuery(string UserId) : IRequest<IEnumerable<PlaylistCardDto>>;
 
-public class GetUserPlaylistsQueryHandler : IRequestHandler<GetUserPlaylistsQuery, IEnumerable<PlaylistBriefDto>>
+public class GetUserPlaylistsQueryHandler : IRequestHandler<GetUserPlaylistsQuery, IEnumerable<PlaylistCardDto>>
 {
     private readonly ISpotifyService _spotifyService;
 
@@ -16,11 +15,11 @@ public class GetUserPlaylistsQueryHandler : IRequestHandler<GetUserPlaylistsQuer
         _spotifyService = spotifyService;
     }
 
-    public async Task<IEnumerable<PlaylistBriefDto>> Handle(GetUserPlaylistsQuery request,
+    public async Task<IEnumerable<PlaylistCardDto>> Handle(GetUserPlaylistsQuery request,
         CancellationToken cancellationToken)
     {
         var playlists = await _spotifyService.GetUserPlaylists(request.UserId);
 
-        return playlists.Adapt<IEnumerable<PlaylistBriefDto>>();
+        return playlists.Adapt<IEnumerable<PlaylistCardDto>>();
     }
 }

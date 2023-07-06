@@ -16,53 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface UserDto
+ * @interface PlaylistCardDto
  */
-export interface UserDto {
+export interface PlaylistCardDto {
     /**
      * 
      * @type {string}
-     * @memberof UserDto
+     * @memberof PlaylistCardDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof UserDto
+     * @memberof PlaylistCardDto
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof UserDto
+     * @memberof PlaylistCardDto
      */
-    market: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserDto
-     */
-    canUseSpotifyPlayer: boolean;
+    imageUrl?: string | null;
 }
 
 /**
- * Check if a given object implements the UserDto interface.
+ * Check if a given object implements the PlaylistCardDto interface.
  */
-export function instanceOfUserDto(value: object): boolean {
+export function instanceOfPlaylistCardDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "market" in value;
-    isInstance = isInstance && "canUseSpotifyPlayer" in value;
 
     return isInstance;
 }
 
-export function UserDtoFromJSON(json: any): UserDto {
-    return UserDtoFromJSONTyped(json, false);
+export function PlaylistCardDtoFromJSON(json: any): PlaylistCardDto {
+    return PlaylistCardDtoFromJSONTyped(json, false);
 }
 
-export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserDto {
+export function PlaylistCardDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistCardDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,12 +62,11 @@ export function UserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         
         'id': json['id'],
         'name': json['name'],
-        'market': json['market'],
-        'canUseSpotifyPlayer': json['canUseSpotifyPlayer'],
+        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
     };
 }
 
-export function UserDtoToJSON(value?: UserDto | null): any {
+export function PlaylistCardDtoToJSON(value?: PlaylistCardDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -86,8 +77,7 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         
         'id': value.id,
         'name': value.name,
-        'market': value.market,
-        'canUseSpotifyPlayer': value.canUseSpotifyPlayer,
+        'imageUrl': value.imageUrl,
     };
 }
 

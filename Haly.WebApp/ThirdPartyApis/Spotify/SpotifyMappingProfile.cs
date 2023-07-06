@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
+using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
@@ -25,14 +27,14 @@ public class SpotifyMappingProfile : IRegister
 
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
-            .Map(dest => dest.Metadata.ImageUrl, src => GetPlaylistImage(src.Images))
+            .Map(dest => dest.Metadata.ImageUrl, src => GetImage(src.Images))
             .Map(dest => dest.Metadata.Description, src => TrimAndDecodePlaylistDescription(src.Description))
             .Map(dest => dest.Metadata.Owner.Id, src => src.Owner.Id)
             .Map(dest => dest.Metadata.Owner.Name, src => src.Owner.Display_name);
 
         config.ForType<PlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
-            .Map(dest => dest.Metadata.ImageUrl, src => GetPlaylistImage(src.Images))
+            .Map(dest => dest.Metadata.ImageUrl, src => GetImage(src.Images))
             .Map(dest => dest.Metadata.Description, src => TrimAndDecodePlaylistDescription(src.Description))
             .Map(dest => dest.Metadata.Owner.Id, src => src.Owner.Id)
             .Map(dest => dest.Metadata.Owner.Name, src => src.Owner.Display_name)
@@ -70,25 +72,30 @@ public class SpotifyMappingProfile : IRegister
             .Map(dest => dest.IsActive, src => src.Is_active)
             .Map(dest => dest.VolumePercent, src => src.Volume_percent);
 
+        config.ForType<ArtistObject, FollowedArtistDto>()
+            .Map(dest => dest.ImageUrl, src => GetImage(src.Images));
+
+        config.ForType<ArtistObject, TopArtistDto>()
+            .Map(dest => dest.ImageUrl, src => GetImage(src.Images));
 
         config.ForType<PagingSavedTrackObject, LikedSongsSnapshot>()
             .Map(dest => dest.LastTrackId,
                 src => src.Items.FirstOrDefault() != null ? src.Items.FirstOrDefault()!.Track.Id : null);
     }
 
-    private static string? GetUserImage(ICollection<ImageObject> image)
-    {
-        // The last one is the biggest
-        return image.LastOrDefault()?.Url;
-    }
-
-    private static string? GetPlaylistImage(ICollection<ImageObject> image)
+    private static string? GetImage(ICollection<ImageObject> image)
     {
         // If there is more than one image, we want to use the second one, because it has similar
         // dimensions to what we want to display to the user.
         if (image.Count > 1) return image.ElementAt(index: 1).Url;
 
         return image.FirstOrDefault()?.Url;
+    }
+
+    private static string? GetUserImage(ICollection<ImageObject> image)
+    {
+        // For user we want the biggest image.
+        return image.LastOrDefault()?.Url;
     }
 
     // Trims descriptions from anchor tags, because we can't render them correctly and their hrefs

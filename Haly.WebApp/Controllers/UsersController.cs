@@ -1,5 +1,4 @@
 using Haly.WebApp.Features.ErrorHandling;
-using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.Users.GetUser;
 using Haly.WebApp.Features.Users.GetUserPlaylists;
 using Haly.WebApp.ThirdPartyApis.Spotify;
@@ -25,9 +24,9 @@ public class UsersController : ApiControllerBase
 
     [HttpGet("{userId}/playlists")]
     [SwaggerOperation(Summary = "Get user's playlists", Description = "Fetch a list of the playlists owned or followed by user from Spotify")]
-    [SwaggerResponse(statusCode: 200, "List of playlists", typeof(IEnumerable<PlaylistBriefDto>))]
+    [SwaggerResponse(statusCode: 200, "List of playlists", typeof(IEnumerable<PlaylistCardDto>))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistReadCollaborative)]
-    public async Task<ActionResult<IEnumerable<PlaylistBriefDto>>> GetPlaylists(string userId)
+    public async Task<ActionResult<IEnumerable<PlaylistCardDto>>> GetPlaylists(string userId)
     {
         var response = await Mediator.Send(new GetUserPlaylistsQuery(userId));
 
