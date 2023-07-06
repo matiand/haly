@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import useSpotifyToken from "./auth/useSpotifyToken";
 import LikedSongs from "./collections/LikedSongs";
+import AllCards from "./common/AllCards";
 import LoadingIndicator from "./common/LoadingIndicator";
 import ScrollArea from "./common/ScrollArea";
 import { styled } from "./common/theme";
@@ -42,8 +43,9 @@ function App() {
                     <ScrollArea>
                         <Routes>
                             <Route index element={<Home />} />
-                            <Route path="/user/:id" element={<Profile />} />
                             <Route path="/playlist/:id" element={<Playlist />} />
+                            <Route path="/user/:id" element={<Profile />} />
+                            <Route path="/user/:id/playlists" element={<AllCards />} />
                             <Route path="/preferences" element={<HalySettings />} />
                             <Route path="/collection/tracks" element={<LikedSongs />} />
                             <Route path="/player" element={<SimplePlayer />} />
