@@ -5,25 +5,29 @@ import PlaybackToggle from "../playback/PlaybackToggle";
 import EmptyCoverImage from "./EmptyCoverImage";
 import { styled } from "./theme";
 
-type CardProps = {
+export type CardProps = {
     id: string;
     name: string;
     href: string;
     subtitle?: string;
     imageUrl?: PlaylistMetadataDto["imageUrl"];
+    isPlayable: boolean;
+    hasRoundedImage: boolean;
 };
 
-function Card({ id, name, href, subtitle, imageUrl }: CardProps) {
+function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage }: CardProps) {
     const navigate = useNavigate();
 
     return (
         <Wrapper onClick={() => navigate(href)}>
-            <ImageWrapper>
-                {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="collection" />}
+            <ImageWrapper data-is-rounded={hasRoundedImage}>
+                {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 
-                <div id="card-playback-wrapper">
-                    <PlaybackToggle size="medium" />
-                </div>
+                {isPlayable && (
+                    <div id="card-playback-wrapper">
+                        <PlaybackToggle size="medium" />
+                    </div>
+                )}
             </ImageWrapper>
 
             <Contents>
@@ -74,6 +78,13 @@ const ImageWrapper = styled("div", {
         width: "100%",
     },
 
+    "&[data-is-rounded=true]": {
+        borderRadius: "50%",
+        "& > img": {
+            borderRadius: "50%",
+        },
+    },
+
     "& #card-playback-wrapper": {
         bottom: "8px",
         opacity: 0,
@@ -105,6 +116,7 @@ const Contents = styled("div", {
         color: "$white400",
         fontSize: "$300",
         fontWeight: 500,
+        textTransform: "capitalize",
     },
 });
 

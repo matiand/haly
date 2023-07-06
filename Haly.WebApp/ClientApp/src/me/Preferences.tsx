@@ -1,4 +1,4 @@
-function HalySettings() {
+function Preferences() {
     return (
         <section>
             <h1>Not implemented</h1>;
@@ -6,4 +6,4 @@ function HalySettings() {
     );
 }
 
-export default HalySettings;
+export default Preferences;

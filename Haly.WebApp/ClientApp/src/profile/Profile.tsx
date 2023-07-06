@@ -3,6 +3,7 @@ import { useAtomValue } from "jotai/index";
 import { useParams } from "react-router-dom";
 
 import { dominantColorsAtom } from "../common/atoms";
+import { CardProps } from "../common/Card";
 import CardCollection from "../common/CardCollection";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
@@ -26,6 +27,17 @@ function Profile() {
     const playlistTotal = playlistsQuery.data?.length ?? 0;
     const dominantColor = dominantColors[imageUrl ?? ""];
 
+    const playlistCards: CardProps[] = (playlistsQuery.data ?? []).map((p) => {
+        return {
+            id: p.id,
+            name: p.name,
+            imageUrl: p.imageUrl,
+            href: `/playlists/${p.id}`,
+            hasRoundedImage: false,
+            isPlayable: true,
+        };
+    });
+
     return (
         <Wrapper>
             <PageHeader title={name} type="Profile" imageUrl={imageUrl} description={null}>
@@ -37,7 +49,7 @@ function Profile() {
                 <FollowButton />
             </PageControls>
 
-            <CardCollection title="Public Playlists" items={playlistsQuery.data ?? []} maxRows={2} />
+            <CardCollection title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />

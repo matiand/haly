@@ -11,10 +11,10 @@ import Toaster from "./common/Toaster";
 import { useMessageHub } from "./common/useMessageHub";
 import halyClient from "./halyClient";
 import Home from "./home/Home";
-import HalySettings from "./me/HalySettings";
+import Me from "./me/Me";
+import Preferences from "./me/Preferences";
 import { UserContext } from "./me/UserContext";
 import Playback from "./playback/Playback";
-import SimplePlayer from "./playback/SimplePlayer";
 import Playlist from "./playlist/Playlist";
 import Profile from "./profile/Profile";
 import Sidebar from "./sidebar/Sidebar";
@@ -43,18 +43,17 @@ function App() {
                     <ScrollArea>
                         <Routes>
                             <Route index element={<Home />} />
+                            <Route path="/me" element={<Me />} />
                             <Route path="/playlist/:id" element={<Playlist />} />
                             <Route path="/user/:id" element={<Profile />} />
                             <Route path="/user/:id/playlists" element={<AllCards />} />
-                            <Route path="/preferences" element={<HalySettings />} />
                             <Route path="/collection/tracks" element={<LikedSongs />} />
-                            <Route path="/player" element={<SimplePlayer />} />
+                            <Route path="/preferences" element={<Preferences />} />
                         </Routes>
                     </ScrollArea>
                 </Main>
 
                 <Playback />
-                {/*<StatusBar />*/}
                 <Toaster />
             </Layout>
         </UserContext.Provider>

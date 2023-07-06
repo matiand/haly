@@ -2,20 +2,20 @@ import { useCallback, useRef, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 import { Link } from "react-router-dom";
 
-import { PlaylistCardDto } from "../../generated/haly";
-import Card from "./Card";
+import Card, { CardProps } from "./Card";
 import { styled } from "./theme";
 
 type CardCollectionProps = {
     title: string;
-    items: PlaylistCardDto[];
+    items: CardProps[];
     maxRows: number;
+    href: string;
 };
 
 const cardGap = 24;
-const minCardWidth = 190;
+const minCardWidth = 200;
 
-function CardCollection({ title, items, maxRows }: CardCollectionProps) {
+function CardCollection({ title, items, maxRows, href }: CardCollectionProps) {
     const [cardsPerRow, setCardsPerRow] = useState(8);
     const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -33,13 +33,13 @@ function CardCollection({ title, items, maxRows }: CardCollectionProps) {
     return (
         <Section ref={sectionRef}>
             <div>
-                <h2>{hasMore ? <Link to="playlists">{title}</Link> : title}</h2>
-                {hasMore && <Link to="playlists">Show all</Link>}
+                <h2>{hasMore ? <Link to={href}>{title}</Link> : title}</h2>
+                {hasMore && <Link to={href}>Show all</Link>}
             </div>
 
             <Grid>
                 {items.slice(0, cardsPerRow * maxRows).map((card) => (
-                    <Card key={card.id} {...card} href={`/playlist/${card.id}`} />
+                    <Card key={card.id} {...card} />
                 ))}
             </Grid>
         </Section>

@@ -3,7 +3,7 @@ import React from "react";
 import { styled } from "./theme";
 
 type PageControlsProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 };
 
 function PageControls(props: PageControlsProps) {
