@@ -1,45 +1,85 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import halyClient from "../halyClient";
+import { CardProps } from "./Card";
 import CardCollection from "./CardCollection";
 import { styled, theme } from "./theme";
 
-function AllCards() {
+export function AllUserPlaylistCards() {
     const { id } = useParams();
-    const location = useLocation();
-    const lastPathSegment = location.pathname.split("/").at(-1);
 
-    const query = useAllCardsQuery(id!, lastPathSegment!);
+    const query = useQuery(["user", id!, "playlists"], () => halyClient.users.getPlaylists({ userId: id! }));
+
+    if (!query.data) return null;
+    const cards: CardProps[] = (query.data ?? []).map((p) => {
+        return {
+            id: p.id,
+            name: p.name,
+            imageUrl: p.imageUrl,
+            href: `/playlist/${p.id}`,
+            hasRoundedImage: false,
+            isPlayable: true,
+        };
+    });
+
+    return (
+        <Wrapper>
+            <CardCollection title="Public Playlists" items={cards} maxRows={Infinity} href="" />
+        </Wrapper>
+    );
+}
+
+export function AllMyFollowedArtistCards() {
+    const query = useQuery(["me", "following"], () => halyClient.me.getFollowedArtists());
 
     if (!query.data) return null;
 
-    if (lastPathSegment === "playlists") {
-        return (
-            <Wrapper>
-                <CardCollection title="Public Playlists" items={query.data} maxRows={Infinity} />
-            </Wrapper>
-        );
-    }
+    const cards: CardProps[] = (query.data ?? []).map((f) => {
+        return {
+            id: f.id,
+            name: f.name,
+            subtitle: "Artist",
+            imageUrl: f.imageUrl,
+            href: `/artist/${f.id}`,
+            hasRoundedImage: true,
+            isPlayable: false,
+        };
+    });
 
-    return null;
+    return (
+        <Wrapper>
+            <CardCollection title="Followed Artists" items={cards} maxRows={Infinity} href="" />
+        </Wrapper>
+    );
 }
 
-const useAllCardsQuery = (id: string, resource: string) => {
-    const queryKey = ["users", id, resource];
-    let queryFn = () => halyClient.users.getPlaylists({ userId: id! });
+export function AllMyTopArtistCards() {
+    const query = useQuery(["me", "topArtists"], () => halyClient.me.getTopArtists());
 
-    if (resource === "artists") {
-        queryFn = () => halyClient.me.getFollowedArtists();
-    }
+    if (!query.data) return null;
 
-    return useQuery(queryKey, queryFn);
-};
+    const cards: CardProps[] = (query.data ?? []).map((a) => {
+        return {
+            id: a.id,
+            name: a.name,
+            subtitle: a.genres[0],
+            imageUrl: a.imageUrl,
+            href: `/artist/${a.id}`,
+            hasRoundedImage: true,
+            isPlayable: true,
+        };
+    });
+
+    return (
+        <Wrapper>
+            <CardCollection title="Top artists this month" items={cards} maxRows={Infinity} href="" />
+        </Wrapper>
+    );
+}
 
 const Wrapper = styled("div", {
     $$topPadding: theme.sizes.userMenuHeight,
 
     padding: "$$topPadding $700 $800",
 });
-
-export default AllCards;
