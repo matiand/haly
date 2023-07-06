@@ -14,7 +14,7 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
             </li>
 
             {playlists.map((p) => {
-                const href = `playlists/${p.id}`;
+                const href = `playlist/${p.id}`;
 
                 return (
                     <li key={p.id}>

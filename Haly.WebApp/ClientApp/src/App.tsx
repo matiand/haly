@@ -42,8 +42,8 @@ function App() {
                     <ScrollArea>
                         <Routes>
                             <Route index element={<Home />} />
-                            <Route path="/playlists/:id" element={<Playlist />} />
                             <Route path="/user/:id" element={<Profile />} />
+                            <Route path="/playlist/:id" element={<Playlist />} />
                             <Route path="/preferences" element={<HalySettings />} />
                             <Route path="/collection/tracks" element={<LikedSongs />} />
                             <Route path="/player" element={<SimplePlayer />} />
