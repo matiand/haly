@@ -1,15 +1,16 @@
+import { LuMusic } from "react-icons/lu";
 import { MdOutlineMusicNote } from "react-icons/md";
 
 import { styled } from "./theme";
 
 type EmptyCoverImageProps = {
-    type: "track" | "collection";
+    type: "cell" | "card";
 };
 
 function EmptyCoverImage({ type }: EmptyCoverImageProps) {
     return (
         <Wrapper aria-hidden type={type}>
-            <MusicNoteIcon />
+            {type === "cell" ? <MdOutlineMusicNote /> : <LuMusic />}
         </Wrapper>
     );
 }
@@ -25,13 +26,19 @@ const Wrapper = styled("div", {
 
     variants: {
         type: {
-            collection: {
-                minHeight: "$$collectionSize",
-                height: "$$collectionSize",
-                minWidth: "$$collectionSize",
-                width: "$$collectionSize",
+            card: {
+                background: "$black100",
+                height: "100%",
+                position: "absolute",
+                width: "100%",
+
+                "& > svg": {
+                    height: "50px",
+                    width: "50px",
+                    strokeWidth: "1px",
+                },
             },
-            track: {
+            cell: {
                 minHeight: "$$trackSize",
                 height: "$$trackSize",
                 minWidth: "$$trackSize",
@@ -39,10 +46,10 @@ const Wrapper = styled("div", {
             },
         },
     },
-});
 
-const MusicNoteIcon = styled(MdOutlineMusicNote, {
-    color: "$white800",
+    "& > svg": {
+        color: "$white600",
+    },
 });
 
 export default EmptyCoverImage;

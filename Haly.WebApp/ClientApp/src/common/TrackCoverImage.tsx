@@ -10,7 +10,7 @@ type CoverImageProps = {
 function TrackCoverImage({ imageUrl, type }: CoverImageProps) {
     if (type === "playback" && !imageUrl) return null;
 
-    if (!imageUrl) return <EmptyCoverImage type="track" />;
+    if (!imageUrl) return <EmptyCoverImage type="cell" />;
 
     return <Image type={type} aria-hidden src={imageUrl} loading="eager" width="40px" height="40px" />;
 }

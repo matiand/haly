@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import { HiPause, HiPlay } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
@@ -7,7 +7,11 @@ function PlaybackToggle({ size }: { size: "small" | "medium" | "large" }) {
     const [isPaused, setIsPaused] = useState(true);
     const label = isPaused ? "Play" : "Pause";
 
-    const onClick = () => setIsPaused((prev) => !prev);
+    const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+        e.stopPropagation();
+
+        setIsPaused((prev) => !prev);
+    };
 
     return (
         <Button size={size} type="button" onClick={onClick} aria-label={label} title={label}>
@@ -35,7 +39,7 @@ const Button = styled("button", {
                 },
             },
             medium: {
-                $$size: "44px",
+                $$size: "46px",
                 $$iconSize: "24px",
 
                 "& .pause-icon": {
