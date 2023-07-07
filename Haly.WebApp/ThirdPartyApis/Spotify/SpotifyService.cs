@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.Artists.GetArtist;
 using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
 using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
@@ -180,5 +181,12 @@ public sealed class SpotifyService : ISpotifyService
         var artists = await _spotifyClient.GetUsersTopArtistsAsync("short_term", limit: UserTopArtistsLimit);
 
         return artists.Items.Adapt<List<TopArtistDto>>();
+    }
+
+    public async Task<ArtistDetailsDto> GetArtist(string artistId)
+    {
+        var artist = await _spotifyClient.GetAnArtistAsync(artistId);
+
+        return artist.Adapt<ArtistDetailsDto>();
     }
 }

@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using Haly.GeneratedClients;
+using Haly.WebApp.Features.Artists.GetArtist;
 using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
 using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
@@ -81,6 +82,9 @@ public class SpotifyMappingProfile : IRegister
         config.ForType<PagingSavedTrackObject, LikedSongsSnapshot>()
             .Map(dest => dest.LastTrackId,
                 src => src.Items.FirstOrDefault() != null ? src.Items.FirstOrDefault()!.Track.Id : null);
+
+        config.ForType<ArtistObject, ArtistDetailsDto>()
+            .Map(dest => dest.ImageUrl, src => GetImage(src.Images));
     }
 
     private static string? GetImage(ICollection<ImageObject> image)

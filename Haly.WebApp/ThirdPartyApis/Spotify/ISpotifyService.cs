@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.Artists.GetArtist;
 using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
 using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
@@ -15,12 +16,12 @@ public interface ISpotifyService
     Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket);
     Task<LikedSongsDto?> GetLikedSongsIfChanged(string userMarket, string? prevSnapshotId);
     Task<List<DeviceDto>> GetAvailableDevices();
-
     Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId);
     Task Follow(CreatorType creatorType, string creatorId);
     Task Unfollow(CreatorType creatorType, string creatorId);
     Task<List<FollowedArtistDto>> GetCurrentUserFollows();
     Task<List<TopArtistDto>> GetCurrentUserTopArtists();
+    Task<ArtistDetailsDto> GetArtist(string artistId);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);
