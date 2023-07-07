@@ -1,4 +1,5 @@
 .openapi-generator-ignore
+apis/ArtistsApi.ts
 apis/FollowingApi.ts
 apis/MeApi.ts
 apis/PlayerApi.ts
@@ -7,6 +8,7 @@ apis/UsersApi.ts
 apis/index.ts
 index.ts
 models/AlbumDto.ts
+models/ArtistDetailsDto.ts
 models/ArtistDto.ts
 models/CreatorType.ts
 models/DeviceDto.ts

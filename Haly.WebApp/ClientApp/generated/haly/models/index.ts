@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './AlbumDto';
+export * from './ArtistDetailsDto';
 export * from './ArtistDto';
 export * from './CreatorType';
 export * from './DeviceDto';

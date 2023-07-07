@@ -4,6 +4,26 @@ info:
   description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
   version: v1
 paths:
+  '/Artists/{id}':
+    get:
+      tags:
+        - Artists
+      summary: Get artist
+      description: Fetch artist from Spotify
+      operationId: GetArtist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An artist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtistDetailsDto'
   /me/Following/contains:
     get:
       tags:
@@ -570,6 +590,29 @@ components:
           items:
             $ref: '#/components/schemas/ArtistDto'
       additionalProperties: false
+    ArtistDetailsDto:
+      required:
+        - followersTotal
+        - genres
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        genres:
+          type: array
+          items:
+            type: string
+        followersTotal:
+          type: integer
+          format: int32
+      additionalProperties: false
     ArtistDto:
       required:
         - id
@@ -844,6 +887,7 @@ components:
       additionalProperties: false
 tags:
   - name: Me
+  - name: Artists
   - name: Following
   - name: Player
   - name: Playlists
