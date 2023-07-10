@@ -60,7 +60,7 @@ const globalStyles = globalCss({
 
     // Used to position react query devtools toggle btn
     ".rq-toggle": {
-        right: "210px !important",
+        left: "210px !important",
     },
 
     "a, button": {
