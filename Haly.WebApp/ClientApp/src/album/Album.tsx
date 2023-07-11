@@ -26,6 +26,7 @@ function Album() {
         name,
         typeName,
         imageUrl,
+        totalDuration,
         tracks,
         artists,
         releaseYear,
@@ -33,7 +34,6 @@ function Album() {
         copyrights,
     } = query.data;
     const dominantColor = dominantColors[imageUrl ?? ""];
-    const totalDuration = "1 hr 34 min";
 
     return (
         <Wrapper>

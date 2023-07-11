@@ -1,6 +1,5 @@
 using Haly.WebApp.Features.Albums.GetAlbum;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
-using Haly.WebApp.Models;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -11,9 +10,9 @@ public class AlbumsController : ApiControllerBase
 {
     [HttpGet("{id}")]
     [SwaggerOperation(Summary = "Get album", Description = "Fetch album from Spotify")]
-    [SwaggerResponse(statusCode: 200, "An album", typeof(AlbumDetailed))]
+    [SwaggerResponse(statusCode: 200, "An album", typeof(AlbumDetailedDto))]
     [CallsSpotifyApi()]
-    public async Task<AlbumDetailed> GetAlbum(string id, [FromServices] CurrentUserStore currentUserStore)
+    public async Task<AlbumDetailedDto> GetAlbum(string id, [FromServices] CurrentUserStore currentUserStore)
     {
         var currentUser = currentUserStore.User!;
 

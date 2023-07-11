@@ -20,7 +20,7 @@ public class TotalDurationService : ITotalDurationService
         return new TotalDurationValue(duration);
     }
 
-    public TotalDurationValue FromTracks(IEnumerable<PlaylistTrack> tracks)
+    public TotalDurationValue FromTracks(IEnumerable<Track> tracks)
     {
         var duration = tracks.Sum(t => t.DurationInMs);
 

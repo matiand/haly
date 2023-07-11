@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AlbumDetailed'
+                $ref: '#/components/schemas/AlbumDetailedDto'
         '400':
           description: Bad request
           content:
@@ -627,17 +627,16 @@ paths:
                 $ref: '#/components/schemas/Problem'
 components:
   schemas:
-    AlbumDetailed:
+    AlbumDetailedDto:
       required:
         - artists
         - copyrights
         - formattedReleaseDate
         - id
         - name
-        - releaseDate
         - releaseYear
+        - totalDuration
         - tracks
-        - type
         - typeName
       type: object
       properties:
@@ -648,8 +647,10 @@ components:
         imageUrl:
           type: string
           nullable: true
-        type:
-          $ref: '#/components/schemas/AlbumType'
+        typeName:
+          type: string
+        totalDuration:
+          type: string
         artists:
           type: array
           items:
@@ -662,19 +663,10 @@ components:
           type: array
           items:
             type: string
-        releaseDate:
-          type: string
-          format: date
-        typeName:
-          type: string
-          readOnly: true
         releaseYear:
-          type: integer
-          format: int32
-          readOnly: true
+          type: string
         formattedReleaseDate:
           type: string
-          readOnly: true
       additionalProperties: false
     AlbumDto:
       required:
@@ -718,13 +710,6 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    AlbumType:
-      enum:
-        - Album
-        - OneSong
-        - Ep
-        - Compilation
-      type: string
     ArtistBrief:
       required:
         - id

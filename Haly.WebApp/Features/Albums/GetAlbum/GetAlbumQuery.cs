@@ -1,24 +1,31 @@
-using Haly.WebApp.Models;
+using Haly.WebApp.Features.Playlists.TotalDuration;
 using Haly.WebApp.ThirdPartyApis.Spotify;
+using Mapster;
 using MediatR;
 
 namespace Haly.WebApp.Features.Albums.GetAlbum;
 
-public record GetAlbumQuery(string Id, string UserMarket) : IRequest<AlbumDetailed>;
+public record GetAlbumQuery(string Id, string UserMarket) : IRequest<AlbumDetailedDto>;
 
-public class GetAlbumHandler : IRequestHandler<GetAlbumQuery, AlbumDetailed>
+public class GetAlbumHandler : IRequestHandler<GetAlbumQuery, AlbumDetailedDto>
 {
     private readonly ISpotifyService _spotify;
+    private readonly ITotalDurationService _totalDurationService;
 
-    public GetAlbumHandler(ISpotifyService spotify)
+    public GetAlbumHandler(ISpotifyService spotify, ITotalDurationService totalDurationService)
     {
         _spotify = spotify;
+        _totalDurationService = totalDurationService;
     }
 
-    public async Task<AlbumDetailed> Handle(GetAlbumQuery request, CancellationToken cancellationToken)
+    public async Task<AlbumDetailedDto> Handle(GetAlbumQuery request, CancellationToken cancellationToken)
     {
         var album = await _spotify.GetAlbum(request.Id, request.UserMarket);
+        var totalDuration = _totalDurationService.FromTracks(album.Tracks);
 
-        return album;
+        var dto = album.Adapt<AlbumDetailedDto>();
+        dto.TotalDuration = totalDuration.Format();
+
+        return dto;
     }
 }

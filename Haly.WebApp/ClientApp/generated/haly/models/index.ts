@@ -1,9 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './AlbumDetailed';
+export * from './AlbumDetailedDto';
 export * from './AlbumDto';
 export * from './AlbumTrack';
-export * from './AlbumType';
 export * from './ArtistBrief';
 export * from './ArtistDetailsDto';
 export * from './ArtistDto';

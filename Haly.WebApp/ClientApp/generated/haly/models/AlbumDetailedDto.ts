@@ -19,12 +19,6 @@ import {
     AlbumTrackFromJSONTyped,
     AlbumTrackToJSON,
 } from './AlbumTrack';
-import type { AlbumType } from './AlbumType';
-import {
-    AlbumTypeFromJSON,
-    AlbumTypeFromJSONTyped,
-    AlbumTypeToJSON,
-} from './AlbumType';
 import type { ArtistBrief } from './ArtistBrief';
 import {
     ArtistBriefFromJSON,
@@ -35,101 +29,94 @@ import {
 /**
  * 
  * @export
- * @interface AlbumDetailed
+ * @interface AlbumDetailedDto
  */
-export interface AlbumDetailed {
+export interface AlbumDetailedDto {
     /**
      * 
      * @type {string}
-     * @memberof AlbumDetailed
+     * @memberof AlbumDetailedDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof AlbumDetailed
+     * @memberof AlbumDetailedDto
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof AlbumDetailed
+     * @memberof AlbumDetailedDto
      */
     imageUrl?: string | null;
     /**
      * 
-     * @type {AlbumType}
-     * @memberof AlbumDetailed
+     * @type {string}
+     * @memberof AlbumDetailedDto
      */
-    type: AlbumType;
+    typeName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlbumDetailedDto
+     */
+    totalDuration: string;
     /**
      * 
      * @type {Array<ArtistBrief>}
-     * @memberof AlbumDetailed
+     * @memberof AlbumDetailedDto
      */
     artists: Array<ArtistBrief>;
     /**
      * 
      * @type {Array<AlbumTrack>}
-     * @memberof AlbumDetailed
+     * @memberof AlbumDetailedDto
      */
     tracks: Array<AlbumTrack>;
     /**
      * 
      * @type {Array<string>}
-     * @memberof AlbumDetailed
+     * @memberof AlbumDetailedDto
      */
     copyrights: Array<string>;
     /**
      * 
-     * @type {Date}
-     * @memberof AlbumDetailed
+     * @type {string}
+     * @memberof AlbumDetailedDto
      */
-    releaseDate: Date;
+    releaseYear: string;
     /**
      * 
      * @type {string}
-     * @memberof AlbumDetailed
+     * @memberof AlbumDetailedDto
      */
-    readonly typeName: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AlbumDetailed
-     */
-    readonly releaseYear: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AlbumDetailed
-     */
-    readonly formattedReleaseDate: string;
+    formattedReleaseDate: string;
 }
 
 /**
- * Check if a given object implements the AlbumDetailed interface.
+ * Check if a given object implements the AlbumDetailedDto interface.
  */
-export function instanceOfAlbumDetailed(value: object): boolean {
+export function instanceOfAlbumDetailedDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "type" in value;
+    isInstance = isInstance && "typeName" in value;
+    isInstance = isInstance && "totalDuration" in value;
     isInstance = isInstance && "artists" in value;
     isInstance = isInstance && "tracks" in value;
     isInstance = isInstance && "copyrights" in value;
-    isInstance = isInstance && "releaseDate" in value;
-    isInstance = isInstance && "typeName" in value;
     isInstance = isInstance && "releaseYear" in value;
     isInstance = isInstance && "formattedReleaseDate" in value;
 
     return isInstance;
 }
 
-export function AlbumDetailedFromJSON(json: any): AlbumDetailed {
-    return AlbumDetailedFromJSONTyped(json, false);
+export function AlbumDetailedDtoFromJSON(json: any): AlbumDetailedDto {
+    return AlbumDetailedDtoFromJSONTyped(json, false);
 }
 
-export function AlbumDetailedFromJSONTyped(json: any, ignoreDiscriminator: boolean): AlbumDetailed {
+export function AlbumDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AlbumDetailedDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -138,18 +125,17 @@ export function AlbumDetailedFromJSONTyped(json: any, ignoreDiscriminator: boole
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'type': AlbumTypeFromJSON(json['type']),
+        'typeName': json['typeName'],
+        'totalDuration': json['totalDuration'],
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefFromJSON)),
         'tracks': ((json['tracks'] as Array<any>).map(AlbumTrackFromJSON)),
         'copyrights': json['copyrights'],
-        'releaseDate': (new Date(json['releaseDate'])),
-        'typeName': json['typeName'],
         'releaseYear': json['releaseYear'],
         'formattedReleaseDate': json['formattedReleaseDate'],
     };
 }
 
-export function AlbumDetailedToJSON(value?: AlbumDetailed | null): any {
+export function AlbumDetailedDtoToJSON(value?: AlbumDetailedDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -161,11 +147,13 @@ export function AlbumDetailedToJSON(value?: AlbumDetailed | null): any {
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
-        'type': AlbumTypeToJSON(value.type),
+        'typeName': value.typeName,
+        'totalDuration': value.totalDuration,
         'artists': ((value.artists as Array<any>).map(ArtistBriefToJSON)),
         'tracks': ((value.tracks as Array<any>).map(AlbumTrackToJSON)),
         'copyrights': value.copyrights,
-        'releaseDate': (value.releaseDate.toISOString().substr(0,10)),
+        'releaseYear': value.releaseYear,
+        'formattedReleaseDate': value.formattedReleaseDate,
     };
 }
 
