@@ -16,6 +16,10 @@ const Wrapper = styled("div", {
     padding: "$700 0",
 
     "& > :first-child": {
+        marginRight: "$800",
+    },
+
+    "& > :nth-child(2)": {
         marginRight: "$700",
     },
 

@@ -16,33 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface AlbumDto
+ * @interface ArtistBrief
  */
-export interface AlbumDto {
+export interface ArtistBrief {
     /**
      * 
      * @type {string}
-     * @memberof AlbumDto
+     * @memberof ArtistBrief
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof AlbumDto
+     * @memberof ArtistBrief
      */
     name: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AlbumDto
-     */
-    imageUrl?: string | null;
 }
 
 /**
- * Check if a given object implements the AlbumDto interface.
+ * Check if a given object implements the ArtistBrief interface.
  */
-export function instanceOfAlbumDto(value: object): boolean {
+export function instanceOfArtistBrief(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -50,11 +44,11 @@ export function instanceOfAlbumDto(value: object): boolean {
     return isInstance;
 }
 
-export function AlbumDtoFromJSON(json: any): AlbumDto {
-    return AlbumDtoFromJSONTyped(json, false);
+export function ArtistBriefFromJSON(json: any): ArtistBrief {
+    return ArtistBriefFromJSONTyped(json, false);
 }
 
-export function AlbumDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AlbumDto {
+export function ArtistBriefFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArtistBrief {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -62,11 +56,10 @@ export function AlbumDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': json['id'],
         'name': json['name'],
-        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
     };
 }
 
-export function AlbumDtoToJSON(value?: AlbumDto | null): any {
+export function ArtistBriefToJSON(value?: ArtistBrief | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -77,7 +70,6 @@ export function AlbumDtoToJSON(value?: AlbumDto | null): any {
         
         'id': value.id,
         'name': value.name,
-        'imageUrl': value.imageUrl,
     };
 }
 

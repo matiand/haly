@@ -32,7 +32,7 @@ function Profile() {
             id: p.id,
             name: p.name,
             imageUrl: p.imageUrl,
-            href: `/playlists/${p.id}`,
+            href: `/playlist/${p.id}`,
             hasRoundedImage: false,
             isPlayable: true,
         };

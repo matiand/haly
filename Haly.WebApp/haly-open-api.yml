@@ -4,12 +4,50 @@ info:
   description: An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration
   version: v1
 paths:
+  '/Albums/{id}':
+    get:
+      tags:
+        - Albums
+      summary: Get album
+      description: Fetch album from Spotify<br/>This endpoint calls Spotify API.
+      operationId: GetAlbum
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An album
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlbumDetailed'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Artists/{id}':
     get:
       tags:
         - Artists
       summary: Get artist
-      description: Fetch artist from Spotify
+      description: Fetch artist from Spotify<br/>This endpoint calls Spotify API.
       operationId: GetArtist
       parameters:
         - name: id
@@ -24,6 +62,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArtistDetailsDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /me/Following/contains:
     get:
       tags:
@@ -571,9 +627,44 @@ paths:
                 $ref: '#/components/schemas/Problem'
 components:
   schemas:
-    AlbumDto:
+    AlbumDetailed:
       required:
         - artists
+        - copyrights
+        - id
+        - name
+        - releaseDate
+        - tracks
+        - type
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        type:
+          $ref: '#/components/schemas/AlbumType'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistBrief'
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlbumTrack'
+        copyrights:
+          type: array
+          items:
+            type: string
+        releaseDate:
+          type: string
+          format: date
+      additionalProperties: false
+    AlbumDto:
+      required:
         - id
         - name
       type: object
@@ -585,10 +676,52 @@ components:
         imageUrl:
           type: string
           nullable: true
+      additionalProperties: false
+    AlbumTrack:
+      required:
+        - artists
+        - discNumber
+        - duration
+        - durationInMs
+        - name
+      type: object
+      properties:
+        spotifyId:
+          type: string
+          nullable: true
+        name:
+          type: string
+        durationInMs:
+          type: integer
+          format: int32
+        discNumber:
+          type: integer
+          format: int32
         artists:
           type: array
           items:
-            $ref: '#/components/schemas/ArtistDto'
+            $ref: '#/components/schemas/ArtistBrief'
+        duration:
+          type: string
+          readOnly: true
+      additionalProperties: false
+    AlbumType:
+      enum:
+        - Album
+        - OneSong
+        - Ep
+        - Compilation
+      type: string
+    ArtistBrief:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
       additionalProperties: false
     ArtistDetailsDto:
       required:
@@ -887,6 +1020,7 @@ components:
       additionalProperties: false
 tags:
   - name: Me
+  - name: Albums
   - name: Artists
   - name: Following
   - name: Player

@@ -16,10 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   ArtistDetailsDto,
+  Problem,
 } from '../models';
 import {
     ArtistDetailsDtoFromJSON,
     ArtistDetailsDtoToJSON,
+    ProblemFromJSON,
+    ProblemToJSON,
 } from '../models';
 
 export interface GetArtistRequest {
@@ -32,7 +35,7 @@ export interface GetArtistRequest {
 export class ArtistsApi extends runtime.BaseAPI {
 
     /**
-     * Fetch artist from Spotify
+     * Fetch artist from Spotify<br/>This endpoint calls Spotify API.
      * Get artist
      */
     async getArtistRaw(requestParameters: GetArtistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtistDetailsDto>> {
@@ -55,7 +58,7 @@ export class ArtistsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch artist from Spotify
+     * Fetch artist from Spotify<br/>This endpoint calls Spotify API.
      * Get artist
      */
     async getArtist(requestParameters: GetArtistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtistDetailsDto> {

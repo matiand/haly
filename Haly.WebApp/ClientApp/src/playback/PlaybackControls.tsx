@@ -108,12 +108,6 @@ const tempTrack: TrackDto = {
         id: "7EReSsFM8Grn3bJdjddsd4",
         name: "Walk Like Me",
         imageUrl: "https://i.scdn.co/image/ab67616d000048513beed64756e79a8186cdeb5d",
-        artists: [
-            {
-                id: "42crL07E4WPfVovyUtMpvC",
-                name: "Robert DeLong",
-            },
-        ],
     },
     artists: [
         {

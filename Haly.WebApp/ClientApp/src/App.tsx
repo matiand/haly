@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 
+import Album from "./album/Album";
 import Artist from "./artist/Artist";
 import useSpotifyToken from "./auth/useSpotifyToken";
 import LikedSongs from "./collections/LikedSongs";
@@ -55,6 +56,7 @@ function App() {
                             <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
 
                             <Route path="/artist/:id" element={<Artist />} />
+                            <Route path="/album/:id" element={<Album />} />
 
                             <Route path="/collection/tracks" element={<LikedSongs />} />
                             <Route path="/preferences" element={<Preferences />} />
