@@ -23,7 +23,7 @@ public class TrackTests
     // https://developer.spotify.com/documentation/web-api/concepts/track-relinking
     public void Duration_ReturnsFormattedStringSpotifyStyle(int valueInMs, string expected)
     {
-        var track = new Track() { DurationInMs = valueInMs };
+        var track = new PlaylistTrack() { DurationInMs = valueInMs };
 
         var actual = track.Duration;
 

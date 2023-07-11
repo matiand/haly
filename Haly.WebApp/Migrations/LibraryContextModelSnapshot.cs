@@ -125,7 +125,7 @@ namespace Haly.WebApp.Migrations
                     b.Property<string>("SpotifyId")
                         .HasColumnType("text");
 
-                    b.Property<TrackType>("Type")
+                    b.Property<PlaylistTrackType>("Type")
                         .HasColumnType("track_type");
 
                     b.HasKey("PlaylistId", "PositionInPlaylist");

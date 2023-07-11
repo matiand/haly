@@ -13,7 +13,7 @@ public interface ISpotifyService
     Task<List<Playlist>> GetUserPlaylists(string userId);
     Task<CurrentUserPlaylistsDto> GetCurrentUserPlaylists();
     Task<Playlist?> GetPlaylistWithTracks(string playlistId, string userMarket);
-    Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket);
+    Task<List<PlaylistTrack>> GetPlaylistTracks(string playlistId, string userMarket);
     Task<LikedSongsDto?> GetLikedSongsIfChanged(string userMarket, string? prevSnapshotId);
     Task<List<DeviceDto>> GetAvailableDevices();
     Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId);
@@ -22,8 +22,9 @@ public interface ISpotifyService
     Task<List<FollowedArtistDto>> GetCurrentUserFollows();
     Task<List<TopArtistDto>> GetCurrentUserTopArtists();
     Task<ArtistDetailsDto> GetArtist(string artistId);
+    Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);
 
-public record LikedSongsDto(string SnapshotId, List<Track> Tracks);
+public record LikedSongsDto(string SnapshotId, List<PlaylistTrack> Tracks);

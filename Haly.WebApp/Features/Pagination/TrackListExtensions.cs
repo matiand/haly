@@ -11,7 +11,7 @@ public static class TrackListExtensions
     <param name="tracks">The list of tracks to annotate.</param>
     <returns>The annotated list of tracks.</returns>
     */
-    public static List<Track> AnnotateWithPosition(this List<Track> tracks)
+    public static List<PlaylistTrack> AnnotateWithPosition(this List<PlaylistTrack> tracks)
     {
         for (var i = 0; i < tracks.Count; i++)
         {

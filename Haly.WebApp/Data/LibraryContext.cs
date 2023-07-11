@@ -10,7 +10,7 @@ public class LibraryContext : DbContext
     [Obsolete("Obsolete")]
     static LibraryContext() => NpgsqlConnection.GlobalTypeMapper
         .MapEnum<Plan>()
-        .MapEnum<TrackType>();
+        .MapEnum<PlaylistTrackType>();
 
     public LibraryContext(DbContextOptions options) : base(options)
     {
@@ -18,16 +18,16 @@ public class LibraryContext : DbContext
 
     public DbSet<PrivateUser> Users { get; set; }
     public DbSet<Playlist> Playlists { get; set; }
-    public DbSet<Track> Tracks { get; set; }
+    public DbSet<PlaylistTrack> Tracks { get; set; }
     public DbSet<RefetchPlaylistTracksJob> RefetchPlaylistTracksJobs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
             .HasPostgresEnum<Plan>()
-            .HasPostgresEnum<TrackType>();
+            .HasPostgresEnum<PlaylistTrackType>();
 
-        modelBuilder.Entity<Track>()
+        modelBuilder.Entity<PlaylistTrack>()
             .HasKey(t => new { t.PlaylistId, t.PositionInPlaylist });
     }
 }

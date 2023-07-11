@@ -9,7 +9,6 @@ using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
 using Mapster;
-using Track = Haly.WebApp.Models.Track;
 using Type = Haly.GeneratedClients.Type;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
@@ -23,6 +22,7 @@ public sealed class SpotifyService : ISpotifyService
 
     // Their docs say that GET PlaylistTracks endpoint has a limit of 50, but actually it's 100
     private const int PlaylistTracksLimit = 100;
+    private const int AlbumTracksLimit = 50;
     private const int LikedSongsLimit = 50;
     private const int UserFollowsLimit = 50;
     private const int UserTopArtistsLimit = 10;
@@ -99,7 +99,7 @@ public sealed class SpotifyService : ISpotifyService
         return playlistDto;
     }
 
-    public async Task<List<Track>> GetPlaylistTracks(string playlistId, string userMarket)
+    public async Task<List<PlaylistTrack>> GetPlaylistTracks(string playlistId, string userMarket)
     {
         var tracksDto = await _endpointCollector.FetchConcurrently(
             endpointFn: (limit, offset) =>
@@ -108,7 +108,7 @@ public sealed class SpotifyService : ISpotifyService
             endpointLimit: PlaylistTracksLimit, maxConcurrentRequests: 4);
 
         return tracksDto
-            .Adapt<List<Track>>()
+            .Adapt<List<PlaylistTrack>>()
             .AnnotateWithPosition();
     }
 
@@ -128,7 +128,7 @@ public sealed class SpotifyService : ISpotifyService
 
         var songsDto = response.Items
             .Concat(remainingSongs)
-            .Adapt<List<Track>>()
+            .Adapt<List<PlaylistTrack>>()
             .AnnotateWithPosition();
 
         return new LikedSongsDto(currSnapshot.SnapshotId, songsDto);
@@ -188,5 +188,27 @@ public sealed class SpotifyService : ISpotifyService
         var artist = await _spotifyClient.GetAnArtistAsync(artistId);
 
         return artist.Adapt<ArtistDetailsDto>();
+    }
+
+    public async Task<AlbumDetailed> GetAlbum(string albumId, string userMarket)
+    {
+        var album = await _spotifyClient.GetAnAlbumAsync(albumId, userMarket);
+        var tracks = new List<SimplifiedTrackObject>(album.Tracks.Items);
+
+        if (album.Tracks.Next is not null)
+        {
+            var remainingTracks = await _endpointCollector.FetchConcurrently(
+                endpointFn: (limit, offset) => _spotifyClient.GetAnAlbumsTracksAsync(albumId, userMarket, limit, offset),
+                dataFn: pagingObj => pagingObj.Items,
+                startingOffset: album.Tracks.Limit, endpointLimit: AlbumTracksLimit, maxConcurrentRequests: 2
+            );
+
+            tracks.AddRange(remainingTracks);
+        }
+
+        var albumDto = album.Adapt<AlbumDetailed>();
+        albumDto.Tracks = tracks.Adapt<List<AlbumTrack>>();
+
+        return albumDto;
     }
 }

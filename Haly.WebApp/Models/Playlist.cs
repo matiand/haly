@@ -11,7 +11,7 @@ public class Playlist
     [Column(TypeName = "jsonb")]
     public PlaylistMetadata Metadata { get; set; }
 
-    public List<Track> Tracks { get; set; }
+    public List<PlaylistTrack> Tracks { get; set; }
 
     public void UpdateModel(Playlist other, bool includingTracks = false, bool includingLikes = false)
     {

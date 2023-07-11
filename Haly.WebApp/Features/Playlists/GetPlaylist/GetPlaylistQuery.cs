@@ -33,7 +33,7 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
         if (dbPlaylist is null) return null;
 
         // Avoid using ProjectToType extension, it's buggy and usually performs worse than Adapt
-        dbPlaylist.Tracks = new List<Track>();
+        dbPlaylist.Tracks = new List<PlaylistTrack>();
         var playlist = dbPlaylist.Adapt<PlaylistWithTracksDto>();
 
         var tracks = await _db.Tracks

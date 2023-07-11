@@ -57,7 +57,7 @@ namespace Haly.WebApp.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     DurationInMs = table.Column<int>(type: "integer", nullable: false),
                     AddedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    Type = table.Column<TrackType>(type: "track_type", nullable: false),
+                    Type = table.Column<PlaylistTrackType>(type: "track_type", nullable: false),
                     Album = table.Column<AlbumBrief>(type: "jsonb", nullable: false),
                     Artists = table.Column<List<ArtistBrief>>(type: "jsonb", nullable: false)
                 },
