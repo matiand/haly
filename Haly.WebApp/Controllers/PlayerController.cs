@@ -8,8 +8,7 @@ namespace Haly.WebApp.Controllers;
 [Route("/Me/[controller]")]
 public class PlayerController : ApiControllerBase
 {
-    [HttpGet]
-    [Route("devices")]
+    [HttpGet("devices")]
     [SwaggerOperation(Summary = "Get available devices that current user can connect to")]
     [SwaggerResponse(statusCode: 200, "Devices found", typeof(IEnumerable<DeviceDto>))]
     [CallsSpotifyApi(SpotifyScopes.UserReadPlaybackState)]
