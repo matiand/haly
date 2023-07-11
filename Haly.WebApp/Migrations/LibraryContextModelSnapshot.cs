@@ -71,44 +71,7 @@ namespace Haly.WebApp.Migrations
                     b.ToTable("Playlists");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
-                {
-                    b.Property<string>("PlaylistId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("PositionInPlaylist")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTimeOffset>("AddedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Album>("Album")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
-                    b.Property<List<Artist>>("Artists")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
-                    b.Property<int>("DurationInMs")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SpotifyId")
-                        .HasColumnType("text");
-
-                    b.Property<TrackType>("Type")
-                        .HasColumnType("track_type");
-
-                    b.HasKey("PlaylistId", "PositionInPlaylist");
-
-                    b.ToTable("Tracks");
-                });
-
-            modelBuilder.Entity("Haly.WebApp.Models.User", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.PrivateUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -133,9 +96,46 @@ namespace Haly.WebApp.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
+                {
+                    b.Property<string>("PlaylistId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PositionInPlaylist")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("AddedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<AlbumBrief>("AlbumBrief")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<List<ArtistBrief>>("Artists")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<int>("DurationInMs")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SpotifyId")
+                        .HasColumnType("text");
+
+                    b.Property<TrackType>("Type")
+                        .HasColumnType("track_type");
+
+                    b.HasKey("PlaylistId", "PositionInPlaylist");
+
+                    b.ToTable("Tracks");
+                });
+
             modelBuilder.Entity("Haly.WebApp.Models.Jobs.RefetchPlaylistTracksJob", b =>
                 {
-                    b.HasOne("Haly.WebApp.Models.User", "User")
+                    b.HasOne("Haly.WebApp.Models.PrivateUser", "User")
                         .WithMany("RefetchPlaylistTracksJobs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -158,7 +158,7 @@ namespace Haly.WebApp.Migrations
                     b.Navigation("Tracks");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.User", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.PrivateUser", b =>
                 {
                     b.Navigation("RefetchPlaylistTracksJobs");
                 });

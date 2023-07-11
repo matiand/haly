@@ -85,11 +85,11 @@ namespace Haly.WebApp.Migrations
                     b.Property<DateTimeOffset>("AddedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Album>("Album")
+                    b.Property<AlbumBrief>("Album")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
-                    b.Property<List<Artist>>("Artists")
+                    b.Property<List<ArtistBrief>>("Artists")
                         .IsRequired()
                         .HasColumnType("jsonb");
 

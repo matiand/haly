@@ -21,10 +21,10 @@ public class Track
     public TrackType Type { get; set; }
 
     [Column(TypeName = "jsonb")]
-    public Album Album { get; set; }
+    public AlbumBrief Album { get; set; }
 
     [Column(TypeName = "jsonb")]
-    public List<Artist> Artists { get; set; }
+    public List<ArtistBrief> Artists { get; set; }
 
     public string Duration => DurationInMs >= 3600000
         ? TimeSpan.FromMilliseconds(DurationInMs).ToString(@"h\:mm\:ss", CultureInfo.InvariantCulture)

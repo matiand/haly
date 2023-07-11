@@ -58,8 +58,8 @@ namespace Haly.WebApp.Migrations
                     DurationInMs = table.Column<int>(type: "integer", nullable: false),
                     AddedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Type = table.Column<TrackType>(type: "track_type", nullable: false),
-                    Album = table.Column<Album>(type: "jsonb", nullable: false),
-                    Artists = table.Column<List<Artist>>(type: "jsonb", nullable: false)
+                    Album = table.Column<AlbumBrief>(type: "jsonb", nullable: false),
+                    Artists = table.Column<List<ArtistBrief>>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {

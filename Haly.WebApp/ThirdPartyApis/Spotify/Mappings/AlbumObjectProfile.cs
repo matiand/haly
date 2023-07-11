@@ -16,7 +16,7 @@ public class AlbumObjectProfile : IRegister
             .Map(dest => dest.ReleaseDate,
                 src => DateOnly.Parse(src.Release_date!, CultureInfo.InvariantCulture));
 
-        config.ForType<SimplifiedAlbumObject, Album>()
+        config.ForType<SimplifiedAlbumObject, AlbumBrief>()
             // We want the smallest ones, because we only show those images as album covers of
             // tracks inside playlist view.
             .Map(dest => dest.ImageUrl, src => src.Images.FindSmallImageUrl());
