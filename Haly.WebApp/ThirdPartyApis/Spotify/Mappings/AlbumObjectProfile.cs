@@ -13,8 +13,7 @@ public class AlbumObjectProfile : IRegister
             .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl())
             .Map(dest => dest.Type, src => GetAlbumType(src.Album_type, src.Total_tracks))
             .Map(dest => dest.Copyrights, src => GetCopyrights(src.Copyrights))
-            .Map(dest => dest.ReleaseDate,
-                src => DateOnly.Parse(src.Release_date!, CultureInfo.InvariantCulture));
+            .Map(dest => dest.ReleaseDate, src => GetReleaseDate(src.Release_date));
 
         config.ForType<SimplifiedAlbumObject, AlbumBrief>()
             // We want the smallest ones, because we only show those images as album covers of
@@ -32,6 +31,16 @@ public class AlbumObjectProfile : IRegister
             (AlbumBaseAlbum_type.Single, _) => AlbumType.Ep,
             _ => AlbumType.Album,
         };
+    }
+
+    private static DateOnly GetReleaseDate(string? releaseDate)
+    {
+        if (releaseDate is null) return new DateOnly();
+
+        if (releaseDate.Length < 10)
+            return DateOnly.ParseExact(releaseDate.Substring(startIndex: 0, length: 4), "yyyy");
+
+        return DateOnly.Parse(releaseDate, CultureInfo.InvariantCulture);
     }
 
     private static List<string> GetCopyrights(ICollection<CopyrightObject> copyrights)
