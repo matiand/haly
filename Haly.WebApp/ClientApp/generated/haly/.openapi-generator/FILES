@@ -22,6 +22,7 @@ models/OwnerDto.ts
 models/PlaylistBriefDto.ts
 models/PlaylistCardDto.ts
 models/PlaylistMetadataDto.ts
+models/PlaylistTrackType.ts
 models/PlaylistWithTracksDto.ts
 models/PrivateUserDto.ts
 models/Problem.ts
@@ -29,7 +30,6 @@ models/PublicUserDto.ts
 models/TopArtistDto.ts
 models/TrackDto.ts
 models/TrackDtoPaginatedList.ts
-models/TrackType.ts
 models/ValidationProblem.ts
 models/index.ts
 runtime.ts

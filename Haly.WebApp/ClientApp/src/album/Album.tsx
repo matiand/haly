@@ -21,14 +21,23 @@ function Album() {
 
     if (!query.data) return <LoadingIndicator />;
 
-    const { id: albumId, name, type, imageUrl, tracks, artists, releaseDate, copyrights } = query.data;
+    const {
+        id: albumId,
+        name,
+        typeName,
+        imageUrl,
+        tracks,
+        artists,
+        releaseYear,
+        formattedReleaseDate,
+        copyrights,
+    } = query.data;
     const dominantColor = dominantColors[imageUrl ?? ""];
-    const releaseYear = releaseDate.getFullYear();
     const totalDuration = "1 hr 34 min";
 
     return (
         <Wrapper>
-            <PageHeader title={name} type="Album" imageUrl={imageUrl} description={null}>
+            <PageHeader title={name} subtitle={typeName} type="Album" imageUrl={imageUrl} description={null}>
                 {artists.map((a) => {
                     const artistHref = `/artist/${a.id}`;
                     return (
@@ -44,11 +53,15 @@ function Album() {
                     {pluralize("song", tracks.length)}, <span>{totalDuration}</span>
                 </span>
             </PageHeader>
+
             <PageControls>
                 <PlaybackToggle size="large" />
                 <HeartButton size="medium" />
                 <MoreOptionsButton label={`More options for album: '${name}'`} size="medium" />
             </PageControls>
+
+            {formattedReleaseDate}
+
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
         </Wrapper>

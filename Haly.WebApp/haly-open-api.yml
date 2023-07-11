@@ -631,11 +631,14 @@ components:
       required:
         - artists
         - copyrights
+        - formattedReleaseDate
         - id
         - name
         - releaseDate
+        - releaseYear
         - tracks
         - type
+        - typeName
       type: object
       properties:
         id:
@@ -662,6 +665,16 @@ components:
         releaseDate:
           type: string
           format: date
+        typeName:
+          type: string
+          readOnly: true
+        releaseYear:
+          type: integer
+          format: int32
+          readOnly: true
+        formattedReleaseDate:
+          type: string
+          readOnly: true
       additionalProperties: false
     AlbumDto:
       required:
@@ -694,9 +707,6 @@ components:
         durationInMs:
           type: integer
           format: int32
-        discNumber:
-          type: integer
-          format: int32
         artists:
           type: array
           items:
@@ -704,6 +714,9 @@ components:
         duration:
           type: string
           readOnly: true
+        discNumber:
+          type: integer
+          format: int32
       additionalProperties: false
     AlbumType:
       enum:
@@ -852,6 +865,11 @@ components:
         owner:
           $ref: '#/components/schemas/OwnerDto'
       additionalProperties: false
+    PlaylistTrackType:
+      enum:
+        - Song
+        - Podcast
+      type: string
     PlaylistWithTracksDto:
       required:
         - id
@@ -963,7 +981,7 @@ components:
           type: string
           format: date-time
         type:
-          $ref: '#/components/schemas/TrackType'
+          $ref: '#/components/schemas/PlaylistTrackType'
         album:
           $ref: '#/components/schemas/AlbumDto'
         artists:
@@ -993,11 +1011,6 @@ components:
           items:
             $ref: '#/components/schemas/TrackDto'
       additionalProperties: false
-    TrackType:
-      enum:
-        - Song
-        - Podcast
-      type: string
     ValidationProblem:
       required:
         - errors

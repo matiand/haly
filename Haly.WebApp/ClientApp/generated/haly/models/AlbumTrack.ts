@@ -46,12 +46,6 @@ export interface AlbumTrack {
     durationInMs: number;
     /**
      * 
-     * @type {number}
-     * @memberof AlbumTrack
-     */
-    discNumber: number;
-    /**
-     * 
      * @type {Array<ArtistBrief>}
      * @memberof AlbumTrack
      */
@@ -62,6 +56,12 @@ export interface AlbumTrack {
      * @memberof AlbumTrack
      */
     readonly duration: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AlbumTrack
+     */
+    discNumber: number;
 }
 
 /**
@@ -71,9 +71,9 @@ export function instanceOfAlbumTrack(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "durationInMs" in value;
-    isInstance = isInstance && "discNumber" in value;
     isInstance = isInstance && "artists" in value;
     isInstance = isInstance && "duration" in value;
+    isInstance = isInstance && "discNumber" in value;
 
     return isInstance;
 }
@@ -91,9 +91,9 @@ export function AlbumTrackFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'spotifyId': !exists(json, 'spotifyId') ? undefined : json['spotifyId'],
         'name': json['name'],
         'durationInMs': json['durationInMs'],
-        'discNumber': json['discNumber'],
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefFromJSON)),
         'duration': json['duration'],
+        'discNumber': json['discNumber'],
     };
 }
 
@@ -109,8 +109,8 @@ export function AlbumTrackToJSON(value?: AlbumTrack | null): any {
         'spotifyId': value.spotifyId,
         'name': value.name,
         'durationInMs': value.durationInMs,
-        'discNumber': value.discNumber,
         'artists': ((value.artists as Array<any>).map(ArtistBriefToJSON)),
+        'discNumber': value.discNumber,
     };
 }
 

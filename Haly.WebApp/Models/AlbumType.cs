@@ -5,5 +5,5 @@ public enum AlbumType
     Album,
     OneSong,
     Ep,
-    Compilation
+    Compilation,
 }

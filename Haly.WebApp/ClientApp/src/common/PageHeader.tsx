@@ -8,12 +8,13 @@ import { styled } from "./theme";
 type PageHeaderProps = {
     title: string;
     type: "Playlist" | "Profile" | "Album" | "Artist";
+    subtitle?: string;
     imageUrl?: PlaylistMetadataDto["imageUrl"];
     description?: PlaylistMetadataDto["description"];
     children?: React.ReactNode;
 };
 
-function PageHeader({ title, type, imageUrl, description, children }: PageHeaderProps) {
+function PageHeader({ title, type, subtitle, imageUrl, description, children }: PageHeaderProps) {
     const hasRoundedImage = type === "Profile" || type === "Artist";
     const altImageText = `${title} ${type.toLocaleLowerCase()} image`;
 
@@ -21,7 +22,7 @@ function PageHeader({ title, type, imageUrl, description, children }: PageHeader
         <Wrapper>
             <HeaderImage imageUrl={imageUrl} alt={altImageText} isRounded={hasRoundedImage} />
             <PlaylistInfo>
-                <Subtitle>{type}</Subtitle>
+                <Subtitle>{subtitle ?? type}</Subtitle>
                 <HeaderTitle name={title} />
                 {description && <Description>{description}</Description>}
                 <Details>{children}</Details>
@@ -55,6 +56,7 @@ const PlaylistInfo = styled("div", {
 const Subtitle = styled("h2", {
     fontSize: "$200",
     fontWeight: 700,
+    letterSpacing: "0.02em",
     marginBottom: "$200",
 });
 
@@ -70,6 +72,7 @@ const Details = styled("div", {
     flexWrap: "wrap",
     fontSize: "$200",
     fontWeight: 500,
+    letterSpacing: "0.02em",
     marginTop: "$400",
 
     "& > span > a": {

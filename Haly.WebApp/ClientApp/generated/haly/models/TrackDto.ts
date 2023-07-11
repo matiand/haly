@@ -25,12 +25,12 @@ import {
     ArtistDtoFromJSONTyped,
     ArtistDtoToJSON,
 } from './ArtistDto';
-import type { TrackType } from './TrackType';
+import type { PlaylistTrackType } from './PlaylistTrackType';
 import {
-    TrackTypeFromJSON,
-    TrackTypeFromJSONTyped,
-    TrackTypeToJSON,
-} from './TrackType';
+    PlaylistTrackTypeFromJSON,
+    PlaylistTrackTypeFromJSONTyped,
+    PlaylistTrackTypeToJSON,
+} from './PlaylistTrackType';
 
 /**
  * 
@@ -64,10 +64,10 @@ export interface TrackDto {
     addedAt: Date;
     /**
      * 
-     * @type {TrackType}
+     * @type {PlaylistTrackType}
      * @memberof TrackDto
      */
-    type: TrackType;
+    type: PlaylistTrackType;
     /**
      * 
      * @type {AlbumDto}
@@ -112,7 +112,7 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'name': json['name'],
         'duration': json['duration'],
         'addedAt': (new Date(json['addedAt'])),
-        'type': TrackTypeFromJSON(json['type']),
+        'type': PlaylistTrackTypeFromJSON(json['type']),
         'album': AlbumDtoFromJSON(json['album']),
         'artists': ((json['artists'] as Array<any>).map(ArtistDtoFromJSON)),
     };
@@ -131,7 +131,7 @@ export function TrackDtoToJSON(value?: TrackDto | null): any {
         'name': value.name,
         'duration': value.duration,
         'addedAt': (value.addedAt.toISOString()),
-        'type': TrackTypeToJSON(value.type),
+        'type': PlaylistTrackTypeToJSON(value.type),
         'album': AlbumDtoToJSON(value.album),
         'artists': ((value.artists as Array<any>).map(ArtistDtoToJSON)),
     };

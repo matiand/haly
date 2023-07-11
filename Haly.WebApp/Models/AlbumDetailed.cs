@@ -1,13 +1,32 @@
+using System.Globalization;
+
 namespace Haly.WebApp.Models;
 
 public record AlbumDetailed
 {
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public string? ImageUrl { get; set; }
-    public AlbumType Type { get; set; }
-    public List<ArtistBrief> Artists { get; set; }
+    public string Id { get; init; }
+    public string Name { get; init; }
+    public string? ImageUrl { get; init; }
+    public AlbumType Type { get; init; }
+    public List<ArtistBrief> Artists { get; init; }
     public List<AlbumTrack> Tracks { get; set; }
-    public List<string> Copyrights { get; set; }
-    public DateOnly ReleaseDate { get; set; }
+    public List<string> Copyrights { get; init; }
+    public DateOnly ReleaseDate { get; init; }
+
+    public string TypeName => Type switch
+    {
+        AlbumType.Album => "Album",
+        AlbumType.OneSong => "Single",
+        AlbumType.Ep => "EP",
+        _ => "Compilation",
+    };
+
+    public int ReleaseYear => ReleaseDate.Year;
+
+    public string FormattedReleaseDate =>
+        ReleaseDate switch
+        {
+            { Day: 1, Month: 1 } => ReleaseDate.ToString("yyyy", CultureInfo.InvariantCulture),
+            _ => ReleaseDate.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture),
+        };
 }

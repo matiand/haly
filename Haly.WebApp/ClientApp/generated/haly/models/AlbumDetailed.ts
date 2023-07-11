@@ -86,6 +86,24 @@ export interface AlbumDetailed {
      * @memberof AlbumDetailed
      */
     releaseDate: Date;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlbumDetailed
+     */
+    readonly typeName: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AlbumDetailed
+     */
+    readonly releaseYear: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlbumDetailed
+     */
+    readonly formattedReleaseDate: string;
 }
 
 /**
@@ -100,6 +118,9 @@ export function instanceOfAlbumDetailed(value: object): boolean {
     isInstance = isInstance && "tracks" in value;
     isInstance = isInstance && "copyrights" in value;
     isInstance = isInstance && "releaseDate" in value;
+    isInstance = isInstance && "typeName" in value;
+    isInstance = isInstance && "releaseYear" in value;
+    isInstance = isInstance && "formattedReleaseDate" in value;
 
     return isInstance;
 }
@@ -122,6 +143,9 @@ export function AlbumDetailedFromJSONTyped(json: any, ignoreDiscriminator: boole
         'tracks': ((json['tracks'] as Array<any>).map(AlbumTrackFromJSON)),
         'copyrights': json['copyrights'],
         'releaseDate': (new Date(json['releaseDate'])),
+        'typeName': json['typeName'],
+        'releaseYear': json['releaseYear'],
+        'formattedReleaseDate': json['formattedReleaseDate'],
     };
 }
 

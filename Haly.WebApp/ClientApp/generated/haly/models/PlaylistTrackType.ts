@@ -17,22 +17,22 @@
  * 
  * @export
  */
-export const TrackType = {
+export const PlaylistTrackType = {
     Song: 'Song',
     Podcast: 'Podcast'
 } as const;
-export type TrackType = typeof TrackType[keyof typeof TrackType];
+export type PlaylistTrackType = typeof PlaylistTrackType[keyof typeof PlaylistTrackType];
 
 
-export function TrackTypeFromJSON(json: any): TrackType {
-    return TrackTypeFromJSONTyped(json, false);
+export function PlaylistTrackTypeFromJSON(json: any): PlaylistTrackType {
+    return PlaylistTrackTypeFromJSONTyped(json, false);
 }
 
-export function TrackTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): TrackType {
-    return json as TrackType;
+export function PlaylistTrackTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistTrackType {
+    return json as PlaylistTrackType;
 }
 
-export function TrackTypeToJSON(value?: TrackType | null): any {
+export function PlaylistTrackTypeToJSON(value?: PlaylistTrackType | null): any {
     return value as any;
 }
 
