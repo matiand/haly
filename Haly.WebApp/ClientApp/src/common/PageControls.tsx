@@ -1,5 +1,6 @@
 import React from "react";
 
+import { PlaybackToggleStyledClass } from "../playback/PlaybackToggle";
 import { styled } from "./theme";
 
 type PageControlsProps = {
@@ -15,16 +16,17 @@ const Wrapper = styled("div", {
     display: "flex",
     padding: "$700 0",
 
-    "& > :first-child": {
-        marginRight: "$800",
+    "& > *": {
+        marginRight: "$700",
     },
 
-    "& > :nth-child(2)": {
-        marginRight: "$700",
+    [`& > ${PlaybackToggleStyledClass}`]: {
+        marginRight: "$800",
     },
 
     "& > form": {
         marginLeft: "auto",
+        marginRight: "unset",
     },
 });
 

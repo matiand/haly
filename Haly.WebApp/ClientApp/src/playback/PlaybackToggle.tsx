@@ -90,3 +90,5 @@ const Button = styled("button", {
 });
 
 export default PlaybackToggle;
+
+export { Button as PlaybackToggleStyledClass };

@@ -35,6 +35,7 @@ function Album() {
         copyrights,
     } = query.data;
     const dominantColor = dominantColors[imageUrl ?? ""];
+    const isPlayable = tracks.some((t) => t.isPlayable);
 
     return (
         <Wrapper>
@@ -56,7 +57,7 @@ function Album() {
             </PageHeader>
 
             <PageControls>
-                <PlaybackToggle size="large" />
+                {isPlayable && <PlaybackToggle size="large" />}
                 <HeartButton size="medium" />
                 <MoreOptionsButton label={`More options for album: '${name}'`} size="medium" />
             </PageControls>
