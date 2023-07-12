@@ -13,30 +13,30 @@ function TrackInformation({ track, type }: TrackInformationProps) {
     const { name, type: trackType, album, artists, isExplicit } = track;
 
     const showExplicitMark = isExplicit && type === "cell";
+    const showArtists = trackType === "Song";
 
     return (
         <Wrapper>
             <TrackCoverImage type={type} imageUrl={album.imageUrl} />
-            <TrackContents type={type}>
-                <div className="line-clamp-ellipsis">{name}</div>
+            <Grid type={type}>
+                <Title className="line-clamp-ellipsis">{name}</Title>
 
-                {trackType === "Song" && (
-                    <Artists>
-                        {showExplicitMark && (
-                            <span aria-label="Explicit" title="Explicit">
-                                E
-                            </span>
-                        )}
-                        <span className="line-clamp-ellipsis">
-                            {artists.map(({ name, id }) => (
-                                <Link key={id} to={`/artist/${id}`}>
-                                    {name}
-                                </Link>
-                            ))}
-                        </span>
-                    </Artists>
+                {showExplicitMark && (
+                    <Explicit aria-label="Explicit" title="Explicit">
+                        E
+                    </Explicit>
                 )}
-            </TrackContents>
+
+                {showArtists && (
+                    <Subtitle className="line-clamp-ellipsis">
+                        {artists.map(({ name, id }) => (
+                            <Link key={id} to={`/artist/${id}`}>
+                                {name}
+                            </Link>
+                        ))}
+                    </Subtitle>
+                )}
+            </Grid>
         </Wrapper>
     );
 }
@@ -50,58 +50,74 @@ const Wrapper = styled("div", {
     },
 });
 
-const Artists = styled("div", {
-    alignItems: "center",
-    display: "flex",
-    gap: "8px",
+const Grid = styled("div", {
+    variants: {
+        type: {
+            playback: {
+                fontSize: "$200",
+                letterSpacing: "-0.005em",
+                userSelect: "none",
 
-    "& > span[aria-label=Explicit]": {
-        background: "$explicitMarkBg",
-        borderRadius: "2px",
-        color: "$black600",
-        fontSize: "8px",
-        lineHeight: 1,
-        padding: "$200",
+                "& a": {
+                    fontSize: "$50",
+
+                    "&:hover": {
+                        color: "$white800",
+                    },
+                },
+            },
+            cell: {
+                height: "calc($collectionRowHeight * 0.9)",
+                paddingRight: "$400",
+            },
+        },
     },
 
-    "& a": {
+    alignItems: "center",
+    color: "$white800",
+    display: "grid",
+    gridTemplateAreas: `"title title"
+                        "explicit subtitle"`,
+    gridTemplateColumns: "auto 1fr",
+    fontSize: "$350",
+    fontWeight: "500",
+});
+
+const Title = styled("div", {
+    gridArea: "title",
+});
+
+const Explicit = styled("span", {
+    background: "$explicitMarkBg",
+    borderRadius: "2px",
+    color: "$black600",
+    fontSize: "8px",
+    gridArea: "explicit",
+    lineHeight: 1,
+    marginRight: "$400",
+    padding: "$200",
+});
+
+const Subtitle = styled("span", {
+    alignSelf: "baseline",
+    gridArea: "subtitle",
+
+    "& > a": {
         color: "$white500",
+        display: "inline-block",
         fontSize: "$200",
         textDecoration: "none",
 
         "&:hover": {
             textDecoration: "underline",
         },
-    },
-    "& a:not(:last-child):after": {
-        content: ", ",
-        display: "inline-block",
-        width: "0.6em",
-    },
-});
 
-const TrackContents = styled("div", {
-    variants: {
-        type: {
-            playback: {
-                fontSize: "$200",
-                lineHeight: 1.5,
-
-                "& a": {
-                    fontSize: "$50",
-                },
-            },
-            cell: {
-                paddingRight: "$400",
-            },
+        "&:not(:last-child):after": {
+            content: ", ",
+            display: "inline-block",
+            width: "0.6em",
         },
     },
-
-    color: "$white800",
-    display: "flex",
-    flexFlow: "column",
-    fontSize: "$350",
-    fontWeight: "500",
 });
 
 export default TrackInformation;

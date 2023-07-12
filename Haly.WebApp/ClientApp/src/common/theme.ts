@@ -67,6 +67,7 @@ export const theme = {
         900: "3rem",
     },
     sizes: {
+        collectionRowHeight: "56px",
         majorCollectionBackgroundHeight: "304px",
         minorCollectionBackgroundHeight: "230px",
         navIconSize: "24px",

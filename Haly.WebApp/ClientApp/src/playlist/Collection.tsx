@@ -117,7 +117,7 @@ const TBody = styled("tbody", {
         display: "grid",
         gridGap: "$600",
         gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
-        height: "56px",
+        height: "$collectionRowHeight",
         padding: "0 $600",
 
         "& > td": {
