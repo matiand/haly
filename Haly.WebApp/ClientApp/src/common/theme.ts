@@ -28,6 +28,7 @@ export const theme = {
         collectionTableHeadBorder: "rgba(255, 255, 255, 0.1)",
         trackHover: "rgba(255, 255, 255, 0.1)",
         userMenuMask: "rgba(0, 0, 0, 0.6)",
+        explicitMarkBg: "rgba(255, 255, 255, 0.6)",
 
         dominantDefault: "#535353",
         // 'Liked Songs' purple
