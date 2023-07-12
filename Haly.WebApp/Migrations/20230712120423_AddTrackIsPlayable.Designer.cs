@@ -14,8 +14,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Haly.WebApp.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20230426140332_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230712120423_AddTrackIsPlayable")]
+    partial class AddTrackIsPlayable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,7 @@ namespace Haly.WebApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "plan", new[] { "free", "premium" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "track_type", new[] { "song", "podcast" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "playlist_track_type", new[] { "song", "podcast" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Haly.WebApp.Models.Jobs.RefetchPlaylistTracksJob", b =>
@@ -74,7 +74,7 @@ namespace Haly.WebApp.Migrations
                     b.ToTable("Playlists");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.PlaylistTrack", b =>
                 {
                     b.Property<string>("PlaylistId")
                         .HasColumnType("text");
@@ -96,6 +96,12 @@ namespace Haly.WebApp.Migrations
                     b.Property<int>("DurationInMs")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsExplicit")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPlayable")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -104,14 +110,14 @@ namespace Haly.WebApp.Migrations
                         .HasColumnType("text");
 
                     b.Property<PlaylistTrackType>("Type")
-                        .HasColumnType("track_type");
+                        .HasColumnType("playlist_track_type");
 
                     b.HasKey("PlaylistId", "PositionInPlaylist");
 
-                    b.ToTable("Tracks");
+                    b.ToTable("PlaylistTracks");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.User", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.PrivateUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -138,7 +144,7 @@ namespace Haly.WebApp.Migrations
 
             modelBuilder.Entity("Haly.WebApp.Models.Jobs.RefetchPlaylistTracksJob", b =>
                 {
-                    b.HasOne("Haly.WebApp.Models.User", "User")
+                    b.HasOne("Haly.WebApp.Models.PrivateUser", "User")
                         .WithMany("RefetchPlaylistTracksJobs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -147,7 +153,7 @@ namespace Haly.WebApp.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.Track", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.PlaylistTrack", b =>
                 {
                     b.HasOne("Haly.WebApp.Models.Playlist", null)
                         .WithMany("Tracks")
@@ -161,7 +167,7 @@ namespace Haly.WebApp.Migrations
                     b.Navigation("Tracks");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.User", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.PrivateUser", b =>
                 {
                     b.Navigation("RefetchPlaylistTracksJobs");
                 });

@@ -16,7 +16,7 @@ namespace Haly.WebApp.Migrations
         {
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:plan", "free,premium")
-                .Annotation("Npgsql:Enum:track_type", "song,podcast");
+                .Annotation("Npgsql:Enum:playlist_track_type", "song,podcast");
 
             migrationBuilder.CreateTable(
                 name: "Playlists",
@@ -48,24 +48,25 @@ namespace Haly.WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tracks",
+                name: "PlaylistTracks",
                 columns: table => new
                 {
                     PlaylistId = table.Column<string>(type: "text", nullable: false),
                     PositionInPlaylist = table.Column<int>(type: "integer", nullable: false),
+                    AddedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Type = table.Column<PlaylistTrackType>(type: "playlist_track_type", nullable: false),
+                    Album = table.Column<AlbumBrief>(type: "jsonb", nullable: false),
                     SpotifyId = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DurationInMs = table.Column<int>(type: "integer", nullable: false),
-                    AddedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    Type = table.Column<PlaylistTrackType>(type: "track_type", nullable: false),
-                    Album = table.Column<AlbumBrief>(type: "jsonb", nullable: false),
+                    IsExplicit = table.Column<bool>(type: "boolean", nullable: false),
                     Artists = table.Column<List<ArtistBrief>>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tracks", x => new { x.PlaylistId, x.PositionInPlaylist });
+                    table.PrimaryKey("PK_PlaylistTracks", x => new { x.PlaylistId, x.PositionInPlaylist });
                     table.ForeignKey(
-                        name: "FK_Tracks_Playlists_PlaylistId",
+                        name: "FK_PlaylistTracks_Playlists_PlaylistId",
                         column: x => x.PlaylistId,
                         principalTable: "Playlists",
                         principalColumn: "Id",
@@ -102,16 +103,16 @@ namespace Haly.WebApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "PlaylistTracks");
+
+            migrationBuilder.DropTable(
                 name: "RefetchPlaylistTracksJobs");
 
             migrationBuilder.DropTable(
-                name: "Tracks");
+                name: "Playlists");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Playlists");
         }
     }
 }
