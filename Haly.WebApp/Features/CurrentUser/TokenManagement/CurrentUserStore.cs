@@ -1,3 +1,6 @@
+using Haly.WebApp.Models;
+using Mapster;
+
 namespace Haly.WebApp.Features.CurrentUser.TokenManagement;
 
 public class CurrentUserStore
@@ -7,9 +10,9 @@ public class CurrentUserStore
 
     public bool IsEmpty => User is null || string.IsNullOrEmpty(Token);
 
-    public void Update(string token, PrivateUserDto userDto)
+    public void Update(string token, PrivateUser user)
     {
         Token = token;
-        User = userDto;
+        User = user.Adapt<PrivateUserDto>();
     }
 }

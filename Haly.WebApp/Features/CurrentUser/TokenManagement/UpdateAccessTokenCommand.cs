@@ -26,7 +26,7 @@ public class UpdateAccessTokenHandler : IRequestHandler<UpdateAccessTokenCommand
         var spotifyClient = new GeneratedSpotifyClient(innerClient);
 
         var user = await spotifyClient.GetCurrentUsersProfileAsync(cancellationToken);
-        _currentUserStore.Update(request.Token, user.Adapt<PrivateUserDto>());
+        _currentUserStore.Update(request.Token, user.Adapt<PrivateUser>());
 
         return user.Adapt<PrivateUser>();
     }
