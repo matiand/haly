@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ArtistDto
+ * @interface OwnerBriefDto
  */
-export interface ArtistDto {
+export interface OwnerBriefDto {
     /**
      * 
      * @type {string}
-     * @memberof ArtistDto
+     * @memberof OwnerBriefDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof ArtistDto
+     * @memberof OwnerBriefDto
      */
     name: string;
 }
 
 /**
- * Check if a given object implements the ArtistDto interface.
+ * Check if a given object implements the OwnerBriefDto interface.
  */
-export function instanceOfArtistDto(value: object): boolean {
+export function instanceOfOwnerBriefDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -44,11 +44,11 @@ export function instanceOfArtistDto(value: object): boolean {
     return isInstance;
 }
 
-export function ArtistDtoFromJSON(json: any): ArtistDto {
-    return ArtistDtoFromJSONTyped(json, false);
+export function OwnerBriefDtoFromJSON(json: any): OwnerBriefDto {
+    return OwnerBriefDtoFromJSONTyped(json, false);
 }
 
-export function ArtistDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArtistDto {
+export function OwnerBriefDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): OwnerBriefDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function ArtistDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ArtistDtoToJSON(value?: ArtistDto | null): any {
+export function OwnerBriefDtoToJSON(value?: OwnerBriefDto | null): any {
     if (value === undefined) {
         return undefined;
     }

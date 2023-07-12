@@ -1,11 +1,11 @@
 import { CellContext } from "@tanstack/react-table";
 
-import { TrackDto } from "../../generated/haly";
+import { PlaylistTrackDto } from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import { styled } from "../common/theme";
 
-function TrackDurationCell(ctx: CellContext<TrackDto, unknown>) {
+function TrackDurationCell(ctx: CellContext<PlaylistTrackDto, unknown>) {
     const track = ctx.row.original;
 
     return (

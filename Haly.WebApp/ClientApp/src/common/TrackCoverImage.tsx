@@ -1,9 +1,9 @@
-import { AlbumDto } from "../../generated/haly";
+import { AlbumBriefDto } from "../../generated/haly";
 import EmptyCoverImage from "./EmptyCoverImage";
 import { styled } from "./theme";
 
 type CoverImageProps = {
-    imageUrl: AlbumDto["imageUrl"];
+    imageUrl: AlbumBriefDto["imageUrl"];
     type: "cell" | "playback";
 };
 

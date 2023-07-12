@@ -1,6 +1,6 @@
 import { Cell, ColumnDef, flexRender, getCoreRowModel, Header, useReactTable } from "@tanstack/react-table";
 
-import { TrackDto } from "../../generated/haly";
+import { PlaylistTrackDto } from "../../generated/haly";
 import TrackAlbumCell from "./TrackAlbumCell";
 import TrackDateAddedCell from "./TrackDateAddedCell";
 import TrackDurationCell from "./TrackDurationCell";
@@ -8,7 +8,7 @@ import TrackDurationHeader from "./TrackDurationHeader";
 import TrackIndexCell from "./TrackIndexCell";
 import TrackInformation from "./TrackInformation";
 
-const columns: ColumnDef<TrackDto>[] = [
+const columns: ColumnDef<PlaylistTrackDto>[] = [
     {
         header: "#",
         cell: TrackIndexCell,
@@ -35,7 +35,7 @@ const columns: ColumnDef<TrackDto>[] = [
     },
 ];
 
-function useTrackCollection(data: TrackDto[]) {
+function useTrackCollection(data: PlaylistTrackDto[]) {
     // const data = useMemo(() => items, []);
     // const columns = useMemo(() => columnDefinitions, []);
 
@@ -45,8 +45,9 @@ function useTrackCollection(data: TrackDto[]) {
             columns,
             getCoreRowModel: getCoreRowModel(),
         }),
-        renderRowCell: (cell: Cell<TrackDto, unknown>) => flexRender(cell.column.columnDef.cell, cell.getContext()),
-        renderHeaderCell: (cell: Header<TrackDto, unknown>) =>
+        renderRowCell: (cell: Cell<PlaylistTrackDto, unknown>) =>
+            flexRender(cell.column.columnDef.cell, cell.getContext()),
+        renderHeaderCell: (cell: Header<PlaylistTrackDto, unknown>) =>
             flexRender(cell.column.columnDef.header, cell.getContext()),
     };
 }

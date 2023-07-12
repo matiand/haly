@@ -1,6 +1,6 @@
 import { LuMonitorSpeaker } from "react-icons/lu";
 
-import { TrackDto } from "../../generated/haly";
+import { PlaylistTrackDto } from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import { styled } from "../common/theme";
 import TrackInformation from "../playlist/TrackInformation";
@@ -98,12 +98,14 @@ const DeviceArrow = styled("div", {
     bottom: "-20px",
 });
 
-const tempTrack: TrackDto = {
+const tempTrack: PlaylistTrackDto = {
     positionInPlaylist: 15,
     name: "Better In College",
     duration: "3:28",
-    addedAt: "2023-06-30T11:31:41+00:00" as any,
+    addedAt: new Date("2023-06-30T11:31:41+00:00"),
     type: "Song",
+    isPlayable: true,
+    isExplicit: true,
     album: {
         id: "7EReSsFM8Grn3bJdjddsd4",
         name: "Walk Like Me",

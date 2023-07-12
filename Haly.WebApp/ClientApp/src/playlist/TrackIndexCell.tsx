@@ -1,10 +1,10 @@
 import { CellContext } from "@tanstack/react-table";
 import { HiPlay } from "react-icons/hi2";
 
-import { TrackDto } from "../../generated/haly";
+import { PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
-function TrackIndexCell(ctx: CellContext<TrackDto, unknown>) {
+function TrackIndexCell(ctx: CellContext<PlaylistTrackDto, unknown>) {
     const track = ctx.row.original;
     const label = `Play ${track.name}`;
 

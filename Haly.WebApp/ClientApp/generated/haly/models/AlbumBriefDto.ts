@@ -16,27 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface OwnerDto
+ * @interface AlbumBriefDto
  */
-export interface OwnerDto {
+export interface AlbumBriefDto {
     /**
      * 
      * @type {string}
-     * @memberof OwnerDto
+     * @memberof AlbumBriefDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof OwnerDto
+     * @memberof AlbumBriefDto
      */
     name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlbumBriefDto
+     */
+    imageUrl?: string | null;
 }
 
 /**
- * Check if a given object implements the OwnerDto interface.
+ * Check if a given object implements the AlbumBriefDto interface.
  */
-export function instanceOfOwnerDto(value: object): boolean {
+export function instanceOfAlbumBriefDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -44,11 +50,11 @@ export function instanceOfOwnerDto(value: object): boolean {
     return isInstance;
 }
 
-export function OwnerDtoFromJSON(json: any): OwnerDto {
-    return OwnerDtoFromJSONTyped(json, false);
+export function AlbumBriefDtoFromJSON(json: any): AlbumBriefDto {
+    return AlbumBriefDtoFromJSONTyped(json, false);
 }
 
-export function OwnerDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): OwnerDto {
+export function AlbumBriefDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AlbumBriefDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -56,10 +62,11 @@ export function OwnerDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': json['id'],
         'name': json['name'],
+        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
     };
 }
 
-export function OwnerDtoToJSON(value?: OwnerDto | null): any {
+export function AlbumBriefDtoToJSON(value?: AlbumBriefDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,6 +77,7 @@ export function OwnerDtoToJSON(value?: OwnerDto | null): any {
         
         'id': value.id,
         'name': value.name,
+        'imageUrl': value.imageUrl,
     };
 }
 

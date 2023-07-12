@@ -6,8 +6,6 @@ import {
     PlayerApi,
     PlaylistsApi,
     Problem,
-    TrackDto,
-    TrackDtoPaginatedList,
     UsersApi,
 } from "../generated/haly";
 
@@ -24,5 +22,3 @@ export default {
         return typeof obj == "object" && obj !== null && "type" in obj && "status" in obj && "title" in obj;
     },
 };
-
-export type { TrackDto, TrackDtoPaginatedList };

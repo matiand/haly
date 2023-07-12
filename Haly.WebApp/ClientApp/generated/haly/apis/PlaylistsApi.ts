@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
+  PlaylistTrackDtoPaginatedList,
   PlaylistWithTracksDto,
   Problem,
-  TrackDtoPaginatedList,
   ValidationProblem,
 } from '../models';
 import {
+    PlaylistTrackDtoPaginatedListFromJSON,
+    PlaylistTrackDtoPaginatedListToJSON,
     PlaylistWithTracksDtoFromJSON,
     PlaylistWithTracksDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
-    TrackDtoPaginatedListFromJSON,
-    TrackDtoPaginatedListToJSON,
     ValidationProblemFromJSON,
     ValidationProblemToJSON,
 } from '../models';
@@ -86,7 +86,7 @@ export class PlaylistsApi extends runtime.BaseAPI {
      * Get playlist\'s tracks from our cache
      * Get playlist\'s tracks
      */
-    async getTracksRaw(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TrackDtoPaginatedList>> {
+    async getTracksRaw(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistTrackDtoPaginatedList>> {
         if (requestParameters.playlistId === null || requestParameters.playlistId === undefined) {
             throw new runtime.RequiredError('playlistId','Required parameter requestParameters.playlistId was null or undefined when calling getTracks.');
         }
@@ -110,14 +110,14 @@ export class PlaylistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TrackDtoPaginatedListFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistTrackDtoPaginatedListFromJSON(jsonValue));
     }
 
     /**
      * Get playlist\'s tracks from our cache
      * Get playlist\'s tracks
      */
-    async getTracks(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TrackDtoPaginatedList> {
+    async getTracks(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistTrackDtoPaginatedList> {
         const response = await this.getTracksRaw(requestParameters, initOverrides);
         return await response.value();
     }

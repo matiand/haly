@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AlbumTrack } from './AlbumTrack';
+import type { AlbumTrackDto } from './AlbumTrackDto';
 import {
-    AlbumTrackFromJSON,
-    AlbumTrackFromJSONTyped,
-    AlbumTrackToJSON,
-} from './AlbumTrack';
-import type { ArtistBrief } from './ArtistBrief';
+    AlbumTrackDtoFromJSON,
+    AlbumTrackDtoFromJSONTyped,
+    AlbumTrackDtoToJSON,
+} from './AlbumTrackDto';
+import type { ArtistBriefDto } from './ArtistBriefDto';
 import {
-    ArtistBriefFromJSON,
-    ArtistBriefFromJSONTyped,
-    ArtistBriefToJSON,
-} from './ArtistBrief';
+    ArtistBriefDtoFromJSON,
+    ArtistBriefDtoFromJSONTyped,
+    ArtistBriefDtoToJSON,
+} from './ArtistBriefDto';
 
 /**
  * 
@@ -64,16 +64,16 @@ export interface AlbumDetailedDto {
     totalDuration: string;
     /**
      * 
-     * @type {Array<ArtistBrief>}
+     * @type {Array<ArtistBriefDto>}
      * @memberof AlbumDetailedDto
      */
-    artists: Array<ArtistBrief>;
+    artists: Array<ArtistBriefDto>;
     /**
      * 
-     * @type {Array<AlbumTrack>}
+     * @type {Array<AlbumTrackDto>}
      * @memberof AlbumDetailedDto
      */
-    tracks: Array<AlbumTrack>;
+    tracks: Array<AlbumTrackDto>;
     /**
      * 
      * @type {Array<string>}
@@ -127,8 +127,8 @@ export function AlbumDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'typeName': json['typeName'],
         'totalDuration': json['totalDuration'],
-        'artists': ((json['artists'] as Array<any>).map(ArtistBriefFromJSON)),
-        'tracks': ((json['tracks'] as Array<any>).map(AlbumTrackFromJSON)),
+        'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
+        'tracks': ((json['tracks'] as Array<any>).map(AlbumTrackDtoFromJSON)),
         'copyrights': json['copyrights'],
         'releaseYear': json['releaseYear'],
         'formattedReleaseDate': json['formattedReleaseDate'],
@@ -149,8 +149,8 @@ export function AlbumDetailedDtoToJSON(value?: AlbumDetailedDto | null): any {
         'imageUrl': value.imageUrl,
         'typeName': value.typeName,
         'totalDuration': value.totalDuration,
-        'artists': ((value.artists as Array<any>).map(ArtistBriefToJSON)),
-        'tracks': ((value.tracks as Array<any>).map(AlbumTrackToJSON)),
+        'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
+        'tracks': ((value.tracks as Array<any>).map(AlbumTrackDtoToJSON)),
         'copyrights': value.copyrights,
         'releaseYear': value.releaseYear,
         'formattedReleaseDate': value.formattedReleaseDate,

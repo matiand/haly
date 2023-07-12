@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 
-import { TrackDto } from "../../generated/haly";
+import { PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import TrackCoverImage from "../common/TrackCoverImage";
 
 type TrackInformationProps = {
-    track: TrackDto;
+    track: PlaylistTrackDto;
     type: "cell" | "playback";
 };
 

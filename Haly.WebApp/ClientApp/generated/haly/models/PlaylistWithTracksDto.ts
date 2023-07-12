@@ -19,12 +19,12 @@ import {
     PlaylistMetadataDtoFromJSONTyped,
     PlaylistMetadataDtoToJSON,
 } from './PlaylistMetadataDto';
-import type { TrackDtoPaginatedList } from './TrackDtoPaginatedList';
+import type { PlaylistTrackDtoPaginatedList } from './PlaylistTrackDtoPaginatedList';
 import {
-    TrackDtoPaginatedListFromJSON,
-    TrackDtoPaginatedListFromJSONTyped,
-    TrackDtoPaginatedListToJSON,
-} from './TrackDtoPaginatedList';
+    PlaylistTrackDtoPaginatedListFromJSON,
+    PlaylistTrackDtoPaginatedListFromJSONTyped,
+    PlaylistTrackDtoPaginatedListToJSON,
+} from './PlaylistTrackDtoPaginatedList';
 
 /**
  * 
@@ -52,10 +52,10 @@ export interface PlaylistWithTracksDto {
     metadata: PlaylistMetadataDto;
     /**
      * 
-     * @type {TrackDtoPaginatedList}
+     * @type {PlaylistTrackDtoPaginatedList}
      * @memberof PlaylistWithTracksDto
      */
-    tracks: TrackDtoPaginatedList;
+    tracks: PlaylistTrackDtoPaginatedList;
     /**
      * 
      * @type {string}
@@ -91,7 +91,7 @@ export function PlaylistWithTracksDtoFromJSONTyped(json: any, ignoreDiscriminato
         'id': json['id'],
         'name': json['name'],
         'metadata': PlaylistMetadataDtoFromJSON(json['metadata']),
-        'tracks': TrackDtoPaginatedListFromJSON(json['tracks']),
+        'tracks': PlaylistTrackDtoPaginatedListFromJSON(json['tracks']),
         'totalDuration': json['totalDuration'],
     };
 }
@@ -108,7 +108,7 @@ export function PlaylistWithTracksDtoToJSON(value?: PlaylistWithTracksDto | null
         'id': value.id,
         'name': value.name,
         'metadata': PlaylistMetadataDtoToJSON(value.metadata),
-        'tracks': TrackDtoPaginatedListToJSON(value.tracks),
+        'tracks': PlaylistTrackDtoPaginatedListToJSON(value.tracks),
         'totalDuration': value.totalDuration,
     };
 }

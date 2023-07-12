@@ -13,49 +13,49 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { TrackDto } from './TrackDto';
+import type { PlaylistTrackDto } from './PlaylistTrackDto';
 import {
-    TrackDtoFromJSON,
-    TrackDtoFromJSONTyped,
-    TrackDtoToJSON,
-} from './TrackDto';
+    PlaylistTrackDtoFromJSON,
+    PlaylistTrackDtoFromJSONTyped,
+    PlaylistTrackDtoToJSON,
+} from './PlaylistTrackDto';
 
 /**
  * 
  * @export
- * @interface TrackDtoPaginatedList
+ * @interface PlaylistTrackDtoPaginatedList
  */
-export interface TrackDtoPaginatedList {
+export interface PlaylistTrackDtoPaginatedList {
     /**
      * 
      * @type {number}
-     * @memberof TrackDtoPaginatedList
+     * @memberof PlaylistTrackDtoPaginatedList
      */
     limit: number;
     /**
      * 
      * @type {number}
-     * @memberof TrackDtoPaginatedList
+     * @memberof PlaylistTrackDtoPaginatedList
      */
     offset: number;
     /**
      * 
      * @type {number}
-     * @memberof TrackDtoPaginatedList
+     * @memberof PlaylistTrackDtoPaginatedList
      */
     total: number;
     /**
      * 
-     * @type {Array<TrackDto>}
-     * @memberof TrackDtoPaginatedList
+     * @type {Array<PlaylistTrackDto>}
+     * @memberof PlaylistTrackDtoPaginatedList
      */
-    items: Array<TrackDto>;
+    items: Array<PlaylistTrackDto>;
 }
 
 /**
- * Check if a given object implements the TrackDtoPaginatedList interface.
+ * Check if a given object implements the PlaylistTrackDtoPaginatedList interface.
  */
-export function instanceOfTrackDtoPaginatedList(value: object): boolean {
+export function instanceOfPlaylistTrackDtoPaginatedList(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "limit" in value;
     isInstance = isInstance && "offset" in value;
@@ -65,11 +65,11 @@ export function instanceOfTrackDtoPaginatedList(value: object): boolean {
     return isInstance;
 }
 
-export function TrackDtoPaginatedListFromJSON(json: any): TrackDtoPaginatedList {
-    return TrackDtoPaginatedListFromJSONTyped(json, false);
+export function PlaylistTrackDtoPaginatedListFromJSON(json: any): PlaylistTrackDtoPaginatedList {
+    return PlaylistTrackDtoPaginatedListFromJSONTyped(json, false);
 }
 
-export function TrackDtoPaginatedListFromJSONTyped(json: any, ignoreDiscriminator: boolean): TrackDtoPaginatedList {
+export function PlaylistTrackDtoPaginatedListFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistTrackDtoPaginatedList {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,11 +78,11 @@ export function TrackDtoPaginatedListFromJSONTyped(json: any, ignoreDiscriminato
         'limit': json['limit'],
         'offset': json['offset'],
         'total': json['total'],
-        'items': ((json['items'] as Array<any>).map(TrackDtoFromJSON)),
+        'items': ((json['items'] as Array<any>).map(PlaylistTrackDtoFromJSON)),
     };
 }
 
-export function TrackDtoPaginatedListToJSON(value?: TrackDtoPaginatedList | null): any {
+export function PlaylistTrackDtoPaginatedListToJSON(value?: PlaylistTrackDtoPaginatedList | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -94,7 +94,7 @@ export function TrackDtoPaginatedListToJSON(value?: TrackDtoPaginatedList | null
         'limit': value.limit,
         'offset': value.offset,
         'total': value.total,
-        'items': ((value.items as Array<any>).map(TrackDtoToJSON)),
+        'items': ((value.items as Array<any>).map(PlaylistTrackDtoToJSON)),
     };
 }
 

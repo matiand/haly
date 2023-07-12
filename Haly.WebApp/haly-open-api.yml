@@ -528,7 +528,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackDtoPaginatedList'
+                $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
         '400':
           description: Bad request
           content:
@@ -627,6 +627,20 @@ paths:
                 $ref: '#/components/schemas/Problem'
 components:
   schemas:
+    AlbumBriefDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+      additionalProperties: false
     AlbumDetailedDto:
       required:
         - artists
@@ -654,11 +668,11 @@ components:
         artists:
           type: array
           items:
-            $ref: '#/components/schemas/ArtistBrief'
+            $ref: '#/components/schemas/ArtistBriefDto'
         tracks:
           type: array
           items:
-            $ref: '#/components/schemas/AlbumTrack'
+            $ref: '#/components/schemas/AlbumTrackDto'
         copyrights:
           type: array
           items:
@@ -668,49 +682,29 @@ components:
         formattedReleaseDate:
           type: string
       additionalProperties: false
-    AlbumDto:
-      required:
-        - id
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
-      additionalProperties: false
-    AlbumTrack:
+    AlbumTrackDto:
       required:
         - artists
-        - discNumber
         - duration
-        - durationInMs
+        - isExplicit
+        - isPlayable
         - name
       type: object
       properties:
-        spotifyId:
-          type: string
-          nullable: true
         name:
           type: string
-        durationInMs:
-          type: integer
-          format: int32
+        duration:
+          type: string
+        isPlayable:
+          type: boolean
+        isExplicit:
+          type: boolean
         artists:
           type: array
           items:
-            $ref: '#/components/schemas/ArtistBrief'
-        duration:
-          type: string
-          readOnly: true
-        discNumber:
-          type: integer
-          format: int32
+            $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
-    ArtistBrief:
+    ArtistBriefDto:
       required:
         - id
         - name
@@ -743,17 +737,6 @@ components:
         followersTotal:
           type: integer
           format: int32
-      additionalProperties: false
-    ArtistDto:
-      required:
-        - id
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
       additionalProperties: false
     CreatorType:
       enum:
@@ -796,7 +779,7 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    OwnerDto:
+    OwnerBriefDto:
       required:
         - id
         - name
@@ -848,7 +831,65 @@ components:
           type: integer
           format: int32
         owner:
-          $ref: '#/components/schemas/OwnerDto'
+          $ref: '#/components/schemas/OwnerBriefDto'
+      additionalProperties: false
+    PlaylistTrackDto:
+      required:
+        - addedAt
+        - album
+        - artists
+        - duration
+        - isExplicit
+        - isPlayable
+        - name
+        - positionInPlaylist
+        - type
+      type: object
+      properties:
+        positionInPlaylist:
+          type: integer
+          format: int32
+        name:
+          type: string
+        duration:
+          type: string
+        isPlayable:
+          type: boolean
+        isExplicit:
+          type: boolean
+        addedAt:
+          type: string
+          format: date-time
+        type:
+          $ref: '#/components/schemas/PlaylistTrackType'
+        album:
+          $ref: '#/components/schemas/AlbumBriefDto'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistBriefDto'
+      additionalProperties: false
+    PlaylistTrackDtoPaginatedList:
+      required:
+        - items
+        - limit
+        - offset
+        - total
+      type: object
+      properties:
+        limit:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaylistTrackDto'
       additionalProperties: false
     PlaylistTrackType:
       enum:
@@ -871,7 +912,7 @@ components:
         metadata:
           $ref: '#/components/schemas/PlaylistMetadataDto'
         tracks:
-          $ref: '#/components/schemas/TrackDtoPaginatedList'
+          $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
         totalDuration:
           type: string
       additionalProperties: false
@@ -943,58 +984,6 @@ components:
           type: array
           items:
             type: string
-      additionalProperties: false
-    TrackDto:
-      required:
-        - addedAt
-        - album
-        - artists
-        - duration
-        - name
-        - positionInPlaylist
-        - type
-      type: object
-      properties:
-        positionInPlaylist:
-          type: integer
-          format: int32
-        name:
-          type: string
-        duration:
-          type: string
-        addedAt:
-          type: string
-          format: date-time
-        type:
-          $ref: '#/components/schemas/PlaylistTrackType'
-        album:
-          $ref: '#/components/schemas/AlbumDto'
-        artists:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArtistDto'
-      additionalProperties: false
-    TrackDtoPaginatedList:
-      required:
-        - items
-        - limit
-        - offset
-        - total
-      type: object
-      properties:
-        limit:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int32
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/TrackDto'
       additionalProperties: false
     ValidationProblem:
       required:

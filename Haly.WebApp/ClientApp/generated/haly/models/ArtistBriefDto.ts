@@ -16,33 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface AlbumDto
+ * @interface ArtistBriefDto
  */
-export interface AlbumDto {
+export interface ArtistBriefDto {
     /**
      * 
      * @type {string}
-     * @memberof AlbumDto
+     * @memberof ArtistBriefDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof AlbumDto
+     * @memberof ArtistBriefDto
      */
     name: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AlbumDto
-     */
-    imageUrl?: string | null;
 }
 
 /**
- * Check if a given object implements the AlbumDto interface.
+ * Check if a given object implements the ArtistBriefDto interface.
  */
-export function instanceOfAlbumDto(value: object): boolean {
+export function instanceOfArtistBriefDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -50,11 +44,11 @@ export function instanceOfAlbumDto(value: object): boolean {
     return isInstance;
 }
 
-export function AlbumDtoFromJSON(json: any): AlbumDto {
-    return AlbumDtoFromJSONTyped(json, false);
+export function ArtistBriefDtoFromJSON(json: any): ArtistBriefDto {
+    return ArtistBriefDtoFromJSONTyped(json, false);
 }
 
-export function AlbumDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AlbumDto {
+export function ArtistBriefDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArtistBriefDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -62,11 +56,10 @@ export function AlbumDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': json['id'],
         'name': json['name'],
-        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
     };
 }
 
-export function AlbumDtoToJSON(value?: AlbumDto | null): any {
+export function ArtistBriefDtoToJSON(value?: ArtistBriefDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -77,7 +70,6 @@ export function AlbumDtoToJSON(value?: AlbumDto | null): any {
         
         'id': value.id,
         'name': value.name,
-        'imageUrl': value.imageUrl,
     };
 }
 

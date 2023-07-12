@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AlbumDto } from './AlbumDto';
+import type { AlbumBriefDto } from './AlbumBriefDto';
 import {
-    AlbumDtoFromJSON,
-    AlbumDtoFromJSONTyped,
-    AlbumDtoToJSON,
-} from './AlbumDto';
-import type { ArtistDto } from './ArtistDto';
+    AlbumBriefDtoFromJSON,
+    AlbumBriefDtoFromJSONTyped,
+    AlbumBriefDtoToJSON,
+} from './AlbumBriefDto';
+import type { ArtistBriefDto } from './ArtistBriefDto';
 import {
-    ArtistDtoFromJSON,
-    ArtistDtoFromJSONTyped,
-    ArtistDtoToJSON,
-} from './ArtistDto';
+    ArtistBriefDtoFromJSON,
+    ArtistBriefDtoFromJSONTyped,
+    ArtistBriefDtoToJSON,
+} from './ArtistBriefDto';
 import type { PlaylistTrackType } from './PlaylistTrackType';
 import {
     PlaylistTrackTypeFromJSON,
@@ -35,61 +35,75 @@ import {
 /**
  * 
  * @export
- * @interface TrackDto
+ * @interface PlaylistTrackDto
  */
-export interface TrackDto {
+export interface PlaylistTrackDto {
     /**
      * 
      * @type {number}
-     * @memberof TrackDto
+     * @memberof PlaylistTrackDto
      */
     positionInPlaylist: number;
     /**
      * 
      * @type {string}
-     * @memberof TrackDto
+     * @memberof PlaylistTrackDto
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof TrackDto
+     * @memberof PlaylistTrackDto
      */
     duration: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof PlaylistTrackDto
+     */
+    isPlayable: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PlaylistTrackDto
+     */
+    isExplicit: boolean;
+    /**
+     * 
      * @type {Date}
-     * @memberof TrackDto
+     * @memberof PlaylistTrackDto
      */
     addedAt: Date;
     /**
      * 
      * @type {PlaylistTrackType}
-     * @memberof TrackDto
+     * @memberof PlaylistTrackDto
      */
     type: PlaylistTrackType;
     /**
      * 
-     * @type {AlbumDto}
-     * @memberof TrackDto
+     * @type {AlbumBriefDto}
+     * @memberof PlaylistTrackDto
      */
-    album: AlbumDto;
+    album: AlbumBriefDto;
     /**
      * 
-     * @type {Array<ArtistDto>}
-     * @memberof TrackDto
+     * @type {Array<ArtistBriefDto>}
+     * @memberof PlaylistTrackDto
      */
-    artists: Array<ArtistDto>;
+    artists: Array<ArtistBriefDto>;
 }
 
 /**
- * Check if a given object implements the TrackDto interface.
+ * Check if a given object implements the PlaylistTrackDto interface.
  */
-export function instanceOfTrackDto(value: object): boolean {
+export function instanceOfPlaylistTrackDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "positionInPlaylist" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "duration" in value;
+    isInstance = isInstance && "isPlayable" in value;
+    isInstance = isInstance && "isExplicit" in value;
     isInstance = isInstance && "addedAt" in value;
     isInstance = isInstance && "type" in value;
     isInstance = isInstance && "album" in value;
@@ -98,11 +112,11 @@ export function instanceOfTrackDto(value: object): boolean {
     return isInstance;
 }
 
-export function TrackDtoFromJSON(json: any): TrackDto {
-    return TrackDtoFromJSONTyped(json, false);
+export function PlaylistTrackDtoFromJSON(json: any): PlaylistTrackDto {
+    return PlaylistTrackDtoFromJSONTyped(json, false);
 }
 
-export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): TrackDto {
+export function PlaylistTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistTrackDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -111,14 +125,16 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'positionInPlaylist': json['positionInPlaylist'],
         'name': json['name'],
         'duration': json['duration'],
+        'isPlayable': json['isPlayable'],
+        'isExplicit': json['isExplicit'],
         'addedAt': (new Date(json['addedAt'])),
         'type': PlaylistTrackTypeFromJSON(json['type']),
-        'album': AlbumDtoFromJSON(json['album']),
-        'artists': ((json['artists'] as Array<any>).map(ArtistDtoFromJSON)),
+        'album': AlbumBriefDtoFromJSON(json['album']),
+        'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
 }
 
-export function TrackDtoToJSON(value?: TrackDto | null): any {
+export function PlaylistTrackDtoToJSON(value?: PlaylistTrackDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -130,10 +146,12 @@ export function TrackDtoToJSON(value?: TrackDto | null): any {
         'positionInPlaylist': value.positionInPlaylist,
         'name': value.name,
         'duration': value.duration,
+        'isPlayable': value.isPlayable,
+        'isExplicit': value.isExplicit,
         'addedAt': (value.addedAt.toISOString()),
         'type': PlaylistTrackTypeToJSON(value.type),
-        'album': AlbumDtoToJSON(value.album),
-        'artists': ((value.artists as Array<any>).map(ArtistDtoToJSON)),
+        'album': AlbumBriefDtoToJSON(value.album),
+        'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };
 }
 

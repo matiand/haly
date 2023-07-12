@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { OwnerDto } from './OwnerDto';
+import type { OwnerBriefDto } from './OwnerBriefDto';
 import {
-    OwnerDtoFromJSON,
-    OwnerDtoFromJSONTyped,
-    OwnerDtoToJSON,
-} from './OwnerDto';
+    OwnerBriefDtoFromJSON,
+    OwnerBriefDtoFromJSONTyped,
+    OwnerBriefDtoToJSON,
+} from './OwnerBriefDto';
 
 /**
  * 
@@ -46,10 +46,10 @@ export interface PlaylistMetadataDto {
     likesTotal: number;
     /**
      * 
-     * @type {OwnerDto}
+     * @type {OwnerBriefDto}
      * @memberof PlaylistMetadataDto
      */
-    owner: OwnerDto;
+    owner: OwnerBriefDto;
 }
 
 /**
@@ -76,7 +76,7 @@ export function PlaylistMetadataDtoFromJSONTyped(json: any, ignoreDiscriminator:
         'description': !exists(json, 'description') ? undefined : json['description'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'likesTotal': json['likesTotal'],
-        'owner': OwnerDtoFromJSON(json['owner']),
+        'owner': OwnerBriefDtoFromJSON(json['owner']),
     };
 }
 
@@ -92,7 +92,7 @@ export function PlaylistMetadataDtoToJSON(value?: PlaylistMetadataDto | null): a
         'description': value.description,
         'imageUrl': value.imageUrl,
         'likesTotal': value.likesTotal,
-        'owner': OwnerDtoToJSON(value.owner),
+        'owner': OwnerBriefDtoToJSON(value.owner),
     };
 }
 

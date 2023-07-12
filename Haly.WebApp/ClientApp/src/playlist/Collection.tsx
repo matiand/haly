@@ -1,11 +1,11 @@
 import { useInView } from "react-intersection-observer";
 
+import { PlaylistTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
-import { TrackDto } from "../halyClient";
 import useTrackCollection from "./useTrackCollection";
 
 type CollectionProps = {
-    items: TrackDto[];
+    items: PlaylistTrackDto[];
 };
 
 function Collection({ items }: CollectionProps) {

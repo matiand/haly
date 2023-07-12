@@ -2,13 +2,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { TrackDtoPaginatedList } from "../../generated/haly";
+import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
 import halyClient from "../halyClient";
 import Collection from "./Collection";
 
 type PlaylistTracksProps = {
     playlistId: string;
-    initialTracks: TrackDtoPaginatedList;
+    initialTracks: PlaylistTrackDtoPaginatedList;
 };
 
 const MaxTrackQueryLimit = 100;
