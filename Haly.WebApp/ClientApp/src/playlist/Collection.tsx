@@ -29,13 +29,15 @@ function Collection({ items }: CollectionProps) {
                 </THead>
 
                 <TBody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id}>{renderRowCell(cell)}</td>
-                            ))}
-                        </tr>
-                    ))}
+                    {table.getRowModel().rows.map((row) => {
+                        return (
+                            <tr key={row.id} data-playable={row.original.isPlayable}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <td key={cell.id}>{renderRowCell(cell)}</td>
+                                ))}
+                            </tr>
+                        );
+                    })}
                 </TBody>
             </Table>
         </>
@@ -141,6 +143,10 @@ const TBody = styled("tbody", {
             "& button": {
                 opacity: 1,
             },
+        },
+
+        "&[data-playable=false]": {
+            opacity: 0.4,
         },
 
         "& > td:nth-of-type(1)": {
