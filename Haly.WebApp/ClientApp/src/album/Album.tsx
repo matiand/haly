@@ -13,6 +13,7 @@ import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistGradient from "../playlist/PlaylistGradient";
+import Copyrights from "./Copyrights";
 
 function Album() {
     const { id } = useParams();
@@ -60,7 +61,7 @@ function Album() {
                 <MoreOptionsButton label={`More options for album: '${name}'`} size="medium" />
             </PageControls>
 
-            {formattedReleaseDate}
+            <Copyrights text={copyrights} date={formattedReleaseDate} />
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
