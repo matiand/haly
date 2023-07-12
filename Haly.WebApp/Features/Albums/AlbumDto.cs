@@ -1,6 +1,6 @@
-namespace Haly.WebApp.Features.Playlists;
+namespace Haly.WebApp.Features.Albums;
 
-public record AlbumDto
+public record AlbumBriefDto
 {
     public string Id { get; init; }
     public string Name { get; init; }

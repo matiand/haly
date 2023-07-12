@@ -12,6 +12,6 @@ public class PaginatedListMappingProfile : IRegister
     {
         config.ForType<Playlist, PlaylistWithTracksDto>()
             .Map(dest => dest.Tracks,
-                src => new PaginatedList<TrackDto>(src.Tracks.Adapt<List<TrackDto>>(), PlaylistTrackLimit));
+                src => new PaginatedList<PlaylistTrackDto>(src.Tracks.Adapt<List<PlaylistTrackDto>>(), PlaylistTrackLimit));
     }
 }

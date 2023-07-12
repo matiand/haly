@@ -7,6 +7,6 @@ public record PlaylistWithTracksDto
     public string Id { get; init; }
     public string Name { get; init; }
     public PlaylistMetadataDto Metadata { get; init; }
-    public PaginatedList<TrackDto> Tracks { get; set; }
+    public PaginatedList<PlaylistTrackDto> Tracks { get; set; }
     public string TotalDuration { get; set; }
 }

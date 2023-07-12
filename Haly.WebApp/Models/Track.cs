@@ -9,6 +9,8 @@ public class Track
     public string? SpotifyId { get; set; }
     public string Name { get; set; }
     public int DurationInMs { get; set; }
+    public bool IsPlayable { get; set; }
+    public bool IsExplicit { get; set; }
 
     [Column(TypeName = "jsonb")]
     public List<ArtistBrief> Artists { get; set; }

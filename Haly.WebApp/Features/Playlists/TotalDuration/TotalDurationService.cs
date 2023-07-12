@@ -15,7 +15,7 @@ public class TotalDurationService : ITotalDurationService
 
     public async Task<TotalDurationValue> FromPlaylistStore(string playlistId)
     {
-        var duration = await _db.Tracks.Where(t => t.PlaylistId == playlistId).SumAsync(t => t.DurationInMs);
+        var duration = await _db.PlaylistTracks.Where(t => t.PlaylistId == playlistId).SumAsync(t => t.DurationInMs);
 
         return new TotalDurationValue(duration);
     }

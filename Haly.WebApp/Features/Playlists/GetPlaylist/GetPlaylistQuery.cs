@@ -36,12 +36,12 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
         dbPlaylist.Tracks = new List<PlaylistTrack>();
         var playlist = dbPlaylist.Adapt<PlaylistWithTracksDto>();
 
-        var tracks = await _db.Tracks
+        var tracks = await _db.PlaylistTracks
             .Where(t => t.PlaylistId == request.Id)
             .OrderBy(t => t.PositionInPlaylist)
             .ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
 
-        playlist.Tracks = tracks.Adapt<PaginatedList<TrackDto>>();
+        playlist.Tracks = tracks.Adapt<PaginatedList<PlaylistTrackDto>>();
 
         var totalDuration = await _totalDurationService.FromPlaylistStore(request.Id);
         playlist.TotalDuration = totalDuration.Format();
