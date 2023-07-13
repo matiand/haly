@@ -1,13 +1,13 @@
-import { CellContext } from "@tanstack/react-table";
-
-import { PlaylistTrackDto } from "../../generated/haly";
+import {AlbumTrackDto, PlaylistTrackDto} from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import { styled } from "../common/theme";
 
-function TrackDurationCell(ctx: CellContext<PlaylistTrackDto, unknown>) {
-    const track = ctx.row.original;
+type TrackDurationCellProps = {
+    track: PlaylistTrackDto | AlbumTrackDto;
+}
 
+function TrackDurationCell({track}: TrackDurationCellProps) {
     return (
         <Wrapper>
             <HeartButton size="small" />
@@ -29,7 +29,6 @@ const Wrapper = styled("div", {
 });
 
 const Duration = styled("span", {
-    color: "$white700",
     fontSize: "$300",
     fontVariantNumeric: "tabular-nums",
     marginRight: "$600",

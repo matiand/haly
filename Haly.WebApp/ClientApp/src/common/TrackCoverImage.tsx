@@ -7,22 +7,39 @@ type CoverImageProps = {
     type: "cell" | "playback";
 };
 
+const cellSize = 40;
+const playbackSize = 56;
+
 function TrackCoverImage({ imageUrl, type }: CoverImageProps) {
-    if (type === "playback" && !imageUrl) return null;
+    if (type === "playback")
+        return (
+            imageUrl && (
+                <Image
+                    type={type}
+                    aria-hidden
+                    src={imageUrl}
+                    loading="eager"
+                    width={playbackSize}
+                    height={playbackSize}
+                />
+            )
+        );
 
-    if (!imageUrl) return <EmptyCoverImage type="cell" />;
-
-    return <Image type={type} aria-hidden src={imageUrl} loading="eager" width="40px" height="40px" />;
+    return imageUrl ? (
+        <Image type={type} alt="" src={imageUrl} loading="eager" width={cellSize} height={cellSize} />
+    ) : (
+        <EmptyCoverImage type="cell" />
+    );
 }
 
 const Image = styled("img", {
     variants: {
         type: {
             cell: {
-                $$size: "40px",
+                $$size: `${cellSize}px`,
             },
             playback: {
-                $$size: "56px",
+                $$size: `${playbackSize}px`,
 
                 borderRadius: "4px",
             },

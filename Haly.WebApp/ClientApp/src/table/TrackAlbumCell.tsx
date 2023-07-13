@@ -1,11 +1,13 @@
-import { CellContext } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
 import { PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
-function TrackAlbumCell(ctx: CellContext<PlaylistTrackDto, unknown>) {
-    const track = ctx.row.original;
+type TrackAlbumCellProps = {
+    track: PlaylistTrackDto;
+};
+
+function TrackAlbumCell({track}: TrackAlbumCellProps) {
     return (
         <Wrapper>
             <Link className="line-clamp-ellipsis" to={`/album/${track.album.id}`}>

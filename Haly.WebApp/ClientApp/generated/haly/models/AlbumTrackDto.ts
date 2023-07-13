@@ -31,6 +31,12 @@ export interface AlbumTrackDto {
      * @type {string}
      * @memberof AlbumTrackDto
      */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlbumTrackDto
+     */
     name: string;
     /**
      * 
@@ -63,6 +69,7 @@ export interface AlbumTrackDto {
  */
 export function instanceOfAlbumTrackDto(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "isPlayable" in value;
@@ -82,6 +89,7 @@ export function AlbumTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
+        'id': json['id'],
         'name': json['name'],
         'duration': json['duration'],
         'isPlayable': json['isPlayable'],
@@ -99,6 +107,7 @@ export function AlbumTrackDtoToJSON(value?: AlbumTrackDto | null): any {
     }
     return {
         
+        'id': value.id,
         'name': value.name,
         'duration': value.duration,
         'isPlayable': value.isPlayable,

@@ -1,25 +1,30 @@
 import { Link } from "react-router-dom";
 
-import { PlaylistTrackDto } from "../../generated/haly";
+import { AlbumTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import TrackCoverImage from "../common/TrackCoverImage";
 
 type TrackInformationProps = {
-    track: PlaylistTrackDto;
+    track: PlaylistTrackDto | AlbumTrackDto;
     type: "cell" | "playback";
 };
 
 function TrackInformation({ track, type }: TrackInformationProps) {
-    const { name, type: trackType, album, artists, isExplicit } = track;
+    const { name, artists, isExplicit } = track;
 
+    const isPlaylistTrack = "type" in track;
     const showExplicitMark = isExplicit && type === "cell";
-    const showArtists = trackType === "Song";
+    const showArtists = !isPlaylistTrack || track.type === "Song";
+    const shouldLinkToAlbum = isPlaylistTrack && type === "playback";
 
     return (
         <Wrapper>
-            <TrackCoverImage type={type} imageUrl={album.imageUrl} />
+            {isPlaylistTrack && <TrackCoverImage type={type} imageUrl={track.album.imageUrl} />}
+
             <Grid type={type}>
-                <Title className="line-clamp-ellipsis">{name}</Title>
+                <Title className="line-clamp-ellipsis">
+                    {shouldLinkToAlbum ? <Link to={`/album/${track.album.id}`}>{name}</Link> : name}
+                </Title>
 
                 {showExplicitMark && (
                     <Explicit aria-label="Explicit" title="Explicit">
@@ -50,19 +55,49 @@ const Wrapper = styled("div", {
     },
 });
 
+const Title = styled("div", {
+    gridArea: "title",
+});
+
+const Subtitle = styled("span", {
+    alignSelf: "baseline",
+    gridArea: "subtitle",
+
+    "& > a": {
+        color: "$white500",
+        fontSize: "$200",
+        textDecoration: "none",
+
+        "&:hover": {
+            color: "$white800",
+            textDecoration: "underline",
+        },
+
+        "&:not(:last-child):after": {
+            content: ", ",
+            width: "0.6em",
+        },
+    },
+});
+
 const Grid = styled("div", {
     variants: {
         type: {
             playback: {
-                fontSize: "$200",
-                letterSpacing: "-0.005em",
-                userSelect: "none",
-
-                "& a": {
+                lineHeight:1.25,
+                
+                [`& ${Subtitle} > a`]: {
                     fontSize: "$50",
+                },
+
+                [`& ${Title} > a`]: {
+                    color: "inherit",
+                    fontSize: "$200",
+                    letterSpacing: "-0.005em",
+                    textDecoration: "none",
 
                     "&:hover": {
-                        color: "$white800",
+                        textDecoration: "underline"
                     },
                 },
             },
@@ -81,10 +116,7 @@ const Grid = styled("div", {
     gridTemplateColumns: "auto 1fr",
     fontSize: "$350",
     fontWeight: "500",
-});
-
-const Title = styled("div", {
-    gridArea: "title",
+    userSelect: "none",
 });
 
 const Explicit = styled("span", {
@@ -96,28 +128,6 @@ const Explicit = styled("span", {
     lineHeight: 1,
     marginRight: "$400",
     padding: "$200",
-});
-
-const Subtitle = styled("span", {
-    alignSelf: "baseline",
-    gridArea: "subtitle",
-
-    "& > a": {
-        color: "$white500",
-        display: "inline-block",
-        fontSize: "$200",
-        textDecoration: "none",
-
-        "&:hover": {
-            textDecoration: "underline",
-        },
-
-        "&:not(:last-child):after": {
-            content: ", ",
-            display: "inline-block",
-            width: "0.6em",
-        },
-    },
 });
 
 export default TrackInformation;

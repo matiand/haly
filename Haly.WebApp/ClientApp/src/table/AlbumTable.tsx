@@ -1,0 +1,167 @@
+import { useInView } from "react-intersection-observer";
+
+import { AlbumTrackDto } from "../../generated/haly";
+import { styled, theme } from "../common/theme";
+import AlbumTableRow from "./AlbumTableRow";
+import TrackDurationIcon from "./TrackDurationIcon";
+
+type AlbumTableProps = {
+    items: AlbumTrackDto[];
+};
+
+function AlbumTable({ items }: AlbumTableProps) {
+    const { ref, inView } = useInView();
+
+    return (
+        <>
+            <div ref={ref} aria-hidden></div>
+            <Table>
+                <THead className={inView ? ".sticky-head" : ""}>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>
+                            <TrackDurationIcon />
+                        </th>
+                    </tr>
+                </THead>
+
+                <TBody>
+                    {items.map((t, idx) => (
+                        <AlbumTableRow key={t.id} index={idx + 1} track={t} />
+                    ))}
+                </TBody>
+            </Table>
+        </>
+    );
+}
+
+const gridTemplateColumns = "16px 4fr minmax(120px, 1fr)";
+
+const Table = styled("table", {
+    display: "block",
+    userSelect: "none",
+
+    "& th, td": {
+        padding: 0,
+    },
+});
+
+const THead = styled("thead", {
+    background: "",
+    display: "block",
+    position: "sticky",
+    top: `${theme.sizes.userMenuHeight}`,
+    zIndex: "$collectionTableHead",
+    margin: "0 -$700 $600",
+    padding: "0 $700",
+
+    "&.sticky-head": {
+        background: "$black500",
+        borderBottom: "1px solid $collectionTableHeadBorder",
+        boxShadow: "0 -1px 0 0 $collectionTableHead",
+
+        "& > tr": {
+            borderBottom: "none",
+        },
+    },
+
+    "& > tr": {
+        borderBottom: "1px solid $collectionTableHeadBorder",
+        display: "grid",
+        gridGap: "$600",
+
+        gridTemplateColumns,
+        height: "36px",
+        padding: "0 $600",
+
+        "& > th": {
+            alignItems: "center",
+            color: "$white700",
+            display: "flex",
+            fontSize: "$300",
+            fontWeight: "500",
+        },
+
+        "& > th:nth-of-type(1), & > th:nth-of-type(5)": {
+            justifySelf: "end",
+        },
+
+        "& > th:nth-of-type(4)": {
+            display: "none",
+        },
+
+        "& > th:last-of-type": {
+            justifySelf: "end",
+            marginRight: "$800",
+        },
+    },
+});
+
+const TBody = styled("tbody", {
+    display: "block",
+
+    "& > tr": {
+        display: "grid",
+        gridGap: "$600",
+        gridTemplateColumns,
+        height: "$collectionRowHeight",
+        padding: "0 $600",
+
+        "& > td": {
+            alignItems: "center",
+            display: "flex",
+
+            "& button": {
+                opacity: 0,
+            },
+        },
+
+        "&:hover": {
+            background: "$trackHover",
+            borderRadius: "4px",
+            "& td:nth-of-type(1) > div > span": {
+                display: "none",
+            },
+
+            "& a": {
+                color: "$white800",
+            },
+
+            "& button": {
+                opacity: 1,
+            },
+        },
+
+        "&[data-playable=false] > td": {
+            opacity: 0.4,
+        },
+
+        "& > td:nth-of-type(1)": {
+            color: "$white500",
+            fontSize: "$300",
+            fontWeight: 500,
+            justifySelf: "center",
+        },
+
+        "& > td:nth-of-type(2)": {
+            color: "$white500",
+            fontSize: "$300",
+        },
+
+        "& > td:nth-of-type(4)": {
+            color: "$white400",
+            display: "none",
+            fontSize: "$300",
+            fontWeight: 500,
+        },
+
+        "& > td:last-of-type": {
+            color: "$white400",
+            justifySelf: "end",
+            fontWeight: 500,
+        },
+    },
+});
+
+export default AlbumTable;

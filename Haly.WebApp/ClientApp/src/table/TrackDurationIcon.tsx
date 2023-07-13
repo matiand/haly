@@ -1,6 +1,6 @@
 import { HiOutlineClock } from "react-icons/hi2";
 
-function TrackDurationHeader() {
+function TrackDurationIcon() {
     return (
         <div aria-label="duration" title="duration">
             <span>
@@ -15,4 +15,4 @@ function TrackDurationHeader() {
     );
 }
 
-export default TrackDurationHeader;
+export default TrackDurationIcon;

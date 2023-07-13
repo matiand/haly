@@ -3,7 +3,7 @@ import { LuMonitorSpeaker } from "react-icons/lu";
 import { PlaylistTrackDto } from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import { styled } from "../common/theme";
-import TrackInformation from "../playlist/TrackInformation";
+import TrackInformation from "../table/TrackInformation";
 import PlaybackToggle from "./PlaybackToggle";
 
 function PlaybackControls() {

@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 
 import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
 import halyClient from "../halyClient";
-import Collection from "./Collection";
+import PlaylistTable from "../table/PlaylistTable";
 
 type PlaylistTracksProps = {
     playlistId: string;
@@ -55,7 +55,7 @@ function PlaylistTracks({ playlistId, initialTracks }: PlaylistTracksProps) {
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     return (
         <div>
-            <Collection items={items} />
+            <PlaylistTable items={items} />
             <div aria-hidden ref={ref} />
         </div>
     );

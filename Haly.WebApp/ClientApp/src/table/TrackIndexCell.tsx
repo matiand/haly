@@ -1,16 +1,19 @@
-import { CellContext } from "@tanstack/react-table";
 import { HiPlay } from "react-icons/hi2";
 
-import { PlaylistTrackDto } from "../../generated/haly";
+import { AlbumTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
-function TrackIndexCell(ctx: CellContext<PlaylistTrackDto, unknown>) {
-    const track = ctx.row.original;
+type TrackIndexCellProps = {
+    index: number;
+    track: PlaylistTrackDto | AlbumTrackDto;
+};
+
+function TrackIndexCell({ index, track }: TrackIndexCellProps) {
     const label = `Play ${track.name}`;
 
     return (
         <Wrapper>
-            <Index>{ctx.row.index + 1}</Index>
+            <Index>{index}</Index>
             <PlayBtn type="button" aria-label={label} title={label}>
                 <span>
                     <HiPlay />

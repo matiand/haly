@@ -1,10 +1,13 @@
-import { CellContext } from "@tanstack/react-table";
 import { differenceInMonths, format, formatDistanceToNowStrict } from "date-fns";
 
 import { PlaylistTrackDto } from "../../generated/haly";
 
-function TrackDateAddedCell(ctx: CellContext<PlaylistTrackDto, unknown>) {
-    return <div>{formatAddedAt(ctx.row.original.addedAt)}</div>;
+type TrackDateAddedCellProps = {
+    track: PlaylistTrackDto;
+};
+
+function TrackDateAddedCell({ track }: TrackDateAddedCellProps) {
+    return <div>{formatAddedAt(track.addedAt)}</div>;
 }
 
 function formatAddedAt(addedAtIso: Date) {

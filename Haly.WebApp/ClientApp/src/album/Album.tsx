@@ -13,6 +13,7 @@ import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistGradient from "../playlist/PlaylistGradient";
+import AlbumTable from "../table/AlbumTable";
 import Copyrights from "./Copyrights";
 
 function Album() {
@@ -61,6 +62,8 @@ function Album() {
                 <HeartButton size="medium" />
                 <MoreOptionsButton label={`More options for album: '${name}'`} size="medium" />
             </PageControls>
+
+            <AlbumTable items={tracks} />
 
             <Copyrights text={copyrights} date={formattedReleaseDate} />
 

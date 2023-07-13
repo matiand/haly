@@ -2,14 +2,14 @@ import { useInView } from "react-intersection-observer";
 
 import { PlaylistTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
-import useTrackCollection from "./useTrackCollection";
+import TrackDurationIcon from "./TrackDurationIcon";
+import PlaylistTableRow from "./PlaylistTableRow";
 
-type CollectionProps = {
+type PlaylistTableProps = {
     items: PlaylistTrackDto[];
 };
 
-function Collection({ items }: CollectionProps) {
-    const { table, renderHeaderCell, renderRowCell } = useTrackCollection(items);
+function PlaylistTable({ items }: PlaylistTableProps) {
     const { ref, inView } = useInView();
 
     if (items.length === 0) return null;
@@ -19,25 +19,21 @@ function Collection({ items }: CollectionProps) {
             <div ref={ref} aria-hidden></div>
             <Table>
                 <THead className={inView ? "" : "sticky-head"}>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map((cell) => (
-                                <th key={cell.id}>{renderHeaderCell(cell)}</th>
-                            ))}
-                        </tr>
-                    ))}
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Album</th>
+                        <th>Date added</th>
+                        <th>
+                            <TrackDurationIcon />
+                        </th>
+                    </tr>
                 </THead>
 
                 <TBody>
-                    {table.getRowModel().rows.map((row) => {
-                        return (
-                            <tr key={row.id} data-playable={row.original.isPlayable}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <td key={cell.id}>{renderRowCell(cell)}</td>
-                                ))}
-                            </tr>
-                        );
-                    })}
+                    {items.map((t, idx) => (
+                        <PlaylistTableRow key={t.positionInPlaylist} index={idx + 1} track={t} />
+                    ))}
                 </TBody>
             </Table>
         </>
@@ -145,7 +141,7 @@ const TBody = styled("tbody", {
             },
         },
 
-        "&[data-playable=false]": {
+        "&[data-playable=false] > td": {
             opacity: 0.4,
         },
 
@@ -169,6 +165,7 @@ const TBody = styled("tbody", {
         },
 
         "& > td:nth-of-type(5)": {
+            color: "$white400",
             justifySelf: "end",
             fontWeight: 500,
         },
@@ -183,4 +180,4 @@ const TBody = styled("tbody", {
     },
 });
 
-export default Collection;
+export default PlaylistTable;
