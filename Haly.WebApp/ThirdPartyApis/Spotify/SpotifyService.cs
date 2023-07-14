@@ -1,13 +1,11 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
-using Haly.WebApp.Features.Artists.GetArtist;
-using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
-using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.Pagination;
-using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Models;
+using Haly.WebApp.Models.Cards;
+using Haly.WebApp.Models.Search;
 using Mapster;
 using Type = Haly.GeneratedClients.Type;
 
@@ -134,10 +132,10 @@ public sealed class SpotifyService : ISpotifyService
         return new LikedSongsDto(currSnapshot.SnapshotId, songsDto);
     }
 
-    public async Task<List<DeviceDto>> GetAvailableDevices()
+    public async Task<List<Device>> GetAvailableDevices()
     {
         var response = await _spotifyClient.GetAUsersAvailableDevicesAsync();
-        return response.Devices.Adapt<List<DeviceDto>>();
+        return response.Devices.Adapt<List<Device>>();
     }
 
     public async Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId)
@@ -160,7 +158,7 @@ public sealed class SpotifyService : ISpotifyService
         await _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
     }
 
-    public async Task<List<FollowedArtistDto>> GetCurrentUserFollows()
+    public async Task<List<FollowedArtist>> GetCurrentUserFollows()
     {
         var response = await _spotifyClient.GetFollowedAsync(Type.Artist, limit: UserFollowsLimit);
         var follows = new List<ArtistObject>(response.Artists.Items);
@@ -173,21 +171,21 @@ public sealed class SpotifyService : ISpotifyService
                 after: response.Artists.Cursors.After);
         }
 
-        return follows.Adapt<List<FollowedArtistDto>>();
+        return follows.Adapt<List<FollowedArtist>>();
     }
 
-    public async Task<List<TopArtistDto>> GetCurrentUserTopArtists()
+    public async Task<List<TopArtist>> GetCurrentUserTopArtists()
     {
         var artists = await _spotifyClient.GetUsersTopArtistsAsync("short_term", limit: UserTopArtistsLimit);
 
-        return artists.Items.Adapt<List<TopArtistDto>>();
+        return artists.Items.Adapt<List<TopArtist>>();
     }
 
-    public async Task<ArtistDetailsDto> GetArtist(string artistId)
+    public async Task<ArtistDetailed> GetArtist(string artistId)
     {
         var artist = await _spotifyClient.GetAnArtistAsync(artistId);
 
-        return artist.Adapt<ArtistDetailsDto>();
+        return artist.Adapt<ArtistDetailed>();
     }
 
     public async Task<AlbumDetailed> GetAlbum(string albumId, string userMarket)
@@ -198,7 +196,8 @@ public sealed class SpotifyService : ISpotifyService
         if (album.Tracks.Next is not null)
         {
             var remainingTracks = await _endpointCollector.FetchConcurrently(
-                endpointFn: (limit, offset) => _spotifyClient.GetAnAlbumsTracksAsync(albumId, userMarket, limit, offset),
+                endpointFn: (limit, offset) =>
+                    _spotifyClient.GetAnAlbumsTracksAsync(albumId, userMarket, limit, offset),
                 dataFn: pagingObj => pagingObj.Items,
                 startingOffset: album.Tracks.Limit, endpointLimit: AlbumTracksLimit, maxConcurrentRequests: 2
             );
@@ -210,5 +209,12 @@ public sealed class SpotifyService : ISpotifyService
         albumDto.Tracks = tracks.Adapt<List<AlbumTrack>>();
 
         return albumDto;
+    }
+
+    public async Task<SpotifySearchResult> Search(string query, string userMarket)
+    {
+        var results = await _spotifyClient.SearchAsync(query, new List<Anonymous> { Anonymous.Playlist }, userMarket);
+
+        return results.Adapt<SpotifySearchResult>();
     }
 }

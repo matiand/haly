@@ -1,4 +1,5 @@
 using Haly.WebApp.ThirdPartyApis.Spotify;
+using Mapster;
 using MediatR;
 
 namespace Haly.WebApp.Features.Player.GetAvailableDevices;
@@ -16,6 +17,8 @@ public record GetAvailableDevicesHandler : IRequestHandler<GetAvailableDevicesQu
 
     public async Task<IEnumerable<DeviceDto>> Handle(GetAvailableDevicesQuery request, CancellationToken cancellationToken)
     {
-        return await _spotifyService.GetAvailableDevices();
+        var devices = await _spotifyService.GetAvailableDevices();
+
+        return devices.Adapt<IEnumerable<DeviceDto>>();
     }
 }
