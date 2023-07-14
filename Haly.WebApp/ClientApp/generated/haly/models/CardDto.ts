@@ -16,59 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ArtistDetailsDto
+ * @interface CardDto
  */
-export interface ArtistDetailsDto {
+export interface CardDto {
     /**
      * 
      * @type {string}
-     * @memberof ArtistDetailsDto
+     * @memberof CardDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof ArtistDetailsDto
+     * @memberof CardDto
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof ArtistDetailsDto
+     * @memberof CardDto
      */
     imageUrl?: string | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ArtistDetailsDto
-     */
-    genres: Array<string>;
-    /**
-     * 
-     * @type {number}
-     * @memberof ArtistDetailsDto
-     */
-    followersTotal: number;
 }
 
 /**
- * Check if a given object implements the ArtistDetailsDto interface.
+ * Check if a given object implements the CardDto interface.
  */
-export function instanceOfArtistDetailsDto(value: object): boolean {
+export function instanceOfCardDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "genres" in value;
-    isInstance = isInstance && "followersTotal" in value;
 
     return isInstance;
 }
 
-export function ArtistDetailsDtoFromJSON(json: any): ArtistDetailsDto {
-    return ArtistDetailsDtoFromJSONTyped(json, false);
+export function CardDtoFromJSON(json: any): CardDto {
+    return CardDtoFromJSONTyped(json, false);
 }
 
-export function ArtistDetailsDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArtistDetailsDto {
+export function CardDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): CardDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -77,12 +63,10 @@ export function ArtistDetailsDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'genres': json['genres'],
-        'followersTotal': json['followersTotal'],
     };
 }
 
-export function ArtistDetailsDtoToJSON(value?: ArtistDetailsDto | null): any {
+export function CardDtoToJSON(value?: CardDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -94,8 +78,6 @@ export function ArtistDetailsDtoToJSON(value?: ArtistDetailsDto | null): any {
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
-        'genres': value.genres,
-        'followersTotal': value.followersTotal,
     };
 }
 

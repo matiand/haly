@@ -12,7 +12,8 @@ models/AlbumBriefDto.ts
 models/AlbumDetailedDto.ts
 models/AlbumTrackDto.ts
 models/ArtistBriefDto.ts
-models/ArtistDetailsDto.ts
+models/ArtistDetailedDto.ts
+models/CardDto.ts
 models/CreatorType.ts
 models/DeviceDto.ts
 models/FollowedArtistDto.ts

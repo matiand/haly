@@ -181,11 +181,16 @@ public sealed class SpotifyService : ISpotifyService
         return artists.Items.Adapt<List<TopArtist>>();
     }
 
-    public async Task<ArtistDetailed> GetArtist(string artistId)
+    public async Task<ArtistDetailed> GetArtist(string artistId, string userMarket)
     {
-        var artist = await _spotifyClient.GetAnArtistAsync(artistId);
+        var artistTask = _spotifyClient.GetAnArtistAsync(artistId);
+        var topItemsTask = _spotifyClient.GetAnArtistsTopTracksAsync(artistId, userMarket);
 
-        return artist.Adapt<ArtistDetailed>();
+        var (artist, topItems) = (await artistTask, await topItemsTask);
+        var dto = artist.Adapt<ArtistDetailed>();
+        dto.TopTracks = topItems.Tracks.Adapt<List<AlbumTrack>>();
+
+        return dto;
     }
 
     public async Task<AlbumDetailed> GetAlbum(string albumId, string userMarket)

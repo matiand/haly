@@ -38,5 +38,12 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.IsExplicit, src => src.Explicit)
             .Map(dest => dest.DiscNumber, src => src.Disc_number)
             .Map(dest => dest.DurationInMs, src => src.Duration_ms);
+
+        config.ForType<TrackObject, AlbumTrack>()
+            .Map(dest => dest.SpotifyId, src => src.Id)
+            .Map(dest => dest.IsPlayable, src => src.Is_playable)
+            .Map(dest => dest.IsExplicit, src => src.Explicit)
+            .Map(dest => dest.DiscNumber, src => src.Disc_number)
+            .Map(dest => dest.DurationInMs, src => src.Duration_ms);
     }
 }

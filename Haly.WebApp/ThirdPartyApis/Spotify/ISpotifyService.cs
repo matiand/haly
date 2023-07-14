@@ -19,7 +19,7 @@ public interface ISpotifyService
     Task Unfollow(CreatorType creatorType, string creatorId);
     Task<List<FollowedArtist>> GetCurrentUserFollows();
     Task<List<TopArtist>> GetCurrentUserTopArtists();
-    Task<ArtistDetailed> GetArtist(string artistId);
+    Task<ArtistDetailed> GetArtist(string artistId, string userMarket);
     Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);
 
     Task<SpotifySearchResult> Search(string query, SearchType type, string userMarket);

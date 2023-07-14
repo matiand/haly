@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ArtistDetailsDto'
+                $ref: '#/components/schemas/ArtistDetailedDto'
         '400':
           description: Bad request
           content:
@@ -722,12 +722,14 @@ components:
         name:
           type: string
       additionalProperties: false
-    ArtistDetailsDto:
+    ArtistDetailedDto:
       required:
         - followersTotal
         - genres
+        - highlightedPlaylist
         - id
         - name
+        - topTracks
       type: object
       properties:
         id:
@@ -744,6 +746,26 @@ components:
         followersTotal:
           type: integer
           format: int32
+        highlightedPlaylist:
+          $ref: '#/components/schemas/CardDto'
+        topTracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlbumTrackDto'
+      additionalProperties: false
+    CardDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
       additionalProperties: false
     CreatorType:
       enum:

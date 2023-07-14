@@ -1,23 +1,43 @@
+using Haly.WebApp.Models.Search;
 using Haly.WebApp.ThirdPartyApis.Spotify;
+using Mapster;
 using MediatR;
 
 namespace Haly.WebApp.Features.Artists.GetArtist;
 
-public record GetArtistQuery(string Id) : IRequest<ArtistDetailsDto>;
+public record GetArtistQuery(string Id, string UserMarket) : IRequest<ArtistDetailedDto>;
 
-public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailsDto>
+public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailedDto>
 {
     private readonly ISpotifyService _spotify;
+    private const string SpotifyUserId = "spotify";
 
     public GetArtistHandler(ISpotifyService spotify)
     {
         _spotify = spotify;
     }
 
-    public async Task<ArtistDetailsDto> Handle(GetArtistQuery request, CancellationToken cancellationToken)
+    public async Task<ArtistDetailedDto> Handle(GetArtistQuery request, CancellationToken cancellationToken)
     {
-        var artist = await _spotify.GetArtist(request.Id);
+        var artist = await _spotify.GetArtist(request.Id, request.UserMarket);
+        var dto = artist.Adapt<ArtistDetailedDto>();
 
-        return artist;
+        dto.HighlightedPlaylist = await GetHighlightedPlaylist(artist.Name, request.UserMarket);
+
+        return dto;
+    }
+
+    private async Task<CardDto?> GetHighlightedPlaylist(string artistName, string userMarket)
+    {
+        var searchResult = await _spotify.Search(artistName, SearchType.Playlist, userMarket);
+
+        var playlistsWithPrettyCovers = searchResult.Playlists
+            .Where(p => p.Metadata.ImageUrl is not null && !p.Metadata.ImageUrl.Contains("//mosaic"))
+            .ToList();
+
+        var nonSpotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Metadata.Owner.Id != SpotifyUserId);
+        var spotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Metadata.Owner.Id == SpotifyUserId);
+
+        return nonSpotifyPlaylist?.Adapt<CardDto>() ?? spotifyPlaylist?.Adapt<CardDto>();
     }
 }

@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
-  ArtistDetailsDto,
+  ArtistDetailedDto,
   Problem,
 } from '../models';
 import {
-    ArtistDetailsDtoFromJSON,
-    ArtistDetailsDtoToJSON,
+    ArtistDetailedDtoFromJSON,
+    ArtistDetailedDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
 } from '../models';
@@ -38,7 +38,7 @@ export class ArtistsApi extends runtime.BaseAPI {
      * Fetch artist from Spotify<br/>This endpoint calls Spotify API.
      * Get artist
      */
-    async getArtistRaw(requestParameters: GetArtistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtistDetailsDto>> {
+    async getArtistRaw(requestParameters: GetArtistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtistDetailedDto>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getArtist.');
         }
@@ -54,14 +54,14 @@ export class ArtistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ArtistDetailsDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArtistDetailedDtoFromJSON(jsonValue));
     }
 
     /**
      * Fetch artist from Spotify<br/>This endpoint calls Spotify API.
      * Get artist
      */
-    async getArtist(requestParameters: GetArtistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtistDetailsDto> {
+    async getArtist(requestParameters: GetArtistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtistDetailedDto> {
         const response = await this.getArtistRaw(requestParameters, initOverrides);
         return await response.value();
     }
