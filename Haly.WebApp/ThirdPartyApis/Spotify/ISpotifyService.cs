@@ -1,5 +1,6 @@
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Cards;
+using Haly.WebApp.Models.Search;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
 
@@ -21,6 +22,7 @@ public interface ISpotifyService
     Task<ArtistDetailed> GetArtist(string artistId);
     Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);
 
+    Task<SpotifySearchResult> Search(string query, SearchType type, string userMarket);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);

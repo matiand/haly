@@ -211,9 +211,17 @@ public sealed class SpotifyService : ISpotifyService
         return albumDto;
     }
 
-    public async Task<SpotifySearchResult> Search(string query, string userMarket)
+    public async Task<SpotifySearchResult> Search(string query, SearchType type, string userMarket)
     {
-        var results = await _spotifyClient.SearchAsync(query, new List<Anonymous> { Anonymous.Playlist }, userMarket);
+        var queryType = type switch
+        {
+            SearchType.Album => Anonymous.Album,
+            SearchType.Artist => Anonymous.Artist,
+            SearchType.Playlist => Anonymous.Playlist,
+            SearchType.Track => Anonymous.Track,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Wrong search type"),
+        };
+        var results = await _spotifyClient.SearchAsync(query, new List<Anonymous> { queryType }, userMarket);
 
         return results.Adapt<SpotifySearchResult>();
     }
