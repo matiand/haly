@@ -1,8 +1,9 @@
+import { Fragment } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { AlbumTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
-import AlbumTableRow from "./AlbumTableRow";
+import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 import TrackDurationIcon from "./TrackDurationIcon";
 
 type AlbumTableProps = {
@@ -11,6 +12,11 @@ type AlbumTableProps = {
 
 function AlbumTable({ items }: AlbumTableProps) {
     const { ref, inView } = useInView();
+
+    const tracksByDisk = groupByDiscNumber(items);
+    const disks = Object.keys(tracksByDisk)
+        .map((d) => Number.parseInt(d, 10))
+        .sort();
 
     return (
         <>
@@ -27,14 +33,38 @@ function AlbumTable({ items }: AlbumTableProps) {
                 </THead>
 
                 <TBody>
-                    {items.map((t, idx) => (
-                        <AlbumTableRow key={t.id} index={idx + 1} track={t} />
-                    ))}
+                    {disks.length > 1
+                        ? disks.map((disc) => {
+                              const items = tracksByDisk[disc];
+
+                              return (
+                                  <Fragment key={disc}>
+                                      <AlbumTableDiscRow discNumber={disc} />
+
+                                      {items.map((t, idx) => (
+                                          <AlbumTableTrackRow key={t.spotifyId} index={idx + 1} track={t} />
+                                      ))}
+                                  </Fragment>
+                              );
+                          })
+                        : items.map((t, idx) => <AlbumTableTrackRow key={t.spotifyId} index={idx + 1} track={t} />)}
                 </TBody>
             </Table>
         </>
     );
 }
+
+const groupByDiscNumber = (items: AlbumTrackDto[]) => {
+    return items.reduce<Record<number, AlbumTrackDto[]>>((groups, item) => {
+        const key = item.discNumber;
+        if (!groups[key]) {
+            groups[key] = [];
+        }
+        groups[key].push(item);
+
+        return groups;
+    }, {});
+};
 
 const gridTemplateColumns = "16px 4fr minmax(120px, 1fr)";
 

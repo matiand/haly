@@ -685,14 +685,15 @@ components:
     AlbumTrackDto:
       required:
         - artists
+        - discNumber
         - duration
-        - id
         - isExplicit
         - isPlayable
         - name
+        - spotifyId
       type: object
       properties:
-        id:
+        spotifyId:
           type: string
         name:
           type: string
@@ -702,6 +703,9 @@ components:
           type: boolean
         isExplicit:
           type: boolean
+        discNumber:
+          type: integer
+          format: int32
         artists:
           type: array
           items:

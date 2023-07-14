@@ -1,14 +1,17 @@
+import { LuDisc } from "react-icons/lu";
+
 import { AlbumTrackDto } from "../../generated/haly";
+import { styled } from "../common/theme";
 import TrackDurationCell from "./TrackDurationCell";
 import TrackIndexCell from "./TrackIndexCell";
 import TrackInformation from "./TrackInformation";
 
-type AlbumTableRowProps = {
+type TrackRowProps = {
     index: number;
     track: AlbumTrackDto;
 };
 
-function AlbumTableRow({ index, track }: AlbumTableRowProps) {
+export function AlbumTableTrackRow({ index, track }: TrackRowProps) {
     return (
         <tr data-playable={track.isPlayable}>
             <td>
@@ -26,4 +29,37 @@ function AlbumTableRow({ index, track }: AlbumTableRowProps) {
     );
 }
 
-export default AlbumTableRow;
+type DiscRowProps = {
+    discNumber: number;
+};
+
+export function AlbumTableDiscRow({ discNumber }: DiscRowProps) {
+    return (
+        <DiscRow>
+            <td>
+                <span aria-hidden>
+                    <LuDisc />
+                </span>
+            </td>
+            <td colSpan={2}>Disc {discNumber}</td>
+        </DiscRow>
+    );
+}
+
+const DiscRow = styled("tr", {
+    "&& > td[colspan]": {
+        color: "$white500",
+        fontWeight: 700,
+        justifySelf: "initial",
+        letterSpacing: "0.04em",
+    },
+
+    "&&:hover": {
+        background: "initial",
+    },
+
+    "& svg": {
+        height: "18px",
+        width: "18px",
+    },
+});
