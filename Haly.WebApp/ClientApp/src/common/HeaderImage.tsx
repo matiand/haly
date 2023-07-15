@@ -8,6 +8,8 @@ type HeaderImageProps = {
     isRounded?: boolean;
 };
 
+const imageSize = "220";
+
 function HeaderImage({ alt, imageUrl, isRounded }: HeaderImageProps) {
     const { imageRef, onImageLoad } = useDominantColorExtraction(imageUrl!);
 
@@ -28,17 +30,12 @@ function HeaderImage({ alt, imageUrl, isRounded }: HeaderImageProps) {
     );
 }
 
-const imageSize = "220px";
-
 const Image = styled("img", {
-    $$size: `${imageSize}`,
-
     boxShadow: "0 4px 60px $collectionImage",
-    height: "$$size",
+    flex: "0 0 auto",
     objectFit: "cover",
     objectPosition: "center center",
     textAlign: "center",
-    width: "$$size",
 });
 
 export default HeaderImage;

@@ -35,19 +35,14 @@ function TrackCoverImage({ imageUrl, type }: CoverImageProps) {
 const Image = styled("img", {
     variants: {
         type: {
-            cell: {
-                $$size: `${cellSize}px`,
-            },
+            cell: {},
             playback: {
-                $$size: `${playbackSize}px`,
-
                 borderRadius: "4px",
             },
         },
     },
 
-    height: "$$size",
-    width: "$$size",
+    flex: "0 0 auto",
 });
 
 export default TrackCoverImage;
