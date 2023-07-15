@@ -16,6 +16,10 @@ import FollowButton from "../profile/FollowButton";
 function Artist() {
     const { id } = useParams();
     const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
+    const appearsOnQuery = useQuery(["artist", id, "appearances"], () =>
+        halyClient.artists.getArtistAppearances({ id: id! }),
+    );
+
     const dominantColors = useAtomValue(dominantColorsAtom);
 
     if (!query.data) return <LoadingIndicator />;
@@ -37,7 +41,6 @@ function Artist() {
             </PageHeader>
 
             <PageControls>
-                <PlaybackToggle size="large" />
                 <FollowButton />
             </PageControls>
 

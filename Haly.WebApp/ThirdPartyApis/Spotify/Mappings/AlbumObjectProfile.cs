@@ -1,6 +1,7 @@
 using System.Globalization;
 using Haly.GeneratedClients;
 using Haly.WebApp.Models;
+using Haly.WebApp.Models.Cards;
 using Mapster;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify.Mappings;
@@ -19,6 +20,13 @@ public class AlbumObjectProfile : IRegister
             // We want the smallest ones, because we only show those images as album covers of
             // tracks inside playlist view.
             .Map(dest => dest.ImageUrl, src => src.Images.FindSmallImageUrl());
+
+        config.ForType<SimplifiedAlbumObject, ReleaseItem>()
+            // We want the smallest ones, because we only show those images as album covers of
+            // tracks inside playlist view.
+            .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl())
+            .Map(dest => dest.Type, src => GetAlbumType(src.Album_type, src.Total_tracks))
+            .Map(dest => dest.ReleaseDate, src => GetReleaseDate(src.Release_date));
     }
 
 

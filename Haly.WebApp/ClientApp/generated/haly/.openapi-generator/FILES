@@ -11,8 +11,11 @@ index.ts
 models/AlbumBriefDto.ts
 models/AlbumDetailedDto.ts
 models/AlbumTrackDto.ts
+models/AlbumType.ts
+models/ArtistAppearancesDto.ts
 models/ArtistBriefDto.ts
 models/ArtistDetailedDto.ts
+models/ArtistDiscographyDto.ts
 models/CardDto.ts
 models/CreatorType.ts
 models/DeviceDto.ts
@@ -28,6 +31,7 @@ models/PlaylistWithTracksDto.ts
 models/PrivateUserDto.ts
 models/Problem.ts
 models/PublicUserDto.ts
+models/ReleaseItemDto.ts
 models/TopArtistDto.ts
 models/ValidationProblem.ts
 models/index.ts

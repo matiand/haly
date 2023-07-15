@@ -15,17 +15,31 @@
 
 import * as runtime from '../runtime';
 import type {
+  ArtistAppearancesDto,
   ArtistDetailedDto,
+  ArtistDiscographyDto,
   Problem,
 } from '../models';
 import {
+    ArtistAppearancesDtoFromJSON,
+    ArtistAppearancesDtoToJSON,
     ArtistDetailedDtoFromJSON,
     ArtistDetailedDtoToJSON,
+    ArtistDiscographyDtoFromJSON,
+    ArtistDiscographyDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
 } from '../models';
 
 export interface GetArtistRequest {
+    id: string;
+}
+
+export interface GetArtistAppearancesRequest {
+    id: string;
+}
+
+export interface GetArtistDiscographyRequest {
     id: string;
 }
 
@@ -63,6 +77,70 @@ export class ArtistsApi extends runtime.BaseAPI {
      */
     async getArtist(requestParameters: GetArtistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtistDetailedDto> {
         const response = await this.getArtistRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Fetch releases that the artist appears on from Spotify<br/>This endpoint calls Spotify API.
+     * Get artist\'s appearances
+     */
+    async getArtistAppearancesRaw(requestParameters: GetArtistAppearancesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtistAppearancesDto>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getArtistAppearances.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Artists/{id}/appearances`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArtistAppearancesDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * Fetch releases that the artist appears on from Spotify<br/>This endpoint calls Spotify API.
+     * Get artist\'s appearances
+     */
+    async getArtistAppearances(requestParameters: GetArtistAppearancesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtistAppearancesDto> {
+        const response = await this.getArtistAppearancesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Fetch releases created by the artist from Spotify<br/>This endpoint calls Spotify API.
+     * Get artist\'s discography
+     */
+    async getArtistDiscographyRaw(requestParameters: GetArtistDiscographyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtistDiscographyDto>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getArtistDiscography.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Artists/{id}/discography`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArtistDiscographyDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * Fetch releases created by the artist from Spotify<br/>This endpoint calls Spotify API.
+     * Get artist\'s discography
+     */
+    async getArtistDiscography(requestParameters: GetArtistDiscographyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtistDiscographyDto> {
+        const response = await this.getArtistDiscographyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

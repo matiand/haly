@@ -80,6 +80,82 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  '/Artists/{id}/discography':
+    get:
+      tags:
+        - Artists
+      summary: Get artist's discography
+      description: Fetch releases created by the artist from Spotify<br/>This endpoint calls Spotify API.
+      operationId: GetArtistDiscography
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of releases that belong to the artist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtistDiscographyDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  '/Artists/{id}/appearances':
+    get:
+      tags:
+        - Artists
+      summary: Get artist's appearances
+      description: Fetch releases that the artist appears on from Spotify<br/>This endpoint calls Spotify API.
+      operationId: GetArtistAppearances
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of releases the artist appears on
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtistAppearancesDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /me/Following/contains:
     get:
       tags:
@@ -711,6 +787,28 @@ components:
           items:
             $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
+    AlbumType:
+      enum:
+        - Album
+        - OneSong
+        - Ep
+        - Compilation
+      type: string
+    ArtistAppearancesDto:
+      required:
+        - albumsAndSingles
+        - compilations
+      type: object
+      properties:
+        compilations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+        albumsAndSingles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+      additionalProperties: false
     ArtistBriefDto:
       required:
         - id
@@ -752,6 +850,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AlbumTrackDto'
+      additionalProperties: false
+    ArtistDiscographyDto:
+      required:
+        - albums
+        - compilations
+        - singlesAndEps
+      type: object
+      properties:
+        albums:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+        singlesAndEps:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+        compilations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
       additionalProperties: false
     CardDto:
       required:
@@ -994,6 +1112,27 @@ components:
         imageUrl:
           type: string
           nullable: true
+      additionalProperties: false
+    ReleaseItemDto:
+      required:
+        - id
+        - name
+        - releaseYear
+        - type
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        releaseYear:
+          type: integer
+          format: int32
+        type:
+          $ref: '#/components/schemas/AlbumType'
       additionalProperties: false
     TopArtistDto:
       required:

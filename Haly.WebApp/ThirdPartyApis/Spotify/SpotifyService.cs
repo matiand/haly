@@ -24,6 +24,7 @@ public sealed class SpotifyService : ISpotifyService
     private const int LikedSongsLimit = 50;
     private const int UserFollowsLimit = 50;
     private const int UserTopArtistsLimit = 10;
+    private const int ArtistReleasesLimit = 50;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
         ISpotifyEndpointCollector endpointCollector)
@@ -191,6 +192,37 @@ public sealed class SpotifyService : ISpotifyService
         dto.TopTracks = topItems.Tracks.Adapt<List<AlbumTrack>>();
 
         return dto;
+    }
+
+    public async Task<List<ReleaseItem>> GetArtistReleases(string artistId, ArtistRelease type, string userMarket)
+    {
+        if (type == ArtistRelease.Discography)
+        {
+            var items = await _endpointCollector.FetchConcurrently(
+                endpointFn: (limit, offset) =>
+                    _spotifyClient.GetAnArtistsAlbumsAsync(artistId, type.Value, userMarket, limit, offset),
+                dataFn: pagingObj => pagingObj.Items,
+                endpointLimit: ArtistReleasesLimit, maxConcurrentRequests: 3);
+
+            return items.Adapt<List<ReleaseItem>>();
+        }
+        else
+        {
+            // For appearances we only fetch first 100 items, because we are mostly interested in
+            // albums and singles that the artists contributed to. Most of these show up in the
+            // first 100 results. The rest are generic compilations with artist's popular songs.
+            // Those don't bring much value.
+            var firstResponse =
+                _spotifyClient.GetAnArtistsAlbumsAsync(artistId, type.Value, userMarket, ArtistReleasesLimit);
+            var secondResponse =
+                _spotifyClient.GetAnArtistsAlbumsAsync(artistId, type.Value, userMarket, ArtistReleasesLimit,
+                    offset: ArtistReleasesLimit);
+
+            var (firstBatch, secondBatch) = (await firstResponse, await secondResponse);
+            var items = firstBatch.Items.Concat(secondBatch.Items);
+
+            return items.Adapt<List<ReleaseItem>>();
+        }
     }
 
     public async Task<AlbumDetailed> GetAlbum(string albumId, string userMarket)

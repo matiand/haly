@@ -15,14 +15,15 @@ public interface ISpotifyService
     Task<LikedSongsDto?> GetLikedSongsIfChanged(string userMarket, string? prevSnapshotId);
     Task<List<Device>> GetAvailableDevices();
     Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId);
-    Task Follow(CreatorType creatorType, string creatorId);
-    Task Unfollow(CreatorType creatorType, string creatorId);
     Task<List<FollowedArtist>> GetCurrentUserFollows();
     Task<List<TopArtist>> GetCurrentUserTopArtists();
     Task<ArtistDetailed> GetArtist(string artistId, string userMarket);
+    Task<List<ReleaseItem>> GetArtistReleases(string artistId, ArtistRelease type, string userMarket);
     Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);
-
     Task<SpotifySearchResult> Search(string query, SearchType type, string userMarket);
+
+    Task Follow(CreatorType creatorType, string creatorId);
+    Task Unfollow(CreatorType creatorType, string creatorId);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);
