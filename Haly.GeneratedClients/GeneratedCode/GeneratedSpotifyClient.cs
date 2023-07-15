@@ -12463,8 +12463,8 @@ namespace Haly.GeneratedClients
         /// The playlist's public/private status: `true` the playlist is public, `false` the playlist is private, `null` the playlist status is not relevant. For more about public/private status, see [Working with Playlists](/documentation/general/guides/working-with-playlists/)
         /// <br/>
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("public", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Public { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("public", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Public { get; set; } = default!;
 
         /// <summary>
         /// The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version
