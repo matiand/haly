@@ -1,4 +1,5 @@
 using Haly.WebApp.Models.Cards;
+using Haly.WebApp.Models.Tracks;
 
 namespace Haly.WebApp.Models;
 
@@ -12,5 +13,5 @@ public record ArtistDetailed
 
     public Card? TopFeaturedPlaylist { get; set; }
 
-    public List<AlbumTrack> TopTracks { get; set; }
+    public List<ArtistTopTrack> TopTracks { get; set; }
 }

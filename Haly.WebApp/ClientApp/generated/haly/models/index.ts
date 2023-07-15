@@ -1,13 +1,16 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AlbumBrief';
 export * from './AlbumBriefDto';
 export * from './AlbumDetailedDto';
 export * from './AlbumTrackDto';
 export * from './AlbumType';
 export * from './ArtistAppearancesDto';
+export * from './ArtistBrief';
 export * from './ArtistBriefDto';
 export * from './ArtistDetailedDto';
 export * from './ArtistDiscographyDto';
+export * from './ArtistTopTrack';
 export * from './CardDto';
 export * from './CreatorType';
 export * from './DeviceDto';

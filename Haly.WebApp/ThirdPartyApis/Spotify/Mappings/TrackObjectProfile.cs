@@ -1,5 +1,5 @@
 using Haly.GeneratedClients;
-using Haly.WebApp.Models;
+using Haly.WebApp.Models.Tracks;
 using Mapster;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify.Mappings;
@@ -39,11 +39,10 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.DiscNumber, src => src.Disc_number)
             .Map(dest => dest.DurationInMs, src => src.Duration_ms);
 
-        config.ForType<TrackObject, AlbumTrack>()
+        config.ForType<TrackObject, ArtistTopTrack>()
             .Map(dest => dest.SpotifyId, src => src.Id)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
-            .Map(dest => dest.DiscNumber, src => src.Disc_number)
             .Map(dest => dest.DurationInMs, src => src.Duration_ms);
     }
 }

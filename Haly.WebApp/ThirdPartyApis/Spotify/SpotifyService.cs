@@ -6,6 +6,7 @@ using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Search;
+using Haly.WebApp.Models.Tracks;
 using Mapster;
 using Type = Haly.GeneratedClients.Type;
 
@@ -189,7 +190,7 @@ public sealed class SpotifyService : ISpotifyService
 
         var (artist, topItems) = (await artistTask, await topItemsTask);
         var dto = artist.Adapt<ArtistDetailed>();
-        dto.TopTracks = topItems.Tracks.Adapt<List<AlbumTrack>>();
+        dto.TopTracks = topItems.Tracks.Adapt<List<ArtistTopTrack>>();
 
         return dto;
     }

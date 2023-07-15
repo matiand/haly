@@ -703,6 +703,20 @@ paths:
                 $ref: '#/components/schemas/Problem'
 components:
   schemas:
+    AlbumBrief:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+      additionalProperties: false
     AlbumBriefDto:
       required:
         - id
@@ -809,6 +823,17 @@ components:
           items:
             $ref: '#/components/schemas/ReleaseItemDto'
       additionalProperties: false
+    ArtistBrief:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      additionalProperties: false
     ArtistBriefDto:
       required:
         - id
@@ -849,7 +874,7 @@ components:
         topTracks:
           type: array
           items:
-            $ref: '#/components/schemas/AlbumTrackDto'
+            $ref: '#/components/schemas/ArtistTopTrack'
       additionalProperties: false
     ArtistDiscographyDto:
       required:
@@ -870,6 +895,39 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReleaseItemDto'
+      additionalProperties: false
+    ArtistTopTrack:
+      required:
+        - album
+        - artists
+        - duration
+        - durationInMs
+        - isExplicit
+        - isPlayable
+        - name
+      type: object
+      properties:
+        spotifyId:
+          type: string
+          nullable: true
+        name:
+          type: string
+        durationInMs:
+          type: integer
+          format: int32
+        isPlayable:
+          type: boolean
+        isExplicit:
+          type: boolean
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistBrief'
+        duration:
+          type: string
+          readOnly: true
+        album:
+          $ref: '#/components/schemas/AlbumBrief'
       additionalProperties: false
     CardDto:
       required:

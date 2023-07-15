@@ -1,5 +1,6 @@
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Jobs;
+using Haly.WebApp.Models.Tracks;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 

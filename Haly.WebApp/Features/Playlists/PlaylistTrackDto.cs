@@ -1,6 +1,6 @@
 using Haly.WebApp.Features.Albums;
 using Haly.WebApp.Features.Artists;
-using Haly.WebApp.Models;
+using Haly.WebApp.Models.Tracks;
 
 namespace Haly.WebApp.Features.Playlists;
 

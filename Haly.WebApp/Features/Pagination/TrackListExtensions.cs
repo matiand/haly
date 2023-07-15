@@ -1,4 +1,4 @@
-using Haly.WebApp.Models;
+using Haly.WebApp.Models.Tracks;
 
 namespace Haly.WebApp.Features.Pagination;
 

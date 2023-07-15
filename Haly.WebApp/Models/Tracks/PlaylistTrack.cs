@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Haly.WebApp.Models;
+namespace Haly.WebApp.Models.Tracks;
 
 public class PlaylistTrack : Track
 {
@@ -17,10 +17,4 @@ public class PlaylistTrack : Track
 
     [Column(TypeName = "jsonb")]
     public AlbumBrief Album { get; set; }
-}
-
-public enum PlaylistTrackType
-{
-    Song,
-    Podcast,
 }

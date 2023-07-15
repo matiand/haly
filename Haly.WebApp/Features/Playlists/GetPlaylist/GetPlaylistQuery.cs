@@ -1,7 +1,7 @@
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Playlists.TotalDuration;
-using Haly.WebApp.Models;
+using Haly.WebApp.Models.Tracks;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

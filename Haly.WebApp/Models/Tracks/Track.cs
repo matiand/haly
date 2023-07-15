@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 
-namespace Haly.WebApp.Models;
+namespace Haly.WebApp.Models.Tracks;
 
 public class Track
 {

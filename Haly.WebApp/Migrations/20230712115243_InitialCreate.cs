@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Haly.WebApp.Models;
+using Haly.WebApp.Models.Tracks;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 

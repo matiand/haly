@@ -1,6 +1,7 @@
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Search;
+using Haly.WebApp.Models.Tracks;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
 

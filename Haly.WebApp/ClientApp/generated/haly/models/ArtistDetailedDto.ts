@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AlbumTrackDto } from './AlbumTrackDto';
+import type { ArtistTopTrack } from './ArtistTopTrack';
 import {
-    AlbumTrackDtoFromJSON,
-    AlbumTrackDtoFromJSONTyped,
-    AlbumTrackDtoToJSON,
-} from './AlbumTrackDto';
+    ArtistTopTrackFromJSON,
+    ArtistTopTrackFromJSONTyped,
+    ArtistTopTrackToJSON,
+} from './ArtistTopTrack';
 import type { CardDto } from './CardDto';
 import {
     CardDtoFromJSON,
@@ -70,10 +70,10 @@ export interface ArtistDetailedDto {
     highlightedPlaylist: CardDto;
     /**
      * 
-     * @type {Array<AlbumTrackDto>}
+     * @type {Array<ArtistTopTrack>}
      * @memberof ArtistDetailedDto
      */
-    topTracks: Array<AlbumTrackDto>;
+    topTracks: Array<ArtistTopTrack>;
 }
 
 /**
@@ -107,7 +107,7 @@ export function ArtistDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: b
         'genres': json['genres'],
         'followersTotal': json['followersTotal'],
         'highlightedPlaylist': CardDtoFromJSON(json['highlightedPlaylist']),
-        'topTracks': ((json['topTracks'] as Array<any>).map(AlbumTrackDtoFromJSON)),
+        'topTracks': ((json['topTracks'] as Array<any>).map(ArtistTopTrackFromJSON)),
     };
 }
 
@@ -126,7 +126,7 @@ export function ArtistDetailedDtoToJSON(value?: ArtistDetailedDto | null): any {
         'genres': value.genres,
         'followersTotal': value.followersTotal,
         'highlightedPlaylist': CardDtoToJSON(value.highlightedPlaylist),
-        'topTracks': ((value.topTracks as Array<any>).map(AlbumTrackDtoToJSON)),
+        'topTracks': ((value.topTracks as Array<any>).map(ArtistTopTrackToJSON)),
     };
 }
 

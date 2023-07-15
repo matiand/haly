@@ -1,4 +1,4 @@
-namespace Haly.WebApp.Models;
+namespace Haly.WebApp.Models.Tracks;
 
 public class AlbumTrack : Track
 {

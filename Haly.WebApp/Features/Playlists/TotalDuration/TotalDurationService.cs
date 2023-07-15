@@ -1,5 +1,5 @@
 using Haly.WebApp.Data;
-using Haly.WebApp.Models;
+using Haly.WebApp.Models.Tracks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.TotalDuration;
