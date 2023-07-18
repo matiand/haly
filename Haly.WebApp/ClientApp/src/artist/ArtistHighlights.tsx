@@ -1,5 +1,5 @@
 import { ArtistTopTrackDto, HighlightedPlaylistDto } from "../../generated/haly";
-import Card from "../common/Card";
+import MiniCard from "../common/MiniCard";
 import { styled } from "../common/theme";
 import TopTracksTable from "../table/TopTracksTable";
 
@@ -18,14 +18,14 @@ function ArtistHighlights({ tracks, playlist }: ArtistHighlightsProps) {
 
             {playlist && (
                 <div>
-                    <h2>Highlighted Playlist</h2>
-                    <Card
+                    <h2>Playlist Pick</h2>
+                    <MiniCard
                         id={playlist.id}
                         name={playlist.name}
+                        subtitle={`By ${playlist.ownerName}`}
                         href={`/playlist/${playlist.id}`}
                         imageUrl={playlist.imageUrl}
-                        isPlayable={false}
-                        hasRoundedImage
+                        hasRoundedImage={false}
                     />
                 </div>
             )}
@@ -35,6 +35,7 @@ function ArtistHighlights({ tracks, playlist }: ArtistHighlightsProps) {
 
 const Wrapper = styled("div", {
     display: "grid",
+    gap: "$600",
     gridTemplateColumns: "1fr",
 
     "& h2": {
