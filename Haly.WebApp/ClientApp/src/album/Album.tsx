@@ -26,7 +26,7 @@ function Album() {
     const {
         id: albumId,
         name,
-        typeName,
+        type,
         imageUrl,
         totalDuration,
         tracks,
@@ -40,7 +40,7 @@ function Album() {
 
     return (
         <Wrapper>
-            <PageHeader title={name} subtitle={typeName} type="Album" imageUrl={imageUrl} description={null}>
+            <PageHeader title={name} subtitle={type} type="Album" imageUrl={imageUrl} description={null}>
                 {artists.map((a) => {
                     const artistHref = `/artist/${a.id}`;
                     return (

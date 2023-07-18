@@ -727,7 +727,7 @@ components:
         - releaseYear
         - totalDuration
         - tracks
-        - typeName
+        - type
       type: object
       properties:
         id:
@@ -737,7 +737,7 @@ components:
         imageUrl:
           type: string
           nullable: true
-        typeName:
+        type:
           type: string
         totalDuration:
           type: string
@@ -787,13 +787,6 @@ components:
           items:
             $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
-    AlbumType:
-      enum:
-        - Album
-        - OneSong
-        - Ep
-        - Compilation
-      type: string
     ArtistAppearancesDto:
       required:
         - albumsAndSingles
@@ -1159,11 +1152,11 @@ components:
         imageUrl:
           type: string
           nullable: true
+        type:
+          type: string
         releaseYear:
           type: integer
           format: int32
-        type:
-          $ref: '#/components/schemas/AlbumType'
       additionalProperties: false
     TopArtistDto:
       required:

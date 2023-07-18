@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AlbumType } from './AlbumType';
-import {
-    AlbumTypeFromJSON,
-    AlbumTypeFromJSONTyped,
-    AlbumTypeToJSON,
-} from './AlbumType';
-
 /**
  * 
  * @export
@@ -46,16 +39,16 @@ export interface ReleaseItemDto {
     imageUrl?: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof ReleaseItemDto
+     */
+    type: string;
+    /**
+     * 
      * @type {number}
      * @memberof ReleaseItemDto
      */
     releaseYear: number;
-    /**
-     * 
-     * @type {AlbumType}
-     * @memberof ReleaseItemDto
-     */
-    type: AlbumType;
 }
 
 /**
@@ -65,8 +58,8 @@ export function instanceOfReleaseItemDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "releaseYear" in value;
     isInstance = isInstance && "type" in value;
+    isInstance = isInstance && "releaseYear" in value;
 
     return isInstance;
 }
@@ -84,8 +77,8 @@ export function ReleaseItemDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
+        'type': json['type'],
         'releaseYear': json['releaseYear'],
-        'type': AlbumTypeFromJSON(json['type']),
     };
 }
 
@@ -101,8 +94,8 @@ export function ReleaseItemDtoToJSON(value?: ReleaseItemDto | null): any {
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
+        'type': value.type,
         'releaseYear': value.releaseYear,
-        'type': AlbumTypeToJSON(value.type),
     };
 }
 

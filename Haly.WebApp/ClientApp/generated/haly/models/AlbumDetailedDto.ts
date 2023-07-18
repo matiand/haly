@@ -55,7 +55,7 @@ export interface AlbumDetailedDto {
      * @type {string}
      * @memberof AlbumDetailedDto
      */
-    typeName: string;
+    type: string;
     /**
      * 
      * @type {string}
@@ -101,7 +101,7 @@ export function instanceOfAlbumDetailedDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "typeName" in value;
+    isInstance = isInstance && "type" in value;
     isInstance = isInstance && "totalDuration" in value;
     isInstance = isInstance && "artists" in value;
     isInstance = isInstance && "tracks" in value;
@@ -125,7 +125,7 @@ export function AlbumDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'typeName': json['typeName'],
+        'type': json['type'],
         'totalDuration': json['totalDuration'],
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
         'tracks': ((json['tracks'] as Array<any>).map(AlbumTrackDtoFromJSON)),
@@ -147,7 +147,7 @@ export function AlbumDetailedDtoToJSON(value?: AlbumDetailedDto | null): any {
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
-        'typeName': value.typeName,
+        'type': value.type,
         'totalDuration': value.totalDuration,
         'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
         'tracks': ((value.tracks as Array<any>).map(AlbumTrackDtoToJSON)),

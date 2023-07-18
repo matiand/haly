@@ -22,13 +22,13 @@ public class GetArtistDiscographyHandler : IRequestHandler<GetArtistDiscographyQ
 
         var dto = new ArtistDiscographyDto()
         {
-            Albums = releases.Where(r => r.Type is AlbumType.Album)
+            Albums = releases.Where(r => r.Type == AlbumType.Album)
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
-            SinglesAndEps = releases.Where(r => r.Type is AlbumType.OneSong or AlbumType.Ep)
+            SinglesAndEps = releases.Where(r => r.Type == AlbumType.OneSong || r.Type == AlbumType.Ep)
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
-            Compilations = releases.Where(r => r.Type is AlbumType.Compilation)
+            Compilations = releases.Where(r => r.Type == AlbumType.Compilation)
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
         };

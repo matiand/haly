@@ -14,14 +14,6 @@ public record AlbumDetailed
     public List<string> Copyrights { get; init; }
     public DateOnly ReleaseDate { get; init; }
 
-    public string TypeName => Type switch
-    {
-        AlbumType.Album => "Album",
-        AlbumType.OneSong => "Single",
-        AlbumType.Ep => "EP",
-        _ => "Compilation",
-    };
-
     public int ReleaseYear => ReleaseDate.Year;
 
     public string FormattedReleaseDate =>

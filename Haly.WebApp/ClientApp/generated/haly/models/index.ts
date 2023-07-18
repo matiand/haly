@@ -3,7 +3,6 @@
 export * from './AlbumBriefDto';
 export * from './AlbumDetailedDto';
 export * from './AlbumTrackDto';
-export * from './AlbumType';
 export * from './ArtistAppearancesDto';
 export * from './ArtistBriefDto';
 export * from './ArtistDetailedDto';
