@@ -11,7 +11,7 @@ public record ArtistDetailed
     public List<string> Genres { get; init; }
     public int FollowersTotal { get; init; }
 
-    public Card? TopFeaturedPlaylist { get; set; }
+    public HighlightedPlaylist? TopFeaturedPlaylist { get; set; }
 
     public List<ArtistTopTrack> TopTracks { get; set; }
 }

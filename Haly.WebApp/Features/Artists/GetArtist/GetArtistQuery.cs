@@ -27,7 +27,7 @@ public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailedDt
         return dto;
     }
 
-    private async Task<CardDto?> GetHighlightedPlaylist(string artistName, string userMarket)
+    private async Task<HighlightedPlaylistDto?> GetHighlightedPlaylist(string artistName, string userMarket)
     {
         var searchResult = await _spotify.Search(artistName, SearchType.Playlist, userMarket);
 
@@ -38,6 +38,6 @@ public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailedDt
         var nonSpotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Metadata.Owner.Id != SpotifyUserId);
         var spotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Metadata.Owner.Id == SpotifyUserId);
 
-        return nonSpotifyPlaylist?.Adapt<CardDto>() ?? spotifyPlaylist?.Adapt<CardDto>();
+        return nonSpotifyPlaylist?.Adapt<HighlightedPlaylistDto>() ?? spotifyPlaylist?.Adapt<HighlightedPlaylistDto>();
     }
 }

@@ -99,7 +99,7 @@ const THead = styled("thead", {
     "& > tr": {
         borderBottom: "1px solid $collectionTableHeadBorder",
         display: "grid",
-        gridGap: "$600",
+        gridGap: "$700",
 
         gridTemplateColumns,
         height: "36px",
@@ -133,7 +133,7 @@ const TBody = styled("tbody", {
 
     "& > tr": {
         display: "grid",
-        gridGap: "$600",
+        gridGap: "$700",
         gridTemplateColumns,
         height: "$collectionRowHeight",
         padding: "0 $600",

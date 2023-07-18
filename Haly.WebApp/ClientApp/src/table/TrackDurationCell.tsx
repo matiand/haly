@@ -1,13 +1,13 @@
-import {AlbumTrackDto, PlaylistTrackDto} from "../../generated/haly";
+import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import { styled } from "../common/theme";
 
 type TrackDurationCellProps = {
-    track: PlaylistTrackDto | AlbumTrackDto;
-}
+    track: PlaylistTrackDto | AlbumTrackDto | ArtistTopTrackDto;
+};
 
-function TrackDurationCell({track}: TrackDurationCellProps) {
+function TrackDurationCell({ track }: TrackDurationCellProps) {
     return (
         <Wrapper>
             <HeartButton size="small" />

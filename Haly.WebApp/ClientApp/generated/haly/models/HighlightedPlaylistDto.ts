@@ -16,45 +16,52 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface AlbumBrief
+ * @interface HighlightedPlaylistDto
  */
-export interface AlbumBrief {
+export interface HighlightedPlaylistDto {
     /**
      * 
      * @type {string}
-     * @memberof AlbumBrief
+     * @memberof HighlightedPlaylistDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof AlbumBrief
+     * @memberof HighlightedPlaylistDto
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof AlbumBrief
+     * @memberof HighlightedPlaylistDto
      */
     imageUrl?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HighlightedPlaylistDto
+     */
+    ownerName: string;
 }
 
 /**
- * Check if a given object implements the AlbumBrief interface.
+ * Check if a given object implements the HighlightedPlaylistDto interface.
  */
-export function instanceOfAlbumBrief(value: object): boolean {
+export function instanceOfHighlightedPlaylistDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "ownerName" in value;
 
     return isInstance;
 }
 
-export function AlbumBriefFromJSON(json: any): AlbumBrief {
-    return AlbumBriefFromJSONTyped(json, false);
+export function HighlightedPlaylistDtoFromJSON(json: any): HighlightedPlaylistDto {
+    return HighlightedPlaylistDtoFromJSONTyped(json, false);
 }
 
-export function AlbumBriefFromJSONTyped(json: any, ignoreDiscriminator: boolean): AlbumBrief {
+export function HighlightedPlaylistDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): HighlightedPlaylistDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,10 +70,11 @@ export function AlbumBriefFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
+        'ownerName': json['ownerName'],
     };
 }
 
-export function AlbumBriefToJSON(value?: AlbumBrief | null): any {
+export function HighlightedPlaylistDtoToJSON(value?: HighlightedPlaylistDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -78,6 +86,7 @@ export function AlbumBriefToJSON(value?: AlbumBrief | null): any {
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
+        'ownerName': value.ownerName,
     };
 }
 

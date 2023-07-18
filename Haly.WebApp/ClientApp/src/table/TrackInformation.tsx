@@ -1,29 +1,36 @@
 import { Link } from "react-router-dom";
 
-import { AlbumTrackDto, PlaylistTrackDto } from "../../generated/haly";
+import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import TrackCoverImage from "../common/TrackCoverImage";
 
 type TrackInformationProps = {
-    track: PlaylistTrackDto | AlbumTrackDto;
+    track: PlaylistTrackDto | AlbumTrackDto | ArtistTopTrackDto;
     type: "cell" | "playback";
+    hideArtists?: boolean;
 };
 
-function TrackInformation({ track, type }: TrackInformationProps) {
+function TrackInformation({ track, type, hideArtists }: TrackInformationProps) {
     const { name, artists, isExplicit } = track;
 
-    const isPlaylistTrack = "type" in track;
     const showExplicitMark = isExplicit && type === "cell";
-    const showArtists = !isPlaylistTrack || track.type === "Song";
-    const shouldLinkToAlbum = isPlaylistTrack && type === "playback";
+
+    const hasAlbum = "album" in track;
+    const shouldLinkToAlbum = hasAlbum && type === "playback";
 
     return (
         <Wrapper>
-            {isPlaylistTrack && <TrackCoverImage type={type} imageUrl={track.album.imageUrl} />}
+            {hasAlbum && <TrackCoverImage type={type} imageUrl={track.album.imageUrl} />}
 
             <Grid type={type}>
-                <Title className="line-clamp-ellipsis">
-                    {shouldLinkToAlbum ? <Link to={`/album/${track.album.id}`}>{name}</Link> : name}
+                <Title>
+                    {shouldLinkToAlbum ? (
+                        <Link to={`/album/${track.album.id}`}>
+                            <span className="line-clamp-ellipsis">{name}</span>
+                        </Link>
+                    ) : (
+                        <span className="line-clamp-ellipsis">{name}</span>
+                    )}
                 </Title>
 
                 {showExplicitMark && (
@@ -32,10 +39,12 @@ function TrackInformation({ track, type }: TrackInformationProps) {
                     </Explicit>
                 )}
 
-                {showArtists && (
+                {!hideArtists && (
                     <Subtitle className="line-clamp-ellipsis">
                         {artists.map(({ name, id }) => (
-                            <Link key={id} to={`/artist/${id}`}>
+                            // Disable tabbing on these links, cause the '.line-clamp-ellipsis'
+                            // class breaks their focus styles
+                            <Link key={id} to={`/artist/${id}`} tabIndex={-1}>
                                 {name}
                             </Link>
                         ))}
@@ -56,11 +65,11 @@ const Wrapper = styled("div", {
 });
 
 const Title = styled("div", {
+    fontSize: "$350",
     gridArea: "title",
 });
 
 const Subtitle = styled("span", {
-    alignSelf: "baseline",
     gridArea: "subtitle",
 
     "& > a": {
@@ -75,7 +84,6 @@ const Subtitle = styled("span", {
 
         "&:not(:last-child):after": {
             content: ", ",
-            width: "0.6em",
         },
     },
 });
@@ -84,8 +92,8 @@ const Grid = styled("div", {
     variants: {
         type: {
             playback: {
-                lineHeight:1.25,
-                
+                lineHeight: 1.3,
+
                 [`& ${Subtitle} > a`]: {
                     fontSize: "$50",
                 },
@@ -97,12 +105,11 @@ const Grid = styled("div", {
                     textDecoration: "none",
 
                     "&:hover": {
-                        textDecoration: "underline"
+                        textDecoration: "underline",
                     },
                 },
             },
             cell: {
-                height: "calc($collectionRowHeight * 0.9)",
                 paddingRight: "$400",
             },
         },
@@ -111,11 +118,10 @@ const Grid = styled("div", {
     alignItems: "center",
     color: "$white800",
     display: "grid",
+    fontWeight: "500",
     gridTemplateAreas: `"title title"
                         "explicit subtitle"`,
     gridTemplateColumns: "auto 1fr",
-    fontSize: "$350",
-    fontWeight: "500",
     userSelect: "none",
 });
 
@@ -124,9 +130,11 @@ const Explicit = styled("span", {
     borderRadius: "2px",
     color: "$black600",
     fontSize: "8px",
+    fontWeight: 800,
     gridArea: "explicit",
     lineHeight: 1,
     marginRight: "$400",
+    marginTop: "$100",
     padding: "$200",
 });
 

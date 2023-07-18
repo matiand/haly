@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { ArtistTopTrack } from './ArtistTopTrack';
+import type { ArtistTopTrackDto } from './ArtistTopTrackDto';
 import {
-    ArtistTopTrackFromJSON,
-    ArtistTopTrackFromJSONTyped,
-    ArtistTopTrackToJSON,
-} from './ArtistTopTrack';
-import type { CardDto } from './CardDto';
+    ArtistTopTrackDtoFromJSON,
+    ArtistTopTrackDtoFromJSONTyped,
+    ArtistTopTrackDtoToJSON,
+} from './ArtistTopTrackDto';
+import type { HighlightedPlaylistDto } from './HighlightedPlaylistDto';
 import {
-    CardDtoFromJSON,
-    CardDtoFromJSONTyped,
-    CardDtoToJSON,
-} from './CardDto';
+    HighlightedPlaylistDtoFromJSON,
+    HighlightedPlaylistDtoFromJSONTyped,
+    HighlightedPlaylistDtoToJSON,
+} from './HighlightedPlaylistDto';
 
 /**
  * 
@@ -64,16 +64,16 @@ export interface ArtistDetailedDto {
     followersTotal: number;
     /**
      * 
-     * @type {CardDto}
+     * @type {HighlightedPlaylistDto}
      * @memberof ArtistDetailedDto
      */
-    highlightedPlaylist: CardDto;
+    highlightedPlaylist: HighlightedPlaylistDto;
     /**
      * 
-     * @type {Array<ArtistTopTrack>}
+     * @type {Array<ArtistTopTrackDto>}
      * @memberof ArtistDetailedDto
      */
-    topTracks: Array<ArtistTopTrack>;
+    topTracks: Array<ArtistTopTrackDto>;
 }
 
 /**
@@ -106,8 +106,8 @@ export function ArtistDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: b
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'genres': json['genres'],
         'followersTotal': json['followersTotal'],
-        'highlightedPlaylist': CardDtoFromJSON(json['highlightedPlaylist']),
-        'topTracks': ((json['topTracks'] as Array<any>).map(ArtistTopTrackFromJSON)),
+        'highlightedPlaylist': HighlightedPlaylistDtoFromJSON(json['highlightedPlaylist']),
+        'topTracks': ((json['topTracks'] as Array<any>).map(ArtistTopTrackDtoFromJSON)),
     };
 }
 
@@ -125,8 +125,8 @@ export function ArtistDetailedDtoToJSON(value?: ArtistDetailedDto | null): any {
         'imageUrl': value.imageUrl,
         'genres': value.genres,
         'followersTotal': value.followersTotal,
-        'highlightedPlaylist': CardDtoToJSON(value.highlightedPlaylist),
-        'topTracks': ((value.topTracks as Array<any>).map(ArtistTopTrackToJSON)),
+        'highlightedPlaylist': HighlightedPlaylistDtoToJSON(value.highlightedPlaylist),
+        'topTracks': ((value.topTracks as Array<any>).map(ArtistTopTrackDtoToJSON)),
     };
 }
 

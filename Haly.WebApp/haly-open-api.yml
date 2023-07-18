@@ -703,20 +703,6 @@ paths:
                 $ref: '#/components/schemas/Problem'
 components:
   schemas:
-    AlbumBrief:
-      required:
-        - id
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
-      additionalProperties: false
     AlbumBriefDto:
       required:
         - id
@@ -823,17 +809,6 @@ components:
           items:
             $ref: '#/components/schemas/ReleaseItemDto'
       additionalProperties: false
-    ArtistBrief:
-      required:
-        - id
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-      additionalProperties: false
     ArtistBriefDto:
       required:
         - id
@@ -870,11 +845,11 @@ components:
           type: integer
           format: int32
         highlightedPlaylist:
-          $ref: '#/components/schemas/CardDto'
+          $ref: '#/components/schemas/HighlightedPlaylistDto'
         topTracks:
           type: array
           items:
-            $ref: '#/components/schemas/ArtistTopTrack'
+            $ref: '#/components/schemas/ArtistTopTrackDto'
       additionalProperties: false
     ArtistDiscographyDto:
       required:
@@ -896,52 +871,33 @@ components:
           items:
             $ref: '#/components/schemas/ReleaseItemDto'
       additionalProperties: false
-    ArtistTopTrack:
+    ArtistTopTrackDto:
       required:
         - album
         - artists
         - duration
-        - durationInMs
         - isExplicit
         - isPlayable
         - name
+        - spotifyId
       type: object
       properties:
         spotifyId:
           type: string
-          nullable: true
         name:
           type: string
-        durationInMs:
-          type: integer
-          format: int32
+        duration:
+          type: string
         isPlayable:
           type: boolean
         isExplicit:
           type: boolean
+        album:
+          $ref: '#/components/schemas/AlbumBriefDto'
         artists:
           type: array
           items:
-            $ref: '#/components/schemas/ArtistBrief'
-        duration:
-          type: string
-          readOnly: true
-        album:
-          $ref: '#/components/schemas/AlbumBrief'
-      additionalProperties: false
-    CardDto:
-      required:
-        - id
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
+            $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
     CreatorType:
       enum:
@@ -983,6 +939,23 @@ components:
         followersTotal:
           type: integer
           format: int32
+      additionalProperties: false
+    HighlightedPlaylistDto:
+      required:
+        - id
+        - name
+        - ownerName
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        ownerName:
+          type: string
       additionalProperties: false
     OwnerBriefDto:
       required:

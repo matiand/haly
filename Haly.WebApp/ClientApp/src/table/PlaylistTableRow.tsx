@@ -18,7 +18,7 @@ function PlaylistTableRow({ index, track }: PlaylistTableRowProps) {
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" />
+                <TrackInformation track={track} type="cell" hideArtists={track.type === "Podcast"} />
             </td>
 
             <td>

@@ -9,9 +9,9 @@ import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
-import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistGradient from "../playlist/PlaylistGradient";
 import FollowButton from "../profile/FollowButton";
+import ArtistHighlights from "./ArtistHighlights";
 
 function Artist() {
     const { id } = useParams();
@@ -24,7 +24,7 @@ function Artist() {
 
     if (!query.data) return <LoadingIndicator />;
 
-    const { name, imageUrl, followersTotal, genres } = query.data;
+    const { name, imageUrl, followersTotal, genres, highlightedPlaylist, topTracks } = query.data;
     const dominantColor = dominantColors[imageUrl ?? ""];
 
     return (
@@ -43,6 +43,8 @@ function Artist() {
             <PageControls>
                 <FollowButton />
             </PageControls>
+
+            <ArtistHighlights tracks={topTracks} playlist={highlightedPlaylist} />
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
