@@ -3,7 +3,7 @@ using Mapster;
 
 namespace Haly.WebApp.Features.Users.GetUserPlaylists;
 
-public class PlaylistCardDtoProfile : IRegister
+public class MappingProfile : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {

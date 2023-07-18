@@ -4,7 +4,7 @@ using Mapster;
 
 namespace Haly.WebApp.Features.Pagination;
 
-public class PaginatedListMappingProfile : IRegister
+public class MappingProfile : IRegister
 {
     private int PlaylistTrackLimit { get; } = 25;
 

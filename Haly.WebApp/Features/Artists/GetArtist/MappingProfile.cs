@@ -3,7 +3,7 @@ using Mapster;
 
 namespace Haly.WebApp.Features.Artists.GetArtist;
 
-public class HighlightedPlaylistDtoProfile : IRegister
+public class MappingProfile : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
