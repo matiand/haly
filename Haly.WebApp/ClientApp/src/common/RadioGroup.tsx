@@ -5,7 +5,6 @@ import { styled } from "./theme";
 
 export type Option = {
     name: string;
-    value: string;
     onSelected: () => void;
 };
 
@@ -14,22 +13,23 @@ type RadioGroupProps = {
 };
 
 function RadioGroup({ options }: RadioGroupProps) {
-    const defaultValue = options[0].value;
+    const defaultValue = options[0].name;
     const [value, setValue] = useState(defaultValue);
 
     return (
         <Root
             type="single"
+            defaultValue={defaultValue}
             value={value}
             onValueChange={(newValue) => {
                 if (newValue) {
                     setValue(newValue);
-                    options.find((o) => o.value === newValue)!.onSelected();
+                    options.find((o) => o.name === newValue)!.onSelected();
                 }
             }}
         >
             {options.map((o) => (
-                <Item key={o.value} value={o.value}>
+                <Item key={o.name} value={o.name}>
                     {o.name}
                 </Item>
             ))}

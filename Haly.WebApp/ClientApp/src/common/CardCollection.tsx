@@ -3,7 +3,7 @@ import { useResizeDetector } from "react-resize-detector";
 import { Link } from "react-router-dom";
 
 import Card, { CardProps } from "./Card";
-import RadioGroup from "./RadioGroup";
+import RadioGroup, { Option } from "./RadioGroup";
 import { styled } from "./theme";
 
 type CardCollectionProps = {
@@ -11,12 +11,13 @@ type CardCollectionProps = {
     items: CardProps[];
     maxRows: number;
     href: string;
+    options?: Option[];
 };
 
 const cardGap = 24;
 const minCardWidth = 200;
 
-function CardCollection({ title, items, maxRows, href }: CardCollectionProps) {
+function CardCollection({ title, items, maxRows, href, options }: CardCollectionProps) {
     const [cardsPerRow, setCardsPerRow] = useState(8);
     const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +38,8 @@ function CardCollection({ title, items, maxRows, href }: CardCollectionProps) {
                 <h2>{hasMore ? <Link to={href}>{title}</Link> : title}</h2>
                 {hasMore && <Link to={href}>Show all</Link>}
             </div>
+
+            {options && <RadioGroup options={options} />}
 
             <Grid>
                 {items.slice(0, cardsPerRow * maxRows).map((card) => (

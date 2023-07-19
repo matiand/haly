@@ -41,7 +41,7 @@ function MiniCard({ name, href, subtitle, imageUrl, hasRoundedImage }: CardProps
             )}
 
             <ContentWrapper>
-                <Link className="line-clamp-ellipsis" to={href}>
+                <Link className="line-clamp-ellipsis" to={href} title={name}>
                     {name}
                 </Link>
                 {subtitle && <Subtitle className="line-clamp-ellipsis">{subtitle}</Subtitle>}
