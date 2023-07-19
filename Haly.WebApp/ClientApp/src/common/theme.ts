@@ -29,6 +29,9 @@ export const theme = {
         trackHover: "rgba(255, 255, 255, 0.1)",
         userMenuMask: "rgba(0, 0, 0, 0.6)",
         explicitMarkBg: "rgba(255, 255, 255, 0.6)",
+        radioBtnBg: "rgba(255, 255, 255, 0.08)",
+        radioBtnBgHover: "rgba(255, 255, 255, 0.12)",
+        radioBtnBgPress: "rgba(255, 255, 255, 0.04)",
 
         dominantDefault: "#535353",
         // 'Liked Songs' purple
