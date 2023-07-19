@@ -65,7 +65,7 @@ function useDominantColorExtraction(imageUrl: PlaylistMetadataDto["imageUrl"]) {
 }
 
 function calcPixelRatio(imagePixelCount: number) {
-    return 1000 / imagePixelCount;
+    return 2500 / imagePixelCount;
 }
 
 function selectDominantColor(palette: PaletteColor[] | undefined) {
