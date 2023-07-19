@@ -9,7 +9,8 @@ export type CardProps = {
     id: string;
     name: string;
     href: string;
-    subtitle?: string;
+    // A subtitle OR or a year + subtitle tuple
+    subtitle?: string | [number, string];
     imageUrl?: PlaylistMetadataDto["imageUrl"];
     isPlayable: boolean;
     hasRoundedImage: boolean;
@@ -37,7 +38,13 @@ function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage }: C
                     </Link>
                 </div>
 
-                {subtitle && <div>{subtitle}</div>}
+                {typeof subtitle === "string" && <div>{subtitle}</div>}
+                {typeof subtitle === "object" && (
+                    <div>
+                        <time dateTime={subtitle[0].toString()}>{subtitle[0]}</time>
+                        <span>{subtitle[1]}</span>
+                    </div>
+                )}
             </Contents>
         </Wrapper>
     );
@@ -49,6 +56,7 @@ const Wrapper = styled("div", {
     cursor: "pointer",
     padding: "$600",
     transition: "background-color 0.3s ease",
+    userSelect: "none",
 
     "&:hover, &:focus, &:focus-within": {
         background: "$black200",
@@ -114,9 +122,16 @@ const Contents = styled("div", {
 
     "& div": {
         color: "$white400",
+        display: "flex",
         fontSize: "$300",
         fontWeight: 500,
         textTransform: "capitalize",
+
+        "& > span::before": {
+            content: "•",
+            fontWeight: 100,
+            margin: "0 $200",
+        },
     },
 });
 

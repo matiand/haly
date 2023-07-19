@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PlaylistCardDto } from "../../generated/haly";
 import { styled } from "./theme";
 
-export type CardProps = {
+type CardProps = {
     id: string;
     name: string;
     href: string;

@@ -3,6 +3,7 @@ import { useResizeDetector } from "react-resize-detector";
 import { Link } from "react-router-dom";
 
 import Card, { CardProps } from "./Card";
+import RadioGroup from "./RadioGroup";
 import { styled } from "./theme";
 
 type CardCollectionProps = {
@@ -90,7 +91,7 @@ const Grid = styled("div", {
 
     display: "grid",
     gridGap: "$$gap",
-    gridTemplateColumns: `repeat(auto-fit, minmax($$cardWidth, 1fr))`,
+    gridTemplateColumns: `repeat(auto-fill, minmax($$cardWidth, 1fr))`,
 });
 
 export default CardCollection;
