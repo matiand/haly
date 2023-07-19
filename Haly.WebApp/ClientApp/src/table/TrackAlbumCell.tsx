@@ -7,21 +7,27 @@ type TrackAlbumCellProps = {
     track: PlaylistTrackDto;
 };
 
-function TrackAlbumCell({track}: TrackAlbumCellProps) {
+function TrackAlbumCell({ track }: TrackAlbumCellProps) {
     return (
         <Wrapper>
-            <Link className="line-clamp-ellipsis" to={`/album/${track.album.id}`}>
-                {track.album.name}
-            </Link>
+            {track.type === "Song" ? (
+                <Link className="line-clamp-ellipsis" to={`/album/${track.album.id}`}>
+                    {track.album.name}
+                </Link>
+            ) : (
+                <span className="line-clamp-ellipsis">{track.album.name}</span>
+            )}
         </Wrapper>
     );
 }
 
 const Wrapper = styled("span", {
+    color: "$white500",
+    fontSize: "$300",
+    fontWeight: 500,
+
     "& a": {
-        color: "$white500",
-        fontSize: "$300",
-        fontWeight: 500,
+        color: "inherit",
         textDecoration: "none",
 
         "&:hover": {

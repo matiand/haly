@@ -8,9 +8,11 @@ type TrackDurationCellProps = {
 };
 
 function TrackDurationCell({ track }: TrackDurationCellProps) {
+    const isPodcast = "type" in track && track.type === "Podcast";
+
     return (
         <Wrapper>
-            <HeartButton size="small" />
+            {!isPodcast && <HeartButton size="small" />}
             <Duration>{track.duration}</Duration>
             <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
         </Wrapper>
