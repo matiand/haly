@@ -789,15 +789,20 @@ components:
       additionalProperties: false
     ArtistAppearancesDto:
       required:
-        - albumsAndSingles
+        - albums
         - compilations
+        - singlesAndEps
       type: object
       properties:
-        compilations:
+        albums:
           type: array
           items:
             $ref: '#/components/schemas/ReleaseItemDto'
-        albumsAndSingles:
+        singlesAndEps:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+        compilations:
           type: array
           items:
             $ref: '#/components/schemas/ReleaseItemDto'
@@ -847,10 +852,15 @@ components:
     ArtistDiscographyDto:
       required:
         - albums
+        - all
         - compilations
         - singlesAndEps
       type: object
       properties:
+        all:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
         albums:
           type: array
           items:

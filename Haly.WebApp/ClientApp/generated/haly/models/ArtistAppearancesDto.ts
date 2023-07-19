@@ -31,13 +31,19 @@ export interface ArtistAppearancesDto {
      * @type {Array<ReleaseItemDto>}
      * @memberof ArtistAppearancesDto
      */
-    compilations: Array<ReleaseItemDto>;
+    albums: Array<ReleaseItemDto>;
     /**
      * 
      * @type {Array<ReleaseItemDto>}
      * @memberof ArtistAppearancesDto
      */
-    albumsAndSingles: Array<ReleaseItemDto>;
+    singlesAndEps: Array<ReleaseItemDto>;
+    /**
+     * 
+     * @type {Array<ReleaseItemDto>}
+     * @memberof ArtistAppearancesDto
+     */
+    compilations: Array<ReleaseItemDto>;
 }
 
 /**
@@ -45,8 +51,9 @@ export interface ArtistAppearancesDto {
  */
 export function instanceOfArtistAppearancesDto(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "albums" in value;
+    isInstance = isInstance && "singlesAndEps" in value;
     isInstance = isInstance && "compilations" in value;
-    isInstance = isInstance && "albumsAndSingles" in value;
 
     return isInstance;
 }
@@ -61,8 +68,9 @@ export function ArtistAppearancesDtoFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
+        'albums': ((json['albums'] as Array<any>).map(ReleaseItemDtoFromJSON)),
+        'singlesAndEps': ((json['singlesAndEps'] as Array<any>).map(ReleaseItemDtoFromJSON)),
         'compilations': ((json['compilations'] as Array<any>).map(ReleaseItemDtoFromJSON)),
-        'albumsAndSingles': ((json['albumsAndSingles'] as Array<any>).map(ReleaseItemDtoFromJSON)),
     };
 }
 
@@ -75,8 +83,9 @@ export function ArtistAppearancesDtoToJSON(value?: ArtistAppearancesDto | null):
     }
     return {
         
+        'albums': ((value.albums as Array<any>).map(ReleaseItemDtoToJSON)),
+        'singlesAndEps': ((value.singlesAndEps as Array<any>).map(ReleaseItemDtoToJSON)),
         'compilations': ((value.compilations as Array<any>).map(ReleaseItemDtoToJSON)),
-        'albumsAndSingles': ((value.albumsAndSingles as Array<any>).map(ReleaseItemDtoToJSON)),
     };
 }
 

@@ -28,9 +28,13 @@ function CardCollection({ title, items, maxRows, href, options }: CardCollection
         setCardsPerRow(cardsPerRow);
     }, []);
 
-    useResizeDetector({ targetRef: sectionRef, onResize });
+    useResizeDetector({
+        targetRef: sectionRef,
+        onResize,
+    });
 
     const hasMore = items.length > cardsPerRow * maxRows;
+    const hasOptions = options && options.length > 0;
 
     return (
         <Section ref={sectionRef}>
@@ -39,7 +43,7 @@ function CardCollection({ title, items, maxRows, href, options }: CardCollection
                 {hasMore && <Link to={href}>Show all</Link>}
             </div>
 
-            {options && <RadioGroup options={options} />}
+            {hasOptions && <RadioGroup options={options} />}
 
             <Grid>
                 {items.slice(0, cardsPerRow * maxRows).map((card) => (

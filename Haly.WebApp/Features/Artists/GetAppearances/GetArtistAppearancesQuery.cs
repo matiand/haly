@@ -24,10 +24,13 @@ public class GetArtistAppearancesHandler : IRequestHandler<GetArtistAppearancesQ
 
         var dto = new ArtistAppearancesDto()
         {
-            Compilations = releases.Where(r => r.Type == AlbumType.Compilation)
+            Albums = releases.Where(r => r.Type == AlbumType.Album)
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
-            AlbumsAndSingles = releases.Where(r => r.Type != AlbumType.Compilation)
+            SinglesAndEps = releases.Where(r => r.Type == AlbumType.OneSong || r.Type == AlbumType.Ep)
+                .OrderByDescending(r => r.ReleaseDate)
+                .Adapt<List<ReleaseItemDto>>(),
+            Compilations = releases.Where(r => r.Type == AlbumType.Compilation)
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
         };

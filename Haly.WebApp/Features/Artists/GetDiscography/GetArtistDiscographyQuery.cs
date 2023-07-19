@@ -16,12 +16,16 @@ public class GetArtistDiscographyHandler : IRequestHandler<GetArtistDiscographyQ
         _spotify = spotify;
     }
 
-    public async Task<ArtistDiscographyDto> Handle(GetArtistDiscographyQuery request, CancellationToken cancellationToken)
+    public async Task<ArtistDiscographyDto> Handle(GetArtistDiscographyQuery request,
+        CancellationToken cancellationToken)
     {
         var releases = await _spotify.GetArtistReleases(request.Id, ArtistRelease.Discography, request.UserMarket);
 
         var dto = new ArtistDiscographyDto()
         {
+            All = releases
+                .OrderByDescending(r => r.ReleaseDate)
+                .Adapt<List<ReleaseItemDto>>(),
             Albums = releases.Where(r => r.Type == AlbumType.Album)
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),

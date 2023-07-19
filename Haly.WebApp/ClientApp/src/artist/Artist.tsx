@@ -11,15 +11,13 @@ import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistGradient from "../playlist/PlaylistGradient";
 import FollowButton from "../profile/FollowButton";
+import AppearsOn from "./AppearsOn";
 import ArtistHighlights from "./ArtistHighlights";
+import Discography from "./Discography";
 
 function Artist() {
     const { id } = useParams();
     const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
-    const appearsOnQuery = useQuery(["artist", id, "appearances"], () =>
-        halyClient.artists.getArtistAppearances({ id: id! }),
-    );
-
     const dominantColors = useAtomValue(dominantColorsAtom);
 
     if (!query.data) return <LoadingIndicator />;
@@ -45,6 +43,8 @@ function Artist() {
             </PageControls>
 
             <ArtistHighlights tracks={topTracks} playlist={highlightedPlaylist} />
+            <Discography id={id!} />
+            <AppearsOn id={id!} />
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
