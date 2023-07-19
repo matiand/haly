@@ -2,8 +2,8 @@ import { useInView } from "react-intersection-observer";
 
 import { PlaylistTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
-import TrackDurationIcon from "./TrackDurationIcon";
 import PlaylistTableRow from "./PlaylistTableRow";
+import TrackDurationIcon from "./TrackDurationIcon";
 
 type PlaylistTableProps = {
     items: PlaylistTrackDto[];
@@ -14,6 +14,8 @@ function PlaylistTable({ items }: PlaylistTableProps) {
 
     if (items.length === 0) return null;
 
+    const hasPodcasts = items.some((t) => t.type === "Podcast");
+
     return (
         <>
             <div ref={ref} aria-hidden></div>
@@ -22,7 +24,10 @@ function PlaylistTable({ items }: PlaylistTableProps) {
                     <tr>
                         <th>#</th>
                         <th>Title</th>
-                        <th>Album</th>
+                        {/* Occasionally, it may toggle between these two states when the current
+                        items slice contains no podcasts, but the likelihood of this happening is
+                        quite low. */}
+                        <th>{hasPodcasts ? "Album or podcast" : "Album"}</th>
                         <th>Date added</th>
                         <th>
                             <TrackDurationIcon />
