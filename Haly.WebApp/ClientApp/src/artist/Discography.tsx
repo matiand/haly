@@ -2,11 +2,11 @@ import CardCollection from "../common/CardCollection";
 import useDiscographyQuery from "./useDiscographyQuery";
 
 type DiscographyProps = {
-    id: string;
+    artistId: string;
 };
 
-function Discography({ id }: DiscographyProps) {
-    const { items, options } = useDiscographyQuery(id);
+function Discography({ artistId }: DiscographyProps) {
+    const { items, options } = useDiscographyQuery(artistId);
 
     return <CardCollection title="Discography" items={items} options={options} maxRows={2} href="discography" />;
 }

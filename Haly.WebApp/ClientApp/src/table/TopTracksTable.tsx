@@ -11,6 +11,7 @@ type TopTracksTableProps = {
 function TopTracksTable({ items }: TopTracksTableProps) {
     const [showMore, setShowMore] = useState(false);
 
+    const showButton = items.length > 5;
     const btnLabel = showMore ? "Show less" : "See more";
 
     return (
@@ -23,7 +24,7 @@ function TopTracksTable({ items }: TopTracksTableProps) {
                 </TBody>
             </Table>
 
-            <Button onClick={() => setShowMore((prev) => !prev)}>{btnLabel}</Button>
+            {showButton && <Button onClick={() => setShowMore((prev) => !prev)}>{btnLabel}</Button>}
         </div>
     );
 }

@@ -77,7 +77,7 @@ function useAppearsOnFilter(data?: ArtistAppearancesDto) {
 
     return {
         filter,
-        options,
+        options: options.length > 1 ? options : [],
     };
 }
 

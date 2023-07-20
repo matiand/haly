@@ -87,7 +87,7 @@ function useDiscographyFilter(data?: ArtistDiscographyDto) {
 
     return {
         filter,
-        options,
+        options: options.length > 2 ? options : [],
     };
 }
 

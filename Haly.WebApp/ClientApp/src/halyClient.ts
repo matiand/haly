@@ -2,6 +2,7 @@ import {
     AlbumsApi,
     ArtistsApi,
     Configuration,
+    FollowingApi,
     MeApi,
     PlayerApi,
     PlaylistsApi,
@@ -18,6 +19,7 @@ export default {
     users: new UsersApi(config),
     artists: new ArtistsApi(config),
     albums: new AlbumsApi(config),
+    following: new FollowingApi(config),
     isProblem: (obj: unknown): obj is Problem => {
         return typeof obj == "object" && obj !== null && "type" in obj && "status" in obj && "title" in obj;
     },

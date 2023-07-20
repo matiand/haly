@@ -2,11 +2,11 @@ import CardCollection from "../common/CardCollection";
 import useAppearsOnQuery from "./useAppearsOnQuery";
 
 type AppearsOnProps = {
-    id: string;
+    artistId: string;
 };
 
-function AppearsOn({ id }: AppearsOnProps) {
-    const { items, options } = useAppearsOnQuery(id);
+function AppearsOn({ artistId }: AppearsOnProps) {
+    const { items, options } = useAppearsOnQuery(artistId);
 
     return <CardCollection title="Appears On" items={items} options={options} maxRows={2} href="appearances" />;
 }

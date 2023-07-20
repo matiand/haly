@@ -37,11 +37,12 @@ const Wrapper = styled("div", {
     display: "grid",
     gap: "$600",
     gridTemplateColumns: "1fr",
+    padding: "0 0 $700",
 
     "& h2": {
         fontSize: "$500",
         fontWeight: 800,
-        paddingBottom: "$400",
+        marginBottom: "$500",
     },
 
     "@bp2": {
