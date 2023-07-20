@@ -23,7 +23,7 @@ function Profile() {
 
     if (!profileQuery.data) return <LoadingIndicator />;
 
-    const { name, followersTotal, imageUrl } = profileQuery.data;
+    const { id: userId, name, followersTotal, imageUrl, isFollowed } = profileQuery.data;
     const playlistTotal = playlistsQuery.data?.length ?? 0;
     const dominantColor = dominantColors[imageUrl ?? ""];
 
@@ -46,7 +46,7 @@ function Profile() {
             </PageHeader>
 
             <PageControls>
-                <FollowButton />
+                <FollowButton creatorId={userId} initialValue={isFollowed} type="User" />
             </PageControls>
 
             <CardCollection title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />

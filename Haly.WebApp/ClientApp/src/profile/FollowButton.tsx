@@ -1,11 +1,41 @@
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+
+import { CreatorType } from "../../generated/haly";
 import { styled } from "../common/theme";
+import halyClient from "../halyClient";
 
 type FollowButtonProps = {
-    onClick: () => void;
-    isFollowing: boolean;
+    creatorId: string;
+    initialValue: boolean;
+    type: CreatorType;
 };
 
-function FollowButton({ onClick, isFollowing }: FollowButtonProps) {
+function FollowButton({ creatorId, initialValue, type }: FollowButtonProps) {
+    const [isFollowing, setIsFollowing] = useState(initialValue);
+    const follow = useMutation((creatorId: string) =>
+        halyClient.following.follow({
+            type,
+            creatorId,
+        }),
+    );
+    const unfollow = useMutation((creatorId: string) =>
+        halyClient.following.unfollow({
+            type,
+            creatorId,
+        }),
+    );
+
+    const onClick = () => {
+        if (isFollowing) {
+            setIsFollowing(false);
+            unfollow.mutate(creatorId);
+        } else {
+            setIsFollowing(true);
+            follow.mutate(creatorId);
+        }
+    };
+
     return (
         <Button type="button" onClick={onClick} data-is-following={isFollowing}>
             {isFollowing ? "Following" : "Follow"}

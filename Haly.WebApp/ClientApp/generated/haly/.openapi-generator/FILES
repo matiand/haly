@@ -30,9 +30,9 @@ models/PlaylistTrackType.ts
 models/PlaylistWithTracksDto.ts
 models/PrivateUserDto.ts
 models/Problem.ts
-models/PublicUserDto.ts
 models/ReleaseItemDto.ts
 models/TopArtistDto.ts
+models/UserProfileDto.ts
 models/ValidationProblem.ts
 models/index.ts
 runtime.ts

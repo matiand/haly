@@ -1,12 +1,13 @@
+using Haly.WebApp.Models;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
 
 namespace Haly.WebApp.Features.Users.GetUser;
 
-public record GetUserQuery(string Id) : IRequest<PublicUserDto?>;
+public record GetUserQuery(string Id) : IRequest<UserProfileDto?>;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, PublicUserDto?>
+public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserProfileDto?>
 {
     private readonly ISpotifyService _spotifyService;
 
@@ -15,10 +16,14 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, PublicUserDto?>
         _spotifyService = spotifyService;
     }
 
-    public async Task<PublicUserDto?> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    public async Task<UserProfileDto?> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
         var user = await _spotifyService.GetUser(request.Id);
+        if (user is null) return null;
 
-        return user?.Adapt<PublicUserDto>();
+        var dto = user.Adapt<UserProfileDto>();
+        dto.IsFollowed = await _spotifyService.IsCurrentUserFollowing(CreatorType.User, creatorId: user.Id);
+
+        return dto;
     }
 }

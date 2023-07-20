@@ -11,10 +11,10 @@ public class UsersController : ApiControllerBase
 {
     [HttpGet("{id}")]
     [SwaggerOperation(Summary = "Get user", Description = "Fetch user from Spotify")]
-    [SwaggerResponse(statusCode: 200, "A user", typeof(PublicUserDto))]
+    [SwaggerResponse(statusCode: 200, "A user", typeof(UserProfileDto))]
     [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
     [CallsSpotifyApi()]
-    public async Task<ActionResult<PublicUserDto>> GetUser(string id)
+    public async Task<ActionResult<UserProfileDto>> GetUser(string id)
     {
         var response = await Mediator.Send(new GetUserQuery(id));
         if (response is null) return NotFound();

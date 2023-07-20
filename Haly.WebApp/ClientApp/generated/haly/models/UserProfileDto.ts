@@ -16,52 +16,59 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface PublicUserDto
+ * @interface UserProfileDto
  */
-export interface PublicUserDto {
+export interface UserProfileDto {
     /**
      * 
      * @type {string}
-     * @memberof PublicUserDto
+     * @memberof UserProfileDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof PublicUserDto
+     * @memberof UserProfileDto
      */
     name: string;
     /**
      * 
      * @type {number}
-     * @memberof PublicUserDto
+     * @memberof UserProfileDto
      */
     followersTotal: number;
     /**
      * 
      * @type {string}
-     * @memberof PublicUserDto
+     * @memberof UserProfileDto
      */
     imageUrl?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserProfileDto
+     */
+    isFollowed: boolean;
 }
 
 /**
- * Check if a given object implements the PublicUserDto interface.
+ * Check if a given object implements the UserProfileDto interface.
  */
-export function instanceOfPublicUserDto(value: object): boolean {
+export function instanceOfUserProfileDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "followersTotal" in value;
+    isInstance = isInstance && "isFollowed" in value;
 
     return isInstance;
 }
 
-export function PublicUserDtoFromJSON(json: any): PublicUserDto {
-    return PublicUserDtoFromJSONTyped(json, false);
+export function UserProfileDtoFromJSON(json: any): UserProfileDto {
+    return UserProfileDtoFromJSONTyped(json, false);
 }
 
-export function PublicUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PublicUserDto {
+export function UserProfileDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserProfileDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -71,10 +78,11 @@ export function PublicUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boole
         'name': json['name'],
         'followersTotal': json['followersTotal'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
+        'isFollowed': json['isFollowed'],
     };
 }
 
-export function PublicUserDtoToJSON(value?: PublicUserDto | null): any {
+export function UserProfileDtoToJSON(value?: UserProfileDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,6 +95,7 @@ export function PublicUserDtoToJSON(value?: PublicUserDto | null): any {
         'name': value.name,
         'followersTotal': value.followersTotal,
         'imageUrl': value.imageUrl,
+        'isFollowed': value.isFollowed,
     };
 }
 

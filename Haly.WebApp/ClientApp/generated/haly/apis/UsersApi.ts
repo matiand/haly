@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   PlaylistCardDto,
   Problem,
-  PublicUserDto,
+  UserProfileDto,
 } from '../models';
 import {
     PlaylistCardDtoFromJSON,
     PlaylistCardDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
-    PublicUserDtoFromJSON,
-    PublicUserDtoToJSON,
+    UserProfileDtoFromJSON,
+    UserProfileDtoToJSON,
 } from '../models';
 
 export interface GetPlaylistsRequest {
@@ -77,7 +77,7 @@ export class UsersApi extends runtime.BaseAPI {
      * Fetch user from Spotify<br/>This endpoint calls Spotify API.
      * Get user
      */
-    async getUserRaw(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicUserDto>> {
+    async getUserRaw(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfileDto>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getUser.');
         }
@@ -93,14 +93,14 @@ export class UsersApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PublicUserDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserProfileDtoFromJSON(jsonValue));
     }
 
     /**
      * Fetch user from Spotify<br/>This endpoint calls Spotify API.
      * Get user
      */
-    async getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublicUserDto> {
+    async getUser(requestParameters: GetUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserProfileDto> {
         const response = await this.getUserRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -22,7 +22,7 @@ export * from './PlaylistTrackType';
 export * from './PlaylistWithTracksDto';
 export * from './PrivateUserDto';
 export * from './Problem';
-export * from './PublicUserDto';
 export * from './ReleaseItemDto';
 export * from './TopArtistDto';
+export * from './UserProfileDto';
 export * from './ValidationProblem';

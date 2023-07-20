@@ -10,10 +10,10 @@ import { pluralize } from "../common/pluralize";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistGradient from "../playlist/PlaylistGradient";
+import FollowButton from "../profile/FollowButton";
 import AppearsOn from "./AppearsOn";
 import ArtistHighlights from "./ArtistHighlights";
 import Discography from "./Discography";
-import FollowArtistButton from "./FollowArtistButton";
 
 function Artist() {
     const { id } = useParams();
@@ -48,7 +48,7 @@ function Artist() {
             </PageHeader>
 
             <PageControls>
-                <FollowArtistButton artistId={artistId} initialIsFollowing={isFollowed} />
+                <FollowButton creatorId={artistId} initialValue={isFollowed} type="Artist" />
             </PageControls>
 
             <ArtistHighlights tracks={topTracks} playlist={highlightedPlaylist} />

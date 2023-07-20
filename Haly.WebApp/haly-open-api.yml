@@ -636,7 +636,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicUserDto'
+                $ref: '#/components/schemas/UserProfileDto'
         '404':
           description: User not found
           content:
@@ -1132,24 +1132,6 @@ components:
         title:
           type: string
       additionalProperties: false
-    PublicUserDto:
-      required:
-        - followersTotal
-        - id
-        - name
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        followersTotal:
-          type: integer
-          format: int32
-        imageUrl:
-          type: string
-          nullable: true
-      additionalProperties: false
     ReleaseItemDto:
       required:
         - id
@@ -1189,6 +1171,27 @@ components:
           type: array
           items:
             type: string
+      additionalProperties: false
+    UserProfileDto:
+      required:
+        - followersTotal
+        - id
+        - isFollowed
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        followersTotal:
+          type: integer
+          format: int32
+        imageUrl:
+          type: string
+          nullable: true
+        isFollowed:
+          type: boolean
       additionalProperties: false
     ValidationProblem:
       required:
