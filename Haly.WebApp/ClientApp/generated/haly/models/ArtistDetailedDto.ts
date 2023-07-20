@@ -64,6 +64,12 @@ export interface ArtistDetailedDto {
     followersTotal: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof ArtistDetailedDto
+     */
+    isFollowed: boolean;
+    /**
+     * 
      * @type {HighlightedPlaylistDto}
      * @memberof ArtistDetailedDto
      */
@@ -85,6 +91,7 @@ export function instanceOfArtistDetailedDto(value: object): boolean {
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "genres" in value;
     isInstance = isInstance && "followersTotal" in value;
+    isInstance = isInstance && "isFollowed" in value;
     isInstance = isInstance && "highlightedPlaylist" in value;
     isInstance = isInstance && "topTracks" in value;
 
@@ -106,6 +113,7 @@ export function ArtistDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: b
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'genres': json['genres'],
         'followersTotal': json['followersTotal'],
+        'isFollowed': json['isFollowed'],
         'highlightedPlaylist': HighlightedPlaylistDtoFromJSON(json['highlightedPlaylist']),
         'topTracks': ((json['topTracks'] as Array<any>).map(ArtistTopTrackDtoFromJSON)),
     };
@@ -125,6 +133,7 @@ export function ArtistDetailedDtoToJSON(value?: ArtistDetailedDto | null): any {
         'imageUrl': value.imageUrl,
         'genres': value.genres,
         'followersTotal': value.followersTotal,
+        'isFollowed': value.isFollowed,
         'highlightedPlaylist': HighlightedPlaylistDtoToJSON(value.highlightedPlaylist),
         'topTracks': ((value.topTracks as Array<any>).map(ArtistTopTrackDtoToJSON)),
     };

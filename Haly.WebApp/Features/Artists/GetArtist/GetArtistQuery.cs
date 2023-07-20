@@ -1,3 +1,4 @@
+using Haly.WebApp.Models;
 using Haly.WebApp.Models.Search;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
@@ -19,9 +20,13 @@ public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailedDt
 
     public async Task<ArtistDetailedDto> Handle(GetArtistQuery request, CancellationToken cancellationToken)
     {
-        var artist = await _spotify.GetArtist(request.Id, request.UserMarket);
+        var artistTask = _spotify.GetArtist(request.Id, request.UserMarket);
+        var isFollowedTask = _spotify.IsCurrentUserFollowing(CreatorType.Artist, request.Id);
+
+        var (artist, isFollowed) = (await artistTask, await isFollowedTask);
         var dto = artist.Adapt<ArtistDetailedDto>();
 
+        dto.IsFollowed = isFollowed;
         dto.HighlightedPlaylist = await GetHighlightedPlaylist(artist.Name, request.UserMarket);
 
         return dto;

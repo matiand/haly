@@ -824,6 +824,7 @@ components:
         - genres
         - highlightedPlaylist
         - id
+        - isFollowed
         - name
         - topTracks
       type: object
@@ -842,6 +843,8 @@ components:
         followersTotal:
           type: integer
           format: int32
+        isFollowed:
+          type: boolean
         highlightedPlaylist:
           $ref: '#/components/schemas/HighlightedPlaylistDto'
         topTracks:

@@ -31,7 +31,11 @@ function App() {
 
     const { isLoading } = useQuery(
         ["me"],
-        () => halyClient.me.putCurrentUser({ body: accessToken }).then((user) => setUser(user)),
+        () =>
+            halyClient.me.putCurrentUser({ body: accessToken }).then((user) => {
+                setUser(user);
+                return user;
+            }),
         { refetchOnWindowFocus: "always" },
     );
 

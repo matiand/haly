@@ -7,6 +7,7 @@ public record ArtistDetailedDto
     public string? ImageUrl { get; init; }
     public IEnumerable<string> Genres { get; init; }
     public int FollowersTotal { get; init; }
+    public bool IsFollowed { get; set; }
 
     public HighlightedPlaylistDto? HighlightedPlaylist { get; set; }
 

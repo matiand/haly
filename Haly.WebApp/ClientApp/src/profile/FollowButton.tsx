@@ -1,18 +1,23 @@
 import { styled } from "../common/theme";
 
-function FollowButton() {
-    const onClick = () => console.log("Follow");
+type FollowButtonProps = {
+    onClick: () => void;
+    isFollowing: boolean;
+};
 
+function FollowButton({ onClick, isFollowing }: FollowButtonProps) {
     return (
-        <Button type="button" onClick={onClick}>
-            Follow
+        <Button type="button" onClick={onClick} data-is-following={isFollowing}>
+            {isFollowing ? "Following" : "Follow"}
         </Button>
     );
 }
 
 const Button = styled("button", {
+    $$borderColor: "rgba(255, 255, 255, 0.3)",
+
     background: "transparent",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
+    border: "1px solid $$borderColor",
     borderRadius: "4px",
     color: "$white800",
     fontSize: "$100",
@@ -24,6 +29,11 @@ const Button = styled("button", {
     userSelect: "none",
 
     "&:hover": {
+        borderColor: "$white800",
+        cursor: "pointer",
+    },
+
+    "&[data-is-following=true]": {
         borderColor: "$white800",
     },
 });
