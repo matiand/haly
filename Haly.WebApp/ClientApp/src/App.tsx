@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
+import { useAuth } from "react-oidc-context";
 import { Route, Routes } from "react-router-dom";
 
 import Album from "./album/Album";
 import Artist from "./artist/Artist";
-import useSpotifyToken from "./auth/useSpotifyToken";
 import LikedSongs from "./collections/LikedSongs";
 import { AllMyFollowedArtistCards, AllMyTopArtistCards, AllUserPlaylistCards } from "./common/AllCards";
+import { userAtom } from "./common/atoms";
 import LoadingIndicator from "./common/LoadingIndicator";
 import ScrollArea from "./common/ScrollArea";
 import { styled } from "./common/theme";
@@ -15,7 +17,6 @@ import halyClient from "./halyClient";
 import Home from "./home/Home";
 import Me from "./me/Me";
 import Preferences from "./me/Preferences";
-import { UserContext } from "./me/UserContext";
 import Playback from "./playback/Playback";
 import Playlist from "./playlist/Playlist";
 import Profile from "./profile/Profile";
@@ -23,51 +24,50 @@ import Sidebar from "./sidebar/Sidebar";
 import UpperMenu from "./uppermenu/UpperMenu";
 
 function App() {
-    const spotifyToken = useSpotifyToken();
+    const auth = useAuth();
+    const setUser = useSetAtom(userAtom);
+    const accessToken = auth.user!.access_token;
     useMessageHub();
 
-    const {
-        isLoading,
-        data: user,
-        error,
-    } = useQuery(["me"], () => halyClient.me.putCurrentUser({ body: spotifyToken }));
+    const { isLoading } = useQuery(
+        ["me"],
+        () => halyClient.me.putCurrentUser({ body: accessToken }).then((user) => setUser(user)),
+        { refetchOnWindowFocus: "always" },
+    );
 
     if (isLoading) return <LoadingIndicator />;
-    if (error || !user) return <Toaster />;
 
     return (
-        <UserContext.Provider value={user}>
-            <Layout>
-                <UpperMenu />
-                <Sidebar />
+        <Layout>
+            <UpperMenu />
+            <Sidebar />
 
-                <Main>
-                    <ScrollArea>
-                        <Routes>
-                            <Route index element={<Home />} />
+            <Main>
+                <ScrollArea>
+                    <Routes>
+                        <Route index element={<Home />} />
 
-                            <Route path="/me" element={<Me />} />
-                            <Route path="/me/following/" element={<AllMyFollowedArtistCards />} />
-                            <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
+                        <Route path="/me" element={<Me />} />
+                        <Route path="/me/following/" element={<AllMyFollowedArtistCards />} />
+                        <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
 
-                            <Route path="/playlist/:id" element={<Playlist />} />
+                        <Route path="/playlist/:id" element={<Playlist />} />
 
-                            <Route path="/user/:id" element={<Profile />} />
-                            <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
+                        <Route path="/user/:id" element={<Profile />} />
+                        <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
 
-                            <Route path="/artist/:id" element={<Artist />} />
-                            <Route path="/album/:id" element={<Album />} />
+                        <Route path="/artist/:id" element={<Artist />} />
+                        <Route path="/album/:id" element={<Album />} />
 
-                            <Route path="/collection/tracks" element={<LikedSongs />} />
-                            <Route path="/preferences" element={<Preferences />} />
-                        </Routes>
-                    </ScrollArea>
-                </Main>
+                        <Route path="/collection/tracks" element={<LikedSongs />} />
+                        <Route path="/preferences" element={<Preferences />} />
+                    </Routes>
+                </ScrollArea>
+            </Main>
 
-                <Playback />
-                <Toaster />
-            </Layout>
-        </UserContext.Provider>
+            <Playback />
+            <Toaster />
+        </Layout>
     );
 }
 

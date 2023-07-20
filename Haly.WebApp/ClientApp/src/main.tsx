@@ -14,19 +14,23 @@ import Authentication, { oAuthConfig } from "./auth/Authentication";
 import halyClient from "./halyClient";
 
 const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: import.meta.env.PROD,
+        },
+    },
     queryCache: new QueryCache({
         async onError(error) {
-            if (!(error instanceof Error)) return;
-
             if (error instanceof ResponseError) {
-                const respBody = await error.response.json();
-                if (halyClient.isProblem(respBody)) {
-                    toast.error(respBody.title!);
+                const responseBody = await error.response.json();
+                if (halyClient.isProblem(responseBody)) {
+                    toast.error(responseBody.title!);
+
                     return;
                 }
             }
 
-            console.error("Unknown error", error.message);
+            console.error("Unknown error", (error as Error).message);
         },
     }),
 });

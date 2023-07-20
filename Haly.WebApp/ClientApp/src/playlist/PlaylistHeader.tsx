@@ -1,10 +1,10 @@
-import { useContext } from "react";
+import { useAtomValue } from "jotai";
 import { Link } from "react-router-dom";
 
 import { PlaylistMetadataDto } from "../../generated/haly";
+import { userAtom } from "../common/atoms";
 import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
-import { UserContext } from "../me/UserContext";
 
 type PlaylistHeaderProps = {
     name: string;
@@ -14,7 +14,7 @@ type PlaylistHeaderProps = {
 };
 
 function PlaylistHeader({ name, metadata, songsTotal, totalDuration }: PlaylistHeaderProps) {
-    const user = useContext(UserContext);
+    const user = useAtomValue(userAtom);
     const owner = metadata.owner;
     const ownerHref = owner.id === user?.id ? "/me" : `/user/${owner.id}`;
 

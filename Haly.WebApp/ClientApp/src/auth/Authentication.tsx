@@ -1,12 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
 import { WebStorageStateStore } from "oidc-client-ts";
 import React, { useEffect, useRef } from "react";
 import { AuthProviderProps, useAuth } from "react-oidc-context";
 
 import LoadingIndicator from "../common/LoadingIndicator";
-import halyClient from "../halyClient";
 import AuthenticationError from "./AuthenticationError";
 import { Login } from "./Login";
+import useRefreshTokenMutation from "./useRefreshTokenMutation";
 
 type AuthenticationProps = {
     children: React.ReactNode;
@@ -15,12 +14,7 @@ type AuthenticationProps = {
 function Authentication(props: AuthenticationProps) {
     const auth = useAuth();
     const isTokenExpirationHandlerRegistered = useRef(false);
-    const refreshToken = useMutation(() =>
-        auth
-            .signinSilent()
-            .then((user) => halyClient.me.putCurrentUser({ body: user!.access_token }))
-            .then(() => console.log("Token refreshed")),
-    );
+    const refreshToken = useRefreshTokenMutation();
 
     // Normally automatic token renewals in 'auth' are enabled by default.
     // I had to turn them off, cause the app would crash from React's StrictMode rerenders
@@ -42,16 +36,16 @@ function Authentication(props: AuthenticationProps) {
         }
     }, [auth, refreshToken]);
 
+    if (auth.isAuthenticated) {
+        return <>{props.children}</>;
+    }
+
     if (auth.error) {
         return <AuthenticationError logout={auth.removeUser} message={auth.error!.message} />;
     }
 
     if (auth.isLoading) {
         return <LoadingIndicator />;
-    }
-
-    if (auth.isAuthenticated) {
-        return <>{props.children}</>;
     }
 
     return <Login loginFn={auth.signinRedirect} />;
@@ -75,6 +69,8 @@ export const oAuthConfig: AuthProviderProps = {
     onSigninCallback() {
         window.history.replaceState({}, document.title, window.location.pathname);
     },
+    // Try to refresh tokens 5 minutes before they expire
+    accessTokenExpiringNotificationTimeInSeconds: 60 * 5,
     automaticSilentRenew: false,
 };
 

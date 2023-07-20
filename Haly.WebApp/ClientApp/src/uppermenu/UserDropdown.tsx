@@ -1,17 +1,17 @@
 import { AccessibleIcon } from "@radix-ui/react-accessible-icon";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useContext } from "react";
+import { useAtomValue } from "jotai";
 import { MdArrowDropDown } from "react-icons/md";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
 
+import { userAtom } from "../common/atoms";
 import { styled } from "../common/theme";
-import { UserContext } from "../me/UserContext";
 
 function UserDropdown() {
     const auth = useAuth();
     const navigate = useNavigate();
-    const user = useContext(UserContext);
+    const user = useAtomValue(userAtom);
 
     const profileHref = `/me`;
     const appSettingsHref = `${profileHref}/appsettings`;
@@ -19,7 +19,7 @@ function UserDropdown() {
     return (
         <DropdownMenu.Root>
             <Trigger title="User actions">
-                <TriggerTitle>{user.name}</TriggerTitle>
+                <TriggerTitle>{user?.name}</TriggerTitle>
                 <AccessibleIcon label="User actions">
                     <ArrorDown />
                 </AccessibleIcon>

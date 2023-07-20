@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai/index";
-import { useContext } from "react";
+import { useAtomValue } from "jotai";
 
-import { dominantColorsAtom } from "../common/atoms";
+import { dominantColorsAtom, userAtom } from "../common/atoms";
 import { CardProps } from "../common/Card";
 import CardCollection from "../common/CardCollection";
 import LoadingIndicator from "../common/LoadingIndicator";
@@ -12,10 +11,9 @@ import { pluralize } from "../common/pluralize";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistGradient from "../playlist/PlaylistGradient";
-import { UserContext } from "./UserContext";
 
 function Me() {
-    const user = useContext(UserContext);
+    const user = useAtomValue(userAtom)!;
 
     const profileQuery = useQuery(["users", user.id], () => halyClient.users.getUser({ id: user.id }));
     const topArtistsQuery = useQuery(["me", "top", "artists"], () => halyClient.me.getTopArtists());
