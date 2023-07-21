@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { dominantColorsAtom } from "../common/atoms";
+import { artistNameAtom, dominantColorsAtom } from "../common/atoms";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
 import PageHeader from "../common/PageHeader";
@@ -19,6 +20,11 @@ function Artist() {
     const { id } = useParams();
     const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
     const dominantColors = useAtomValue(dominantColorsAtom);
+    const setArtistName = useSetAtom(artistNameAtom);
+
+    useEffect(() => {
+        setArtistName(query.data?.name ?? null);
+    }, [query, setArtistName]);
 
     if (!query.data) return <LoadingIndicator />;
 

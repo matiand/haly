@@ -1,7 +1,9 @@
+import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { AlbumTrackDto, ReleaseItemDto } from "../../generated/haly";
+import { artistNameAtom } from "../common/atoms";
 import CardCollection from "../common/CardCollection";
 import { styled } from "../common/theme";
 import AllCardsWrapper from "../profile/AllCardsWrapper";
@@ -10,6 +12,9 @@ import useDiscographyQuery, { DiscographyFilter } from "./useDiscographyQuery";
 function AllDiscographyCards() {
     const { id: artistId, filter: pathFilter } = useParams();
     const { originalData, items, options, filter } = useDiscographyQuery(artistId!, pathFilter as DiscographyFilter);
+    const artistName = useAtomValue(artistNameAtom);
+
+    const title = artistName ?? "Discography";
 
     useEffect(() => {
         const currentHref = window.location.href;
@@ -29,7 +34,7 @@ function AllDiscographyCards() {
 
     return (
         <AllCardsWrapper>
-            <CardCollection title="Discography" items={items} options={options} maxRows={Infinity} href="" />
+            <CardCollection title={title} items={items} options={options} maxRows={Infinity} href="" />
         </AllCardsWrapper>
     );
 }
