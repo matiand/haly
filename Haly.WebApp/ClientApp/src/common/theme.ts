@@ -82,9 +82,9 @@ export const theme = {
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {
-        minWidth: 190,
-        defaultWidth: 270,
-        maxWidth: 390,
+        minWidth: 280,
+        defaultWidth: 360,
+        maxWidth: 440,
     },
     zIndices: {
         verticalScrollbar: 10,
