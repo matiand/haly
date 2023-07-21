@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { PlaylistMetadataDto } from "../../generated/haly";
@@ -19,8 +20,15 @@ export type CardProps = {
 function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage }: CardProps) {
     const navigate = useNavigate();
 
+    const navigateOnClick: MouseEventHandler = (e) => {
+        const target = e.target as HTMLElement;
+        if (target.tagName !== "A") {
+            navigate(href);
+        }
+    };
+
     return (
-        <Wrapper onClick={() => navigate(href)}>
+        <Wrapper onClick={navigateOnClick}>
             <ImageWrapper data-is-rounded={hasRoundedImage}>
                 {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 
