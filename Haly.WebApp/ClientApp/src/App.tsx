@@ -9,7 +9,7 @@ import LikedSongs from "./collections/LikedSongs";
 import { AllMyFollowedArtistCards, AllMyTopArtistCards, AllUserPlaylistCards } from "./common/AllCards";
 import { userAtom } from "./common/atoms";
 import LoadingIndicator from "./common/LoadingIndicator";
-import ScrollArea from "./common/ScrollArea";
+import { MainScrollArea } from "./common/ScrollArea";
 import { styled } from "./common/theme";
 import Toaster from "./common/Toaster";
 import { useMessageHub } from "./common/useMessageHub";
@@ -47,7 +47,7 @@ function App() {
             <Sidebar />
 
             <Main>
-                <ScrollArea>
+                <MainScrollArea>
                     <Routes>
                         <Route index element={<Home />} />
 
@@ -66,7 +66,7 @@ function App() {
                         <Route path="/collection/tracks" element={<LikedSongs />} />
                         <Route path="/preferences" element={<Preferences />} />
                     </Routes>
-                </ScrollArea>
+                </MainScrollArea>
             </Main>
 
             <Playback />

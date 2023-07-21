@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import { cachedPlaylistIdsAtom } from "../common/atoms";
-import ScrollArea from "../common/ScrollArea";
+import { ScrollArea } from "../common/ScrollArea";
 import { styled } from "../common/theme";
 import halyApi from "../halyClient";
 import UserLibraryHeader from "./UserLibraryHeader";
