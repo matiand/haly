@@ -6,24 +6,27 @@ import { CardProps } from "../common/Card";
 import { Option } from "../common/RadioGroup";
 import halyClient from "../halyClient";
 
-function useDiscographyQuery(artistId: string) {
+export type DiscographyFilter = "all" | "album" | "single" | "compilation";
+
+function useDiscographyQuery(artistId: string, initialFilter: DiscographyFilter = "all") {
     const query = useQuery(["artist", artistId, "discography"], () =>
         halyClient.artists.getArtistDiscography({ id: artistId! }),
     );
-    const { filter, options } = useDiscographyFilter(query.data);
+    const { filter, options } = useDiscographyFilter(initialFilter, query.data);
 
     let items: ReleaseItemDto[];
-    if (filter === "albums") {
+    if (filter === "album") {
         items = query.data?.albums ?? [];
-    } else if (filter === "singlesAndEps") {
+    } else if (filter === "single") {
         items = query.data?.singlesAndEps ?? [];
-    } else if (filter === "compilations") {
+    } else if (filter === "compilation") {
         items = query.data?.compilations ?? [];
     } else {
         items = query.data?.all ?? [];
     }
 
     return {
+        originalData: items,
         items: items
             .sort((a, b) => b.releaseYear - a.releaseYear)
             .map<CardProps>((i) => ({
@@ -36,12 +39,12 @@ function useDiscographyQuery(artistId: string) {
                 subtitle: [i.releaseYear, i.type],
             })),
         options,
+        filter,
     };
 }
 
-function useDiscographyFilter(data?: ArtistDiscographyDto) {
-    type DiscographyFilter = "all" | "albums" | "singlesAndEps" | "compilations";
-    const [filter, setFilter] = useState<DiscographyFilter>("all");
+function useDiscographyFilter(initialFilter: DiscographyFilter, data?: ArtistDiscographyDto) {
+    const [filter, setFilter] = useState<DiscographyFilter>(initialFilter);
 
     if (!data)
         return {
@@ -59,30 +62,34 @@ function useDiscographyFilter(data?: ArtistDiscographyDto) {
             onSelected: () => {
                 setFilter("all");
             },
+            isDefault: filter === "all",
         },
     ];
     if (hasAlbums)
         options.push({
             name: "Albums",
             onSelected: () => {
-                setFilter("albums");
+                setFilter("album");
             },
+            isDefault: filter === "album",
         });
 
     if (hasSinglesOrEps)
         options.push({
             name: "Singles and EPs",
             onSelected: () => {
-                setFilter("singlesAndEps");
+                setFilter("single");
             },
+            isDefault: filter === "single",
         });
 
     if (hasCompilations)
         options.push({
             name: "Compilations",
             onSelected: () => {
-                setFilter("compilations");
+                setFilter("compilation");
             },
+            isDefault: filter === "compilation",
         });
 
     return {

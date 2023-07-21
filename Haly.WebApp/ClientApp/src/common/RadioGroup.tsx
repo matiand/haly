@@ -6,6 +6,7 @@ import { styled } from "./theme";
 export type Option = {
     name: string;
     onSelected: () => void;
+    isDefault: boolean;
 };
 
 type RadioGroupProps = {
@@ -13,7 +14,7 @@ type RadioGroupProps = {
 };
 
 function RadioGroup({ options }: RadioGroupProps) {
-    const defaultValue = options[0].name;
+    const defaultValue = options.find((o) => o.isDefault)?.name ?? "";
     const [value, setValue] = useState(defaultValue);
 
     return (

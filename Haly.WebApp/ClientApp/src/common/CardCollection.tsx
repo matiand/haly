@@ -15,7 +15,7 @@ type CardCollectionProps = {
 };
 
 const cardGap = 24;
-const minCardWidth = 200;
+const minCardWidth = 196;
 
 function CardCollection({ title, items, maxRows, href, options }: CardCollectionProps) {
     const [cardsPerRow, setCardsPerRow] = useState(8);
@@ -65,7 +65,6 @@ const Section = styled("section", {
         "& > h2": {
             fontSize: "$500",
             fontWeight: 800,
-            lineHeight: 1,
 
             "& > a": {
                 color: "inherit",
@@ -76,6 +75,7 @@ const Section = styled("section", {
         },
 
         "& a": {
+            alignSelf: "end",
             background: "transparent",
             color: "$white600",
             cursor: "pointer",

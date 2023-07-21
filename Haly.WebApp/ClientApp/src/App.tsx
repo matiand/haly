@@ -4,6 +4,8 @@ import { useAuth } from "react-oidc-context";
 import { Route, Routes } from "react-router-dom";
 
 import Album from "./album/Album";
+import AllAppearsOnCards from "./artist/AllAppearsOnCards";
+import AllDiscographyCards from "./artist/AllDiscographyCards";
 import Artist from "./artist/Artist";
 import LikedSongs from "./collections/LikedSongs";
 import { userAtom } from "./common/atoms";
@@ -63,6 +65,9 @@ function App() {
                         <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
 
                         <Route path="/artist/:id" element={<Artist />} />
+                        <Route path="/artist/:id/appears-on/:filter" element={<AllAppearsOnCards />} />
+                        <Route path="/artist/:id/discography/:filter" element={<AllDiscographyCards />} />
+
                         <Route path="/album/:id" element={<Album />} />
 
                         <Route path="/collection/tracks" element={<LikedSongs />} />

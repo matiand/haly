@@ -6,18 +6,18 @@ import { CardProps } from "../common/Card";
 import { Option } from "../common/RadioGroup";
 import halyClient from "../halyClient";
 
-type AppearsOnFilter = "albums" | "singlesAndEps" | "compilations";
+export type AppearsOnFilter = "album" | "single" | "compilation";
 
-function useAppearsOnQuery(artistId: string) {
+function useAppearsOnQuery(artistId: string, initialFilter: AppearsOnFilter = "album") {
     const query = useQuery(["artist", artistId, "appearances"], () =>
         halyClient.artists.getArtistAppearances({ id: artistId! }),
     );
-    const { filter, options } = useAppearsOnFilter(query.data);
+    const { filter, options } = useAppearsOnFilter(initialFilter, query.data);
 
     let items: ReleaseItemDto[];
-    if (filter === "albums") {
+    if (filter === "album") {
         items = query.data?.albums ?? [];
-    } else if (filter === "singlesAndEps") {
+    } else if (filter === "single") {
         items = query.data?.singlesAndEps ?? [];
     } else {
         items = query.data?.compilations ?? [];
@@ -34,11 +34,12 @@ function useAppearsOnQuery(artistId: string) {
             subtitle: [i.releaseYear, i.type],
         })),
         options,
+        filter,
     };
 }
 
-function useAppearsOnFilter(data?: ArtistAppearancesDto) {
-    const [filter, setFilter] = useState<AppearsOnFilter>("albums");
+function useAppearsOnFilter(initialFilter: AppearsOnFilter, data?: ArtistAppearancesDto) {
+    const [filter, setFilter] = useState<AppearsOnFilter>(initialFilter);
 
     if (!data)
         return {
@@ -55,24 +56,27 @@ function useAppearsOnFilter(data?: ArtistAppearancesDto) {
         options.push({
             name: "Albums",
             onSelected: () => {
-                setFilter("albums");
+                setFilter("album");
             },
+            isDefault: filter === "album",
         });
 
     if (hasSinglesOrEps)
         options.push({
             name: "Singles and EPs",
             onSelected: () => {
-                setFilter("singlesAndEps");
+                setFilter("single");
             },
+            isDefault: filter === "single",
         });
 
     if (hasCompilations)
         options.push({
             name: "Compilations",
             onSelected: () => {
-                setFilter("compilations");
+                setFilter("compilation");
             },
+            isDefault: filter === "compilation",
         });
 
     return {

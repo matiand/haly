@@ -6,9 +6,11 @@ type DiscographyProps = {
 };
 
 function Discography({ artistId }: DiscographyProps) {
-    const { items, options } = useDiscographyQuery(artistId);
+    const { items, options, filter } = useDiscographyQuery(artistId);
 
-    return <CardCollection title="Discography" items={items} options={options} maxRows={2} href="discography" />;
+    const href = `discography/${filter}`;
+
+    return <CardCollection title="Discography" items={items} options={options} maxRows={2} href={href} />;
 }
 
 export default Discography;

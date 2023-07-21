@@ -6,9 +6,11 @@ type AppearsOnProps = {
 };
 
 function AppearsOn({ artistId }: AppearsOnProps) {
-    const { items, options } = useAppearsOnQuery(artistId);
+    const { items, options, filter } = useAppearsOnQuery(artistId);
 
-    return <CardCollection title="Appears On" items={items} options={options} maxRows={2} href="appearances" />;
+    const href = `appears-on/${filter}`;
+
+    return <CardCollection title="Appears On" items={items} options={options} maxRows={1} href={href} />;
 }
 
 export default AppearsOn;
