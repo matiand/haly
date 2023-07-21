@@ -63,7 +63,7 @@ const Section = styled("section", {
         marginBottom: "$700",
 
         "& > h2": {
-            fontSize: "$500",
+            fontSize: "$550",
             fontWeight: 800,
 
             "& > a": {

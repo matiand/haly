@@ -53,6 +53,7 @@ export const theme = {
         350: "0.94rem",
         400: "1rem",
         500: "1.25rem",
+        550: "1.5rem",
         600: "2rem",
         700: "3rem",
         800: "4.5rem",
