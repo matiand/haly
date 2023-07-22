@@ -1,16 +1,26 @@
+import { useEffect } from "react";
+import { useLocalStorage } from "usehooks-ts";
+
 import { styled, theme } from "../common/theme";
 import NavigationList from "./NavigationList";
 import Resizer from "./Resizer";
 import useResize from "./useResize";
 import UserLibrary from "./UserLibrary";
 
+const { defaultWidth, minWidth, maxWidth } = theme.sidebar;
+
 function Sidebar() {
-    const { defaultWidth, minWidth, maxWidth } = theme.sidebar;
+    const [sidebarWidth, setSidebarWidth] = useLocalStorage("sidebarWidth", defaultWidth);
+
     const { width, enableResize } = useResize({
-        initialWidth: defaultWidth,
+        initialWidth: sidebarWidth,
         minWidth,
         maxWidth,
     });
+
+    useEffect(() => {
+        setSidebarWidth(width);
+    }, [width, setSidebarWidth]);
 
     return (
         <Nav style={{ width }} onMouseDown={enableResize}>
