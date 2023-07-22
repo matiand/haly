@@ -10,7 +10,8 @@ import { BrowserRouter } from "react-router-dom";
 
 import { ResponseError } from "../generated/haly";
 import App from "./App";
-import Authentication, { oAuthConfig } from "./auth/Authentication";
+import Authentication from "./auth/Authentication";
+import { OAuthConfig } from "./auth/OAuthConfig";
 import halyClient from "./halyClient";
 
 const queryClient = new QueryClient({
@@ -37,7 +38,7 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-        <AuthProvider {...oAuthConfig}>
+        <AuthProvider {...OAuthConfig}>
             <BrowserRouter>
                 <QueryClientProvider client={queryClient}>
                     <ReactQueryDevtools position="top-right" toggleButtonProps={{ className: "rq-toggle" }} />
