@@ -1,4 +1,5 @@
 import { HiPlay } from "react-icons/hi2";
+import { MdPodcasts } from "react-icons/md";
 
 import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
@@ -10,15 +11,29 @@ type TrackIndexCellProps = {
 
 function TrackIndexCell({ index, track }: TrackIndexCellProps) {
     const label = `Play ${track.name}`;
+    const isPodcast = "type" in track && track.type === "Podcast";
 
     return (
         <Wrapper>
             <Index>{index}</Index>
-            <PlayBtn type="button" aria-label={label} title={label}>
-                <span>
-                    <HiPlay />
-                </span>
-            </PlayBtn>
+            {isPodcast ? (
+                <PlayBtn
+                    type="button"
+                    aria-label="Streaming podcasts is not supported"
+                    title="Streaming podcasts is not supported"
+                    aria-disabled
+                >
+                    <span>
+                        <MdPodcasts />
+                    </span>
+                </PlayBtn>
+            ) : (
+                <PlayBtn type="button" aria-label={label} title={label}>
+                    <span>
+                        <HiPlay />
+                    </span>
+                </PlayBtn>
+            )}
         </Wrapper>
     );
 }
@@ -46,6 +61,11 @@ const PlayBtn = styled("button", {
     padding: 0,
     position: "absolute",
     width: "16px",
+
+    "& svg": {
+        height: "16px",
+        width: "16px",
+    },
 });
 
 export default TrackIndexCell;

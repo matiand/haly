@@ -14,7 +14,11 @@ function TrackDurationCell({ track }: TrackDurationCellProps) {
         <Wrapper>
             {!isPodcast && <HeartButton size="small" />}
             <Duration>{track.duration}</Duration>
-            <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
+            {!isPodcast ? (
+                <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
+            ) : (
+                <EmptyOptionsBox />
+            )}
         </Wrapper>
     );
 }
@@ -36,6 +40,11 @@ const Duration = styled("span", {
     marginRight: "$600",
     textAlign: "end",
     width: "4.5ch",
+});
+
+// Empty div that takes space if there is no MoreOptionsButton
+const EmptyOptionsBox = styled("div", {
+    width: "16px",
 });
 
 export default TrackDurationCell;
