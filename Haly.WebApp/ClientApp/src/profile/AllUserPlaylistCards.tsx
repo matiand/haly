@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { CardProps } from "../common/Card";
 import CardCollection from "../common/CardCollection";
 import halyClient from "../halyClient";
-import AllCardsWrapper from "./AllCardsWrapper";
 
 function AllUserPlaylistCards() {
     const { id } = useParams();
@@ -23,11 +22,7 @@ function AllUserPlaylistCards() {
         };
     });
 
-    return (
-        <AllCardsWrapper>
-            <CardCollection title="Public Playlists" items={cards} maxRows={Infinity} href="" />
-        </AllCardsWrapper>
-    );
+    return <CardCollection title="Public Playlists" items={cards} maxRows={Infinity} href="" />;
 }
 
 export default AllUserPlaylistCards;

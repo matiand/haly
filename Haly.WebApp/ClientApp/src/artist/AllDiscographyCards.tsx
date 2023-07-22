@@ -6,7 +6,6 @@ import { AlbumTrackDto, ReleaseItemDto } from "../../generated/haly";
 import { artistNameAtom } from "../common/atoms";
 import CardCollection from "../common/CardCollection";
 import { styled } from "../common/theme";
-import AllCardsWrapper from "../profile/AllCardsWrapper";
 import useDiscographyQuery, { DiscographyFilter } from "./useDiscographyQuery";
 
 function AllDiscographyCards() {
@@ -28,15 +27,9 @@ function AllDiscographyCards() {
         const byYear = groupByYear(originalData);
 
         console.log(byYear);
-
-        return <AllCardsWrapper>FOOOOOOOOOOOOOOO</AllCardsWrapper>;
     }
 
-    return (
-        <AllCardsWrapper>
-            <CardCollection title={title} items={items} options={options} maxRows={Infinity} href="" />
-        </AllCardsWrapper>
-    );
+    return <CardCollection title={title} items={items} options={options} maxRows={Infinity} href="" />;
 }
 
 const groupByYear = (items: ReleaseItemDto[]) => {

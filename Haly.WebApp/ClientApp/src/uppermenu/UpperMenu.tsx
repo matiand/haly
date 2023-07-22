@@ -9,9 +9,15 @@ function UpperMenu() {
     const pageContext = useAtomValue(pageContextAtom);
     const dominantColors = useAtomValue(dominantColorsAtom);
 
-    console.log("UserMenu context", pageContext);
+    // console.log("UserMenu context", pageContext);
 
-    if (!pageContext) return null;
+    if (!pageContext) {
+        return (
+            <Header aria-label="User menu">
+                <UserDropdown />
+            </Header>
+        );
+    }
 
     const color = dominantColors[pageContext.metadata.imageUrl ?? ""];
 

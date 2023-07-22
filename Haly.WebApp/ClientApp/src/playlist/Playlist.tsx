@@ -40,7 +40,7 @@ function Playlist() {
 
     return (
         // This id is used by PlaylistTracks for its useInView hook
-        <Wrapper id="playlist-container">
+        <div id="playlist-container">
             <PlaylistHeader
                 name={playlist.name}
                 metadata={playlist.metadata}
@@ -57,7 +57,7 @@ function Playlist() {
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
-        </Wrapper>
+        </div>
     );
 }
 
@@ -74,10 +74,5 @@ const usePlaylistQuery = (playlistId: string) => {
 
     return useQuery(["playlists", playlistId], queryFn);
 };
-
-const Wrapper = styled("div", {
-    padding: "$800 $700",
-    position: "relative",
-});
 
 export default Playlist;

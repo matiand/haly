@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import CardCollection from "../common/CardCollection";
-import AllCardsWrapper from "../profile/AllCardsWrapper";
 import useAppearsOnQuery, { AppearsOnFilter } from "./useAppearsOnQuery";
 
 function AllAppearsOnCards() {
@@ -17,11 +16,7 @@ function AllAppearsOnCards() {
         window.history.replaceState(null, "", newHref);
     }, [filter, pathFilter]);
 
-    return (
-        <AllCardsWrapper>
-            <CardCollection title="Appears On" items={items} options={options} maxRows={Infinity} href="" />
-        </AllCardsWrapper>
-    );
+    return <CardCollection title="Appears On" items={items} options={options} maxRows={Infinity} href="" />;
 }
 
 export default AllAppearsOnCards;

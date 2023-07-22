@@ -9,7 +9,6 @@ import MoreOptionsButton from "../common/MoreOptionsButton";
 import PageControls from "../common/PageControls";
 import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
-import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistGradient from "../playlist/PlaylistGradient";
@@ -39,7 +38,7 @@ function Album() {
     const isPlayable = tracks.some((t) => t.isPlayable);
 
     return (
-        <Wrapper>
+        <div>
             <PageHeader title={name} subtitle={type} type="Album" imageUrl={imageUrl} description={null}>
                 {artists.map((a) => {
                     const artistHref = `/artist/${a.id}`;
@@ -69,13 +68,8 @@ function Album() {
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
-        </Wrapper>
+        </div>
     );
 }
-
-const Wrapper = styled("div", {
-    padding: "$800 $700",
-    position: "relative",
-});
 
 export default Album;

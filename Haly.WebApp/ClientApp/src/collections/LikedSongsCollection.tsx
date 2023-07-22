@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 
 import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
-import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistHeader from "../playlist/PlaylistHeader";
@@ -26,7 +25,7 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
 
     return (
         // This id is used by PlaylistTracks for its useInView hook
-        <Wrapper id="playlist-container">
+        <div id="playlist-container">
             <PlaylistHeader
                 name={playlist.name}
                 metadata={playlist.metadata}
@@ -40,11 +39,6 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
             </PageControls>
 
             <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
-        </Wrapper>
+        </div>
     );
 }
-
-const Wrapper = styled("div", {
-    padding: "$800 $700",
-    position: "relative",
-});

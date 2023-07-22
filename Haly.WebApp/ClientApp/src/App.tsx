@@ -11,7 +11,7 @@ import LikedSongs from "./collections/LikedSongs";
 import { userAtom } from "./common/atoms";
 import LoadingIndicator from "./common/LoadingIndicator";
 import { MainScrollArea } from "./common/ScrollArea";
-import { styled } from "./common/theme";
+import { styled, theme } from "./common/theme";
 import Toaster from "./common/Toaster";
 import { useMessageHub } from "./common/useMessageHub";
 import halyClient from "./halyClient";
@@ -52,27 +52,29 @@ function App() {
 
             <Main>
                 <MainScrollArea>
-                    <Routes>
-                        <Route index element={<Home />} />
+                    <MainLayout>
+                        <Routes>
+                            <Route index element={<Home />} />
 
-                        <Route path="/me" element={<Me />} />
-                        <Route path="/me/following/" element={<AllMyFollowedArtistCards />} />
-                        <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
+                            <Route path="/me" element={<Me />} />
+                            <Route path="/me/following/" element={<AllMyFollowedArtistCards />} />
+                            <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
 
-                        <Route path="/playlist/:id" element={<Playlist />} />
+                            <Route path="/playlist/:id" element={<Playlist />} />
 
-                        <Route path="/user/:id" element={<Profile />} />
-                        <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
+                            <Route path="/user/:id" element={<Profile />} />
+                            <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
 
-                        <Route path="/artist/:id" element={<Artist />} />
-                        <Route path="/artist/:id/appears-on/:filter" element={<AllAppearsOnCards />} />
-                        <Route path="/artist/:id/discography/:filter" element={<AllDiscographyCards />} />
+                            <Route path="/artist/:id" element={<Artist />} />
+                            <Route path="/artist/:id/appears-on/:filter" element={<AllAppearsOnCards />} />
+                            <Route path="/artist/:id/discography/:filter" element={<AllDiscographyCards />} />
 
-                        <Route path="/album/:id" element={<Album />} />
+                            <Route path="/album/:id" element={<Album />} />
 
-                        <Route path="/collection/tracks" element={<LikedSongs />} />
-                        <Route path="/preferences" element={<Preferences />} />
-                    </Routes>
+                            <Route path="/collection/tracks" element={<LikedSongs />} />
+                            <Route path="/preferences" element={<Preferences />} />
+                        </Routes>
+                    </MainLayout>
                 </MainScrollArea>
             </Main>
 
@@ -101,6 +103,20 @@ const Main = styled("main", {
     display: "flex",
     gridArea: "main",
     minHeight: 0,
+});
+
+const MainLayout = styled("div", {
+    "& > div:first-child": {
+        padding: "$800 $700",
+        position: "relative",
+    },
+
+    "& > section:first-child": {
+        $$topMargin: theme.sizes.userMenuHeight,
+
+        marginTop: "$$topMargin",
+        padding: "0 $700 $800",
+    },
 });
 
 export default App;

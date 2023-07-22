@@ -8,7 +8,6 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
 import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
-import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaylistGradient from "../playlist/PlaylistGradient";
 import FollowButton from "../profile/FollowButton";
@@ -41,7 +40,7 @@ function Artist() {
     const dominantColor = dominantColors[imageUrl ?? ""];
 
     return (
-        <Wrapper>
+        <div>
             <PageHeader title={name} type="Artist" imageUrl={imageUrl} description={null}>
                 {followersTotal > 0 && (
                     <span>
@@ -63,13 +62,8 @@ function Artist() {
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
-        </Wrapper>
+        </div>
     );
 }
-
-const Wrapper = styled("div", {
-    padding: "$800 $700",
-    position: "relative",
-});
 
 export default Artist;

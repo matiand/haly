@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { CardProps } from "../common/Card";
 import CardCollection from "../common/CardCollection";
 import halyClient from "../halyClient";
-import AllCardsWrapper from "./AllCardsWrapper";
 
 function AllMyFollowedArtistCards() {
     const query = useQuery(["me", "following"], () => halyClient.me.getFollowedArtists());
@@ -22,11 +21,7 @@ function AllMyFollowedArtistCards() {
         };
     });
 
-    return (
-        <AllCardsWrapper>
-            <CardCollection title="Followed Artists" items={cards} maxRows={Infinity} href="" />
-        </AllCardsWrapper>
-    );
+    return <CardCollection title="Followed Artists" items={cards} maxRows={Infinity} href="" />;
 }
 
 export default AllMyFollowedArtistCards;

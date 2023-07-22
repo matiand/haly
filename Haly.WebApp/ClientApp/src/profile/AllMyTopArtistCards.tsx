@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { CardProps } from "../common/Card";
 import CardCollection from "../common/CardCollection";
 import halyClient from "../halyClient";
-import AllCardsWrapper from "./AllCardsWrapper";
 
 function AllMyTopArtistCards() {
     const query = useQuery(["me", "topArtists"], () => halyClient.me.getTopArtists());
@@ -22,11 +21,7 @@ function AllMyTopArtistCards() {
         };
     });
 
-    return (
-        <AllCardsWrapper>
-            <CardCollection title="Top artists this month" items={cards} maxRows={Infinity} href="" />
-        </AllCardsWrapper>
-    );
+    return <CardCollection title="Top artists this month" items={cards} maxRows={Infinity} href="" />;
 }
 
 export default AllMyTopArtistCards;
