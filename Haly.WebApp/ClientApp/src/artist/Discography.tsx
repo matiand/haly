@@ -1,4 +1,4 @@
-import CardCollection from "../common/CardCollection";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import useDiscographyQuery from "./useDiscographyQuery";
 
 type DiscographyProps = {
@@ -10,7 +10,7 @@ function Discography({ artistId }: DiscographyProps) {
 
     const href = `discography/${filter}`;
 
-    return <CardCollection title="Discography" items={items} options={options} maxRows={2} href={href} />;
+    return <ResizableCardGroup title="Discography" items={items} options={options} maxRows={2} href={href} />;
 }
 
 export default Discography;

@@ -15,9 +15,10 @@ export type CardProps = {
     imageUrl?: PlaylistMetadataDto["imageUrl"];
     isPlayable: boolean;
     hasRoundedImage: boolean;
+    isHighlighted?: boolean;
 };
 
-function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage }: CardProps) {
+function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage, isHighlighted }: CardProps) {
     const navigate = useNavigate();
 
     const navigateOnClick: MouseEventHandler = (e) => {
@@ -28,7 +29,7 @@ function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage }: C
     };
 
     return (
-        <Wrapper onClick={navigateOnClick}>
+        <Wrapper onClick={navigateOnClick} data-is-highlighted={isHighlighted}>
             <ImageWrapper data-is-rounded={hasRoundedImage}>
                 {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 
@@ -73,6 +74,10 @@ const Wrapper = styled("div", {
             opacity: 1,
             transform: "translateY(0)",
         },
+    },
+
+    "&[data-is-highlighted=true]": {
+        border: "1px solid $white600",
     },
 });
 

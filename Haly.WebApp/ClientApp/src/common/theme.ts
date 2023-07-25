@@ -6,6 +6,10 @@ export const theme = {
         primary400: "#fee826",
         primary500: "#c4b001",
 
+        secondary300: "#6AA9F6",
+        secondary400: "#509BF5",
+        secondary500: "#3B8EF4",
+
         white400: "#a7a7a7",
         white500: "#b3b3b3",
         white600: "#bababa",
@@ -80,6 +84,10 @@ export const theme = {
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
         userMenuHeight: "64px",
+    },
+    cards: {
+        gap: 24,
+        minWidth: 196,
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {

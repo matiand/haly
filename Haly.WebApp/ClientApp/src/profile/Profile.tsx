@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 
 import { dominantColorsAtom } from "../common/atoms";
 import { CardProps } from "../common/Card";
-import CardCollection from "../common/CardCollection";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
 import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
 import PlaylistGradient from "../playlist/PlaylistGradient";
 import FollowButton from "./FollowButton";
@@ -48,7 +48,7 @@ function Profile() {
                 <FollowButton creatorId={userId} initialValue={isFollowed} type="User" />
             </PageControls>
 
-            <CardCollection title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />
+            <ResizableCardGroup title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />

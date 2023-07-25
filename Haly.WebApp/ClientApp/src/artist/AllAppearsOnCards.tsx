@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import CardCollection from "../common/CardCollection";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import useAppearsOnQuery, { AppearsOnFilter } from "./useAppearsOnQuery";
 
 function AllAppearsOnCards() {
@@ -16,7 +16,7 @@ function AllAppearsOnCards() {
         window.history.replaceState(null, "", newHref);
     }, [filter, pathFilter]);
 
-    return <CardCollection title="Appears On" items={items} options={options} maxRows={Infinity} href="" />;
+    return <ResizableCardGroup title="Appears On" items={items} options={options} maxRows={Infinity} href="" />;
 }
 
 export default AllAppearsOnCards;

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 import { CardProps } from "../common/Card";
-import CardCollection from "../common/CardCollection";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
 
 function AllUserPlaylistCards() {
@@ -22,7 +22,7 @@ function AllUserPlaylistCards() {
         };
     });
 
-    return <CardCollection title="Public Playlists" items={cards} maxRows={Infinity} href="" />;
+    return <ResizableCardGroup title="Public Playlists" items={cards} maxRows={Infinity} href="" />;
 }
 
 export default AllUserPlaylistCards;

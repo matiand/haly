@@ -2,9 +2,12 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { AlbumTrackDto, ReleaseItemDto } from "../../generated/haly";
+import { ReleaseItemDto } from "../../generated/haly";
 import { artistNameAtom } from "../common/atoms";
-import CardCollection from "../common/CardCollection";
+import Card from "../common/Card";
+import * as CardGroup from "../common/CardGroup";
+import RadioGroup from "../common/RadioGroup";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import { styled } from "../common/theme";
 import useDiscographyQuery, { DiscographyFilter } from "./useDiscographyQuery";
 
@@ -26,10 +29,32 @@ function AllDiscographyCards() {
     if (filter === "all") {
         const byYear = groupByYear(originalData);
 
-        console.log(byYear);
+        return (
+            <CardGroup.Root>
+                <CardGroup.Title title={title} />
+                <RadioGroup options={options} />
+
+                {Object.entries(byYear)
+                    .sort(([aYear], [bYear]) => +bYear - +aYear)
+                    .map(([year, items]) => {
+                        const cards = mapToCards(items);
+
+                        return (
+                            <YearGroup key={year}>
+                                <h3>{year}</h3>
+                                <CardGroup.Items>
+                                    {cards.map((c) => (
+                                        <Card key={c.id} {...c} />
+                                    ))}
+                                </CardGroup.Items>
+                            </YearGroup>
+                        );
+                    })}
+            </CardGroup.Root>
+        );
     }
 
-    return <CardCollection title={title} items={items} options={options} maxRows={Infinity} href="" />;
+    return <ResizableCardGroup title={title} items={items} options={options} maxRows={Infinity} href="" />;
 }
 
 const groupByYear = (items: ReleaseItemDto[]) => {
@@ -44,5 +69,28 @@ const groupByYear = (items: ReleaseItemDto[]) => {
         return groups;
     }, {});
 };
+
+const mapToCards = (items: ReleaseItemDto[]) => {
+    return items.map((i) => ({
+        id: i.id,
+        name: i.name,
+        subtitle: i.type,
+        imageUrl: i.imageUrl,
+        href: `/album/${i.id}`,
+        hasRoundedImage: false,
+        isPlayable: true,
+        isHighlighted: i.type === "Album",
+    }));
+};
+
+const YearGroup = styled("div", {
+    marginBottom: "$800",
+
+    "& > h3": {
+        fontSize: "$500",
+        fontWeight: 500,
+        padding: "$600 0",
+    },
+});
 
 export default AllDiscographyCards;

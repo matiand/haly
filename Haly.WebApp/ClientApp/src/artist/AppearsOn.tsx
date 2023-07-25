@@ -1,4 +1,4 @@
-import CardCollection from "../common/CardCollection";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import useAppearsOnQuery from "./useAppearsOnQuery";
 
 type AppearsOnProps = {
@@ -10,7 +10,7 @@ function AppearsOn({ artistId }: AppearsOnProps) {
 
     const href = `appears-on/${filter}`;
 
-    return <CardCollection title="Appears On" items={items} options={options} maxRows={1} href={href} />;
+    return <ResizableCardGroup title="Appears On" items={items} options={options} maxRows={1} href={href} />;
 }
 
 export default AppearsOn;

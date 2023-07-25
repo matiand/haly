@@ -3,11 +3,11 @@ import { useAtomValue } from "jotai";
 
 import { dominantColorsAtom, userAtom } from "../common/atoms";
 import { CardProps } from "../common/Card";
-import CardCollection from "../common/CardCollection";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
 import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
 import PlaylistGradient from "../playlist/PlaylistGradient";
 
@@ -58,8 +58,8 @@ function Me() {
 
             <PageControls />
 
-            <CardCollection title="Top artists this month" items={topArtistsCards} maxRows={2} href="top/artists" />
-            <CardCollection title="Followed Artists" items={followsCards} maxRows={1} href="following" />
+            <ResizableCardGroup title="Top artists this month" items={topArtistsCards} maxRows={2} href="top/artists" />
+            <ResizableCardGroup title="Followed Artists" items={followsCards} maxRows={1} href="following" />
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />

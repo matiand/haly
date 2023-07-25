@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { CardProps } from "../common/Card";
-import CardCollection from "../common/CardCollection";
+import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
 
 function AllMyFollowedArtistCards() {
@@ -21,7 +21,7 @@ function AllMyFollowedArtistCards() {
         };
     });
 
-    return <CardCollection title="Followed Artists" items={cards} maxRows={Infinity} href="" />;
+    return <ResizableCardGroup title="Followed Artists" items={cards} maxRows={Infinity} href="" />;
 }
 
 export default AllMyFollowedArtistCards;
