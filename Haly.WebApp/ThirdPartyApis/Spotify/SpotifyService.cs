@@ -197,17 +197,7 @@ public sealed class SpotifyService : ISpotifyService
 
     public async Task<List<ReleaseItem>> GetArtistReleases(string artistId, ArtistRelease type, string userMarket)
     {
-        if (type == ArtistRelease.Discography)
-        {
-            var items = await _endpointCollector.FetchConcurrently(
-                endpointFn: (limit, offset) =>
-                    _spotifyClient.GetAnArtistsAlbumsAsync(artistId, type.Value, userMarket, limit, offset),
-                dataFn: pagingObj => pagingObj.Items,
-                endpointLimit: ArtistReleasesLimit, maxConcurrentRequests: 3);
-
-            return items.Adapt<List<ReleaseItem>>();
-        }
-        else
+        if (type == ArtistRelease.AppearsOn)
         {
             // For appearances we only fetch first 100 items, because we are mostly interested in
             // albums and singles that the artists contributed to. Most of these show up in the
@@ -221,6 +211,16 @@ public sealed class SpotifyService : ISpotifyService
 
             var (firstBatch, secondBatch) = (await firstResponse, await secondResponse);
             var items = firstBatch.Items.Concat(secondBatch.Items);
+
+            return items.Adapt<List<ReleaseItem>>();
+        }
+        else
+        {
+            var items = await _endpointCollector.FetchConcurrently(
+                endpointFn: (limit, offset) =>
+                    _spotifyClient.GetAnArtistsAlbumsAsync(artistId, type.Value, userMarket, limit, offset),
+                dataFn: pagingObj => pagingObj.Items,
+                endpointLimit: ArtistReleasesLimit, maxConcurrentRequests: 2);
 
             return items.Adapt<List<ReleaseItem>>();
         }

@@ -19,20 +19,27 @@ public class GetArtistDiscographyHandler : IRequestHandler<GetArtistDiscographyQ
     public async Task<ArtistDiscographyDto> Handle(GetArtistDiscographyQuery request,
         CancellationToken cancellationToken)
     {
-        var releases = await _spotify.GetArtistReleases(request.Id, ArtistRelease.Discography, request.UserMarket);
+        // We need to fetch them separately, because their API is bugged and even though they say
+        // you can specify multiple groups it will only return the first one.
+        var albumTask = _spotify.GetArtistReleases(request.Id, ArtistRelease.Album, request.UserMarket);
+        var singleTask = _spotify.GetArtistReleases(request.Id, ArtistRelease.Singles, request.UserMarket);
+        var compilationTask = _spotify.GetArtistReleases(request.Id, ArtistRelease.Compilation, request.UserMarket);
+
+        var (albums, singles, compilations) = (await albumTask, await singleTask, await compilationTask);
 
         var dto = new ArtistDiscographyDto()
         {
-            All = releases
+            All = albums.Concat(singles)
+                .Concat(compilations)
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
-            Albums = releases.Where(r => r.Type == AlbumType.Album)
+            Albums = albums
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
-            SinglesAndEps = releases.Where(r => r.Type == AlbumType.OneSong || r.Type == AlbumType.Ep)
+            SinglesAndEps = singles
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
-            Compilations = releases.Where(r => r.Type == AlbumType.Compilation)
+            Compilations = compilations
                 .OrderByDescending(r => r.ReleaseDate)
                 .Adapt<List<ReleaseItemDto>>(),
         };
