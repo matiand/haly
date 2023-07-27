@@ -92,16 +92,15 @@ const Grid = styled("div", {
     variants: {
         type: {
             playback: {
-                lineHeight: 1.3,
+                lineHeight: 1.4,
 
                 [`& ${Subtitle} > a`]: {
-                    fontSize: "$50",
+                    fontSize: "$100",
                 },
 
                 [`& ${Title} > a`]: {
                     color: "inherit",
-                    fontSize: "$200",
-                    letterSpacing: "-0.005em",
+                    fontSize: "$300",
                     textDecoration: "none",
 
                     "&:hover": {

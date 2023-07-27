@@ -8,7 +8,7 @@ type CoverImageProps = {
 };
 
 const cellSize = 40;
-const playbackSize = 56;
+const playbackSize = 60;
 
 function TrackCoverImage({ imageUrl, type }: CoverImageProps) {
     if (type === "playback")
