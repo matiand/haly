@@ -36,9 +36,6 @@ const TitleWrapper = styled("div", {
     marginBottom: "$700",
 
     "& > h2": {
-        fontSize: "$550",
-        fontWeight: 800,
-
         "& > a": {
             color: "inherit",
             fontSize: "inherit",

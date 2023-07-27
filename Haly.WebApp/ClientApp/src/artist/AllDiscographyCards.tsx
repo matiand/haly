@@ -87,8 +87,6 @@ const YearGroup = styled("div", {
     marginBottom: "$800",
 
     "& > h3": {
-        fontSize: "$500",
-        fontWeight: 500,
         padding: "$600 0",
     },
 });

@@ -29,6 +29,16 @@ const globalStyles = globalCss({
         padding: 0,
     },
 
+    h2: {
+        fontSize: "$550",
+        fontWeight: 800,
+    },
+
+    h3: {
+        fontSize: "$500",
+        fontWeight: 500,
+    },
+
     "span, svg": {
         display: "block",
     },
