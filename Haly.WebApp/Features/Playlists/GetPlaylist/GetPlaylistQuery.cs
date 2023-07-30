@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.GetPlaylist;
 
-public record GetPlaylistQuery(string Id) : IRequest<PlaylistWithTracksDto?>
+public record GetPlaylistQuery(string Id, string? SortOrder) : IRequest<PlaylistWithTracksDto?>
 {
     public int TracksLimit { get; } = 25;
 }
@@ -36,12 +36,29 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
         dbPlaylist.Tracks = new List<PlaylistTrack>();
         var playlist = dbPlaylist.Adapt<PlaylistWithTracksDto>();
 
-        var tracks = await _db.PlaylistTracks
-            .Where(t => t.PlaylistId == request.Id)
-            .OrderBy(t => t.PositionInPlaylist)
-            .ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
+        var tracks = _db.PlaylistTracks
+            .Where(t => t.PlaylistId == request.Id);
 
-        playlist.Tracks = tracks.Adapt<PaginatedList<PlaylistTrackDto>>();
+        var sortedTracks = request.SortOrder switch
+        {
+            "title" => tracks.OrderBy(t => t.Name),
+            "title_desc" => tracks.OrderByDescending(t => t.Name),
+            "artist" => tracks.OrderBy(t => t.Artists.First().Name),
+            "artist_desc" => tracks.OrderByDescending(t => t.Artists.First().Name),
+            "album" => tracks.OrderBy(t => t.Album.Name),
+            "album_desc" => tracks.OrderByDescending(t => t.Album.Name),
+            "added_at" => tracks.OrderBy(t => t.AddedAt).ThenBy(t => t.Album.Name),
+            "added_at_desc" => tracks.OrderByDescending(t => t.AddedAt).ThenBy(t => t.Album.Name),
+            "duration" => tracks.OrderByDescending(t => t.DurationInMs),
+            "duration_desc" => tracks.OrderByDescending(t => t.DurationInMs),
+            _ => tracks.OrderBy(t => t.PositionInPlaylist),
+        };
+
+        sortedTracks = sortedTracks.ThenBy(t => t.AlbumPosition);
+
+        var pTracks = await sortedTracks.ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
+
+        playlist.Tracks = pTracks.Adapt<PaginatedList<PlaylistTrackDto>>();
 
         var totalDuration = await _totalDurationService.FromPlaylistStore(request.Id);
         playlist.TotalDuration = totalDuration.Format();

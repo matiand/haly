@@ -17,4 +17,6 @@ public class PlaylistTrack : Track
 
     [Column(TypeName = "jsonb")]
     public AlbumBrief Album { get; set; }
+    // Position in their respective albums. Used as a secondary ordering.
+    public int AlbumPosition { get; set; }
 }

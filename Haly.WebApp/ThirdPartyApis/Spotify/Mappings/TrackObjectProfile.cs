@@ -17,6 +17,7 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
             .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
+            .Map(dest => dest.AlbumPosition, src => src.Track.Disc_number * src.Track.Track_number)
             .Map(dest => dest.Type,
                 src => src.Track.Type == TrackObjectType.Track ? PlaylistTrackType.Song : PlaylistTrackType.Podcast);
 
@@ -29,6 +30,7 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
             .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
+            .Map(dest => dest.AlbumPosition, src => src.Track.Disc_number * src.Track.Track_number)
             .Map(dest => dest.Type,
                 src => src.Track.Type == TrackObjectType.Track ? PlaylistTrackType.Song : PlaylistTrackType.Podcast);
 
