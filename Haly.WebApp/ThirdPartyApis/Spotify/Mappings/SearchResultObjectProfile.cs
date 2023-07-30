@@ -8,7 +8,7 @@ public class SearchResultObjectProfile : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<Response11, SpotifySearchResult>()
+        config.ForType<Response13, SpotifySearchResult>()
             .Map(dest => dest.Albums, src => src.Albums.Items)
             .Map(dest => dest.Artists, src => src.Artists.Items)
             .Map(dest => dest.Playlists, src => src.Playlists.Items)

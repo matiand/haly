@@ -854,7 +854,7 @@ namespace Haly.GeneratedClients
         /// Get Artist's Related Artists
         /// </summary>
         /// <remarks>
-        /// Get Spotify catalog information about artists similar to a given artist. Similarity is based on analysis of the Spotify community's [listening history](http://news.spotify.com/se/2010/02/03/related-artists/).
+        /// Get Spotify catalog information about artists similar to a given artist. Similarity is based on analysis of the Spotify community's listening history.
         /// </remarks>
         /// <returns>A set of artists</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1590,6 +1590,16 @@ namespace Haly.GeneratedClients
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Response9>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<Response9>("The request contains malformed data in path, query parameters, or body.\n", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
                         if (status_ == 401)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<Response>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -1608,6 +1618,16 @@ namespace Haly.GeneratedClients
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             throw new ApiException<Response2>("Bad OAuth request (wrong consumer key, bad nonce, expired\ntimestamp...). Unfortunately, re-authenticating the user won\'t help here.\n", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<Response10>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<Response10>("The requested resource cannot be found.\n", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 429)
@@ -1649,7 +1669,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A set of audiobooks</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response9> GetMultipleAudiobooksAsync(string ids, string? market = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response11> GetMultipleAudiobooksAsync(string ids, string? market = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (ids == null)
                 throw new System.ArgumentNullException("ids");
@@ -1695,7 +1715,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response9>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response11>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2421,7 +2441,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A set of chapters</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response10> GetSeveralChaptersAsync(string ids, string? market = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response12> GetSeveralChaptersAsync(string ids, string? market = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (ids == null)
                 throw new System.ArgumentNullException("ids");
@@ -2467,7 +2487,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response10>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response12>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2760,7 +2780,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>Search response</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response11> SearchAsync(string q, System.Collections.Generic.IEnumerable<Anonymous> type, string? market = null, int? limit = null, int? offset = null, Include_external? include_external = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response13> SearchAsync(string q, System.Collections.Generic.IEnumerable<Anonymous> type, string? market = null, int? limit = null, int? offset = null, Include_external? include_external = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (q == null)
                 throw new System.ArgumentNullException("q");
@@ -2822,7 +2842,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response11>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response13>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -3346,7 +3366,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A snapshot ID for the playlist</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response12> AddTracksToPlaylistAsync(string playlist_id, int? position = null, string? uris = null, Body2? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response14> AddTracksToPlaylistAsync(string playlist_id, int? position = null, string? uris = null, Body2? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (playlist_id == null)
                 throw new System.ArgumentNullException("playlist_id");
@@ -3400,7 +3420,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response12>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response14>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -3472,7 +3492,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A snapshot ID for the playlist</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response12> ReorderOrReplacePlaylistsTracksAsync(string playlist_id, string? uris = null, Body3? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response14> ReorderOrReplacePlaylistsTracksAsync(string playlist_id, string? uris = null, Body3? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (playlist_id == null)
                 throw new System.ArgumentNullException("playlist_id");
@@ -3522,7 +3542,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response12>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response14>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -3588,7 +3608,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A snapshot ID for the playlist</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response12> RemoveTracksPlaylistAsync(string playlist_id, Body4? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response14> RemoveTracksPlaylistAsync(string playlist_id, Body4? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (playlist_id == null)
                 throw new System.ArgumentNullException("playlist_id");
@@ -3633,7 +3653,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response12>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response14>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -4680,7 +4700,8 @@ namespace Haly.GeneratedClients
         /// Get User's Saved Episodes
         /// </summary>
         /// <remarks>
-        /// Get a list of the episodes saved in the current Spotify user's library.
+        /// Get a list of the episodes saved in the current Spotify user's library.&lt;br/&gt;
+        /// <br/>This API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).
         /// </remarks>
         /// <returns>Pages of episodes</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4796,7 +4817,8 @@ namespace Haly.GeneratedClients
         /// Save Episodes for Current User
         /// </summary>
         /// <remarks>
-        /// Save one or more episodes to the current user's library.
+        /// Save one or more episodes to the current user's library.&lt;br/&gt;
+        /// <br/>This API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).
         /// </remarks>
         /// <returns>Episode saved</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4902,7 +4924,8 @@ namespace Haly.GeneratedClients
         /// Remove User's Saved Episodes
         /// </summary>
         /// <remarks>
-        /// Remove one or more episodes from the current user's library.
+        /// Remove one or more episodes from the current user's library.&lt;br/&gt;
+        /// <br/>This API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).
         /// </remarks>
         /// <returns>Episode removed</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -5008,7 +5031,8 @@ namespace Haly.GeneratedClients
         /// Check User's Saved Episodes
         /// </summary>
         /// <remarks>
-        /// Check if one or more episodes is already saved in the current Spotify user's 'Your Episodes' library.
+        /// Check if one or more episodes is already saved in the current Spotify user's 'Your Episodes' library.&lt;br/&gt;
+        /// <br/>This API endpoint is in __beta__ and could change without warning. Please share any feedback that you have, or issues that you discover, in our [developer community forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer)..
         /// </remarks>
         /// <returns>Array of booleans</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -5776,7 +5800,7 @@ namespace Haly.GeneratedClients
         /// </summary>
         /// <remarks>
         /// Create a playlist for a Spotify user. (The playlist will be empty until
-        /// <br/>you [add tracks](/documentation/web-api/reference/#/operations/add-tracks-to-playlist).)
+        /// <br/>you [add tracks](/documentation/web-api/reference/add-tracks-to-playlist).)
         /// </remarks>
         /// <returns>A playlist</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -6221,7 +6245,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A paged set of categories</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response13> GetCategoriesAsync(string? country = null, string? locale = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response15> GetCategoriesAsync(string? country = null, string? locale = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/browse/categories?");
@@ -6275,7 +6299,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response13>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response15>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -6682,7 +6706,6 @@ namespace Haly.GeneratedClients
         /// <remarks>
         /// Replace the image used to represent a specific playlist.
         /// </remarks>
-        /// <param name="body">The new cover image of the playlist as a Base64 encoded JPEG image. Maximum payload size is 256KB.</param>
         /// <returns>Image uploaded</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task UploadCustomPlaylistCoverAsync(string playlist_id, byte[] body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -6730,7 +6753,7 @@ namespace Haly.GeneratedClients
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 202)
                         {
                             return;
                         }
@@ -6793,7 +6816,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A paged set of albums</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response14> GetNewReleasesAsync(string? country = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response16> GetNewReleasesAsync(string? country = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/browse/new-releases?");
@@ -6843,7 +6866,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response14>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response16>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -6909,7 +6932,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A paged set of artists</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response15> GetFollowedAsync(Type type, string? after = null, int? limit = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response17> GetFollowedAsync(Type type, string? after = null, int? limit = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (type == null)
                 throw new System.ArgumentNullException("type");
@@ -6959,7 +6982,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response15>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response17>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -7469,7 +7492,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A set of audio features</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response16> GetSeveralAudioFeaturesAsync(string ids, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response18> GetSeveralAudioFeaturesAsync(string ids, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (ids == null)
                 throw new System.ArgumentNullException("ids");
@@ -7511,7 +7534,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response16>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response18>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -8082,11 +8105,11 @@ namespace Haly.GeneratedClients
         /// Get Available Genre Seeds
         /// </summary>
         /// <remarks>
-        /// Retrieve a list of available genres seed parameter values for [recommendations](/documentation/web-api/reference/#/operations/get-recommendations).
+        /// Retrieve a list of available genres seed parameter values for [recommendations](/documentation/web-api/reference/get-recommendations).
         /// </remarks>
         /// <returns>A set of genres</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response17> GetRecommendationGenresAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response19> GetRecommendationGenresAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/recommendations/available-genre-seeds");
@@ -8123,7 +8146,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response17>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response19>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -9794,7 +9817,7 @@ namespace Haly.GeneratedClients
         /// </remarks>
         /// <returns>A markets object with an array of country codes</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Response18> GetAvailableMarketsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Response20> GetAvailableMarketsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/markets");
@@ -9831,7 +9854,7 @@ namespace Haly.GeneratedClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Response18>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response20>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -10241,7 +10264,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the track.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10255,7 +10278,7 @@ namespace Haly.GeneratedClients
         public string Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the track.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10409,7 +10432,7 @@ namespace Haly.GeneratedClients
         public string? Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the artist.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the artist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10445,7 +10468,7 @@ namespace Haly.GeneratedClients
         public ArtistObjectType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the artist.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the artist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10480,7 +10503,7 @@ namespace Haly.GeneratedClients
         public string? Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the artist.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the artist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10502,7 +10525,7 @@ namespace Haly.GeneratedClients
         public SimplifiedArtistObjectType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the artist.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the artist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10569,7 +10592,7 @@ namespace Haly.GeneratedClients
         public PlaylistUserObject Added_by { get; set; } = default!;
 
         /// <summary>
-        /// Whether this track or episode is a [local file](https://developer.spotify.com/web-api/local-files-spotify-playlists/) or not.
+        /// Whether this track or episode is a [local file](/documentation/web-api/concepts/playlists/#local-files) or not.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("is_local", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10824,7 +10847,7 @@ namespace Haly.GeneratedClients
     public partial class ErrorObject
     {
         /// <summary>
-        /// The HTTP status code (also returned in the response header; see [Response Status Codes](/documentation/web-api/#response-status-codes) for more information).
+        /// The HTTP status code (also returned in the response header; see [Response Status Codes](/documentation/web-api/concepts/api-calls#response-status-codes) for more information).
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Always)]
@@ -10967,7 +10990,7 @@ namespace Haly.GeneratedClients
     public partial class PrivateUserObject
     {
         /// <summary>
-        /// The country of the user, as set in the user's account profile. An [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). _This field is only available when the current user has granted access to the [user-read-private](/documentation/general/guides/authorization-guide/#list-of-scopes) scope._
+        /// The country of the user, as set in the user's account profile. An [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). _This field is only available when the current user has granted access to the [user-read-private](/documentation/web-api/concepts/scopes/#list-of-scopes) scope._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("country", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -10981,14 +11004,14 @@ namespace Haly.GeneratedClients
         public string Display_name { get; set; } = default!;
 
         /// <summary>
-        /// The user's email address, as entered by the user when creating their account. _**Important!** This email address is unverified; there is no proof that it actually belongs to the user._ _This field is only available when the current user has granted access to the [user-read-email](/documentation/general/guides/authorization-guide/#list-of-scopes) scope._
+        /// The user's email address, as entered by the user when creating their account. _**Important!** This email address is unverified; there is no proof that it actually belongs to the user._ _This field is only available when the current user has granted access to the [user-read-email](/documentation/web-api/concepts/scopes/#list-of-scopes) scope._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Email { get; set; } = default!;
 
         /// <summary>
-        /// The user's explicit content settings. _This field is only available when the current user has granted access to the [user-read-private](/documentation/general/guides/authorization-guide/#list-of-scopes) scope._
+        /// The user's explicit content settings. _This field is only available when the current user has granted access to the [user-read-private](/documentation/web-api/concepts/scopes/#list-of-scopes) scope._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("explicit_content", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11014,7 +11037,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify user ID](/documentation/web-api/#spotify-uris-and-ids) for the user.
+        /// The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for the user.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11027,7 +11050,7 @@ namespace Haly.GeneratedClients
         public System.Collections.Generic.ICollection<ImageObject> Images { get; set; } = default!;
 
         /// <summary>
-        /// The user's Spotify subscription level: "premium", "free", etc. (The subscription level "open" can be considered the same as "free".) _This field is only available when the current user has granted access to the [user-read-private](/documentation/general/guides/authorization-guide/#list-of-scopes) scope._
+        /// The user's Spotify subscription level: "premium", "free", etc. (The subscription level "open" can be considered the same as "free".) _This field is only available when the current user has granted access to the [user-read-private](/documentation/web-api/concepts/scopes/#list-of-scopes) scope._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("product", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11041,7 +11064,7 @@ namespace Haly.GeneratedClients
         public string Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the user.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the user.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11090,7 +11113,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify user ID](/documentation/web-api/#spotify-uris-and-ids) for this user.
+        /// The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for this user.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11112,7 +11135,7 @@ namespace Haly.GeneratedClients
         public PublicUserObjectType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for this user.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for this user.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -11555,21 +11578,21 @@ namespace Haly.GeneratedClients
         public string? Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the track.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? Id { get; set; } = default!;
 
         /// <summary>
-        /// Part of the response when [Track Relinking](/documentation/general/guides/track-relinking-guide/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.
+        /// Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("is_playable", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool Is_playable { get; set; } = default!;
 
         /// <summary>
-        /// Part of the response when [Track Relinking](/documentation/general/guides/track-relinking-guide/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.
+        /// Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("linked_from", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public LinkedTrackObject Linked_from { get; set; } = default!;
@@ -11610,7 +11633,7 @@ namespace Haly.GeneratedClients
         public SimplifiedTrackObjectType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the track.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12251,7 +12274,7 @@ namespace Haly.GeneratedClients
         public int Mode { get; set; } = default!;
 
         /// <summary>
-        /// The popularity of the track. The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are. _**Note**: When applying track relinking via the `market` parameter, it is expected to find relinked tracks with popularities that do not match `min_*`, `max_*`and `target_*` popularities. These relinked tracks are accurate replacements for unplayable tracks with the expected popularity scores. Original, non-relinked tracks are available via the `linked_from` attribute of the [relinked track response](/documentation/general/guides/track-relinking-guide)._
+        /// The popularity of the track. The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are. _**Note**: When applying track relinking via the `market` parameter, it is expected to find relinked tracks with popularities that do not match `min_*`, `max_*`and `target_*` popularities. These relinked tracks are accurate replacements for unplayable tracks with the expected popularity scores. Original, non-relinked tracks are available via the `linked_from` attribute of the [relinked track response](/documentation/web-api/concepts/track-relinking)._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("popularity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12327,14 +12350,14 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the playlist.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Id { get; set; } = default!;
 
         /// <summary>
-        /// Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/general/guides/working-with-playlists/). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._
+        /// Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/web-api/concepts/playlists). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("images", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12355,7 +12378,7 @@ namespace Haly.GeneratedClients
         public PlaylistOwnerObject Owner { get; set; } = default!;
 
         /// <summary>
-        /// The playlist's public/private status: `true` the playlist is public, `false` the playlist is private, `null` the playlist status is not relevant. For more about public/private status, see [Working with Playlists](/documentation/general/guides/working-with-playlists/)
+        /// The playlist's public/private status: `true` the playlist is public, `false` the playlist is private, `null` the playlist status is not relevant. For more about public/private status, see [Working with Playlists](/documentation/web-api/concepts/playlists)
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("public", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12383,7 +12406,7 @@ namespace Haly.GeneratedClients
         public string Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the playlist.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12432,14 +12455,14 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the playlist.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Id { get; set; } = default!;
 
         /// <summary>
-        /// Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/general/guides/working-with-playlists/). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._
+        /// Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See [Working with Playlists](/documentation/web-api/concepts/playlists). _**Note**: If returned, the source URL for the image (`url`) is temporary and will expire in less than a day._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("images", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12460,7 +12483,7 @@ namespace Haly.GeneratedClients
         public PlaylistOwnerObject Owner { get; set; } = default!;
 
         /// <summary>
-        /// The playlist's public/private status: `true` the playlist is public, `false` the playlist is private, `null` the playlist status is not relevant. For more about public/private status, see [Working with Playlists](/documentation/general/guides/working-with-playlists/)
+        /// The playlist's public/private status: `true` the playlist is public, `false` the playlist is private, `null` the playlist status is not relevant. For more about public/private status, see [Working with Playlists](/documentation/web-api/concepts/playlists)
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("public", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12488,7 +12511,7 @@ namespace Haly.GeneratedClients
         public string Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the playlist.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12558,7 +12581,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify user ID](/documentation/web-api/#spotify-uris-and-ids) for this user.
+        /// The [Spotify user ID](/documentation/web-api/concepts/spotify-uris-ids) for this user.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12573,7 +12596,7 @@ namespace Haly.GeneratedClients
         public PlaylistUserObjectType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for this user.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for this user.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12622,7 +12645,7 @@ namespace Haly.GeneratedClients
         public System.Collections.Generic.ICollection<ImageObject> Icons { get; set; } = new System.Collections.ObjectModel.Collection<ImageObject>();
 
         /// <summary>
-        /// The [Spotify category ID](/documentation/web-api/#spotify-uris-and-ids) of the category.
+        /// The [Spotify category ID](/documentation/web-api/concepts/spotify-uris-ids) of the category.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
@@ -12715,21 +12738,21 @@ namespace Haly.GeneratedClients
         public string? Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the track.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the track.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? Id { get; set; } = default!;
 
         /// <summary>
-        /// Part of the response when [Track Relinking](/documentation/general/guides/track-relinking-guide/) is applied. If `true`, the track is playable in the given market. Otherwise `false`.
+        /// Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking) is applied. If `true`, the track is playable in the given market. Otherwise `false`.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("is_playable", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool Is_playable { get; set; } = default!;
 
         /// <summary>
-        /// Part of the response when [Track Relinking](/documentation/general/guides/track-relinking-guide/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.
+        /// Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking) is applied, and the requested track has been replaced with different track. The track in the `linked_from` object contains information about the originally requested track.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("linked_from", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public LinkedTrackObject Linked_from { get; set; } = default!;
@@ -12778,7 +12801,7 @@ namespace Haly.GeneratedClients
         public TrackObjectType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the track.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the track.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -12879,7 +12902,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the episode.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the episode.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
@@ -12967,7 +12990,7 @@ namespace Haly.GeneratedClients
         public EpisodeBaseType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the episode.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the episode.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Always)]
@@ -13079,7 +13102,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the show.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the show.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
@@ -13143,7 +13166,7 @@ namespace Haly.GeneratedClients
         public ShowBaseType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the show.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the show.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Always)]
@@ -13255,7 +13278,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the audiobook.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the audiobook.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
@@ -13320,7 +13343,7 @@ namespace Haly.GeneratedClients
         public AudiobookBaseType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the audiobook.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the audiobook.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Always)]
@@ -13398,7 +13421,7 @@ namespace Haly.GeneratedClients
         public string? Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the album.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the album.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.AllowNull)]
@@ -13452,7 +13475,7 @@ namespace Haly.GeneratedClients
         public AlbumBaseType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the album.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the album.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.AllowNull)]
@@ -13581,7 +13604,7 @@ namespace Haly.GeneratedClients
         public string Href { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify ID](/documentation/web-api/#spotify-uris-and-ids) for the episode.
+        /// The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the episode.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
@@ -13654,7 +13677,7 @@ namespace Haly.GeneratedClients
         public ChapterBaseType Type { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the episode.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the episode.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.Always)]
@@ -13752,7 +13775,7 @@ namespace Haly.GeneratedClients
         public ExternalUrlObject External_urls { get; set; } = default!;
 
         /// <summary>
-        /// The [Spotify URI](/documentation/web-api/#spotify-uris-and-ids) for the context.
+        /// The [Spotify URI](/documentation/web-api/concepts/spotify-uris-ids) for the context.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uri", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -13878,7 +13901,7 @@ namespace Haly.GeneratedClients
     public partial class ExternalUrlObject
     {
         /// <summary>
-        /// The [Spotify URL](/documentation/web-api/#spotify-uris-and-ids) for the object.
+        /// The [Spotify URL](/documentation/web-api/concepts/spotify-uris-ids) for the object.
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("spotify", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14112,7 +14135,7 @@ namespace Haly.GeneratedClients
     public partial class Body2
     {
         /// <summary>
-        /// A JSON array of the [Spotify URIs](/documentation/web-api/#spotify-uris-and-ids) to add. For example: `{"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M", "spotify:episode:512ojhOuo1ktJprKbVcKyQ"]}`&lt;br/&gt;A maximum of 100 items can be added in one request. _**Note**: if the `uris` parameter is present in the query string, any URIs listed here in the body will be ignored._
+        /// A JSON array of the [Spotify URIs](/documentation/web-api/concepts/spotify-uris-ids) to add. For example: `{"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M", "spotify:episode:512ojhOuo1ktJprKbVcKyQ"]}`&lt;br/&gt;A maximum of 100 items can be added in one request. _**Note**: if the `uris` parameter is present in the query string, any URIs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("uris", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14185,7 +14208,7 @@ namespace Haly.GeneratedClients
     public partial class Body4
     {
         /// <summary>
-        /// An array of objects containing [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove.
+        /// An array of objects containing [Spotify URIs](/documentation/web-api/concepts/spotify-uris-ids) of the tracks or episodes to remove.
         /// <br/>For example: `{ "tracks": [{ "uri": "spotify:track:4iV5W9uYEdYUVa79Axb7Rh" },{ "uri": "spotify:track:1301WleyT98MSxVHPZCA6M" }] }`. A maximum of 100 objects can be sent at once.
         /// <br/>
         /// </summary>
@@ -14217,7 +14240,7 @@ namespace Haly.GeneratedClients
     public partial class Body5
     {
         /// <summary>
-        /// A JSON array of the [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
+        /// A JSON array of the [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ids", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14238,7 +14261,7 @@ namespace Haly.GeneratedClients
     public partial class Body6
     {
         /// <summary>
-        /// A JSON array of the [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
+        /// A JSON array of the [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ids", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14259,7 +14282,7 @@ namespace Haly.GeneratedClients
     public partial class Body7
     {
         /// <summary>
-        /// A JSON array of the [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
+        /// A JSON array of the [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ids", Required = Newtonsoft.Json.Required.Always)]
@@ -14281,7 +14304,7 @@ namespace Haly.GeneratedClients
     public partial class Body8
     {
         /// <summary>
-        /// A JSON array of the [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
+        /// A JSON array of the [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids). For example: `["4iV5W9uYEdYUVa79Axb7Rh", "1301WleyT98MSxVHPZCA6M"]`&lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ids", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14302,7 +14325,7 @@ namespace Haly.GeneratedClients
     public partial class Body9
     {
         /// <summary>
-        /// A JSON array of the [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids). &lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
+        /// A JSON array of the [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids). &lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ids", Required = Newtonsoft.Json.Required.Always)]
@@ -14324,7 +14347,7 @@ namespace Haly.GeneratedClients
     public partial class Body10
     {
         /// <summary>
-        /// A JSON array of the [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids). &lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
+        /// A JSON array of the [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids). &lt;br/&gt;A maximum of 50 items can be specified in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ids", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14395,14 +14418,14 @@ namespace Haly.GeneratedClients
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// Defaults to `true`. If `true` the playlist will be public, if `false` it will be private. To be able to create private playlists, the user must have granted the `playlist-modify-private` [scope](/documentation/general/guides/authorization-guide/#list-of-scopes)
+        /// Defaults to `true`. If `true` the playlist will be public, if `false` it will be private. To be able to create private playlists, the user must have granted the `playlist-modify-private` [scope](/documentation/web-api/concepts/scopes/#list-of-scopes)
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("public", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool Public { get; set; } = default!;
 
         /// <summary>
-        /// Defaults to `false`. If `true` the playlist will be collaborative. _**Note**: to create a collaborative playlist you must also set `public` to `false`. To create collaborative playlists you must have granted `playlist-modify-private` and `playlist-modify-public` [scopes](/documentation/general/guides/authorization-guide/#list-of-scopes)._
+        /// Defaults to `false`. If `true` the playlist will be collaborative. _**Note**: to create a collaborative playlist you must also set `public` to `false`. To create collaborative playlists you must have granted `playlist-modify-private` and `playlist-modify-public` [scopes](/documentation/web-api/concepts/scopes/#list-of-scopes)._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("collaborative", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14480,7 +14503,7 @@ namespace Haly.GeneratedClients
     public partial class Body15
     {
         /// <summary>
-        /// A JSON array of the artist or user [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids).
+        /// A JSON array of the artist or user [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids).
         /// <br/>For example: `{ids:["74ASZWbe4lXaubB36ztrGX", "08td7MxkoHQkXnWAYD8d6Q"]}`. A maximum of 50 IDs can be sent in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
@@ -14519,7 +14542,7 @@ namespace Haly.GeneratedClients
     public partial class Body16
     {
         /// <summary>
-        /// A JSON array of the artist or user [Spotify IDs](/documentation/web-api/#spotify-uris-and-ids). For example: `{ids:["74ASZWbe4lXaubB36ztrGX", "08td7MxkoHQkXnWAYD8d6Q"]}`. A maximum of 50 IDs can be sent in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
+        /// A JSON array of the artist or user [Spotify IDs](/documentation/web-api/concepts/spotify-uris-ids). For example: `{ids:["74ASZWbe4lXaubB36ztrGX", "08td7MxkoHQkXnWAYD8d6Q"]}`. A maximum of 50 IDs can be sent in one request. _**Note**: if the `ids` parameter is present in the query string, any IDs listed here in the body will be ignored._
         /// <br/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("ids", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14775,6 +14798,42 @@ namespace Haly.GeneratedClients
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Response9
     {
+        [Newtonsoft.Json.JsonProperty("error", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public ErrorObject Error { get; set; } = new ErrorObject();
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Response10
+    {
+        [Newtonsoft.Json.JsonProperty("error", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public ErrorObject Error { get; set; } = new ErrorObject();
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Response11
+    {
         [Newtonsoft.Json.JsonProperty("audiobooks", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.ICollection<AudiobookObject> Audiobooks { get; set; } = new System.Collections.ObjectModel.Collection<AudiobookObject>();
@@ -14791,7 +14850,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response10
+    public partial class Response12
     {
         [Newtonsoft.Json.JsonProperty("chapters", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -14809,7 +14868,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response11
+    public partial class Response13
     {
         [Newtonsoft.Json.JsonProperty("tracks", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PagingTrackObject Tracks { get; set; } = default!;
@@ -14844,7 +14903,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response12
+    public partial class Response14
     {
         [Newtonsoft.Json.JsonProperty("snapshot_id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Snapshot_id { get; set; } = default!;
@@ -14861,7 +14920,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response13
+    public partial class Response15
     {
         [Newtonsoft.Json.JsonProperty("categories", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -14879,7 +14938,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response14
+    public partial class Response16
     {
         [Newtonsoft.Json.JsonProperty("albums", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -14897,7 +14956,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response15
+    public partial class Response17
     {
         [Newtonsoft.Json.JsonProperty("artists", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -14915,7 +14974,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response16
+    public partial class Response18
     {
         [Newtonsoft.Json.JsonProperty("audio_features", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -14933,7 +14992,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response17
+    public partial class Response19
     {
         [Newtonsoft.Json.JsonProperty("genres", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -14951,7 +15010,7 @@ namespace Haly.GeneratedClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Response18
+    public partial class Response20
     {
         [Newtonsoft.Json.JsonProperty("markets", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> Markets { get; set; } = default!;
