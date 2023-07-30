@@ -33,6 +33,7 @@ import {
 
 export interface GetPlaylistRequest {
     id: string;
+    sortOrder?: string;
 }
 
 export interface GetTracksRequest {
@@ -60,6 +61,10 @@ export class PlaylistsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.sortOrder !== undefined) {
+            queryParameters['sortOrder'] = requestParameters.sortOrder;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -126,7 +131,7 @@ export class PlaylistsApi extends runtime.BaseAPI {
      * Fetch playlist from Spotify and update our cache if it\'s changed<br/>This endpoint calls Spotify API.
      * Update playlist
      */
-    async putPlaylistRaw(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistWithTracksDto>> {
+    async putPlaylistRaw(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling putPlaylist.');
         }
@@ -142,16 +147,15 @@ export class PlaylistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistWithTracksDtoFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Fetch playlist from Spotify and update our cache if it\'s changed<br/>This endpoint calls Spotify API.
      * Update playlist
      */
-    async putPlaylist(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistWithTracksDto> {
-        const response = await this.putPlaylistRaw(requestParameters, initOverrides);
-        return await response.value();
+    async putPlaylist(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.putPlaylistRaw(requestParameters, initOverrides);
     }
 
 }

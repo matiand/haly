@@ -27,21 +27,21 @@ public class PlaylistsController : ApiControllerBase
 
     [HttpPut("{id}")]
     [SwaggerOperation(Summary = "Update playlist", Description = "Fetch playlist from Spotify and update our cache if it's changed")]
-    [SwaggerResponse(statusCode: 200, "Playlist updated", typeof(PlaylistWithTracksDto))]
-    [SwaggerResponse(statusCode: 201, "Playlist created", typeof(PlaylistWithTracksDto))]
+    [SwaggerResponse(statusCode: 201, "Playlist created")]
+    [SwaggerResponse(statusCode: 204, "Playlist updated")]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
     [CallsSpotifyApi()]
-    public async Task<ActionResult<PlaylistWithTracksDto>> PutPlaylist(string id, [FromServices] CurrentUserStore currentUserStore)
+    public async Task<ActionResult> PutPlaylist(string id, [FromServices] CurrentUserStore currentUserStore)
     {
         var response = await Mediator.Send(new UpdatePlaylistCommand(id, currentUserStore.User!.Market));
         if (response is null) return NotFound();
 
         if (response.Created)
         {
-            return CreatedAtAction(nameof(GetPlaylist), new { response.Playlist.Id }, response.Playlist);
+            return CreatedAtAction(nameof(GetPlaylist), new { id = response.PlaylistId }, value: null);
         }
 
-        return Ok(response.Playlist);
+        return NoContent();
     }
 
 

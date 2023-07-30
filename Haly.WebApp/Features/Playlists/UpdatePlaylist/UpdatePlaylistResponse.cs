@@ -1,3 +1,3 @@
 namespace Haly.WebApp.Features.Playlists.UpdatePlaylist;
 
-public record UpdatePlaylistResponse(bool Created, PlaylistWithTracksDto Playlist);
+public record UpdatePlaylistResponse(bool Created, string PlaylistId);
