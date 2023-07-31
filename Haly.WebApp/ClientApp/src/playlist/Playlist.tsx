@@ -69,7 +69,10 @@ const usePlaylistQuery = (playlistId: string) => {
     const queryFn = useMemo(() => {
         return isCached
             ? () => halyClient.playlists.getPlaylist({ id: playlistId })
-            : () => halyClient.playlists.putPlaylist({ id: playlistId });
+            : () =>
+                  halyClient.playlists
+                      .putPlaylist({ id: playlistId })
+                      .then(() => halyClient.playlists.getPlaylist({ id: playlistId }));
     }, [playlistId, isCached]);
 
     return useQuery(["playlists", playlistId], queryFn);
