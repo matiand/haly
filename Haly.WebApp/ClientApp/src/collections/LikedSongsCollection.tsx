@@ -6,7 +6,7 @@ import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistHeader from "../playlist/PlaylistHeader";
 import PlaylistTracks from "../playlist/PlaylistTracks";
-import SearchBar from "./SearchBar";
+import SearchBar from "../search/SearchBar";
 
 type LikedSongsCollectionProps = {
     id: string;

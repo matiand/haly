@@ -3,8 +3,8 @@ import { HiOutlineSearch } from "react-icons/hi";
 
 import { styled } from "../common/theme";
 
-type SearchBarProps = {
-    variant: "app" | "playlist";
+export type SearchBarProps = {
+    variant: "spotifyApi" | "library" | "playlist";
 };
 
 function SearchBar({ variant }: SearchBarProps) {
@@ -34,10 +34,15 @@ function SearchBar({ variant }: SearchBarProps) {
 }
 
 const inputPropsByVariant: Record<SearchBarProps["variant"], Record<string, string>> = {
-    app: {
+    spotifyApi: {
         placeholder: "What do you want to listen to?",
         "aria-label": "Search Haly",
-        variant: "app",
+        variant: "spotifyApi",
+    },
+    library: {
+        placeholder: "Search your library",
+        "aria-label": "Search Your Library",
+        variant: "library",
     },
     playlist: {
         placeholder: "Search in playlist",
@@ -47,63 +52,83 @@ const inputPropsByVariant: Record<SearchBarProps["variant"], Record<string, stri
 };
 
 const Form = styled("form", {
-    display: "flex",
-    position: "relative",
-
     variants: {
         variant: {
-            app: {
-                height: "40px",
+            spotifyApi: {
+                $$iconWidth: "24px",
 
                 "& > input": {
-                    borderRadius: "500px",
                     fontSize: "$300",
-                    padding: "$300 $600 $300 $900",
-                    width: "320px",
+                    padding: "$300 $600 $300 calc($$iconWidth * 2)",
+                    position: "relative",
+                    width: "360px",
                 },
-
-                "& > span > svg": {
-                    height: "24px",
-                    left: "$500",
-                    top: "$400",
+            },
+            library: {
+                $$iconWidth: "24px",
+                
+                "& > input": {
+                    fontSize: "$300",
+                    padding: "$300 $600 $300 calc($$iconWidth * 2)",
+                    position: "relative",
+                    width: "500px",
                 },
             },
             playlist: {
-                height: "32px",
+                $$iconWidth: "18px",
 
                 "& > input": {
-                    borderRadius: "4px",
                     fontSize: "$200",
-                    padding: "$200 $500 $200 $800",
+                    padding: "$200 $500 $200 calc($$iconWidth * 2)",
+                    position: "relative",
                     width: "220px",
                 },
-                "& > span > svg": {
-                    // color: "$white800",
-                    height: "18px",
-                    left: "$400",
-                    top: "$300",
-                },
             },
+        },
+    },
+
+    alignItems: "center",
+    display: "flex",
+    position: "relative",
+
+    "& > input": {
+        height: "calc($$iconWidth * 2)",
+        left: "calc($$iconWidth * -2)",
+
+        transition: "width 0.3s ease-in",
+    },
+
+    "& > span": {
+        zIndex: 1,
+        padding: "0 calc($$iconWidth * 0.5)",
+
+        "& > svg": {
+            height: "$$iconWidth",
+            width: "$$iconWidth",
         },
     },
 });
 
 const SearchIcon = styled(HiOutlineSearch, {
-    color: "$black600",
-    display: "block",
-    position: "absolute",
+    color: "$white600",
     pointerEvents: "none",
-    width: "$searchIconSize",
 });
 
 const Input = styled("input", {
-    border: "0",
+    background: "$black300",
+    border: "none",
+    borderRadius: "4px",
+    color: "$white800",
     fontSize: "$300",
     height: "inherit",
     textOverflow: "ellipsis",
 
+    "&:hover": {
+        background: "$black200",
+    },
+
     "&:focus": {
-        outline: "none",
+        outline: "1px solid $white800",
     },
 });
 

@@ -24,6 +24,7 @@ import AllUserPlaylistCards from "./profile/AllUserPlaylistCards";
 import Me from "./profile/Me";
 import Preferences from "./profile/Preferences";
 import Profile from "./profile/Profile";
+import Search from "./search/Search";
 import Sidebar from "./sidebar/Sidebar";
 import UpperMenu from "./uppermenu/UpperMenu";
 
@@ -70,6 +71,8 @@ function App() {
                             <Route path="/artist/:id/discography/:filter" element={<AllDiscographyCards />} />
 
                             <Route path="/album/:id" element={<Album />} />
+
+                            <Route path="/search" element={<Search />} />
 
                             <Route path="/collection/tracks" element={<LikedSongs />} />
                             <Route path="/preferences" element={<Preferences />} />

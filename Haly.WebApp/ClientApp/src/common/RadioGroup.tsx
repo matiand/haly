@@ -44,7 +44,7 @@ const Root = styled(ToggleGroup.Root, {
     marginBottom: "$800",
 });
 
-const Item = styled(ToggleGroup.Item, {
+export const Item = styled(ToggleGroup.Item, {
     background: "$radioBtnBg",
     borderRadius: "32px",
     border: "none",
@@ -53,7 +53,7 @@ const Item = styled(ToggleGroup.Item, {
     flexShrink: 0,
     fontSize: "$300",
     fontWeight: 500,
-    lineHeight: 2,
+    lineHeight: 1.8,
     padding: "$200 $500",
     transition: "background 0.2s ease",
 

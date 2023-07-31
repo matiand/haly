@@ -9,6 +9,8 @@ export const theme = {
         secondary300: "#6AA9F6",
         secondary400: "#509BF5",
         secondary500: "#3B8EF4",
+        secondary600: "#2582F2",
+        secondary700: "#0F75F1",
 
         white400: "#a7a7a7",
         white500: "#b3b3b3",
