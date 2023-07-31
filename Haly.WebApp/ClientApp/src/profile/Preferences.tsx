@@ -2,19 +2,45 @@ import { useState } from "react";
 
 import { styled } from "../common/theme";
 import Checkbox from "./Checkbox";
+import Select from "./Select";
 
 function Preferences() {
     const [hasAccurateColors, setHasAccurateColors] = useState(true);
     const [hasCustomShuffle, setHasCustomShuffle] = useState(false);
+
+    const sortingOptions = [
+        "Custom order",
+        "Title",
+        "Title (reverse)",
+        "Artist",
+        "Artist (reverse)",
+        "Album",
+        "Album (reverse)",
+        "Newest",
+        "Oldest",
+        "Shortest",
+        "Longest",
+    ];
 
     return (
         <Section>
             <h1>Settings</h1>
 
             <div>
+                <h2>Playlists</h2>
+                <Select
+                    id="playlists.s1"
+                    label="Select how to sort tracks in playlist by default"
+                    onChange={(newOption) => console.log(newOption)}
+                    options={sortingOptions}
+                    defaultOption={sortingOptions[0]}
+                />
+            </div>
+
+            <div>
                 <h2>Performance</h2>
                 <Checkbox
-                    id="c1"
+                    id="performance.c1"
                     label="Use more accurate colors for page header backgrounds"
                     onChange={() => null}
                     defaultValue={hasAccurateColors}
@@ -24,7 +50,7 @@ function Preferences() {
             <div>
                 <h2>Playback</h2>
                 <Checkbox
-                    id="c1"
+                    id="playback.c1"
                     label="Use custom shuffle algorithm"
                     onChange={() => null}
                     defaultValue={hasCustomShuffle}
