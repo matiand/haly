@@ -42,6 +42,10 @@ function Album() {
             <PageHeader title={name} subtitle={type} type="Album" imageUrl={imageUrl} description={null}>
                 {artists.map((a) => {
                     const artistHref = `/artist/${a.id}`;
+                    if (a.name === "Various Artists") {
+                        return <span key={a.id}>{a.name}</span>;
+                    }
+
                     return (
                         <span key={a.id}>
                             <Link to={artistHref}>
