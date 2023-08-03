@@ -6,7 +6,7 @@ public class GetPlaylistTracksQueryValidator : AbstractValidator<GetPlaylistTrac
 {
     public GetPlaylistTracksQueryValidator()
     {
-        RuleFor(x => x.Limit).InclusiveBetween(from: 1, to: 100);
+        RuleFor(x => x.Limit).InclusiveBetween(from: 1, to: 200);
         RuleFor(x => x.Offset).GreaterThanOrEqualTo(valueToCompare: 0);
     }
 }
