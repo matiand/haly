@@ -72,7 +72,11 @@ function Playlist() {
                 />
             </PageControls>
 
-            <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
+            <PlaylistTracks
+                playlistId={playlist.id}
+                initialTracks={playlist.tracks}
+                initialDuration={playlist.totalDuration}
+            />
 
             <PlaylistGradient color={dominantColor} type="major" />
             <PlaylistGradient color={dominantColor} type="minor" />
