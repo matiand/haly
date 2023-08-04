@@ -87,6 +87,9 @@ export const theme = {
         userDropdownMinWidth: "196px",
         userMenuHeight: "64px",
     },
+    tables: {
+        rowHeight: 56,
+    },
     cards: {
         gap: 24,
         minWidth: 196,

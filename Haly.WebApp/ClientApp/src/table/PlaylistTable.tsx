@@ -1,3 +1,5 @@
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { PlaylistTrackDto } from "../../generated/haly";
@@ -7,17 +9,38 @@ import TrackDurationIcon from "./TrackDurationIcon";
 
 type PlaylistTableProps = {
     items: PlaylistTrackDto[];
+    total: number;
+    fetchMoreItems: () => void;
 };
 
-function PlaylistTable({ items }: PlaylistTableProps) {
+// Having less rows than this will cause additional fetching to occur.
+const FETCH_MORE_THRESHOLD = 50;
+
+function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
+    const hasPodcasts = items.some((t) => t.type === "Podcast");
     const { ref, inView } = useInView();
+
+    const rowVirtualizer = useVirtualizer({
+        getScrollElement: () => document.querySelector("main div[data-overlayscrollbars-viewport]"),
+        estimateSize: () => theme.tables.rowHeight,
+        count: total,
+        overscan: 24,
+    });
+
+    useEffect(() => {
+        const currentTotal = items.length;
+        const virtualEnd = rowVirtualizer.range.endIndex + 1;
+        const itemsLeft = currentTotal - virtualEnd;
+
+        if (itemsLeft <= FETCH_MORE_THRESHOLD && total != currentTotal) {
+            fetchMoreItems();
+        }
+    }, [rowVirtualizer, rowVirtualizer.range, items, total, fetchMoreItems]);
 
     if (items.length === 0) return null;
 
-    const hasPodcasts = items.some((t) => t.type === "Podcast");
-
     return (
-        <>
+        <div>
             <div ref={ref} aria-hidden></div>
             <Table>
                 <THead className={inView ? "" : "sticky-head"}>
@@ -35,13 +58,25 @@ function PlaylistTable({ items }: PlaylistTableProps) {
                     </tr>
                 </THead>
 
-                <TBody>
-                    {items.map((t, idx) => (
-                        <PlaylistTableRow key={t.positionInPlaylist} index={idx + 1} track={t} />
-                    ))}
+                <TBody style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
+                    {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+                        const idx = virtualItem.index;
+                        const track = items[idx];
+
+                        return (
+                            track && (
+                                <PlaylistTableRow
+                                    key={track.positionInPlaylist}
+                                    index={track.positionInPlaylist + 1}
+                                    track={track}
+                                    start={virtualItem.start}
+                                />
+                            )
+                        );
+                    })}
                 </TBody>
             </Table>
-        </>
+        </div>
     );
 }
 
@@ -112,13 +147,16 @@ const THead = styled("thead", {
 });
 
 const TBody = styled("tbody", {
-    display: "block",
+    $$rowHeight: `${theme.tables.rowHeight}px`,
 
-    "& > tr": {
+    display: "block",
+    position: "relative",
+
+    tr: {
         display: "grid",
         gridGap: "$600",
         gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
-        height: "$collectionRowHeight",
+        height: "$$rowHeight",
         padding: "0 $600",
 
         "& > td": {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { ArtistTopTrackDto } from "../../generated/haly";
-import { styled } from "../common/theme";
+import { styled, theme } from "../common/theme";
 import TopTracksTableRow from "./TopTracksTableRow";
 
 type TopTracksTableProps = {
@@ -54,13 +54,15 @@ const Table = styled("table", {
 });
 
 const TBody = styled("tbody", {
+    $$rowHeight: `${theme.tables.rowHeight}px`,
+
     display: "block",
 
     "& > tr": {
         display: "grid",
         gridGap: "$600",
         gridTemplateColumns,
-        height: "$collectionRowHeight",
+        height: "$$rowHeight",
         padding: "0 $600",
 
         "& > td": {

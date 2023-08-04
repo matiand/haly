@@ -20,6 +20,13 @@ public class TotalDurationService : ITotalDurationService
         return new TotalDurationValue(duration);
     }
 
+    public async Task<TotalDurationValue> FromQueryable(IQueryable<PlaylistTrack> queryable)
+    {
+        var duration = await queryable.SumAsync(t => t.DurationInMs);
+
+        return new TotalDurationValue(duration);
+    }
+
     public TotalDurationValue FromTracks(IEnumerable<Track> tracks)
     {
         var duration = tracks.Sum(t => t.DurationInMs);

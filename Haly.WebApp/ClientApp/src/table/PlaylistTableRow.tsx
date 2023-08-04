@@ -1,4 +1,8 @@
+import { useAtomValue } from "jotai";
+
 import { PlaylistTrackDto } from "../../generated/haly";
+import { playlistSearchTerm } from "../common/atoms";
+import { styled } from "../common/theme";
 import TrackAlbumCell from "./TrackAlbumCell";
 import TrackDateAddedCell from "./TrackDateAddedCell";
 import TrackDurationCell from "./TrackDurationCell";
@@ -8,21 +12,29 @@ import TrackInformation from "./TrackInformation";
 type PlaylistTableRowProps = {
     index: number;
     track: PlaylistTrackDto;
+    start?: number;
 };
 
-function PlaylistTableRow({ index, track }: PlaylistTableRowProps) {
+function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
+    const searchTerm = useAtomValue(playlistSearchTerm);
+
     return (
-        <tr data-playable={track.isPlayable}>
+        <TableRow style={{ transform: `translateY(${start}px` }} data-playable={track.isPlayable}>
             <td>
                 <TrackIndexCell index={index} track={track} />
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" hideArtists={track.type === "Podcast"} />
+                <TrackInformation
+                    track={track}
+                    type="cell"
+                    hideArtists={track.type === "Podcast"}
+                    searchTerm={searchTerm}
+                />
             </td>
 
             <td>
-                <TrackAlbumCell track={track} />
+                <TrackAlbumCell track={track} searchTerm={searchTerm} />
             </td>
 
             <td>
@@ -32,8 +44,17 @@ function PlaylistTableRow({ index, track }: PlaylistTableRowProps) {
             <td>
                 <TrackDurationCell track={track} />
             </td>
-        </tr>
+        </TableRow>
     );
 }
+
+const TableRow = styled("tr", {
+    "&&&": {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+    },
+});
 
 export default PlaylistTableRow;

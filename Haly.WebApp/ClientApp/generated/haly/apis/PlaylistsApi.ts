@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  PlaylistTrackDtoPaginatedList,
+  PaginatedTracksDto,
   PlaylistWithTracksDto,
   Problem,
   ValidationProblem,
 } from '../models';
 import {
-    PlaylistTrackDtoPaginatedListFromJSON,
-    PlaylistTrackDtoPaginatedListToJSON,
+    PaginatedTracksDtoFromJSON,
+    PaginatedTracksDtoToJSON,
     PlaylistWithTracksDtoFromJSON,
     PlaylistWithTracksDtoToJSON,
     ProblemFromJSON,
@@ -40,6 +40,8 @@ export interface GetTracksRequest {
     playlistId: string;
     limit?: number;
     offset?: number;
+    sortOrder?: string;
+    searchTerm?: string;
 }
 
 export interface PutPlaylistRequest {
@@ -91,7 +93,7 @@ export class PlaylistsApi extends runtime.BaseAPI {
      * Get playlist\'s tracks from our cache
      * Get playlist\'s tracks
      */
-    async getTracksRaw(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistTrackDtoPaginatedList>> {
+    async getTracksRaw(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedTracksDto>> {
         if (requestParameters.playlistId === null || requestParameters.playlistId === undefined) {
             throw new runtime.RequiredError('playlistId','Required parameter requestParameters.playlistId was null or undefined when calling getTracks.');
         }
@@ -106,6 +108,14 @@ export class PlaylistsApi extends runtime.BaseAPI {
             queryParameters['offset'] = requestParameters.offset;
         }
 
+        if (requestParameters.sortOrder !== undefined) {
+            queryParameters['sortOrder'] = requestParameters.sortOrder;
+        }
+
+        if (requestParameters.searchTerm !== undefined) {
+            queryParameters['searchTerm'] = requestParameters.searchTerm;
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -115,14 +125,14 @@ export class PlaylistsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistTrackDtoPaginatedListFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedTracksDtoFromJSON(jsonValue));
     }
 
     /**
      * Get playlist\'s tracks from our cache
      * Get playlist\'s tracks
      */
-    async getTracks(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistTrackDtoPaginatedList> {
+    async getTracks(requestParameters: GetTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedTracksDto> {
         const response = await this.getTracksRaw(requestParameters, initOverrides);
         return await response.value();
     }

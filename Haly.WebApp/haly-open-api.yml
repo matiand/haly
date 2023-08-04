@@ -594,13 +594,21 @@ paths:
           schema:
             type: integer
             format: int32
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: searchTerm
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: Returns tracks
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
+                $ref: '#/components/schemas/PaginatedTracksDto'
         '400':
           description: Bad request
           content:
@@ -968,6 +976,17 @@ components:
         id:
           type: string
         name:
+          type: string
+      additionalProperties: false
+    PaginatedTracksDto:
+      required:
+        - page
+        - totalDuration
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
+        totalDuration:
           type: string
       additionalProperties: false
     PlaylistBriefDto:

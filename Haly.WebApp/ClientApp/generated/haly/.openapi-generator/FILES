@@ -21,6 +21,7 @@ models/DeviceDto.ts
 models/FollowedArtistDto.ts
 models/HighlightedPlaylistDto.ts
 models/OwnerBriefDto.ts
+models/PaginatedTracksDto.ts
 models/PlaylistBriefDto.ts
 models/PlaylistCardDto.ts
 models/PlaylistMetadataDto.ts

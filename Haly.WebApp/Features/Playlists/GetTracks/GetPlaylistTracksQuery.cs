@@ -1,34 +1,56 @@
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Pagination;
+using Haly.WebApp.Features.Playlists.TotalDuration;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.GetTracks;
 
-public record GetPlaylistTracksQuery(string PlaylistId, int Limit = 25, int Offset = 0)
-    : IRequest<PaginatedList<PlaylistTrackDto>?>;
+public record GetPlaylistTracksQuery(string PlaylistId, int Limit, int Offset, string? SortOrder,
+        string? SearchTerm)
+    : IRequest<PaginatedTracksDto?>;
 
-public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, PaginatedList<PlaylistTrackDto>?>
+public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, PaginatedTracksDto?>
 {
     private readonly LibraryContext _db;
+    private readonly ITotalDurationService _totalDurationService;
 
-    public GetPlaylistTracksHandler(LibraryContext db)
+    public GetPlaylistTracksHandler(LibraryContext db, ITotalDurationService totalDurationService)
     {
         _db = db;
+        _totalDurationService = totalDurationService;
     }
 
-    public async Task<PaginatedList<PlaylistTrackDto>?> Handle(GetPlaylistTracksQuery request,
+    public async Task<PaginatedTracksDto?> Handle(GetPlaylistTracksQuery request,
         CancellationToken cancellationToken)
     {
         var playlist = await _db.Playlists.AnyAsync(p => p.Id == request.PlaylistId, cancellationToken);
         if (!playlist) return null;
 
-        var tracks = await _db.PlaylistTracks
-            .Where(t => t.PlaylistId == request.PlaylistId)
-            .OrderBy(t => t.PositionInPlaylist)
-            .ToPaginatedListAsync(offset: request.Offset, limit: request.Limit, cancellationToken);
+        var tracks = _db.PlaylistTracks
+            .Where(t => t.PlaylistId == request.PlaylistId);
 
-        return tracks.Adapt<PaginatedList<PlaylistTrackDto>>();
+        var sortedTracks = request.SortOrder switch
+        {
+            "title" => tracks.OrderBy(t => t.Name),
+            "title_desc" => tracks.OrderByDescending(t => t.Name),
+            "artist" => tracks.OrderBy(t => t.Artists.First().Name),
+            "artist_desc" => tracks.OrderByDescending(t => t.Artists.First().Name),
+            "album" => tracks.OrderBy(t => t.Album.Name),
+            "album_desc" => tracks.OrderByDescending(t => t.Album.Name),
+            "added_at" => tracks.OrderBy(t => t.AddedAt).ThenBy(t => t.Album.Name),
+            "added_at_desc" => tracks.OrderByDescending(t => t.AddedAt).ThenBy(t => t.Album.Name),
+            "duration" => tracks.OrderByDescending(t => t.DurationInMs),
+            "duration_desc" => tracks.OrderByDescending(t => t.DurationInMs),
+            _ => tracks.OrderBy(t => t.PositionInPlaylist),
+        };
+
+        sortedTracks = sortedTracks.ThenBy(t => t.AlbumPosition);
+
+        var page = await sortedTracks.ToPaginatedListAsync(request.Offset, request.Limit, cancellationToken);
+        var totalDuration = await _totalDurationService.FromQueryable(sortedTracks);
+
+        return new PaginatedTracksDto(page.Adapt<PaginatedList<PlaylistTrackDto>>(), totalDuration.Format());
     }
 }

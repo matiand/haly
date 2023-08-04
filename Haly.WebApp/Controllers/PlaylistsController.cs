@@ -47,12 +47,12 @@ public class PlaylistsController : ApiControllerBase
 
     [HttpGet("{playlistId}/tracks")]
     [SwaggerOperation(Summary = "Get playlist's tracks", Description = "Get playlist's tracks from our cache")]
-    [SwaggerResponse(statusCode: 200, "Returns tracks", typeof(PaginatedList<PlaylistTrackDto>))]
+    [SwaggerResponse(statusCode: 200, "Returns tracks", typeof(PaginatedTracksDto))]
     [SwaggerResponse(statusCode: 400, "Bad request", typeof(ValidationProblem))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
-    public async Task<ActionResult<PaginatedList<PlaylistTrackDto>>> GetTracks(string playlistId, int limit, int offset)
+    public async Task<ActionResult<PaginatedTracksDto>> GetTracks(string playlistId, int limit, int offset, string? sortOrder, string? searchTerm)
     {
-        var response = await Mediator.Send(new GetPlaylistTracksQuery(playlistId, limit, offset));
+        var response = await Mediator.Send(new GetPlaylistTracksQuery(playlistId, limit, offset, sortOrder, searchTerm));
         if (response is null) return NotFound();
 
         return Ok(response);
