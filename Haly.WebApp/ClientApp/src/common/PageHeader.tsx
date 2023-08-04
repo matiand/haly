@@ -54,7 +54,7 @@ const PlaylistInfo = styled("div", {
 });
 
 const Subtitle = styled("h2", {
-    fontSize: "$200",
+    fontSize: "$300",
     fontWeight: 700,
     letterSpacing: "0.02em",
     marginBottom: "$200",
@@ -97,7 +97,7 @@ const Details = styled("div", {
     "& > span > span": {
         color: "$collectionTextFaded",
         display: "inline",
-        marginLeft: "$200",
+        marginLeft: "$100",
     },
 });
 

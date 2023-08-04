@@ -48,7 +48,9 @@ function Artist() {
                     </span>
                 )}
                 {genres.map((g) => (
-                    <span key={g}>{g}</span>
+                    <span style={{ userSelect: "text" }} key={g}>
+                        {g}
+                    </span>
                 ))}
             </PageHeader>
 
