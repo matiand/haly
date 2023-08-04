@@ -47,7 +47,7 @@ export const theme = {
     shadows: {
         collectionImage: "rgba(0, 0, 0, 0.5)",
         cardImage: "rgba(0, 0, 0, 0.5)",
-        collectionTableHead: "rgba(0, 0, 0, 0.5)",
+        collectionTableStickyHead: "rgba(0, 0, 0, 0.5)",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',

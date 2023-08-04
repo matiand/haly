@@ -18,7 +18,7 @@ const FETCH_MORE_THRESHOLD = 50;
 
 function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
     const hasPodcasts = items.some((t) => t.type === "Podcast");
-    const { ref, inView } = useInView();
+    const { ref, inView } = useInView({ initialInView: true });
 
     const rowVirtualizer = useVirtualizer({
         getScrollElement: () => document.querySelector("main div[data-overlayscrollbars-viewport]"),
@@ -41,7 +41,7 @@ function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
 
     return (
         <div>
-            <div ref={ref} aria-hidden></div>
+            <div ref={ref} aria-hidden />
             <Table>
                 <THead className={inView ? "" : "sticky-head"}>
                     <tr>
@@ -101,7 +101,7 @@ const THead = styled("thead", {
     "&.sticky-head": {
         background: "$black500",
         borderBottom: "1px solid $collectionTableHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionTableHead",
+        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
 
         "& > tr": {
             borderBottom: "none",

@@ -11,7 +11,7 @@ type AlbumTableProps = {
 };
 
 function AlbumTable({ items }: AlbumTableProps) {
-    const { ref, inView } = useInView();
+    const { ref, inView } = useInView({ initialInView: true });
 
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
@@ -20,9 +20,9 @@ function AlbumTable({ items }: AlbumTableProps) {
 
     return (
         <>
-            <div ref={ref} aria-hidden></div>
+            <div ref={ref} aria-hidden />
             <Table>
-                <THead className={inView ? ".sticky-head" : ""}>
+                <THead className={inView ? "" : "sticky-head"}>
                     <tr>
                         <th>#</th>
                         <th>Title</th>
@@ -89,7 +89,7 @@ const THead = styled("thead", {
     "&.sticky-head": {
         background: "$black500",
         borderBottom: "1px solid $collectionTableHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionTableHead",
+        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
 
         "& > tr": {
             borderBottom: "none",
