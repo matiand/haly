@@ -11,11 +11,12 @@ import { globalCss } from "./theme";
 const globalStyles = globalCss({
     "html, body, #root": {
         height: "100%",
-        overscrollBehaviorY: "none",
         minHeight: "unset",
+        overscrollBehaviorY: "none",
     },
 
     body: {
+        background: "$black600",
         color: "$white800",
         fontFamily: "$primary",
         lineHeight: 1.6,
