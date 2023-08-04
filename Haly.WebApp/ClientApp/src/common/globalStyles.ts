@@ -43,6 +43,12 @@ const globalStyles = globalCss({
         display: "block",
     },
 
+    mark: {
+        backgroundColor: "$secondary500",
+        borderRadius: "4px",
+        color: "$white800",
+    },
+
     ".hidden-visually": {
         clip: "rect(0 0 0 0)",
         clipPath: "inset(50%)",

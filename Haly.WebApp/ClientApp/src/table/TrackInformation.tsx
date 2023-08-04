@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import TrackCoverImage from "../common/TrackCoverImage";
+import HighlightableText from "./HighlightableText";
 
 type TrackInformationProps = {
     track: PlaylistTrackDto | AlbumTrackDto | ArtistTopTrackDto;
     type: "cell" | "playback";
     hideArtists?: boolean;
+    searchTerm?: string | null;
 };
 
-function TrackInformation({ track, type, hideArtists }: TrackInformationProps) {
+function TrackInformation({ track, type, hideArtists, searchTerm }: TrackInformationProps) {
     const { name, artists, isExplicit } = track;
 
     const showExplicitMark = isExplicit && type === "cell";
@@ -23,13 +25,14 @@ function TrackInformation({ track, type, hideArtists }: TrackInformationProps) {
             {hasAlbum && <TrackCoverImage type={type} imageUrl={track.album.imageUrl} />}
 
             <Grid type={type}>
-                <Title>
+                <Title className="line-clamp-ellipsis">
                     {shouldLinkToAlbum ? (
                         <Link to={`/album/${track.album.id}`}>
+                            {/*Don't try to highlight track name when it has a link*/}
                             <span className="line-clamp-ellipsis">{name}</span>
                         </Link>
                     ) : (
-                        <span className="line-clamp-ellipsis">{name}</span>
+                        <HighlightableText text={name} markedText={searchTerm} />
                     )}
                 </Title>
 
@@ -45,7 +48,8 @@ function TrackInformation({ track, type, hideArtists }: TrackInformationProps) {
                             // Disable tabbing on these links, cause the '.line-clamp-ellipsis'
                             // class breaks their focus styles
                             <Link key={id} to={`/artist/${id}`} tabIndex={-1}>
-                                {name}
+                                {/*{name}*/}
+                                <HighlightableText text={name} markedText={searchTerm} />
                             </Link>
                         ))}
                     </Subtitle>
@@ -61,6 +65,10 @@ const Wrapper = styled("div", {
 
     "& > *:first-child": {
         marginRight: "$600",
+    },
+
+    "& .line-clamp-ellipsis span": {
+        display: "inline",
     },
 });
 

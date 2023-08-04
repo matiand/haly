@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 
 import { PlaylistTrackDto } from "../../generated/haly";
-import { playlistSearchTerm } from "../common/atoms";
+import { playlistSearchTermAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import TrackAlbumCell from "./TrackAlbumCell";
 import TrackDateAddedCell from "./TrackDateAddedCell";
@@ -16,7 +16,7 @@ type PlaylistTableRowProps = {
 };
 
 function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
-    const searchTerm = useAtomValue(playlistSearchTerm);
+    const searchTerm = useAtomValue(playlistSearchTermAtom);
 
     return (
         <TableRow style={{ transform: `translateY(${start}px` }} data-playable={track.isPlayable}>

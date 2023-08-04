@@ -15,3 +15,7 @@ export const pageContextAtom = atom<PlaylistWithTracksDto | null>(null);
 export const userAtom = atom<PrivateUserDto | null>(null);
 
 export const artistNameAtom = atom<string | null>(null);
+
+export const playlistSearchTermAtom = atom<string>("");
+export const playlistDurationAtom = atom<string>("");
+export const playlistSongsTotalAtom = atom<number>(0);

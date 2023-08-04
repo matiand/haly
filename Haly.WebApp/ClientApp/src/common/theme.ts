@@ -38,6 +38,7 @@ export const theme = {
         radioBtnBg: "rgba(255, 255, 255, 0.08)",
         radioBtnBgHover: "rgba(255, 255, 255, 0.12)",
         radioBtnBgPress: "rgba(255, 255, 255, 0.04)",
+        playlistSearchBg: "rgba(255, 255, 255, 0.1)",
 
         dominantDefault: "#535353",
         // 'Liked Songs' purple

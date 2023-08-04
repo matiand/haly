@@ -2,19 +2,19 @@ import { useAtomValue } from "jotai";
 import { Link } from "react-router-dom";
 
 import { PlaylistMetadataDto } from "../../generated/haly";
-import { userAtom } from "../common/atoms";
+import { playlistDurationAtom, playlistSongsTotalAtom, userAtom } from "../common/atoms";
 import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
 
 type PlaylistHeaderProps = {
     name: string;
     metadata: PlaylistMetadataDto;
-    songsTotal: number;
-    totalDuration: string;
 };
 
-function PlaylistHeader({ name, metadata, songsTotal, totalDuration }: PlaylistHeaderProps) {
+function PlaylistHeader({ name, metadata }: PlaylistHeaderProps) {
     const user = useAtomValue(userAtom);
+    const songsTotal = useAtomValue(playlistSongsTotalAtom);
+    const duration = useAtomValue(playlistDurationAtom);
     const owner = metadata.owner;
     const ownerHref = owner.id === user?.id ? "/me" : `/user/${owner.id}`;
 
@@ -29,7 +29,7 @@ function PlaylistHeader({ name, metadata, songsTotal, totalDuration }: PlaylistH
 
             {songsTotal > 0 && (
                 <span>
-                    {pluralize("song", songsTotal)}, <span>{totalDuration}</span>
+                    {pluralize("song", songsTotal)}, <span>{duration}</span>
                 </span>
             )}
         </PageHeader>

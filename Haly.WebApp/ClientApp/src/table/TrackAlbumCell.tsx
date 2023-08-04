@@ -2,17 +2,19 @@ import { Link } from "react-router-dom";
 
 import { PlaylistTrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
+import HighlightableText from "./HighlightableText";
 
 type TrackAlbumCellProps = {
     track: PlaylistTrackDto;
+    searchTerm?: string | null;
 };
 
-function TrackAlbumCell({ track }: TrackAlbumCellProps) {
+function TrackAlbumCell({ track, searchTerm }: TrackAlbumCellProps) {
     return (
         <Wrapper>
             {track.type === "Song" ? (
                 <Link className="line-clamp-ellipsis" to={`/album/${track.album.id}`}>
-                    {track.album.name}
+                    <HighlightableText text={track.album.name} markedText={searchTerm} />
                 </Link>
             ) : (
                 <span className="line-clamp-ellipsis">{track.album.name}</span>
@@ -32,6 +34,10 @@ const Wrapper = styled("span", {
 
         "&:hover": {
             textDecoration: "underline",
+        },
+
+        span: {
+            display: "inline",
         },
     },
 });

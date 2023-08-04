@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Playlists.TotalDuration;
@@ -30,6 +31,18 @@ public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, 
 
         var tracks = _db.PlaylistTracks
             .Where(t => t.PlaylistId == request.PlaylistId);
+
+        if (request.SearchTerm is not null)
+        {
+            // We have to use a variable for this regex, the \m flag (match start of word) is not
+            // supported in .NET so we get an error.
+            var regexTerm = $"\\m{request.SearchTerm}";
+            tracks = tracks.Where(t =>
+                Regex.IsMatch(t.Name, regexTerm, RegexOptions.IgnoreCase) ||
+                Regex.IsMatch(t.Album.Name, regexTerm, RegexOptions.IgnoreCase) ||
+                Regex.IsMatch(t.ArtistNames, regexTerm, RegexOptions.IgnoreCase)
+            );
+        }
 
         var sortedTracks = request.SortOrder switch
         {

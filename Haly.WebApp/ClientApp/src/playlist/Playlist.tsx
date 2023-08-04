@@ -3,11 +3,17 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { dominantColorsAtom, isPlaylistCachedAtom, pageContextAtom } from "../common/atoms";
+import {
+    dominantColorsAtom,
+    isPlaylistCachedAtom,
+    pageContextAtom,
+    playlistDurationAtom,
+    playlistSearchTermAtom,
+    playlistSongsTotalAtom,
+} from "../common/atoms";
 import LoadingIndicator from "../common/LoadingIndicator";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import PageControls from "../common/PageControls";
-import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import SearchBar from "../search/SearchBar";
@@ -20,37 +26,50 @@ function Playlist() {
     const query = usePlaylistQuery(id!);
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
+    const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
+    const setDuration = useSetAtom(playlistDurationAtom);
+    const setSongsTotal = useSetAtom(playlistSongsTotalAtom);
 
     useEffect(() => {
         if (query.data) {
             setPageContext(query.data);
+
+            setDuration(query.data.totalDuration);
+            setSongsTotal(query.data.tracks.total);
         }
 
         return () => setPageContext(null);
-    }, [query.data, setPageContext]);
+    }, [query.data, setPageContext, setDuration, setSongsTotal]);
+
+    useEffect(() => {
+        setPlaylistSearchTerm("");
+    }, [id, setPlaylistSearchTerm]);
 
     if (!query.data) {
         return <LoadingIndicator />;
     }
 
     const playlist = query.data;
-    const songsCount = playlist.tracks.total;
-    const totalDuration = playlist.totalDuration;
     const dominantColor = dominantColors[playlist.metadata.imageUrl ?? ""];
 
     return (
-        // This id is used by PlaylistTracks for its useInView hook
-        <div id="playlist-container">
-            <PlaylistHeader
-                name={playlist.name}
-                metadata={playlist.metadata}
-                songsTotal={songsCount}
-                totalDuration={totalDuration}
-            />
+        <div>
+            <PlaylistHeader name={playlist.name} metadata={playlist.metadata} />
             <PageControls>
                 <PlaybackToggle size="large" />
                 <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />
-                <SearchBar variant="playlist" />
+                <SearchBar
+                    variant="playlist"
+                    onChange={(text) => {
+                        // We need to check if our text is a valid RegExp
+                        try {
+                            new RegExp(text);
+                            setPlaylistSearchTerm(text);
+                            // Don't update it if it fails validation
+                            // eslint-disable-next-line no-empty
+                        } catch (e) {}
+                    }}
+                />
             </PageControls>
 
             <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />

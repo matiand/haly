@@ -1,34 +1,61 @@
-import { FormEvent, useState } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
+import { useDebounce } from "usehooks-ts";
 
 import { styled } from "../common/theme";
 
 export type SearchBarProps = {
     variant: "spotifyApi" | "library" | "playlist";
+    onChange?: (text: string) => void;
 };
 
-function SearchBar({ variant }: SearchBarProps) {
+function SearchBar({ variant, onChange }: SearchBarProps) {
     const [search, setSearch] = useState("");
+    const debouncedValue = useDebounce(search, 175);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("Submitted: ", search);
+    const onInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        const text = e.target.value;
+        setSearch(text);
     };
-    return (
-        <Form variant={variant} role="search" onSubmit={onSubmit}>
-            <span aria-hidden>
-                <SearchIcon />
-            </span>
 
+    useEffect(() => {
+        if (onChange) {
+            onChange(debouncedValue);
+        }
+    }, [debouncedValue, onChange]);
+
+    useEffect(() => {
+        const keyHandler = (e: KeyboardEvent) => {
+            if (e.ctrlKey && e.key === "f" && variant === "playlist") {
+                e.preventDefault();
+                inputRef.current?.focus();
+            }
+        };
+
+        window.addEventListener("keydown", keyHandler);
+
+        return () => window.removeEventListener("keydown", keyHandler);
+    }, [variant]);
+
+    return (
+        <Form variant={variant} role="search" onSubmit={(e) => e.preventDefault()}>
             <Input
                 {...inputPropsByVariant[variant]}
+                ref={inputRef}
                 type="search"
                 autoCapitalize="false"
                 autoCorrect="false"
                 spellCheck={false}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={onInputChange}
             />
+
+            <div>
+                <span aria-hidden>
+                    <SearchIcon />
+                </span>
+            </div>
         </Form>
     );
 }
@@ -58,19 +85,15 @@ const Form = styled("form", {
                 $$iconWidth: "24px",
 
                 "& > input": {
-                    fontSize: "$300",
                     padding: "$300 $600 $300 calc($$iconWidth * 2)",
-                    position: "relative",
                     width: "360px",
                 },
             },
             library: {
                 $$iconWidth: "24px",
-                
+
                 "& > input": {
-                    fontSize: "$300",
                     padding: "$300 $600 $300 calc($$iconWidth * 2)",
-                    position: "relative",
                     width: "500px",
                 },
             },
@@ -78,10 +101,14 @@ const Form = styled("form", {
                 $$iconWidth: "18px",
 
                 "& > input": {
+                    background: "$playlistSearchBg",
                     fontSize: "$200",
                     padding: "$200 $500 $200 calc($$iconWidth * 2)",
-                    position: "relative",
                     width: "220px",
+
+                    "&:hover": {
+                        background: "$playlistSearchBg",
+                    },
                 },
             },
         },
@@ -93,16 +120,16 @@ const Form = styled("form", {
 
     "& > input": {
         height: "calc($$iconWidth * 2)",
-        left: "calc($$iconWidth * -2)",
 
         transition: "width 0.3s ease-in",
     },
 
-    "& > span": {
+    "& > div": {
+        left: "calc($$iconWidth * 0.5)",
+        position: "absolute",
         zIndex: 1,
-        padding: "0 calc($$iconWidth * 0.5)",
 
-        "& > svg": {
+        svg: {
             height: "$$iconWidth",
             width: "$$iconWidth",
         },
@@ -120,6 +147,7 @@ const Input = styled("input", {
     borderRadius: "4px",
     color: "$white800",
     fontSize: "$300",
+    fontWeight: 500,
     height: "inherit",
     textOverflow: "ellipsis",
 
@@ -129,6 +157,10 @@ const Input = styled("input", {
 
     "&:focus": {
         outline: "1px solid $white800",
+    },
+
+    "&::placeholder": {
+        color: "$white600",
     },
 });
 
