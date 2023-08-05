@@ -32,6 +32,7 @@ function HeaderImage({ alt, imageUrl, isRounded }: HeaderImageProps) {
 
 const Image = styled("img", {
     boxShadow: "0 4px 60px $collectionImage",
+    color: "$black600",
     flex: "0 0 auto",
     objectFit: "cover",
     objectPosition: "center center",
