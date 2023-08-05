@@ -43,7 +43,7 @@ function PlaylistTracks({ playlistId, initialTracks, initialDuration }: Playlist
             },
             getNextPageParam: (lastPage) => {
                 const nextOffset = lastPage.offset + lastPage.limit;
-                console.log("nextpageParam");
+                // console.log("nextpageParam");
                 return lastPage.total > nextOffset ? nextOffset : undefined;
             },
         },
@@ -61,9 +61,9 @@ function PlaylistTracks({ playlistId, initialTracks, initialDuration }: Playlist
     }, [tracksQuery, setDuration, setSongsTotal]);
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
-    console.log(items);
+    // console.log(items);
     const total = tracksQuery.data?.pages[0].total || 0;
-    console.log(total);
+    // console.log(total);
 
     const fetchMore = () => {
         if (!tracksQuery.isFetchingNextPage) {

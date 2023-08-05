@@ -23,12 +23,9 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
 
         const { gap: cardGap, minWidth: cardMinWidth } = theme.cards;
 
-        console.log(cardGap, cardMinWidth);
         const cardsPerRow = Math.floor((width + cardGap) / (cardMinWidth + cardGap));
         setCardsPerRow(cardsPerRow);
     }, []);
-
-    console.log(cardsPerRow, maxRows);
 
     useResizeDetector({
         targetRef: sectionRef,
