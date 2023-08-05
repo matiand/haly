@@ -3,7 +3,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useAtomValue } from "jotai";
 import { MdArrowDropDown } from "react-icons/md";
 import { useAuth } from "react-oidc-context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { userAtom } from "../common/atoms";
 import { styled } from "../common/theme";
@@ -14,7 +14,6 @@ function UserDropdown() {
     const user = useAtomValue(userAtom);
 
     const profileHref = `/me`;
-    const appSettingsHref = `${profileHref}/appsettings`;
 
     return (
         <DropdownMenu.Root>
@@ -27,7 +26,9 @@ function UserDropdown() {
 
             <Content>
                 <Item onClick={() => navigate(profileHref)}>Profile</Item>
-                <Item onClick={() => navigate(appSettingsHref)}>Haly Settings</Item>
+                <Item>
+                    <Link to="/preferences">Settings</Link>
+                </Item>
                 <Separator />
                 <Item onClick={() => auth.removeUser()}>Log out</Item>
             </Content>
@@ -39,7 +40,8 @@ const Trigger = styled(DropdownMenu.Trigger, {
     // height: "32px",
     // position: "absolute",
     // top: "$600",
-    // right: "$800",
+    marginLeft: "auto",
+    right: "$800",
     display: "flex",
     alignItems: "center",
     gap: "$400",

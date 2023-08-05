@@ -1,6 +1,9 @@
-import React from "react";
+import { useSetAtom } from "jotai";
+import React, { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 import { PlaylistMetadataDto } from "../../generated/haly";
+import { pageHeaderVisibilityAtom } from "./atoms";
 import HeaderImage from "./HeaderImage";
 import HeaderTitle from "./HeaderTitle";
 import { styled } from "./theme";
@@ -15,11 +18,23 @@ type PageHeaderProps = {
 };
 
 function PageHeader({ title, type, subtitle, imageUrl, description, children }: PageHeaderProps) {
+    const setPageHeaderVisibility = useSetAtom(pageHeaderVisibilityAtom);
+    const { ref } = useInView({
+        threshold: [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0],
+        onChange: (_, entry) => {
+            setPageHeaderVisibility(entry.intersectionRatio);
+        },
+    });
+
+    useEffect(() => {
+        return () => setPageHeaderVisibility(1);
+    }, [setPageHeaderVisibility]);
+
     const hasRoundedImage = type === "Profile" || type === "Artist";
     const altImageText = `${title} ${type.toLocaleLowerCase()} image`;
 
     return (
-        <Wrapper>
+        <Wrapper ref={ref}>
             <HeaderImage imageUrl={imageUrl} alt={altImageText} isRounded={hasRoundedImage} />
             <PlaylistInfo>
                 <Subtitle>{subtitle ?? type}</Subtitle>
@@ -27,6 +42,8 @@ function PageHeader({ title, type, subtitle, imageUrl, description, children }: 
                 {description && <Description>{description}</Description>}
                 <Details>{children}</Details>
             </PlaylistInfo>
+
+            <div ref={ref} aria-hidden />
         </Wrapper>
     );
 }

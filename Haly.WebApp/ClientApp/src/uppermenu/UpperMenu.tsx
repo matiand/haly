@@ -3,13 +3,13 @@ import { useAtomValue } from "jotai";
 import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import PlaybackToggle from "../playback/PlaybackToggle";
+import useDynamicBackground from "./useDynamicBackground";
 import UserDropdown from "./UserDropdown";
 
 function UpperMenu() {
     const pageContext = useAtomValue(pageContextAtom);
     const dominantColors = useAtomValue(dominantColorsAtom);
-
-    // console.log("UserMenu context", pageContext);
+    const { opacity, showDetails } = useDynamicBackground();
 
     if (!pageContext) {
         return (
@@ -21,17 +21,17 @@ function UpperMenu() {
 
     const color = dominantColors[pageContext.metadata.imageUrl ?? ""];
 
-    // put some stuff into separate component?
     return (
         <Header aria-label="User menu">
-            <Background css={{ $$color: color }}>
+            <Background css={{ $$color: color, opacity }}>
                 <div />
             </Background>
 
-            <EntityDetails>
+            <ContextDetails css={showDetails ? { opacity: 1, visibility: "visible", pointerEvents: "all" } : {}}>
                 <PlaybackToggle size="medium" />
                 <span className="line-clamp-ellipsis">{pageContext.name}</span>
-            </EntityDetails>
+            </ContextDetails>
+
             <UserDropdown />
         </Header>
     );
@@ -42,32 +42,39 @@ const Header = styled("header", {
     display: "flex",
     justifyContent: "space-between",
     gridArea: "main",
-    height: "$userMenuHeight",
-    opacity: 0,
+    height: "$upperMenuHeight",
     padding: "$600 $700",
     position: "relative",
-    pointerEvents: "none",
-    zIndex: "$userMenu",
+    pointerEvents: "all",
+
+    "& > :not(:first-child)": {
+        zIndex: "$upperMenuContents",
+    },
 });
 
 const Background = styled("div", {
-    "& > div": {
-        background: "$userMenuMask",
-        height: "100%",
-    },
     background: "$$color",
     borderRadius: "8px 8px 0 0",
     height: "100%",
     position: "absolute",
     left: 0,
     right: 0,
-    // zIndex: -1,
+    zIndex: "$upperMenuBackground",
+
+    "& > div": {
+        background: "$upperMenuMask",
+        height: "100%",
+    },
 });
 
-const EntityDetails = styled("div", {
+const ContextDetails = styled("div", {
     alignItems: "center",
     display: "flex",
     gap: "$600",
+    opacity: 0,
+    pointerEvents: "none",
+    transition: "opacity .5s, visibility .5s",
+    visibility: "hidden",
 
     "& > button": {
         flexShrink: 0,

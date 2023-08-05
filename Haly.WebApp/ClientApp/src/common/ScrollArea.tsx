@@ -61,4 +61,8 @@ const Overlay = styled(OverlayScrollbarsComponent, {
     "& .os-scrollbar-vertical": {
         zIndex: "$verticalScrollbar",
     },
+
+    "& [data-overlayscrollbars-viewport]": {
+        borderRadius: "8px",
+    },
 });

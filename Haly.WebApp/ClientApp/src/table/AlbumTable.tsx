@@ -11,7 +11,10 @@ type AlbumTableProps = {
 };
 
 function AlbumTable({ items }: AlbumTableProps) {
-    const { ref, inView } = useInView({ initialInView: true });
+    const { ref, inView } = useInView({
+        initialInView: true,
+        rootMargin: `-${theme.tables.stickyHeadMargin}px 0px 0px 0px`,
+    });
 
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
@@ -81,7 +84,7 @@ const THead = styled("thead", {
     background: "",
     display: "block",
     position: "sticky",
-    top: `${theme.sizes.userMenuHeight}`,
+    top: `${theme.sizes.upperMenuHeight}`,
     zIndex: "$collectionTableHead",
     margin: "0 -$700 $600",
     padding: "0 $700",

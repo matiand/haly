@@ -11,6 +11,7 @@ export const dominantColorsAtom = atom<Record<string, string | undefined>>({});
 export const playlistIdsWithOldTracksAtom = atom<string[]>([]);
 
 export const pageContextAtom = atom<PlaylistWithTracksDto | null>(null);
+export const pageHeaderVisibilityAtom = atom<number>(1);
 
 export const userAtom = atom<PrivateUserDto | null>(null);
 

@@ -18,7 +18,10 @@ const FETCH_MORE_THRESHOLD = 50;
 
 function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
     const hasPodcasts = items.some((t) => t.type === "Podcast");
-    const { ref, inView } = useInView({ initialInView: true });
+    const { ref, inView } = useInView({
+        initialInView: true,
+        rootMargin: `-${theme.tables.stickyHeadMargin}px 0px 0px 0px`,
+    });
 
     const rowVirtualizer = useVirtualizer({
         getScrollElement: () => document.querySelector("main div[data-overlayscrollbars-viewport]"),
@@ -93,7 +96,7 @@ const THead = styled("thead", {
     background: "",
     display: "block",
     position: "sticky",
-    top: `${theme.sizes.userMenuHeight}`,
+    top: `${theme.sizes.upperMenuHeight}`,
     zIndex: "$collectionTableHead",
     margin: "0 -$700 $600",
     padding: "0 $700",

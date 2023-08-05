@@ -33,7 +33,7 @@ export const theme = {
         collectionTextFaded: "rgba(255, 255, 255, 0.8)",
         collectionTableHeadBorder: "rgba(255, 255, 255, 0.1)",
         trackHover: "rgba(255, 255, 255, 0.1)",
-        userMenuMask: "rgba(0, 0, 0, 0.6)",
+        upperMenuMask: "rgba(0, 0, 0, 0.6)",
         explicitMarkBg: "rgba(255, 255, 255, 0.6)",
         radioBtnBg: "rgba(255, 255, 255, 0.08)",
         radioBtnBgHover: "rgba(255, 255, 255, 0.12)",
@@ -86,10 +86,11 @@ export const theme = {
         connectBarHeight: "24px",
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
-        userMenuHeight: "64px",
+        upperMenuHeight: "64px",
     },
     tables: {
         rowHeight: 56,
+        stickyHeadMargin: 72,
     },
     cards: {
         gap: 24,
@@ -104,9 +105,10 @@ export const theme = {
     zIndices: {
         verticalScrollbar: 10,
         resizer: 10,
-        userMenu: 9,
         collectionTableHead: 2,
         collectionBackground: -1,
+        upperMenuContents: 4,
+        upperMenuBackground: 3,
     },
 };
 

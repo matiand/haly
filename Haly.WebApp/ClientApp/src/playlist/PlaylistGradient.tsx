@@ -22,7 +22,6 @@ const noiseUrl = `data:image/svg+xml;base64,${btoa(rawNoise)}`;
 
 const MajorGradient = styled("div", {
     background: `linear-gradient(transparent 0%, rgba(0,0,0,.6) 100%), url(${noiseUrl}), $$color `,
-    borderRadius: "8px 8px 0 0",
     display: "block",
     height: "$majorCollectionBackgroundHeight",
     left: 0,

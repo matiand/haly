@@ -115,7 +115,7 @@ const MainLayout = styled("div", {
     },
 
     "& > section:first-child": {
-        $$topMargin: theme.sizes.userMenuHeight,
+        $$topMargin: theme.sizes.upperMenuHeight,
 
         marginTop: "$$topMargin",
         padding: "0 $700 $800",
