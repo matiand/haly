@@ -19,7 +19,7 @@ function UpperMenu() {
         );
     }
 
-    const color = dominantColors[pageContext.metadata.imageUrl ?? ""];
+    const color = dominantColors[pageContext.imageUrl ?? ""];
 
     return (
         <Header aria-label="User menu">
@@ -28,8 +28,8 @@ function UpperMenu() {
             </Background>
 
             <ContextDetails css={showDetails ? { opacity: 1, visibility: "visible", pointerEvents: "all" } : {}}>
-                <PlaybackToggle size="medium" />
-                <span className="line-clamp-ellipsis">{pageContext.name}</span>
+                {pageContext.onPlayback && <PlaybackToggle size="medium" />}
+                <span className="line-clamp-ellipsis">{pageContext.title}</span>
             </ContextDetails>
 
             <UserDropdown />
@@ -47,7 +47,7 @@ const Header = styled("header", {
     position: "relative",
     pointerEvents: "all",
 
-    "& > :not(:first-child)": {
+    "& > :not(div:first-child)": {
         zIndex: "$upperMenuContents",
     },
 });

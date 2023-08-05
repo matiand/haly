@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { artistNameAtom, dominantColorsAtom } from "../common/atoms";
+import { artistNameAtom, dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
 import PageHeader from "../common/PageHeader";
@@ -19,11 +19,21 @@ function Artist() {
     const { id } = useParams();
     const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
     const dominantColors = useAtomValue(dominantColorsAtom);
+    const setPageContext = useSetAtom(pageContextAtom);
     const setArtistName = useSetAtom(artistNameAtom);
 
     useEffect(() => {
-        setArtistName(query.data?.name ?? null);
-    }, [query, setArtistName]);
+        if (query.data) {
+            const { name, imageUrl } = query.data;
+            setPageContext({
+                title: name,
+                imageUrl: imageUrl,
+            });
+            setArtistName(name);
+        }
+
+        return () => setPageContext(null);
+    }, [query, setPageContext, setArtistName]);
 
     if (!query.data) return <LoadingIndicator />;
 

@@ -32,7 +32,14 @@ function Playlist() {
 
     useEffect(() => {
         if (query.data) {
-            setPageContext(query.data);
+            const { id, name, metadata } = query.data;
+            setPageContext({
+                title: name,
+                imageUrl: metadata.imageUrl,
+                onPlayback: () => {
+                    console.log("Play:", id);
+                },
+            });
 
             setDuration(query.data.totalDuration);
             setSongsTotal(query.data.tracks.total);

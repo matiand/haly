@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
 import { useAtomValue } from "jotai/index";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { dominantColorsAtom } from "../common/atoms";
+import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import HeartButton from "../common/HeartButton";
 import LoadingIndicator from "../common/LoadingIndicator";
 import MoreOptionsButton from "../common/MoreOptionsButton";
@@ -19,6 +21,22 @@ function Album() {
     const { id } = useParams();
     const query = useQuery(["albums", id], () => halyClient.albums.getAlbum({ id: id! }));
     const dominantColors = useAtomValue(dominantColorsAtom);
+    const setPageContext = useSetAtom(pageContextAtom);
+
+    useEffect(() => {
+        if (query.data) {
+            const { id, name, imageUrl } = query.data;
+            setPageContext({
+                title: name,
+                imageUrl: imageUrl,
+                onPlayback: () => {
+                    console.log("Play:", id);
+                },
+            });
+        }
+
+        return () => setPageContext(null);
+    }, [query, setPageContext]);
 
     if (!query.data) return <LoadingIndicator />;
 
@@ -67,7 +85,6 @@ function Album() {
             </PageControls>
 
             <AlbumTable items={tracks} />
-
             <Copyrights text={copyrights} date={formattedReleaseDate} />
 
             <PlaylistGradient color={dominantColor} type="major" />

@@ -33,7 +33,7 @@ export const theme = {
         collectionTextFaded: "rgba(255, 255, 255, 0.8)",
         collectionTableHeadBorder: "rgba(255, 255, 255, 0.1)",
         trackHover: "rgba(255, 255, 255, 0.1)",
-        upperMenuMask: "rgba(0, 0, 0, 0.6)",
+        upperMenuMask: "rgba(0, 0, 0, 0.65)",
         explicitMarkBg: "rgba(255, 255, 255, 0.6)",
         radioBtnBg: "rgba(255, 255, 255, 0.08)",
         radioBtnBgHover: "rgba(255, 255, 255, 0.12)",
