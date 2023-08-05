@@ -35,6 +35,8 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
     const hasMore = items.length > cardsPerRow * maxRows;
     const hasOptions = options && options.length > 0;
 
+    if (items.length === 0) return null;
+
     return (
         <CardGroup.Root ref={sectionRef}>
             <CardGroup.Title title={title} href={hasMore ? href : null} />

@@ -27,6 +27,8 @@ function AllDiscographyCards() {
     }, [filter, pathFilter]);
 
     if (filter === "all") {
+        if (items.length === 0) return null;
+
         const byYear = groupByYear(originalData);
 
         return (

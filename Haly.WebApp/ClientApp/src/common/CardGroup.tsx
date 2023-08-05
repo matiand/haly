@@ -34,6 +34,7 @@ const TitleWrapper = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     marginBottom: "$700",
+    userSelect: "none",
 
     "& > h2": {
         "& > a": {
@@ -53,7 +54,6 @@ const TitleWrapper = styled("div", {
         fontWeight: 700,
         marginLeft: "$400",
         textDecoration: "none",
-        userSelect: "none",
 
         "&:hover": {
             textDecoration: "underline",
