@@ -8,6 +8,7 @@ public class PrivateUser
     public string Id { get; set; }
     public string Name { get; set; }
     public string Market { get; set; }
+    public string? ImageUrl { get; set; }
     public Plan Plan { get; set; }
 
     [Column(TypeName = "jsonb")]

@@ -1129,6 +1129,9 @@ components:
           type: string
         market:
           type: string
+        imageUrl:
+          type: string
+          nullable: true
         canUseSpotifyPlayer:
           type: boolean
       additionalProperties: false

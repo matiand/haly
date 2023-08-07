@@ -1,10 +1,14 @@
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
+
+import { playlistIdsWithOldTracksAtom } from "./atoms";
 
 // MessageHub is a SignalR hub used for minor communication with our backend. These messages improve
 // the user experience, but aren't necessary for enjoying this app
 export const useMessageHub = () => {
     const queryClient = useQueryClient();
+    const setPlaylistIdsWithOldTracks = useSetAtom(playlistIdsWithOldTracksAtom);
 
     const connection = new HubConnectionBuilder()
         .withUrl(`${import.meta.env.VITE_API_ORIGIN}/hub`)
@@ -14,6 +18,7 @@ export const useMessageHub = () => {
 
     connection.on("PlaylistsWithOldTracks", (playlistIds: string[]) => {
         console.log("PlaylistsWithOldTracks", playlistIds);
+        setPlaylistIdsWithOldTracks(playlistIds);
     });
 
     const query = useQuery(["hub"], () => connection.start().then(() => 1), { staleTime: Infinity });

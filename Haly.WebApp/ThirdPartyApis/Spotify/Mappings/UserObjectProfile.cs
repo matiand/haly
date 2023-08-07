@@ -11,6 +11,7 @@ public class UserObjectProfile : IRegister
         config.ForType<PrivateUserObject, PrivateUser>()
             .Map(dest => dest.Name, src => src.Display_name)
             .Map(dest => dest.Market, src => src.Country)
+            .Map(dest => dest.ImageUrl, src => src.Images.FindSmallImageUrl())
             .Map(dest => dest.Plan, src => src.Product == "premium" ? Plan.Premium : Plan.Free);
 
         config.ForType<PublicUserObject, PublicUser>()

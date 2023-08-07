@@ -33,6 +33,7 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand
         cachedUser.Name = freshUser.Name;
         cachedUser.Market = freshUser.Market;
         cachedUser.Plan = freshUser.Plan;
+        cachedUser.ImageUrl = freshUser.ImageUrl;
         await _db.SaveChangesAsync(cancellationToken);
 
         return new UpdateCurrentUserResponse(Created: false, cachedUser.Adapt<PrivateUserDto>());

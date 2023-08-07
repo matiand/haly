@@ -39,6 +39,12 @@ export interface PrivateUserDto {
     market: string;
     /**
      * 
+     * @type {string}
+     * @memberof PrivateUserDto
+     */
+    imageUrl?: string | null;
+    /**
+     * 
      * @type {boolean}
      * @memberof PrivateUserDto
      */
@@ -71,6 +77,7 @@ export function PrivateUserDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'id': json['id'],
         'name': json['name'],
         'market': json['market'],
+        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'canUseSpotifyPlayer': json['canUseSpotifyPlayer'],
     };
 }
@@ -87,6 +94,7 @@ export function PrivateUserDtoToJSON(value?: PrivateUserDto | null): any {
         'id': value.id,
         'name': value.name,
         'market': value.market,
+        'imageUrl': value.imageUrl,
         'canUseSpotifyPlayer': value.canUseSpotifyPlayer,
     };
 }

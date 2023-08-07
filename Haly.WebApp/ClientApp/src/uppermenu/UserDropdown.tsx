@@ -1,101 +1,117 @@
-import { AccessibleIcon } from "@radix-ui/react-accessible-icon";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useAtomValue } from "jotai";
-import { MdArrowDropDown } from "react-icons/md";
+import { HiOutlineUser } from "react-icons/hi";
 import { useAuth } from "react-oidc-context";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { userAtom } from "../common/atoms";
-import { styled } from "../common/theme";
+import { styled, theme } from "../common/theme";
+import ExternalLink from "./ExternalLink";
+import UserDropdownHeader from "./UserDropdownHeader";
 
 function UserDropdown() {
     const auth = useAuth();
-    const navigate = useNavigate();
     const user = useAtomValue(userAtom);
+    const navigate = useNavigate();
 
-    const profileHref = `/me`;
+    if (!user) return null;
 
     return (
         <DropdownMenu.Root>
-            <Trigger title="User actions">
-                <TriggerTitle>{user?.name}</TriggerTitle>
-                <AccessibleIcon label="User actions">
-                    <ArrorDown />
-                </AccessibleIcon>
+            <Trigger title={user.name}>
+                <span aria-hidden>
+                    <UserIcon />
+                </span>
             </Trigger>
 
-            <Content>
-                <Item onClick={() => navigate(profileHref)}>Profile</Item>
-                <Item>
-                    <Link to="/preferences">Settings</Link>
+            <Content collisionPadding={{ right: 25 }}>
+                <UserDropdownHeader user={user} />
+
+                <Item onClick={() => navigate("/me")}>
+                    <div>Profile</div>
                 </Item>
+                <Item onClick={() => navigate("/preferences")}>
+                    <div>Settings</div>
+                </Item>
+                <ExternalLink name="About Haly" href="https://github.com/matiand/haly" />
+
                 <Separator />
-                <Item onClick={() => auth.removeUser()}>Log out</Item>
+
+                <ExternalLink name="Account" href="https://www.spotify.com/us/account/overview" />
+                <ExternalLink name="Dashboard" href="https://developer.spotify.com/dashboard" />
+
+                <Separator />
+
+                <Item css={{ padding: theme.space[500] }} onClick={() => auth.removeUser()}>
+                    Log out
+                </Item>
             </Content>
         </DropdownMenu.Root>
     );
 }
 
 const Trigger = styled(DropdownMenu.Trigger, {
-    // height: "32px",
-    // position: "absolute",
-    // top: "$600",
-    marginLeft: "auto",
-    right: "$800",
-    display: "flex",
+    $$size: "36px",
+
     alignItems: "center",
-    gap: "$400",
-    padding: "$100",
-    borderRadius: "23px",
+    background: "$userDropdownBtnBg",
     border: 0,
+    borderRadius: "50%",
     color: "$white800",
-    backgroundColor: "$black200",
-    fontSize: "$300",
-    fontWeight: 700,
+    display: "flex",
+    flexShrink: 0,
+    height: "$$size",
+    justifyContent: "center",
+    margin: "0 $400 0 auto",
+    padding: "$100",
     userSelect: "none",
-    pointerEvents: "auto",
+    width: "$$size",
 
-    '&:hover, &:focus, &[data-state="open"]': {
+    '&:hover,  &[data-state="open"]': {
+        background: "$userDropdownBtnHover",
         cursor: "pointer",
+        transform: "scale(1.04)",
     },
-});
-
-const TriggerTitle = styled("span", {
-    maxWidth: "$userDropdownTriggerSpanMinWidth",
-    marginInlineStart: "$500",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-});
-
-const ArrorDown = styled(MdArrowDropDown, {
-    height: "28px",
-    width: "28px",
-    marginInlineEnd: "$200",
 });
 
 const Content = styled(DropdownMenu.Content, {
-    width: "$userDropdownMinWidth",
-    padding: "$300",
-    color: "$white800",
-    backgroundColor: "$black200",
-    fontSize: "$200",
-    marginTop: "$400",
+    background: "$black200",
     borderRadius: "4px",
+    fontSize: "$200",
+    fontWeight: 500,
+    marginTop: "$400",
+    padding: "$200",
+    userSelect: "none",
+    width: "$userDropdownMinWidth",
+    zIndex: "$upperMenuContents",
+
+    "& > :first-child, & > [role='menuitem'] > *": {
+        padding: "$500",
+    },
 });
 
-const Item = styled(DropdownMenu.Item, {
-    padding: "$500",
+export const Item = styled(DropdownMenu.Item, {
+    borderRadius: "2px",
+    color: "$userDropdownItemText",
     cursor: "default",
+
     "&:hover": {
-        backgroundColor: "$black100",
+        backgroundColor: "$trackHover",
         outline: 0,
     },
+
     a: {
         color: "unset",
-        textDecoration: "none",
         cursor: "unset",
+        display: "flex",
+        justifyContent: "space-between",
+        textDecoration: "none",
     },
+});
+
+const UserIcon = styled(HiOutlineUser, {
+    height: "20px",
+    width: "20px",
 });
 
 const Separator = styled(DropdownMenu.Separator, {
