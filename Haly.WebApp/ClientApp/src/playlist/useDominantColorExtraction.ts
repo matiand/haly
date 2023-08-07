@@ -34,7 +34,7 @@ function useDominantColorExtraction(imageUrl: PlaylistMetadataDto["imageUrl"]) {
             const palette = paletteFromImage(imageRef.current!, {
                 colorCount: 8,
                 strategy: "kmeans",
-                pixelRatio: calcPixelRatio(regionWidth * regionHeight),
+                pixelRatio: 2500 / (regionWidth * regionHeight),
                 imageRegion: [0, 0, regionWidth, regionHeight],
             });
 
@@ -47,7 +47,7 @@ function useDominantColorExtraction(imageUrl: PlaylistMetadataDto["imageUrl"]) {
             const palette = paletteFromImage(imageRef.current!, {
                 colorCount: 8,
                 strategy: "kmeans",
-                pixelRatio: calcPixelRatio(imageRef.current!.naturalWidth * imageRef.current!.naturalHeight),
+                pixelRatio: 2500 / (imageRef.current!.naturalWidth * imageRef.current!.naturalHeight),
             });
 
             const dominantColor = selectDominantColor(palette?.colors);
@@ -64,20 +64,21 @@ function useDominantColorExtraction(imageUrl: PlaylistMetadataDto["imageUrl"]) {
     };
 }
 
-function calcPixelRatio(imagePixelCount: number) {
-    return 2500 / imagePixelCount;
-}
-
 function selectDominantColor(palette: PaletteColor[] | undefined) {
     if (!palette) return theme.colors.dominantDefault;
 
-    const dominantColor = palette.filter((color) => {
+    const filteredPalette = palette.filter((color) => {
+        const { h } = color.toHsv();
         const { a, b } = color.toLab();
 
-        return Math.abs(a) + Math.abs(b) > 12;
+        // Hues in (24, 42) range often look ugly
+        const isAppropriateHue = h < 24 || h > 42;
+        const isGrayish = Math.abs(a) + Math.abs(b) < 12;
+
+        return !isGrayish && isAppropriateHue;
     });
 
-    return dominantColor[0] ? dominantColor[0].toHex() : theme.colors.dominantDefault;
+    return filteredPalette[0] ? filteredPalette[0].toHex() : theme.colors.dominantDefault;
 }
 
 export default useDominantColorExtraction;
