@@ -4,7 +4,12 @@ import { useSetAtom } from "jotai/index";
 import { useEffect } from "react";
 
 import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
-import { playlistDurationAtom, playlistSearchTermAtom, playlistSongsTotalAtom } from "../common/atoms";
+import {
+    playlistDurationAtom,
+    playlistSearchTermAtom,
+    playlistSongsTotalAtom,
+    playlistSortOrderAtom,
+} from "../common/atoms";
 import halyClient from "../halyClient";
 import PlaylistTable from "../table/PlaylistTable";
 
@@ -19,18 +24,22 @@ const MinTrackQueryOffset = 25;
 
 function PlaylistTracks({ playlistId, initialTracks, initialDuration }: PlaylistTracksProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
+    const sortOrder = useAtomValue(playlistSortOrderAtom);
+
     const setDuration = useSetAtom(playlistDurationAtom);
     const setSongsTotal = useSetAtom(playlistSongsTotalAtom);
+
     const initialData = { totalDuration: initialDuration, ...initialTracks };
 
     const tracksQuery = useInfiniteQuery(
-        ["playlists", playlistId, "tracks", { searchTerm }],
+        ["playlists", playlistId, "tracks", { searchTerm, sortOrder }],
         async ({ pageParam: offset }) => {
             return halyClient.playlists
                 .getTracks({
                     playlistId: playlistId,
                     limit: MaxTrackQueryLimit,
                     offset,
+                    sortOrder: sortOrder!,
                     searchTerm: searchTerm!,
                 })
                 .then((data) => ({ ...data.page, totalDuration: data.totalDuration }));

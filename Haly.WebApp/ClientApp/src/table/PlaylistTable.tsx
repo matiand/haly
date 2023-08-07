@@ -4,8 +4,8 @@ import { useInView } from "react-intersection-observer";
 
 import { PlaylistTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
+import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
-import TrackDurationIcon from "./TrackDurationIcon";
 
 type PlaylistTableProps = {
     items: PlaylistTrackDto[];
@@ -17,7 +17,6 @@ type PlaylistTableProps = {
 const FETCH_MORE_THRESHOLD = 50;
 
 function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
-    const hasPodcasts = items.some((t) => t.type === "Podcast");
     const { ref, inView } = useInView({
         initialInView: true,
         rootMargin: `-${theme.tables.stickyHeadMargin}px 0px 0px 0px`,
@@ -42,24 +41,15 @@ function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
 
     if (items.length === 0) return null;
 
+    // Occasionally for playlists with podcasts this value can be false, when the current items
+    // slice is missing them. The likelihood of this happening is quite low.
+    const hasPodcasts = items.some((t) => t.type === "Podcast");
+
     return (
         <div>
             <div ref={ref} aria-hidden />
             <Table>
-                <THead className={inView ? "" : "sticky-head"}>
-                    <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        {/* Occasionally, it may toggle between these two states when the current
-                        items slice contains no podcasts, but the likelihood of this happening is
-                        quite low. */}
-                        <th>{hasPodcasts ? "Album or podcast" : "Album"}</th>
-                        <th>Date added</th>
-                        <th>
-                            <TrackDurationIcon />
-                        </th>
-                    </tr>
-                </THead>
+                <PlaylistTableHead isSticky={!inView} hasPodcasts={hasPodcasts} />
 
                 <TBody style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
                     {rowVirtualizer.getVirtualItems().map((virtualItem) => {
@@ -89,63 +79,6 @@ const Table = styled("table", {
 
     "& th, td": {
         padding: 0,
-    },
-});
-
-const THead = styled("thead", {
-    background: "",
-    display: "block",
-    position: "sticky",
-    top: `${theme.sizes.upperMenuHeight}`,
-    zIndex: "$collectionTableHead",
-    margin: "0 -$700 $600",
-    padding: "0 $700",
-
-    "&.sticky-head": {
-        background: "$black500",
-        borderBottom: "1px solid $collectionTableHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
-
-        "& > tr": {
-            borderBottom: "none",
-        },
-    },
-
-    "& > tr": {
-        borderBottom: "1px solid $collectionTableHeadBorder",
-        display: "grid",
-        gridGap: "$600",
-        gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
-        height: "36px",
-        padding: "0 $600",
-
-        "& > th": {
-            alignItems: "center",
-            color: "$white700",
-            display: "flex",
-            fontSize: "$300",
-            fontWeight: "500",
-        },
-
-        "& > th:nth-of-type(1), & > th:nth-of-type(5)": {
-            justifySelf: "end",
-        },
-
-        "& > th:nth-of-type(4)": {
-            display: "none",
-        },
-
-        "& > th:last-of-type": {
-            marginRight: "$800",
-        },
-
-        "@bp3": {
-            gridTemplateColumns: "16px 6fr 4fr 3fr minmax(120px, 1fr)",
-
-            "& > th:nth-of-type(4)": {
-                display: "flex",
-            },
-        },
     },
 });
 

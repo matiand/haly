@@ -26,3 +26,17 @@ export type PageContext = {
     onPlayback?: () => void;
 };
 export const pageContextAtom = atom<PageContext | null>(null);
+
+export type PlaylistSortOrder =
+    | "none"
+    | "title"
+    | "title_desc"
+    | "artist"
+    | "artist_desc"
+    | "album"
+    | "album_desc"
+    | "added_at"
+    | "added_at_desc"
+    | "duration"
+    | "duration_desc";
+export const playlistSortOrderAtom = atom<PlaylistSortOrder>("none");

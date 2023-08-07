@@ -49,7 +49,7 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
             "album_desc" => tracks.OrderByDescending(t => t.Album.Name),
             "added_at" => tracks.OrderBy(t => t.AddedAt).ThenBy(t => t.Album.Name),
             "added_at_desc" => tracks.OrderByDescending(t => t.AddedAt).ThenBy(t => t.Album.Name),
-            "duration" => tracks.OrderByDescending(t => t.DurationInMs),
+            "duration" => tracks.OrderBy(t => t.DurationInMs),
             "duration_desc" => tracks.OrderByDescending(t => t.DurationInMs),
             _ => tracks.OrderBy(t => t.PositionInPlaylist),
         };
