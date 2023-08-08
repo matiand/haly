@@ -17,8 +17,8 @@ function UserDropdownHeader({ user: { name, imageUrl } }: UserDropdownHeaderProp
         <HeaderWrapper title={title} css={{ columnGap: imageUrl ? theme.space[600] : 0 }}>
             {imageUrl && <img alt="" src={imageUrl} />}
 
-            <div>{name}</div>
-            <span>{badge}</span>
+            <div className="line-clamp-ellipsis">{name}</div>
+            <span className="line-clamp-ellipsis">{badge}</span>
         </HeaderWrapper>
     );
 }
