@@ -1,4 +1,5 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
+import clsx from "clsx";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -44,11 +45,12 @@ function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
     // Occasionally for playlists with podcasts this value can be false, when the current items
     // slice is missing them. The likelihood of this happening is quite low.
     const hasPodcasts = items.some((t) => t.type === "Podcast");
+    const showAddedAtColumn = items.some((val) => val.addedAt.getFullYear() > 1970);
 
     return (
         <div>
             <div ref={ref} aria-hidden />
-            <Table>
+            <Table className={clsx({ showAddedAtColumn })}>
                 <PlaylistTableHead isSticky={!inView} hasPodcasts={hasPodcasts} />
 
                 <TBody style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
@@ -79,6 +81,16 @@ const Table = styled("table", {
 
     "& th, td": {
         padding: 0,
+    },
+
+    "&.showAddedAtColumn tr": {
+        "@bp3": {
+            gridTemplateColumns: "16px 6fr 4fr 3fr minmax(120px, 1fr)",
+
+            "td:nth-of-type(4), th:nth-of-type(4)": {
+                display: "flex",
+            },
+        },
     },
 });
 
@@ -147,14 +159,6 @@ const TBody = styled("tbody", {
             color: "$white400",
             justifySelf: "end",
             fontWeight: 500,
-        },
-
-        "@bp3": {
-            gridTemplateColumns: "16px 6fr 4fr 3fr minmax(120px, 1fr)",
-
-            "& >td:nth-of-type(4)": {
-                display: "flex",
-            },
         },
     },
 });

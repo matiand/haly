@@ -116,14 +116,6 @@ const THead = styled("thead", {
             flexFlow: "row-reverse",
             marginRight: "$800",
         },
-
-        "@bp3": {
-            gridTemplateColumns: "16px 6fr 4fr 3fr minmax(120px, 1fr)",
-
-            "& > th:nth-of-type(4)": {
-                display: "flex",
-            },
-        },
     },
 });
 
