@@ -61,7 +61,11 @@ function Playlist() {
 
     return (
         <div>
-            <PlaylistHeader name={playlist.name} metadata={playlist.metadata} />
+            <PlaylistHeader
+                name={playlist.name}
+                metadata={playlist.metadata}
+                isPersonalized={playlist.isPersonalized}
+            />
             <PageControls>
                 <PlaybackToggle size="large" />
                 <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />

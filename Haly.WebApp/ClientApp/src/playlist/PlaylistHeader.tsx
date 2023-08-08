@@ -1,30 +1,25 @@
 import { useAtomValue } from "jotai";
-import { Link } from "react-router-dom";
 
 import { PlaylistMetadataDto } from "../../generated/haly";
-import { playlistDurationAtom, playlistSongsTotalAtom, userAtom } from "../common/atoms";
+import { playlistDurationAtom, playlistSongsTotalAtom } from "../common/atoms";
 import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
+import PlaylistOwner from "./PlaylistOwner";
 
 type PlaylistHeaderProps = {
     name: string;
     metadata: PlaylistMetadataDto;
+    isPersonalized: boolean;
 };
 
-function PlaylistHeader({ name, metadata }: PlaylistHeaderProps) {
-    const user = useAtomValue(userAtom);
+function PlaylistHeader({ name, metadata, isPersonalized }: PlaylistHeaderProps) {
     const songsTotal = useAtomValue(playlistSongsTotalAtom);
     const duration = useAtomValue(playlistDurationAtom);
-    const owner = metadata.owner;
-    const ownerHref = owner.id === user?.id ? "/me" : `/user/${owner.id}`;
 
     return (
         <PageHeader title={name} type="Playlist" description={metadata.description} imageUrl={metadata.imageUrl}>
-            <span>
-                <Link to={ownerHref}>
-                    <strong>{owner.name}</strong>
-                </Link>
-            </span>
+            <PlaylistOwner owner={metadata.owner} isPersonalized={isPersonalized} />
+
             {metadata.likesTotal > 0 && <span>{pluralize("like", metadata.likesTotal)}</span>}
 
             {songsTotal > 0 && (
@@ -35,5 +30,4 @@ function PlaylistHeader({ name, metadata }: PlaylistHeaderProps) {
         </PageHeader>
     );
 }
-
 export default PlaylistHeader;

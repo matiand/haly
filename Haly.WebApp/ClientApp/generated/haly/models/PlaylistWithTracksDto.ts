@@ -52,6 +52,12 @@ export interface PlaylistWithTracksDto {
     metadata: PlaylistMetadataDto;
     /**
      * 
+     * @type {boolean}
+     * @memberof PlaylistWithTracksDto
+     */
+    isPersonalized: boolean;
+    /**
+     * 
      * @type {PlaylistTrackDtoPaginatedList}
      * @memberof PlaylistWithTracksDto
      */
@@ -72,6 +78,7 @@ export function instanceOfPlaylistWithTracksDto(value: object): boolean {
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "metadata" in value;
+    isInstance = isInstance && "isPersonalized" in value;
     isInstance = isInstance && "tracks" in value;
     isInstance = isInstance && "totalDuration" in value;
 
@@ -91,6 +98,7 @@ export function PlaylistWithTracksDtoFromJSONTyped(json: any, ignoreDiscriminato
         'id': json['id'],
         'name': json['name'],
         'metadata': PlaylistMetadataDtoFromJSON(json['metadata']),
+        'isPersonalized': json['isPersonalized'],
         'tracks': PlaylistTrackDtoPaginatedListFromJSON(json['tracks']),
         'totalDuration': json['totalDuration'],
     };
@@ -108,6 +116,7 @@ export function PlaylistWithTracksDtoToJSON(value?: PlaylistWithTracksDto | null
         'id': value.id,
         'name': value.name,
         'metadata': PlaylistMetadataDtoToJSON(value.metadata),
+        'isPersonalized': value.isPersonalized,
         'tracks': PlaylistTrackDtoPaginatedListToJSON(value.tracks),
         'totalDuration': value.totalDuration,
     };

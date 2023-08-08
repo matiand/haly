@@ -1098,6 +1098,7 @@ components:
     PlaylistWithTracksDto:
       required:
         - id
+        - isPersonalized
         - metadata
         - name
         - totalDuration
@@ -1110,6 +1111,8 @@ components:
           type: string
         metadata:
           $ref: '#/components/schemas/PlaylistMetadataDto'
+        isPersonalized:
+          type: boolean
         tracks:
           $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
         totalDuration:

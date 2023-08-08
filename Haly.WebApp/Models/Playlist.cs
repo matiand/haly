@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 using Haly.WebApp.Models.Tracks;
 
 namespace Haly.WebApp.Models;
@@ -13,6 +14,9 @@ public class Playlist
     public PlaylistMetadata Metadata { get; set; }
 
     public List<PlaylistTrack> Tracks { get; set; }
+
+    public bool IsPersonalized => Metadata.Owner.Id == "spotify" && Regex.IsMatch(Name,
+        "(Release Radar|Discover Weekly|Repeat|Time Capsule|Your Top| Mix)");
 
     public void UpdateModel(Playlist other, bool includingTracks = false, bool includingLikes = false)
     {
