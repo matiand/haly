@@ -20,6 +20,7 @@ public class GetPlaylistTracksQueryValidator : AbstractValidator<GetPlaylistTrac
     {
         try
         {
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             Regex.Match("", searchTerm!);
             return true;
         }

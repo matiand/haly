@@ -1,6 +1,5 @@
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.ErrorHandling;
-using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.Playlists.GetPlaylist;
 using Haly.WebApp.Features.Playlists.GetTracks;
