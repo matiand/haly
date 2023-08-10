@@ -40,7 +40,10 @@ function TrackIndexCell({ index, track }: TrackIndexCellProps) {
 
 const Wrapper = styled("div", {
     alignItems: "center",
+    color: "$white500",
     display: "flex",
+    fontSize: "$300",
+    fontWeight: 500,
     height: "16px",
     justifyContent: "flex-end",
     position: "relative",

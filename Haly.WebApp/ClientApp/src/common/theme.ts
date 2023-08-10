@@ -92,6 +92,7 @@ export const theme = {
         upperMenuHeight: "64px",
     },
     tables: {
+        headHeight: 36,
         rowHeight: 56,
         stickyHeadMargin: 72,
     },

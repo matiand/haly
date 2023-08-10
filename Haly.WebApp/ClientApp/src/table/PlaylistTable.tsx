@@ -6,6 +6,7 @@ import { PlaylistTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
 import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
+import * as Table from "./Table";
 import useStickyTableHead from "./useStickyTableHead";
 
 type PlaylistTableProps = {
@@ -46,10 +47,10 @@ function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
     return (
         <div>
             <div ref={ref} aria-hidden />
-            <Table className={clsx({ showAddedAtColumn, isSticky })}>
+            <TableRoot className={clsx({ showAddedAtColumn, isSticky })}>
                 <PlaylistTableHead hasPodcasts={hasPodcasts} />
 
-                <TBody style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
+                <Table.Body style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
                     {rowVirtualizer.getVirtualItems().map((virtualItem) => {
                         const idx = virtualItem.index;
                         const track = items[idx];
@@ -65,18 +66,22 @@ function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
                             )
                         );
                     })}
-                </TBody>
-            </Table>
+                </Table.Body>
+            </TableRoot>
         </div>
     );
 }
 
-const Table = styled("table", {
-    display: "block",
-    userSelect: "none",
+const TableRoot = styled(Table.Root, {
+    "& > tbody, & > thead": {
+        tr: {
+            gridGap: "$600",
+            gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
 
-    "& th, td": {
-        padding: 0,
+            "td::nth-of-type(5)": {
+                justifySelf: "end",
+            },
+        },
     },
 
     "&.showAddedAtColumn tr": {
@@ -89,83 +94,17 @@ const Table = styled("table", {
         },
     },
 
-    "&.isSticky > thead": {
-        background: "$black500",
-        borderBottom: "1px solid $collectionTableHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
-
-        "& > tr": {
-            borderBottom: "none",
-        },
+    "& th:nth-of-type(4), & td:nth-of-type(4)": {
+        display: "none",
     },
-});
 
-const TBody = styled("tbody", {
-    $$rowHeight: `${theme.tables.rowHeight}px`,
+    "& th:nth-of-type(5)": {
+        justifySelf: "end",
+        flexFlow: "row-reverse",
+    },
 
-    display: "block",
-    position: "relative",
-
-    tr: {
-        display: "grid",
-        gridGap: "$600",
-        gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
-        height: "$$rowHeight",
-        padding: "0 $600",
-
-        "& > td": {
-            alignItems: "center",
-            display: "flex",
-
-            "& button": {
-                opacity: 0,
-            },
-        },
-
-        "&:hover": {
-            background: "$trackHover",
-            borderRadius: "4px",
-            "& td:nth-of-type(1) > div > span": {
-                display: "none",
-            },
-
-            "& a": {
-                color: "$white800",
-            },
-
-            "& button": {
-                opacity: 1,
-            },
-        },
-
-        "&.disabled > td": {
-            opacity: 0.4,
-        },
-
-        "& > td:nth-of-type(1)": {
-            color: "$white500",
-            fontSize: "$300",
-            fontWeight: 500,
-            justifySelf: "center",
-        },
-
-        "& > td:nth-of-type(2)": {
-            color: "$white500",
-            fontSize: "$300",
-        },
-
-        "& > td:nth-of-type(4)": {
-            color: "$white400",
-            display: "none",
-            fontSize: "$300",
-            fontWeight: 500,
-        },
-
-        "& > td:nth-of-type(5)": {
-            color: "$white400",
-            justifySelf: "end",
-            fontWeight: 500,
-        },
+    "& td:nth-of-type(5)": {
+        justifySelf: "end",
     },
 });
 

@@ -117,6 +117,7 @@ const Grid = styled("div", {
                 },
             },
             cell: {
+                fontSize: "$300",
                 paddingRight: "$400",
             },
         },

@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import MoreOptionsButton from "../common/MoreOptionsButton";
@@ -10,21 +12,26 @@ type TrackDurationCellProps = {
 function TrackDurationCell({ track }: TrackDurationCellProps) {
     const isPodcast = "type" in track && track.type === "Podcast";
 
+    if (isPodcast) {
+        return (
+            <Wrapper>
+                <Duration className={clsx({ isPodcast })}>{track.duration}</Duration>
+            </Wrapper>
+        );
+    }
+
     return (
         <Wrapper>
-            {!isPodcast && <HeartButton size="small" />}
+            <HeartButton size="small" />
             <Duration>{track.duration}</Duration>
-            {!isPodcast ? (
-                <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
-            ) : (
-                <EmptyOptionsBox />
-            )}
+            <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
         </Wrapper>
     );
 }
 
 const Wrapper = styled("div", {
     alignItems: "center",
+    color: "$white400",
     display: "flex",
 
     "& > :first-child": {
@@ -35,16 +42,18 @@ const Wrapper = styled("div", {
 });
 
 const Duration = styled("span", {
+    display: "flex",
     fontSize: "$300",
+    fontWeight: 500,
     fontVariantNumeric: "tabular-nums",
+    justifyContent: "flex-end",
     marginRight: "$600",
     textAlign: "end",
     width: "4.5ch",
-});
 
-// Empty div that takes space if there is no MoreOptionsButton
-const EmptyOptionsBox = styled("div", {
-    width: "16px",
+    "&.isPodcast": {
+        marginRight: "$800",
+    },
 });
 
 export default TrackDurationCell;

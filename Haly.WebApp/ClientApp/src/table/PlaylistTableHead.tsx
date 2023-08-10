@@ -3,7 +3,8 @@ import { ReactNode } from "react";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 
 import { PlaylistSortOrder, playlistSortOrderAtom } from "../common/atoms";
-import { styled, theme } from "../common/theme";
+import { styled } from "../common/theme";
+import * as Table from "./Table";
 import TrackDurationIcon from "./TrackDurationIcon";
 
 type PlaylistTableHeadProps = {
@@ -14,7 +15,7 @@ export function PlaylistTableHead({ hasPodcasts }: PlaylistTableHeadProps) {
     const sortOrder = useAtomValue(playlistSortOrderAtom);
 
     return (
-        <THead>
+        <Table.Head>
             <tr>
                 <th>#</th>
 
@@ -34,7 +35,7 @@ export function PlaylistTableHead({ hasPodcasts }: PlaylistTableHeadProps) {
                     <TrackDurationIcon />
                 </PlaylistTableHeadRow>
             </tr>
-        </THead>
+        </Table.Head>
     );
 }
 
@@ -67,46 +68,6 @@ function PlaylistTableHeadRow({ children, sortOrderSlice }: PlaylistTableHeadRow
         </SortableTh>
     );
 }
-
-const THead = styled("thead", {
-    background: "",
-    display: "block",
-    position: "sticky",
-    top: `${theme.sizes.upperMenuHeight}`,
-    zIndex: "$collectionTableHead",
-    margin: "0 -$700 $600",
-    padding: "0 $700",
-
-    "& > tr": {
-        borderBottom: "1px solid $collectionTableHeadBorder",
-        display: "grid",
-        gridGap: "$600",
-        gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
-        height: "36px",
-        padding: "0 $600",
-
-        "& > th": {
-            alignItems: "center",
-            color: "$white700",
-            display: "flex",
-            fontSize: "$300",
-            fontWeight: "500",
-        },
-
-        "& > th:nth-of-type(1), & > th:nth-of-type(5)": {
-            justifySelf: "end",
-        },
-
-        "& > th:nth-of-type(4)": {
-            display: "none",
-        },
-
-        "& > th:last-of-type": {
-            flexFlow: "row-reverse",
-            marginRight: "$800",
-        },
-    },
-});
 
 const SortableTh = styled("th", {
     gap: "$400",
