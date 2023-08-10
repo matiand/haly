@@ -45,7 +45,11 @@ function Playlist() {
             setSongsTotal(query.data.tracks.total);
         }
 
-        return () => setPageContext(null);
+        return () => {
+            setDuration("");
+            setSongsTotal(0);
+            setPageContext(null);
+        };
     }, [query.data, setPageContext, setDuration, setSongsTotal]);
 
     useEffect(() => {
