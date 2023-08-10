@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { LuDisc } from "react-icons/lu";
 
 import { AlbumTrackDto } from "../../generated/haly";
@@ -13,7 +14,7 @@ type TrackRowProps = {
 
 export function AlbumTableTrackRow({ index, track }: TrackRowProps) {
     return (
-        <tr data-playable={track.isPlayable}>
+        <tr className={clsx({ disabled: !track.isPlayable })}>
             <td>
                 <TrackIndexCell index={index} track={track} />
             </td>

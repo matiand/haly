@@ -138,7 +138,7 @@ const TBody = styled("tbody", {
             },
         },
 
-        "&[data-playable=false] > td": {
+        "&.disabled > td": {
             opacity: 0.4,
         },
 

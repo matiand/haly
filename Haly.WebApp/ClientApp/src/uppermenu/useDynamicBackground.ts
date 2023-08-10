@@ -17,7 +17,8 @@ function useDynamicBackground() {
     } else if (pageHeaderVisibility > 0.3) {
         opacity = 0.9;
     } else {
-        opacity = 1;
+        // opacity = 1;
+        opacity = 0.99;
     }
 
     return { opacity, showDetails: pageHeaderVisibility === 0 };

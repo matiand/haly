@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useAtomValue } from "jotai";
 
 import { PlaylistTrackDto } from "../../generated/haly";
@@ -19,7 +20,7 @@ function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
 
     return (
-        <TableRow style={{ transform: `translateY(${start}px` }} data-playable={track.isPlayable}>
+        <TableRow style={{ transform: `translateY(${start}px` }} className={clsx({ disabled: !track.isPlayable })}>
             <td>
                 <TrackIndexCell index={index} track={track} />
             </td>

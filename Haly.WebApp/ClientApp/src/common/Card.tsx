@@ -61,7 +61,7 @@ function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage, isH
 
 const Wrapper = styled("div", {
     background: "$black400",
-    borderRadius: "4px",
+    borderRadius: "8px",
     cursor: "pointer",
     padding: "$600",
     transition: "background-color 0.3s ease",
