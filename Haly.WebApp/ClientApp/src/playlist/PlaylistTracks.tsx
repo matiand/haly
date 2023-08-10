@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import { useSetAtom } from "jotai/index";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
@@ -70,9 +69,7 @@ function PlaylistTracks({ playlistId, initialTracks, initialDuration }: Playlist
     }, [tracksQuery, setDuration, setSongsTotal]);
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
-    // console.log(items);
     const total = tracksQuery.data?.pages[0].total || 0;
-    // console.log(total);
 
     const fetchMore = () => {
         if (!tracksQuery.isFetchingNextPage) {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai/index";
+import { useAtomValue } from "jotai";
 import { useParams } from "react-router-dom";
 
 import { dominantColorsAtom } from "../common/atoms";

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
-import { useAtomValue } from "jotai/index";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
