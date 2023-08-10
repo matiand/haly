@@ -13,7 +13,7 @@ import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
-import PlaylistGradient from "../playlist/PlaylistGradient";
+import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/AlbumTable";
 import Copyrights from "./Copyrights";
 
@@ -87,8 +87,8 @@ function Album() {
             <AlbumTable items={tracks} />
             <Copyrights text={copyrights} date={formattedReleaseDate} />
 
-            <PlaylistGradient color={dominantColor} type="major" />
-            <PlaylistGradient color={dominantColor} type="minor" />
+            <PageGradient color={dominantColor} type="major" />
+            <PageGradient color={dominantColor} type="minor" />
         </div>
     );
 }

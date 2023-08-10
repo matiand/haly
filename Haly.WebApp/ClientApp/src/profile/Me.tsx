@@ -9,7 +9,7 @@ import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
 import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
-import PlaylistGradient from "../playlist/PlaylistGradient";
+import PageGradient from "../playlist/PageGradient";
 
 function Me() {
     const user = useAtomValue(userAtom)!;
@@ -61,8 +61,8 @@ function Me() {
             <ResizableCardGroup title="Top artists this month" items={topArtistsCards} maxRows={2} href="top/artists" />
             <ResizableCardGroup title="Followed Artists" items={followsCards} maxRows={1} href="following" />
 
-            <PlaylistGradient color={dominantColor} type="major" />
-            <PlaylistGradient color={dominantColor} type="minor" />
+            <PageGradient color={dominantColor} type="major" />
+            <PageGradient color={dominantColor} type="minor" />
         </div>
     );
 }

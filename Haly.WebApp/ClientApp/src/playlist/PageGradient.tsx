@@ -1,19 +1,18 @@
 import { styled, theme } from "../common/theme";
 import rawNoise from "./noise.svg?raw";
 
-type PlaylistGradientProps = {
+type PageGradientProps = {
     color: string | undefined;
-    type: "major" | "minor";
+    type: "major" | "minor" | "home";
 };
 
-function PlaylistGradient({ color, type }: PlaylistGradientProps) {
+function PageGradient({ color, type }: PageGradientProps) {
     if (!color) return null;
 
-    return type === "major" ? (
-        <MajorGradient aria-hidden css={{ $$color: color }} />
-    ) : (
-        <MinorGradient aria-hidden css={{ $$color: color }} />
-    );
+    if (type === "minor") return <MinorGradient aria-hidden css={{ $$color: color }} />;
+    if (type === "home") return <HomeGradient aria-hidden css={{ $$color: color }} />;
+
+    return <MajorGradient aria-hidden css={{ $$color: color }} />;
 }
 
 // We have to create the url manually because of a bug in vite
@@ -42,4 +41,8 @@ const MinorGradient = styled("div", {
     zIndex: "$collectionBackground",
 });
 
-export default PlaylistGradient;
+const HomeGradient = styled(MinorGradient, {
+    top: 0,
+})
+
+export default PageGradient;

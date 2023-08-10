@@ -17,7 +17,7 @@ import PageControls from "../common/PageControls";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import SearchBar from "../search/SearchBar";
-import PlaylistGradient from "./PlaylistGradient";
+import PageGradient from "./PageGradient";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
 
@@ -93,8 +93,8 @@ function Playlist() {
                 initialDuration={playlist.totalDuration}
             />
 
-            <PlaylistGradient color={dominantColor} type="major" />
-            <PlaylistGradient color={dominantColor} type="minor" />
+            <PageGradient color={dominantColor} type="major" />
+            <PageGradient color={dominantColor} type="minor" />
         </div>
     );
 }
