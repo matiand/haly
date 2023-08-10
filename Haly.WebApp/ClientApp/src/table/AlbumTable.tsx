@@ -1,20 +1,18 @@
+import clsx from "clsx";
 import { Fragment } from "react";
-import { useInView } from "react-intersection-observer";
 
 import { AlbumTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 import TrackDurationIcon from "./TrackDurationIcon";
+import useStickyTableHead from "./useStickyTableHead";
 
 type AlbumTableProps = {
     items: AlbumTrackDto[];
 };
 
 function AlbumTable({ items }: AlbumTableProps) {
-    const { ref, inView } = useInView({
-        initialInView: true,
-        rootMargin: `-${theme.tables.stickyHeadMargin}px 0px 0px 0px`,
-    });
+    const { ref, isSticky } = useStickyTableHead();
 
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
@@ -24,8 +22,8 @@ function AlbumTable({ items }: AlbumTableProps) {
     return (
         <>
             <div ref={ref} aria-hidden />
-            <Table>
-                <THead className={inView ? "" : "sticky-head"}>
+            <Table className={clsx({ isSticky })}>
+                <THead>
                     <tr>
                         <th>#</th>
                         <th>Title</th>
@@ -78,6 +76,16 @@ const Table = styled("table", {
     "& th, td": {
         padding: 0,
     },
+
+    "&.isSticky > thead": {
+        background: "$black500",
+        borderBottom: "1px solid $collectionTableHeadBorder",
+        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
+
+        "& > tr": {
+            borderBottom: "none",
+        },
+    },
 });
 
 const THead = styled("thead", {
@@ -88,16 +96,6 @@ const THead = styled("thead", {
     zIndex: "$collectionTableHead",
     margin: "0 -$700 $600",
     padding: "0 $700",
-
-    "&.sticky-head": {
-        background: "$black500",
-        borderBottom: "1px solid $collectionTableHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
-
-        "& > tr": {
-            borderBottom: "none",
-        },
-    },
 
     "& > tr": {
         borderBottom: "1px solid $collectionTableHeadBorder",

@@ -1,12 +1,12 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
 
 import { PlaylistTrackDto } from "../../generated/haly";
 import { styled, theme } from "../common/theme";
 import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
+import useStickyTableHead from "./useStickyTableHead";
 
 type PlaylistTableProps = {
     items: PlaylistTrackDto[];
@@ -18,11 +18,7 @@ type PlaylistTableProps = {
 const FETCH_MORE_THRESHOLD = 50;
 
 function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
-    const { ref, inView } = useInView({
-        initialInView: true,
-        rootMargin: `-${theme.tables.stickyHeadMargin}px 0px 0px 0px`,
-    });
-
+    const { ref, isSticky } = useStickyTableHead();
     const rowVirtualizer = useVirtualizer({
         getScrollElement: () => document.querySelector("main div[data-overlayscrollbars-viewport]"),
         estimateSize: () => theme.tables.rowHeight,
@@ -50,8 +46,8 @@ function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
     return (
         <div>
             <div ref={ref} aria-hidden />
-            <Table className={clsx({ showAddedAtColumn })}>
-                <PlaylistTableHead isSticky={!inView} hasPodcasts={hasPodcasts} />
+            <Table className={clsx({ showAddedAtColumn, isSticky })}>
+                <PlaylistTableHead hasPodcasts={hasPodcasts} />
 
                 <TBody style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
                     {rowVirtualizer.getVirtualItems().map((virtualItem) => {
@@ -90,6 +86,16 @@ const Table = styled("table", {
             "td:nth-of-type(4), th:nth-of-type(4)": {
                 display: "flex",
             },
+        },
+    },
+
+    "&.isSticky > thead": {
+        background: "$black500",
+        borderBottom: "1px solid $collectionTableHeadBorder",
+        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
+
+        "& > tr": {
+            borderBottom: "none",
         },
     },
 });

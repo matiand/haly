@@ -7,15 +7,14 @@ import { styled, theme } from "../common/theme";
 import TrackDurationIcon from "./TrackDurationIcon";
 
 type PlaylistTableHeadProps = {
-    isSticky: boolean;
     hasPodcasts: boolean;
 };
 
-export function PlaylistTableHead({ isSticky, hasPodcasts }: PlaylistTableHeadProps) {
+export function PlaylistTableHead({ hasPodcasts }: PlaylistTableHeadProps) {
     const sortOrder = useAtomValue(playlistSortOrderAtom);
 
     return (
-        <THead className={isSticky ? "sticky-head" : ""}>
+        <THead>
             <tr>
                 <th>#</th>
 
@@ -77,16 +76,6 @@ const THead = styled("thead", {
     zIndex: "$collectionTableHead",
     margin: "0 -$700 $600",
     padding: "0 $700",
-
-    "&.sticky-head": {
-        background: "$black500",
-        borderBottom: "1px solid $collectionTableHeadBorder",
-        boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
-
-        "& > tr": {
-            borderBottom: "none",
-        },
-    },
 
     "& > tr": {
         borderBottom: "1px solid $collectionTableHeadBorder",
