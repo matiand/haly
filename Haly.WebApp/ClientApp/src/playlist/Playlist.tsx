@@ -62,6 +62,25 @@ function Playlist() {
 
     const playlist = query.data;
     const dominantColor = dominantColors[playlist.metadata.imageUrl ?? ""];
+    const hasTracks = query.data.tracks.total > 0;
+
+    if (!hasTracks) {
+        return (
+            <div>
+                <PlaylistHeader
+                    name={playlist.name}
+                    metadata={playlist.metadata}
+                    isPersonalized={playlist.isPersonalized}
+                />
+                <PageControls>
+                    <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />
+                </PageControls>
+
+                <PageGradient color={dominantColor} type="major" />
+                <PageGradient color={dominantColor} type="minor" />
+            </div>
+        );
+    }
 
     return (
         <div>

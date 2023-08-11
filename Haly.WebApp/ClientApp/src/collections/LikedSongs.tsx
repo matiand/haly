@@ -19,7 +19,7 @@ function LikedSongs() {
             console.log("liked songs dominant color effect");
             setDominantColors((prev) => ({
                 ...prev,
-                [query.data.id]: theme.colors.dominantPurple,
+                [query.data.id]: theme.colors.dominantLikedSongs,
             }));
         }
     }, [query.data, setDominantColors]);

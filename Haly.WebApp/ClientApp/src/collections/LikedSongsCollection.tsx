@@ -20,17 +20,13 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
     }
 
     const playlist = query.data;
-    const songsTotal = playlist.tracks.total;
-    const totalDuration = playlist.totalDuration;
 
     return (
-        // This id is used by PlaylistTracks for its useInView hook
-        <div id="playlist-container">
+        <div>
             <PlaylistHeader
                 name={playlist.name}
                 metadata={playlist.metadata}
-                songsTotal={songsTotal}
-                totalDuration={totalDuration}
+                isPersonalized={playlist.isPersonalized}
             />
 
             <PageControls>
@@ -38,7 +34,11 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
                 <SearchBar variant="playlist" />
             </PageControls>
 
-            <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} />
+            <PlaylistTracks
+                playlistId={playlist.id}
+                initialTracks={playlist.tracks}
+                initialDuration={playlist.totalDuration}
+            />
         </div>
     );
 }
