@@ -18,6 +18,7 @@ public interface ISpotifyService
     Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId);
     Task<List<FollowedArtist>> GetCurrentUserFollows();
     Task<List<TopArtist>> GetCurrentUserTopArtists();
+    Task<List<Track>> GetRecentlyPlayedTracks();
     Task<ArtistDetailed> GetArtist(string artistId, string userMarket);
     Task<List<ReleaseItem>> GetArtistReleases(string artistId, ArtistRelease type, string userMarket);
     Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);

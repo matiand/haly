@@ -8,6 +8,7 @@ using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Search;
 using Haly.WebApp.Models.Tracks;
 using Mapster;
+using Track = Haly.WebApp.Models.Tracks.Track;
 using Type = Haly.GeneratedClients.Type;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
@@ -148,18 +149,6 @@ public sealed class SpotifyService : ISpotifyService
         return response.First();
     }
 
-    public async Task Follow(CreatorType creatorType, string creatorId)
-    {
-        var type = creatorType is CreatorType.Artist ? Type2.Artist : Type2.User;
-        await _spotifyClient.FollowArtistsUsersAsync(type, creatorId);
-    }
-
-    public async Task Unfollow(CreatorType creatorType, string creatorId)
-    {
-        var type = creatorType is CreatorType.Artist ? Type3.Artist : Type3.User;
-        await _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
-    }
-
     public async Task<List<FollowedArtist>> GetCurrentUserFollows()
     {
         var response = await _spotifyClient.GetFollowedAsync(Type.Artist, limit: UserFollowsLimit);
@@ -181,6 +170,13 @@ public sealed class SpotifyService : ISpotifyService
         var artists = await _spotifyClient.GetUsersTopArtistsAsync("short_term", limit: UserTopArtistsLimit);
 
         return artists.Items.Adapt<List<TopArtist>>();
+    }
+
+    public async Task<List<Track>> GetRecentlyPlayedTracks()
+    {
+        var tracks = await _spotifyClient.GetRecentlyPlayedAsync();
+
+        return tracks.Items.Adapt<List<Track>>();
     }
 
     public async Task<ArtistDetailed> GetArtist(string artistId, string userMarket)
@@ -262,5 +258,16 @@ public sealed class SpotifyService : ISpotifyService
         var results = await _spotifyClient.SearchAsync(query, new List<Anonymous> { queryType }, userMarket);
 
         return results.Adapt<SpotifySearchResult>();
+    }
+    public async Task Follow(CreatorType creatorType, string creatorId)
+    {
+        var type = creatorType is CreatorType.Artist ? Type2.Artist : Type2.User;
+        await _spotifyClient.FollowArtistsUsersAsync(type, creatorId);
+    }
+
+    public async Task Unfollow(CreatorType creatorType, string creatorId)
+    {
+        var type = creatorType is CreatorType.Artist ? Type3.Artist : Type3.User;
+        await _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
     }
 }
