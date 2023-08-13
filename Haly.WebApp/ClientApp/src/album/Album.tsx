@@ -15,6 +15,7 @@ import PlaybackToggle from "../playback/PlaybackToggle";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/AlbumTable";
 import Copyrights from "./Copyrights";
+import SimilarAlbums from "./SimilarAlbums";
 
 function Album() {
     const { id } = useParams();
@@ -85,6 +86,8 @@ function Album() {
 
             <AlbumTable items={tracks} />
             <Copyrights text={copyrights} date={formattedReleaseDate} />
+
+            {albumId && <SimilarAlbums albumId={albumId} trackIds={tracks.map((t) => t.spotifyId)} />}
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />

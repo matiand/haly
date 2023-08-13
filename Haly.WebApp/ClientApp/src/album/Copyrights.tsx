@@ -21,7 +21,7 @@ const Wrapper = styled("div", {
     fontFamily: "sans-serif",
     fontSize: "$50",
     letterSpacing: "0.02em",
-    marginTop: "$800",
+    margin: "$800 0 $600",
 
     "& > p:first-child": {
         fontSize: "$300",
