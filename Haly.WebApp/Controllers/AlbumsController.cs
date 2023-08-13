@@ -1,4 +1,6 @@
 using Haly.WebApp.Features.Albums.GetAlbum;
+using Haly.WebApp.Features.Albums.GetRecommendations;
+using Haly.WebApp.Features.Artists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
@@ -19,5 +21,18 @@ public class AlbumsController : ApiControllerBase
         var album = await Mediator.Send(new GetAlbumQuery(id, currentUser.Market));
 
         return album;
+    }
+
+    [HttpGet("{id}/recomendations")]
+    [SwaggerOperation(Summary = "Get album recomendations", Description = "Find similar albums to this one")]
+    [SwaggerResponse(statusCode: 200, "A list of albums", typeof(IEnumerable<ReleaseItemDto>))]
+    [CallsSpotifyApi()]
+    public async Task<IEnumerable<ReleaseItemDto>> GetAlbumRecomendations(string id, string trackIds,
+        [FromServices] CurrentUserStore currentUserStore)
+    {
+        var userMarket = currentUserStore.User!.Market;
+        var albums = await Mediator.Send(new GetAlbumRecommendationsQuery(id, userMarket, trackIds));
+
+        return albums;
     }
 }

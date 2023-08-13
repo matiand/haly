@@ -42,6 +42,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  '/Albums/{id}/recomendations':
+    get:
+      tags:
+        - Albums
+      summary: Get album recomendations
+      description: Find similar albums to this one<br/>This endpoint calls Spotify API.
+      operationId: GetAlbumRecomendations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: trackIds
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of albums
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReleaseItemDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Artists/{id}':
     get:
       tags:
@@ -448,6 +492,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TopArtistDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/feed:
+    get:
+      tags:
+        - Me
+      summary: Fetch current user's feed
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>'
+      operationId: GetUserFeed
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFeedDto'
         '400':
           description: Bad request
           content:
@@ -1013,6 +1089,9 @@ components:
         imageUrl:
           type: string
           nullable: true
+        description:
+          type: string
+          nullable: true
       additionalProperties: false
     PlaylistMetadataDto:
       required:
@@ -1155,6 +1234,7 @@ components:
       additionalProperties: false
     ReleaseItemDto:
       required:
+        - artists
         - id
         - name
         - releaseYear
@@ -1173,6 +1253,10 @@ components:
         releaseYear:
           type: integer
           format: int32
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
     TopArtistDto:
       required:
@@ -1192,6 +1276,23 @@ components:
           type: array
           items:
             type: string
+      additionalProperties: false
+    UserFeedDto:
+      required:
+        - albumsByCategory
+        - playlists
+      type: object
+      properties:
+        playlists:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaylistCardDto'
+        albumsByCategory:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ReleaseItemDto'
       additionalProperties: false
     UserProfileDto:
       required:

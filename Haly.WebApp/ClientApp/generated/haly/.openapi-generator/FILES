@@ -33,6 +33,7 @@ models/PrivateUserDto.ts
 models/Problem.ts
 models/ReleaseItemDto.ts
 models/TopArtistDto.ts
+models/UserFeedDto.ts
 models/UserProfileDto.ts
 models/ValidationProblem.ts
 models/index.ts

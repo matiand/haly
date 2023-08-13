@@ -20,6 +20,7 @@ import type {
   PrivateUserDto,
   Problem,
   TopArtistDto,
+  UserFeedDto,
 } from '../models';
 import {
     FollowedArtistDtoFromJSON,
@@ -32,6 +33,8 @@ import {
     ProblemToJSON,
     TopArtistDtoFromJSON,
     TopArtistDtoToJSON,
+    UserFeedDtoFromJSON,
+    UserFeedDtoToJSON,
 } from '../models';
 
 export interface PutCurrentUserRequest {
@@ -96,6 +99,34 @@ export class MeApi extends runtime.BaseAPI {
      */
     async getTopArtists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TopArtistDto>> {
         const response = await this.getTopArtistsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>
+     * Fetch current user\'s feed
+     */
+    async getUserFeedRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserFeedDto>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/feed`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserFeedDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>
+     * Fetch current user\'s feed
+     */
+    async getUserFeed(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserFeedDto> {
+        const response = await this.getUserFeedRaw(initOverrides);
         return await response.value();
     }
 

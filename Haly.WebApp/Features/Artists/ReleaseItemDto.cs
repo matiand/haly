@@ -7,4 +7,5 @@ public record ReleaseItemDto
     public string? ImageUrl { get; init; }
     public string Type { get; init; }
     public int ReleaseYear { get; init; }
+    public IEnumerable<ArtistBriefDto> Artists { get; set; }
 }

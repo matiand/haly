@@ -25,8 +25,9 @@ public sealed class SpotifyService : ISpotifyService
     private const int AlbumTracksLimit = 50;
     private const int LikedSongsLimit = 50;
     private const int UserFollowsLimit = 50;
-    private const int UserTopArtistsLimit = 10;
+    private const int UserTopItemsLimit = 10;
     private const int ArtistReleasesLimit = 50;
+    private const int RecommendationsLimit = 100;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
         ISpotifyEndpointCollector endpointCollector)
@@ -167,9 +168,16 @@ public sealed class SpotifyService : ISpotifyService
 
     public async Task<List<TopArtist>> GetCurrentUserTopArtists()
     {
-        var artists = await _spotifyClient.GetUsersTopArtistsAsync("short_term", limit: UserTopArtistsLimit);
+        var artists = await _spotifyClient.GetUsersTopArtistsAsync("short_term", limit: UserTopItemsLimit);
 
         return artists.Items.Adapt<List<TopArtist>>();
+    }
+
+    public async Task<List<Track>> GetCurrentUserTopTracks()
+    {
+        var tracks = await _spotifyClient.GetUsersTopTracksAsync("short_term", limit: UserTopItemsLimit);
+
+        return tracks.Items.Adapt<List<Track>>();
     }
 
     public async Task<List<Track>> GetRecentlyPlayedTracks()
@@ -259,6 +267,26 @@ public sealed class SpotifyService : ISpotifyService
 
         return results.Adapt<SpotifySearchResult>();
     }
+
+    public async Task<List<RecommendedTrack>> GetRecommendations(string userMarket, string? trackIds, string? artistIds)
+    {
+        if (!string.IsNullOrEmpty(trackIds))
+        {
+            var response =
+                await _spotifyClient.GetRecommendationsAsync(RecommendationsLimit, userMarket, seed_tracks: trackIds);
+            return response.Tracks.Adapt<List<RecommendedTrack>>();
+        }
+
+        if (!string.IsNullOrEmpty(artistIds))
+        {
+            var response =
+                await _spotifyClient.GetRecommendationsAsync(RecommendationsLimit, userMarket, seed_artists: artistIds);
+            return response.Tracks.Adapt<List<RecommendedTrack>>();
+        }
+
+        return new List<RecommendedTrack>();
+    }
+
     public async Task Follow(CreatorType creatorType, string creatorId)
     {
         var type = creatorType is CreatorType.Artist ? Type2.Artist : Type2.User;

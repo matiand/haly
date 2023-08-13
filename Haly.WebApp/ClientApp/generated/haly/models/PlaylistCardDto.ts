@@ -37,6 +37,12 @@ export interface PlaylistCardDto {
      * @memberof PlaylistCardDto
      */
     imageUrl?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistCardDto
+     */
+    description?: string | null;
 }
 
 /**
@@ -63,6 +69,7 @@ export function PlaylistCardDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
     };
 }
 
@@ -78,6 +85,7 @@ export function PlaylistCardDtoToJSON(value?: PlaylistCardDto | null): any {
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
+        'description': value.description,
     };
 }
 

@@ -26,6 +26,7 @@ public class AlbumObjectProfile : IRegister
             // tracks inside playlist view.
             .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl())
             .Map(dest => dest.Type, src => GetAlbumType(src.Album_type, src.Total_tracks))
+            .Map(dest => dest.Artists, src => src.Artists)
             .Map(dest => dest.ReleaseDate, src => GetReleaseDate(src.Release_date));
     }
 

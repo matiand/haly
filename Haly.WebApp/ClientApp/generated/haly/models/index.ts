@@ -25,5 +25,6 @@ export * from './PrivateUserDto';
 export * from './Problem';
 export * from './ReleaseItemDto';
 export * from './TopArtistDto';
+export * from './UserFeedDto';
 export * from './UserProfileDto';
 export * from './ValidationProblem';

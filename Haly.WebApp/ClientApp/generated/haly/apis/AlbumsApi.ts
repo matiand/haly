@@ -17,16 +17,24 @@ import * as runtime from '../runtime';
 import type {
   AlbumDetailedDto,
   Problem,
+  ReleaseItemDto,
 } from '../models';
 import {
     AlbumDetailedDtoFromJSON,
     AlbumDetailedDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    ReleaseItemDtoFromJSON,
+    ReleaseItemDtoToJSON,
 } from '../models';
 
 export interface GetAlbumRequest {
     id: string;
+}
+
+export interface GetAlbumRecomendationsRequest {
+    id: string;
+    trackIds?: string;
 }
 
 /**
@@ -63,6 +71,42 @@ export class AlbumsApi extends runtime.BaseAPI {
      */
     async getAlbum(requestParameters: GetAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AlbumDetailedDto> {
         const response = await this.getAlbumRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Find similar albums to this one<br/>This endpoint calls Spotify API.
+     * Get album recomendations
+     */
+    async getAlbumRecomendationsRaw(requestParameters: GetAlbumRecomendationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ReleaseItemDto>>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getAlbumRecomendations.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.trackIds !== undefined) {
+            queryParameters['trackIds'] = requestParameters.trackIds;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Albums/{id}/recomendations`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ReleaseItemDtoFromJSON));
+    }
+
+    /**
+     * Find similar albums to this one<br/>This endpoint calls Spotify API.
+     * Get album recomendations
+     */
+    async getAlbumRecomendations(requestParameters: GetAlbumRecomendationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ReleaseItemDto>> {
+        const response = await this.getAlbumRecomendationsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

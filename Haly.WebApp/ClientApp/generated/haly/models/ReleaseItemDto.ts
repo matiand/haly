@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ArtistBriefDto } from './ArtistBriefDto';
+import {
+    ArtistBriefDtoFromJSON,
+    ArtistBriefDtoFromJSONTyped,
+    ArtistBriefDtoToJSON,
+} from './ArtistBriefDto';
+
 /**
  * 
  * @export
@@ -49,6 +56,12 @@ export interface ReleaseItemDto {
      * @memberof ReleaseItemDto
      */
     releaseYear: number;
+    /**
+     * 
+     * @type {Array<ArtistBriefDto>}
+     * @memberof ReleaseItemDto
+     */
+    artists: Array<ArtistBriefDto>;
 }
 
 /**
@@ -60,6 +73,7 @@ export function instanceOfReleaseItemDto(value: object): boolean {
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "type" in value;
     isInstance = isInstance && "releaseYear" in value;
+    isInstance = isInstance && "artists" in value;
 
     return isInstance;
 }
@@ -79,6 +93,7 @@ export function ReleaseItemDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'type': json['type'],
         'releaseYear': json['releaseYear'],
+        'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
 }
 
@@ -96,6 +111,7 @@ export function ReleaseItemDtoToJSON(value?: ReleaseItemDto | null): any {
         'imageUrl': value.imageUrl,
         'type': value.type,
         'releaseYear': value.releaseYear,
+        'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };
 }
 

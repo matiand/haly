@@ -1,4 +1,5 @@
 using Haly.WebApp.Features.CurrentUser;
+using Haly.WebApp.Features.CurrentUser.GetFeed;
 using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
 using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
@@ -88,6 +89,17 @@ public class MeController : ApiControllerBase
     public async Task<IEnumerable<TopArtistDto>> GetTopArtists()
     {
         var response = await Mediator.Send(new GetMyTopArtistsQuery());
+
+        return response;
+    }
+
+    [HttpGet("feed")]
+    [SwaggerOperation(Summary = "Fetch current user's feed")]
+    [CallsSpotifyApi(SpotifyScopes.UserTopRead, SpotifyScopes.UserReadRecentlyPlayed)]
+    public async Task<UserFeedDto> GetUserFeed([FromServices] CurrentUserStore currentUserStore)
+    {
+        var currentUser = currentUserStore.User!;
+        var response = await Mediator.Send(new GetCurrentUserFeedQuery(currentUser.Market));
 
         return response;
     }
