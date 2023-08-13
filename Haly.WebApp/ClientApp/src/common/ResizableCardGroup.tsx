@@ -10,7 +10,7 @@ type ResizableCardGroupProps = {
     title: string;
     items: CardProps[];
     maxRows: number;
-    href: string;
+    href?: string;
     options?: Option[];
 };
 
@@ -32,7 +32,7 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
         onResize,
     });
 
-    const hasMore = items.length > cardsPerRow * maxRows;
+    const hasMore = items.length > cardsPerRow * maxRows && href;
     const hasOptions = options && options.length > 0;
 
     if (items.length === 0) return null;

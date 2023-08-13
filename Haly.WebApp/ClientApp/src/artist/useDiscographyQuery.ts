@@ -36,7 +36,7 @@ function useDiscographyQuery(artistId: string, initialFilter: DiscographyFilter 
                 href: `/album/${i.id}`,
                 hasRoundedImage: false,
                 isPlayable: true,
-                subtitle: [i.releaseYear, i.type],
+                subtitle: [i.releaseYear, i.type.toUpperCase()],
             })),
         options,
         filter,

@@ -41,7 +41,7 @@ function Me() {
         return {
             id: a.id,
             name: a.name,
-            subtitle: a.genres[0],
+            subtitle: a.genres[0].toUpperCase(),
             imageUrl: a.imageUrl,
             href: `/artist/${a.id}`,
             hasRoundedImage: true,

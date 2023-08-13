@@ -47,12 +47,12 @@ function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage, isH
                     </Link>
                 </div>
 
-                {typeof subtitle === "string" && <div>{subtitle}</div>}
+                {typeof subtitle === "string" && <Subtitle className="line-clamp-ellipsis">{subtitle}</Subtitle>}
                 {typeof subtitle === "object" && (
-                    <div>
+                    <Subtitle>
                         <time dateTime={subtitle[0].toString()}>{subtitle[0]}</time>
-                        <span>{subtitle[1]}</span>
-                    </div>
+                        <span className="ellipsis">{subtitle[1]}</span>
+                    </Subtitle>
                 )}
             </Contents>
         </Wrapper>
@@ -138,13 +138,20 @@ const Contents = styled("div", {
         display: "flex",
         fontSize: "$300",
         fontWeight: 500,
-        textTransform: "capitalize",
 
         "& > span::before": {
             content: "•",
             fontWeight: 100,
             margin: "0 $200",
         },
+    },
+});
+
+const Subtitle = styled("div", {
+    "&.line-clamp-ellipsis": {
+        display: "-webkit-box",
+        "-webkit-line-clamp": 2,
+        wordBreak: "break-word",
     },
 });
 
