@@ -13,12 +13,13 @@ type PlaylistTableProps = {
     items: PlaylistTrackDto[];
     total: number;
     fetchMoreItems: () => void;
+    keepInitialPositionIndex: boolean;
 };
 
 // Having less rows than this will cause additional fetching to occur.
 const FETCH_MORE_THRESHOLD = 50;
 
-function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
+function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex }: PlaylistTableProps) {
     const { ref, isSticky } = useStickyTableHead();
     const rowVirtualizer = useVirtualizer({
         getScrollElement: () => document.querySelector("main div[data-overlayscrollbars-viewport]"),
@@ -55,15 +56,17 @@ function PlaylistTable({ items, total, fetchMoreItems }: PlaylistTableProps) {
                         const idx = virtualItem.index;
                         const track = items[idx];
 
+                        if (!track) return null;
+
+                        const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
+
                         return (
-                            track && (
-                                <PlaylistTableRow
-                                    key={track.positionInPlaylist}
-                                    index={track.positionInPlaylist + 1}
-                                    track={track}
-                                    start={virtualItem.start}
-                                />
-                            )
+                            <PlaylistTableRow
+                                key={track.positionInPlaylist}
+                                index={trackIdx}
+                                track={track}
+                                start={virtualItem.start}
+                            />
                         );
                     })}
                 </Table.Body>

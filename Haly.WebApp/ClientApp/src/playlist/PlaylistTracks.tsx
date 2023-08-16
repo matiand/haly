@@ -70,6 +70,7 @@ function PlaylistTracks({ playlistId, initialTracks, initialDuration }: Playlist
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     const total = tracksQuery.data?.pages[0].total || 0;
+    const keepInitialPositionIndex = Boolean(searchTerm) && sortOrder === "none";
 
     const fetchMore = () => {
         if (!tracksQuery.isFetchingNextPage) {
@@ -77,7 +78,14 @@ function PlaylistTracks({ playlistId, initialTracks, initialDuration }: Playlist
         }
     };
 
-    return <PlaylistTable items={items} total={total} fetchMoreItems={fetchMore} />;
+    return (
+        <PlaylistTable
+            items={items}
+            total={total}
+            fetchMoreItems={fetchMore}
+            keepInitialPositionIndex={keepInitialPositionIndex}
+        />
+    );
 }
 
 export default PlaylistTracks;
