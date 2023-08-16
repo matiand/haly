@@ -54,7 +54,7 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
             _ => tracks.OrderBy(t => t.PositionInPlaylist),
         };
 
-        sortedTracks = sortedTracks.ThenBy(t => t.AlbumPosition);
+        sortedTracks = sortedTracks.ThenBy(t => t.PositionInAlbum);
 
         var pTracks = await sortedTracks.ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
 

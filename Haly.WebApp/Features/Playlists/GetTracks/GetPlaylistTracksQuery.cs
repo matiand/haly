@@ -26,8 +26,8 @@ public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, 
     public async Task<PaginatedTracksDto?> Handle(GetPlaylistTracksQuery request,
         CancellationToken cancellationToken)
     {
-        var playlist = await _db.Playlists.AnyAsync(p => p.Id == request.PlaylistId, cancellationToken);
-        if (!playlist) return null;
+        var playlistExists = await _db.Playlists.AnyAsync(p => p.Id == request.PlaylistId, cancellationToken);
+        if (!playlistExists) return null;
 
         var tracks = _db.PlaylistTracks
             .Where(t => t.PlaylistId == request.PlaylistId);
@@ -40,26 +40,34 @@ public class GetPlaylistTracksHandler : IRequestHandler<GetPlaylistTracksQuery, 
             tracks = tracks.Where(t =>
                 Regex.IsMatch(t.Name, regexTerm, RegexOptions.IgnoreCase) ||
                 Regex.IsMatch(t.Album.Name, regexTerm, RegexOptions.IgnoreCase) ||
-                Regex.IsMatch(t.ArtistNames, regexTerm, RegexOptions.IgnoreCase)
+                Regex.IsMatch(t.QueryData.AllArtistNames, regexTerm, RegexOptions.IgnoreCase)
             );
         }
 
         var sortedTracks = request.SortOrder switch
         {
-            "title" => tracks.OrderBy(t => t.Name),
-            "title_desc" => tracks.OrderByDescending(t => t.Name),
-            "artist" => tracks.OrderBy(t => t.Artists.First().Name),
-            "artist_desc" => tracks.OrderByDescending(t => t.Artists.First().Name),
-            "album" => tracks.OrderBy(t => t.Album.Name),
-            "album_desc" => tracks.OrderByDescending(t => t.Album.Name),
-            "added_at" => tracks.OrderBy(t => t.AddedAt).ThenBy(t => t.Album.Name),
-            "added_at_desc" => tracks.OrderByDescending(t => t.AddedAt).ThenBy(t => t.Album.Name),
-            "duration" => tracks.OrderByDescending(t => t.DurationInMs),
+            "title" => tracks.OrderBy(t => t.QueryData.Name),
+            "title_desc" => tracks.OrderByDescending(t => t.QueryData.Name),
+            "artist" => tracks.OrderBy(t => t.QueryData.ArtistName)
+                .ThenBy(t => t.QueryData.AlbumName)
+                .ThenBy(t => t.PositionInAlbum),
+            "artist_desc" => tracks.OrderByDescending(t => t.QueryData.ArtistName)
+                .ThenBy(t => t.QueryData.AlbumName)
+                .ThenBy(t => t.PositionInAlbum),
+            "album" => tracks.OrderBy(t => t.QueryData.AlbumName).ThenBy(t => t.PositionInAlbum),
+            "album_desc" => tracks.OrderByDescending(t => t.QueryData.AlbumName).ThenBy(t => t.PositionInAlbum),
+            "added_at" => tracks.OrderBy(t => t.AddedAt)
+                .ThenBy(t => t.QueryData.AlbumName)
+                .ThenBy(t => t.PositionInAlbum),
+            "added_at_desc" => tracks.OrderByDescending(t => t.AddedAt)
+                .ThenBy(t => t.QueryData.AlbumName)
+                .ThenBy(t => t.PositionInAlbum),
+            "duration" => tracks.OrderBy(t => t.DurationInMs),
             "duration_desc" => tracks.OrderByDescending(t => t.DurationInMs),
             _ => tracks.OrderBy(t => t.PositionInPlaylist),
         };
 
-        sortedTracks = sortedTracks.ThenBy(t => t.AlbumPosition);
+        sortedTracks = sortedTracks.ThenBy(t => t.PositionInPlaylist);
 
         var page = await sortedTracks.ToPaginatedListAsync(request.Offset, request.Limit, cancellationToken);
         var totalDuration = await _totalDurationService.FromQueryable(sortedTracks);

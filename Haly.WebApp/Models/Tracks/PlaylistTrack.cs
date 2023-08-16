@@ -12,16 +12,14 @@ public class PlaylistTrack : Track
     public string PlaylistId { get; set; }
     public int PositionInPlaylist { get; set; }
 
+    public int PositionInAlbum { get; set; }
+
     public DateTimeOffset AddedAt { get; set; }
     public PlaylistTrackType Type { get; set; }
 
     [Column(TypeName = "jsonb")]
     public AlbumBrief Album { get; set; }
 
-    // Position in their respective albums. Used as a secondary ordering.
-    public int AlbumPosition { get; set; }
-
-    // Helps with track searching
-    public string ArtistNames { get; set; }
-
+    [Column(TypeName = "jsonb")]
+    public PlaylistTrackQueryData QueryData { get; set; }
 }
