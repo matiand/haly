@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { capitalize } from "../common/capitalize";
 import { CardProps } from "../common/Card";
 import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
@@ -13,7 +14,7 @@ function AllMyTopArtistCards() {
         return {
             id: a.id,
             name: a.name,
-            subtitle: a.genres[0].toUpperCase(),
+            subtitle: capitalize(a.genres[0] ?? ""),
             imageUrl: a.imageUrl,
             href: `/artist/${a.id}`,
             hasRoundedImage: true,

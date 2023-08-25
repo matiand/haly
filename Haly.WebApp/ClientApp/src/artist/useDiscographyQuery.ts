@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { ArtistDiscographyDto, ReleaseItemDto } from "../../generated/haly";
+import { capitalize } from "../common/capitalize";
 import { CardProps } from "../common/Card";
 import { Option } from "../common/RadioGroup";
 import halyClient from "../halyClient";
@@ -36,7 +37,7 @@ function useDiscographyQuery(artistId: string, initialFilter: DiscographyFilter 
                 href: `/album/${i.id}`,
                 hasRoundedImage: false,
                 isPlayable: true,
-                subtitle: [i.releaseYear, i.type.toUpperCase()],
+                subtitle: [i.releaseYear, capitalize(i.type)],
             })),
         options,
         filter,

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
 import { dominantColorsAtom, userAtom } from "../common/atoms";
+import { capitalize } from "../common/capitalize";
 import { CardProps } from "../common/Card";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PageControls from "../common/PageControls";
@@ -41,7 +42,7 @@ function Me() {
         return {
             id: a.id,
             name: a.name,
-            subtitle: a.genres[0].toUpperCase(),
+            subtitle: capitalize(a.genres[0] ?? ""),
             imageUrl: a.imageUrl,
             href: `/artist/${a.id}`,
             hasRoundedImage: true,
