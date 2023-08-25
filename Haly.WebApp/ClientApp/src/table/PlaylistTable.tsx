@@ -60,14 +60,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
 
-                        return (
-                            <PlaylistTableRow
-                                key={track.positionInPlaylist}
-                                index={trackIdx}
-                                track={track}
-                                start={virtualItem.start}
-                            />
-                        );
+                        return <PlaylistTableRow key={idx} index={trackIdx} track={track} start={virtualItem.start} />;
                     })}
                 </Table.Body>
             </TableRoot>
