@@ -4,13 +4,13 @@ import { useAtom } from "jotai";
 import { PaletteColor, paletteFromImage } from "palette-from-image";
 import { useCallback, useEffect, useRef } from "react";
 
-import { PlaylistMetadataDto } from "../../generated/haly";
+import { PlaylistWithTracksDto } from "../../generated/haly";
 import { dominantColorsAtom } from "../common/atoms";
 import { theme } from "../common/theme";
 
 extend([lab]);
 
-function useDominantColorExtraction(imageUrl: PlaylistMetadataDto["imageUrl"]) {
+function useDominantColorExtraction(imageUrl: PlaylistWithTracksDto["imageUrl"]) {
     const [dominantColors, setDominantColors] = useAtom(dominantColorsAtom);
     const imageRef = useRef<HTMLImageElement>(null);
 

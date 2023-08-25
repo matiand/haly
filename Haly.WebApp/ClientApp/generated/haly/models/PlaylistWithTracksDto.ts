@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { PlaylistMetadataDto } from './PlaylistMetadataDto';
+import type { OwnerBriefDto } from './OwnerBriefDto';
 import {
-    PlaylistMetadataDtoFromJSON,
-    PlaylistMetadataDtoFromJSONTyped,
-    PlaylistMetadataDtoToJSON,
-} from './PlaylistMetadataDto';
+    OwnerBriefDtoFromJSON,
+    OwnerBriefDtoFromJSONTyped,
+    OwnerBriefDtoToJSON,
+} from './OwnerBriefDto';
 import type { PlaylistTrackDtoPaginatedList } from './PlaylistTrackDtoPaginatedList';
 import {
     PlaylistTrackDtoPaginatedListFromJSON,
@@ -46,10 +46,28 @@ export interface PlaylistWithTracksDto {
     name: string;
     /**
      * 
-     * @type {PlaylistMetadataDto}
+     * @type {string}
      * @memberof PlaylistWithTracksDto
      */
-    metadata: PlaylistMetadataDto;
+    description?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistWithTracksDto
+     */
+    imageUrl?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PlaylistWithTracksDto
+     */
+    likesTotal: number;
+    /**
+     * 
+     * @type {OwnerBriefDto}
+     * @memberof PlaylistWithTracksDto
+     */
+    owner: OwnerBriefDto;
     /**
      * 
      * @type {boolean}
@@ -77,7 +95,8 @@ export function instanceOfPlaylistWithTracksDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "metadata" in value;
+    isInstance = isInstance && "likesTotal" in value;
+    isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "isPersonalized" in value;
     isInstance = isInstance && "tracks" in value;
     isInstance = isInstance && "totalDuration" in value;
@@ -97,7 +116,10 @@ export function PlaylistWithTracksDtoFromJSONTyped(json: any, ignoreDiscriminato
         
         'id': json['id'],
         'name': json['name'],
-        'metadata': PlaylistMetadataDtoFromJSON(json['metadata']),
+        'description': !exists(json, 'description') ? undefined : json['description'],
+        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
+        'likesTotal': json['likesTotal'],
+        'owner': OwnerBriefDtoFromJSON(json['owner']),
         'isPersonalized': json['isPersonalized'],
         'tracks': PlaylistTrackDtoPaginatedListFromJSON(json['tracks']),
         'totalDuration': json['totalDuration'],
@@ -115,7 +137,10 @@ export function PlaylistWithTracksDtoToJSON(value?: PlaylistWithTracksDto | null
         
         'id': value.id,
         'name': value.name,
-        'metadata': PlaylistMetadataDtoToJSON(value.metadata),
+        'description': value.description,
+        'imageUrl': value.imageUrl,
+        'likesTotal': value.likesTotal,
+        'owner': OwnerBriefDtoToJSON(value.owner),
         'isPersonalized': value.isPersonalized,
         'tracks': PlaylistTrackDtoPaginatedListToJSON(value.tracks),
         'totalDuration': value.totalDuration,

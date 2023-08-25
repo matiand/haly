@@ -32,10 +32,10 @@ function Playlist() {
 
     useEffect(() => {
         if (query.data) {
-            const { id, name, metadata } = query.data;
+            const { id, name, imageUrl } = query.data;
             setPageContext({
                 title: name,
-                imageUrl: metadata.imageUrl,
+                imageUrl: imageUrl,
                 onPlayback: () => {
                     console.log("Play:", id);
                 },
@@ -61,7 +61,7 @@ function Playlist() {
     }
 
     const playlist = query.data;
-    const dominantColor = dominantColors[playlist.metadata.imageUrl ?? ""];
+    const dominantColor = dominantColors[playlist.imageUrl ?? ""];
     const hasTracks = query.data.tracks.total > 0;
 
     if (!hasTracks) {
@@ -69,7 +69,10 @@ function Playlist() {
             <div>
                 <PlaylistHeader
                     name={playlist.name}
-                    metadata={playlist.metadata}
+                    description={playlist.description}
+                    imageUrl={playlist.imageUrl}
+                    likesTotal={playlist.likesTotal}
+                    owner={playlist.owner}
                     isPersonalized={playlist.isPersonalized}
                 />
                 <PageControls>
@@ -86,7 +89,10 @@ function Playlist() {
         <div>
             <PlaylistHeader
                 name={playlist.name}
-                metadata={playlist.metadata}
+                description={playlist.description}
+                imageUrl={playlist.imageUrl}
+                likesTotal={playlist.likesTotal}
+                owner={playlist.owner}
                 isPersonalized={playlist.isPersonalized}
             />
             <PageControls>

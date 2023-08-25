@@ -9,27 +9,31 @@ public class Playlist
     public string Id { get; set; }
     public string Name { get; set; }
     public string SnapshotId { get; set; }
+    public int LikesTotal { get; set; }
+    public string? Description { get; set; }
+    public string? ImageUrl { get; set; }
 
     [Column(TypeName = "jsonb")]
-    public PlaylistMetadata Metadata { get; set; }
+    public Owner Owner { get; set; }
 
     public List<PlaylistTrack> Tracks { get; set; }
 
-    public bool IsPersonalized => Metadata.Owner.Id == "spotify" && Regex.IsMatch(Name,
+    public bool IsPersonalized => Owner.Id == "spotify" && Regex.IsMatch(Name,
         "(Release Radar|Discover Weekly|Repeat|Time Capsule|Your Top| Mix)");
 
     public void UpdateModel(Playlist other, bool includingTracks = false, bool includingLikes = false)
     {
         Name = other.Name;
         SnapshotId = other.SnapshotId;
+        Description = other.Description;
+        ImageUrl = other.ImageUrl;
+        Owner = other.Owner;
 
-        // When want to update a playlist we first get it from Spotify, but sometimes we don't get the likes.
-        // In that case we want to keep the old likes, we will fetch them later.
-        var oldLikes = Metadata.LikesTotal;
-        Metadata = other.Metadata;
-        if (!includingLikes)
+        // Some requests don't include likes, so LikesTotal is equal to 0. In that case we don't
+        // want to lose them so we skip updating them.
+        if (includingLikes)
         {
-            Metadata.LikesTotal = oldLikes;
+            LikesTotal = other.LikesTotal;
         }
 
         if (includingTracks)

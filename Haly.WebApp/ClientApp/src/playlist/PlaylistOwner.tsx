@@ -1,11 +1,11 @@
 import { useAtomValue } from "jotai";
 import { Link } from "react-router-dom";
 
-import { PlaylistMetadataDto } from "../../generated/haly";
+import { PlaylistWithTracksDto } from "../../generated/haly";
 import { userAtom } from "../common/atoms";
 
 type PlaylistOwnerProps = {
-    owner: PlaylistMetadataDto["owner"];
+    owner: PlaylistWithTracksDto["owner"];
     isPersonalized: boolean;
 };
 

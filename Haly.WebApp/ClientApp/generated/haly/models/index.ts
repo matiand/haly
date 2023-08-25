@@ -16,7 +16,6 @@ export * from './OwnerBriefDto';
 export * from './PaginatedTracksDto';
 export * from './PlaylistBriefDto';
 export * from './PlaylistCardDto';
-export * from './PlaylistMetadataDto';
 export * from './PlaylistTrackDto';
 export * from './PlaylistTrackDtoPaginatedList';
 export * from './PlaylistTrackType';

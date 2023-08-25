@@ -15,8 +15,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Haly.WebApp.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20230712120423_AddTrackIsPlayable")]
-    partial class AddTrackIsPlayable
+    [Migration("20230825093221_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,13 +58,22 @@ namespace Haly.WebApp.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<PlaylistMetadata>("Metadata")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<int>("LikesTotal")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Owner>("Owner")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("SnapshotId")
                         .IsRequired()
@@ -75,7 +84,35 @@ namespace Haly.WebApp.Migrations
                     b.ToTable("Playlists");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.PlaylistTrack", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.PrivateUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<List<string>>("LinkedPlaylistsOrder")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("Market")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Plan>("Plan")
+                        .HasColumnType("plan");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Haly.WebApp.Models.Tracks.PlaylistTrack", b =>
                 {
                     b.Property<string>("PlaylistId")
                         .HasColumnType("text");
@@ -107,6 +144,13 @@ namespace Haly.WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("PositionInAlbum")
+                        .HasColumnType("integer");
+
+                    b.Property<PlaylistTrackQueryData>("QueryData")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<string>("SpotifyId")
                         .HasColumnType("text");
 
@@ -116,31 +160,6 @@ namespace Haly.WebApp.Migrations
                     b.HasKey("PlaylistId", "PositionInPlaylist");
 
                     b.ToTable("PlaylistTracks");
-                });
-
-            modelBuilder.Entity("Haly.WebApp.Models.PrivateUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<List<string>>("LinkedPlaylistsOrder")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
-                    b.Property<string>("Market")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Plan>("Plan")
-                        .HasColumnType("plan");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Haly.WebApp.Models.Jobs.RefetchPlaylistTracksJob", b =>
@@ -154,7 +173,7 @@ namespace Haly.WebApp.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Haly.WebApp.Models.PlaylistTrack", b =>
+            modelBuilder.Entity("Haly.WebApp.Models.Tracks.PlaylistTrack", b =>
                 {
                     b.HasOne("Haly.WebApp.Models.Playlist", null)
                         .WithMany("Tracks")

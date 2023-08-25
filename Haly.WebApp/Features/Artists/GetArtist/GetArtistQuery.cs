@@ -37,11 +37,11 @@ public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailedDt
         var searchResult = await _spotify.Search(artistName, SearchType.Playlist, userMarket);
 
         var playlistsWithPrettyCovers = searchResult.Playlists
-            .Where(p => p.Metadata.ImageUrl is not null && !p.Metadata.ImageUrl.Contains("//mosaic"))
+            .Where(p => p.ImageUrl is not null && !p.ImageUrl.Contains("//mosaic"))
             .ToList();
 
-        var nonSpotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Metadata.Owner.Id != SpotifyUserId);
-        var spotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Metadata.Owner.Id == SpotifyUserId);
+        var nonSpotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Owner.Id != SpotifyUserId);
+        var spotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Owner.Id == SpotifyUserId);
 
         return nonSpotifyPlaylist?.Adapt<HighlightedPlaylistDto>() ?? spotifyPlaylist?.Adapt<HighlightedPlaylistDto>();
     }

@@ -67,10 +67,7 @@ public record UpdateCurrentUserLikedSongsHandler
             Name = "Liked Songs",
             SnapshotId = apiResponse.SnapshotId,
             Tracks = apiResponse.Tracks,
-            Metadata = new PlaylistMetadata()
-            {
-                Owner = _currentUserStore.User!.Adapt<Owner>(),
-            },
+            Owner = _currentUserStore.User!.Adapt<Owner>(),
         };
 
         _db.Playlists.Add(newPlaylist);

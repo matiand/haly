@@ -25,7 +25,10 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
         <div>
             <PlaylistHeader
                 name={playlist.name}
-                metadata={playlist.metadata}
+                description={playlist.description}
+                imageUrl={playlist.imageUrl}
+                likesTotal={playlist.likesTotal}
+                owner={playlist.owner}
                 isPersonalized={playlist.isPersonalized}
             />
 

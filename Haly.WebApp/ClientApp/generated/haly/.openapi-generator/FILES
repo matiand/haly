@@ -24,7 +24,6 @@ models/OwnerBriefDto.ts
 models/PaginatedTracksDto.ts
 models/PlaylistBriefDto.ts
 models/PlaylistCardDto.ts
-models/PlaylistMetadataDto.ts
 models/PlaylistTrackDto.ts
 models/PlaylistTrackDtoPaginatedList.ts
 models/PlaylistTrackType.ts

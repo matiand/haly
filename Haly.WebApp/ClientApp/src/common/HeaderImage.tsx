@@ -1,10 +1,10 @@
-import { PlaylistMetadataDto } from "../../generated/haly";
+import { PlaylistWithTracksDto } from "../../generated/haly";
 import useDominantColorExtraction from "../playlist/useDominantColorExtraction";
 import { styled } from "./theme";
 
 type HeaderImageProps = {
     alt: string;
-    imageUrl: PlaylistMetadataDto["imageUrl"];
+    imageUrl: PlaylistWithTracksDto["imageUrl"];
     isRounded?: boolean;
 };
 

@@ -12,18 +12,18 @@ public class PlaylistObjectProfile : IRegister
     {
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
-            .Map(dest => dest.Metadata.ImageUrl, src => src.Images.FindMediumImageUrl())
-            .Map(dest => dest.Metadata.Description, src => TrimAndDecodePlaylistDescription(src.Description))
-            .Map(dest => dest.Metadata.Owner.Id, src => src.Owner.Id)
-            .Map(dest => dest.Metadata.Owner.Name, src => src.Owner.Display_name);
+            .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl())
+            .Map(dest => dest.Description, src => TrimAndDecodePlaylistDescription(src.Description))
+            .Map(dest => dest.Owner.Id, src => src.Owner.Id)
+            .Map(dest => dest.Owner.Name, src => src.Owner.Display_name);
 
         config.ForType<PlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
-            .Map(dest => dest.Metadata.ImageUrl, src => src.Images.FindMediumImageUrl())
-            .Map(dest => dest.Metadata.Description, src => TrimAndDecodePlaylistDescription(src.Description))
-            .Map(dest => dest.Metadata.Owner.Id, src => src.Owner.Id)
-            .Map(dest => dest.Metadata.Owner.Name, src => src.Owner.Display_name)
-            .Map(dest => dest.Metadata.LikesTotal, src => src.Followers.Total)
+            .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl())
+            .Map(dest => dest.Description, src => TrimAndDecodePlaylistDescription(src.Description))
+            .Map(dest => dest.Owner.Id, src => src.Owner.Id)
+            .Map(dest => dest.Owner.Name, src => src.Owner.Display_name)
+            .Map(dest => dest.LikesTotal, src => src.Followers.Total)
             .Map(dest => dest.Tracks, src => src.Tracks.Items.ToList());
     }
 

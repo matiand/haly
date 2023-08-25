@@ -2,7 +2,7 @@ import { useSetAtom } from "jotai";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { PlaylistMetadataDto } from "../../generated/haly";
+import { PlaylistWithTracksDto } from "../../generated/haly";
 import { pageHeaderVisibilityAtom } from "./atoms";
 import HeaderImage from "./HeaderImage";
 import HeaderTitle from "./HeaderTitle";
@@ -12,8 +12,8 @@ type PageHeaderProps = {
     title: string;
     type: "Playlist" | "Profile" | "Album" | "Artist";
     subtitle?: string;
-    imageUrl?: PlaylistMetadataDto["imageUrl"];
-    description?: PlaylistMetadataDto["description"];
+    imageUrl?: PlaylistWithTracksDto["imageUrl"];
+    description?: PlaylistWithTracksDto["description"];
     children?: React.ReactNode;
 };
 

@@ -39,7 +39,7 @@ public class GetCurrentUserFeedQueryHandler : IRequestHandler<GetCurrentUserFeed
         var dailyMixResults = await _spotify.Search("daily mix", SearchType.Playlist, request.UserMarket);
         var dailyMixes = dailyMixResults.Playlists
             .Where(p => p.Name.StartsWith("Daily Mix", StringComparison.InvariantCulture) &&
-                        p.Metadata.Owner.Id == "spotify")
+                        p.Owner.Id == "spotify")
             .OrderBy(p => p.Name);
 
         return dailyMixes.Adapt<IEnumerable<PlaylistCardDto>>();

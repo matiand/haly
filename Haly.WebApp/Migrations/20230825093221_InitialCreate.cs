@@ -26,7 +26,10 @@ namespace Haly.WebApp.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     SnapshotId = table.Column<string>(type: "text", nullable: false),
-                    Metadata = table.Column<PlaylistMetadata>(type: "jsonb", nullable: false)
+                    LikesTotal = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    Owner = table.Column<Owner>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,6 +43,7 @@ namespace Haly.WebApp.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Market = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
                     Plan = table.Column<Plan>(type: "plan", nullable: false),
                     LinkedPlaylistsOrder = table.Column<List<string>>(type: "jsonb", nullable: false)
                 },
@@ -54,12 +58,15 @@ namespace Haly.WebApp.Migrations
                 {
                     PlaylistId = table.Column<string>(type: "text", nullable: false),
                     PositionInPlaylist = table.Column<int>(type: "integer", nullable: false),
+                    PositionInAlbum = table.Column<int>(type: "integer", nullable: false),
                     AddedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Type = table.Column<PlaylistTrackType>(type: "playlist_track_type", nullable: false),
                     Album = table.Column<AlbumBrief>(type: "jsonb", nullable: false),
+                    QueryData = table.Column<PlaylistTrackQueryData>(type: "jsonb", nullable: false),
                     SpotifyId = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DurationInMs = table.Column<int>(type: "integer", nullable: false),
+                    IsPlayable = table.Column<bool>(type: "boolean", nullable: false),
                     IsExplicit = table.Column<bool>(type: "boolean", nullable: false),
                     Artists = table.Column<List<ArtistBrief>>(type: "jsonb", nullable: false)
                 },

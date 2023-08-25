@@ -55,13 +55,22 @@ namespace Haly.WebApp.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<PlaylistMetadata>("Metadata")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<int>("LikesTotal")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Owner>("Owner")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("SnapshotId")
                         .IsRequired()

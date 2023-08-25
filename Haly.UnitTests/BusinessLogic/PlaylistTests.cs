@@ -22,7 +22,7 @@ public class PlaylistTests
         var fixture = new Fixture();
         var playlist = fixture.Create<Playlist>();
         playlist.Name = name;
-        playlist.Metadata.Owner.Id = ownerId;
+        playlist.Owner.Id = ownerId;
 
         playlist.IsPersonalized.Should().Be(expected: true);
     }
@@ -40,7 +40,7 @@ public class PlaylistTests
         var fixture = new Fixture();
         var playlist = fixture.Create<Playlist>();
         playlist.Name = name;
-        playlist.Metadata.Owner.Id = ownerId;
+        playlist.Owner.Id = ownerId;
 
         playlist.IsPersonalized.Should().Be(expected: false);
     }

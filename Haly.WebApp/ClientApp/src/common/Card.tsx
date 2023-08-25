@@ -1,7 +1,7 @@
 import { MouseEventHandler } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { PlaylistMetadataDto } from "../../generated/haly";
+import { PlaylistCardDto } from "../../generated/haly";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import EmptyCoverImage from "./EmptyCoverImage";
 import { styled } from "./theme";
@@ -12,7 +12,7 @@ export type CardProps = {
     href: string;
     // A subtitle OR or a year + subtitle tuple
     subtitle?: string | [number, string];
-    imageUrl?: PlaylistMetadataDto["imageUrl"];
+    imageUrl?: PlaylistCardDto["imageUrl"];
     isPlayable: boolean;
     hasRoundedImage: boolean;
     isHighlighted?: boolean;

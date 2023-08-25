@@ -1093,24 +1093,6 @@ components:
           type: string
           nullable: true
       additionalProperties: false
-    PlaylistMetadataDto:
-      required:
-        - likesTotal
-        - owner
-      type: object
-      properties:
-        description:
-          type: string
-          nullable: true
-        imageUrl:
-          type: string
-          nullable: true
-        likesTotal:
-          type: integer
-          format: int32
-        owner:
-          $ref: '#/components/schemas/OwnerBriefDto'
-      additionalProperties: false
     PlaylistTrackDto:
       required:
         - addedAt
@@ -1178,8 +1160,9 @@ components:
       required:
         - id
         - isPersonalized
-        - metadata
+        - likesTotal
         - name
+        - owner
         - totalDuration
         - tracks
       type: object
@@ -1188,8 +1171,17 @@ components:
           type: string
         name:
           type: string
-        metadata:
-          $ref: '#/components/schemas/PlaylistMetadataDto'
+        description:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+        likesTotal:
+          type: integer
+          format: int32
+        owner:
+          $ref: '#/components/schemas/OwnerBriefDto'
         isPersonalized:
           type: boolean
         tracks:
