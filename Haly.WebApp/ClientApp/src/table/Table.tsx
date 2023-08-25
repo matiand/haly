@@ -40,7 +40,7 @@ export const Head = styled("thead", {
         height: "$$height",
         padding: "0 $600",
 
-        "& > th": {
+        "& > th, & > th > button": {
             alignItems: "center",
             color: "$white700",
             display: "flex",

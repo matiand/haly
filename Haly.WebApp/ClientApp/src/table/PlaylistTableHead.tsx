@@ -19,21 +19,19 @@ export function PlaylistTableHead({ hasPodcasts }: PlaylistTableHeadProps) {
             <tr>
                 <th>#</th>
 
-                <PlaylistTableHeadRow sortOrderSlice={["none", "title", "title_desc", "artist", "artist_desc"]}>
+                <SortableHeadCell sortOrderSlice={["none", "title", "title_desc", "artist", "artist_desc"]}>
                     {sortOrder === "artist" || sortOrder === "artist_desc" ? "Artist" : "Title"}
-                </PlaylistTableHeadRow>
+                </SortableHeadCell>
 
-                <PlaylistTableHeadRow sortOrderSlice={["none", "album", "album_desc"]}>
+                <SortableHeadCell sortOrderSlice={["none", "album", "album_desc"]}>
                     {hasPodcasts ? "Album or podcast" : "Album"}
-                </PlaylistTableHeadRow>
+                </SortableHeadCell>
 
-                <PlaylistTableHeadRow sortOrderSlice={["none", "added_at", "added_at_desc"]}>
-                    Date added
-                </PlaylistTableHeadRow>
+                <SortableHeadCell sortOrderSlice={["none", "added_at", "added_at_desc"]}>Date added</SortableHeadCell>
 
-                <PlaylistTableHeadRow sortOrderSlice={["none", "duration", "duration_desc"]}>
+                <SortableHeadCell sortOrderSlice={["none", "duration", "duration_desc"]}>
                     <TrackDurationIcon />
-                </PlaylistTableHeadRow>
+                </SortableHeadCell>
             </tr>
         </Table.Head>
     );
@@ -44,7 +42,7 @@ type PlaylistTableHeadRowProps = {
     sortOrderSlice: PlaylistSortOrder[];
 };
 
-function PlaylistTableHeadRow({ children, sortOrderSlice }: PlaylistTableHeadRowProps) {
+function SortableHeadCell({ children, sortOrderSlice }: PlaylistTableHeadRowProps) {
     const [sortOrder, setSortOrder] = useAtom(playlistSortOrderAtom);
     const currOrderIndex = sortOrderSlice.findIndex((val) => val === sortOrder);
 
@@ -58,13 +56,29 @@ function PlaylistTableHeadRow({ children, sortOrderSlice }: PlaylistTableHeadRow
         }
     };
 
-    return (
-        <SortableTh onClick={onClick}>
-            {children}
+    const isActive = currOrderIndex > 0;
+    const isAscending = isActive && currOrderIndex % 2 === 1;
+    const isDescending = isActive && currOrderIndex % 2 === 0;
 
-            {currOrderIndex > 0 && (
-                <span aria-hidden>{currOrderIndex % 2 === 1 ? <GoTriangleUp /> : <GoTriangleDown />}</span>
-            )}
+    // It's important for value to be undefined when no ordering is in use
+    const ariaSortValue = isAscending ? "ascending" : isDescending ? "descending" : undefined;
+
+    return (
+        <SortableTh aria-sort={ariaSortValue}>
+            <button type="button" onClick={onClick}>
+                {children}
+
+                {isAscending && (
+                    <span aria-hidden>
+                        <GoTriangleUp />
+                    </span>
+                )}
+                {isDescending && (
+                    <span aria-hidden>
+                        <GoTriangleDown />
+                    </span>
+                )}
+            </button>
         </SortableTh>
     );
 }
@@ -72,15 +86,22 @@ function PlaylistTableHeadRow({ children, sortOrderSlice }: PlaylistTableHeadRow
 const SortableTh = styled("th", {
     gap: "$400",
 
-    "&:hover": {
-        color: "$white800",
-    },
+    button: {
+        background: "none",
+        border: 0,
+        padding: 0,
 
-    "& > span > svg": {
-        $$size: "16px",
+        "& > span > svg": {
+            $$size: "16px",
 
-        color: "$primary300",
-        height: "$$size",
-        width: "$$size",
+            color: "$primary300",
+            height: "$$size",
+            marginLeft: "$400",
+            width: "$$size",
+        },
+
+        "&:hover": {
+            color: "$white800",
+        },
     },
 });
