@@ -16,7 +16,10 @@ public class PlaylistsController : ApiControllerBase
     [SwaggerOperation(Summary = "Get playlist", Description = "Get playlist from our cache")]
     [SwaggerResponse(statusCode: 200, "Playlist found", typeof(PlaylistWithTracksDto))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
-    public async Task<ActionResult<PlaylistWithTracksDto>> GetPlaylist(string id, string? sortOrder)
+    public async Task<ActionResult<PlaylistWithTracksDto>> GetPlaylist(string id,
+        [SwaggerParameter(Description =
+            "Track sorting order. Allowed values: title, title_desc, artist, artist_desc, album, album_desc, added_at, added_at_desc, duration, duration_desc.")]
+        string? sortOrder)
     {
         var response = await Mediator.Send(new GetPlaylistQuery(id, sortOrder));
         if (response is null) return NotFound();
@@ -25,7 +28,8 @@ public class PlaylistsController : ApiControllerBase
     }
 
     [HttpPut("{id}")]
-    [SwaggerOperation(Summary = "Update playlist", Description = "Fetch playlist from Spotify and update our cache if it's changed")]
+    [SwaggerOperation(Summary = "Update playlist",
+        Description = "Fetch playlist from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 201, "Playlist created")]
     [SwaggerResponse(statusCode: 204, "Playlist updated")]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
@@ -43,15 +47,23 @@ public class PlaylistsController : ApiControllerBase
         return NoContent();
     }
 
-
     [HttpGet("{playlistId}/tracks")]
     [SwaggerOperation(Summary = "Get playlist's tracks", Description = "Get playlist's tracks from our cache")]
     [SwaggerResponse(statusCode: 200, "Returns tracks", typeof(PaginatedTracksDto))]
     [SwaggerResponse(statusCode: 400, "Bad request", typeof(ValidationProblem))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
-    public async Task<ActionResult<PaginatedTracksDto>> GetTracks(string playlistId, int limit, int offset, string? sortOrder, string? searchTerm)
+    public async Task<ActionResult<PaginatedTracksDto>> GetTracks(string playlistId,
+        [SwaggerParameter("Between 1 and 200 (inclusive).")]
+        int limit,
+        int offset,
+        [SwaggerParameter(
+            "Track sorting order. Allowed values: title, title_desc, artist, artist_desc, album, album_desc, added_at, added_at_desc, duration, duration_desc.")]
+        string? sortOrder,
+        [SwaggerParameter("Used for filtering tracks. Matches their name, album or artists.")]
+        string? searchTerm)
     {
-        var response = await Mediator.Send(new GetPlaylistTracksQuery(playlistId, limit, offset, sortOrder, searchTerm));
+        var response =
+            await Mediator.Send(new GetPlaylistTracksQuery(playlistId, limit, offset, sortOrder, searchTerm));
         if (response is null) return NotFound();
 
         return Ok(response);
