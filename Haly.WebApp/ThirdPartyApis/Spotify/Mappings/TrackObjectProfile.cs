@@ -15,13 +15,21 @@ public class TrackObjectProfile : IRegister
                 track.QueryData = new PlaylistTrackQueryData(track.Name, track.Album, track.Artists);
             });
 
-        config.ForType<TrackObject, Track>()
+        config.ForType<TrackObject, TrackBase>()
             .Map(dest => dest.SpotifyId, src => src.Id)
             .Map(dest => dest.Name, src => src.Name)
             .Map(dest => dest.Artists, src => src.Artists)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
             .Map(dest => dest.DurationInMs, src => src.Duration_ms);
+
+        config.ForType<PlayHistoryObject, TrackBase>()
+            .Map(dest => dest.SpotifyId, src => src.Track.Id)
+            .Map(dest => dest.Name, src => src.Track.Name)
+            .Map(dest => dest.Artists, src => src.Track.Artists)
+            .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
+            .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
+            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms);
 
         config.ForType<PlaylistTrackObject, PlaylistTrack>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
@@ -56,18 +64,11 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.DiscNumber, src => src.Disc_number)
             .Map(dest => dest.DurationInMs, src => src.Duration_ms);
 
-        config.ForType<TrackObject, ArtistTopTrack>()
+        config.ForType<TrackObject, Track>()
             .Map(dest => dest.SpotifyId, src => src.Id)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
             .Map(dest => dest.DurationInMs, src => src.Duration_ms);
 
-        config.ForType<PlayHistoryObject, Track>()
-            .Map(dest => dest.SpotifyId, src => src.Track.Id)
-            .Map(dest => dest.Name, src => src.Track.Name)
-            .Map(dest => dest.Artists, src => src.Track.Artists)
-            .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
-            .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
-            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms);
     }
 }

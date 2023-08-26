@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Haly.WebApp.Models.Tracks;
 
-public class PlaylistTrack : Track
+public class PlaylistTrack : TrackBase
 {
     // We can't use their id because it can be null.
     // My implementation for updating tracks triggers EFCore's diff algorithm to replace the entire

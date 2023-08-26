@@ -173,18 +173,18 @@ public sealed class SpotifyService : ISpotifyService
         return artists.Items.Adapt<List<TopArtist>>();
     }
 
-    public async Task<List<Track>> GetCurrentUserTopTracks()
+    public async Task<List<TrackBase>> GetCurrentUserTopTracks()
     {
         var tracks = await _spotifyClient.GetUsersTopTracksAsync("short_term", limit: UserTopItemsLimit);
 
-        return tracks.Items.Adapt<List<Track>>();
+        return tracks.Items.Adapt<List<TrackBase>>();
     }
 
-    public async Task<List<Track>> GetRecentlyPlayedTracks()
+    public async Task<List<TrackBase>> GetRecentlyPlayedTracks()
     {
         var tracks = await _spotifyClient.GetRecentlyPlayedAsync();
 
-        return tracks.Items.Adapt<List<Track>>();
+        return tracks.Items.Adapt<List<TrackBase>>();
     }
 
     public async Task<ArtistDetailed> GetArtist(string artistId, string userMarket)
@@ -194,7 +194,7 @@ public sealed class SpotifyService : ISpotifyService
 
         var (artist, topItems) = (await artistTask, await topItemsTask);
         var dto = artist.Adapt<ArtistDetailed>();
-        dto.TopTracks = topItems.Tracks.Adapt<List<ArtistTopTrack>>();
+        dto.TopTracks = topItems.Tracks.Adapt<List<Track>>();
 
         return dto;
     }

@@ -13,5 +13,5 @@ public record ArtistDetailed
 
     public HighlightedPlaylist? TopFeaturedPlaylist { get; set; }
 
-    public List<ArtistTopTrack> TopTracks { get; set; }
+    public List<Track> TopTracks { get; set; }
 }
