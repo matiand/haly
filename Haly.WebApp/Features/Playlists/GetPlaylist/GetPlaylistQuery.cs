@@ -26,43 +26,26 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
 
     public async Task<PlaylistWithTracksDto?> Handle(GetPlaylistQuery request, CancellationToken cancellationToken)
     {
-        var dbPlaylist = await _db.Playlists
+        var playlist = await _db.Playlists
             .Where(p => p.Id == request.Id)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (dbPlaylist is null) return null;
+        if (playlist is null) return null;
 
         // Avoid using ProjectToType extension, it's buggy and usually performs worse than Adapt
-        dbPlaylist.Tracks = new List<PlaylistTrack>();
-        var playlist = dbPlaylist.Adapt<PlaylistWithTracksDto>();
+        playlist.Tracks = new List<PlaylistTrack>();
+        var dto = playlist.Adapt<PlaylistWithTracksDto>();
 
         var tracks = _db.PlaylistTracks
-            .Where(t => t.PlaylistId == request.Id);
+            .Where(t => t.PlaylistId == request.Id)
+            .OrderBy(request.SortOrder);
 
-        var sortedTracks = request.SortOrder switch
-        {
-            "title" => tracks.OrderBy(t => t.Name),
-            "title_desc" => tracks.OrderByDescending(t => t.Name),
-            "artist" => tracks.OrderBy(t => t.Artists.First().Name),
-            "artist_desc" => tracks.OrderByDescending(t => t.Artists.First().Name),
-            "album" => tracks.OrderBy(t => t.Album.Name),
-            "album_desc" => tracks.OrderByDescending(t => t.Album.Name),
-            "added_at" => tracks.OrderBy(t => t.AddedAt).ThenBy(t => t.Album.Name),
-            "added_at_desc" => tracks.OrderByDescending(t => t.AddedAt).ThenBy(t => t.Album.Name),
-            "duration" => tracks.OrderBy(t => t.DurationInMs),
-            "duration_desc" => tracks.OrderByDescending(t => t.DurationInMs),
-            _ => tracks.OrderBy(t => t.PositionInPlaylist),
-        };
+        var page = await tracks.ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
+        var totalDuration = await _totalDurationService.FromQueryable(tracks);
 
-        sortedTracks = sortedTracks.ThenBy(t => t.PositionInAlbum);
+        dto.Tracks = page.Adapt<PaginatedList<PlaylistTrackDto>>();
+        dto.TotalDuration = totalDuration.Format();
 
-        var pTracks = await sortedTracks.ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
-
-        playlist.Tracks = pTracks.Adapt<PaginatedList<PlaylistTrackDto>>();
-
-        var totalDuration = await _totalDurationService.FromPlaylistStore(request.Id);
-        playlist.TotalDuration = totalDuration.Format();
-
-        return playlist;
+        return dto;
     }
 }
