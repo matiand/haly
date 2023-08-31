@@ -3,6 +3,7 @@ import { useSetAtom } from "jotai";
 import { useAuth } from "react-oidc-context";
 import { Route, Routes } from "react-router-dom";
 
+import { ResponseError } from "../generated/haly";
 import Album from "./album/Album";
 import AllAppearsOnCards from "./artist/AllAppearsOnCards";
 import AllDiscographyCards from "./artist/AllDiscographyCards";
@@ -18,6 +19,7 @@ import halyClient from "./halyClient";
 import Home from "./home/Home";
 import Playback from "./playback/Playback";
 import Playlist from "./playlist/Playlist";
+import PlaylistWrapper from "./playlist/PlaylistWrapper";
 import AllMyFollowedArtistCards from "./profile/AllMyFollowedArtistCards";
 import AllMyTopArtistCards from "./profile/AllMyTopArtistCards";
 import AllUserPlaylistCards from "./profile/AllUserPlaylistCards";
@@ -37,10 +39,19 @@ function App() {
     const { isLoading } = useQuery(
         ["me"],
         () =>
-            halyClient.me.putCurrentUser({ body: accessToken }).then((user) => {
-                setUser(user);
-                return user;
-            }),
+            halyClient.me
+                .putCurrentUser({ body: accessToken })
+                .then((user) => {
+                    setUser(user);
+                    return user;
+                })
+                .catch((err) => {
+                    if (err instanceof ResponseError) {
+                        if (err.response.status === 401) {
+                            auth.signinSilent();
+                        }
+                    }
+                }),
         { refetchOnWindowFocus: "always" },
     );
 
@@ -61,7 +72,7 @@ function App() {
                             <Route path="/me/following/" element={<AllMyFollowedArtistCards />} />
                             <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
 
-                            <Route path="/playlist/:id" element={<Playlist />} />
+                            <Route path="/playlist/:id" element={<PlaylistWrapper />} />
 
                             <Route path="/user/:id" element={<Profile />} />
                             <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
