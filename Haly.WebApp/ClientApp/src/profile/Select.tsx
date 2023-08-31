@@ -6,7 +6,7 @@ type SelectProps = {
     id: string;
     label: string;
     onChange: (newOption: string) => void;
-    options: string[];
+    options: Record<string, string | number>;
     defaultOption: string;
 };
 
@@ -24,9 +24,9 @@ function Select({ id, label, onChange, options, defaultOption }: SelectProps) {
         <Wrapper>
             <label htmlFor={id}>{label}</label>
             <select id={id} value={option} onChange={onSelectChange}>
-                {options.map((o) => (
-                    <option key={o} value={o}>
-                        {o}
+                {Object.entries(options).map(([option, title]) => (
+                    <option key={option} value={option}>
+                        {title}
                     </option>
                 ))}
             </select>

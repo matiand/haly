@@ -1,26 +1,28 @@
 import { useState } from "react";
 
 import { styled } from "../common/theme";
+import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/useSortOrder";
 import Checkbox from "./Checkbox";
 import Select from "./Select";
 
 function Preferences() {
     const [hasAccurateColors, setHasAccurateColors] = useState(true);
     const [hasCustomShuffle, setHasCustomShuffle] = useState(false);
+    const [globalSortOrder, setGlobalSortOrder] = useGlobalSortOrder();
 
-    const sortingOptions = [
-        "Custom order",
-        "Title",
-        "Title (reverse)",
-        "Artist",
-        "Artist (reverse)",
-        "Album",
-        "Album (reverse)",
-        "Newest",
-        "Oldest",
-        "Shortest",
-        "Longest",
-    ];
+    const sortingOptions: Record<PlaylistSortOrder, string> = {
+        [""]: "Default order",
+        title: "Title",
+        title_desc: "Title (reverse)",
+        artist: "Artist",
+        artist_desc: "Artist (reverse)",
+        album: "Album",
+        album_desc: "Album (reverse)",
+        added_at: "Oldest",
+        added_at_desc: "Newest",
+        duration: "Shortest",
+        duration_desc: "Longest",
+    };
 
     return (
         <Section>
@@ -31,9 +33,9 @@ function Preferences() {
                 <Select
                     id="playlists.s1"
                     label="Select how to sort tracks in playlist by default"
-                    onChange={(newOption) => console.log(newOption)}
+                    onChange={(newOption) => setGlobalSortOrder(newOption as PlaylistSortOrder)}
                     options={sortingOptions}
-                    defaultOption={sortingOptions[0]}
+                    defaultOption={globalSortOrder}
                 />
             </div>
 
