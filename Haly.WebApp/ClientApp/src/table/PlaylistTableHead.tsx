@@ -1,9 +1,9 @@
-import { useAtom, useAtomValue } from "jotai";
 import { ReactNode } from "react";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { useParams } from "react-router-dom";
 
-import { PlaylistSortOrder, playlistSortOrderAtom } from "../common/atoms";
 import { styled } from "../common/theme";
+import { PlaylistSortOrder, usePersistedSortOrder } from "../playlist/useSortOrder";
 import * as Table from "./Table";
 import TrackDurationIcon from "./TrackDurationIcon";
 
@@ -12,24 +12,43 @@ type PlaylistTableHeadProps = {
 };
 
 export function PlaylistTableHead({ hasPodcasts }: PlaylistTableHeadProps) {
-    const sortOrder = useAtomValue(playlistSortOrderAtom);
+    const { id: playlistId } = useParams();
+    const [sortOrder, setSortOrder] = usePersistedSortOrder(playlistId!);
 
     return (
         <Table.Head>
             <tr>
                 <th>#</th>
 
-                <SortableHeadCell sortOrderSlice={["none", "title", "title_desc", "artist", "artist_desc"]}>
+                <SortableHeadCell
+                    options={["", "title", "title_desc", "artist", "artist_desc"]}
+                    activeOption={sortOrder}
+                    onOptionChange={setSortOrder}
+                >
                     {sortOrder === "artist" || sortOrder === "artist_desc" ? "Artist" : "Title"}
                 </SortableHeadCell>
 
-                <SortableHeadCell sortOrderSlice={["none", "album", "album_desc"]}>
+                <SortableHeadCell
+                    options={["", "album", "album_desc"]}
+                    activeOption={sortOrder}
+                    onOptionChange={setSortOrder}
+                >
                     {hasPodcasts ? "Album or podcast" : "Album"}
                 </SortableHeadCell>
 
-                <SortableHeadCell sortOrderSlice={["none", "added_at", "added_at_desc"]}>Date added</SortableHeadCell>
+                <SortableHeadCell
+                    options={["", "added_at", "added_at_desc"]}
+                    activeOption={sortOrder}
+                    onOptionChange={setSortOrder}
+                >
+                    Date added
+                </SortableHeadCell>
 
-                <SortableHeadCell sortOrderSlice={["none", "duration", "duration_desc"]}>
+                <SortableHeadCell
+                    options={["", "duration", "duration_desc"]}
+                    activeOption={sortOrder}
+                    onOptionChange={setSortOrder}
+                >
                     <TrackDurationIcon />
                 </SortableHeadCell>
             </tr>
@@ -39,20 +58,21 @@ export function PlaylistTableHead({ hasPodcasts }: PlaylistTableHeadProps) {
 
 type PlaylistTableHeadRowProps = {
     children: ReactNode;
-    sortOrderSlice: PlaylistSortOrder[];
+    options: PlaylistSortOrder[];
+    activeOption: PlaylistSortOrder;
+    onOptionChange: (newOption: PlaylistSortOrder) => void;
 };
 
-function SortableHeadCell({ children, sortOrderSlice }: PlaylistTableHeadRowProps) {
-    const [sortOrder, setSortOrder] = useAtom(playlistSortOrderAtom);
-    const currOrderIndex = sortOrderSlice.findIndex((val) => val === sortOrder);
+function SortableHeadCell({ children, options, activeOption, onOptionChange }: PlaylistTableHeadRowProps) {
+    const currOrderIndex = options.findIndex((val) => val === activeOption);
 
     const onClick = () => {
         if (currOrderIndex === -1) {
-            setSortOrder(sortOrderSlice[1]);
-        } else if (currOrderIndex + 1 === sortOrderSlice.length) {
-            setSortOrder(sortOrderSlice[0]);
+            onOptionChange(options[1]);
+        } else if (currOrderIndex + 1 === options.length) {
+            onOptionChange(options[0]);
         } else {
-            setSortOrder(sortOrderSlice[currOrderIndex + 1]);
+            onOptionChange(options[currOrderIndex + 1]);
         }
     };
 

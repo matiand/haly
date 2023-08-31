@@ -120,7 +120,7 @@ export const theme = {
 const media = {
     bp1: "(min-width: 750px)",
     bp2: "(min-width: 960px)",
-    bp3: "(min-width: 1060px)",
+    bp3: "(min-width: 1200px)",
 };
 
 export const { styled, globalCss, keyframes } = createStitches({

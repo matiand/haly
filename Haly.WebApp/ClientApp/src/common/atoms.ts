@@ -1,12 +1,15 @@
 import { atom } from "jotai";
 
 import { PrivateUserDto } from "../../generated/haly";
+import { theme } from "./theme";
 
 export const cachedPlaylistIdsAtom = atom<string[] | null>(null);
 export const isPlaylistCachedAtom = (playlistId: string) =>
     atom((get) => get(cachedPlaylistIdsAtom)?.includes(playlistId) ?? false);
 
-export const dominantColorsAtom = atom<Record<string, string | undefined>>({});
+export const dominantColorsAtom = atom<Record<string, string | undefined>>({
+    "": theme.colors.dominantDefault,
+});
 
 export const playlistIdsWithOldTracksAtom = atom<string[]>([]);
 
@@ -17,26 +20,13 @@ export const userAtom = atom<PrivateUserDto | null>(null);
 export const artistNameAtom = atom<string | null>(null);
 
 export const playlistSearchTermAtom = atom<string>("");
-export const playlistDurationAtom = atom<string>("");
-export const playlistSongsTotalAtom = atom<number>(0);
+export const playlistSliceDurationAtom = atom<string | null>(null);
+export const playlistSliceSongsTotalAtom = atom<number | null>(null);
 
 export type PageContext = {
     title: string;
+    // Needed for accessing its dominant color
     imageUrl?: string | null;
     onPlayback?: () => void;
 };
 export const pageContextAtom = atom<PageContext | null>(null);
-
-export type PlaylistSortOrder =
-    | "none"
-    | "title"
-    | "title_desc"
-    | "artist"
-    | "artist_desc"
-    | "album"
-    | "album_desc"
-    | "added_at"
-    | "added_at_desc"
-    | "duration"
-    | "duration_desc";
-export const playlistSortOrderAtom = atom<PlaylistSortOrder>("none");

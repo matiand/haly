@@ -3,32 +3,25 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
-import {
-    playlistDurationAtom,
-    playlistSearchTermAtom,
-    playlistSongsTotalAtom,
-    playlistSortOrderAtom,
-} from "../common/atoms";
+import { playlistSearchTermAtom, playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import PlaylistTable from "../table/PlaylistTable";
+import { PlaylistSortOrder } from "./useSortOrder";
 
 type PlaylistTracksProps = {
     playlistId: string;
+    sortOrder: PlaylistSortOrder;
     initialTracks: PlaylistTrackDtoPaginatedList;
-    initialDuration: string;
 };
 
 const MaxTrackQueryLimit = 200;
 const MinTrackQueryOffset = 25;
 
-function PlaylistTracks({ playlistId, initialTracks, initialDuration }: PlaylistTracksProps) {
+function PlaylistTracks({ playlistId, sortOrder, initialTracks }: PlaylistTracksProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
-    const sortOrder = useAtomValue(playlistSortOrderAtom);
 
-    const setDuration = useSetAtom(playlistDurationAtom);
-    const setSongsTotal = useSetAtom(playlistSongsTotalAtom);
-
-    const initialData = { totalDuration: initialDuration, ...initialTracks };
+    const setSliceDuration = useSetAtom(playlistSliceDurationAtom);
+    const setSliceSongsTotal = useSetAtom(playlistSliceSongsTotalAtom);
 
     const tracksQuery = useInfiniteQuery(
         ["playlists", playlistId, "tracks", { searchTerm, sortOrder }],
@@ -44,39 +37,57 @@ function PlaylistTracks({ playlistId, initialTracks, initialDuration }: Playlist
                 .then((data) => ({ ...data.page, totalDuration: data.totalDuration }));
         },
         {
-            initialData: { pages: [initialData], pageParams: [initialData.offset] },
+            keepPreviousData: true,
             getPreviousPageParam: (firstPage) => {
                 const nextOffset = firstPage.offset - firstPage.limit;
                 return nextOffset > MinTrackQueryOffset ? nextOffset : undefined;
             },
             getNextPageParam: (lastPage) => {
                 const nextOffset = lastPage.offset + lastPage.limit;
-                // console.log("nextpageParam");
                 return lastPage.total > nextOffset ? nextOffset : undefined;
             },
         },
     );
 
     useEffect(() => {
+        return () => {
+            setSliceDuration(null);
+            setSliceSongsTotal(null);
+        };
+    }, [playlistId, setSliceDuration, setSliceSongsTotal]);
+
+    useEffect(() => {
         const firstPage = tracksQuery.data?.pages[0];
+
         if (firstPage) {
             const duration = firstPage.totalDuration;
             const songsTotal = firstPage.total;
 
-            setDuration(duration);
-            setSongsTotal(songsTotal);
+            setSliceDuration(duration);
+            setSliceSongsTotal(songsTotal);
         }
-    }, [tracksQuery, setDuration, setSongsTotal]);
+    }, [tracksQuery, setSliceDuration, setSliceSongsTotal]);
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     const total = tracksQuery.data?.pages[0].total || 0;
-    const keepInitialPositionIndex = Boolean(searchTerm) && sortOrder === "none";
+    const keepInitialPositionIndex = Boolean(searchTerm) && !sortOrder;
 
     const fetchMore = () => {
         if (!tracksQuery.isFetchingNextPage) {
             tracksQuery.fetchNextPage({ cancelRefetch: false });
         }
     };
+
+    if (tracksQuery.isInitialLoading) {
+        return (
+            <PlaylistTable
+                items={initialTracks.items}
+                total={initialTracks.total}
+                fetchMoreItems={fetchMore}
+                keepInitialPositionIndex={keepInitialPositionIndex}
+            />
+        );
+    }
 
     return (
         <PlaylistTable

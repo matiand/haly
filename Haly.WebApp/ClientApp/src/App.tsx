@@ -18,7 +18,6 @@ import { useMessageHub } from "./common/useMessageHub";
 import halyClient from "./halyClient";
 import Home from "./home/Home";
 import Playback from "./playback/Playback";
-import Playlist from "./playlist/Playlist";
 import PlaylistWrapper from "./playlist/PlaylistWrapper";
 import AllMyFollowedArtistCards from "./profile/AllMyFollowedArtistCards";
 import AllMyTopArtistCards from "./profile/AllMyTopArtistCards";

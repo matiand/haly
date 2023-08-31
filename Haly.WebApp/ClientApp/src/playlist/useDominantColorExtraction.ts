@@ -2,7 +2,7 @@ import { extend } from "colord";
 import lab from "colord/plugins/lab";
 import { useAtom } from "jotai";
 import { PaletteColor, paletteFromImage } from "palette-from-image";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import { dominantColorsAtom } from "../common/atoms";
@@ -13,15 +13,6 @@ extend([lab]);
 function useDominantColorExtraction(imageUrl: PlaylistWithTracksDto["imageUrl"]) {
     const [dominantColors, setDominantColors] = useAtom(dominantColorsAtom);
     const imageRef = useRef<HTMLImageElement>(null);
-
-    useEffect(() => {
-        if (!imageUrl) {
-            setDominantColors((prev) => ({
-                ...prev,
-                [""]: theme.colors.dominantDefault,
-            }));
-        }
-    }, [imageUrl, setDominantColors]);
 
     const onImageLoad = useCallback(() => {
         if (!imageUrl || dominantColors[imageUrl]) return;
