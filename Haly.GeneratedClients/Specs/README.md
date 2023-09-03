@@ -23,3 +23,5 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `CursorObject` - set as nullable: **after** and **before**
 -   `unfollow-artists-users` - replace _200_ response with _204_
 -   `SimplifiedPlaylistObject` - set as nullable: **public**
+-   `CurrentlyPlayingContextObject` - add **format: int64** to _timestamp_ property
+-   `transfer-a-users-playback` - replace _204_ response with _202_

@@ -8368,7 +8368,7 @@ namespace Haly.GeneratedClients
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 204)
+                        if (status_ == 202)
                         {
                             return;
                         }
@@ -10724,7 +10724,7 @@ namespace Haly.GeneratedClients
         /// Unix Millisecond Timestamp when data was fetched.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Timestamp { get; set; } = default!;
+        public long Timestamp { get; set; } = default!;
 
         /// <summary>
         /// Progress into the currently playing track or episode. Can be `null`.

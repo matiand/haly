@@ -2948,7 +2948,7 @@ paths:
                   description: |
                     **true**: ensure playback happens on new device.<br/>**false** or not provided: keep the current playback state.
       responses:
-        "204":
+        "202":
           description: Playback transferred
         "401":
           $ref: '#/components/responses/Unauthorized'
@@ -4378,6 +4378,7 @@ components:
           description: A Context Object. Can be `null`.
         timestamp:
           type: integer
+          format: int64
           description: Unix Millisecond Timestamp when data was fetched.
         progress_ms:
           type: integer
