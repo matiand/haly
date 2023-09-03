@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-import { PrivateUserDto } from "../../generated/haly";
+import { AlbumBriefDto, ArtistBriefDto, PrivateUserDto } from "../../generated/haly";
 import { theme } from "./theme";
 
 export const cachedPlaylistIdsAtom = atom<string[] | null>(null);
@@ -30,3 +30,14 @@ export type PageContext = {
     onPlayback?: () => void;
 };
 export const pageContextAtom = atom<PageContext | null>(null);
+
+export type PlaybackContext = undefined;
+
+export type StreamedTrack = {
+    id: string;
+    name: string;
+    album: AlbumBriefDto;
+    artists: ArtistBriefDto[];
+};
+
+export const playbackContextAtom = atom<PlaybackContext | null>(null);

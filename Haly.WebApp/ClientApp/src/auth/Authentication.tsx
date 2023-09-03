@@ -37,6 +37,15 @@ function Authentication(props: AuthenticationProps) {
         }
     }, [auth, refreshToken]);
 
+    useEffect(() => {
+        if (auth.isAuthenticated && auth.user?.access_token) {
+            // Web Playback SDK uses a fn for retrieving an access token, it calls that fn
+            // internally so it's hard for use to manage that. That's why we store it in
+            // local storage.
+            localStorage.setItem("spotifyToken", auth.user.access_token);
+        }
+    }, [auth.isAuthenticated, auth.user]);
+
     if (auth.isAuthenticated) {
         return <>{props.children}</>;
     }

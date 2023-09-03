@@ -14,6 +14,7 @@ export * from './FollowedArtistDto';
 export * from './HighlightedPlaylistDto';
 export * from './OwnerBriefDto';
 export * from './PaginatedTracksDto';
+export * from './PlaybackStateDto';
 export * from './PlaylistBriefDto';
 export * from './PlaylistCardDto';
 export * from './PlaylistTrackDto';

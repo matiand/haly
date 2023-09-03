@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
 
 import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
+import { StreamedTrack } from "../common/atoms";
 import { styled } from "../common/theme";
 import TrackCoverImage from "../common/TrackCoverImage";
 import HighlightableText from "./HighlightableText";
 
 type TrackInformationProps = {
-    track: PlaylistTrackDto | AlbumTrackDto | ArtistTopTrackDto;
+    track: PlaylistTrackDto | AlbumTrackDto | ArtistTopTrackDto | StreamedTrack;
     type: "cell" | "playback";
+    showExplicitMark?: boolean;
     hideArtists?: boolean;
     searchTerm?: string | null;
 };
 
-function TrackInformation({ track, type, hideArtists, searchTerm }: TrackInformationProps) {
-    const { name, artists, isExplicit } = track;
-
-    const showExplicitMark = isExplicit && type === "cell";
+function TrackInformation({ track, type, showExplicitMark, hideArtists, searchTerm }: TrackInformationProps) {
+    const { name, artists } = track;
 
     const hasAlbum = "album" in track;
     const shouldLinkToAlbum = hasAlbum && type === "playback";

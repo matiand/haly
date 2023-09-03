@@ -16,7 +16,7 @@ function TopTracksTableRow({ index, track }: TrackRowProps) {
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" hideArtists />
+                <TrackInformation track={track} type="cell" hideArtists showExplicitMark={track.isExplicit} />
             </td>
 
             <td>

@@ -45,7 +45,7 @@
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
         "@types/react-highlight-words": "^0.16.4",
-        "@types/spotify-web-playback-sdk": "^0.1.15",
+        "@types/spotify-web-playback-sdk": "^0.1.16",
         "@typescript-eslint/eslint-plugin": "^5.30.0",
         "@typescript-eslint/parser": "^5.30.0",
         "@vitejs/plugin-react": "^4.0.0",

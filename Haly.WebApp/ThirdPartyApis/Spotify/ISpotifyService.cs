@@ -25,9 +25,12 @@ public interface ISpotifyService
     Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);
     Task<SpotifySearchResult> Search(string query, SearchType type, string userMarket);
     Task<List<RecommendedTrack>> GetRecommendations(string userMarket, string? trackIds, string? artistIds);
+    Task<PlaybackState?> GetPlaybackState();
+
 
     Task Follow(CreatorType creatorType, string creatorId);
     Task Unfollow(CreatorType creatorType, string creatorId);
+    Task TransferPlayback(string deviceId);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);

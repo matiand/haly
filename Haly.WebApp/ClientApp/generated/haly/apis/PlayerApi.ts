@@ -16,14 +16,21 @@
 import * as runtime from '../runtime';
 import type {
   DeviceDto,
+  PlaybackStateDto,
   Problem,
 } from '../models';
 import {
     DeviceDtoFromJSON,
     DeviceDtoToJSON,
+    PlaybackStateDtoFromJSON,
+    PlaybackStateDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
 } from '../models';
+
+export interface TransferPlaybackRequest {
+    deviceId?: string;
+}
 
 /**
  * 
@@ -56,6 +63,65 @@ export class PlayerApi extends runtime.BaseAPI {
     async getAvailableDevices(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DeviceDto>> {
         const response = await this.getAvailableDevicesRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>
+     * Get current playback state
+     */
+    async getPlaybackStateRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaybackStateDto>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaybackStateDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>
+     * Get current playback state
+     */
+    async getPlaybackState(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaybackStateDto> {
+        const response = await this.getPlaybackStateRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Transfer playback to a new device
+     */
+    async transferPlaybackRaw(requestParameters: TransferPlaybackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.deviceId !== undefined) {
+            queryParameters['deviceId'] = requestParameters.deviceId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Transfer playback to a new device
+     */
+    async transferPlayback(requestParameters: TransferPlaybackRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.transferPlaybackRaw(requestParameters, initOverrides);
     }
 
 }

@@ -542,6 +542,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /Me/Player:
+    get:
+      tags:
+        - Player
+      summary: Get current playback state
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>'
+      operationId: GetPlaybackState
+      responses:
+        '200':
+          description: Current playback state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackStateDto'
+        '204':
+          description: Playback is not active
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      tags:
+        - Player
+      summary: Transfer playback to a new device
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>'
+      operationId: TransferPlayback
+      parameters:
+        - name: deviceId
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Playback transferred
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /Me/Player/devices:
     get:
       tags:
@@ -591,6 +657,7 @@ paths:
             type: string
         - name: sortOrder
           in: query
+          description: 'Track sorting order. Allowed values: title, title_desc, artist, artist_desc, album, album_desc, added_at, added_at_desc, duration, duration_desc.'
           schema:
             type: string
       responses:
@@ -662,6 +729,7 @@ paths:
             type: string
         - name: limit
           in: query
+          description: Between 1 and 200 (inclusive).
           schema:
             type: integer
             format: int32
@@ -672,10 +740,12 @@ paths:
             format: int32
         - name: sortOrder
           in: query
+          description: 'Track sorting order. Allowed values: title, title_desc, artist, artist_desc, album, album_desc, added_at, added_at_desc, duration, duration_desc.'
           schema:
             type: string
         - name: searchTerm
           in: query
+          description: 'Used for filtering tracks. Matches their name, album or artists.'
           schema:
             type: string
       responses:
@@ -1064,6 +1134,14 @@ components:
           $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
         totalDuration:
           type: string
+      additionalProperties: false
+    PlaybackStateDto:
+      required:
+        - device
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceDto'
       additionalProperties: false
     PlaylistBriefDto:
       required:

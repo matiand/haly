@@ -20,7 +20,7 @@ export function AlbumTableTrackRow({ index, track }: TrackRowProps) {
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" />
+                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
             </td>
 
             <td>

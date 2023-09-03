@@ -4,13 +4,31 @@ import {
     Configuration,
     FollowingApi,
     MeApi,
+    Middleware,
     PlayerApi,
     PlaylistsApi,
     Problem,
+    ResponseContext,
     UsersApi,
 } from "../generated/haly";
 
-const config = new Configuration({ basePath: import.meta.env.VITE_API_ORIGIN });
+// Somehow the generated client can't handle 204 responses. This is our workaround.
+class NoContentMiddleware implements Middleware {
+    public post?(context: ResponseContext): Promise<Response | void> {
+        if (context.response.status === 204 && context.init.method === "GET") {
+            throw {
+                status: 204,
+            };
+        }
+
+        return Promise.resolve(context.response);
+    }
+}
+
+const config = new Configuration({
+    basePath: import.meta.env.VITE_API_ORIGIN,
+    middleware: [new NoContentMiddleware()],
+});
 
 export default {
     me: new MeApi(config),

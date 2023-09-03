@@ -29,6 +29,7 @@ function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
                 <TrackInformation
                     track={track}
                     type="cell"
+                    showExplicitMark={track.isExplicit}
                     hideArtists={track.type === "Podcast"}
                     searchTerm={searchTerm}
                 />

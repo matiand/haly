@@ -1,16 +1,20 @@
 import { LuMonitorSpeaker } from "react-icons/lu";
 
-import { PlaylistTrackDto } from "../../generated/haly";
+import { StreamedTrack } from "../common/atoms";
 import HeartButton from "../common/HeartButton";
 import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
 import PlaybackToggle from "./PlaybackToggle";
 
-function PlaybackControls() {
+type PlaybackControlsProps = {
+    track: StreamedTrack;
+};
+
+function PlaybackControls({ track }: PlaybackControlsProps) {
     return (
         <Wrapper>
             <div>
-                <TrackInformation track={tempTrack} type="playback" />
+                <TrackInformation track={track} type="playback" />
                 <HeartButton size="small" />
             </div>
 
@@ -24,7 +28,6 @@ function PlaybackControls() {
                         <span aria-hidden>
                             <LuMonitorSpeaker />
                         </span>
-                        <DeviceArrow aria-hidden />
                     </Button>
                 </div>
             </div>
@@ -97,30 +100,5 @@ const DeviceArrow = styled("div", {
     position: "relative",
     bottom: "-20px",
 });
-
-const tempTrack: PlaylistTrackDto = {
-    positionInPlaylist: 15,
-    name: "Better In College",
-    duration: "3:28",
-    addedAt: new Date("2023-06-30T11:31:41+00:00"),
-    type: "Song",
-    isPlayable: true,
-    isExplicit: true,
-    album: {
-        id: "7EReSsFM8Grn3bJdjddsd4",
-        name: "Walk Like Me",
-        imageUrl: "https://i.scdn.co/image/ab67616d000048513beed64756e79a8186cdeb5d",
-    },
-    artists: [
-        {
-            id: "42crL07E4WPfVovyUtMpvC",
-            name: "Robert DeLong",
-        },
-        {
-            id: "6P5NO5hzJbuOqSdyPB7SJM",
-            name: "Ashe",
-        },
-    ],
-};
 
 export default PlaybackControls;

@@ -8,6 +8,7 @@ using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Search;
 using Haly.WebApp.Models.Tracks;
 using Mapster;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Track = Haly.WebApp.Models.Tracks.Track;
 using Type = Haly.GeneratedClients.Type;
 
@@ -287,6 +288,24 @@ public sealed class SpotifyService : ISpotifyService
         return new List<RecommendedTrack>();
     }
 
+    public async Task<PlaybackState?> GetPlaybackState()
+    {
+        try
+        {
+            var response = await _spotifyClient.GetInformationAboutTheUsersCurrentPlaybackAsync();
+            return response.Adapt<PlaybackState>();
+        }
+        catch (ApiException e)
+        {
+            if (e.StatusCode == StatusCodes.Status204NoContent)
+            {
+                return null;
+            }
+
+            throw;
+        }
+    }
+
     public async Task Follow(CreatorType creatorType, string creatorId)
     {
         var type = creatorType is CreatorType.Artist ? Type2.Artist : Type2.User;
@@ -297,5 +316,16 @@ public sealed class SpotifyService : ISpotifyService
     {
         var type = creatorType is CreatorType.Artist ? Type3.Artist : Type3.User;
         await _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
+    }
+
+    public Task TransferPlayback(string deviceId)
+    {
+        var body = new Body17()
+        {
+            Device_ids = new List<string> { deviceId },
+            Play = true,
+        };
+
+        return _spotifyClient.TransferAUsersPlaybackAsync(body);
     }
 }
