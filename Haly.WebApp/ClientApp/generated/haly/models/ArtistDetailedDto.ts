@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ArtistDetailedDtoHighlightedPlaylist } from './ArtistDetailedDtoHighlightedPlaylist';
+import {
+    ArtistDetailedDtoHighlightedPlaylistFromJSON,
+    ArtistDetailedDtoHighlightedPlaylistFromJSONTyped,
+    ArtistDetailedDtoHighlightedPlaylistToJSON,
+} from './ArtistDetailedDtoHighlightedPlaylist';
 import type { ArtistTopTrackDto } from './ArtistTopTrackDto';
 import {
     ArtistTopTrackDtoFromJSON,
     ArtistTopTrackDtoFromJSONTyped,
     ArtistTopTrackDtoToJSON,
 } from './ArtistTopTrackDto';
-import type { HighlightedPlaylistDto } from './HighlightedPlaylistDto';
-import {
-    HighlightedPlaylistDtoFromJSON,
-    HighlightedPlaylistDtoFromJSONTyped,
-    HighlightedPlaylistDtoToJSON,
-} from './HighlightedPlaylistDto';
 
 /**
  * 
@@ -70,10 +70,10 @@ export interface ArtistDetailedDto {
     isFollowed: boolean;
     /**
      * 
-     * @type {HighlightedPlaylistDto}
+     * @type {ArtistDetailedDtoHighlightedPlaylist}
      * @memberof ArtistDetailedDto
      */
-    highlightedPlaylist: HighlightedPlaylistDto;
+    highlightedPlaylist?: ArtistDetailedDtoHighlightedPlaylist | null;
     /**
      * 
      * @type {Array<ArtistTopTrackDto>}
@@ -92,7 +92,6 @@ export function instanceOfArtistDetailedDto(value: object): boolean {
     isInstance = isInstance && "genres" in value;
     isInstance = isInstance && "followersTotal" in value;
     isInstance = isInstance && "isFollowed" in value;
-    isInstance = isInstance && "highlightedPlaylist" in value;
     isInstance = isInstance && "topTracks" in value;
 
     return isInstance;
@@ -114,7 +113,7 @@ export function ArtistDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: b
         'genres': json['genres'],
         'followersTotal': json['followersTotal'],
         'isFollowed': json['isFollowed'],
-        'highlightedPlaylist': HighlightedPlaylistDtoFromJSON(json['highlightedPlaylist']),
+        'highlightedPlaylist': !exists(json, 'highlightedPlaylist') ? undefined : ArtistDetailedDtoHighlightedPlaylistFromJSON(json['highlightedPlaylist']),
         'topTracks': ((json['topTracks'] as Array<any>).map(ArtistTopTrackDtoFromJSON)),
     };
 }
@@ -134,7 +133,7 @@ export function ArtistDetailedDtoToJSON(value?: ArtistDetailedDto | null): any {
         'genres': value.genres,
         'followersTotal': value.followersTotal,
         'isFollowed': value.isFollowed,
-        'highlightedPlaylist': HighlightedPlaylistDtoToJSON(value.highlightedPlaylist),
+        'highlightedPlaylist': ArtistDetailedDtoHighlightedPlaylistToJSON(value.highlightedPlaylist),
         'topTracks': ((value.topTracks as Array<any>).map(ArtistTopTrackDtoToJSON)),
     };
 }

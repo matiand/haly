@@ -1,11 +1,11 @@
-import { ArtistTopTrackDto, HighlightedPlaylistDto } from "../../generated/haly";
+import { ArtistDetailedDto, ArtistTopTrackDto, HighlightedPlaylistDto } from "../../generated/haly";
 import MiniCard from "../common/MiniCard";
 import { styled } from "../common/theme";
 import TopTracksTable from "../table/TopTracksTable";
 
 type ArtistHighlightsProps = {
     tracks: ArtistTopTrackDto[];
-    playlist?: HighlightedPlaylistDto;
+    playlist?: ArtistDetailedDto["highlightedPlaylist"];
 };
 
 function ArtistHighlights({ tracks, playlist }: ArtistHighlightsProps) {

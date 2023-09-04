@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { OwnerBriefDto } from './OwnerBriefDto';
+import type { PaginatedTracksDtoPage } from './PaginatedTracksDtoPage';
 import {
-    OwnerBriefDtoFromJSON,
-    OwnerBriefDtoFromJSONTyped,
-    OwnerBriefDtoToJSON,
-} from './OwnerBriefDto';
-import type { PlaylistTrackDtoPaginatedList } from './PlaylistTrackDtoPaginatedList';
+    PaginatedTracksDtoPageFromJSON,
+    PaginatedTracksDtoPageFromJSONTyped,
+    PaginatedTracksDtoPageToJSON,
+} from './PaginatedTracksDtoPage';
+import type { PlaylistWithTracksDtoOwner } from './PlaylistWithTracksDtoOwner';
 import {
-    PlaylistTrackDtoPaginatedListFromJSON,
-    PlaylistTrackDtoPaginatedListFromJSONTyped,
-    PlaylistTrackDtoPaginatedListToJSON,
-} from './PlaylistTrackDtoPaginatedList';
+    PlaylistWithTracksDtoOwnerFromJSON,
+    PlaylistWithTracksDtoOwnerFromJSONTyped,
+    PlaylistWithTracksDtoOwnerToJSON,
+} from './PlaylistWithTracksDtoOwner';
 
 /**
  * 
@@ -64,10 +64,10 @@ export interface PlaylistWithTracksDto {
     likesTotal: number;
     /**
      * 
-     * @type {OwnerBriefDto}
+     * @type {PlaylistWithTracksDtoOwner}
      * @memberof PlaylistWithTracksDto
      */
-    owner: OwnerBriefDto;
+    owner: PlaylistWithTracksDtoOwner;
     /**
      * 
      * @type {boolean}
@@ -76,10 +76,10 @@ export interface PlaylistWithTracksDto {
     isPersonalized: boolean;
     /**
      * 
-     * @type {PlaylistTrackDtoPaginatedList}
+     * @type {PaginatedTracksDtoPage}
      * @memberof PlaylistWithTracksDto
      */
-    tracks: PlaylistTrackDtoPaginatedList;
+    tracks: PaginatedTracksDtoPage;
     /**
      * 
      * @type {string}
@@ -119,9 +119,9 @@ export function PlaylistWithTracksDtoFromJSONTyped(json: any, ignoreDiscriminato
         'description': !exists(json, 'description') ? undefined : json['description'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'likesTotal': json['likesTotal'],
-        'owner': OwnerBriefDtoFromJSON(json['owner']),
+        'owner': PlaylistWithTracksDtoOwnerFromJSON(json['owner']),
         'isPersonalized': json['isPersonalized'],
-        'tracks': PlaylistTrackDtoPaginatedListFromJSON(json['tracks']),
+        'tracks': PaginatedTracksDtoPageFromJSON(json['tracks']),
         'totalDuration': json['totalDuration'],
     };
 }
@@ -140,9 +140,9 @@ export function PlaylistWithTracksDtoToJSON(value?: PlaylistWithTracksDto | null
         'description': value.description,
         'imageUrl': value.imageUrl,
         'likesTotal': value.likesTotal,
-        'owner': OwnerBriefDtoToJSON(value.owner),
+        'owner': PlaylistWithTracksDtoOwnerToJSON(value.owner),
         'isPersonalized': value.isPersonalized,
-        'tracks': PlaylistTrackDtoPaginatedListToJSON(value.tracks),
+        'tracks': PaginatedTracksDtoPageToJSON(value.tracks),
         'totalDuration': value.totalDuration,
     };
 }

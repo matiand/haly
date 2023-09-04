@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AlbumBriefDto } from './AlbumBriefDto';
-import {
-    AlbumBriefDtoFromJSON,
-    AlbumBriefDtoFromJSONTyped,
-    AlbumBriefDtoToJSON,
-} from './AlbumBriefDto';
 import type { ArtistBriefDto } from './ArtistBriefDto';
 import {
     ArtistBriefDtoFromJSON,
     ArtistBriefDtoFromJSONTyped,
     ArtistBriefDtoToJSON,
 } from './ArtistBriefDto';
+import type { ArtistTopTrackDtoAlbum } from './ArtistTopTrackDtoAlbum';
+import {
+    ArtistTopTrackDtoAlbumFromJSON,
+    ArtistTopTrackDtoAlbumFromJSONTyped,
+    ArtistTopTrackDtoAlbumToJSON,
+} from './ArtistTopTrackDtoAlbum';
 
 /**
  * 
@@ -64,10 +64,10 @@ export interface ArtistTopTrackDto {
     isExplicit: boolean;
     /**
      * 
-     * @type {AlbumBriefDto}
+     * @type {ArtistTopTrackDtoAlbum}
      * @memberof ArtistTopTrackDto
      */
-    album: AlbumBriefDto;
+    album: ArtistTopTrackDtoAlbum;
     /**
      * 
      * @type {Array<ArtistBriefDto>}
@@ -107,7 +107,7 @@ export function ArtistTopTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: b
         'duration': json['duration'],
         'isPlayable': json['isPlayable'],
         'isExplicit': json['isExplicit'],
-        'album': AlbumBriefDtoFromJSON(json['album']),
+        'album': ArtistTopTrackDtoAlbumFromJSON(json['album']),
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
 }
@@ -126,7 +126,7 @@ export function ArtistTopTrackDtoToJSON(value?: ArtistTopTrackDto | null): any {
         'duration': value.duration,
         'isPlayable': value.isPlayable,
         'isExplicit': value.isExplicit,
-        'album': AlbumBriefDtoToJSON(value.album),
+        'album': ArtistTopTrackDtoAlbumToJSON(value.album),
         'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };
 }

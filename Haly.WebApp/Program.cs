@@ -58,6 +58,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
     options.EnableAnnotations();
     options.SupportNonNullableReferenceTypes();
+    options.UseAllOfToExtendReferenceSchemas();
 
     options.DocumentFilter<TagOrderFilter>();
     options.OperationFilter<CallsSpotifyApiFilter>();

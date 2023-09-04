@@ -211,7 +211,8 @@ paths:
         - name: type
           in: query
           schema:
-            $ref: '#/components/schemas/CreatorType'
+            allOf:
+              - $ref: '#/components/schemas/CreatorType'
         - name: creatorId
           in: query
           schema:
@@ -252,7 +253,8 @@ paths:
         - name: type
           in: query
           schema:
-            $ref: '#/components/schemas/CreatorType'
+            allOf:
+              - $ref: '#/components/schemas/CreatorType'
         - name: creatorId
           in: query
           schema:
@@ -288,7 +290,8 @@ paths:
         - name: type
           in: query
           schema:
-            $ref: '#/components/schemas/CreatorType'
+            allOf:
+              - $ref: '#/components/schemas/CreatorType'
         - name: creatorId
           in: query
           schema:
@@ -972,7 +975,6 @@ components:
       required:
         - followersTotal
         - genres
-        - highlightedPlaylist
         - id
         - isFollowed
         - name
@@ -996,7 +998,9 @@ components:
         isFollowed:
           type: boolean
         highlightedPlaylist:
-          $ref: '#/components/schemas/HighlightedPlaylistDto'
+          allOf:
+            - $ref: '#/components/schemas/HighlightedPlaylistDto'
+          nullable: true
         topTracks:
           type: array
           items:
@@ -1049,7 +1053,8 @@ components:
         isExplicit:
           type: boolean
         album:
-          $ref: '#/components/schemas/AlbumBriefDto'
+          allOf:
+            - $ref: '#/components/schemas/AlbumBriefDto'
         artists:
           type: array
           items:
@@ -1131,7 +1136,8 @@ components:
       type: object
       properties:
         page:
-          $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
+          allOf:
+            - $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
         totalDuration:
           type: string
       additionalProperties: false
@@ -1141,7 +1147,8 @@ components:
       type: object
       properties:
         device:
-          $ref: '#/components/schemas/DeviceDto'
+          allOf:
+            - $ref: '#/components/schemas/DeviceDto'
       additionalProperties: false
     PlaylistBriefDto:
       required:
@@ -1199,9 +1206,11 @@ components:
           type: string
           format: date-time
         type:
-          $ref: '#/components/schemas/PlaylistTrackType'
+          allOf:
+            - $ref: '#/components/schemas/PlaylistTrackType'
         album:
-          $ref: '#/components/schemas/AlbumBriefDto'
+          allOf:
+            - $ref: '#/components/schemas/AlbumBriefDto'
         artists:
           type: array
           items:
@@ -1259,11 +1268,13 @@ components:
           type: integer
           format: int32
         owner:
-          $ref: '#/components/schemas/OwnerBriefDto'
+          allOf:
+            - $ref: '#/components/schemas/OwnerBriefDto'
         isPersonalized:
           type: boolean
         tracks:
-          $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
+          allOf:
+            - $ref: '#/components/schemas/PlaylistTrackDtoPaginatedList'
         totalDuration:
           type: string
       additionalProperties: false

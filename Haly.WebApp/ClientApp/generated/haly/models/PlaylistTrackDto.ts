@@ -13,18 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AlbumBriefDto } from './AlbumBriefDto';
-import {
-    AlbumBriefDtoFromJSON,
-    AlbumBriefDtoFromJSONTyped,
-    AlbumBriefDtoToJSON,
-} from './AlbumBriefDto';
 import type { ArtistBriefDto } from './ArtistBriefDto';
 import {
     ArtistBriefDtoFromJSON,
     ArtistBriefDtoFromJSONTyped,
     ArtistBriefDtoToJSON,
 } from './ArtistBriefDto';
+import type { ArtistTopTrackDtoAlbum } from './ArtistTopTrackDtoAlbum';
+import {
+    ArtistTopTrackDtoAlbumFromJSON,
+    ArtistTopTrackDtoAlbumFromJSONTyped,
+    ArtistTopTrackDtoAlbumToJSON,
+} from './ArtistTopTrackDtoAlbum';
 import type { PlaylistTrackType } from './PlaylistTrackType';
 import {
     PlaylistTrackTypeFromJSON,
@@ -79,13 +79,13 @@ export interface PlaylistTrackDto {
      * @type {PlaylistTrackType}
      * @memberof PlaylistTrackDto
      */
-    type: PlaylistTrackType;
+    type: PlaylistTrackType | null;
     /**
      * 
-     * @type {AlbumBriefDto}
+     * @type {ArtistTopTrackDtoAlbum}
      * @memberof PlaylistTrackDto
      */
-    album: AlbumBriefDto;
+    album: ArtistTopTrackDtoAlbum;
     /**
      * 
      * @type {Array<ArtistBriefDto>}
@@ -129,7 +129,7 @@ export function PlaylistTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'isExplicit': json['isExplicit'],
         'addedAt': (new Date(json['addedAt'])),
         'type': PlaylistTrackTypeFromJSON(json['type']),
-        'album': AlbumBriefDtoFromJSON(json['album']),
+        'album': ArtistTopTrackDtoAlbumFromJSON(json['album']),
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
 }
@@ -150,7 +150,7 @@ export function PlaylistTrackDtoToJSON(value?: PlaylistTrackDto | null): any {
         'isExplicit': value.isExplicit,
         'addedAt': (value.addedAt.toISOString()),
         'type': PlaylistTrackTypeToJSON(value.type),
-        'album': AlbumBriefDtoToJSON(value.album),
+        'album': ArtistTopTrackDtoAlbumToJSON(value.album),
         'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };
 }

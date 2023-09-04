@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { PlaylistTrackDtoPaginatedList } from './PlaylistTrackDtoPaginatedList';
+import type { PaginatedTracksDtoPage } from './PaginatedTracksDtoPage';
 import {
-    PlaylistTrackDtoPaginatedListFromJSON,
-    PlaylistTrackDtoPaginatedListFromJSONTyped,
-    PlaylistTrackDtoPaginatedListToJSON,
-} from './PlaylistTrackDtoPaginatedList';
+    PaginatedTracksDtoPageFromJSON,
+    PaginatedTracksDtoPageFromJSONTyped,
+    PaginatedTracksDtoPageToJSON,
+} from './PaginatedTracksDtoPage';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface PaginatedTracksDto {
     /**
      * 
-     * @type {PlaylistTrackDtoPaginatedList}
+     * @type {PaginatedTracksDtoPage}
      * @memberof PaginatedTracksDto
      */
-    page: PlaylistTrackDtoPaginatedList;
+    page: PaginatedTracksDtoPage;
     /**
      * 
      * @type {string}
@@ -61,7 +61,7 @@ export function PaginatedTracksDtoFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'page': PlaylistTrackDtoPaginatedListFromJSON(json['page']),
+        'page': PaginatedTracksDtoPageFromJSON(json['page']),
         'totalDuration': json['totalDuration'],
     };
 }
@@ -75,7 +75,7 @@ export function PaginatedTracksDtoToJSON(value?: PaginatedTracksDto | null): any
     }
     return {
         
-        'page': PlaylistTrackDtoPaginatedListToJSON(value.page),
+        'page': PaginatedTracksDtoPageToJSON(value.page),
         'totalDuration': value.totalDuration,
     };
 }
