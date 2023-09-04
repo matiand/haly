@@ -3,9 +3,14 @@ import { HiPause, HiPlay } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
 
-function PlaybackToggle({ size }: { size: "small" | "medium" | "large" }) {
-    const [isPaused, setIsPaused] = useState(true);
-    const label = isPaused ? "Play" : "Pause";
+type PlaybackToggleProps = {
+    size: "small" | "medium" | "large";
+    isPaused?: boolean;
+};
+
+function PlaybackToggle({ size, isPaused }: PlaybackToggleProps) {
+    const [isPaused2, setIsPaused] = useState(isPaused ?? true);
+    const label = isPaused2 ? "Play" : "Pause";
 
     const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
         e.stopPropagation();
@@ -15,7 +20,7 @@ function PlaybackToggle({ size }: { size: "small" | "medium" | "large" }) {
 
     return (
         <Button size={size} type="button" onClick={onClick} aria-label={label} title={label}>
-            <span aria-hidden>{isPaused ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
+            <span aria-hidden>{isPaused2 ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
         </Button>
     );
 }

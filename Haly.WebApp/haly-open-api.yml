@@ -1141,6 +1141,17 @@ components:
         totalDuration:
           type: string
       additionalProperties: false
+    PlaybackContextDto:
+      required:
+        - entityId
+        - type
+      type: object
+      properties:
+        entityId:
+          type: string
+        type:
+          type: string
+      additionalProperties: false
     PlaybackStateDto:
       required:
         - device
@@ -1149,6 +1160,10 @@ components:
         device:
           allOf:
             - $ref: '#/components/schemas/DeviceDto'
+        context:
+          allOf:
+            - $ref: '#/components/schemas/PlaybackContextDto'
+          nullable: true
       additionalProperties: false
     PlaylistBriefDto:
       required:

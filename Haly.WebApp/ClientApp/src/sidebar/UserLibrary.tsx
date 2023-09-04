@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { cachedPlaylistIdsAtom } from "../common/atoms";
+import { cachedPlaylistIdsAtom, playbackContextAtom } from "../common/atoms";
 import { ScrollArea } from "../common/ScrollArea";
 import { styled } from "../common/theme";
 import halyApi from "../halyClient";
@@ -12,6 +12,7 @@ import UserPlaylists from "./UserPlaylists";
 function UserLibrary() {
     // We treat this PUT as query, because it's idempotent
     const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
+    const playbackContext = useAtomValue(playbackContextAtom);
     const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
 
     useEffect(() => {
@@ -23,12 +24,14 @@ function UserLibrary() {
 
     if (!query.data) return <Wrapper />;
 
+    const activePlaylistId = playbackContext?.type === "playlist" ? playbackContext.entityId : null;
+
     return (
         <Wrapper>
             <UserLibraryHeader />
 
             <ScrollArea>
-                <UserPlaylists playlists={query.data} />
+                <UserPlaylists playlists={query.data} activePlaylistId={activePlaylistId} />
             </ScrollArea>
         </Wrapper>
     );

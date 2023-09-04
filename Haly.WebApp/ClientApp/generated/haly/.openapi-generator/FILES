@@ -25,7 +25,9 @@ models/HighlightedPlaylistDto.ts
 models/OwnerBriefDto.ts
 models/PaginatedTracksDto.ts
 models/PaginatedTracksDtoPage.ts
+models/PlaybackContextDto.ts
 models/PlaybackStateDto.ts
+models/PlaybackStateDtoContext.ts
 models/PlaybackStateDtoDevice.ts
 models/PlaylistBriefDto.ts
 models/PlaylistCardDto.ts

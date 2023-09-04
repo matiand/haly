@@ -8,7 +8,6 @@ using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Search;
 using Haly.WebApp.Models.Tracks;
 using Mapster;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Track = Haly.WebApp.Models.Tracks.Track;
 using Type = Haly.GeneratedClients.Type;
 

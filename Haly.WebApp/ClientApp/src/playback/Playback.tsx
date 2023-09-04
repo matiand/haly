@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
 
+import { PlaybackContext, playbackContextAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
 import ConnectBar from "./ConnectBar";
@@ -33,13 +35,25 @@ function Playback() {
 }
 
 function usePlaybackStateQuery() {
+    const setPlaybackContext = useSetAtom(playbackContextAtom);
+
     return useQuery(["me", "player"], () =>
-        halyClient.player.getPlaybackState().catch((err) => {
-            if ("status" in err && err.status === 204) {
-                // todo: handle transfering playback to use here
-                return null;
-            }
-        }),
+        halyClient.player
+            .getPlaybackState()
+            .then((data) => {
+                const ctx = data.context;
+                if (ctx) {
+                    setPlaybackContext({ entityId: ctx.entityId, type: ctx.type as PlaybackContext["type"] });
+                }
+
+                return data;
+            })
+            .catch((err) => {
+                if ("status" in err && err.status === 204) {
+                    // todo: handle transfering playback to us here
+                    return null;
+                }
+            }),
     );
 }
 

@@ -31,7 +31,10 @@ export type PageContext = {
 };
 export const pageContextAtom = atom<PageContext | null>(null);
 
-export type PlaybackContext = undefined;
+export type PlaybackContext = {
+    entityId: string;
+    type: "playlist" | "album";
+};
 
 export type StreamedTrack = {
     id: string;

@@ -2,7 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo } from "react";
 
-import { dominantColorsAtom, isPlaylistCachedAtom, pageContextAtom, playlistSearchTermAtom } from "../common/atoms";
+import {
+    dominantColorsAtom,
+    isPlaylistCachedAtom,
+    pageContextAtom,
+    playbackContextAtom,
+    playlistSearchTermAtom,
+} from "../common/atoms";
 import LoadingIndicator from "../common/LoadingIndicator";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import PageControls from "../common/PageControls";
@@ -17,6 +23,7 @@ import { PlaylistSortOrder } from "./useSortOrder";
 function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder }) {
     const query = usePlaylistQuery(id, sortOrder);
     const dominantColors = useAtomValue(dominantColorsAtom);
+    const playbackContext = useAtomValue(playbackContextAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
 
@@ -47,6 +54,7 @@ function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder 
     const playlist = query.data;
     const dominantColor = dominantColors[playlist.imageUrl ?? ""];
     const hasTracks = query.data.tracks.total > 0;
+    const isListenedTo = playbackContext?.entityId === id;
 
     if (!hasTracks) {
         return (
@@ -85,7 +93,7 @@ function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder 
                 isPersonalized={playlist.isPersonalized}
             />
             <PageControls>
-                <PlaybackToggle size="large" />
+                <PlaybackToggle size="large" isPaused={!isListenedTo} />
                 <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />
                 <SearchBar
                     variant="playlist"

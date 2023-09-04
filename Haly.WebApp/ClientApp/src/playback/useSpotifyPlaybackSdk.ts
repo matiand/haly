@@ -1,35 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 
-import { StreamedTrack } from "../common/atoms";
+import { PlaybackContext, playbackContextAtom, StreamedTrack } from "../common/atoms";
 import PlaybackState = Spotify.PlaybackState;
 import PlaybackTrackWindow = Spotify.PlaybackTrackWindow;
+import { useSetAtom } from "jotai";
+import PlaybackStateListener = Spotify.PlaybackStateListener;
 
 function useSpotifyPlaybackSdk() {
     const [deviceId, setDeviceId] = useState<string>();
     const [isPaused, setIsPaused] = useState(true);
     const [positionInMs, setPositionInMs] = useState<number>();
     const [streamedTrack, setStreamedTrack] = useState<StreamedTrack>();
+    const setPlaybackContext = useSetAtom(playbackContextAtom);
 
     const query = useQuery(["me", "player", "sdk"], () => initPlayerSdk(setDeviceId), { staleTime: Infinity });
 
     const player = query.data;
 
     //     const [fromTimestamp, setFromTimestamp] = useState(0);
-    //     const setPlaybackContext = useSetAtom(playbackContextAtom);
 
-    const onPlayerStateChange = useMemo(
-        () =>
-            ({ track_window, paused, position, timestamp }: PlaybackState) => {
-                if (!track_window) return;
+    const onPlayerStateChange = useMemo<PlaybackStateListener>(
+        () => (state) => {
+            if (!state) return;
+            const { track_window, paused, position, timestamp, context } = state;
 
-                setIsPaused(paused);
-                setPositionInMs(position);
+            setIsPaused(paused);
+            setPositionInMs(position);
 
-                const track = mapStreamedTrackFromPlaybackTrackWindow(track_window);
-                setStreamedTrack(track);
-            },
-        [],
+            const track = mapStreamedTrackFromPlaybackTrackWindow(track_window);
+            setStreamedTrack(track);
+            const ctx = mapPlaybackContextFromSpotifyContext(context);
+            setPlaybackContext(ctx);
+        },
+        [setPlaybackContext],
     );
 
     useEffect(() => {
@@ -103,6 +107,20 @@ function mapStreamedTrackFromPlaybackTrackWindow(data: PlaybackTrackWindow): Str
             name: artist.name,
         })),
     };
+}
+
+function mapPlaybackContextFromSpotifyContext(context: Spotify.PlaybackContext): PlaybackContext | null {
+    if (!context.uri) return null;
+
+    const type = context.uri.split(":").at(-2);
+    if (type === "playlist" || type === "album") {
+        return {
+            entityId: extractIdFromSpotifyUri(context.uri)!,
+            type,
+        };
+    }
+
+    return null;
 }
 
 function extractIdFromSpotifyUri(uri: string) {

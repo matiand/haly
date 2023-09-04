@@ -1,4 +1,3 @@
-using Haly.WebApp.Models;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;

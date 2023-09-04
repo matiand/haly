@@ -13,12 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { DeviceDto } from './DeviceDto';
+import type { PlaybackStateDtoContext } from './PlaybackStateDtoContext';
 import {
-    DeviceDtoFromJSON,
-    DeviceDtoFromJSONTyped,
-    DeviceDtoToJSON,
-} from './DeviceDto';
+    PlaybackStateDtoContextFromJSON,
+    PlaybackStateDtoContextFromJSONTyped,
+    PlaybackStateDtoContextToJSON,
+} from './PlaybackStateDtoContext';
+import type { PlaybackStateDtoDevice } from './PlaybackStateDtoDevice';
+import {
+    PlaybackStateDtoDeviceFromJSON,
+    PlaybackStateDtoDeviceFromJSONTyped,
+    PlaybackStateDtoDeviceToJSON,
+} from './PlaybackStateDtoDevice';
 
 /**
  * 
@@ -28,10 +34,16 @@ import {
 export interface PlaybackStateDto {
     /**
      * 
-     * @type {DeviceDto}
+     * @type {PlaybackStateDtoDevice}
      * @memberof PlaybackStateDto
      */
-    device: DeviceDto;
+    device: PlaybackStateDtoDevice;
+    /**
+     * 
+     * @type {PlaybackStateDtoContext}
+     * @memberof PlaybackStateDto
+     */
+    context?: PlaybackStateDtoContext | null;
 }
 
 /**
@@ -54,7 +66,8 @@ export function PlaybackStateDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'device': DeviceDtoFromJSON(json['device']),
+        'device': PlaybackStateDtoDeviceFromJSON(json['device']),
+        'context': !exists(json, 'context') ? undefined : PlaybackStateDtoContextFromJSON(json['context']),
     };
 }
 
@@ -67,7 +80,8 @@ export function PlaybackStateDtoToJSON(value?: PlaybackStateDto | null): any {
     }
     return {
         
-        'device': DeviceDtoToJSON(value.device),
+        'device': PlaybackStateDtoDeviceToJSON(value.device),
+        'context': PlaybackStateDtoContextToJSON(value.context),
     };
 }
 

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
 
@@ -6,16 +7,15 @@ import { styled } from "../common/theme";
 type UserLibraryLinkProps = {
     name: string;
     href: string;
+    isListenedTo: boolean;
 };
 
-function UserLibraryLink({ name, href }: UserLibraryLinkProps) {
-    const isListenedTo = false;
-
+function UserLibraryLink({ name, href, isListenedTo }: UserLibraryLinkProps) {
     return (
         <Link to={href}>
-            <span>{name}</span>
+            <span className={clsx({ isListenedTo })}>{name}</span>
 
-            <span>{isListenedTo && <Icon />}</span>
+            <span aria-hidden>{isListenedTo && <Icon />}</span>
         </Link>
     );
 }
@@ -36,6 +36,10 @@ const Link = styled(NavLink, {
         overflow: "hidden",
         whiteSpace: "nowrap",
         textOverflow: "ellipsis",
+
+        "&.isListenedTo": {
+            color: "$primary400",
+        },
     },
 
     "&:hover": {

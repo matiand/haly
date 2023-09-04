@@ -4,13 +4,14 @@ import UserLibraryLink from "./UserLibraryLink";
 
 type UserPlaylistsProps = {
     playlists: PlaylistBriefDto[];
+    activePlaylistId: string | null;
 };
 
-function UserPlaylists({ playlists }: UserPlaylistsProps) {
+function UserPlaylists({ playlists, activePlaylistId }: UserPlaylistsProps) {
     return (
         <List>
             <li>
-                <UserLibraryLink name="Liked Songs" href="/collection/tracks" />
+                <UserLibraryLink name="Liked Songs" href="/collection/tracks" isListenedTo={false} />
             </li>
 
             {playlists.map((p) => {
@@ -18,7 +19,7 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
 
                 return (
                     <li key={p.id}>
-                        <UserLibraryLink name={p.name} href={href} />
+                        <UserLibraryLink name={p.name} href={href} isListenedTo={p.id === activePlaylistId} />
                     </li>
                 );
             })}
