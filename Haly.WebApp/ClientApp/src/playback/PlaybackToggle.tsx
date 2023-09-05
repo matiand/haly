@@ -31,11 +31,11 @@ const Button = styled("button", {
             small: {
                 background: "$white800",
                 color: "$black800",
-                $$size: "36px",
-                $$iconSize: "20px",
+                $$size: "38px",
+                $$iconSize: "22px",
 
                 "& .pause-icon": {
-                    $$iconSize: "26px",
+                    $$iconSize: "30px",
                     left: "0px",
                 },
 

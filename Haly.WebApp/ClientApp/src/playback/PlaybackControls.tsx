@@ -1,9 +1,11 @@
-import { LuMonitorSpeaker } from "react-icons/lu";
+import { LuMenu, LuMonitorSpeaker, LuVolume1 } from "react-icons/lu";
+import { TbArrowsShuffle, TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled, TbRepeat } from "react-icons/tb";
 
 import { StreamedTrack } from "../common/atoms";
 import HeartButton from "../common/HeartButton";
 import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
+import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
 
 type PlaybackControlsProps = {
@@ -14,21 +16,35 @@ function PlaybackControls({ track }: PlaybackControlsProps) {
     return (
         <Wrapper>
             <div>
-                <TrackInformation track={track} type="playback" />
+                {track && <TrackInformation track={track} type="playback" />}
                 <HeartButton size="small" />
             </div>
 
-            <div>
-                <PlaybackToggle size="small" />
-            </div>
+            <ControlsWrapper aria-label="Playback controls">
+                <div>
+                    <div>
+                        <PlaybackButton checked="false" label="Enable shuffle" icon={<TbArrowsShuffle />} />
+
+                        <PlaybackButton label="Previous track" icon={<TbPlayerSkipBackFilled />} />
+                    </div>
+
+                    <PlaybackToggle size="small" />
+
+                    <div>
+                        <PlaybackButton label="Next track" icon={<TbPlayerSkipForwardFilled />} />
+
+                        <PlaybackButton checked="false" label="Enable repeat" icon={<TbRepeat />} />
+                    </div>
+                </div>
+
+                <div></div>
+            </ControlsWrapper>
 
             <div>
                 <div>
-                    <Button aria-label="Connect to a device" title="Connect to a device">
-                        <span aria-hidden>
-                            <LuMonitorSpeaker />
-                        </span>
-                    </Button>
+                    <PlaybackButton label="Queue" icon={<LuMenu />} />
+                    <PlaybackButton label="Connect to a device" icon={<LuMonitorSpeaker />} />
+                    <PlaybackButton label="Mute" icon={<LuVolume1 />} />
                 </div>
             </div>
         </Wrapper>
@@ -44,7 +60,6 @@ const Wrapper = styled("div", {
     width: "100%",
 
     "& > *": {
-        // alignItems: "center",
         display: "flex",
     },
 
@@ -67,38 +82,37 @@ const Wrapper = styled("div", {
     },
 });
 
-const Button = styled("button", {
-    $$size: "40px",
+const ControlsWrapper = styled("div", {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
 
-    background: "transparent",
-    border: "none",
-    color: "$white400",
-    cursor: "pointer",
-    height: "$$size",
-    minWidth: "$$size",
-    padding: "$400",
-    // position: "relative",
-    width: "$$size",
+    "& > div:first-of-type": {
+        alignItems: "center",
+        display: "flex",
+        flexFlow: "row nowrap",
+        gap: "$600",
+        marginBottom: "$400",
 
-    "&:hover": {
-        color: "$white800",
+        "& > div": {
+            display: "flex",
+            // gap: "$400",
+
+            "&:nth-child(1)": {
+                justifyContent: "flex-end",
+            },
+
+            "& > button": {
+                flexShrink: 0,
+                flexGrow: 0,
+            },
+        },
     },
 
-    "& span, & svg": {
-        height: "20px",
-        width: "20px",
+    "& > div:last-of-type": {
+        height: "18px",
     },
-
-    marginLeft: "200px",
-});
-
-const DeviceArrow = styled("div", {
-    borderBottom: "10px solid $primary400",
-    borderLeft: "10px solid transparent",
-    borderRight: "10px solid transparent",
-    maxWidth: "20px",
-    position: "relative",
-    bottom: "-20px",
 });
 
 export default PlaybackControls;

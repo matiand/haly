@@ -12,8 +12,15 @@ function Playback() {
     const { player, deviceId, isPaused, positionInMs, streamedTrack } = useSpotifyPlaybackSdk();
     const query = usePlaybackStateQuery();
 
-    console.log(query.isSuccess, query.data);
+    console.log(query.isSuccess, deviceId, query.data);
 
+    if (deviceId) {
+        return (
+            <Footer>
+                <PlaybackControls track={null} />
+            </Footer>
+        );
+    }
     if (!query.data || !deviceId) return null;
 
     const activeDeviceName = query.data.device.name;
