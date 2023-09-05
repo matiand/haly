@@ -8,18 +8,31 @@ type PlaybackButtonProps = {
     icon: React.ReactNode;
     checked?: "true" | "false" | "mixed";
     onClick?: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
+    highlightedWhenActive?: boolean;
 };
 
-function PlaybackButton({ label, icon, checked, onClick }: PlaybackButtonProps) {
+function PlaybackButton({
+    label,
+    icon,
+    checked,
+    onClick,
+    onMouseEnter,
+    onMouseLeave,
+    highlightedWhenActive,
+}: PlaybackButtonProps) {
     if (checked) {
         return (
             <Button
-                className={clsx({ active: checked !== "false" })}
+                className={clsx({ active: checked !== "false" && highlightedWhenActive })}
                 role="checkbox"
                 aria-checked={checked}
                 aria-label={label}
                 title={label}
                 onClick={onClick}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
             >
                 <span aria-hidden>{icon}</span>
             </Button>
@@ -27,7 +40,13 @@ function PlaybackButton({ label, icon, checked, onClick }: PlaybackButtonProps) 
     }
 
     return (
-        <Button aria-label={label} title={label} onClick={onClick}>
+        <Button
+            aria-label={label}
+            title={label}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+        >
             <span aria-hidden>{icon}</span>
         </Button>
     );
@@ -74,7 +93,6 @@ const Button = styled("button", {
             left: "50%",
             marginTop: "4px",
             position: "absolute",
-            transform: "translateX(-50%)",
             width: "4px",
         },
     },

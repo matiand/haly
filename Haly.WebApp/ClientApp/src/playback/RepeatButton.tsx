@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TbArrowsShuffle, TbRepeat, TbRepeatOnce } from "react-icons/tb";
+import { TbRepeat, TbRepeatOnce } from "react-icons/tb";
 
 import PlaybackButton from "./PlaybackButton";
 
@@ -34,6 +34,7 @@ function RepeatButton({ initialState, onChange }: RepeatButtonProps) {
                 checked="true"
                 label="Enable repeat one"
                 icon={<TbRepeat />}
+                highlightedWhenActive
             />
         );
     }
@@ -44,6 +45,7 @@ function RepeatButton({ initialState, onChange }: RepeatButtonProps) {
             checked="mixed"
             label="Disable repeat"
             icon={<TbRepeatOnce />}
+            highlightedWhenActive
         />
     );
 }

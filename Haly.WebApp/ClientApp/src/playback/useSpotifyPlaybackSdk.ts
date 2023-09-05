@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useSetAtom } from "jotai";
+import { useCallback, useEffect, useState } from "react";
 
 import { PlaybackContext, playbackContextAtom, StreamedTrack } from "../common/atoms";
-import PlaybackState = Spotify.PlaybackState;
 import PlaybackTrackWindow = Spotify.PlaybackTrackWindow;
-import { useSetAtom } from "jotai";
 import PlaybackStateListener = Spotify.PlaybackStateListener;
 
 function useSpotifyPlaybackSdk() {
@@ -20,8 +19,8 @@ function useSpotifyPlaybackSdk() {
 
     //     const [fromTimestamp, setFromTimestamp] = useState(0);
 
-    const onPlayerStateChange = useMemo<PlaybackStateListener>(
-        () => (state) => {
+    const onPlayerStateChange = useCallback<PlaybackStateListener>(
+        (state) => {
             if (!state) return;
             const { track_window, paused, position, timestamp, context } = state;
 

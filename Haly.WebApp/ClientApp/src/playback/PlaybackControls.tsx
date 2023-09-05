@@ -1,4 +1,4 @@
-import { LuMenu, LuMonitorSpeaker, LuVolume1 } from "react-icons/lu";
+import { LuMenu, LuMonitorSpeaker } from "react-icons/lu";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { StreamedTrack } from "../common/atoms";
@@ -7,8 +7,10 @@ import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
 import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
+import ProgressBar from "./ProgressBar";
 import RepeatButton from "./RepeatButton";
 import ShuffleButton from "./ShuffleButton";
+import VolumeControl from "./VolumeControl";
 
 type PlaybackControlsProps = {
     track: StreamedTrack;
@@ -33,13 +35,21 @@ function PlaybackControls({ track }: PlaybackControlsProps) {
                     <RepeatButton onChange={() => null} />
                 </div>
 
-                <div></div>
+                <div>
+                    <ProgressBar
+                        label="Change track progress"
+                        max={100}
+                        step={1}
+                        initialValue={50}
+                        onChange={() => null}
+                    />
+                </div>
             </ControlsWrapper>
 
             <div>
                 <PlaybackButton label="Queue" icon={<LuMenu />} />
                 <PlaybackButton label="Connect to a device" icon={<LuMonitorSpeaker />} />
-                <PlaybackButton label="Mute" icon={<LuVolume1 />} />
+                <VolumeControl initialLevel={0.5} onChange={(value) => console.log("volume changed:", value)} />
             </div>
         </Wrapper>
     );
@@ -72,6 +82,7 @@ const Wrapper = styled("div", {
     },
 
     "& > div:last-child": {
+        justifyContent: "flex-end",
         width: "30%",
     },
 });
@@ -96,6 +107,7 @@ const ControlsWrapper = styled("div", {
 
     "& > div:last-of-type": {
         height: "18px",
+        width: "100%",
     },
 });
 export default PlaybackControls;

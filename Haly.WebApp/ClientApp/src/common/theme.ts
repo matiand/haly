@@ -95,6 +95,7 @@ export const theme = {
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
         upperMenuHeight: "64px",
+        volumeControlWidth: "132px",
     },
     tables: {
         headHeight: 36,

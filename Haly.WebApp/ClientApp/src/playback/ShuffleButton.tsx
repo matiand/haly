@@ -33,6 +33,7 @@ function ShuffleButton({ initialState, onChange }: ShuffleButtonProps) {
             checked="true"
             label="Disable shuffle"
             icon={<TbArrowsShuffle />}
+            highlightedWhenActive
         />
     );
 }
