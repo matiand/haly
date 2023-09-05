@@ -2,9 +2,12 @@ import { createStitches } from "@stitches/react";
 
 export const theme = {
     colors: {
+        primary200: "#feeb44",
         primary300: "#feea37",
         primary400: "#fee826",
-        primary500: "#c4b001",
+        primary500: "#e3cd01",
+        primary600: "#cfba01",
+        primary700: "#baa701",
 
         secondary300: "#6AA9F6",
         secondary400: "#509BF5",
@@ -87,6 +90,7 @@ export const theme = {
         minorCollectionBackgroundHeight: "230px",
         navIconSize: "24px",
         playbackControlsHeight: "72px",
+        playbackControlsButtonSize: "36px",
         connectBarHeight: "24px",
         userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",

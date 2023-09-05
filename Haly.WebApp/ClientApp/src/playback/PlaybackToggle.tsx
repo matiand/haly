@@ -1,7 +1,7 @@
 import { MouseEventHandler, useState } from "react";
 import { HiPause, HiPlay } from "react-icons/hi2";
 
-import { styled } from "../common/theme";
+import { styled, theme } from "../common/theme";
 
 type PlaybackToggleProps = {
     size: "small" | "medium" | "large";
@@ -31,11 +31,11 @@ const Button = styled("button", {
             small: {
                 background: "$white800",
                 color: "$black800",
-                $$size: "38px",
+                $$size: theme.sizes.playbackControlsButtonSize,
                 $$iconSize: "22px",
 
                 "& .pause-icon": {
-                    $$iconSize: "30px",
+                    $$iconSize: "28px",
                     left: "0px",
                 },
 

@@ -1,5 +1,5 @@
 import { LuMenu, LuMonitorSpeaker, LuVolume1 } from "react-icons/lu";
-import { TbArrowsShuffle, TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled, TbRepeat } from "react-icons/tb";
+import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { StreamedTrack } from "../common/atoms";
 import HeartButton from "../common/HeartButton";
@@ -7,6 +7,8 @@ import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
 import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
+import RepeatButton from "./RepeatButton";
+import ShuffleButton from "./ShuffleButton";
 
 type PlaybackControlsProps = {
     track: StreamedTrack;
@@ -22,30 +24,22 @@ function PlaybackControls({ track }: PlaybackControlsProps) {
 
             <ControlsWrapper aria-label="Playback controls">
                 <div>
-                    <div>
-                        <PlaybackButton checked="false" label="Enable shuffle" icon={<TbArrowsShuffle />} />
-
-                        <PlaybackButton label="Previous track" icon={<TbPlayerSkipBackFilled />} />
-                    </div>
+                    <ShuffleButton onChange={() => null} />
+                    <PlaybackButton label="Previous track" icon={<TbPlayerSkipBackFilled />} />
 
                     <PlaybackToggle size="small" />
 
-                    <div>
-                        <PlaybackButton label="Next track" icon={<TbPlayerSkipForwardFilled />} />
-
-                        <PlaybackButton checked="false" label="Enable repeat" icon={<TbRepeat />} />
-                    </div>
+                    <PlaybackButton label="Next track" icon={<TbPlayerSkipForwardFilled />} />
+                    <RepeatButton onChange={() => null} />
                 </div>
 
                 <div></div>
             </ControlsWrapper>
 
             <div>
-                <div>
-                    <PlaybackButton label="Queue" icon={<LuMenu />} />
-                    <PlaybackButton label="Connect to a device" icon={<LuMonitorSpeaker />} />
-                    <PlaybackButton label="Mute" icon={<LuVolume1 />} />
-                </div>
+                <PlaybackButton label="Queue" icon={<LuMenu />} />
+                <PlaybackButton label="Connect to a device" icon={<LuMonitorSpeaker />} />
+                <PlaybackButton label="Mute" icon={<LuVolume1 />} />
             </div>
         </Wrapper>
     );
@@ -92,21 +86,11 @@ const ControlsWrapper = styled("div", {
         alignItems: "center",
         display: "flex",
         flexFlow: "row nowrap",
-        gap: "$600",
+        gap: "$400",
         marginBottom: "$400",
 
-        "& > div": {
-            display: "flex",
-            // gap: "$400",
-
-            "&:nth-child(1)": {
-                justifyContent: "flex-end",
-            },
-
-            "& > button": {
-                flexShrink: 0,
-                flexGrow: 0,
-            },
+        "& > button:nth-child(3)": {
+            margin: "0 $400",
         },
     },
 
@@ -114,5 +98,4 @@ const ControlsWrapper = styled("div", {
         height: "18px",
     },
 });
-
 export default PlaybackControls;
