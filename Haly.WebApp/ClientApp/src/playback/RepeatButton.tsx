@@ -16,38 +16,38 @@ function RepeatButton({ initialState, onChange }: RepeatButtonProps) {
         onChange(btnState);
     }, [btnState, onChange]);
 
-    if (btnState === "off") {
-        return (
-            <PlaybackButton
-                onClick={() => setBtnState("on")}
-                checked="false"
-                label="Enable repeat"
-                icon={<TbRepeat />}
-            />
-        );
-    }
+    useEffect(() => {
+        const keyHandler = (e: KeyboardEvent) => {
+            if (e.ctrlKey && e.key === "r") {
+                e.preventDefault();
 
-    if (btnState === "on") {
-        return (
-            <PlaybackButton
-                onClick={() => setBtnState("once")}
-                checked="true"
-                label="Enable repeat one"
-                icon={<TbRepeat />}
-                highlightedWhenActive
-            />
-        );
-    }
+                setBtnState(dispatchRepeatStateChange);
+            }
+        };
+
+        window.addEventListener("keydown", keyHandler);
+
+        return () => window.removeEventListener("keydown", keyHandler);
+    }, []);
+
+    const label = btnState === "off" ? "Enable repeat" : btnState === "on" ? "Enable repeat one" : "Disable repeat";
+    const checkedState = btnState === "off" ? "false" : btnState === "on" ? "true" : "mixed";
 
     return (
         <PlaybackButton
-            onClick={() => setBtnState("off")}
-            checked="mixed"
-            label="Disable repeat"
-            icon={<TbRepeatOnce />}
+            onClick={() => setBtnState(dispatchRepeatStateChange)}
+            checked={checkedState}
+            label={label}
+            icon={btnState === "once" ? <TbRepeatOnce /> : <TbRepeat />}
             highlightedWhenActive
         />
     );
 }
+
+const dispatchRepeatStateChange = (prevState: RepeatButtonState) => {
+    if (prevState === "off") return "on";
+    if (prevState === "on") return "once";
+    return "off";
+};
 
 export default RepeatButton;

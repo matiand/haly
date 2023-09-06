@@ -27,7 +27,7 @@ function PlaybackControls({ track }: PlaybackControlsProps) {
 
             <ControlsWrapper aria-label="Playback controls">
                 <div>
-                    <ShuffleButton onChange={() => null} />
+                    <ShuffleButton initialState={false} onChange={() => null} />
                     <PlaybackButton label="Previous track" icon={<TbPlayerSkipBackFilled />} />
 
                     <PlaybackToggle size="small" />

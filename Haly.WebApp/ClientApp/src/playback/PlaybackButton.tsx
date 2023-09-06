@@ -25,6 +25,7 @@ function PlaybackButton({
     if (checked) {
         return (
             <Button
+                type="button"
                 className={clsx({ active: checked !== "false" && highlightedWhenActive })}
                 role="checkbox"
                 aria-checked={checked}
