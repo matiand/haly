@@ -1,4 +1,4 @@
-import { LuMenu, LuMonitorSpeaker } from "react-icons/lu";
+import { LuMonitorSpeaker } from "react-icons/lu";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { StreamedTrack } from "../common/atoms";
@@ -8,6 +8,7 @@ import TrackInformation from "../table/TrackInformation";
 import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
 import ProgressBar from "./ProgressBar";
+import QueueButton from "./QueueButton";
 import RepeatButton from "./RepeatButton";
 import ShuffleButton from "./ShuffleButton";
 import VolumeControl from "./VolumeControl";
@@ -47,7 +48,7 @@ function PlaybackControls({ track }: PlaybackControlsProps) {
             </ControlsWrapper>
 
             <div>
-                <PlaybackButton label="Queue" icon={<LuMenu />} />
+                <QueueButton />
                 <PlaybackButton label="Connect to a device" icon={<LuMonitorSpeaker />} />
                 <VolumeControl initialLevel={0.5} onChange={(value) => console.log("volume changed:", value)} />
             </div>
