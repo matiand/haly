@@ -4377,6 +4377,7 @@ components:
         context:
           allOf:
           - $ref: '#/components/schemas/ContextObject'
+          nullable: true
           description: A Context Object. Can be `null`.
         timestamp:
           type: integer

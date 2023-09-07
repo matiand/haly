@@ -10717,8 +10717,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// A Context Object. Can be `null`.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("context", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ContextObject Context { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("context", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ContextObject? Context { get; set; } = default!;
 
         /// <summary>
         /// Unix Millisecond Timestamp when data was fetched.

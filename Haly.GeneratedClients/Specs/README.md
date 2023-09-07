@@ -24,6 +24,7 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `unfollow-artists-users` - replace _200_ response with _204_
 -   `SimplifiedPlaylistObject` - set as nullable: **public**
 -   `CurrentlyPlayingContextObject` - add **format: int64** to _timestamp_ property
+-   `CurrentlyPlayingContextObject` - set as nullable: **context**
 -   `transfer-a-users-playback` - replace _204_ response with _202_
 -   `QueueObject` - set as nullable: **currently_playing**
 -   `PlayHistoryObject` - set as nullable: **context**
