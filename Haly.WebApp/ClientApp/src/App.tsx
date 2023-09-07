@@ -48,6 +48,7 @@ function App() {
                 .catch((err) => {
                     if (err instanceof ResponseError) {
                         if (err.response.status === 401) {
+                            console.log("Token wasn't refreshed, trying to reauthenticate explicitly.");
                             auth.signinSilent();
                         }
                     }
