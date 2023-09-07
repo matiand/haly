@@ -28,6 +28,8 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
                 description={playlist.description}
                 imageUrl={playlist.imageUrl}
                 likesTotal={playlist.likesTotal}
+                songsTotal={playlist.tracks.total}
+                duration={playlist.totalDuration}
                 owner={playlist.owner}
                 isPersonalized={playlist.isPersonalized}
             />
@@ -37,11 +39,7 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
                 <SearchBar variant="playlist" />
             </PageControls>
 
-            <PlaylistTracks
-                playlistId={playlist.id}
-                initialTracks={playlist.tracks}
-                initialDuration={playlist.totalDuration}
-            />
+            <PlaylistTracks playlistId={playlist.id} initialTracks={playlist.tracks} sortOrder="added_at_desc" />
         </div>
     );
 }
