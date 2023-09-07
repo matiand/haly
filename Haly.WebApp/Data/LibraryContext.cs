@@ -11,7 +11,7 @@ public class LibraryContext : DbContext
     [Obsolete("Obsolete")]
     static LibraryContext() => NpgsqlConnection.GlobalTypeMapper
         .MapEnum<Plan>()
-        .MapEnum<PlaylistTrackType>();
+        .MapEnum<TrackType>();
 
     public LibraryContext(DbContextOptions options) : base(options)
     {
@@ -26,7 +26,7 @@ public class LibraryContext : DbContext
     {
         modelBuilder
             .HasPostgresEnum<Plan>()
-            .HasPostgresEnum<PlaylistTrackType>();
+            .HasPostgresEnum<TrackType>();
 
         modelBuilder.Entity<PlaylistTrack>()
             .HasKey(t => new { t.PlaylistId, t.PositionInPlaylist });

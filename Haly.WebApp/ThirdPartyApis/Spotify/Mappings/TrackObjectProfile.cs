@@ -21,7 +21,8 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.Artists, src => src.Artists)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
-            .Map(dest => dest.DurationInMs, src => src.Duration_ms);
+            .Map(dest => dest.DurationInMs, src => src.Duration_ms)
+            .Map(dest => dest.Type, src => GetTrackType(src.Type));
 
         config.ForType<PlayHistoryObject, TrackBase>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
@@ -29,7 +30,8 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.Artists, src => src.Track.Artists)
             .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
-            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms);
+            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
+            .Map(dest => dest.Type, src => GetTrackType(src.Track.Type));
 
         config.ForType<PlaylistTrackObject, PlaylistTrack>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
@@ -41,8 +43,7 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
             .Map(dest => dest.PositionInAlbum, src => src.Track.Disc_number * src.Track.Track_number)
-            .Map(dest => dest.Type,
-                src => src.Track.Type == TrackObjectType.Track ? PlaylistTrackType.Song : PlaylistTrackType.Podcast);
+            .Map(dest => dest.Type, src => GetTrackType(src.Track.Type));
 
         config.ForType<SavedTrackObject, PlaylistTrack>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)
@@ -54,21 +55,31 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
             .Map(dest => dest.PositionInAlbum, src => src.Track.Disc_number * src.Track.Track_number)
-            .Map(dest => dest.Type,
-                src => src.Track.Type == TrackObjectType.Track ? PlaylistTrackType.Song : PlaylistTrackType.Podcast);
+            .Map(dest => dest.Type, src => GetTrackType(src.Track.Type));
 
         config.ForType<SimplifiedTrackObject, AlbumTrack>()
             .Map(dest => dest.SpotifyId, src => src.Id)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
             .Map(dest => dest.DiscNumber, src => src.Disc_number)
-            .Map(dest => dest.DurationInMs, src => src.Duration_ms);
+            .Map(dest => dest.DurationInMs, src => src.Duration_ms)
+            .Map(dest => dest.Type, src => GetTrackType(src.Type));
 
         config.ForType<TrackObject, Track>()
             .Map(dest => dest.SpotifyId, src => src.Id)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
-            .Map(dest => dest.DurationInMs, src => src.Duration_ms);
+            .Map(dest => dest.DurationInMs, src => src.Duration_ms)
+            .Map(dest => dest.Type, src => GetTrackType(src.Type));
+    }
 
+    private static TrackType GetTrackType(TrackObjectType srcType)
+    {
+        return srcType == TrackObjectType.Track ? TrackType.Song : TrackType.Podcast;
+    }
+
+    private static TrackType GetTrackType(SimplifiedTrackObjectType srcType)
+    {
+        return srcType == SimplifiedTrackObjectType.Track ? TrackType.Song : TrackType.Podcast;
     }
 }

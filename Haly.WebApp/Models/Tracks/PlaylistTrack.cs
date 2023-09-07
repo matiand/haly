@@ -15,7 +15,6 @@ public class PlaylistTrack : TrackBase
     public int PositionInAlbum { get; set; }
 
     public DateTimeOffset AddedAt { get; set; }
-    public PlaylistTrackType Type { get; set; }
 
     [Column(TypeName = "jsonb")]
     public AlbumBrief Album { get; set; }

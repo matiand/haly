@@ -1240,9 +1240,9 @@ components:
         - duration
         - isExplicit
         - isPlayable
+        - isSong
         - name
         - positionInPlaylist
-        - type
       type: object
       properties:
         positionInPlaylist:
@@ -1256,12 +1256,11 @@ components:
           type: boolean
         isExplicit:
           type: boolean
+        isSong:
+          type: boolean
         addedAt:
           type: string
           format: date-time
-        type:
-          allOf:
-            - $ref: '#/components/schemas/PlaylistTrackType'
         album:
           allOf:
             - $ref: '#/components/schemas/AlbumBriefDto'
@@ -1292,11 +1291,6 @@ components:
           items:
             $ref: '#/components/schemas/PlaylistTrackDto'
       additionalProperties: false
-    PlaylistTrackType:
-      enum:
-        - Song
-        - Podcast
-      type: string
     PlaylistWithTracksDto:
       required:
         - id
@@ -1419,6 +1413,7 @@ components:
         - duration
         - isExplicit
         - isPlayable
+        - isSong
         - name
         - spotifyId
       type: object
@@ -1432,6 +1427,8 @@ components:
         isPlayable:
           type: boolean
         isExplicit:
+          type: boolean
+        isSong:
           type: boolean
         album:
           allOf:

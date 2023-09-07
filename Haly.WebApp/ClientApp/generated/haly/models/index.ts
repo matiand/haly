@@ -24,7 +24,6 @@ export * from './PlaylistCardDto';
 export * from './PlaylistTrackDto';
 export * from './PlaylistTrackDtoAlbum';
 export * from './PlaylistTrackDtoPaginatedList';
-export * from './PlaylistTrackType';
 export * from './PlaylistWithTracksDto';
 export * from './PlaylistWithTracksDtoOwner';
 export * from './PrivateUserDto';

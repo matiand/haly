@@ -1,6 +1,6 @@
 namespace Haly.WebApp.Models.Tracks;
 
-public enum PlaylistTrackType
+public enum TrackType
 {
     Song,
     Podcast,

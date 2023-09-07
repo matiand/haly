@@ -12,10 +12,14 @@ public class TrackBase
     public bool IsPlayable { get; set; }
     public bool IsExplicit { get; set; }
 
+    public TrackType Type { get; set; }
+
     [Column(TypeName = "jsonb")]
     public List<ArtistBrief> Artists { get; set; }
 
     public string Duration => DurationInMs >= 3600000
         ? TimeSpan.FromMilliseconds(DurationInMs).ToString(@"h\:mm\:ss", CultureInfo.InvariantCulture)
         : TimeSpan.FromMilliseconds(DurationInMs).ToString(@"m\:ss", CultureInfo.InvariantCulture);
+
+    public bool IsSong => Type == TrackType.Song;
 }

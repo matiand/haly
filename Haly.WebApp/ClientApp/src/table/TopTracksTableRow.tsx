@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import { TrackDto } from "../../generated/haly";
 import TrackDurationCell from "./TrackDurationCell";
 import TrackIndexCell from "./TrackIndexCell";
@@ -10,7 +12,7 @@ type TrackRowProps = {
 
 function TopTracksTableRow({ index, track }: TrackRowProps) {
     return (
-        <tr data-playable={track.isPlayable}>
+        <tr className={clsx({ disabled: !track.isPlayable })}>
             <td>
                 <TrackIndexCell index={index} track={track} />
             </td>

@@ -25,12 +25,6 @@ import {
     PlaylistTrackDtoAlbumFromJSONTyped,
     PlaylistTrackDtoAlbumToJSON,
 } from './PlaylistTrackDtoAlbum';
-import type { PlaylistTrackType } from './PlaylistTrackType';
-import {
-    PlaylistTrackTypeFromJSON,
-    PlaylistTrackTypeFromJSONTyped,
-    PlaylistTrackTypeToJSON,
-} from './PlaylistTrackType';
 
 /**
  * 
@@ -70,16 +64,16 @@ export interface PlaylistTrackDto {
     isExplicit: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof PlaylistTrackDto
+     */
+    isSong: boolean;
+    /**
+     * 
      * @type {Date}
      * @memberof PlaylistTrackDto
      */
     addedAt: Date;
-    /**
-     * 
-     * @type {PlaylistTrackType}
-     * @memberof PlaylistTrackDto
-     */
-    type: PlaylistTrackType | null;
     /**
      * 
      * @type {PlaylistTrackDtoAlbum}
@@ -104,8 +98,8 @@ export function instanceOfPlaylistTrackDto(value: object): boolean {
     isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "isPlayable" in value;
     isInstance = isInstance && "isExplicit" in value;
+    isInstance = isInstance && "isSong" in value;
     isInstance = isInstance && "addedAt" in value;
-    isInstance = isInstance && "type" in value;
     isInstance = isInstance && "album" in value;
     isInstance = isInstance && "artists" in value;
 
@@ -127,8 +121,8 @@ export function PlaylistTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'duration': json['duration'],
         'isPlayable': json['isPlayable'],
         'isExplicit': json['isExplicit'],
+        'isSong': json['isSong'],
         'addedAt': (new Date(json['addedAt'])),
-        'type': PlaylistTrackTypeFromJSON(json['type']),
         'album': PlaylistTrackDtoAlbumFromJSON(json['album']),
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
@@ -148,8 +142,8 @@ export function PlaylistTrackDtoToJSON(value?: PlaylistTrackDto | null): any {
         'duration': value.duration,
         'isPlayable': value.isPlayable,
         'isExplicit': value.isExplicit,
+        'isSong': value.isSong,
         'addedAt': (value.addedAt.toISOString()),
-        'type': PlaylistTrackTypeToJSON(value.type),
         'album': PlaylistTrackDtoAlbumToJSON(value.album),
         'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };

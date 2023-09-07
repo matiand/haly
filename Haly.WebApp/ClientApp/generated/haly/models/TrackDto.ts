@@ -64,6 +64,12 @@ export interface TrackDto {
     isExplicit: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof TrackDto
+     */
+    isSong: boolean;
+    /**
+     * 
      * @type {PlaylistTrackDtoAlbum}
      * @memberof TrackDto
      */
@@ -86,6 +92,7 @@ export function instanceOfTrackDto(value: object): boolean {
     isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "isPlayable" in value;
     isInstance = isInstance && "isExplicit" in value;
+    isInstance = isInstance && "isSong" in value;
     isInstance = isInstance && "album" in value;
     isInstance = isInstance && "artists" in value;
 
@@ -107,6 +114,7 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'duration': json['duration'],
         'isPlayable': json['isPlayable'],
         'isExplicit': json['isExplicit'],
+        'isSong': json['isSong'],
         'album': PlaylistTrackDtoAlbumFromJSON(json['album']),
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
@@ -126,6 +134,7 @@ export function TrackDtoToJSON(value?: TrackDto | null): any {
         'duration': value.duration,
         'isPlayable': value.isPlayable,
         'isExplicit': value.isExplicit,
+        'isSong': value.isSong,
         'album': PlaylistTrackDtoAlbumToJSON(value.album),
         'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };

@@ -42,7 +42,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
 
     // Occasionally for playlists with podcasts this value can be false, when the current items
     // slice is missing them. The likelihood of this happening is quite low.
-    const hasPodcasts = items.some((t) => t.type === "Podcast");
+    const hasPodcasts = items.some((t) => !t.isSong);
     const showAddedAtColumn = items.some((val) => val.addedAt.getFullYear() > 1970);
 
     return (

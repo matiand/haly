@@ -30,7 +30,7 @@ function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
                     track={track}
                     type="cell"
                     showExplicitMark={track.isExplicit}
-                    hideArtists={track.type === "Podcast"}
+                    hideArtists={!track.isSong}
                     searchTerm={searchTerm}
                 />
             </td>

@@ -32,7 +32,6 @@ models/PlaylistCardDto.ts
 models/PlaylistTrackDto.ts
 models/PlaylistTrackDtoAlbum.ts
 models/PlaylistTrackDtoPaginatedList.ts
-models/PlaylistTrackType.ts
 models/PlaylistWithTracksDto.ts
 models/PlaylistWithTracksDtoOwner.ts
 models/PrivateUserDto.ts

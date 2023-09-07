@@ -7,15 +7,14 @@ import { styled } from "../common/theme";
 
 type TrackDurationCellProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
+    noActions?: boolean;
 };
 
-function TrackDurationCell({ track }: TrackDurationCellProps) {
-    const isPodcast = "type" in track && track.type === "Podcast";
-
-    if (isPodcast) {
+function TrackDurationCell({ track, noActions }: TrackDurationCellProps) {
+    if (noActions) {
         return (
             <Wrapper>
-                <Duration className={clsx({ isPodcast })}>{track.duration}</Duration>
+                <Duration className={clsx({ noActions })}>{track.duration}</Duration>
             </Wrapper>
         );
     }
@@ -51,7 +50,7 @@ const Duration = styled("span", {
     textAlign: "end",
     width: "4.5ch",
 
-    "&.isPodcast": {
+    "&.noActions": {
         marginRight: "$800",
     },
 });
