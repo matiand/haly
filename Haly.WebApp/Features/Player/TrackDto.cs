@@ -1,8 +1,9 @@
 using Haly.WebApp.Features.Albums;
+using Haly.WebApp.Features.Artists;
 
-namespace Haly.WebApp.Features.Artists.GetArtist;
+namespace Haly.WebApp.Features.Player;
 
-public record ArtistTopTrackDto
+public record TrackDto
 {
     public string SpotifyId { get; init; }
     public string Name { get; init; }

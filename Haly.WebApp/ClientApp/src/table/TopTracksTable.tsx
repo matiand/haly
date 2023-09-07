@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-import { ArtistTopTrackDto } from "../../generated/haly";
+import { TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import * as Table from "./Table";
 import TopTracksTableRow from "./TopTracksTableRow";
 
 type TopTracksTableProps = {
-    items: ArtistTopTrackDto[];
+    items: TrackDto[];
 };
 
 function TopTracksTable({ items }: TopTracksTableProps) {

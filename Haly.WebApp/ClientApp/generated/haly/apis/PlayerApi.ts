@@ -18,6 +18,7 @@ import type {
   DeviceDto,
   PlaybackStateDto,
   Problem,
+  TrackDto,
 } from '../models';
 import {
     DeviceDtoFromJSON,
@@ -26,6 +27,8 @@ import {
     PlaybackStateDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    TrackDtoFromJSON,
+    TrackDtoToJSON,
 } from '../models';
 
 export interface TransferPlaybackRequest {
@@ -90,6 +93,62 @@ export class PlayerApi extends runtime.BaseAPI {
      */
     async getPlaybackState(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaybackStateDto> {
         const response = await this.getPlaybackStateRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>
+     * Get current user\'s track queue
+     */
+    async getQueueRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TrackDto>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player/queue`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TrackDtoFromJSON));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>
+     * Get current user\'s track queue
+     */
+    async getQueue(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TrackDto>> {
+        const response = await this.getQueueRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-recently-played </b>
+     * Get current user\'s track history
+     */
+    async getRecentlyPlayedRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TrackDto>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player/recently-played`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TrackDtoFromJSON));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-recently-played </b>
+     * Get current user\'s track history
+     */
+    async getRecentlyPlayed(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TrackDto>> {
+        const response = await this.getRecentlyPlayedRaw(initOverrides);
         return await response.value();
     }
 

@@ -19,14 +19,14 @@ public interface ISpotifyService
     Task<List<FollowedArtist>> GetCurrentUserFollows();
     Task<List<TopArtist>> GetCurrentUserTopArtists();
     Task<List<TrackBase>> GetCurrentUserTopTracks();
-    Task<List<TrackBase>> GetRecentlyPlayedTracks();
     Task<ArtistDetailed> GetArtist(string artistId, string userMarket);
     Task<List<ReleaseItem>> GetArtistReleases(string artistId, ArtistRelease type, string userMarket);
     Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);
     Task<SpotifySearchResult> Search(string query, SearchType type, string userMarket);
     Task<List<RecommendedTrack>> GetRecommendations(string userMarket, string? trackIds, string? artistIds);
     Task<PlaybackState?> GetPlaybackState();
-
+    Task<List<Track>> GetQueue();
+    Task<List<Track>> GetRecentlyPlayedTracks();
 
     Task Follow(CreatorType creatorType, string creatorId);
     Task Unfollow(CreatorType creatorType, string creatorId);

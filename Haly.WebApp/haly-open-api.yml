@@ -645,6 +645,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /Me/Player/queue:
+    get:
+      tags:
+        - Player
+      summary: Get current user's track queue
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>'
+      operationId: GetQueue
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/Player/recently-played:
+    get:
+      tags:
+        - Player
+      summary: Get current user's track history
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-recently-played </b>'
+      operationId: GetRecentlyPlayed
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Playlists/{id}':
     get:
       tags:
@@ -1004,7 +1072,7 @@ components:
         topTracks:
           type: array
           items:
-            $ref: '#/components/schemas/ArtistTopTrackDto'
+            $ref: '#/components/schemas/TrackDto'
       additionalProperties: false
     ArtistDiscographyDto:
       required:
@@ -1030,35 +1098,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReleaseItemDto'
-      additionalProperties: false
-    ArtistTopTrackDto:
-      required:
-        - album
-        - artists
-        - duration
-        - isExplicit
-        - isPlayable
-        - name
-        - spotifyId
-      type: object
-      properties:
-        spotifyId:
-          type: string
-        name:
-          type: string
-        duration:
-          type: string
-        isPlayable:
-          type: boolean
-        isExplicit:
-          type: boolean
-        album:
-          allOf:
-            - $ref: '#/components/schemas/AlbumBriefDto'
-        artists:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
     CreatorType:
       enum:
@@ -1372,6 +1411,35 @@ components:
           type: array
           items:
             type: string
+      additionalProperties: false
+    TrackDto:
+      required:
+        - album
+        - artists
+        - duration
+        - isExplicit
+        - isPlayable
+        - name
+        - spotifyId
+      type: object
+      properties:
+        spotifyId:
+          type: string
+        name:
+          type: string
+        duration:
+          type: string
+        isPlayable:
+          type: boolean
+        isExplicit:
+          type: boolean
+        album:
+          allOf:
+            - $ref: '#/components/schemas/AlbumBriefDto'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
     UserFeedDto:
       required:

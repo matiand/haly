@@ -1,12 +1,12 @@
 import clsx from "clsx";
 
-import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
+import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import HeartButton from "../common/HeartButton";
 import MoreOptionsButton from "../common/MoreOptionsButton";
 import { styled } from "../common/theme";
 
 type TrackDurationCellProps = {
-    track: PlaylistTrackDto | AlbumTrackDto | ArtistTopTrackDto;
+    track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
 };
 
 function TrackDurationCell({ track }: TrackDurationCellProps) {

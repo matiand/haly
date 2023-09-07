@@ -16,8 +16,6 @@ models/ArtistBriefDto.ts
 models/ArtistDetailedDto.ts
 models/ArtistDetailedDtoHighlightedPlaylist.ts
 models/ArtistDiscographyDto.ts
-models/ArtistTopTrackDto.ts
-models/ArtistTopTrackDtoAlbum.ts
 models/CreatorType.ts
 models/DeviceDto.ts
 models/FollowedArtistDto.ts
@@ -32,6 +30,7 @@ models/PlaybackStateDtoDevice.ts
 models/PlaylistBriefDto.ts
 models/PlaylistCardDto.ts
 models/PlaylistTrackDto.ts
+models/PlaylistTrackDtoAlbum.ts
 models/PlaylistTrackDtoPaginatedList.ts
 models/PlaylistTrackType.ts
 models/PlaylistWithTracksDto.ts
@@ -40,6 +39,7 @@ models/PrivateUserDto.ts
 models/Problem.ts
 models/ReleaseItemDto.ts
 models/TopArtistDto.ts
+models/TrackDto.ts
 models/UserFeedDto.ts
 models/UserProfileDto.ts
 models/ValidationProblem.ts

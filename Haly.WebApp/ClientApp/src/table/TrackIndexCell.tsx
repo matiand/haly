@@ -1,12 +1,12 @@
 import { HiPlay } from "react-icons/hi2";
 import { MdPodcasts } from "react-icons/md";
 
-import { AlbumTrackDto, ArtistTopTrackDto, PlaylistTrackDto } from "../../generated/haly";
+import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
 type TrackIndexCellProps = {
     index: number;
-    track: PlaylistTrackDto | AlbumTrackDto | ArtistTopTrackDto;
+    track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
 };
 
 function TrackIndexCell({ index, track }: TrackIndexCellProps) {

@@ -19,12 +19,12 @@ import {
     ArtistDetailedDtoHighlightedPlaylistFromJSONTyped,
     ArtistDetailedDtoHighlightedPlaylistToJSON,
 } from './ArtistDetailedDtoHighlightedPlaylist';
-import type { ArtistTopTrackDto } from './ArtistTopTrackDto';
+import type { TrackDto } from './TrackDto';
 import {
-    ArtistTopTrackDtoFromJSON,
-    ArtistTopTrackDtoFromJSONTyped,
-    ArtistTopTrackDtoToJSON,
-} from './ArtistTopTrackDto';
+    TrackDtoFromJSON,
+    TrackDtoFromJSONTyped,
+    TrackDtoToJSON,
+} from './TrackDto';
 
 /**
  * 
@@ -76,10 +76,10 @@ export interface ArtistDetailedDto {
     highlightedPlaylist?: ArtistDetailedDtoHighlightedPlaylist | null;
     /**
      * 
-     * @type {Array<ArtistTopTrackDto>}
+     * @type {Array<TrackDto>}
      * @memberof ArtistDetailedDto
      */
-    topTracks: Array<ArtistTopTrackDto>;
+    topTracks: Array<TrackDto>;
 }
 
 /**
@@ -114,7 +114,7 @@ export function ArtistDetailedDtoFromJSONTyped(json: any, ignoreDiscriminator: b
         'followersTotal': json['followersTotal'],
         'isFollowed': json['isFollowed'],
         'highlightedPlaylist': !exists(json, 'highlightedPlaylist') ? undefined : ArtistDetailedDtoHighlightedPlaylistFromJSON(json['highlightedPlaylist']),
-        'topTracks': ((json['topTracks'] as Array<any>).map(ArtistTopTrackDtoFromJSON)),
+        'topTracks': ((json['topTracks'] as Array<any>).map(TrackDtoFromJSON)),
     };
 }
 
@@ -134,7 +134,7 @@ export function ArtistDetailedDtoToJSON(value?: ArtistDetailedDto | null): any {
         'followersTotal': value.followersTotal,
         'isFollowed': value.isFollowed,
         'highlightedPlaylist': ArtistDetailedDtoHighlightedPlaylistToJSON(value.highlightedPlaylist),
-        'topTracks': ((value.topTracks as Array<any>).map(ArtistTopTrackDtoToJSON)),
+        'topTracks': ((value.topTracks as Array<any>).map(TrackDtoToJSON)),
     };
 }
 

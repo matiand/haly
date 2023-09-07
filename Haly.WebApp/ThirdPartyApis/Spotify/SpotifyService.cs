@@ -28,6 +28,7 @@ public sealed class SpotifyService : ISpotifyService
     private const int UserTopItemsLimit = 10;
     private const int ArtistReleasesLimit = 50;
     private const int RecommendationsLimit = 100;
+    private const int RecentlyPlayedTracksLimit = 50;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
         ISpotifyEndpointCollector endpointCollector)
@@ -180,13 +181,6 @@ public sealed class SpotifyService : ISpotifyService
         return tracks.Items.Adapt<List<TrackBase>>();
     }
 
-    public async Task<List<TrackBase>> GetRecentlyPlayedTracks()
-    {
-        var tracks = await _spotifyClient.GetRecentlyPlayedAsync();
-
-        return tracks.Items.Adapt<List<TrackBase>>();
-    }
-
     public async Task<ArtistDetailed> GetArtist(string artistId, string userMarket)
     {
         var artistTask = _spotifyClient.GetAnArtistAsync(artistId);
@@ -303,6 +297,28 @@ public sealed class SpotifyService : ISpotifyService
 
             throw;
         }
+    }
+
+    public async Task<List<Track>> GetQueue()
+    {
+        var response = await _spotifyClient.GetQueueAsync();
+
+        if (response.Currently_playing is null) return new();
+
+        var queue = new List<Track> { response.Currently_playing.Adapt<Track>() };
+        queue.AddRange(response.Queue.Adapt<List<Track>>());
+
+        // We need to fix IsPlayable for all tracks in the queue, because the response doesn't provide that information.
+        queue.ForEach(t => t.IsPlayable = true);
+
+        return queue;
+    }
+
+    public async Task<List<Track>> GetRecentlyPlayedTracks()
+    {
+        var tracks = await _spotifyClient.GetRecentlyPlayedAsync(limit: RecentlyPlayedTracksLimit);
+
+        return tracks.Items.Select(i => i.Track).Adapt<List<Track>>();
     }
 
     public async Task Follow(CreatorType creatorType, string creatorId)

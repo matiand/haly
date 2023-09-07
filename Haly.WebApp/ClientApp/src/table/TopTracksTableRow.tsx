@@ -1,11 +1,11 @@
-import { ArtistTopTrackDto } from "../../generated/haly";
+import { TrackDto } from "../../generated/haly";
 import TrackDurationCell from "./TrackDurationCell";
 import TrackIndexCell from "./TrackIndexCell";
 import TrackInformation from "./TrackInformation";
 
 type TrackRowProps = {
     index: number;
-    track: ArtistTopTrackDto;
+    track: TrackDto;
 };
 
 function TopTracksTableRow({ index, track }: TrackRowProps) {

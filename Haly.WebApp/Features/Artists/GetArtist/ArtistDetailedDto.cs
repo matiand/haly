@@ -1,3 +1,5 @@
+using Haly.WebApp.Features.Player;
+
 namespace Haly.WebApp.Features.Artists.GetArtist;
 
 public record ArtistDetailedDto
@@ -11,5 +13,5 @@ public record ArtistDetailedDto
 
     public HighlightedPlaylistDto? HighlightedPlaylist { get; set; }
 
-    public IEnumerable<ArtistTopTrackDto> TopTracks { get; init; }
+    public IEnumerable<TrackDto> TopTracks { get; init; }
 }

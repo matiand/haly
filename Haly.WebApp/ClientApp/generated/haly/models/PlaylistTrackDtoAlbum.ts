@@ -23,33 +23,33 @@ import {
 /**
  * 
  * @export
- * @interface ArtistTopTrackDtoAlbum
+ * @interface PlaylistTrackDtoAlbum
  */
-export interface ArtistTopTrackDtoAlbum {
+export interface PlaylistTrackDtoAlbum {
     /**
      * 
      * @type {string}
-     * @memberof ArtistTopTrackDtoAlbum
+     * @memberof PlaylistTrackDtoAlbum
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof ArtistTopTrackDtoAlbum
+     * @memberof PlaylistTrackDtoAlbum
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof ArtistTopTrackDtoAlbum
+     * @memberof PlaylistTrackDtoAlbum
      */
     imageUrl?: string | null;
 }
 
 /**
- * Check if a given object implements the ArtistTopTrackDtoAlbum interface.
+ * Check if a given object implements the PlaylistTrackDtoAlbum interface.
  */
-export function instanceOfArtistTopTrackDtoAlbum(value: object): boolean {
+export function instanceOfPlaylistTrackDtoAlbum(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -57,11 +57,11 @@ export function instanceOfArtistTopTrackDtoAlbum(value: object): boolean {
     return isInstance;
 }
 
-export function ArtistTopTrackDtoAlbumFromJSON(json: any): ArtistTopTrackDtoAlbum {
-    return ArtistTopTrackDtoAlbumFromJSONTyped(json, false);
+export function PlaylistTrackDtoAlbumFromJSON(json: any): PlaylistTrackDtoAlbum {
+    return PlaylistTrackDtoAlbumFromJSONTyped(json, false);
 }
 
-export function ArtistTopTrackDtoAlbumFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArtistTopTrackDtoAlbum {
+export function PlaylistTrackDtoAlbumFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistTrackDtoAlbum {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,7 +73,7 @@ export function ArtistTopTrackDtoAlbumFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function ArtistTopTrackDtoAlbumToJSON(value?: ArtistTopTrackDtoAlbum | null): any {
+export function PlaylistTrackDtoAlbumToJSON(value?: PlaylistTrackDtoAlbum | null): any {
     if (value === undefined) {
         return undefined;
     }

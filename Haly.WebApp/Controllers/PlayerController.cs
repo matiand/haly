@@ -1,5 +1,8 @@
+using Haly.WebApp.Features.Player;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Features.Player.GetPlaybackState;
+using Haly.WebApp.Features.Player.GetQueue;
+using Haly.WebApp.Features.Player.GetRecentlyPlayed;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -40,6 +43,26 @@ public class PlayerController : ApiControllerBase
     public async Task<IEnumerable<DeviceDto>> GetAvailableDevices()
     {
         var response = await Mediator.Send(new GetAvailableDevicesQuery());
+
+        return response;
+    }
+
+    [HttpGet("queue")]
+    [SwaggerOperation(Summary = "Get current user's track queue")]
+    [CallsSpotifyApi(SpotifyScopes.UserReadPlaybackState)]
+    public async Task<IEnumerable<TrackDto>> GetQueue()
+    {
+        var response = await Mediator.Send(new GetQueueQuery());
+
+        return response;
+    }
+
+    [HttpGet("recently-played")]
+    [SwaggerOperation(Summary = "Get current user's track history")]
+    [CallsSpotifyApi(SpotifyScopes.UserReadRecentlyPlayed)]
+    public async Task<IEnumerable<TrackDto>> GetRecentlyPlayed()
+    {
+        var response = await Mediator.Send(new GetRecentlyPlayedQuery());
 
         return response;
     }
