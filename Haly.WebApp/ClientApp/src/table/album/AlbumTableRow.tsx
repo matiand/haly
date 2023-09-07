@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { LuDisc } from "react-icons/lu";
 
-import { AlbumTrackDto } from "../../generated/haly";
-import { styled } from "../common/theme";
-import TrackDurationCell from "./TrackDurationCell";
-import TrackIndexCell from "./TrackIndexCell";
-import TrackInformation from "./TrackInformation";
+import { AlbumTrackDto } from "../../../generated/haly";
+import { styled } from "../../common/theme";
+import TrackDurationCell from "../TrackDurationCell";
+import TrackIndexCell from "../TrackIndexCell";
+import TrackInformation from "../TrackInformation";
 
 type TrackRowProps = {
     index: number;

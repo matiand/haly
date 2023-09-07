@@ -13,7 +13,7 @@ import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PageGradient from "../playlist/PageGradient";
-import AlbumTable from "../table/AlbumTable";
+import AlbumTable from "../table/album/AlbumTable";
 import Copyrights from "./Copyrights";
 import SimilarAlbums from "./SimilarAlbums";
 

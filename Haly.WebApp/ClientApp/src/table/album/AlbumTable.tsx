@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { Fragment } from "react";
 
-import { AlbumTrackDto } from "../../generated/haly";
-import { styled } from "../common/theme";
+import { AlbumTrackDto } from "../../../generated/haly";
+import { styled } from "../../common/theme";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
-import * as Table from "./Table";
-import TrackDurationIcon from "./TrackDurationIcon";
-import useStickyTableHead from "./useStickyTableHead";
+import * as Table from "../Table";
+import TrackDurationIcon from "../TrackDurationIcon";
+import useStickyTableHead from "../useStickyTableHead";
 
 type AlbumTableProps = {
     items: AlbumTrackDto[];

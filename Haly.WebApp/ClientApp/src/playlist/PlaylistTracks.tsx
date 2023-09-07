@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
 import { playlistSearchTermAtom, playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
 import halyClient from "../halyClient";
-import PlaylistTable from "../table/PlaylistTable";
+import PlaylistTable from "../table/playlist/PlaylistTable";
 import { PlaylistSortOrder } from "./useSortOrder";
 
 type PlaylistTracksProps = {

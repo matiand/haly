@@ -2,12 +2,12 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 import { useEffect } from "react";
 
-import { PlaylistTrackDto } from "../../generated/haly";
-import { styled, theme } from "../common/theme";
+import { PlaylistTrackDto } from "../../../generated/haly";
+import { styled, theme } from "../../common/theme";
 import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
-import * as Table from "./Table";
-import useStickyTableHead from "./useStickyTableHead";
+import * as Table from "../Table";
+import useStickyTableHead from "../useStickyTableHead";
 
 type PlaylistTableProps = {
     items: PlaylistTrackDto[];

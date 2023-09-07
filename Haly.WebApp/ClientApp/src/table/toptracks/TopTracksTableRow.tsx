@@ -1,9 +1,9 @@
 import clsx from "clsx";
 
-import { TrackDto } from "../../generated/haly";
-import TrackDurationCell from "./TrackDurationCell";
-import TrackIndexCell from "./TrackIndexCell";
-import TrackInformation from "./TrackInformation";
+import { TrackDto } from "../../../generated/haly";
+import TrackDurationCell from "../TrackDurationCell";
+import TrackIndexCell from "../TrackIndexCell";
+import TrackInformation from "../TrackInformation";
 
 type TrackRowProps = {
     index: number;
@@ -18,7 +18,7 @@ function TopTracksTableRow({ index, track }: TrackRowProps) {
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" hideArtists showExplicitMark={track.isExplicit} />
+                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} hideArtists />
             </td>
 
             <td>

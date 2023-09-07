@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
 
-import { PlaylistTrackDto } from "../../generated/haly";
-import { playlistSearchTermAtom } from "../common/atoms";
-import { styled } from "../common/theme";
-import TrackAlbumCell from "./TrackAlbumCell";
-import TrackDateAddedCell from "./TrackDateAddedCell";
-import TrackDurationCell from "./TrackDurationCell";
-import TrackIndexCell from "./TrackIndexCell";
-import TrackInformation from "./TrackInformation";
+import { PlaylistTrackDto } from "../../../generated/haly";
+import { playlistSearchTermAtom } from "../../common/atoms";
+import { styled } from "../../common/theme";
+import TrackAlbumCell from "../TrackAlbumCell";
+import TrackDateAddedCell from "../TrackDateAddedCell";
+import TrackDurationCell from "../TrackDurationCell";
+import TrackIndexCell from "../TrackIndexCell";
+import TrackInformation from "../TrackInformation";
 
 type PlaylistTableRowProps = {
     index: number;

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { TrackDto } from "../../generated/haly";
-import { styled } from "../common/theme";
-import * as Table from "./Table";
+import { TrackDto } from "../../../generated/haly";
+import { styled } from "../../common/theme";
+import * as Table from "../Table";
 import TopTracksTableRow from "./TopTracksTableRow";
 
 type TopTracksTableProps = {
