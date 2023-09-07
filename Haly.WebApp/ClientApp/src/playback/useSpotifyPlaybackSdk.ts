@@ -94,7 +94,7 @@ function mapStreamedTrackFromPlaybackTrackWindow(data: PlaybackTrackWindow): Str
     if (!currentTrack.id) return;
 
     return {
-        id: currentTrack.id,
+        spotifyId: currentTrack.id,
         name: currentTrack.name,
         album: {
             id: extractIdFromSpotifyUri(currentTrack.album.uri)!,

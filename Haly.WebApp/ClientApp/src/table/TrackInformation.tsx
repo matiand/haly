@@ -48,7 +48,6 @@ function TrackInformation({ track, type, showExplicitMark, hideArtists, searchTe
                             // Disable tabbing on these links, cause the '.line-clamp-ellipsis'
                             // class breaks their focus styles
                             <Link key={id} to={`/artist/${id}`} tabIndex={-1}>
-                                {/*{name}*/}
                                 <HighlightableText text={name} markedText={searchTerm} />
                             </Link>
                         ))}

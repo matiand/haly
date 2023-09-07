@@ -19,6 +19,8 @@ type PlaylistTableRowProps = {
 function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
 
+    const isLocal = !track.spotifyId;
+
     return (
         <TableRow style={{ transform: `translateY(${start}px` }} className={clsx({ disabled: !track.isPlayable })}>
             <td>
@@ -30,7 +32,7 @@ function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
                     track={track}
                     type="cell"
                     showExplicitMark={track.isExplicit}
-                    hideArtists={!track.isSong}
+                    hideArtists={isLocal || !track.isSong}
                     searchTerm={searchTerm}
                 />
             </td>
@@ -44,7 +46,7 @@ function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
             </td>
 
             <td>
-                <TrackDurationCell track={track} />
+                <TrackDurationCell track={track} noActions={isLocal} />
             </td>
         </TableRow>
     );

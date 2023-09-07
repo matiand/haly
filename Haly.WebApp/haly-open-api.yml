@@ -1245,6 +1245,9 @@ components:
         - positionInPlaylist
       type: object
       properties:
+        spotifyId:
+          type: string
+          nullable: true
         positionInPlaylist:
           type: integer
           format: int32
@@ -1415,11 +1418,11 @@ components:
         - isPlayable
         - isSong
         - name
-        - spotifyId
       type: object
       properties:
         spotifyId:
           type: string
+          nullable: true
         name:
           type: string
         duration:

@@ -37,7 +37,7 @@ export interface TrackDto {
      * @type {string}
      * @memberof TrackDto
      */
-    spotifyId: string;
+    spotifyId?: string | null;
     /**
      * 
      * @type {string}
@@ -87,7 +87,6 @@ export interface TrackDto {
  */
 export function instanceOfTrackDto(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "spotifyId" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "isPlayable" in value;
@@ -109,7 +108,7 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'spotifyId': json['spotifyId'],
+        'spotifyId': !exists(json, 'spotifyId') ? undefined : json['spotifyId'],
         'name': json['name'],
         'duration': json['duration'],
         'isPlayable': json['isPlayable'],

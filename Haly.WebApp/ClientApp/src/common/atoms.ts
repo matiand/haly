@@ -37,7 +37,7 @@ export type PlaybackContext = {
 };
 
 export type StreamedTrack = {
-    id: string;
+    spotifyId: string;
     name: string;
     album: AlbumBriefDto;
     artists: ArtistBriefDto[];

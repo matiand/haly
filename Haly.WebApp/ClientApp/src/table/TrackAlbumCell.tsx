@@ -10,9 +10,11 @@ type TrackAlbumCellProps = {
 };
 
 function TrackAlbumCell({ track, searchTerm }: TrackAlbumCellProps) {
+    const isLocal = !track.spotifyId;
+
     return (
         <Wrapper>
-            {track.isSong ? (
+            {track.isSong && !isLocal ? (
                 <Link className="line-clamp-ellipsis" to={`/album/${track.album.id}`}>
                     <HighlightableText text={track.album.name} markedText={searchTerm} />
                 </Link>
