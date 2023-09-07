@@ -28,10 +28,13 @@ const Wrapper = styled("div", {
 
     h1: {
         fontSize: "$500",
+        padding: "$400 0 $800",
     },
 
     h2: {
+        color: "$white400",
         fontSize: "$400",
+        fontWeight: 700,
     },
 });
 

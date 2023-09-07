@@ -10,6 +10,7 @@ const QueueEmptyState = styled("div", {
     h1: {
         fontSize: "$600",
         fontWeight: 700,
+        padding: 0,
     },
 
     p: {
