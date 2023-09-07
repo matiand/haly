@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { HiPlay } from "react-icons/hi2";
 import { MdPodcasts } from "react-icons/md";
 
@@ -7,11 +8,20 @@ import { styled } from "../common/theme";
 type TrackIndexCellProps = {
     index: number;
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
+    noPlayback?: boolean;
 };
 
-function TrackIndexCell({ index, track }: TrackIndexCellProps) {
+function TrackIndexCell({ index, track, noPlayback }: TrackIndexCellProps) {
     const label = `Play ${track.name}`;
-    const isPodcast = "type" in track && track.type === "Podcast";
+    const isPodcast = "isSong" in track && !track.isSong;
+
+    if (noPlayback) {
+        return (
+            <Wrapper className={clsx({ alwaysIndex: true })}>
+                <Index>{index}</Index>
+            </Wrapper>
+        );
+    }
 
     return (
         <Wrapper>
@@ -48,6 +58,10 @@ const Wrapper = styled("div", {
     justifyContent: "flex-end",
     position: "relative",
     width: "16px",
+
+    "&&&.alwaysIndex > span": {
+        display: "block",
+    },
 });
 
 const Index = styled("span", {

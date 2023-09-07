@@ -24,7 +24,7 @@ function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
     return (
         <TableRow style={{ transform: `translateY(${start}px` }} className={clsx({ disabled: !track.isPlayable })}>
             <td>
-                <TrackIndexCell index={index} track={track} />
+                <TrackIndexCell index={index} track={track} noPlayback={isLocal} />
             </td>
 
             <td>
