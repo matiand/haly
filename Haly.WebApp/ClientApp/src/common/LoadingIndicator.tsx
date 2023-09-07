@@ -1,19 +1,12 @@
 import { Waveform } from "@uiball/loaders";
-import { useEffect, useState } from "react";
 
 import { styled, theme } from "./theme";
+import { useDelayedRender } from "./useDelayedRender";
 
 function LoadingIndicator() {
-    const [showIndicator, setShowIndicator] = useState(false);
-    const delayInMs = 800;
+    const isReady = useDelayedRender();
 
-    useEffect(() => {
-        const timer = setTimeout(() => setShowIndicator(true), delayInMs);
-
-        return () => clearTimeout(timer);
-    }, []);
-
-    if (!showIndicator) return null;
+    if (!isReady) return null;
 
     return (
         <Wrapper>
