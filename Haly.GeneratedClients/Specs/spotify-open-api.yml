@@ -4277,6 +4277,7 @@ components:
         context:
           allOf:
           - $ref: '#/components/schemas/ContextObject'
+          nullable: true
           description: The context the track was played from.
     PlaylistTrackObject:
       type: object
@@ -4345,6 +4346,7 @@ components:
           - $ref: '#/components/schemas/EpisodeObject'
           discriminator:
             propertyName: type
+          nullable: true
           x-spotify-docs-type: TrackObject | EpisodeObject
           description: The currently playing track or episode. Can be `null`.
         queue:

@@ -10560,8 +10560,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// The context the track was played from.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("context", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ContextObject Context { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("context", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ContextObject? Context { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -10672,8 +10672,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// The currently playing track or episode. Can be `null`.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("currently_playing", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TrackObject Currently_playing { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("currently_playing", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TrackObject? Currently_playing { get; set; } = default!;
 
         /// <summary>
         /// The tracks or episodes in the queue. Can be empty.
