@@ -25,6 +25,7 @@ import AllUserPlaylistCards from "./profile/AllUserPlaylistCards";
 import Me from "./profile/Me";
 import Preferences from "./profile/Preferences";
 import Profile from "./profile/Profile";
+import Queue from "./queue/Queue";
 import Search from "./search/Search";
 import Sidebar from "./sidebar/Sidebar";
 import UpperMenu from "./uppermenu/UpperMenu";
@@ -86,6 +87,7 @@ function App() {
 
                             <Route path="/collection/tracks" element={<LikedSongs />} />
                             <Route path="/preferences" element={<Preferences />} />
+                            <Route path="/queue" element={<Queue />} />
                         </Routes>
                     </MainLayout>
                 </MainScrollArea>
