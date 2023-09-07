@@ -3,6 +3,7 @@ import { LuHistory } from "react-icons/lu";
 
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
+import ReadOnlyTable from "../table/readonly/ReadOnlyTable";
 import QueueEmptyState from "./QueueEmptyState";
 
 function RecentlyPlayedTracks() {
@@ -23,12 +24,18 @@ function RecentlyPlayedTracks() {
     }
 
     return (
-        <section>
+        <Section>
             <h1>Recently played</h1>
 
-            <p>Tracks go here</p>
-        </section>
+            <ReadOnlyTable tracks={query.data} />
+        </Section>
     );
 }
+
+const Section = styled("section", {
+    h1: {
+        padding: "$400 0 $800",
+    },
+});
 
 export default RecentlyPlayedTracks;

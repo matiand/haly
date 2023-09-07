@@ -309,16 +309,21 @@ public sealed class SpotifyService : ISpotifyService
         queue.AddRange(response.Queue.Adapt<List<Track>>());
 
         // We need to fix IsPlayable for all tracks in the queue, because the response doesn't provide that information.
-        queue.ForEach(t => t.IsPlayable = true);
+        // todo: If you need this, use AfterMapping in TrackObjectProfile
+        // queue.ForEach(t => t.IsPlayable = true);
 
         return queue;
     }
 
     public async Task<List<Track>> GetRecentlyPlayedTracks()
     {
-        var tracks = await _spotifyClient.GetRecentlyPlayedAsync(limit: RecentlyPlayedTracksLimit);
+        var response = await _spotifyClient.GetRecentlyPlayedAsync(limit: RecentlyPlayedTracksLimit);
+        var tracks = response.Items.Select(i => i.Track).Adapt<List<Track>>();
 
-        return tracks.Items.Select(i => i.Track).Adapt<List<Track>>();
+        // We need to fix IsPlayable, because this response doesn't provide that information.
+        tracks.ForEach(t => t.IsPlayable = true);
+
+        return tracks;
     }
 
     public async Task Follow(CreatorType creatorType, string creatorId)
