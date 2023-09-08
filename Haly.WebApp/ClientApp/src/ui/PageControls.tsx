@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PlaybackToggleStyledClass } from "../playback/PlaybackToggle";
-import { styled } from "./theme";
+import { styled } from "../common/theme";
 
 type PageControlsProps = {
     children?: React.ReactNode;

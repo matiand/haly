@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CardProps } from "../common/Card";
-import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
+import { CardProps } from "../ui/card/Card";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 
 function AllMyFollowedArtistCards() {
     const query = useQuery(["me", "following"], () => halyClient.me.getFollowedArtists());

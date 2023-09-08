@@ -1,9 +1,9 @@
 import clsx from "clsx";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
-import HeartButton from "../common/HeartButton";
-import MoreOptionsButton from "../common/MoreOptionsButton";
 import { styled } from "../common/theme";
+import HeartButton from "../ui/HeartButton";
+import MoreOptionsButton from "../ui/MoreOptionsButton";
 
 type TrackDurationCellProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;

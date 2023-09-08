@@ -1,7 +1,7 @@
 import { ArtistDetailedDto, TrackDto } from "../../generated/haly";
-import MiniCard from "../common/MiniCard";
 import { styled } from "../common/theme";
 import TopTracksTable from "../table/toptracks/TopTracksTable";
+import MiniCard from "../ui/card/MiniCards";
 
 type ArtistHighlightsProps = {
     tracks: TrackDto[];

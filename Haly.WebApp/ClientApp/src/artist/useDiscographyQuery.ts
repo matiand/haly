@@ -3,9 +3,9 @@ import { useState } from "react";
 
 import { ArtistDiscographyDto, ReleaseItemDto } from "../../generated/haly";
 import { capitalize } from "../common/capitalize";
-import { CardProps } from "../common/Card";
-import { Option } from "../common/RadioGroup";
 import halyClient from "../halyClient";
+import { CardProps } from "../ui/card/Card";
+import { Option } from "../ui/RadioGroup";
 
 export type DiscographyFilter = "all" | "album" | "single" | "compilation";
 

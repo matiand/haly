@@ -1,7 +1,7 @@
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { useState } from "react";
 
-import { styled } from "./theme";
+import { styled } from "../common/theme";
 
 export type Option = {
     name: string;

@@ -3,9 +3,9 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import { cachedPlaylistIdsAtom, playbackContextAtom } from "../common/atoms";
-import { ScrollArea } from "../common/ScrollArea";
 import { styled } from "../common/theme";
 import halyApi from "../halyClient";
+import { ScrollArea } from "../ui/ScrollArea";
 import UserLibraryHeader from "./UserLibraryHeader";
 import UserPlaylists from "./UserPlaylists";
 

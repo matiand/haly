@@ -1,10 +1,9 @@
-import { MouseEventHandler } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-import { PlaylistCardDto } from "../../generated/haly";
-import PlaybackToggle from "../playback/PlaybackToggle";
-import EmptyCoverImage from "./EmptyCoverImage";
-import { styled } from "./theme";
+import {PlaylistCardDto} from "../../../generated/haly";
+import {Link, useNavigate} from "react-router-dom";
+import {MouseEventHandler} from "react";
+import EmptyCoverImage from "../EmptyCoverImage";
+import PlaybackToggle from "../../playback/PlaybackToggle";
+import {styled} from "../../common/theme";
 
 export type CardProps = {
     id: string;

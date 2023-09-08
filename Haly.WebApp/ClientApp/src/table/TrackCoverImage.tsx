@@ -1,6 +1,6 @@
 import { AlbumBriefDto } from "../../generated/haly";
-import EmptyCoverImage from "./EmptyCoverImage";
-import { styled } from "./theme";
+import EmptyCoverImage from "../ui/EmptyCoverImage";
+import { styled } from "../common/theme";
 
 type CoverImageProps = {
     imageUrl: AlbumBriefDto["imageUrl"];

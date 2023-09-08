@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { pageHeaderVisibilityAtom } from "./atoms";
+import { pageHeaderVisibilityAtom } from "../common/atoms";
 import HeaderImage from "./HeaderImage";
 import HeaderTitle from "./HeaderTitle";
-import { styled } from "./theme";
+import { styled } from "../common/theme";
 
 type PageHeaderProps = {
     title: string;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import ResizableCardGroup from "../common/ResizableCardGroup";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import useAppearsOnQuery, { AppearsOnFilter } from "./useAppearsOnQuery";
 
 function AllAppearsOnCards() {

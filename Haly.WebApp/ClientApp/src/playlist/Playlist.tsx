@@ -9,12 +9,12 @@ import {
     playbackContextAtom,
     playlistSearchTermAtom,
 } from "../common/atoms";
-import LoadingIndicator from "../common/LoadingIndicator";
-import MoreOptionsButton from "../common/MoreOptionsButton";
-import PageControls from "../common/PageControls";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import SearchBar from "../search/SearchBar";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import MoreOptionsButton from "../ui/MoreOptionsButton";
+import PageControls from "../ui/PageControls";
 import PageGradient from "./PageGradient";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";

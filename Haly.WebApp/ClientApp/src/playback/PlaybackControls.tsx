@@ -2,9 +2,9 @@ import { LuMonitorSpeaker } from "react-icons/lu";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { StreamedTrack } from "../common/atoms";
-import HeartButton from "../common/HeartButton";
 import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
+import HeartButton from "../ui/HeartButton";
 import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
 import ProgressBar from "./ProgressBar";

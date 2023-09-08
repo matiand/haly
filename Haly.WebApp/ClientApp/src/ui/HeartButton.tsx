@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { keyframes, styled } from "./theme";
+import { keyframes, styled } from "../common/theme";
 
 type HeartButtonProps = {
     size: "small" | "medium";

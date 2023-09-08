@@ -3,14 +3,14 @@ import { useAtomValue } from "jotai";
 import { useParams } from "react-router-dom";
 
 import { dominantColorsAtom } from "../common/atoms";
-import { CardProps } from "../common/Card";
-import LoadingIndicator from "../common/LoadingIndicator";
-import PageControls from "../common/PageControls";
-import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
-import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
+import { CardProps } from "../ui/card/Card";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import PageControls from "../ui/PageControls";
+import PageHeader from "../ui/PageHeader";
 import FollowButton from "./FollowButton";
 
 function Profile() {

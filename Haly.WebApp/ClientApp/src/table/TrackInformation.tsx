@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { StreamedTrack } from "../common/atoms";
 import { styled } from "../common/theme";
-import TrackCoverImage from "../common/TrackCoverImage";
 import HighlightableText from "./HighlightableText";
+import TrackCoverImage from "./TrackCoverImage";
 
 type TrackInformationProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrack;

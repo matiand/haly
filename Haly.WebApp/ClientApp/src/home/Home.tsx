@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
 import { userAtom } from "../common/atoms";
-import { CardProps } from "../common/Card";
-import LoadingIndicator from "../common/LoadingIndicator";
-import ResizableCardGroup from "../common/ResizableCardGroup";
 import { theme } from "../common/theme";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
+import { CardProps } from "../ui/card/Card";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
+import LoadingIndicator from "../ui/LoadingIndicator";
 import Greeting from "./Greeting";
 
 function Home() {

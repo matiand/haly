@@ -1,4 +1,4 @@
-import ResizableCardGroup from "../common/ResizableCardGroup";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import useDiscographyQuery from "./useDiscographyQuery";
 
 type DiscographyProps = {

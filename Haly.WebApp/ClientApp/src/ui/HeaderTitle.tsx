@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useResizeDetector } from "react-resize-detector";
 
-import { styled } from "./theme";
+import { styled } from "../common/theme";
 
 const titleSizeSteps = [90, 66, 42, 30];
 

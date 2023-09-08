@@ -1,7 +1,7 @@
 import { Waveform } from "@uiball/loaders";
 
-import { styled, theme } from "./theme";
-import { useDelayedRender } from "./useDelayedRender";
+import { styled, theme } from "../common/theme";
+import { useDelayedRender } from "../common/useDelayedRender";
 
 function LoadingIndicator() {
     const isReady = useDelayedRender();

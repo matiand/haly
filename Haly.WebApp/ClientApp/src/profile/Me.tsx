@@ -3,14 +3,14 @@ import { useAtomValue } from "jotai";
 
 import { dominantColorsAtom, userAtom } from "../common/atoms";
 import { capitalize } from "../common/capitalize";
-import { CardProps } from "../common/Card";
-import LoadingIndicator from "../common/LoadingIndicator";
-import PageControls from "../common/PageControls";
-import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
-import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
+import { CardProps } from "../ui/card/Card";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import PageControls from "../ui/PageControls";
+import PageHeader from "../ui/PageHeader";
 
 function Me() {
     const user = useAtomValue(userAtom)!;

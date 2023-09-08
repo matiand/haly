@@ -3,8 +3,8 @@ import { useResizeDetector } from "react-resize-detector";
 
 import Card, { CardProps } from "./Card";
 import * as CardGroup from "./CardGroup";
-import RadioGroup, { Option } from "./RadioGroup";
-import { theme } from "./theme";
+import RadioGroup, { Option } from "../RadioGroup";
+import { theme } from "../../common/theme";
 
 type ResizableCardGroupProps = {
     title: string;

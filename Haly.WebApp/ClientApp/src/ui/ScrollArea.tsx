@@ -3,7 +3,7 @@ import { OverlayScrollbarsComponent, OverlayScrollbarsComponentRef } from "overl
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
-import { styled, theme } from "./theme";
+import { styled, theme } from "../common/theme";
 
 type ScrollAreaProps = {
     children: React.ReactNode;

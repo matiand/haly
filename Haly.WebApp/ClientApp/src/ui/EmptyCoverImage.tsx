@@ -1,7 +1,7 @@
 import { LuMusic } from "react-icons/lu";
 import { MdOutlineMusicNote } from "react-icons/md";
 
-import { styled } from "./theme";
+import { styled } from "../common/theme";
 
 type EmptyCoverImageProps = {
     type: "cell" | "card";
@@ -16,9 +16,6 @@ function EmptyCoverImage({ type }: EmptyCoverImageProps) {
 }
 
 const Wrapper = styled("div", {
-    $$collectionSize: "200px",
-    $$trackSize: "40px",
-
     alignItems: "center",
     background: "$black200",
     display: "flex",
@@ -39,10 +36,12 @@ const Wrapper = styled("div", {
                 },
             },
             cell: {
-                minHeight: "$$trackSize",
-                height: "$$trackSize",
-                minWidth: "$$trackSize",
-                width: "$$trackSize",
+                $$size: "40px",
+
+                minHeight: "$$size",
+                height: "$$size",
+                minWidth: "$$size",
+                width: "$$size",
             },
         },
     },

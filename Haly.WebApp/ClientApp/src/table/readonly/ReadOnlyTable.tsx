@@ -1,10 +1,7 @@
-import clsx from "clsx";
-
 import { TrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
-import useStickyTableHead from "../useStickyTableHead";
 import ReadOnlyTableRow from "./ReadOnlyTableRow";
 
 type ReadOnlyTableProps = {
@@ -12,12 +9,9 @@ type ReadOnlyTableProps = {
 };
 
 function ReadOnlyTable({ tracks }: ReadOnlyTableProps) {
-    const { ref, isSticky } = useStickyTableHead();
-
     return (
         <div>
-            <div ref={ref} aria-hidden />
-            <TableRoot className={clsx({ isSticky })}>
+            <TableRoot>
                 <Table.Head>
                     <tr>
                         <th>Title</th>

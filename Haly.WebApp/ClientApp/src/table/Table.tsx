@@ -16,6 +16,7 @@ export const Root = styled("table", {
         background: "$black500",
         borderBottom: "1px solid $collectionTableHeadBorder",
         boxShadow: "0 -1px 0 0 $collectionTableStickyHead",
+        position: "sticky",
 
         "& > tr": {
             borderBottom: "none",
@@ -28,7 +29,6 @@ export const Head = styled("thead", {
 
     background: "",
     display: "block",
-    position: "sticky",
     top: `${theme.sizes.upperMenuHeight}`,
     zIndex: "$collectionTableHead",
     margin: "0 -$700 $600",

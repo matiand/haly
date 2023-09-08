@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useAuth } from "react-oidc-context";
 
-import LoadingIndicator from "../common/LoadingIndicator";
+import LoadingIndicator from "../ui/LoadingIndicator";
 import AuthenticationError from "./AuthenticationError";
 import { Login } from "./Login";
 import useRefreshTokenMutation from "./useRefreshTokenMutation";

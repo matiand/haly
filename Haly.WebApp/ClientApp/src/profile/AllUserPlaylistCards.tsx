@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-import { CardProps } from "../common/Card";
-import ResizableCardGroup from "../common/ResizableCardGroup";
 import halyClient from "../halyClient";
+import { CardProps } from "../ui/card/Card";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 
 function AllUserPlaylistCards() {
     const { id } = useParams();

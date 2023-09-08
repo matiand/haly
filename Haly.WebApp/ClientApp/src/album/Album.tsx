@@ -4,16 +4,16 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
-import HeartButton from "../common/HeartButton";
-import LoadingIndicator from "../common/LoadingIndicator";
-import MoreOptionsButton from "../common/MoreOptionsButton";
-import PageControls from "../common/PageControls";
-import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
+import HeartButton from "../ui/HeartButton";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import MoreOptionsButton from "../ui/MoreOptionsButton";
+import PageControls from "../ui/PageControls";
+import PageHeader from "../ui/PageHeader";
 import Copyrights from "./Copyrights";
 import SimilarAlbums from "./SimilarAlbums";
 

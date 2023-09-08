@@ -10,10 +10,7 @@ import AllDiscographyCards from "./artist/AllDiscographyCards";
 import Artist from "./artist/Artist";
 import LikedSongs from "./collections/LikedSongs";
 import { userAtom } from "./common/atoms";
-import LoadingIndicator from "./common/LoadingIndicator";
-import { MainScrollArea } from "./common/ScrollArea";
 import { styled, theme } from "./common/theme";
-import Toaster from "./common/Toaster";
 import { useMessageHub } from "./common/useMessageHub";
 import halyClient from "./halyClient";
 import Home from "./home/Home";
@@ -28,6 +25,9 @@ import Profile from "./profile/Profile";
 import Queue from "./queue/Queue";
 import Search from "./search/Search";
 import Sidebar from "./sidebar/Sidebar";
+import LoadingIndicator from "./ui/LoadingIndicator";
+import { MainScrollArea } from "./ui/ScrollArea";
+import Toaster from "./ui/Toaster";
 import UpperMenu from "./uppermenu/UpperMenu";
 
 function App() {

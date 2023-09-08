@@ -4,13 +4,13 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { artistNameAtom, dominantColorsAtom, pageContextAtom } from "../common/atoms";
-import LoadingIndicator from "../common/LoadingIndicator";
-import PageControls from "../common/PageControls";
-import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
 import FollowButton from "../profile/FollowButton";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import PageControls from "../ui/PageControls";
+import PageHeader from "../ui/PageHeader";
 import AppearsOn from "./AppearsOn";
 import ArtistHighlights from "./ArtistHighlights";
 import Discography from "./Discography";

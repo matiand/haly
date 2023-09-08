@@ -1,6 +1,6 @@
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import useDominantColorExtraction from "../playlist/useDominantColorExtraction";
-import { styled } from "./theme";
+import { styled } from "../common/theme";
 
 type HeaderImageProps = {
     alt: string;

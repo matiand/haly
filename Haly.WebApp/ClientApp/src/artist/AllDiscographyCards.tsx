@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 
 import { ReleaseItemDto } from "../../generated/haly";
 import { artistNameAtom } from "../common/atoms";
-import Card from "../common/Card";
-import * as CardGroup from "../common/CardGroup";
-import RadioGroup from "../common/RadioGroup";
-import ResizableCardGroup from "../common/ResizableCardGroup";
 import { styled } from "../common/theme";
+import Card from "../ui/card/Card";
+import * as CardGroup from "../ui/card/CardGroup";
+import ResizableCardGroup from "../ui/card/ResizableCardGroup";
+import RadioGroup from "../ui/RadioGroup";
 import useDiscographyQuery, { DiscographyFilter } from "./useDiscographyQuery";
 
 function AllDiscographyCards() {

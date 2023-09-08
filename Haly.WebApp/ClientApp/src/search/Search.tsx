@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import RadioGroup, { Item as RadioGroupItem, Option } from "../common/RadioGroup";
 import { styled } from "../common/theme";
+import RadioGroup, { Item as RadioGroupItem, Option } from "../ui/RadioGroup";
 import SearchBar, { SearchBarProps } from "./SearchBar";
 
 function Search() {

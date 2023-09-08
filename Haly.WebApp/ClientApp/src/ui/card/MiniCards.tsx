@@ -1,8 +1,7 @@
-import { KeyboardEventHandler } from "react";
+import { styled } from "../../common/theme";
 import { Link, useNavigate } from "react-router-dom";
-
-import { PlaylistCardDto } from "../../generated/haly";
-import { styled } from "./theme";
+import { KeyboardEventHandler } from "react";
+import { PlaylistCardDto } from "../../../generated/haly";
 
 type CardProps = {
     id: string;
@@ -12,7 +11,6 @@ type CardProps = {
     imageUrl: PlaylistCardDto["imageUrl"];
     hasRoundedImage: boolean;
 };
-
 const imgSize = 80;
 
 function MiniCard({ name, href, subtitle, imageUrl, hasRoundedImage }: CardProps) {
@@ -56,7 +54,6 @@ const Wrapper = styled("div", {
     gridTemplateColumns: "auto 1fr",
     userSelect: "none",
 });
-
 const ImageWrapper = styled("div", {
     cursor: "pointer",
     height: `${imgSize}px`,
@@ -70,7 +67,6 @@ const ImageWrapper = styled("div", {
         },
     },
 });
-
 const ContentWrapper = styled("div", {
     alignSelf: "center",
 
@@ -87,11 +83,9 @@ const ContentWrapper = styled("div", {
         },
     },
 });
-
 const Subtitle = styled("div", {
     color: "$white500",
     fontSize: "$200",
     fontWeight: 500,
 });
-
 export default MiniCard;

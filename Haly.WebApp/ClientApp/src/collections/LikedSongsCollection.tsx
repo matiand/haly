@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 
-import LoadingIndicator from "../common/LoadingIndicator";
-import PageControls from "../common/PageControls";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PlaylistHeader from "../playlist/PlaylistHeader";
 import PlaylistTracks from "../playlist/PlaylistTracks";
 import SearchBar from "../search/SearchBar";
+import LoadingIndicator from "../ui/LoadingIndicator";
+import PageControls from "../ui/PageControls";
 
 type LikedSongsCollectionProps = {
     id: string;

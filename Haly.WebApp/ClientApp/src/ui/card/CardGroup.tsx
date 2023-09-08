@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { styled, theme } from "./theme";
+import { styled, theme } from "../../common/theme";
 
 export const Root = styled("section", {
     padding: "$700 0",

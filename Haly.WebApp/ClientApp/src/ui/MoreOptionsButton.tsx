@@ -1,6 +1,6 @@
 import { FiMoreHorizontal } from "react-icons/fi";
 
-import { styled } from "./theme";
+import { styled } from "../common/theme";
 
 type MoreOptionsButtonProps = {
     label: string;

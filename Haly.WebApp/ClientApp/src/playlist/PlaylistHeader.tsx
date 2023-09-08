@@ -2,8 +2,8 @@ import { useAtomValue } from "jotai";
 
 import { OwnerBriefDto, PlaylistWithTracksDto } from "../../generated/haly";
 import { playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
-import PageHeader from "../common/PageHeader";
 import { pluralize } from "../common/pluralize";
+import PageHeader from "../ui/PageHeader";
 import PlaylistOwner from "./PlaylistOwner";
 
 type PlaylistHeaderProps = {

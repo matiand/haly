@@ -1,12 +1,14 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { Root, Trigger } from "@radix-ui/react-dropdown-menu";
 import { useAtomValue } from "jotai";
 import { HiOutlineUser } from "react-icons/hi";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
 
 import { userAtom } from "../common/atoms";
-import { styled, theme } from "../common/theme";
-import ExternalLink from "./ExternalLink";
+import { styled } from "../common/theme";
+import DropdownMenu from "../ui/menu/DropdownMenu";
+import MenuItem from "../ui/menu/MenuItem";
+import MenuItemSeparator from "../ui/menu/MenuItemSeparator";
 import UserDropdownHeader from "./UserDropdownHeader";
 
 function UserDropdown() {
@@ -17,40 +19,34 @@ function UserDropdown() {
     if (!user) return null;
 
     return (
-        <DropdownMenu.Root>
-            <Trigger title={user.name}>
+        <Root>
+            <MenuTrigger title={user.name}>
                 <span aria-hidden>
                     <UserIcon />
                 </span>
-            </Trigger>
+            </MenuTrigger>
 
-            <Content collisionPadding={{ right: 25 }}>
+            <DropdownMenu collisionPadding={{ right: 25 }}>
                 <UserDropdownHeader user={user} />
 
-                <Item onClick={() => navigate("/me")}>
-                    <div>Profile</div>
-                </Item>
-                <Item onClick={() => navigate("/preferences")}>
-                    <div>Settings</div>
-                </Item>
-                <ExternalLink name="About Haly" href="https://github.com/matiand/haly" />
+                <MenuItem name="Profile" onClick={() => navigate("/me")} />
+                <MenuItem name="Settings" onClick={() => navigate("/preferences")} />
+                <MenuItem name="About Haly" externalHref="https://github.com/matiand/haly" />
 
-                <Separator />
+                <MenuItemSeparator />
 
-                <ExternalLink name="Account" href="https://www.spotify.com/us/account/overview" />
-                <ExternalLink name="Dashboard" href="https://developer.spotify.com/dashboard" />
+                <MenuItem name="Account" externalHref="https://www.spotify.com/us/account/overview" />
+                <MenuItem name="Dashboard" externalHref="https://developer.spotify.com/dashboard" />
 
-                <Separator />
+                <MenuItemSeparator />
 
-                <Item css={{ padding: theme.space[500] }} onClick={() => auth.removeUser()}>
-                    Log out
-                </Item>
-            </Content>
-        </DropdownMenu.Root>
+                <MenuItem name="Log out" onClick={() => auth.removeUser()} />
+            </DropdownMenu>
+        </Root>
     );
 }
 
-const Trigger = styled(DropdownMenu.Trigger, {
+const MenuTrigger = styled(Trigger, {
     $$size: "36px",
 
     alignItems: "center",
@@ -74,49 +70,9 @@ const Trigger = styled(DropdownMenu.Trigger, {
     },
 });
 
-const Content = styled(DropdownMenu.Content, {
-    background: "$black200",
-    borderRadius: "4px",
-    fontSize: "$200",
-    fontWeight: 500,
-    marginTop: "$400",
-    padding: "$200",
-    userSelect: "none",
-    width: "$userDropdownMinWidth",
-    zIndex: "$upperMenuContents",
-
-    "& > :first-child, & > [role='menuitem'] > *": {
-        padding: "$500",
-    },
-});
-
-export const Item = styled(DropdownMenu.Item, {
-    borderRadius: "2px",
-    color: "$userDropdownItemText",
-    cursor: "default",
-
-    "&:hover": {
-        backgroundColor: "$trackHover",
-        outline: 0,
-    },
-
-    a: {
-        color: "unset",
-        cursor: "unset",
-        display: "flex",
-        justifyContent: "space-between",
-        textDecoration: "none",
-    },
-});
-
 const UserIcon = styled(HiOutlineUser, {
     height: "20px",
     width: "20px",
-});
-
-const Separator = styled(DropdownMenu.Separator, {
-    height: "1px",
-    backgroundColor: "$black100",
 });
 
 export default UserDropdown;
