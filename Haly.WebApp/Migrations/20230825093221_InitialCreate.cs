@@ -17,7 +17,7 @@ namespace Haly.WebApp.Migrations
         {
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:plan", "free,premium")
-                .Annotation("Npgsql:Enum:playlist_track_type", "song,podcast");
+                .Annotation("Npgsql:Enum:track_type", "song,podcast");
 
             migrationBuilder.CreateTable(
                 name: "Playlists",
@@ -60,7 +60,7 @@ namespace Haly.WebApp.Migrations
                     PositionInPlaylist = table.Column<int>(type: "integer", nullable: false),
                     PositionInAlbum = table.Column<int>(type: "integer", nullable: false),
                     AddedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    Type = table.Column<TrackType>(type: "playlist_track_type", nullable: false),
+                    Type = table.Column<TrackType>(type: "track_type", nullable: false),
                     Album = table.Column<AlbumBrief>(type: "jsonb", nullable: false),
                     QueryData = table.Column<PlaylistTrackQueryData>(type: "jsonb", nullable: false),
                     SpotifyId = table.Column<string>(type: "text", nullable: true),
