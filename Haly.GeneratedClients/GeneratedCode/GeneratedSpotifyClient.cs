@@ -10601,8 +10601,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// Information about the track or episode.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("track", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TrackObject Track { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("track", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TrackObject? Track { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 

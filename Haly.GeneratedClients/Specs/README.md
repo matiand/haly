@@ -16,6 +16,7 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `SimplifiedTrackObject` - add _episode_, _track_ values to **type** enum
 -   `TrackObject` - set as nullable: **available_markets**, **href**, **id**, **preview_url**, **uri**
 -   `TrackObject` - add _episode_ value to **type** enum
+-   `PlaylistTrackObject` - set as nullable: **track**
 -   `AlbumBase` - remove **total_tracks**, **available_markets** from required list
 -   `AlbumBase` - set as nullable: **album_type**, **available_markets**, **href**, **id**, **release_date**, **release_date_precision**, **uri**
 -   `AlbumBase` - add _show_ value to **type** enum

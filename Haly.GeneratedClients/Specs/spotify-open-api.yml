@@ -4306,6 +4306,7 @@ components:
           description: Information about the track or episode.
           discriminator:
             propertyName: type
+          nullable: true
     CurrentlyPlayingObject:
       type: object
       x-spotify-docs-type: CurrentlyPlayingObject

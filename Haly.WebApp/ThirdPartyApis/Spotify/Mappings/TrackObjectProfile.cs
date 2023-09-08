@@ -33,17 +33,18 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
             .Map(dest => dest.Type, src => GetTrackType(src.Track.Type));
 
+        // I always check if tracks are not null before adapting them.
         config.ForType<PlaylistTrackObject, PlaylistTrack>()
-            .Map(dest => dest.SpotifyId, src => src.Track.Id)
-            .Map(dest => dest.Name, src => src.Track.Name)
-            .Map(dest => dest.Album, src => src.Track.Album)
-            .Map(dest => dest.Artists, src => src.Track.Artists)
+            .Map(dest => dest.SpotifyId, src => src.Track!.Id)
+            .Map(dest => dest.Name, src => src.Track!.Name)
+            .Map(dest => dest.Album, src => src.Track!.Album)
+            .Map(dest => dest.Artists, src => src.Track!.Artists)
             .Map(dest => dest.AddedAt, src => src.Added_at)
-            .Map(dest => dest.DurationInMs, src => src.Track.Duration_ms)
-            .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
-            .Map(dest => dest.IsExplicit, src => src.Track.Explicit)
-            .Map(dest => dest.PositionInAlbum, src => src.Track.Disc_number * src.Track.Track_number)
-            .Map(dest => dest.Type, src => GetTrackType(src.Track.Type));
+            .Map(dest => dest.DurationInMs, src => src.Track!.Duration_ms)
+            .Map(dest => dest.IsPlayable, src => src.Track!.Is_playable)
+            .Map(dest => dest.IsExplicit, src => src.Track!.Explicit)
+            .Map(dest => dest.PositionInAlbum, src => src.Track!.Disc_number * src.Track.Track_number)
+            .Map(dest => dest.Type, src => GetTrackType(src.Track!.Type));
 
         config.ForType<SavedTrackObject, PlaylistTrack>()
             .Map(dest => dest.SpotifyId, src => src.Track.Id)

@@ -94,7 +94,10 @@ public sealed class SpotifyService : ISpotifyService
                 endpointLimit: PlaylistTracksLimit, maxConcurrentRequests: 4, startingOffset: playlist.Tracks.Limit);
         }
 
-        playlist.Tracks.Items = playlist.Tracks.Items.Concat(remainingTracks).ToList();
+        playlist.Tracks.Items = playlist.Tracks.Items
+            .Concat(remainingTracks)
+            .Where(t => t.Track is not null)
+            .ToList();
 
         var playlistDto = playlist.Adapt<Playlist>();
         playlistDto.Tracks = playlistDto.Tracks.AnnotateWithPosition();
@@ -111,6 +114,7 @@ public sealed class SpotifyService : ISpotifyService
             endpointLimit: PlaylistTracksLimit, maxConcurrentRequests: 4);
 
         return tracksDto
+            .Where(t => t.Track is not null)
             .Adapt<List<PlaylistTrack>>()
             .AnnotateWithPosition();
     }
