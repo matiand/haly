@@ -12,8 +12,10 @@ public class CurrentlyPlayingObjectProfile : IRegister
             .Map(dest => dest.Context, src => GetPlaybackContext(src.Context));
     }
 
-    private static PlaybackContext? GetPlaybackContext(ContextObject src)
+    private static PlaybackContext? GetPlaybackContext(ContextObject? src)
     {
+        if (src is null) return null;
+
         if (src.Type is "playlist" or "album")
         {
             return new PlaybackContext()
