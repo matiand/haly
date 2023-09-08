@@ -1,4 +1,3 @@
-import { Root, Trigger } from "@radix-ui/react-dropdown-menu";
 import { useAtomValue } from "jotai";
 import { HiOutlineUser } from "react-icons/hi";
 import { useAuth } from "react-oidc-context";
@@ -6,9 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { userAtom } from "../common/atoms";
 import { styled } from "../common/theme";
-import DropdownMenu from "../ui/menu/DropdownMenu";
-import MenuItem from "../ui/menu/MenuItem";
-import MenuItemSeparator from "../ui/menu/MenuItemSeparator";
+import * as DropdownMenu from "../ui/menu/DropdownMenu";
 import UserDropdownHeader from "./UserDropdownHeader";
 
 function UserDropdown() {
@@ -19,34 +16,34 @@ function UserDropdown() {
     if (!user) return null;
 
     return (
-        <Root>
+        <DropdownMenu.Root>
             <MenuTrigger title={user.name}>
                 <span aria-hidden>
                     <UserIcon />
                 </span>
             </MenuTrigger>
 
-            <DropdownMenu collisionPadding={{ right: 25 }}>
+            <DropdownMenu.Content collisionPadding={{ right: 25 }}>
                 <UserDropdownHeader user={user} />
 
-                <MenuItem name="Profile" onClick={() => navigate("/me")} />
-                <MenuItem name="Settings" onClick={() => navigate("/preferences")} />
-                <MenuItem name="About Haly" externalHref="https://github.com/matiand/haly" />
+                <DropdownMenu.Item name="Profile" onClick={() => navigate("/me")} />
+                <DropdownMenu.Item name="Settings" onClick={() => navigate("/preferences")} />
+                <DropdownMenu.ExternalLink name="About Haly" href="https://github.com/matiand/haly" />
 
-                <MenuItemSeparator />
+                <DropdownMenu.Separator />
 
-                <MenuItem name="Account" externalHref="https://www.spotify.com/us/account/overview" />
-                <MenuItem name="Dashboard" externalHref="https://developer.spotify.com/dashboard" />
+                <DropdownMenu.ExternalLink name="Account" href="https://www.spotify.com/us/account/overview" />
+                <DropdownMenu.ExternalLink name="Dashboard" href="https://developer.spotify.com/dashboard" />
 
-                <MenuItemSeparator />
+                <DropdownMenu.Separator />
 
-                <MenuItem name="Log out" onClick={() => auth.removeUser()} />
-            </DropdownMenu>
-        </Root>
+                <DropdownMenu.Item name="Log out" onClick={() => auth.removeUser()} />
+            </DropdownMenu.Content>
+        </DropdownMenu.Root>
     );
 }
 
-const MenuTrigger = styled(Trigger, {
+const MenuTrigger = styled(DropdownMenu.Trigger, {
     $$size: "36px",
 
     alignItems: "center",

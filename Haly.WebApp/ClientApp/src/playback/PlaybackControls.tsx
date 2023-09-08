@@ -32,7 +32,11 @@ function PlaybackControls({ track }: PlaybackControlsProps) {
 
                     <PlaybackToggle size="small" />
 
-                    <PlaybackButton label="Next track" icon={<TbPlayerSkipForwardFilled />} />
+                    <PlaybackButton
+                        label="Next track"
+                        icon={<TbPlayerSkipForwardFilled />}
+                        onClick={() => console.log("next track")}
+                    />
                     <RepeatButton onChange={() => null} />
                 </div>
 

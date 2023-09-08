@@ -39,7 +39,7 @@ export const theme = {
         upperMenuMask: "rgba(0, 0, 0, 0.62)",
         userDropdownBtnBg: "rgba(0, 0, 0, 0.72)",
         userDropdownBtnHover: "rgba(0, 0, 0, 0.8)",
-        userDropdownItemText: "rgba(255, 255, 255, 0.9)",
+        menuItemText: "rgba(255, 255, 255, 0.9)",
         explicitMarkBg: "rgba(255, 255, 255, 0.6)",
         radioBtnBg: "rgba(255, 255, 255, 0.08)",
         radioBtnBgHover: "rgba(255, 255, 255, 0.12)",
@@ -91,8 +91,8 @@ export const theme = {
         navIconSize: "24px",
         playbackControlsHeight: "72px",
         playbackControlsButtonSize: "36px",
+        playbackDevicesDropdownMinWidth: "320px",
         connectBarHeight: "24px",
-        userDropdownTriggerSpanMinWidth: "110px",
         userDropdownMinWidth: "196px",
         upperMenuHeight: "64px",
         volumeControlWidth: "132px",
@@ -115,10 +115,11 @@ export const theme = {
     zIndices: {
         verticalScrollbar: 10,
         resizer: 10,
+        upperMenuContents: 4,
+        deviceDropdown: 4,
+        upperMenuBackground: 3,
         collectionTableHead: 2,
         collectionBackground: -1,
-        upperMenuContents: 4,
-        upperMenuBackground: 3,
     },
 };
 
