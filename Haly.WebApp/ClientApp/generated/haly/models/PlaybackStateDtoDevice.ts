@@ -34,6 +34,12 @@ export interface PlaybackStateDtoDevice {
     id: string;
     /**
      * 
+     * @type {string}
+     * @memberof PlaybackStateDtoDevice
+     */
+    name: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof PlaybackStateDtoDevice
      */
@@ -43,13 +49,7 @@ export interface PlaybackStateDtoDevice {
      * @type {string}
      * @memberof PlaybackStateDtoDevice
      */
-    name: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof PlaybackStateDtoDevice
-     */
-    volumePercent: number;
+    type: string;
 }
 
 /**
@@ -58,9 +58,9 @@ export interface PlaybackStateDtoDevice {
 export function instanceOfPlaybackStateDtoDevice(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "isActive" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "volumePercent" in value;
+    isInstance = isInstance && "isActive" in value;
+    isInstance = isInstance && "type" in value;
 
     return isInstance;
 }
@@ -76,9 +76,9 @@ export function PlaybackStateDtoDeviceFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'id': json['id'],
-        'isActive': json['isActive'],
         'name': json['name'],
-        'volumePercent': json['volumePercent'],
+        'isActive': json['isActive'],
+        'type': json['type'],
     };
 }
 
@@ -92,9 +92,9 @@ export function PlaybackStateDtoDeviceToJSON(value?: PlaybackStateDtoDevice | nu
     return {
         
         'id': value.id,
-        'isActive': value.isActive,
         'name': value.name,
-        'volumePercent': value.volumePercent,
+        'isActive': value.isActive,
+        'type': value.type,
     };
 }
 

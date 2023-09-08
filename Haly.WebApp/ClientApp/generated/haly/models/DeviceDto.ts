@@ -27,6 +27,12 @@ export interface DeviceDto {
     id: string;
     /**
      * 
+     * @type {string}
+     * @memberof DeviceDto
+     */
+    name: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof DeviceDto
      */
@@ -36,13 +42,7 @@ export interface DeviceDto {
      * @type {string}
      * @memberof DeviceDto
      */
-    name: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof DeviceDto
-     */
-    volumePercent: number;
+    type: string;
 }
 
 /**
@@ -51,9 +51,9 @@ export interface DeviceDto {
 export function instanceOfDeviceDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "isActive" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "volumePercent" in value;
+    isInstance = isInstance && "isActive" in value;
+    isInstance = isInstance && "type" in value;
 
     return isInstance;
 }
@@ -69,9 +69,9 @@ export function DeviceDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'id': json['id'],
-        'isActive': json['isActive'],
         'name': json['name'],
-        'volumePercent': json['volumePercent'],
+        'isActive': json['isActive'],
+        'type': json['type'],
     };
 }
 
@@ -85,9 +85,9 @@ export function DeviceDtoToJSON(value?: DeviceDto | null): any {
     return {
         
         'id': value.id,
-        'isActive': value.isActive,
         'name': value.name,
-        'volumePercent': value.volumePercent,
+        'isActive': value.isActive,
+        'type': value.type,
     };
 }
 

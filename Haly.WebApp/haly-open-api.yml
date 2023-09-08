@@ -1109,18 +1109,17 @@ components:
         - id
         - isActive
         - name
-        - volumePercent
+        - type
       type: object
       properties:
         id:
           type: string
-        isActive:
-          type: boolean
         name:
           type: string
-        volumePercent:
-          type: integer
-          format: int32
+        isActive:
+          type: boolean
+        type:
+          type: string
       additionalProperties: false
     FollowedArtistDto:
       required:

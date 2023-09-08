@@ -2950,6 +2950,8 @@ paths:
       responses:
         "202":
           description: Playback transferred
+        "204":
+          description: Playback transferred
         "401":
           $ref: '#/components/responses/Unauthorized'
         "403":

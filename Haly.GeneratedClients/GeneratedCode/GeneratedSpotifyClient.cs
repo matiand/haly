@@ -8373,6 +8373,11 @@ namespace Haly.GeneratedClients
                             return;
                         }
                         else
+                        if (status_ == 204)
+                        {
+                            return;
+                        }
+                        else
                         if (status_ == 401)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<Response>(response_, headers_, cancellationToken).ConfigureAwait(false);
