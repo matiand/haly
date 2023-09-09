@@ -1,37 +1,24 @@
 import * as Slider from "@radix-ui/react-slider";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
 
 import { styled } from "../common/theme";
 
 type ProgressBarProps = {
-    initialValue: number;
+    value: number;
     onChange: (newValue: number) => void;
-    max: number;
     step: number;
+    max: number;
     label: string;
     isHighlighted?: boolean;
-    isEmpty?: boolean;
 };
 
-function ProgressBar({ initialValue, onChange, max, step, label, isEmpty, isHighlighted }: ProgressBarProps) {
-    const [value, setValue] = useState(initialValue);
-
-    useEffect(() => {
-        if (isEmpty) {
-            onChange(0);
-        } else {
-            onChange(value);
-        }
-    }, [isEmpty, onChange, value]);
-
+function ProgressBar({ value, onChange, max, step, label, isHighlighted }: ProgressBarProps) {
     return (
         <Root
             className={clsx({ isHighlighted })}
             aria-label={label}
-            value={[isEmpty ? 0 : value]}
+            value={[value]}
             onValueChange={(newValue) => {
-                setValue(newValue[0]);
                 onChange(newValue[0]);
             }}
             max={max}
