@@ -13,11 +13,12 @@ function Playback() {
     const query = usePlaybackStateQuery();
 
     // console.log(query.isSuccess, deviceId, query.data);
+    console.log(streamedTrack);
 
     if (!query.data || !deviceId || !player) return null;
 
     const activeDeviceName = query.data.device.name;
-    console.log(streamedTrack);
+    const activeDeviceVolume = query.data.device.volume;
 
     if (!streamedTrack) {
         return (
@@ -29,7 +30,7 @@ function Playback() {
 
     return (
         <Footer>
-            <PlaybackControls track={streamedTrack} player={player} />
+            <PlaybackControls track={streamedTrack} player={player} volume={activeDeviceVolume} />
         </Footer>
     );
 }

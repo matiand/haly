@@ -6,4 +6,5 @@ public record DeviceDto
     public string Name { get; init; }
     public bool IsActive { get; init; }
     public string Type { get; init; }
+    public double Volume { get; init; }
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuVolume1, LuVolume2, LuVolumeX } from "react-icons/lu";
 
 import { styled } from "../common/theme";
@@ -7,14 +7,20 @@ import ProgressBar from "./ProgressBar";
 
 type VolumeControlProps = {
     initialLevel?: number;
+    setVolume: (level: number) => void;
 };
 
-function VolumeControl({ initialLevel }: VolumeControlProps) {
+function VolumeControl({ initialLevel, setVolume }: VolumeControlProps) {
     const [level, setLevel] = useState(initialLevel ?? 0.5);
     const [isMuted, setIsMuted] = useState(initialLevel === 0);
     const [isProgressBarHighlighted, setIsProgressBarHighlighted] = useState(false);
 
     const actualLevel = isMuted ? 0 : level;
+
+    useEffect(() => {
+        setVolume(actualLevel);
+    }, [actualLevel, setVolume]);
+
     const icon = actualLevel === 0 ? <LuVolumeX /> : actualLevel < 0.66 ? <LuVolume1 /> : <LuVolume2 />;
 
     return (

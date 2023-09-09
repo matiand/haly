@@ -16,9 +16,10 @@ import VolumeControl from "./VolumeControl";
 type PlaybackControlsProps = {
     track: StreamedTrack;
     player: Spotify.Player;
+    volume: number;
 };
 
-function PlaybackControls({ track, player }: PlaybackControlsProps) {
+function PlaybackControls({ track, player, volume }: PlaybackControlsProps) {
     return (
         <Wrapper>
             <div>
@@ -58,7 +59,7 @@ function PlaybackControls({ track, player }: PlaybackControlsProps) {
             <div>
                 <QueueButton />
                 <DeviceDropdown />
-                <VolumeControl initialLevel={0.5} />
+                <VolumeControl key={volume} initialLevel={volume} setVolume={(level) => player.setVolume(level)} />
             </div>
         </Wrapper>
     );

@@ -50,6 +50,12 @@ export interface PlaybackStateDtoDevice {
      * @memberof PlaybackStateDtoDevice
      */
     type: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PlaybackStateDtoDevice
+     */
+    volume: number;
 }
 
 /**
@@ -61,6 +67,7 @@ export function instanceOfPlaybackStateDtoDevice(value: object): boolean {
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "isActive" in value;
     isInstance = isInstance && "type" in value;
+    isInstance = isInstance && "volume" in value;
 
     return isInstance;
 }
@@ -79,6 +86,7 @@ export function PlaybackStateDtoDeviceFromJSONTyped(json: any, ignoreDiscriminat
         'name': json['name'],
         'isActive': json['isActive'],
         'type': json['type'],
+        'volume': json['volume'],
     };
 }
 
@@ -95,6 +103,7 @@ export function PlaybackStateDtoDeviceToJSON(value?: PlaybackStateDtoDevice | nu
         'name': value.name,
         'isActive': value.isActive,
         'type': value.type,
+        'volume': value.volume,
     };
 }
 

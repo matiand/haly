@@ -1110,6 +1110,7 @@ components:
         - isActive
         - name
         - type
+        - volume
       type: object
       properties:
         id:
@@ -1120,6 +1121,9 @@ components:
           type: boolean
         type:
           type: string
+        volume:
+          type: number
+          format: double
       additionalProperties: false
     FollowedArtistDto:
       required:
