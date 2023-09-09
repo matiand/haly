@@ -29,7 +29,11 @@ function PlaybackControls({ track, player }: PlaybackControlsProps) {
             <ControlsWrapper aria-label="Playback controls">
                 <div>
                     <ShuffleButton initialState={false} onChange={() => null} />
-                    <PlaybackButton label="Previous track" icon={<TbPlayerSkipBackFilled />} />
+                    <PlaybackButton
+                        label="Previous track"
+                        icon={<TbPlayerSkipBackFilled />}
+                        onClick={() => player.previousTrack()}
+                    />
 
                     <PlaybackToggle
                         size="small"
@@ -41,7 +45,7 @@ function PlaybackControls({ track, player }: PlaybackControlsProps) {
                     <PlaybackButton
                         label="Next track"
                         icon={<TbPlayerSkipForwardFilled />}
-                        onClick={() => console.log("next track")}
+                        onClick={() => player.nextTrack()}
                     />
                     <RepeatButton onChange={() => null} />
                 </div>

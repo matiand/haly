@@ -11,19 +11,21 @@ type PlaybackToggleProps = {
 };
 
 function PlaybackToggle({ size, isPaused, toggle, handlesSpacebar }: PlaybackToggleProps) {
-    useEffect(() => {
-        if (!handlesSpacebar) return;
-
-        const keyHandler = (e: KeyboardEvent) => {
-            if (e.code === "Space" && !e.repeat) {
-                toggle();
-            }
-        };
-
-        document.addEventListener("keydown", keyHandler);
-
-        return () => document.removeEventListener("keydown", keyHandler);
-    }, [handlesSpacebar, toggle]);
+    // This won't work (I think) in browsers. If some other button is focused, spacebar will activate them both.
+    // useEffect(() => {
+    //     if (!handlesSpacebar) return;
+    //
+    //     const keyHandler = (e: KeyboardEvent) => {
+    //         if (e.code === "Space" && !e.repeat) {
+    //             console.log("whyy twice");
+    //             toggle();
+    //         }
+    //     };
+    //
+    //     document.addEventListener("keydown", keyHandler);
+    //
+    //     return () => document.removeEventListener("keydown", keyHandler);
+    // }, [handlesSpacebar, toggle]);
 
     const label = isPaused ? "Play" : "Pause";
     const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
