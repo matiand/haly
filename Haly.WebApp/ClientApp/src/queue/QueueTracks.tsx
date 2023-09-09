@@ -23,7 +23,7 @@ function QueueTracks({ contextName }: QueueTracksProps) {
                 </span>
 
                 <h1>Queue is empty</h1>
-                <p>Use the &quot;Add to queue&quot; action from the tracks&apos; context menu to see them here.</p>
+                <p>Use the &quot;Add to queue&quot; action from the context menu to see them here.</p>
             </QueueEmptyState>
         );
     }
