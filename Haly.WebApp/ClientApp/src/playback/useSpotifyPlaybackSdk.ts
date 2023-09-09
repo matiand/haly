@@ -3,13 +3,11 @@ import { useSetAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 
 import { PlaybackContext, playbackContextAtom, StreamedTrack } from "../common/atoms";
-import PlaybackTrackWindow = Spotify.PlaybackTrackWindow;
 import PlaybackStateListener = Spotify.PlaybackStateListener;
+import PlaybackState = Spotify.PlaybackState;
 
 function useSpotifyPlaybackSdk() {
     const [deviceId, setDeviceId] = useState<string>();
-    const [isPaused, setIsPaused] = useState(true);
-    const [positionInMs, setPositionInMs] = useState<number>();
     const [streamedTrack, setStreamedTrack] = useState<StreamedTrack>();
     const setPlaybackContext = useSetAtom(playbackContextAtom);
 
@@ -17,19 +15,13 @@ function useSpotifyPlaybackSdk() {
 
     const player = query.data;
 
-    //     const [fromTimestamp, setFromTimestamp] = useState(0);
-
     const onPlayerStateChange = useCallback<PlaybackStateListener>(
         (state) => {
             if (!state) return;
-            const { track_window, paused, position, timestamp, context } = state;
 
-            setIsPaused(paused);
-            setPositionInMs(position);
-
-            const track = mapStreamedTrackFromPlaybackTrackWindow(track_window);
+            const track = mapStreamedTrackFromPlaybackState(state);
             setStreamedTrack(track);
-            const ctx = mapPlaybackContextFromSpotifyContext(context);
+            const ctx = mapPlaybackContextFromPlaybackState(state);
             setPlaybackContext(ctx);
         },
         [setPlaybackContext],
@@ -41,7 +33,7 @@ function useSpotifyPlaybackSdk() {
         return () => player?.removeListener("player_state_changed");
     }, [player, onPlayerStateChange]);
 
-    return { player, deviceId, isPaused, positionInMs, streamedTrack };
+    return { player, deviceId, streamedTrack };
 }
 
 function initPlayerSdk(setDeviceId: (deviceId: string) => void) {
@@ -87,15 +79,16 @@ function initPlayerSdk(setDeviceId: (deviceId: string) => void) {
     });
 }
 
-function mapStreamedTrackFromPlaybackTrackWindow(data: PlaybackTrackWindow): StreamedTrack | undefined {
-    const currentTrack = data.current_track;
+function mapStreamedTrackFromPlaybackState(state: PlaybackState): StreamedTrack | undefined {
+    const currentTrack = state.track_window.current_track;
 
     // Skip tracks without an id.
-    if (!currentTrack.id) return;
+    if (!currentTrack?.id) return;
 
     return {
         spotifyId: currentTrack.id,
         name: currentTrack.name,
+        durationInMs: currentTrack.duration_ms,
         album: {
             id: extractIdFromSpotifyUri(currentTrack.album.uri)!,
             name: currentTrack.album.name,
@@ -105,10 +98,14 @@ function mapStreamedTrackFromPlaybackTrackWindow(data: PlaybackTrackWindow): Str
             id: extractIdFromSpotifyUri(artist.uri)!,
             name: artist.name,
         })),
+
+        updatedAt: state.timestamp,
+        positionInMs: state.position,
+        isPaused: state.paused,
     };
 }
 
-function mapPlaybackContextFromSpotifyContext(context: Spotify.PlaybackContext): PlaybackContext | null {
+function mapPlaybackContextFromPlaybackState({ context }: Spotify.PlaybackState): PlaybackContext | null {
     if (!context.uri) return null;
 
     const type = context.uri.split(":").at(-2);

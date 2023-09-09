@@ -9,22 +9,15 @@ import PlaybackControls from "./PlaybackControls";
 import useSpotifyPlaybackSdk from "./useSpotifyPlaybackSdk";
 
 function Playback() {
-    const { player, deviceId, isPaused, positionInMs, streamedTrack } = useSpotifyPlaybackSdk();
+    const { player, deviceId, streamedTrack } = useSpotifyPlaybackSdk();
     const query = usePlaybackStateQuery();
 
-    console.log(query.isSuccess, deviceId, query.data);
+    // console.log(query.isSuccess, deviceId, query.data);
 
-    if (deviceId) {
-        return (
-            <Footer>
-                <PlaybackControls track={null} />
-            </Footer>
-        );
-    }
     if (!query.data || !deviceId) return null;
 
     const activeDeviceName = query.data.device.name;
-    console.log(streamedTrack, positionInMs);
+    console.log(streamedTrack);
 
     if (!streamedTrack) {
         return (
@@ -36,7 +29,12 @@ function Playback() {
 
     return (
         <Footer>
-            <PlaybackControls track={streamedTrack} />
+            <PlaybackControls
+                track={streamedTrack}
+                // isPaused={isPaused}
+                // positionInMs={positionInMs}
+                // updatedAt={updatedAt}
+            />
         </Footer>
     );
 }

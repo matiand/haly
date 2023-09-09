@@ -39,6 +39,13 @@ export type PlaybackContext = {
 export type StreamedTrack = {
     spotifyId: string;
     name: string;
+    durationInMs: number;
+    positionInMs: number;
+    isPaused: boolean;
+
+    /* Last state update in milliseconds. */
+    updatedAt: number;
+
     album: AlbumBriefDto;
     artists: ArtistBriefDto[];
 };
