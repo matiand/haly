@@ -1,26 +1,40 @@
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect } from "react";
 import { HiPause, HiPlay } from "react-icons/hi2";
 
 import { styled, theme } from "../common/theme";
 
 type PlaybackToggleProps = {
     size: "small" | "medium" | "large";
-    isPaused?: boolean;
+    isPaused: boolean;
+    toggle: () => void;
+    handlesSpacebar?: boolean;
 };
 
-function PlaybackToggle({ size, isPaused }: PlaybackToggleProps) {
-    const [isPaused2, setIsPaused] = useState(isPaused ?? true);
-    const label = isPaused2 ? "Play" : "Pause";
+function PlaybackToggle({ size, isPaused, toggle, handlesSpacebar }: PlaybackToggleProps) {
+    useEffect(() => {
+        if (!handlesSpacebar) return;
 
+        const keyHandler = (e: KeyboardEvent) => {
+            if (e.code === "Space" && !e.repeat) {
+                toggle();
+            }
+        };
+
+        document.addEventListener("keydown", keyHandler);
+
+        return () => document.removeEventListener("keydown", keyHandler);
+    }, [handlesSpacebar, toggle]);
+
+    const label = isPaused ? "Play" : "Pause";
     const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
         e.stopPropagation();
 
-        setIsPaused((prev) => !prev);
+        toggle();
     };
 
     return (
         <Button size={size} type="button" onClick={onClick} aria-label={label} title={label}>
-            <span aria-hidden>{isPaused2 ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
+            <span aria-hidden>{isPaused ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
         </Button>
     );
 }

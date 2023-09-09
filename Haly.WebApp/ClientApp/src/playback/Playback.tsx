@@ -14,7 +14,7 @@ function Playback() {
 
     // console.log(query.isSuccess, deviceId, query.data);
 
-    if (!query.data || !deviceId) return null;
+    if (!query.data || !deviceId || !player) return null;
 
     const activeDeviceName = query.data.device.name;
     console.log(streamedTrack);
@@ -29,12 +29,7 @@ function Playback() {
 
     return (
         <Footer>
-            <PlaybackControls
-                track={streamedTrack}
-                // isPaused={isPaused}
-                // positionInMs={positionInMs}
-                // updatedAt={updatedAt}
-            />
+            <PlaybackControls track={streamedTrack} player={player} />
         </Footer>
     );
 }

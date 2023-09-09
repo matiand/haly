@@ -1,9 +1,10 @@
-import {PlaylistCardDto} from "../../../generated/haly";
-import {Link, useNavigate} from "react-router-dom";
-import {MouseEventHandler} from "react";
-import EmptyCoverImage from "../EmptyCoverImage";
+import { MouseEventHandler } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { PlaylistCardDto } from "../../../generated/haly";
+import { styled } from "../../common/theme";
 import PlaybackToggle from "../../playback/PlaybackToggle";
-import {styled} from "../../common/theme";
+import EmptyCoverImage from "../EmptyCoverImage";
 
 export type CardProps = {
     id: string;
@@ -34,7 +35,7 @@ function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage, isH
 
                 {isPlayable && (
                     <div id="card-playback-wrapper">
-                        <PlaybackToggle size="medium" />
+                        <PlaybackToggle size="medium" isPaused toggle={() => 1} />
                     </div>
                 )}
             </ImageWrapper>

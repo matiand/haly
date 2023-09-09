@@ -15,9 +15,10 @@ import VolumeControl from "./VolumeControl";
 
 type PlaybackControlsProps = {
     track: StreamedTrack;
+    player: Spotify.Player;
 };
 
-function PlaybackControls({ track }: PlaybackControlsProps) {
+function PlaybackControls({ track, player }: PlaybackControlsProps) {
     return (
         <Wrapper>
             <div>
@@ -30,7 +31,12 @@ function PlaybackControls({ track }: PlaybackControlsProps) {
                     <ShuffleButton initialState={false} onChange={() => null} />
                     <PlaybackButton label="Previous track" icon={<TbPlayerSkipBackFilled />} />
 
-                    <PlaybackToggle size="small" />
+                    <PlaybackToggle
+                        size="small"
+                        isPaused={track.isPaused}
+                        toggle={() => player.togglePlay()}
+                        handlesSpacebar
+                    />
 
                     <PlaybackButton
                         label="Next track"

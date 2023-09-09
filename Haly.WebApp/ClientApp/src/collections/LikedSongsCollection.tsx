@@ -35,7 +35,7 @@ export function LikedSongsCollection({ id }: LikedSongsCollectionProps) {
             />
 
             <PageControls>
-                <PlaybackToggle size="large" />
+                <PlaybackToggle size="large" isPaused toggle={() => 1} />
                 <SearchBar variant="playlist" />
             </PageControls>
 

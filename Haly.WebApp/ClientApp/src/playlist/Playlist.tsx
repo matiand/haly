@@ -93,7 +93,7 @@ function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder 
                 isPersonalized={playlist.isPersonalized}
             />
             <PageControls>
-                <PlaybackToggle size="large" isPaused={!isListenedTo} />
+                <PlaybackToggle size="large" isPaused={!isListenedTo} toggle={() => 1} />
                 <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />
                 <SearchBar
                     variant="playlist"
