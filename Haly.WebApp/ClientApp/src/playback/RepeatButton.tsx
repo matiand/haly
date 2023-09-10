@@ -1,52 +1,62 @@
-import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
+import { useEffect } from "react";
 import { TbRepeat, TbRepeatOnce } from "react-icons/tb";
 
+import { PlaybackContext, playbackContextAtom } from "../common/atoms";
+import halyClient from "../halyClient";
+import { QueueQueryKey } from "../queue/useQueueQuery";
 import PlaybackButton from "./PlaybackButton";
 
-type RepeatButtonState = "off" | "on" | "once";
-type RepeatButtonProps = {
-    initialState?: RepeatButtonState;
-    onChange: (newState: RepeatButtonState) => void;
-};
+type RepeatMode = PlaybackContext["repeatMode"];
 
-function RepeatButton({ initialState, onChange }: RepeatButtonProps) {
-    const [btnState, setBtnState] = useState<RepeatButtonState>(initialState ?? "off");
+function RepeatButton() {
+    const playbackContext = useAtomValue(playbackContextAtom);
 
-    useEffect(() => {
-        onChange(btnState);
-    }, [btnState, onChange]);
+    const queryClient = useQueryClient();
+    const setRepeatMode = useMutation(
+        ["me", "player", "repeat-mode"],
+        (repeatMode: RepeatMode) => halyClient.player.setRepeatMode({ repeatMode }),
+        {
+            onSuccess: () => queryClient.invalidateQueries(QueueQueryKey),
+        },
+    );
+
+    const repeatMode = playbackContext?.repeatMode ?? "off";
+    const nextRepeatMode = getNextRepeatMode(repeatMode);
 
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
             if (e.ctrlKey && e.key === "r") {
                 e.preventDefault();
 
-                setBtnState(dispatchRepeatStateChange);
+                setRepeatMode.mutate(nextRepeatMode);
             }
         };
 
         window.addEventListener("keydown", keyHandler);
 
         return () => window.removeEventListener("keydown", keyHandler);
-    }, []);
+    }, [nextRepeatMode, setRepeatMode]);
 
-    const label = btnState === "off" ? "Enable repeat" : btnState === "on" ? "Enable repeat one" : "Disable repeat";
-    const checkedState = btnState === "off" ? "false" : btnState === "on" ? "true" : "mixed";
+    const label =
+        repeatMode === "off" ? "Enable repeat" : repeatMode === "context" ? "Enable repeat one" : "Disable repeat";
+    const checkedState = repeatMode === "off" ? "false" : repeatMode === "context" ? "true" : "mixed";
 
     return (
         <PlaybackButton
-            onClick={() => setBtnState(dispatchRepeatStateChange)}
+            onClick={() => setRepeatMode.mutate(nextRepeatMode)}
             checked={checkedState}
             label={label}
-            icon={btnState === "once" ? <TbRepeatOnce /> : <TbRepeat />}
+            icon={repeatMode === "track" ? <TbRepeatOnce /> : <TbRepeat />}
             highlightedWhenActive
         />
     );
 }
 
-const dispatchRepeatStateChange = (prevState: RepeatButtonState) => {
-    if (prevState === "off") return "on";
-    if (prevState === "on") return "once";
+const getNextRepeatMode = (prevState: RepeatMode) => {
+    if (prevState === "off") return "context";
+    if (prevState === "context") return "track";
     return "off";
 };
 

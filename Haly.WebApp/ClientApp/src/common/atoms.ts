@@ -34,6 +34,8 @@ export const pageContextAtom = atom<PageContext | null>(null);
 export type PlaybackContext = {
     entityId: string;
     type: "playlist" | "album";
+    isShuffled: boolean;
+    repeatMode: "off" | "track" | "context";
 };
 
 export type StreamedTrack = {

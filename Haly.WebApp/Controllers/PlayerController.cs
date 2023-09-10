@@ -3,6 +3,7 @@ using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Features.Player.GetPlaybackState;
 using Haly.WebApp.Features.Player.GetQueue;
 using Haly.WebApp.Features.Player.GetRecentlyPlayed;
+using Haly.WebApp.Features.Player.SetRepeatModeCommand;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -65,5 +66,27 @@ public class PlayerController : ApiControllerBase
         var response = await Mediator.Send(new GetRecentlyPlayedQuery());
 
         return response;
+    }
+
+    [HttpPut("shuffle")]
+    [SwaggerOperation(Summary = "Toggle shuffle on or off")]
+    [SwaggerResponse(statusCode: 202, "Accepted")]
+    [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
+    public async Task<ActionResult> Shuffle(bool state, [FromServices] ISpotifyService spotifyService)
+    {
+        await spotifyService.ShufflePlayback(state);
+
+        return Accepted();
+    }
+
+    [HttpPut("repeat-mode")]
+    [SwaggerOperation(Summary = "Set the repeat mode for the user's playback.")]
+    [SwaggerResponse(statusCode: 202, "Accepted")]
+    [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
+    public async Task<ActionResult> SetRepeatMode(string repeatMode)
+    {
+        await Mediator.Send(new SetRepeatModeCommand(repeatMode));
+
+        return Accepted();
     }
 }

@@ -1,17 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
 import { LuMenu } from "react-icons/lu";
 
 import { styled } from "../common/theme";
-import halyClient from "../halyClient";
 import QueueTable from "../table/queue/QueueTable";
 import QueueEmptyState from "./QueueEmptyState";
+import useQueueQuery from "./useQueueQuery";
 
 type QueueTracksProps = {
     contextName?: string;
 };
 
 function QueueTracks({ contextName }: QueueTracksProps) {
-    const query = useQuery(["me", "player", "queue"], () => halyClient.player.getQueue());
+    const query = useQueueQuery();
 
     if (!query.data) return null;
 

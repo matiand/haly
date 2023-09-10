@@ -1,40 +1,43 @@
-import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
+import { useEffect } from "react";
 import { TbArrowsShuffle } from "react-icons/tb";
 
+import { playbackContextAtom } from "../common/atoms";
+import halyClient from "../halyClient";
+import { QueueQueryKey } from "../queue/useQueueQuery";
 import PlaybackButton from "./PlaybackButton";
 
-type ShuffleButtonProps = {
-    initialState: boolean;
-    onChange: (newState: boolean) => void;
-};
+function ShuffleButton() {
+    const playbackContext = useAtomValue(playbackContextAtom);
 
-function ShuffleButton({ initialState, onChange }: ShuffleButtonProps) {
-    const [isShuffle, setIsShuffle] = useState(initialState ?? false);
+    const queryClient = useQueryClient();
+    const shuffle = useMutation(["me", "player", "shuffle"], (state: boolean) => halyClient.player.shuffle({ state }), {
+        onSuccess: () => queryClient.invalidateQueries(QueueQueryKey),
+    });
 
-    useEffect(() => {
-        onChange(isShuffle);
-    }, [isShuffle, onChange]);
+    const isShuffle = playbackContext?.isShuffled ?? false;
 
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
             if (e.ctrlKey && e.key === "s") {
                 e.preventDefault();
 
-                setIsShuffle((prev) => !prev);
+                shuffle.mutate(!isShuffle);
             }
         };
 
         window.addEventListener("keydown", keyHandler);
 
         return () => window.removeEventListener("keydown", keyHandler);
-    }, []);
+    }, [isShuffle, shuffle]);
 
     const label = isShuffle ? "Disable shuffle" : "Enable shuffle";
     const checkedState = isShuffle ? "true" : "false";
 
     return (
         <PlaybackButton
-            onClick={() => setIsShuffle((prev) => !prev)}
+            onClick={() => shuffle.mutate(!isShuffle)}
             checked={checkedState}
             label={label}
             icon={<TbArrowsShuffle />}

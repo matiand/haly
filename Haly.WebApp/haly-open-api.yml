@@ -713,6 +713,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /Me/Player/shuffle:
+    put:
+      tags:
+        - Player
+      summary: Toggle shuffle on or off
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>'
+      operationId: Shuffle
+      parameters:
+        - name: state
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/Player/repeat-mode:
+    put:
+      tags:
+        - Player
+      summary: Set the repeat mode for the user's playback.
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>'
+      operationId: SetRepeatMode
+      parameters:
+        - name: repeatMode
+          in: query
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Playlists/{id}':
     get:
       tags:

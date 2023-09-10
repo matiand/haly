@@ -31,6 +31,8 @@ public interface ISpotifyService
     Task Follow(CreatorType creatorType, string creatorId);
     Task Unfollow(CreatorType creatorType, string creatorId);
     Task TransferPlayback(string deviceId);
+    Task ShufflePlayback(bool state);
+    Task SetPlaybackRepeatMode(string repeatMode);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);

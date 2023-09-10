@@ -31,6 +31,14 @@ import {
     TrackDtoToJSON,
 } from '../models';
 
+export interface SetRepeatModeRequest {
+    repeatMode?: string;
+}
+
+export interface ShuffleRequest {
+    state?: boolean;
+}
+
 export interface TransferPlaybackRequest {
     deviceId?: string;
 }
@@ -150,6 +158,68 @@ export class PlayerApi extends runtime.BaseAPI {
     async getRecentlyPlayed(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TrackDto>> {
         const response = await this.getRecentlyPlayedRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Set the repeat mode for the user\'s playback.
+     */
+    async setRepeatModeRaw(requestParameters: SetRepeatModeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.repeatMode !== undefined) {
+            queryParameters['repeatMode'] = requestParameters.repeatMode;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player/repeat-mode`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Set the repeat mode for the user\'s playback.
+     */
+    async setRepeatMode(requestParameters: SetRepeatModeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.setRepeatModeRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Toggle shuffle on or off
+     */
+    async shuffleRaw(requestParameters: ShuffleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.state !== undefined) {
+            queryParameters['state'] = requestParameters.state;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player/shuffle`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Toggle shuffle on or off
+     */
+    async shuffle(requestParameters: ShuffleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.shuffleRaw(requestParameters, initOverrides);
     }
 
     /**

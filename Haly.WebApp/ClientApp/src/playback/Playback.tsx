@@ -44,7 +44,7 @@ function usePlaybackStateQuery() {
             .then((data) => {
                 const ctx = data.context;
                 if (ctx) {
-                    setPlaybackContext({ entityId: ctx.entityId, type: ctx.type as PlaybackContext["type"] });
+                    // setPlaybackContext({ entityId: ctx.entityId, type: ctx.type as PlaybackContext["type"] });
                 }
 
                 return data;

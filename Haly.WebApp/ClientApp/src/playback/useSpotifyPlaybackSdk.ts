@@ -105,7 +105,11 @@ function mapStreamedTrackFromPlaybackState(state: PlaybackState): StreamedTrack 
     };
 }
 
-function mapPlaybackContextFromPlaybackState({ context }: Spotify.PlaybackState): PlaybackContext | null {
+function mapPlaybackContextFromPlaybackState({
+    context,
+    repeat_mode,
+    shuffle,
+}: Spotify.PlaybackState): PlaybackContext | null {
     if (!context.uri) return null;
 
     const type = context.uri.split(":").at(-2);
@@ -113,6 +117,8 @@ function mapPlaybackContextFromPlaybackState({ context }: Spotify.PlaybackState)
         return {
             entityId: extractIdFromSpotifyUri(context.uri)!,
             type,
+            isShuffled: shuffle,
+            repeatMode: repeat_mode === 0 ? "off" : repeat_mode === 1 ? "context" : "track",
         };
     }
 

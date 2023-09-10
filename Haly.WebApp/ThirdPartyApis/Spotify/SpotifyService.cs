@@ -352,4 +352,14 @@ public sealed class SpotifyService : ISpotifyService
 
         return _spotifyClient.TransferAUsersPlaybackAsync(body);
     }
+
+    public Task ShufflePlayback(bool state)
+    {
+        return _spotifyClient.ToggleShuffleForUsersPlaybackAsync(state);
+    }
+
+    public Task SetPlaybackRepeatMode(string repeatMode)
+    {
+        return _spotifyClient.SetRepeatModeOnUsersPlaybackAsync(repeatMode);
+    }
 }
