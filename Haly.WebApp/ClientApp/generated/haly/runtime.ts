@@ -1,5 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+// @ts-nocheck
+
 /**
  * Haly API
  * An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration

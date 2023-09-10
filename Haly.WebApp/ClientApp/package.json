@@ -6,7 +6,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "codegen": "rimraf generated/haly && openapi-generator-cli generate -i ../haly-open-api.yml -g typescript-fetch -o generated/haly",
+        "codegen": "rimraf generated/haly && openapi-generator-cli generate -i ../haly-open-api.yml -g typescript-fetch -o generated/haly && node generated/fixGeneratedRuntime",
         "lint": "eslint --fix --format=pretty --ext=js,jsx,ts,tsx src"
     },
     "dependencies": {
