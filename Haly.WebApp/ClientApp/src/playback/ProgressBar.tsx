@@ -10,9 +10,10 @@ type ProgressBarProps = {
     max: number;
     label: string;
     isHighlighted?: boolean;
+    onCommit?: (finalValue: number) => void;
 };
 
-function ProgressBar({ value, onChange, max, step, label, isHighlighted }: ProgressBarProps) {
+function ProgressBar({ value, onChange, max, step, label, isHighlighted, onCommit }: ProgressBarProps) {
     return (
         <Root
             className={clsx({ isHighlighted })}
@@ -21,6 +22,7 @@ function ProgressBar({ value, onChange, max, step, label, isHighlighted }: Progr
             onValueChange={(newValue) => {
                 onChange(newValue[0]);
             }}
+            onValueCommit={(final) => onCommit && onCommit(final[0])}
             max={max}
             step={step}
         >

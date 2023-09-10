@@ -7,23 +7,27 @@ import ProgressBar from "./ProgressBar";
 
 type TrackProgressProps = {
     track: StreamedTrack;
+    seek: (positionInMs: number) => void;
 };
 
-function TrackProgress({ track }: TrackProgressProps) {
+function TrackProgress({ track, seek }: TrackProgressProps) {
     const [positionInMs, setPositionInMs] = useState(track.positionInMs);
+    const [provisionalPositionInMs, setProvisionalPositionInMs] = useState<number | null>(null);
     const intervalId = useRef<number>();
 
+    // Whenever the position of a track changes, we adjust the refresh rate with setTimeout so that
+    // each refresh occurs at the beginning of a second. This makes sure that each second is shown.
     useEffect(() => {
         const positionNeedsAdjustment = track.positionInMs % 1000 > 50;
         let adjustment = 0;
         if (positionNeedsAdjustment) {
             adjustment = 1000 - (track.positionInMs % 1000);
-            console.log("adjusting", adjustment);
         }
 
         const tId = setTimeout(() => {
+            setProvisionalPositionInMs(null);
+
             setPositionInMs(track.isPaused ? track.positionInMs : track.positionInMs + (Date.now() - track.updatedAt));
-            console.log("hello mr. interval", tId, track.positionInMs);
 
             intervalId.current = setInterval(() => {
                 setPositionInMs(
@@ -33,15 +37,13 @@ function TrackProgress({ track }: TrackProgressProps) {
         }, adjustment);
 
         return () => {
-            console.log("bye mr. interval", tId, intervalId.current);
             clearTimeout(tId);
             clearInterval(intervalId.current);
         };
     }, [track.isPaused, track.positionInMs, track.updatedAt]);
 
-    console.log(track.durationInMs, positionInMs);
-
-    const positionInSeconds = toSeconds(Math.min(positionInMs, track.durationInMs));
+    const positionToUse = provisionalPositionInMs ?? positionInMs;
+    const positionInSeconds = toSeconds(Math.min(positionToUse, track.durationInMs));
     const durationInSeconds = toSeconds(track.durationInMs);
 
     return (
@@ -50,7 +52,12 @@ function TrackProgress({ track }: TrackProgressProps) {
 
             <ProgressBar
                 value={positionInSeconds}
-                onChange={(newValue) => setPositionInMs(newValue * 1000)}
+                onChange={(newValue) => {
+                    setProvisionalPositionInMs(newValue * 1000);
+                }}
+                onCommit={(finalValue) => {
+                    seek(finalValue * 1000);
+                }}
                 step={1}
                 max={durationInSeconds}
                 label="Change track progress"

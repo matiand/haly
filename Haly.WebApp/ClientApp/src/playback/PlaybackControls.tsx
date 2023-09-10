@@ -52,7 +52,11 @@ function PlaybackControls({ track, player, volume }: PlaybackControlsProps) {
                 </div>
 
                 <div>
-                    <TrackProgress key={track.spotifyId} track={track} />
+                    <TrackProgress
+                        key={track.spotifyId}
+                        track={track}
+                        seek={(positionInMs) => player.seek(positionInMs)}
+                    />
                 </div>
             </ControlsWrapper>
 
