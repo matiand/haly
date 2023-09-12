@@ -73,7 +73,7 @@ function toSeconds(ms: number) {
 }
 
 function formatTime(seconds: number) {
-    if (seconds >= 3600) return format(seconds * 1000, "H:mm:ss");
+    if (seconds >= 3600) return format((seconds - 3600) * 1000, "H:mm:ss");
 
     return format(seconds * 1000, "m:ss");
 }
