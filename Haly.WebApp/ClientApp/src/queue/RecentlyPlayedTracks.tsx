@@ -1,13 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
 import { LuHistory } from "react-icons/lu";
 
 import { styled } from "../common/theme";
-import halyClient from "../halyClient";
 import ReadOnlyTable from "../table/readonly/ReadOnlyTable";
 import QueueEmptyState from "./QueueEmptyState";
+import useRecentlyPlayedQuery from "./useRecentlyPlayedQuery";
 
 function RecentlyPlayedTracks() {
-    const query = useQuery(["me", "player", "recently-played"], () => halyClient.player.getRecentlyPlayed());
+    const query = useRecentlyPlayedQuery();
 
     if (!query.data) return null;
 

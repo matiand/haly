@@ -312,22 +312,26 @@ public sealed class SpotifyService : ISpotifyService
         var queue = new List<Track> { response.Currently_playing.Adapt<Track>() };
         queue.AddRange(response.Queue.Adapt<List<Track>>());
 
-        // We need to fix IsPlayable for all tracks in the queue, because the response doesn't provide that information.
-        // todo: If you need this, use AfterMapping in TrackObjectProfile
-        // queue.ForEach(t => t.IsPlayable = true);
+        // We need to fix IsPlayable, because this response doesn't provide that information.
+        queue.ForEach(t => t.IsPlayable = true);
 
-        return queue;
+        // Only return Songs, we do not support Podcasts
+        return queue.Where(t => t.IsSong).ToList();
     }
 
     public async Task<List<Track>> GetRecentlyPlayedTracks()
     {
+        // Please be aware that this response may not always be perfect. Occasionally, it may
+        // include tracks currently in play, or miss out on partially played tracks and podcasts. We
+        // provide the best results we can, but some nuances might be overlooked.
         var response = await _spotifyClient.GetRecentlyPlayedAsync(limit: RecentlyPlayedTracksLimit);
         var tracks = response.Items.Select(i => i.Track).Adapt<List<Track>>();
 
         // We need to fix IsPlayable, because this response doesn't provide that information.
         tracks.ForEach(t => t.IsPlayable = true);
 
-        return tracks;
+        // Only return Songs, we do not support Podcasts
+        return tracks.Where(t => t.IsSong).ToList();
     }
 
     public async Task Follow(CreatorType creatorType, string creatorId)
