@@ -31,6 +31,7 @@ function TrackIndexCell({ index, track, noPlayback }: TrackIndexCellProps) {
                     type="button"
                     aria-label="Streaming podcasts is not supported"
                     title="Streaming podcasts is not supported"
+                    disabled
                     aria-disabled
                 >
                     <span>

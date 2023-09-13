@@ -10,20 +10,48 @@ import PlaybackToggle from "./PlaybackToggle";
 import QueueButton from "./QueueButton";
 import RepeatButton from "./RepeatButton";
 import ShuffleButton from "./ShuffleButton";
-import TrackProgress from "./TrackProgress";
+import TrackProgress, { EmptyTrackProgress } from "./TrackProgress";
 import VolumeControl from "./VolumeControl";
 
 type PlaybackControlsProps = {
-    track: StreamedTrack;
+    track?: StreamedTrack;
     player: Spotify.Player;
-    volume: number;
+    initialVolume: number;
 };
 
-function PlaybackControls({ track, player, volume }: PlaybackControlsProps) {
+function PlaybackControls({ track, player, initialVolume }: PlaybackControlsProps) {
+    if (!track) {
+        return (
+            <Wrapper>
+                <div />
+
+                <ControlsWrapper>
+                    <div>
+                        <PlaybackToggle size="small" isPaused toggle={() => null} disabled />
+                    </div>
+
+                    <div>
+                        <EmptyTrackProgress />
+                    </div>
+                </ControlsWrapper>
+
+                <div>
+                    <QueueButton />
+                    <DeviceDropdown />
+                    <VolumeControl
+                        key={initialVolume}
+                        initialLevel={initialVolume}
+                        setVolume={(level) => player.setVolume(level)}
+                    />
+                </div>
+            </Wrapper>
+        );
+    }
+
     return (
         <Wrapper>
             <div>
-                {track && <TrackInformation track={track} type="playback" />}
+                <TrackInformation track={track} type="playback" />
                 <HeartButton size="small" />
             </div>
 
@@ -36,12 +64,7 @@ function PlaybackControls({ track, player, volume }: PlaybackControlsProps) {
                         onClick={() => player.previousTrack()}
                     />
 
-                    <PlaybackToggle
-                        size="small"
-                        isPaused={track.isPaused}
-                        toggle={() => player.togglePlay()}
-                        handlesSpacebar
-                    />
+                    <PlaybackToggle size="small" isPaused={track.isPaused} toggle={() => player.togglePlay()} />
 
                     <PlaybackButton
                         label="Next track"
@@ -63,7 +86,11 @@ function PlaybackControls({ track, player, volume }: PlaybackControlsProps) {
             <div>
                 <QueueButton />
                 <DeviceDropdown />
-                <VolumeControl key={volume} initialLevel={volume} setVolume={(level) => player.setVolume(level)} />
+                <VolumeControl
+                    key={initialVolume}
+                    initialLevel={initialVolume}
+                    setVolume={(level) => player.setVolume(level)}
+                />
             </div>
         </Wrapper>
     );
@@ -118,7 +145,6 @@ const ControlsWrapper = styled("div", {
             margin: "0 $400",
         },
     },
-
     "& > div:last-of-type": {
         height: "18px",
         width: "100%",

@@ -11,9 +11,10 @@ type ProgressBarProps = {
     label: string;
     isHighlighted?: boolean;
     onCommit?: (finalValue: number) => void;
+    disabled?: boolean;
 };
 
-function ProgressBar({ value, onChange, max, step, label, isHighlighted, onCommit }: ProgressBarProps) {
+function ProgressBar({ value, onChange, max, step, label, isHighlighted, onCommit, disabled }: ProgressBarProps) {
     return (
         <Root
             className={clsx({ isHighlighted })}
@@ -25,6 +26,7 @@ function ProgressBar({ value, onChange, max, step, label, isHighlighted, onCommi
             onValueCommit={(final) => onCommit && onCommit(final[0])}
             max={max}
             step={step}
+            disabled={disabled}
         >
             <Track>
                 <Range className="slider-range" />

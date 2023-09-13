@@ -68,6 +68,16 @@ function TrackProgress({ track, seek }: TrackProgressProps) {
     );
 }
 
+export function EmptyTrackProgress() {
+    return (
+        <Wrapper>
+            <span>-:--</span>
+            <ProgressBar value={0} onChange={() => null} step={1} max={100} label="Change track progress" disabled />
+            <span>-:--</span>
+        </Wrapper>
+    );
+}
+
 function toSeconds(ms: number) {
     return Math.floor(ms / 1000);
 }

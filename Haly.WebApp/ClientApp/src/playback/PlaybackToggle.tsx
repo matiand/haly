@@ -8,9 +8,10 @@ type PlaybackToggleProps = {
     isPaused: boolean;
     toggle: () => void;
     handlesSpacebar?: boolean;
+    disabled?: boolean;
 };
 
-function PlaybackToggle({ size, isPaused, toggle, handlesSpacebar }: PlaybackToggleProps) {
+function PlaybackToggle({ size, isPaused, toggle, disabled }: PlaybackToggleProps) {
     // This won't work (I think) in browsers. If some other button is focused, spacebar will activate them both.
     // useEffect(() => {
     //     if (!handlesSpacebar) return;
@@ -35,7 +36,15 @@ function PlaybackToggle({ size, isPaused, toggle, handlesSpacebar }: PlaybackTog
     };
 
     return (
-        <Button size={size} type="button" onClick={onClick} aria-label={label} title={label}>
+        <Button
+            size={size}
+            type="button"
+            onClick={onClick}
+            aria-label={label}
+            title={label}
+            aria-disabled={disabled}
+            disabled={disabled}
+        >
             <span aria-hidden>{isPaused ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
         </Button>
     );
@@ -47,6 +56,7 @@ const Button = styled("button", {
             small: {
                 background: "$white800",
                 color: "$black800",
+                cursor: "default",
                 $$size: theme.sizes.playbackControlsButtonSize,
                 $$iconSize: "22px",
 
@@ -107,6 +117,11 @@ const Button = styled("button", {
     "&:active": {
         background: "$primary500",
         transform: "scale(1)",
+    },
+
+    "&[disabled]": {
+        opacity: 0.5,
+        transform: "none",
     },
 });
 
