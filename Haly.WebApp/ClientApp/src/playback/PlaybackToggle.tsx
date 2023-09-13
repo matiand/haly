@@ -7,26 +7,13 @@ type PlaybackToggleProps = {
     size: "small" | "medium" | "large";
     isPaused: boolean;
     toggle: () => void;
-    handlesSpacebar?: boolean;
     disabled?: boolean;
+    handlesSpacebar?: boolean;
 };
 
 function PlaybackToggle({ size, isPaused, toggle, disabled }: PlaybackToggleProps) {
     // This won't work (I think) in browsers. If some other button is focused, spacebar will activate them both.
-    // useEffect(() => {
-    //     if (!handlesSpacebar) return;
-    //
-    //     const keyHandler = (e: KeyboardEvent) => {
-    //         if (e.code === "Space" && !e.repeat) {
-    //             console.log("whyy twice");
-    //             toggle();
-    //         }
-    //     };
-    //
-    //     document.addEventListener("keydown", keyHandler);
-    //
-    //     return () => document.removeEventListener("keydown", keyHandler);
-    // }, [handlesSpacebar, toggle]);
+    // useSpacebarShortcut(toggle, { enabled: !!handlesSpacebar && !disabled });
 
     const label = isPaused ? "Play" : "Pause";
     const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -48,6 +35,28 @@ function PlaybackToggle({ size, isPaused, toggle, disabled }: PlaybackToggleProp
             <span aria-hidden>{isPaused ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
         </Button>
     );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function useSpacebarShortcut(
+    cb: () => void,
+    options: {
+        enabled: boolean;
+    },
+) {
+    return useEffect(() => {
+        if (!options.enabled) return;
+
+        const keyHandler = (e: KeyboardEvent) => {
+            if (e.code === "Space" && !e.repeat) {
+                cb();
+            }
+        };
+
+        document.addEventListener("keydown", keyHandler);
+
+        return () => document.removeEventListener("keydown", keyHandler);
+    }, [options.enabled, cb]);
 }
 
 const Button = styled("button", {
