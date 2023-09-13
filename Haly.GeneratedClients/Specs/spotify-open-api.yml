@@ -4403,6 +4403,7 @@ components:
           - $ref: '#/components/schemas/EpisodeObject'
           discriminator:
             propertyName: type
+          nullable: true
           x-spotify-docs-type: TrackObject | EpisodeObject
           description: The currently playing track or episode. Can be `null`.
         currently_playing_type:

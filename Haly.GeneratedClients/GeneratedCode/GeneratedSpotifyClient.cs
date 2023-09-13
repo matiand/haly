@@ -10756,8 +10756,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// The currently playing track or episode. Can be `null`.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("item", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TrackObject Item { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("item", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TrackObject? Item { get; set; } = default!;
 
         /// <summary>
         /// The object type of the currently playing item. Can be one of `track`, `episode`, `ad` or `unknown`.

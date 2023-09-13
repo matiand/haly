@@ -25,7 +25,7 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `unfollow-artists-users` - replace _200_ response with _204_
 -   `SimplifiedPlaylistObject` - set as nullable: **public**
 -   `CurrentlyPlayingContextObject` - add **format: int64** to _timestamp_ property
--   `CurrentlyPlayingContextObject` - set as nullable: **context**
+-   `CurrentlyPlayingContextObject` - set as nullable: **context**, **item**
 -   `transfer-a-users-playback` - add _202_ response (same as _204_)
 -   `toggle-shuffle-for-users-playback` - add _202_ response (same as _204_)
 -   `set-repeat-mode-on-users-playback` - add _202_ response (same as _204_)
