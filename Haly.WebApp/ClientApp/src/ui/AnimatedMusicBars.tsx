@@ -17,16 +17,25 @@ function AnimatedMusicBars({ type }: AnimatedMusicBarsProps) {
 
 const bounce = keyframes({
     "0%": {
-        transform: "scaleY(0.3)",
+        transform: "scaleY(0.15)",
     },
     "20%": {
-        transform: "scaleY(0.1)",
+        transform: "scaleY(0.25)",
     },
-    "60%": {
+    "35%": {
         transform: "scaleY(0.5)",
     },
-    "80%": {
-        transform: "scaleY(0.7)",
+    "50%": {
+        transform: "scaleY(0.6)",
+    },
+    "70%": {
+        transform: "scaleY(0.8)",
+    },
+    "85%": {
+        transform: "scaleY(0.9)",
+    },
+    "95%": {
+        transform: "scaleY(0.6)",
     },
     "100%": {
         transform: "scaleY(0.4)",
@@ -55,7 +64,7 @@ const Wrapper = styled("div", {
     width: "32px",
 
     span: {
-        animation: `${bounce} 1.3s ease infinite alternate`,
+        animation: `${bounce} 0.9s ease infinite`,
         background: "$primary400",
         borderRadius: "4px",
         height: "100%",
@@ -63,14 +72,14 @@ const Wrapper = styled("div", {
         width: "3px",
 
         "&:nth-of-type(2)": {
-            animationDelay: "-0.4s",
+            animationDelay: "-0.3s",
         },
 
         "&:nth-of-type(3)": {
-            animationDelay: "-0.2s",
+            animationDelay: "-0.5s",
         },
         "&:nth-of-type(4)": {
-            animationDelay: "-0.1s",
+            animationDelay: "-0.15s",
         },
     },
 });
