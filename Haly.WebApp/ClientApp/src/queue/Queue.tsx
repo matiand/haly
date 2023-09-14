@@ -5,11 +5,7 @@ import QueueTabs, { QueueTabsValues } from "./QueueTabs";
 import QueueTracks from "./QueueTracks";
 import RecentlyPlayedTracks from "./RecentlyPlayedTracks";
 
-type QueueProps = {
-    contextName?: string;
-};
-
-function Queue({ contextName }: QueueProps) {
+function Queue() {
     const [activeTab, setActiveTab] = useState<QueueTabsValues>("queue");
 
     const toggleTab = () => setActiveTab((prev) => (prev === "queue" ? "recent" : "queue"));
@@ -18,7 +14,7 @@ function Queue({ contextName }: QueueProps) {
         <Wrapper>
             <QueueTabs tab={activeTab} toggle={toggleTab} />
 
-            {activeTab === "queue" ? <QueueTracks contextName={contextName} /> : <RecentlyPlayedTracks />}
+            {activeTab === "queue" ? <QueueTracks /> : <RecentlyPlayedTracks />}
         </Wrapper>
     );
 }

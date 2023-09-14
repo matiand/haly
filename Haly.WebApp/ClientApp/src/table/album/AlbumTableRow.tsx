@@ -6,22 +6,31 @@ import { styled } from "../../common/theme";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
+import useScrollToTrack from "../useScrollToTrack";
 
 type TrackRowProps = {
     index: number;
     track: AlbumTrackDto;
     isListenedTo?: boolean;
+    shouldScrollTo?: boolean;
 };
 
-export function AlbumTableTrackRow({ index, track }: TrackRowProps) {
+export function AlbumTableTrackRow({ index, track, shouldScrollTo, isListenedTo }: TrackRowProps) {
+    const ref = useScrollToTrack();
+
     return (
-        <tr className={clsx({ disabled: !track.isPlayable })}>
+        <tr ref={shouldScrollTo ? ref : null} className={clsx({ disabled: !track.isPlayable })}>
             <td>
-                <TrackIndexCell index={index} track={track} />
+                <TrackIndexCell index={index} track={track} isListenedTo={isListenedTo} />
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
+                <TrackInformation
+                    track={track}
+                    type="cell"
+                    isListenedTo={isListenedTo}
+                    showExplicitMark={track.isExplicit}
+                />
             </td>
 
             <td>

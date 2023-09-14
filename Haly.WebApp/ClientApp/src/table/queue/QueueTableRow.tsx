@@ -9,16 +9,22 @@ import TrackInformation from "../TrackInformation";
 type QueueTableRowProps = {
     index: number;
     track: TrackDto;
+    isListenedTo?: boolean;
 };
 
-function QueueTableRow({ index, track }: QueueTableRowProps) {
+function QueueTableRow({ index, track, isListenedTo }: QueueTableRowProps) {
     return (
         <tr className={clsx({ disabled: !track.isPlayable })}>
             <td>
-                <TrackIndexCell index={index} track={track} />
+                <TrackIndexCell index={index} track={track} isListenedTo={isListenedTo} />
             </td>
             <td>
-                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
+                <TrackInformation
+                    track={track}
+                    type="cell"
+                    isListenedTo={isListenedTo}
+                    showExplicitMark={track.isExplicit}
+                />
             </td>
             <td>
                 <TrackAlbumCell track={track} />

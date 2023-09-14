@@ -4,14 +4,16 @@ import { MdPodcasts } from "react-icons/md";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
+import AnimatedMusicBars from "../ui/AnimatedMusicBars";
 
 type TrackIndexCellProps = {
     index: number;
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
+    isListenedTo?: boolean;
     noPlayback?: boolean;
 };
 
-function TrackIndexCell({ index, track, noPlayback }: TrackIndexCellProps) {
+function TrackIndexCell({ index, track, isListenedTo, noPlayback }: TrackIndexCellProps) {
     const label = `Play ${track.name}`;
     const isPodcast = "isSong" in track && !track.isSong;
 
@@ -25,7 +27,7 @@ function TrackIndexCell({ index, track, noPlayback }: TrackIndexCellProps) {
 
     return (
         <Wrapper>
-            <Index>{index}</Index>
+            {isListenedTo ? <AnimatedMusicBars type="track" /> : <Index>{index}</Index>}
             {isPodcast ? (
                 <PlayBtn
                     type="button"

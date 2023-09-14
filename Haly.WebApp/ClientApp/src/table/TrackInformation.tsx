@@ -1,20 +1,30 @@
+import clsx from "clsx";
 import { Link } from "react-router-dom";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { StreamedTrack } from "../common/atoms";
 import { styled } from "../common/theme";
+import PlaybackTrackCoverImage from "../playback/PlaybackTrackCoverImage";
 import HighlightableText from "./HighlightableText";
 import TrackCoverImage from "./TrackCoverImage";
 
 type TrackInformationProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrack;
     type: "cell" | "playback";
+    isListenedTo?: boolean;
     showExplicitMark?: boolean;
     hideArtists?: boolean;
     searchTerm?: string | null;
 };
 
-function TrackInformation({ track, type, showExplicitMark, hideArtists, searchTerm }: TrackInformationProps) {
+function TrackInformation({
+    track,
+    type,
+    isListenedTo,
+    showExplicitMark,
+    hideArtists,
+    searchTerm,
+}: TrackInformationProps) {
     const { name, artists } = track;
 
     const hasAlbum = "album" in track;
@@ -22,10 +32,15 @@ function TrackInformation({ track, type, showExplicitMark, hideArtists, searchTe
 
     return (
         <Wrapper>
-            {hasAlbum && <TrackCoverImage type={type} imageUrl={track.album.imageUrl} />}
+            {hasAlbum &&
+                (type === "cell" ? (
+                    <TrackCoverImage imageUrl={track.album.imageUrl} />
+                ) : (
+                    <PlaybackTrackCoverImage imageUrl={track.album.imageUrl} />
+                ))}
 
             <Grid type={type}>
-                <Title className="line-clamp-ellipsis">
+                <Title className={clsx({ isListenedTo, "line-clamp-ellipsis": true })}>
                     {shouldLinkToAlbum ? (
                         <Link to={`/album/${track.album.id}`}>
                             {/*Don't try to highlight track name when it has a link*/}
@@ -74,6 +89,10 @@ const Wrapper = styled("div", {
 const Title = styled("div", {
     fontSize: "$350",
     gridArea: "title",
+
+    "&.isListenedTo": {
+        color: "$primary400",
+    },
 });
 
 const Subtitle = styled("span", {

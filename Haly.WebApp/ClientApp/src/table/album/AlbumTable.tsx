@@ -7,6 +7,7 @@ import { streamedAlbumTrackIdAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
+import useScrollToTrackIdParam from "../useScrollToTrackIdParam";
 import useStickyTableHead from "../useStickyTableHead";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 
@@ -16,6 +17,7 @@ type AlbumTableProps = {
 
 function AlbumTable({ items }: AlbumTableProps) {
     const { ref, isSticky } = useStickyTableHead();
+    const scrollToTrackId = useScrollToTrackIdParam();
     const streamedAlbumTrackId = useAtomValue(streamedAlbumTrackIdAtom);
 
     const tracksByDisk = groupByDiscNumber(items);
@@ -52,6 +54,7 @@ function AlbumTable({ items }: AlbumTableProps) {
                                               index={idx + 1}
                                               track={t}
                                               isListenedTo={streamedAlbumTrackId === t.spotifyId}
+                                              shouldScrollTo={scrollToTrackId === t.spotifyId}
                                           />
                                       ))}
                                   </Fragment>
@@ -63,6 +66,7 @@ function AlbumTable({ items }: AlbumTableProps) {
                                   index={idx + 1}
                                   track={t}
                                   isListenedTo={streamedAlbumTrackId === t.spotifyId}
+                                  shouldScrollTo={scrollToTrackId === t.spotifyId}
                               />
                           ))}
                 </Table.Body>

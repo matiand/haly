@@ -7,6 +7,7 @@ import { PlaylistTrackDto } from "../../../generated/haly";
 import { streamedPlaylistTrackIdAtom } from "../../common/atoms";
 import { styled, theme } from "../../common/theme";
 import * as Table from "../Table";
+import useScrollToTrackIdParam from "../useScrollToTrackIdParam";
 import useStickyTableHead from "../useStickyTableHead";
 import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
@@ -29,6 +30,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
         count: total,
         overscan: 24,
     });
+    const scrollToTrackId = useScrollToTrackIdParam();
     const streamedPlaylistTrackId = useAtomValue(streamedPlaylistTrackIdAtom);
 
     useEffect(() => {
@@ -62,8 +64,9 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
                         if (!track) return null;
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
-
+                        const shouldScrollTo = !!scrollToTrackId && scrollToTrackId === track.spotifyId;
                         const isListenedTo = !!streamedPlaylistTrackId && streamedPlaylistTrackId === track.spotifyId;
+
                         return (
                             <PlaylistTableRow
                                 key={idx}
@@ -71,6 +74,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
                                 track={track}
                                 isListenedTo={isListenedTo}
                                 start={virtualItem.start}
+                                shouldScrollTo={shouldScrollTo}
                             />
                         );
                     })}

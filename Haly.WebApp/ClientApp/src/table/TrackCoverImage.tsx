@@ -1,47 +1,22 @@
 import { AlbumBriefDto } from "../../generated/haly";
-import EmptyCoverImage from "../ui/EmptyCoverImage";
 import { styled } from "../common/theme";
+import EmptyCoverImage from "../ui/EmptyCoverImage";
 
 type CoverImageProps = {
     imageUrl: AlbumBriefDto["imageUrl"];
-    type: "cell" | "playback";
 };
 
-const cellSize = 40;
-const playbackSize = 60;
+const size = 40;
 
-function TrackCoverImage({ imageUrl, type }: CoverImageProps) {
-    if (type === "playback")
-        return (
-            imageUrl && (
-                <Image
-                    type={type}
-                    aria-hidden
-                    src={imageUrl}
-                    loading="eager"
-                    width={playbackSize}
-                    height={playbackSize}
-                />
-            )
-        );
-
+function TrackCoverImage({ imageUrl }: CoverImageProps) {
     return imageUrl ? (
-        <Image type={type} alt="" src={imageUrl} loading="eager" width={cellSize} height={cellSize} />
+        <Image alt="" src={imageUrl} loading="eager" width={size} height={size} />
     ) : (
         <EmptyCoverImage type="cell" />
     );
 }
 
 const Image = styled("img", {
-    variants: {
-        type: {
-            cell: {},
-            playback: {
-                borderRadius: "4px",
-            },
-        },
-    },
-
     flex: "0 0 auto",
 });
 

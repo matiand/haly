@@ -1,16 +1,17 @@
+import { useAtomValue } from "jotai";
 import { LuMenu } from "react-icons/lu";
 
+import { playbackContextNameAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import QueueTable from "../table/queue/QueueTable";
 import QueueEmptyState from "./QueueEmptyState";
 import useQueueQuery from "./useQueueQuery";
 
-type QueueTracksProps = {
-    contextName?: string;
-};
-
-function QueueTracks({ contextName }: QueueTracksProps) {
+function QueueTracks() {
     const query = useQueueQuery();
+    const playbackContextName = useAtomValue(playbackContextNameAtom);
+
+    console.log("why rerender", query.isRefetching);
 
     if (!query.data) return null;
 
@@ -39,7 +40,7 @@ function QueueTracks({ contextName }: QueueTracksProps) {
 
             {query.data.length > 1 && (
                 <SectionWrapper>
-                    {contextName ? <h2>Next from: {contextName}</h2> : <h2>Next</h2>}
+                    {playbackContextName ? <h2>Next from: {playbackContextName}</h2> : <h2>Next</h2>}
 
                     <QueueTable tracks={query.data.slice(1)} indexOffset={2} />
                 </SectionWrapper>

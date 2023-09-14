@@ -9,29 +9,37 @@ import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
+import useScrollToTrack from "../useScrollToTrack";
 
 type PlaylistTableRowProps = {
     index: number;
     track: PlaylistTrackDto;
     isListenedTo: boolean;
     start?: number;
+    shouldScrollTo?: boolean;
 };
 
-function PlaylistTableRow({ index, track, start }: PlaylistTableRowProps) {
+function PlaylistTableRow({ index, track, isListenedTo, start, shouldScrollTo = false }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
+    const ref = useScrollToTrack();
 
     const isLocal = !track.spotifyId;
 
     return (
-        <TableRow style={{ transform: `translateY(${start}px` }} className={clsx({ disabled: !track.isPlayable })}>
+        <TableRow
+            ref={shouldScrollTo ? ref : null}
+            style={{ transform: `translateY(${start}px` }}
+            className={clsx({ disabled: !track.isPlayable })}
+        >
             <td>
-                <TrackIndexCell index={index} track={track} noPlayback={isLocal} />
+                <TrackIndexCell index={index} track={track} noPlayback={isLocal} isListenedTo={isListenedTo} />
             </td>
 
             <td>
                 <TrackInformation
                     track={track}
                     type="cell"
+                    isListenedTo={isListenedTo}
                     showExplicitMark={track.isExplicit}
                     hideArtists={isLocal || !track.isSong}
                     searchTerm={searchTerm}
