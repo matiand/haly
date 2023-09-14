@@ -1,12 +1,14 @@
 import clsx from "clsx";
+import { useAtomValue } from "jotai/index";
 import { Fragment } from "react";
 
 import { AlbumTrackDto } from "../../../generated/haly";
+import { streamedAlbumTrackIdAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
-import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
 import useStickyTableHead from "../useStickyTableHead";
+import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 
 type AlbumTableProps = {
     items: AlbumTrackDto[];
@@ -14,6 +16,7 @@ type AlbumTableProps = {
 
 function AlbumTable({ items }: AlbumTableProps) {
     const { ref, isSticky } = useStickyTableHead();
+    const streamedAlbumTrackId = useAtomValue(streamedAlbumTrackIdAtom);
 
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
@@ -44,12 +47,24 @@ function AlbumTable({ items }: AlbumTableProps) {
                                       <AlbumTableDiscRow discNumber={disc} />
 
                                       {items.map((t, idx) => (
-                                          <AlbumTableTrackRow key={t.spotifyId} index={idx + 1} track={t} />
+                                          <AlbumTableTrackRow
+                                              key={t.spotifyId}
+                                              index={idx + 1}
+                                              track={t}
+                                              isListenedTo={streamedAlbumTrackId === t.spotifyId}
+                                          />
                                       ))}
                                   </Fragment>
                               );
                           })
-                        : items.map((t, idx) => <AlbumTableTrackRow key={t.spotifyId} index={idx + 1} track={t} />)}
+                        : items.map((t, idx) => (
+                              <AlbumTableTrackRow
+                                  key={t.spotifyId}
+                                  index={idx + 1}
+                                  track={t}
+                                  isListenedTo={streamedAlbumTrackId === t.spotifyId}
+                              />
+                          ))}
                 </Table.Body>
             </TableRoot>
         </>

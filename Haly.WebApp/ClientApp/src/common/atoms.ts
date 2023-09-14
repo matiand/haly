@@ -32,8 +32,9 @@ export type PageContext = {
 export const pageContextAtom = atom<PageContext | null>(null);
 
 export type PlaybackContext = {
-    entityId: string;
-    type: "playlist" | "album";
+    collectionId: string;
+    name: string;
+    type: "playlist" | "album" | "user";
     isShuffled: boolean;
     repeatMode: "off" | "track" | "context";
 };
@@ -48,8 +49,26 @@ export type StreamedTrack = {
     /* Last state update in milliseconds. */
     updatedAt: number;
 
+    context?: PlaybackContext;
+
     album: AlbumBriefDto;
     artists: ArtistBriefDto[];
 };
 
-export const playbackContextAtom = atom<PlaybackContext | null>(null);
+export const streamedTrackAtom = atom<StreamedTrack | null>(null);
+export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.spotifyId);
+export const streamedPlaylistTrackIdAtom = atom((get) => {
+    const ctx = get(streamedTrackAtom)?.context;
+    return ctx?.type === "playlist" ? get(streamedTrackAtom)?.spotifyId : null;
+});
+export const streamedAlbumTrackIdAtom = atom((get) => {
+    const ctx = get(streamedTrackAtom)?.context;
+    return ctx?.type === "album" ? get(streamedTrackAtom)?.spotifyId : null;
+});
+export const streamedPlaylistIdAtom = atom((get) => {
+    const ctx = get(streamedTrackAtom)?.context;
+    return ctx?.type === "playlist" ? ctx.collectionId : null;
+});
+export const isPlaybackShuffledAtom = atom((get) => get(streamedTrackAtom)?.context?.isShuffled ?? false);
+export const playbackRepeatModeAtom = atom((get) => get(streamedTrackAtom)?.context?.repeatMode ?? "off");
+export const playbackContextNameAtom = atom((get) => get(streamedTrackAtom)?.context?.name);

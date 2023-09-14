@@ -2,14 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 
-import { PlaybackContext, playbackContextAtom, StreamedTrack } from "../common/atoms";
+import { PlaybackContext, StreamedTrack, streamedTrackAtom } from "../common/atoms";
 import PlaybackStateListener = Spotify.PlaybackStateListener;
 import PlaybackState = Spotify.PlaybackState;
 
 function useSpotifyPlaybackSdk() {
     const [deviceId, setDeviceId] = useState<string>();
-    const [streamedTrack, setStreamedTrack] = useState<StreamedTrack>();
-    const setPlaybackContext = useSetAtom(playbackContextAtom);
+    const setStreamedTrack = useSetAtom(streamedTrackAtom);
 
     const query = useQuery(["me", "player", "sdk"], () => initPlayerSdk(setDeviceId), { staleTime: Infinity });
 
@@ -21,10 +20,8 @@ function useSpotifyPlaybackSdk() {
 
             const track = mapStreamedTrackFromPlaybackState(state);
             setStreamedTrack(track);
-            const ctx = mapPlaybackContextFromPlaybackState(state);
-            setPlaybackContext(ctx);
         },
-        [setPlaybackContext],
+        [setStreamedTrack],
     );
 
     useEffect(() => {
@@ -33,7 +30,7 @@ function useSpotifyPlaybackSdk() {
         return () => player?.removeListener("player_state_changed");
     }, [player, onPlayerStateChange]);
 
-    return { player, deviceId, streamedTrack };
+    return { player, deviceId };
 }
 
 function initPlayerSdk(setDeviceId: (deviceId: string) => void) {
@@ -79,16 +76,20 @@ function initPlayerSdk(setDeviceId: (deviceId: string) => void) {
     });
 }
 
-function mapStreamedTrackFromPlaybackState(state: PlaybackState): StreamedTrack | undefined {
+function mapStreamedTrackFromPlaybackState(state: PlaybackState): StreamedTrack | null {
     const currentTrack = state.track_window.current_track;
 
-    // Skip tracks without an id.
-    if (!currentTrack?.id) return;
+    // Cannot map tracks without an id.
+    if (!currentTrack?.id) return null;
 
     return {
         spotifyId: currentTrack.id,
         name: currentTrack.name,
         durationInMs: currentTrack.duration_ms,
+        positionInMs: state.position,
+        isPaused: state.paused,
+        updatedAt: state.timestamp,
+        context: mapPlaybackContextFromPlaybackState(state),
         album: {
             id: extractIdFromSpotifyUri(currentTrack.album.uri)!,
             name: currentTrack.album.name,
@@ -98,10 +99,6 @@ function mapStreamedTrackFromPlaybackState(state: PlaybackState): StreamedTrack 
             id: extractIdFromSpotifyUri(artist.uri)!,
             name: artist.name,
         })),
-
-        updatedAt: state.timestamp,
-        positionInMs: state.position,
-        isPaused: state.paused,
     };
 }
 
@@ -109,20 +106,23 @@ function mapPlaybackContextFromPlaybackState({
     context,
     repeat_mode,
     shuffle,
-}: Spotify.PlaybackState): PlaybackContext | null {
-    if (!context.uri) return null;
+}: Spotify.PlaybackState): PlaybackContext | undefined {
+    if (!context.uri || !context.metadata) return;
 
-    const type = context.uri.split(":").at(-2);
-    if (type === "playlist" || type === "album") {
+    const type = context.uri.split(":").at(1);
+
+    // type === "user" means it's a LikedSongs collection of our user
+    if (type === "playlist" || type === "album" || type === "user") {
         return {
-            entityId: extractIdFromSpotifyUri(context.uri)!,
+            collectionId: extractIdFromSpotifyUri(context.uri)!,
+            name: context.metadata.name,
             type,
             isShuffled: shuffle,
             repeatMode: repeat_mode === 0 ? "off" : repeat_mode === 1 ? "context" : "track",
         };
     }
 
-    return null;
+    return;
 }
 
 function extractIdFromSpotifyUri(uri: string) {

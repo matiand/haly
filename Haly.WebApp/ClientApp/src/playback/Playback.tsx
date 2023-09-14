@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
+import { useEffect, useRef, useState } from "react";
 
-import { playbackContextAtom } from "../common/atoms";
+import { streamedTrackAtom } from "../common/atoms";
 import { delay } from "../common/delay";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
@@ -13,12 +13,11 @@ import PlaybackControls from "./PlaybackControls";
 import useSpotifyPlaybackSdk from "./useSpotifyPlaybackSdk";
 
 function Playback() {
-    const { player, deviceId, streamedTrack } = useSpotifyPlaybackSdk();
     const query = usePlaybackStateQuery();
+    const { player, deviceId } = useSpotifyPlaybackSdk();
     const queryClient = useQueryClient();
-
-    // console.log(query.isSuccess, deviceId, query.data);
-    console.log(streamedTrack);
+    const initialVolumeRef = useRef<number>();
+    const streamedTrack = useAtomValue(streamedTrackAtom);
 
     useEffect(() => {
         // We need to delay this, to allow those endpoints to notice the change.
@@ -28,10 +27,15 @@ function Playback() {
         });
     }, [streamedTrack?.spotifyId, queryClient]);
 
-    if (!query.data || !deviceId || !player) return null;
+    useEffect(() => {
+        if (!initialVolumeRef.current) {
+            initialVolumeRef.current = query.data?.device.volume;
+        }
+    }, [query.data]);
 
     const activeDeviceName = query.data.device.name;
     const activeDeviceVolume = query.data.device.volume;
+    const initialVolumeToUse = initialVolumeRef.current ?? 0.5;
 
     if (!streamedTrack) {
         return (
@@ -43,7 +47,7 @@ function Playback() {
 
     return (
         <Footer>
-            <PlaybackControls track={streamedTrack} player={player} volume={activeDeviceVolume} />
+            <PlaybackControls track={streamedTrack} player={player} initialVolume={initialVolumeToUse} />
         </Footer>
     );
 }

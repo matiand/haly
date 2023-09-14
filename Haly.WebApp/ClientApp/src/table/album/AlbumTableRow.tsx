@@ -10,6 +10,7 @@ import TrackInformation from "../TrackInformation";
 type TrackRowProps = {
     index: number;
     track: AlbumTrackDto;
+    isListenedTo?: boolean;
 };
 
 export function AlbumTableTrackRow({ index, track }: TrackRowProps) {

@@ -1,13 +1,17 @@
+import { useAtomValue } from "jotai";
+
 import { PlaylistBriefDto } from "../../generated/haly";
+import { streamedPlaylistIdAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import UserLibraryLink from "./UserLibraryLink";
 
 type UserPlaylistsProps = {
     playlists: PlaylistBriefDto[];
-    activePlaylistId: string | null;
 };
 
-function UserPlaylists({ playlists, activePlaylistId }: UserPlaylistsProps) {
+function UserPlaylists({ playlists }: UserPlaylistsProps) {
+    const streamedPlaylistId = useAtomValue(streamedPlaylistIdAtom);
+
     return (
         <List>
             <li>
@@ -19,7 +23,7 @@ function UserPlaylists({ playlists, activePlaylistId }: UserPlaylistsProps) {
 
                 return (
                     <li key={p.id}>
-                        <UserLibraryLink name={p.name} href={href} isListenedTo={p.id === activePlaylistId} />
+                        <UserLibraryLink name={p.name} href={href} isListenedTo={p.id === streamedPlaylistId} />
                     </li>
                 );
             })}

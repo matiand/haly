@@ -6,8 +6,8 @@ import {
     dominantColorsAtom,
     isPlaylistCachedAtom,
     pageContextAtom,
-    playbackContextAtom,
     playlistSearchTermAtom,
+    streamedPlaylistIdAtom,
 } from "../common/atoms";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -23,7 +23,7 @@ import { PlaylistSortOrder } from "./useSortOrder";
 function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder }) {
     const query = usePlaylistQuery(id, sortOrder);
     const dominantColors = useAtomValue(dominantColorsAtom);
-    const playbackContext = useAtomValue(playbackContextAtom);
+    const streamedPlaylistId = useAtomValue(streamedPlaylistIdAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
 
@@ -54,7 +54,7 @@ function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder 
     const playlist = query.data;
     const dominantColor = dominantColors[playlist.imageUrl ?? ""];
     const hasTracks = query.data.tracks.total > 0;
-    const isListenedTo = playbackContext?.entityId === id;
+    const isListenedTo = streamedPlaylistId === id;
 
     if (!hasTracks) {
         return (

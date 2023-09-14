@@ -3,41 +3,39 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { TbArrowsShuffle } from "react-icons/tb";
 
-import { playbackContextAtom } from "../common/atoms";
+import { isPlaybackShuffledAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import { QueueQueryKey } from "../queue/useQueueQuery";
 import PlaybackButton from "./PlaybackButton";
 
 function ShuffleButton() {
-    const playbackContext = useAtomValue(playbackContextAtom);
+    const isShuffled = useAtomValue(isPlaybackShuffledAtom);
 
     const queryClient = useQueryClient();
     const shuffle = useMutation(["me", "player", "shuffle"], (state: boolean) => halyClient.player.shuffle({ state }), {
         onSuccess: () => queryClient.invalidateQueries(QueueQueryKey),
     });
 
-    const isShuffle = playbackContext?.isShuffled ?? false;
-
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
             if (e.ctrlKey && e.key === "s") {
                 e.preventDefault();
 
-                shuffle.mutate(!isShuffle);
+                shuffle.mutate(!isShuffled);
             }
         };
 
         window.addEventListener("keydown", keyHandler);
 
         return () => window.removeEventListener("keydown", keyHandler);
-    }, [isShuffle, shuffle]);
+    }, [isShuffled, shuffle]);
 
-    const label = isShuffle ? "Disable shuffle" : "Enable shuffle";
-    const checkedState = isShuffle ? "true" : "false";
+    const label = isShuffled ? "Disable shuffle" : "Enable shuffle";
+    const checkedState = isShuffled ? "true" : "false";
 
     return (
         <PlaybackButton
-            onClick={() => shuffle.mutate(!isShuffle)}
+            onClick={() => shuffle.mutate(!isShuffled)}
             checked={checkedState}
             label={label}
             icon={<TbArrowsShuffle />}

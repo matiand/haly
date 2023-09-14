@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { TbRepeat, TbRepeatOnce } from "react-icons/tb";
 
-import { PlaybackContext, playbackContextAtom } from "../common/atoms";
+import { PlaybackContext, playbackRepeatModeAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import { QueueQueryKey } from "../queue/useQueueQuery";
 import PlaybackButton from "./PlaybackButton";
@@ -11,7 +11,7 @@ import PlaybackButton from "./PlaybackButton";
 type RepeatMode = PlaybackContext["repeatMode"];
 
 function RepeatButton() {
-    const playbackContext = useAtomValue(playbackContextAtom);
+    const repeatMode = useAtomValue(playbackRepeatModeAtom);
 
     const queryClient = useQueryClient();
     const setRepeatMode = useMutation(
@@ -22,7 +22,6 @@ function RepeatButton() {
         },
     );
 
-    const repeatMode = playbackContext?.repeatMode ?? "off";
     const nextRepeatMode = getNextRepeatMode(repeatMode);
 
     useEffect(() => {

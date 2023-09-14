@@ -14,7 +14,7 @@ import TrackProgress, { EmptyTrackProgress } from "./TrackProgress";
 import VolumeControl from "./VolumeControl";
 
 type PlaybackControlsProps = {
-    track?: StreamedTrack;
+    track: StreamedTrack | null;
     player: Spotify.Player;
     initialVolume: number;
 };

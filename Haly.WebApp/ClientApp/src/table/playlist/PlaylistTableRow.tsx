@@ -13,6 +13,7 @@ import TrackInformation from "../TrackInformation";
 type PlaylistTableRowProps = {
     index: number;
     track: PlaylistTrackDto;
+    isListenedTo: boolean;
     start?: number;
 };
 

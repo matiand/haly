@@ -1,13 +1,15 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
+import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
+import { streamedPlaylistTrackIdAtom } from "../../common/atoms";
 import { styled, theme } from "../../common/theme";
-import { PlaylistTableHead } from "./PlaylistTableHead";
-import PlaylistTableRow from "./PlaylistTableRow";
 import * as Table from "../Table";
 import useStickyTableHead from "../useStickyTableHead";
+import { PlaylistTableHead } from "./PlaylistTableHead";
+import PlaylistTableRow from "./PlaylistTableRow";
 
 type PlaylistTableProps = {
     items: PlaylistTrackDto[];
@@ -27,6 +29,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
         count: total,
         overscan: 24,
     });
+    const streamedPlaylistTrackId = useAtomValue(streamedPlaylistTrackIdAtom);
 
     useEffect(() => {
         const currentTotal = items.length;
@@ -60,7 +63,16 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
 
-                        return <PlaylistTableRow key={idx} index={trackIdx} track={track} start={virtualItem.start} />;
+                        const isListenedTo = !!streamedPlaylistTrackId && streamedPlaylistTrackId === track.spotifyId;
+                        return (
+                            <PlaylistTableRow
+                                key={idx}
+                                index={trackIdx}
+                                track={track}
+                                isListenedTo={isListenedTo}
+                                start={virtualItem.start}
+                            />
+                        );
                     })}
                 </Table.Body>
             </TableRoot>
