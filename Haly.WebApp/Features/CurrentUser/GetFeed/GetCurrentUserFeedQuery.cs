@@ -36,13 +36,32 @@ public class GetCurrentUserFeedQueryHandler : IRequestHandler<GetCurrentUserFeed
 
     private async Task<IEnumerable<PlaylistCardDto>> GetFeedPlaylists(GetCurrentUserFeedQuery request)
     {
-        var dailyMixResults = await _spotify.Search("daily mix", SearchType.Playlist, request.UserMarket);
-        var dailyMixes = dailyMixResults.Playlists
+        var dailyMixResultsTask = _spotify.Search("daily mix", SearchType.Playlist, request.UserMarket);
+        var radarResultsTask = _spotify.Search("radar", SearchType.Playlist, request.UserMarket);
+
+        var playlists = (await dailyMixResultsTask).Playlists
             .Where(p => p.Name.StartsWith("Daily Mix", StringComparison.InvariantCulture) &&
                         p.Owner.Id == "spotify")
-            .OrderBy(p => p.Name);
+            .OrderBy(p => p.Name)
+            .ToList();
 
-        return dailyMixes.Adapt<IEnumerable<PlaylistCardDto>>();
+        var releaseRadar =
+            (await radarResultsTask).Playlists.FirstOrDefault(p => p is { Name: "Release Radar", Owner.Id: "spotify" });
+        var discoverWeekly =
+            (await radarResultsTask).Playlists.FirstOrDefault(
+                p => p is { Name: "Discover Weekly", Owner.Id: "spotify" });
+
+        if (releaseRadar is not null)
+        {
+            playlists.Add(releaseRadar);
+        }
+
+        if (discoverWeekly is not null)
+        {
+            playlists.Add(discoverWeekly);
+        }
+
+        return playlists.Adapt<IEnumerable<PlaylistCardDto>>();
     }
 
     private async Task<Dictionary<string, IEnumerable<ReleaseItemDto>>> AddCategoriesBasedOnTopArtists(
