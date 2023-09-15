@@ -4,6 +4,7 @@ public class SpotifyScopes
 {
     public const string UserReadPrivate = "user-read-private";
     public const string UserLibraryRead = "user-library-read";
+    public const string UserLibraryModify = "user-library-modify";
     public const string UserFollowRead = "user-follow-read";
     public const string UserFollowModify = "user-follow-modify";
     public const string UserTopRead = "user-top-read";
@@ -12,4 +13,7 @@ public class SpotifyScopes
     public const string UserReadRecentlyPlayed = "user-read-recently-played";
     public const string PlaylistReadPrivate = "playlist-read-private";
     public const string PlaylistReadCollaborative = "playlist-read-collaborative";
+    public const string PlaylistModifyPublic = "playlist-modify-public";
+    public const string PlaylistModifyPrivate = "playlist-modify-private";
+
 }

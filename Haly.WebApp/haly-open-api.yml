@@ -200,13 +200,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /me/Following/contains:
+  /me/Following/creators/contains:
     get:
       tags:
         - Following
       summary: Check if current user follows a creator
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>'
-      operationId: CheckIfCurrentUserFollows
+      operationId: CheckIfCurrentUserFollowsCreator
       parameters:
         - name: type
           in: query
@@ -242,20 +242,159 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /me/Following:
+  '/me/Following/creators/{id}':
     put:
       tags:
         - Following
       summary: Follow a creator
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>'
-      operationId: Follow
+      operationId: FollowCreator
       parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
         - name: type
           in: query
           schema:
             allOf:
               - $ref: '#/components/schemas/CreatorType'
-        - name: creatorId
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      tags:
+        - Following
+      summary: Unfollow a creator
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>'
+      operationId: UnfollowCreator
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/CreatorType'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  '/me/Following/playlists/{id}':
+    put:
+      tags:
+        - Following
+      summary: Save a playlist to your library
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>'
+      operationId: FollowPlaylist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      tags:
+        - Following
+      summary: Remove a playlist from your library
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>'
+      operationId: UnfollowPlaylist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /me/Following/tracks:
+    put:
+      tags:
+        - Following
+      summary: Save tracks to your 'Liked Songs' collection
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-modify </b>'
+      operationId: FollowTracks
+      parameters:
+        - name: ids
           in: query
           schema:
             type: string
@@ -283,16 +422,11 @@ paths:
     delete:
       tags:
         - Following
-      summary: Unfollow a creator
-      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>'
-      operationId: Unfollow
+      summary: Remove tracks from your 'Liked Songs' collection
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-modify </b>'
+      operationId: UnfollowTracks
       parameters:
-        - name: type
-          in: query
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/CreatorType'
-        - name: creatorId
+        - name: ids
           in: query
           schema:
             type: string

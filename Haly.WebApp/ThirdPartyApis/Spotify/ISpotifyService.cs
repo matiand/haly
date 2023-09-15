@@ -28,8 +28,12 @@ public interface ISpotifyService
     Task<List<Track>> GetQueue();
     Task<List<Track>> GetRecentlyPlayedTracks();
 
-    Task Follow(CreatorType creatorType, string creatorId);
-    Task Unfollow(CreatorType creatorType, string creatorId);
+    Task FollowCreator(CreatorType creatorType, string creatorId);
+    Task UnfollowCreator(CreatorType creatorType, string creatorId);
+    Task FollowPlaylist(string id);
+    Task UnfollowPlaylist(string id);
+    Task FollowTracks(string ids);
+    Task UnfollowTracks(string ids);
     Task TransferPlayback(string deviceId);
     Task ShufflePlayback(bool state);
     Task SetPlaybackRepeatMode(string repeatMode);
