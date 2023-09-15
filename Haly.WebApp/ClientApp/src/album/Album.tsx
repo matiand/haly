@@ -80,7 +80,6 @@ function Album() {
 
             <PageControls>
                 {isPlayable && <PlaybackToggle size="large" isPaused toggle={() => 1} />}
-                <HeartButton size="medium" />
                 <MoreOptionsButton label={`More options for album: '${name}'`} size="medium" />
             </PageControls>
 

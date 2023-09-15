@@ -21,7 +21,7 @@ function TrackDurationCell({ track, noActions }: TrackDurationCellProps) {
 
     return (
         <Wrapper>
-            <HeartButton size="small" />
+            <HeartButton type="track" entityId={track.spotifyId!} initialState={true} />
             <Duration>{track.duration}</Duration>
             <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
         </Wrapper>

@@ -14,15 +14,15 @@ type FollowButtonProps = {
 function FollowButton({ creatorId, initialValue, type }: FollowButtonProps) {
     const [isFollowing, setIsFollowing] = useState(initialValue);
     const follow = useMutation((creatorId: string) =>
-        halyClient.following.follow({
+        halyClient.following.followCreator({
+            id: creatorId,
             type,
-            creatorId,
         }),
     );
     const unfollow = useMutation((creatorId: string) =>
-        halyClient.following.unfollow({
+        halyClient.following.followCreator({
+            id: creatorId,
             type,
-            creatorId,
         }),
     );
 

@@ -16,6 +16,7 @@ export const playlistIdsWithOldTracksAtom = atom<string[]>([]);
 export const pageHeaderVisibilityAtom = atom<number>(1);
 
 export const userAtom = atom<PrivateUserDto | null>(null);
+export const userIdAtom = atom<string>((get) => get(userAtom)?.id ?? "");
 
 export const artistNameAtom = atom<string | null>(null);
 

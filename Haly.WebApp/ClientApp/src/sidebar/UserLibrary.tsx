@@ -3,6 +3,7 @@ import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import { cachedPlaylistIdsAtom } from "../common/atoms";
+import { GetUserPlaylistsQueryKey } from "../common/queryKeys";
 import { styled } from "../common/theme";
 import halyApi from "../halyClient";
 import { ScrollArea } from "../ui/ScrollArea";
@@ -11,7 +12,7 @@ import UserPlaylists from "./UserPlaylists";
 
 function UserLibrary() {
     // We treat this PUT as query, because it's idempotent
-    const query = useQuery(["me", "playlists"], () => halyApi.me.putCurrentUserPlaylists());
+    const query = useQuery(GetUserPlaylistsQueryKey, () => halyApi.me.putCurrentUserPlaylists());
     const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
 
     useEffect(() => {

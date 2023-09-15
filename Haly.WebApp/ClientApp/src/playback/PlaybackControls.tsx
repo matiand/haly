@@ -52,7 +52,7 @@ function PlaybackControls({ track, player, initialVolume }: PlaybackControlsProp
         <Wrapper>
             <div>
                 <TrackInformation track={track} type="playback" />
-                <HeartButton size="small" />
+                <HeartButton type="track" entityId={track.spotifyId} initialState={true} />
             </div>
 
             <ControlsWrapper aria-label="Playback controls">

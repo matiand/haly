@@ -8,24 +8,29 @@ import {
     pageContextAtom,
     playlistSearchTermAtom,
     streamedPlaylistIdAtom,
+    userIdAtom,
 } from "../common/atoms";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import SearchBar from "../search/SearchBar";
+import HeartButton from "../ui/HeartButton";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
 import PageControls from "../ui/PageControls";
 import PageGradient from "./PageGradient";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
+import useIsPlaylistInLibrary from "./useIsPlaylistInLibrary";
 import { PlaylistSortOrder } from "./useSortOrder";
 
 function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder }) {
-    const query = usePlaylistQuery(id, sortOrder);
+    const isInLibrary = useIsPlaylistInLibrary(id);
+    const query = usePlaylistQuery(id, sortOrder, isInLibrary);
     const dominantColors = useAtomValue(dominantColorsAtom);
     const streamedPlaylistId = useAtomValue(streamedPlaylistIdAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
+    const userId = useAtomValue(userIdAtom);
 
     useEffect(() => {
         if (query.data) {
@@ -55,6 +60,7 @@ function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder 
     const dominantColor = dominantColors[playlist.imageUrl ?? ""];
     const hasTracks = query.data.tracks.total > 0;
     const isListenedTo = streamedPlaylistId === id;
+    const isOwnedByCurrentUser = playlist.owner.id === userId;
 
     if (!hasTracks) {
         return (
@@ -94,6 +100,9 @@ function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder 
             />
             <PageControls>
                 <PlaybackToggle size="large" isPaused={!isListenedTo} toggle={() => 1} />
+                {!isOwnedByCurrentUser && (
+                    <HeartButton entityId={playlist.id} type="playlist" initialState={isInLibrary} />
+                )}
                 <MoreOptionsButton label={`More options for playlist ${playlist.name}`} size="medium" />
                 <SearchBar
                     variant="playlist"
@@ -117,13 +126,12 @@ function Playlist({ id, sortOrder }: { id: string; sortOrder: PlaylistSortOrder 
     );
 }
 
-const usePlaylistQuery = (playlistId: string, sortOrder: PlaylistSortOrder) => {
-    const isCached = useAtomValue(useMemo(() => isPlaylistCachedAtom(playlistId), [playlistId]));
-
-    // Playlist that are linked with our user are cached (i.e. appear in the sidebar). For those we
-    // can use a GET request. For other playlists we need to use a PUT request to cache them first.
+const usePlaylistQuery = (playlistId: string, sortOrder: PlaylistSortOrder, isInLibrary: boolean) => {
+    // Playlist that belong to current user's library are cached (i.e. those in the sidebar). For
+    // those we can use a GET request. For other playlists we need to use a PUT request to cache
+    // them first.
     const queryFn = useMemo(() => {
-        return isCached
+        return isInLibrary
             ? () =>
                   halyClient.playlists.getPlaylist({
                       id: playlistId,
@@ -136,9 +144,9 @@ const usePlaylistQuery = (playlistId: string, sortOrder: PlaylistSortOrder) => {
                           sortOrder,
                       }),
                   );
-    }, [playlistId, sortOrder, isCached]);
+    }, [playlistId, sortOrder, isInLibrary]);
 
-    return useQuery(["playlists", playlistId, { sortOrder }], queryFn, { keepPreviousData: true });
+    return useQuery(["playlists", playlistId, { isInLibrary, sortOrder }], queryFn, { keepPreviousData: true });
 };
 
 export default Playlist;
