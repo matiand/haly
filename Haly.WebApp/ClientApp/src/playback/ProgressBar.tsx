@@ -54,6 +54,10 @@ const Root = styled(Slider.Root, {
             height: "13px",
         },
     },
+
+    "&[data-disabled] [role=slider]": {
+        height: 0,
+    },
 });
 
 const Track = styled(Slider.Track, {
