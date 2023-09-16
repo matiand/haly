@@ -1,6 +1,7 @@
-import { differenceInMonths, format, formatDistanceToNowStrict } from "date-fns";
+import { differenceInDays, differenceInWeeks, format, formatDistanceToNowStrict } from "date-fns";
 
 import { PlaylistTrackDto } from "../../generated/haly";
+import { pluralize } from "../common/pluralize";
 import { styled } from "../common/theme";
 
 type TrackDateAddedCellProps = {
@@ -12,10 +13,16 @@ function TrackDateAddedCell({ track }: TrackDateAddedCellProps) {
 }
 
 function formatAddedAt(addedAtIso: Date) {
-    const addedAt = new Date(addedAtIso);
-    const diffInMonths = differenceInMonths(new Date(), addedAt);
+    const diffInDays = differenceInDays(new Date(), addedAtIso);
+    const diffInWeeks = differenceInWeeks(new Date(), addedAtIso, { roundingMethod: "round" });
 
-    return diffInMonths > 0 ? format(addedAt, "MMM d, y") : formatDistanceToNowStrict(addedAt, { addSuffix: true });
+    if (diffInDays >= 7 && diffInDays < 30) {
+        return `${pluralize("week", diffInWeeks)} ago`;
+    }
+
+    return diffInDays >= 30
+        ? format(addedAtIso, "MMM d, y")
+        : formatDistanceToNowStrict(addedAtIso, { addSuffix: true });
 }
 
 const Wrapper = styled("div", {
