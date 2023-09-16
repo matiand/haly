@@ -93,7 +93,7 @@ export const theme = {
         playbackControlsButtonSize: "36px",
         playbackDevicesDropdownMinWidth: "320px",
         connectBarHeight: "24px",
-        userDropdownMinWidth: "196px",
+        dropdownMenuMinWidth: "200px",
         upperMenuHeight: "64px",
         volumeControlWidth: "132px",
     },

@@ -7,7 +7,7 @@ import halyClient from "../halyClient";
 import * as DropdownMenu from "../ui/menu/DropdownMenu";
 import ActiveDevice from "./ActiveDevice";
 
-function DeviceDropdownContent() {
+function DeviceDropdownMenuContent() {
     const query = useQuery(["me", "player", "devices"], () => halyClient.player.getAvailableDevices(), {
         refetchOnWindowFocus: "always",
     });
@@ -78,4 +78,4 @@ const Item = styled(DropdownMenu.ItemBase, {
     },
 });
 
-export default DeviceDropdownContent;
+export default DeviceDropdownMenuContent;

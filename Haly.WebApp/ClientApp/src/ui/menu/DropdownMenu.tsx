@@ -13,7 +13,7 @@ export const Content = styled(DropdownMenu.Content, {
     fontSize: "$200",
     fontWeight: 500,
     marginTop: "$400",
-    minWidth: "$userDropdownMinWidth",
+    minWidth: "$dropdownMenuMinWidth",
     padding: "$200",
     userSelect: "none",
     zIndex: "$upperMenuContents",

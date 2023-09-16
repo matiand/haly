@@ -4,7 +4,7 @@ import { StreamedTrack } from "../common/atoms";
 import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
 import HeartButton from "../ui/HeartButton";
-import DeviceDropdown from "./DeviceDropdown";
+import DeviceDropdownMenu from "./DeviceDropdownMenu";
 import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
 import QueueButton from "./QueueButton";
@@ -37,7 +37,7 @@ function PlaybackControls({ track, player, initialVolume }: PlaybackControlsProp
 
                 <div>
                     <QueueButton />
-                    <DeviceDropdown />
+                    <DeviceDropdownMenu />
                     <VolumeControl
                         key={initialVolume}
                         initialLevel={initialVolume}
@@ -85,7 +85,7 @@ function PlaybackControls({ track, player, initialVolume }: PlaybackControlsProp
 
             <div>
                 <QueueButton />
-                <DeviceDropdown />
+                <DeviceDropdownMenu />
                 <VolumeControl
                     key={initialVolume}
                     initialLevel={initialVolume}

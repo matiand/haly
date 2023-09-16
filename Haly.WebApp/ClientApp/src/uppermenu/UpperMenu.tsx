@@ -4,7 +4,7 @@ import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useDynamicBackground from "./useDynamicBackground";
-import UserDropdown from "./UserDropdown";
+import UserDropdownMenu from "./UserDropdownMenu";
 
 function UpperMenu() {
     const pageContext = useAtomValue(pageContextAtom);
@@ -14,7 +14,7 @@ function UpperMenu() {
     if (!pageContext) {
         return (
             <Header aria-label="User menu">
-                <UserDropdown />
+                <UserDropdownMenu />
             </Header>
         );
     }
@@ -32,7 +32,7 @@ function UpperMenu() {
                 <span className="line-clamp-ellipsis">{pageContext.title}</span>
             </ContextDetails>
 
-            <UserDropdown />
+            <UserDropdownMenu />
         </Header>
     );
 }

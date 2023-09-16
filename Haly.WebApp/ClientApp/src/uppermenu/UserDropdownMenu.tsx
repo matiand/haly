@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { userAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import * as DropdownMenu from "../ui/menu/DropdownMenu";
-import UserDropdownHeader from "./UserDropdownHeader";
+import UserDropdownMenuHeader from "./UserDropdownMenuHeader";
 
-function UserDropdown() {
+function UserDropdownMenu() {
     const auth = useAuth();
     const user = useAtomValue(userAtom);
     const navigate = useNavigate();
@@ -23,8 +23,8 @@ function UserDropdown() {
                 </span>
             </MenuTrigger>
 
-            <DropdownMenu.Content collisionPadding={{ right: 25 }}>
-                <UserDropdownHeader user={user} />
+            <MenuContent collisionPadding={{ right: 25 }}>
+                <UserDropdownMenuHeader user={user} />
 
                 <DropdownMenu.Item name="Profile" onClick={() => navigate("/me")} />
                 <DropdownMenu.Item name="Settings" onClick={() => navigate("/preferences")} />
@@ -38,7 +38,7 @@ function UserDropdown() {
                 <DropdownMenu.Separator />
 
                 <DropdownMenu.Item name="Log out" onClick={() => auth.removeUser()} />
-            </DropdownMenu.Content>
+            </MenuContent>
         </DropdownMenu.Root>
     );
 }
@@ -67,9 +67,13 @@ const MenuTrigger = styled(DropdownMenu.Trigger, {
     },
 });
 
+const MenuContent = styled(DropdownMenu.Content, {
+    maxWidth: "calc($dropdownMenuMinWidth + 60px)",
+});
+
 const UserIcon = styled(HiOutlineUser, {
     height: "20px",
     width: "20px",
 });
 
-export default UserDropdown;
+export default UserDropdownMenu;

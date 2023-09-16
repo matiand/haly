@@ -3,9 +3,9 @@ import { LuMonitorSpeaker } from "react-icons/lu";
 
 import { styled, theme } from "../common/theme";
 import * as DropdownMenu from "../ui/menu/DropdownMenu";
-import DeviceDropdownContent from "./DeviceDropdownContent";
+import DeviceDropdownMenuContent from "./DeviceDropdownMenuContent";
 
-function DeviceDropdown() {
+function DeviceDropdownMenu() {
     // We need to handle opening and closing the dropdown manually. By default the contents are
     // hidden when closed but still rendered. We prefer not doing that unless it's necessary, to
     // avoid hitting their servers on each render.
@@ -19,7 +19,7 @@ function DeviceDropdown() {
                 </span>
             </Trigger>
 
-            {isOpen && <DeviceDropdownContent />}
+            {isOpen && <DeviceDropdownMenuContent />}
         </DropdownMenu.Root>
     );
 }
@@ -49,4 +49,4 @@ const Trigger = styled(DropdownMenu.Trigger, {
     },
 });
 
-export default DeviceDropdown;
+export default DeviceDropdownMenu;

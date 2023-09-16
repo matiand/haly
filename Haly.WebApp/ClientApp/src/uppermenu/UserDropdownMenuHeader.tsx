@@ -4,11 +4,11 @@ import { PrivateUserDto } from "../../generated/haly";
 import { playlistIdsWithOldTracksAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 
-type UserDropdownHeaderProps = {
+type UserDropdownMenuHeaderProps = {
     user: PrivateUserDto;
 };
 
-function UserDropdownHeader({ user: { name, imageUrl } }: UserDropdownHeaderProps) {
+function UserDropdownMenuHeader({ user: { name, imageUrl } }: UserDropdownMenuHeaderProps) {
     const [playlistWithOldTracks] = useAtom(playlistIdsWithOldTracksAtom);
     const title = playlistWithOldTracks.length === 0 ? "Library Synced" : "Syncing playlists";
     const badge = playlistWithOldTracks.length === 0 ? "Synced" : `Syncing (${playlistWithOldTracks.length} left)`;
@@ -54,4 +54,4 @@ const HeaderWrapper = styled("div", {
     },
 });
 
-export default UserDropdownHeader;
+export default UserDropdownMenuHeader;
