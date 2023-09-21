@@ -63,7 +63,7 @@ function HeartButton({ entityId, type, initialState }: HeartButtonProps) {
         setIsAnimated(true);
     };
 
-    const btnLabel = isOn ? "Remove from Your Library" : "Save to Your Library";
+    const btnLabel = isOn ? "Remove from 'Liked Songs' collection" : "Save to 'Liked Songs' collection";
 
     return (
         <Button

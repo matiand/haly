@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
-import { streamedPlaylistTrackIdAtom } from "../../common/atoms";
+import { likedSongIdsAtom, streamedPlaylistTrackIdAtom } from "../../common/atoms";
 import { styled, theme } from "../../common/theme";
 import * as Table from "../Table";
 import useScrollToTrackIdParam from "../useScrollToTrackIdParam";
@@ -32,6 +32,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
     });
     const scrollToTrackId = useScrollToTrackIdParam();
     const streamedPlaylistTrackId = useAtomValue(streamedPlaylistTrackIdAtom);
+    const likedTrackIds = useAtomValue(likedSongIdsAtom);
 
     useEffect(() => {
         const currentTotal = items.length;
@@ -64,8 +65,9 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
                         if (!track) return null;
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
-                        const shouldScrollTo = !!scrollToTrackId && scrollToTrackId === track.spotifyId;
                         const isListenedTo = !!streamedPlaylistTrackId && streamedPlaylistTrackId === track.spotifyId;
+                        const isLiked = !!track.spotifyId && likedTrackIds.includes(track.spotifyId);
+                        const shouldScrollTo = !!scrollToTrackId && scrollToTrackId === track.spotifyId;
 
                         return (
                             <PlaylistTableRow
@@ -73,6 +75,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
                                 index={trackIdx}
                                 track={track}
                                 isListenedTo={isListenedTo}
+                                isLiked={isLiked}
                                 start={virtualItem.start}
                                 shouldScrollTo={shouldScrollTo}
                             />

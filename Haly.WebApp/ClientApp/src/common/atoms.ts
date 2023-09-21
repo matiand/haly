@@ -17,6 +17,7 @@ export const pageHeaderVisibilityAtom = atom<number>(1);
 
 export const userAtom = atom<PrivateUserDto | null>(null);
 export const userIdAtom = atom<string>((get) => get(userAtom)?.id ?? "");
+export const userCanStreamTracksAtom = atom<boolean>((get) => get(userAtom)?.canStreamTracks ?? false);
 
 export const artistNameAtom = atom<string | null>(null);
 
@@ -73,3 +74,5 @@ export const streamedPlaylistIdAtom = atom((get) => {
 export const isPlaybackShuffledAtom = atom((get) => get(streamedTrackAtom)?.context?.isShuffled ?? false);
 export const playbackRepeatModeAtom = atom((get) => get(streamedTrackAtom)?.context?.repeatMode ?? "off");
 export const playbackContextNameAtom = atom((get) => get(streamedTrackAtom)?.context?.name);
+
+export const likedSongIdsAtom = atom<string[]>([]);

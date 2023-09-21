@@ -16,7 +16,8 @@ public class PrivateUser
 
     public List<RefetchPlaylistTracksJob> RefetchPlaylistTracksJobs { get; set; }
 
-    public bool CanUseSpotifyPlayer => Plan is Plan.Premium;
+    public bool CanStreamTracks => Plan is Plan.Premium;
+    public string LikedSongsCollectionId => $"LikesOf_{Id}";
 }
 
 public enum Plan

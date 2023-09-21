@@ -11,7 +11,8 @@ import UserLibraryHeader from "./UserLibraryHeader";
 import UserPlaylists from "./UserPlaylists";
 
 function UserLibrary() {
-    // We treat this PUT as query, because it's idempotent
+    // This is actually a PUT request, but we treat it as a query, because it's idempotent and we want
+    // to have the playlists up to date.
     const query = useQuery(GetUserPlaylistsQueryKey, () => halyApi.me.putCurrentUserPlaylists());
     const setCachedPlaylistIds = useSetAtom(cachedPlaylistIdsAtom);
 

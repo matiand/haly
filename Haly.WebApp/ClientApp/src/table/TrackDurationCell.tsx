@@ -7,10 +7,11 @@ import MoreOptionsButton from "../ui/MoreOptionsButton";
 
 type TrackDurationCellProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
+    isLiked?: boolean;
     noActions?: boolean;
 };
 
-function TrackDurationCell({ track, noActions }: TrackDurationCellProps) {
+function TrackDurationCell({ track, noActions, isLiked = false }: TrackDurationCellProps) {
     if (noActions) {
         return (
             <Wrapper>
@@ -21,9 +22,9 @@ function TrackDurationCell({ track, noActions }: TrackDurationCellProps) {
 
     return (
         <Wrapper>
-            <HeartButton type="track" entityId={track.spotifyId!} initialState={true} />
+            <HeartButton type="track" entityId={track.spotifyId!} initialState={isLiked} />
             <Duration>{track.duration}</Duration>
-            <MoreOptionsButton label={`More options for track ${track.name}`} size="small" />
+            <MoreOptionsButton label={`More options for track ${track.name}`} type="track" />
         </Wrapper>
     );
 }
@@ -32,6 +33,11 @@ const Wrapper = styled("div", {
     alignItems: "center",
     color: "$white400",
     display: "flex",
+
+    // Show the heart button when the user follows that track
+    "& > button[aria-checked=true]": {
+        opacity: 1,
+    },
 
     "& > :first-child": {
         alignItems: "center",

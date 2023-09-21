@@ -15,11 +15,19 @@ type PlaylistTableRowProps = {
     index: number;
     track: PlaylistTrackDto;
     isListenedTo: boolean;
+    isLiked: boolean;
     start?: number;
     shouldScrollTo?: boolean;
 };
 
-function PlaylistTableRow({ index, track, isListenedTo, start, shouldScrollTo = false }: PlaylistTableRowProps) {
+function PlaylistTableRow({
+    index,
+    track,
+    isListenedTo,
+    isLiked,
+    start,
+    shouldScrollTo = false,
+}: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
     const ref = useScrollToTrack();
 
@@ -55,7 +63,7 @@ function PlaylistTableRow({ index, track, isListenedTo, start, shouldScrollTo = 
             </td>
 
             <td>
-                <TrackDurationCell track={track} noActions={isLocal} />
+                <TrackDurationCell track={track} noActions={isLocal} isLiked={isLiked} />
             </td>
         </TableRow>
     );

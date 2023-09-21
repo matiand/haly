@@ -48,7 +48,13 @@ export interface PrivateUserDto {
      * @type {boolean}
      * @memberof PrivateUserDto
      */
-    canUseSpotifyPlayer: boolean;
+    canStreamTracks: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrivateUserDto
+     */
+    likedSongsCollectionId: string;
 }
 
 /**
@@ -59,7 +65,8 @@ export function instanceOfPrivateUserDto(value: object): boolean {
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "market" in value;
-    isInstance = isInstance && "canUseSpotifyPlayer" in value;
+    isInstance = isInstance && "canStreamTracks" in value;
+    isInstance = isInstance && "likedSongsCollectionId" in value;
 
     return isInstance;
 }
@@ -78,7 +85,8 @@ export function PrivateUserDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'name': json['name'],
         'market': json['market'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'canUseSpotifyPlayer': json['canUseSpotifyPlayer'],
+        'canStreamTracks': json['canStreamTracks'],
+        'likedSongsCollectionId': json['likedSongsCollectionId'],
     };
 }
 
@@ -95,7 +103,8 @@ export function PrivateUserDtoToJSON(value?: PrivateUserDto | null): any {
         'name': value.name,
         'market': value.market,
         'imageUrl': value.imageUrl,
-        'canUseSpotifyPlayer': value.canUseSpotifyPlayer,
+        'canStreamTracks': value.canStreamTracks,
+        'likedSongsCollectionId': value.likedSongsCollectionId,
     };
 }
 

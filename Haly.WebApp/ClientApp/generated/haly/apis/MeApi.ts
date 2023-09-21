@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   FollowedArtistDto,
   PlaylistBriefDto,
+  PlaylistTrackDto,
   PrivateUserDto,
   Problem,
   TopArtistDto,
@@ -27,6 +28,8 @@ import {
     FollowedArtistDtoToJSON,
     PlaylistBriefDtoFromJSON,
     PlaylistBriefDtoToJSON,
+    PlaylistTrackDtoFromJSON,
+    PlaylistTrackDtoToJSON,
     PrivateUserDtoFromJSON,
     PrivateUserDtoToJSON,
     ProblemFromJSON,
@@ -71,6 +74,32 @@ export class MeApi extends runtime.BaseAPI {
      */
     async getFollowedArtists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<FollowedArtistDto>> {
         const response = await this.getFollowedArtistsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Fetch current user\'s \'Liked Songs\' collection from our cache
+     */
+    async getLikedSongsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PlaylistTrackDto>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/tracks`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PlaylistTrackDtoFromJSON));
+    }
+
+    /**
+     * Fetch current user\'s \'Liked Songs\' collection from our cache
+     */
+    async getLikedSongs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PlaylistTrackDto>> {
+        const response = await this.getLikedSongsRaw(initOverrides);
         return await response.value();
     }
 
@@ -162,34 +191,6 @@ export class MeApi extends runtime.BaseAPI {
     }
 
     /**
-     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
-     * Fetch current user\'s \'Liked Songs\' collection from Spotify and update our cache if it\'s changed
-     */
-    async putCurrentUserLikedSongsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistBriefDto>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/Me/tracks`,
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistBriefDtoFromJSON(jsonValue));
-    }
-
-    /**
-     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
-     * Fetch current user\'s \'Liked Songs\' collection from Spotify and update our cache if it\'s changed
-     */
-    async putCurrentUserLikedSongs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistBriefDto> {
-        const response = await this.putCurrentUserLikedSongsRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private, playlist-read-collaborative </b>
      * Fetch current user\'s playlists from Spotify and update our cache if they\'re changed
      */
@@ -215,6 +216,33 @@ export class MeApi extends runtime.BaseAPI {
     async putCurrentUserPlaylists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PlaylistBriefDto>> {
         const response = await this.putCurrentUserPlaylistsRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
+     * Fetch current user\'s \'Liked Songs\' collection from Spotify and update our cache if it\'s changed
+     */
+    async putLikedSongsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/tracks`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
+     * Fetch current user\'s \'Liked Songs\' collection from Spotify and update our cache if it\'s changed
+     */
+    async putLikedSongs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.putLikedSongsRaw(initOverrides);
     }
 
 }

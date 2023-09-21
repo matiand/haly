@@ -9,7 +9,6 @@ import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
-import HeartButton from "../ui/HeartButton";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
 import PageControls from "../ui/PageControls";
@@ -80,7 +79,7 @@ function Album() {
 
             <PageControls>
                 {isPlayable && <PlaybackToggle size="large" isPaused toggle={() => 1} />}
-                <MoreOptionsButton label={`More options for album: '${name}'`} size="medium" />
+                <MoreOptionsButton label={`More options for album: '${name}'`} type="album" />
             </PageControls>
 
             <AlbumTable items={tracks} />

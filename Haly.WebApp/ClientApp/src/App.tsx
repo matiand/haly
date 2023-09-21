@@ -1,20 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
-import { useAuth } from "react-oidc-context";
 import { Route, Routes } from "react-router-dom";
 
-import { ResponseError } from "../generated/haly";
 import Album from "./album/Album";
 import AllAppearsOnCards from "./artist/AllAppearsOnCards";
 import AllDiscographyCards from "./artist/AllDiscographyCards";
 import Artist from "./artist/Artist";
-import LikedSongs from "./collections/LikedSongs";
-import { userAtom } from "./common/atoms";
 import { styled, theme } from "./common/theme";
+import useMeQuery from "./common/useMeQuery";
 import { useMessageHub } from "./common/useMessageHub";
-import halyClient from "./halyClient";
+import useSyncLikedSongs from "./common/useSyncLikedSongs";
 import Home from "./home/Home";
-import Playback from "./playback/Playback";
+import PlaybackWrapper from "./playback/PlaybackWrapper";
+import LikedSongs from "./playlist/LikedSongs";
 import PlaylistWrapper from "./playlist/PlaylistWrapper";
 import AllMyFollowedArtistCards from "./profile/AllMyFollowedArtistCards";
 import AllMyTopArtistCards from "./profile/AllMyTopArtistCards";
@@ -31,32 +27,11 @@ import Toaster from "./ui/Toaster";
 import UpperMenu from "./uppermenu/UpperMenu";
 
 function App() {
-    const auth = useAuth();
-    const setUser = useSetAtom(userAtom);
-    const accessToken = auth.user!.access_token;
     useMessageHub();
+    const query = useMeQuery();
+    useSyncLikedSongs({ enabled: query.isSuccess });
 
-    const { isLoading } = useQuery(
-        ["me"],
-        () =>
-            halyClient.me
-                .putCurrentUser({ body: accessToken })
-                .then((user) => {
-                    setUser(user);
-                    return user;
-                })
-                .catch((err) => {
-                    if (err instanceof ResponseError) {
-                        if (err.response.status === 401) {
-                            console.log("Token wasn't refreshed, trying to reauthenticate explicitly.");
-                            auth.signinSilent();
-                        }
-                    }
-                }),
-        { refetchOnWindowFocus: "always" },
-    );
-
-    if (isLoading) return <LoadingIndicator />;
+    if (query.isLoading) return <LoadingIndicator />;
 
     return (
         <Layout>
@@ -94,7 +69,7 @@ function App() {
                 </MainScrollArea>
             </Main>
 
-            <Playback />
+            <PlaybackWrapper />
             <Toaster />
         </Layout>
     );

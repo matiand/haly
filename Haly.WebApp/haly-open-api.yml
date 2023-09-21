@@ -542,25 +542,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/Problem'
   /Me/tracks:
+    get:
+      tags:
+        - Me
+      summary: Fetch current user's 'Liked Songs' collection from our cache
+      operationId: GetLikedSongs
+      responses:
+        '200':
+          description: '''Liked Songs'' collection'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlaylistTrackDto'
     put:
       tags:
         - Me
       summary: Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>'
-      operationId: PutCurrentUserLikedSongs
+      operationId: PutLikedSongs
       responses:
-        '200':
-          description: '''Liked Songs'' updated'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaylistBriefDto'
-        '201':
-          description: '''Liked Songs'' created'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaylistBriefDto'
+        '204':
+          description: '''Liked Songs'' collection updated'
         '400':
           description: Bad request
           content:
@@ -1534,8 +1538,9 @@ components:
       additionalProperties: false
     PrivateUserDto:
       required:
-        - canUseSpotifyPlayer
+        - canStreamTracks
         - id
+        - likedSongsCollectionId
         - market
         - name
       type: object
@@ -1549,8 +1554,10 @@ components:
         imageUrl:
           type: string
           nullable: true
-        canUseSpotifyPlayer:
+        canStreamTracks:
           type: boolean
+        likedSongsCollectionId:
+          type: string
       additionalProperties: false
     Problem:
       required:

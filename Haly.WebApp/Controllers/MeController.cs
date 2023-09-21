@@ -1,6 +1,7 @@
 using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Features.CurrentUser.GetFeed;
 using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
+using Haly.WebApp.Features.CurrentUser.GetLikedSongs;
 using Haly.WebApp.Features.CurrentUser.GetTopArtists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdateCurrentUser;
@@ -54,21 +55,27 @@ public class MeController : ApiControllerBase
         return Ok(response);
     }
 
-    [HttpPut("tracks")]
-    [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
-    [SwaggerResponse(statusCode: 200, "'Liked Songs' updated", typeof(PlaylistBriefDto))]
-    [SwaggerResponse(statusCode: 201, "'Liked Songs' created", typeof(PlaylistBriefDto))]
-    [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
-    public async Task<ActionResult<PlaylistBriefDto>> PutCurrentUserLikedSongs(
+    [HttpGet("tracks")]
+    [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from our cache")]
+    [SwaggerResponse(statusCode: 200, "'Liked Songs' collection", typeof(IEnumerable<PlaylistTrackDto>))]
+    public async Task<IEnumerable<PlaylistTrackDto>> GetLikedSongs(
         [FromServices] CurrentUserStore currentUserStore)
     {
-        var currentUser = currentUserStore.User!;
+        var response = await Mediator.Send(new GetMyLikedSongsQuery(currentUserStore.User!));
 
-        var response = await Mediator.Send(new UpdateCurrentUserLikedSongsCommand(currentUser.Id, currentUser.Market));
+        return response;
+    }
 
-        return response.Created
-            ? CreatedAtAction("GetPlaylist", "Playlists", new { response.Playlist.Id }, response.Playlist)
-            : Ok(response.Playlist);
+    [HttpPut("tracks")]
+    [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
+    [SwaggerResponse(statusCode: 204, "'Liked Songs' collection updated")]
+    [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
+    public async Task<ActionResult<PlaylistBriefDto>> PutLikedSongs(
+        [FromServices] CurrentUserStore currentUserStore)
+    {
+        await Mediator.Send(new UpdateMyLikedSongsCommand(currentUserStore.User!));
+
+        return NoContent();
     }
 
     [HttpGet("artists")]
