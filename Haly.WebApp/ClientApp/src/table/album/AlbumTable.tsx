@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useAtomValue } from "jotai/index";
+import { useAtomValue } from "jotai";
 import { Fragment } from "react";
 
 import { AlbumTrackDto } from "../../../generated/haly";

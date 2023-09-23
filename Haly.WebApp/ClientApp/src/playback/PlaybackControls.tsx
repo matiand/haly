@@ -1,4 +1,4 @@
-import { useAtomValue } from "jotai/index";
+import { useAtomValue } from "jotai";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { playerSdkAtom, StreamedTrack } from "../common/atoms";
