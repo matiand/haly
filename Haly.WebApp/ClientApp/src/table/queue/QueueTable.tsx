@@ -1,7 +1,4 @@
-import { useAtomValue } from "jotai";
-
 import { TrackDto } from "../../../generated/haly";
-import { streamedTrackIdAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
 import QueueTableRow from "./QueueTableRow";
@@ -12,8 +9,6 @@ type QueueTableProps = {
 };
 
 function QueueTable({ tracks, indexOffset }: QueueTableProps) {
-    const streamedTrackId = useAtomValue(streamedTrackIdAtom);
-
     return (
         <div>
             <TableRoot>
@@ -23,7 +18,7 @@ function QueueTable({ tracks, indexOffset }: QueueTableProps) {
                             key={idx}
                             index={indexOffset + idx}
                             track={track}
-                            isListenedTo={streamedTrackId === track.spotifyId}
+                            isListenedTo={indexOffset === 1}
                         />
                     ))}
                 </Table.Body>
