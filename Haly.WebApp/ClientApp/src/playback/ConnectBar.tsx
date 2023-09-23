@@ -1,32 +1,52 @@
-import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 
 import { styled } from "../common/theme";
-import halyClient from "../halyClient";
 
 type ConnectBarProps = {
-    activeDeviceName: string;
-    ourDeviceId: string;
+    type: "denied" | "failure" | "connecting" | "available";
+    onAction?: () => void;
+    activeDeviceName?: string;
+    errorMessage?: string;
 };
 
-function ConnectBar({ activeDeviceName, ourDeviceId }: ConnectBarProps) {
-    const transferPlayback = useMutation(() => halyClient.player.transferPlayback({ deviceId: ourDeviceId }));
-
-    const isConnecting = !transferPlayback.isIdle;
-
-    if (isConnecting) {
+function ConnectBar({ type, onAction, activeDeviceName, errorMessage }: ConnectBarProps) {
+    if (type === "denied") {
         return (
-            <Wrapper className={clsx({ isConnecting })}>
-                <span aria-live="polite">Connecting to Haly</span>
+            <Wrapper>
+                <span>Playback not allowed</span>
+                <span>
+                    <a href="https://www.spotify.com/us/premium/" target="_blank" rel="noreferrer">
+                        Upgrade to Premium
+                    </a>
+                </span>
+            </Wrapper>
+        );
+    }
+
+    if (type === "failure") {
+        return (
+            <Wrapper className={clsx({ isFailure: true })}>
+                {errorMessage ? <span> {errorMessage} </span> : <span>Failed to transfer playback to Haly</span>}
+                <button type="button" onClick={onAction}>
+                    Try again
+                </button>
+            </Wrapper>
+        );
+    }
+
+    if (type === "connecting") {
+        return (
+            <Wrapper>
+                <span>Connecting to Haly</span>
                 <span></span>
             </Wrapper>
         );
     }
 
     return (
-        <Wrapper className={clsx({ isTransferring: isConnecting })}>
-            <span aria-live="polite">Listening on {activeDeviceName}</span>
-            <button type="button" onClick={() => transferPlayback.mutate()}>
+        <Wrapper className={clsx({ isAvailable: true })}>
+            {activeDeviceName && <span aria-live="polite">Listening on {activeDeviceName}</span>}
+            <button type="button" onClick={onAction}>
                 Transfer playback
             </button>
         </Wrapper>
@@ -35,7 +55,7 @@ function ConnectBar({ activeDeviceName, ourDeviceId }: ConnectBarProps) {
 
 const Wrapper = styled("div", {
     alignItems: "center",
-    background: "$primary400",
+    background: "$black400",
     borderRadius: "4px",
     display: "flex",
     justifyContent: "flex-end",
@@ -43,19 +63,32 @@ const Wrapper = styled("div", {
     userSelect: "none",
     width: "100%",
 
-    "&.isConnecting": {
-        background: "$black400",
+    "&.isAvailable": {
+        background: "$primary400",
 
         "& > *": {
-            color: "$white800",
+            color: "$black800",
         },
     },
 
+    "&.isFailure": {
+        background: "$danger400",
+    },
+
     "& > span, & > button": {
-        color: "$black800",
+        color: "$white800",
         fontSize: "$300",
         fontWeight: 500,
         marginRight: "$800",
+
+        "& > a": {
+            color: "inherit",
+            textDecoration: "none",
+
+            "&:hover": {
+                textDecoration: "underline",
+            },
+        },
     },
 
     "& > button": {
@@ -69,7 +102,7 @@ const Wrapper = styled("div", {
         },
 
         "&:active": {
-            color: "$black200",
+            textDecoration: "initial",
         },
     },
 });

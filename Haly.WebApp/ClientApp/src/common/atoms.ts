@@ -57,6 +57,8 @@ export type StreamedTrack = {
     artists: ArtistBriefDto[];
 };
 
+export const playerSdkAtom = atom<Spotify.Player | null>(null);
+
 export const streamedTrackAtom = atom<StreamedTrack | null>(null);
 export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.spotifyId);
 export const streamedPlaylistTrackIdAtom = atom((get) => {
