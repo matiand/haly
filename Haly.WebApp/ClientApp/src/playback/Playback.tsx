@@ -1,87 +1,61 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
 import { streamedTrackAtom } from "../common/atoms";
 import { delay } from "../common/delay";
-import { styled } from "../common/theme";
-import halyClient from "../halyClient";
 import { QueueQueryKey } from "../queue/useQueueQuery";
 import { RecentlyPlayedQueryKey } from "../queue/useRecentlyPlayedQuery";
 import ConnectBar from "./ConnectBar";
 import PlaybackControls from "./PlaybackControls";
-import useSpotifyPlaybackSdk from "./useSpotifyPlaybackSdk";
+import usePlaybackTransferFlow from "./usePlaybackTransferFlow";
 
-function Playback() {
-    const query = usePlaybackStateQuery();
-    const { player, deviceId } = useSpotifyPlaybackSdk();
+type PlaybackProps = {
+    deviceId: string;
+};
+
+function Playback({ deviceId }: PlaybackProps) {
     const queryClient = useQueryClient();
-    const initialVolumeRef = useRef<number>();
     const streamedTrack = useAtomValue(streamedTrackAtom);
+    const { state, activeDevice, volume, transferPlayback, refetchPlaybackState, retry } =
+        usePlaybackTransferFlow(deviceId);
 
     useEffect(() => {
-        // We need to delay this, to allow those endpoints to notice the change.
-        delay(800).then(() => {
-            queryClient.invalidateQueries(QueueQueryKey);
-            queryClient.invalidateQueries(RecentlyPlayedQueryKey);
-        });
+        if (streamedTrack?.spotifyId) {
+            // We need to delay this, otherwise those endpoints won't notice the change.
+            delay(800).then(() => {
+                console.log("invalidation");
+                queryClient.invalidateQueries(QueueQueryKey);
+                queryClient.invalidateQueries(RecentlyPlayedQueryKey);
+            });
+        }
     }, [streamedTrack?.spotifyId, queryClient]);
 
-    useEffect(() => {
-        if (!initialVolumeRef.current) {
-            initialVolumeRef.current = query.data?.device.volume;
-        }
-    }, [query.data]);
+    if (state === "initial" || state === "scheduled") return null;
 
-    const activeDeviceName = query.data.device.name;
-    const activeDeviceVolume = query.data.device.volume;
-    const initialVolumeToUse = initialVolumeRef.current ?? 0.5;
-
-    if (!streamedTrack) {
+    if (state === "query-failure") {
         return (
-            <Footer>
-                <ConnectBar activeDeviceName={activeDeviceName} ourDeviceId={deviceId} />
-            </Footer>
+            <ConnectBar
+                type="failure"
+                errorMessage="No playback information available"
+                onAction={refetchPlaybackState}
+            />
         );
     }
 
-    return (
-        <Footer>
-            <PlaybackControls track={streamedTrack} player={player} initialVolume={initialVolumeToUse} />
-        </Footer>
-    );
+    if (state === "transfer-failure") {
+        return <ConnectBar type="failure" errorMessage="Playback transfer failed" onAction={retry} />;
+    }
+
+    if (state === "available") {
+        return <ConnectBar type="available" activeDeviceName={activeDevice?.name} onAction={transferPlayback} />;
+    }
+
+    if (state === "connecting") {
+        return <ConnectBar type="connecting" />;
+    }
+
+    return <PlaybackControls track={streamedTrack} initialVolume={volume} />;
 }
-
-function usePlaybackStateQuery() {
-    const setPlaybackContext = useSetAtom(playbackContextAtom);
-
-    return useQuery(["me", "player"], () =>
-        halyClient.player
-            .getPlaybackState()
-            .then((data) => {
-                const ctx = data.context;
-                if (ctx) {
-                    // setPlaybackContext({ entityId: ctx.entityId, type: ctx.type as PlaybackContext["type"] });
-                }
-
-                return data;
-            })
-            .catch((err) => {
-                if ("status" in err && err.status === 204) {
-                    // todo: handle transfering playback to us here
-                    return null;
-                }
-            }),
-    );
-}
-
-const Footer = styled("footer", {
-    alignItems: "center",
-    background: "$black800",
-    display: "flex",
-    flexFlow: "column nowrap",
-    gridArea: "playback",
-    justifyContent: "center",
-});
 
 export default Playback;

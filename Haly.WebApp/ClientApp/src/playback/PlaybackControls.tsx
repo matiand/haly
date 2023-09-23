@@ -1,6 +1,7 @@
+import { useAtomValue } from "jotai/index";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
-import { StreamedTrack } from "../common/atoms";
+import { playerSdkAtom, StreamedTrack } from "../common/atoms";
 import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
 import HeartButton from "../ui/HeartButton";
@@ -15,11 +16,14 @@ import VolumeControl from "./VolumeControl";
 
 type PlaybackControlsProps = {
     track: StreamedTrack | null;
-    player: Spotify.Player;
     initialVolume: number;
 };
 
-function PlaybackControls({ track, player, initialVolume }: PlaybackControlsProps) {
+function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
+    const player = useAtomValue(playerSdkAtom);
+
+    if (!player) return null;
+
     if (!track) {
         return (
             <Wrapper>
