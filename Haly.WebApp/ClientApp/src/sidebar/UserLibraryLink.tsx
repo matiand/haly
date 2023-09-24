@@ -3,19 +3,22 @@ import { HiSpeakerWave } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
 
 import { styled } from "../common/theme";
+import { PlaybackContextState } from "../common/usePlaybackContextState";
 
 type UserLibraryLinkProps = {
     name: string;
     href: string;
-    isListenedTo: boolean;
+    playbackState: PlaybackContextState;
 };
 
-function UserLibraryLink({ name, href, isListenedTo }: UserLibraryLinkProps) {
+function UserLibraryLink({ name, href, playbackState }: UserLibraryLinkProps) {
+    const isListenedTo = playbackState !== "none";
+
     return (
         <Link to={href}>
             <span className={clsx({ isListenedTo })}>{name}</span>
 
-            <span aria-hidden>{isListenedTo && <Icon />}</span>
+            <span aria-hidden>{playbackState === "playing" && <Icon />}</span>
         </Link>
     );
 }

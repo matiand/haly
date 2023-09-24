@@ -68,7 +68,7 @@ function Artist() {
                 <FollowButton creatorId={artistId} initialValue={isFollowed} type="Artist" />
             </PageControls>
 
-            <ArtistHighlights tracks={topTracks} playlist={highlightedPlaylist} />
+            <ArtistHighlights artistId={artistId} tracks={topTracks} playlist={highlightedPlaylist} />
             <Discography artistId={artistId} />
             <AppearsOn artistId={artistId} />
 

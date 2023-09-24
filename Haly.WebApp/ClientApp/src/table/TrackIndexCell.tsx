@@ -4,20 +4,21 @@ import { MdPodcasts } from "react-icons/md";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
+import { PlaybackContextState } from "../common/usePlaybackContextState";
 import AnimatedMusicBars from "../ui/AnimatedMusicBars";
 
 type TrackIndexCellProps = {
     index: number;
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
-    isListenedTo?: boolean;
-    noPlayback?: boolean;
+    playbackState: PlaybackContextState;
+    noPlayBtn?: boolean;
 };
 
-function TrackIndexCell({ index, track, isListenedTo, noPlayback }: TrackIndexCellProps) {
+function TrackIndexCell({ index, track, playbackState, noPlayBtn }: TrackIndexCellProps) {
     const label = `Play ${track.name}`;
     const isPodcast = "isSong" in track && !track.isSong;
 
-    if (noPlayback) {
+    if (noPlayBtn) {
         return (
             <Wrapper className={clsx({ alwaysIndex: true })}>
                 <Index>{index}</Index>
@@ -25,10 +26,9 @@ function TrackIndexCell({ index, track, isListenedTo, noPlayback }: TrackIndexCe
         );
     }
 
-    return (
-        <Wrapper>
-            {isListenedTo ? <AnimatedMusicBars type="track" /> : <Index>{index}</Index>}
-            {isPodcast ? (
+    if (isPodcast) {
+        return (
+            <Wrapper>
                 <PlayBtn
                     type="button"
                     aria-label="Streaming podcasts is not supported"
@@ -40,13 +40,22 @@ function TrackIndexCell({ index, track, isListenedTo, noPlayback }: TrackIndexCe
                         <MdPodcasts />
                     </span>
                 </PlayBtn>
+            </Wrapper>
+        );
+    }
+
+    return (
+        <Wrapper>
+            {playbackState === "playing" ? (
+                <AnimatedMusicBars type="track" />
             ) : (
-                <PlayBtn type="button" aria-label={label} title={label}>
-                    <span>
-                        <HiPlay />
-                    </span>
-                </PlayBtn>
+                <Index className={clsx({ isPaused: playbackState === "paused" })}>{index}</Index>
             )}
+            <PlayBtn type="button" aria-label={label} title={label}>
+                <span>
+                    <HiPlay />
+                </span>
+            </PlayBtn>
         </Wrapper>
     );
 }
@@ -71,6 +80,10 @@ const Index = styled("span", {
     fontVariant: "tabular-nums",
     position: "absolute",
     right: ".2em",
+
+    "&.isPaused": {
+        color: "$primary400",
+    },
 });
 
 const PlayBtn = styled("button", {

@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import { pluralize } from "../common/pluralize";
+import usePlaybackContextState from "../common/usePlaybackContextState";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import PageGradient from "../playlist/PageGradient";
@@ -21,6 +22,7 @@ function Album() {
     const query = useQuery(["albums", id], () => halyClient.albums.getAlbum({ id: id! }));
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
+    const getPlaybackState = usePlaybackContextState();
 
     useEffect(() => {
         if (query.data) {
@@ -51,8 +53,10 @@ function Album() {
         formattedReleaseDate,
         copyrights,
     } = query.data;
+
     const dominantColor = dominantColors[imageUrl ?? ""];
     const isPlayable = tracks.some((t) => t.isPlayable);
+    const playbackState = getPlaybackState(albumId);
 
     return (
         <div>
@@ -78,11 +82,11 @@ function Album() {
             </PageHeader>
 
             <PageControls>
-                {isPlayable && <PlaybackToggle size="large" isPaused toggle={() => 1} />}
+                {isPlayable && <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={() => 1} />}
                 <MoreOptionsButton label={`More options for album: '${name}'`} type="album" />
             </PageControls>
 
-            <AlbumTable items={tracks} />
+            <AlbumTable albumId={albumId} items={tracks} />
             <Copyrights text={copyrights} date={formattedReleaseDate} />
 
             {albumId && <SimilarAlbums albumId={albumId} trackIds={tracks.map((t) => t.spotifyId)} />}

@@ -1,24 +1,24 @@
 import clsx from "clsx";
-import { useAtomValue } from "jotai";
 import { Fragment } from "react";
 
 import { AlbumTrackDto } from "../../../generated/haly";
-import { streamedAlbumTrackIdAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
 import useScrollToTrackIdParam from "../useScrollToTrackIdParam";
 import useStickyTableHead from "../useStickyTableHead";
+import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 
 type AlbumTableProps = {
+    albumId: string;
     items: AlbumTrackDto[];
 };
 
-function AlbumTable({ items }: AlbumTableProps) {
+function AlbumTable({ albumId, items }: AlbumTableProps) {
     const { ref, isSticky } = useStickyTableHead();
     const scrollToTrackId = useScrollToTrackIdParam();
-    const streamedAlbumTrackId = useAtomValue(streamedAlbumTrackIdAtom);
+    const getTableRowPlaybackState = useTableRowPlaybackState(albumId);
 
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
@@ -53,8 +53,8 @@ function AlbumTable({ items }: AlbumTableProps) {
                                               key={t.spotifyId}
                                               index={idx + 1}
                                               track={t}
-                                              isListenedTo={streamedAlbumTrackId === t.spotifyId}
-                                              shouldScrollTo={scrollToTrackId === t.spotifyId}
+                                              playbackState={getTableRowPlaybackState(t.spotifyId)}
+                                              shouldScrollTo={t.spotifyId === scrollToTrackId}
                                           />
                                       ))}
                                   </Fragment>
@@ -65,7 +65,7 @@ function AlbumTable({ items }: AlbumTableProps) {
                                   key={t.spotifyId}
                                   index={idx + 1}
                                   track={t}
-                                  isListenedTo={streamedAlbumTrackId === t.spotifyId}
+                                  playbackState={getTableRowPlaybackState(t.spotifyId)}
                                   shouldScrollTo={scrollToTrackId === t.spotifyId}
                               />
                           ))}

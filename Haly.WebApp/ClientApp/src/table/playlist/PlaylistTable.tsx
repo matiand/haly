@@ -4,25 +4,35 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
-import { likedSongIdsAtom, streamedPlaylistTrackIdAtom } from "../../common/atoms";
+import { likedSongIdsAtom } from "../../common/atoms";
 import { styled, theme } from "../../common/theme";
 import * as Table from "../Table";
 import useScrollToTrackIdParam from "../useScrollToTrackIdParam";
 import useStickyTableHead from "../useStickyTableHead";
+import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
 
 type PlaylistTableProps = {
+    playlistId: string;
     items: PlaylistTrackDto[];
     total: number;
     fetchMoreItems: () => void;
     keepInitialPositionIndex: boolean;
+    isLikedSongsCollection: boolean;
 };
 
 // Having less rows than this will cause additional fetching to occur.
 const FETCH_MORE_THRESHOLD = 50;
 
-function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex }: PlaylistTableProps) {
+function PlaylistTable({
+    playlistId,
+    items,
+    total,
+    fetchMoreItems,
+    keepInitialPositionIndex,
+    isLikedSongsCollection,
+}: PlaylistTableProps) {
     const { ref, isSticky } = useStickyTableHead();
     const rowVirtualizer = useVirtualizer({
         getScrollElement: () => document.querySelector("main div[data-overlayscrollbars-viewport]"),
@@ -30,9 +40,9 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
         count: total,
         overscan: 24,
     });
-    const scrollToTrackId = useScrollToTrackIdParam();
-    const streamedPlaylistTrackId = useAtomValue(streamedPlaylistTrackIdAtom);
     const likedTrackIds = useAtomValue(likedSongIdsAtom);
+    const scrollToTrackId = useScrollToTrackIdParam();
+    const getTableRowPlaybackState = useTableRowPlaybackState(isLikedSongsCollection ? "collection" : playlistId);
 
     useEffect(() => {
         const currentTotal = items.length;
@@ -65,7 +75,6 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
                         if (!track) return null;
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
-                        const isListenedTo = !!streamedPlaylistTrackId && streamedPlaylistTrackId === track.spotifyId;
                         const isLiked = !!track.spotifyId && likedTrackIds.includes(track.spotifyId);
                         const shouldScrollTo = !!scrollToTrackId && scrollToTrackId === track.spotifyId;
 
@@ -74,7 +83,7 @@ function PlaylistTable({ items, total, fetchMoreItems, keepInitialPositionIndex 
                                 key={idx}
                                 index={trackIdx}
                                 track={track}
-                                isListenedTo={isListenedTo}
+                                playbackState={getTableRowPlaybackState(track.spotifyId)}
                                 isLiked={isLiked}
                                 start={virtualItem.start}
                                 shouldScrollTo={shouldScrollTo}

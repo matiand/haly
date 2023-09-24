@@ -36,6 +36,7 @@ export const theme = {
         collectionTextFaded: "rgba(255, 255, 255, 0.8)",
         collectionTableHeadBorder: "rgba(255, 255, 255, 0.1)",
         trackHover: "rgba(255, 255, 255, 0.1)",
+        trackSelected: "rgba(255, 255, 255, 0.3)",
         upperMenuMask: "rgba(0, 0, 0, 0.62)",
         userDropdownBtnBg: "rgba(0, 0, 0, 0.72)",
         userDropdownBtnHover: "rgba(0, 0, 0, 0.8)",

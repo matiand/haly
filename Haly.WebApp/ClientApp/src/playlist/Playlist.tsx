@@ -2,14 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import {
-    dominantColorsAtom,
-    pageContextAtom,
-    playlistSearchTermAtom,
-    streamedPlaylistIdAtom,
-    userIdAtom,
-} from "../common/atoms";
+import { dominantColorsAtom, pageContextAtom, playlistSearchTermAtom, userIdAtom } from "../common/atoms";
 import { theme } from "../common/theme";
+import usePlaybackContextState from "../common/usePlaybackContextState";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import SearchBar from "../search/SearchBar";
@@ -25,16 +20,16 @@ type PlaylistProps = {
     id: string;
     sortOrder: PlaylistSortOrder;
     isInLibrary: boolean;
-    isLikedSongsCollection?: boolean;
+    isLikedSongsCollection: boolean;
 };
 
 function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: PlaylistProps) {
     const query = usePlaylistQuery(id, sortOrder);
     const dominantColors = useAtomValue(dominantColorsAtom);
-    const streamedPlaylistId = useAtomValue(streamedPlaylistIdAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
     const userId = useAtomValue(userIdAtom);
+    const getPlaybackState = usePlaybackContextState();
 
     useEffect(() => {
         if (query.data) {
@@ -60,8 +55,8 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
     const playlist = query.data;
 
+    const playbackState = getPlaybackState(isLikedSongsCollection ? "collection" : playlist.id);
     const hasTracks = query.data.tracks.total > 0;
-    const isListenedTo = streamedPlaylistId === id;
     const isOwnedByCurrentUser = playlist.owner.id === userId;
     const dominantColor = isLikedSongsCollection
         ? theme.colors.dominantLikedSongs
@@ -106,7 +101,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                 isPersonalized={playlist.isPersonalized}
             />
             <PageControls>
-                <PlaybackToggle size="large" isPaused={!isListenedTo} toggle={() => 1} />
+                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={() => 1} />
 
                 {!isOwnedByCurrentUser && (
                     <HeartButton entityId={playlist.id} type="playlist" initialState={isInLibrary} />
@@ -130,7 +125,12 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                 />
             </PageControls>
 
-            <PlaylistTracks playlistId={playlist.id} sortOrder={sortOrder} initialTracks={playlist.tracks} />
+            <PlaylistTracks
+                playlistId={playlist.id}
+                sortOrder={sortOrder}
+                initialTracks={playlist.tracks}
+                isLikedSongsCollection={isLikedSongsCollection}
+            />
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />

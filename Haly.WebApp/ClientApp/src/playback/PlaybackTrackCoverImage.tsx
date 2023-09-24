@@ -30,11 +30,11 @@ function PlaybackTrackCoverImage({ imageUrl }: Props) {
 function getScrollToHref(streamedTrack: StreamedTrack | null) {
     if (!streamedTrack || !streamedTrack.context) return null;
 
-    const { type, collectionId } = streamedTrack.context;
+    const { type, id } = streamedTrack.context;
     if (type === "album") {
-        return `/album/${collectionId}?scrollToTrackId=${streamedTrack.spotifyId}`;
+        return `/album/${id}?scrollToTrackId=${streamedTrack.spotifyId}`;
     } else {
-        return `/playlist/${collectionId}?scrollToTrackId=${streamedTrack.spotifyId}`;
+        return `/playlist/${id}?scrollToTrackId=${streamedTrack.spotifyId}`;
     }
 }
 

@@ -3,14 +3,17 @@ import { useState } from "react";
 import { TrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
+import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import TopTracksTableRow from "./TopTracksTableRow";
 
 type TopTracksTableProps = {
+    artistId: string;
     items: TrackDto[];
 };
 
-function TopTracksTable({ items }: TopTracksTableProps) {
+function TopTracksTable({ artistId, items }: TopTracksTableProps) {
     const [showMore, setShowMore] = useState(false);
+    const getTableRowPlaybackState = useTableRowPlaybackState(artistId);
 
     const showButton = items.length > 5;
     const btnLabel = showMore ? "Show less" : "See more";
@@ -20,7 +23,12 @@ function TopTracksTable({ items }: TopTracksTableProps) {
             <TableRoot>
                 <Table.Body>
                     {items.slice(0, showMore ? 10 : 5).map((t, idx) => (
-                        <TopTracksTableRow key={t.spotifyId} index={idx + 1} track={t} />
+                        <TopTracksTableRow
+                            key={t.spotifyId}
+                            index={idx + 1}
+                            track={t}
+                            playbackState={getTableRowPlaybackState(t.spotifyId)}
+                        />
                     ))}
                 </Table.Body>
             </TableRoot>

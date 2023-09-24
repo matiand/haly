@@ -8,10 +8,6 @@ export const Root = styled("table", {
         padding: 0,
     },
 
-    "& tr.disabled > td": {
-        opacity: 0.4,
-    },
-
     "&.isSticky > thead": {
         background: "$black500",
         borderBottom: "1px solid $collectionTableHeadBorder",
@@ -66,9 +62,21 @@ export const Body = styled("tbody", {
     position: "relative",
 
     tr: {
+        borderRadius: "4px",
         display: "grid",
         height: "$$rowHeight",
         padding: "0 $600",
+
+        "&.disabled > td": {
+            opacity: 0.4,
+        },
+
+        "&&.isSelected": {
+            background: "$trackSelected",
+            "& a": {
+                color: "$white800",
+            },
+        },
 
         "& > td": {
             alignItems: "center",
@@ -81,8 +89,8 @@ export const Body = styled("tbody", {
 
         "&:hover": {
             background: "$trackHover",
-            borderRadius: "4px",
-            "& td:nth-of-type(1) > div > span": {
+            // Hide index and AnimatedMusicBars of TrackIndexCell when hovered.
+            "& td:nth-of-type(1) > div > span, & td:nth-of-type(1) > div > div": {
                 display: "none",
             },
 

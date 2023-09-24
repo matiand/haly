@@ -12,12 +12,13 @@ type PlaylistTracksProps = {
     playlistId: string;
     sortOrder: PlaylistSortOrder;
     initialTracks: PlaylistTrackDtoPaginatedList;
+    isLikedSongsCollection: boolean;
 };
 
 const MaxTrackQueryLimit = 200;
 const MinTrackQueryOffset = 25;
 
-function PlaylistTracks({ playlistId, sortOrder, initialTracks }: PlaylistTracksProps) {
+function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsCollection }: PlaylistTracksProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
 
     const setSliceDuration = useSetAtom(playlistSliceDurationAtom);
@@ -81,20 +82,24 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks }: PlaylistTracks
     if (tracksQuery.isInitialLoading) {
         return (
             <PlaylistTable
+                playlistId={playlistId}
                 items={initialTracks.items}
                 total={initialTracks.total}
                 fetchMoreItems={fetchMore}
                 keepInitialPositionIndex={keepInitialPositionIndex}
+                isLikedSongsCollection={isLikedSongsCollection}
             />
         );
     }
 
     return (
         <PlaylistTable
+            playlistId={playlistId}
             items={items}
             total={total}
             fetchMoreItems={fetchMore}
             keepInitialPositionIndex={keepInitialPositionIndex}
+            isLikedSongsCollection={isLikedSongsCollection}
         />
     );
 }

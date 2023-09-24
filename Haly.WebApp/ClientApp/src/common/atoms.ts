@@ -34,7 +34,7 @@ export type PageContext = {
 export const pageContextAtom = atom<PageContext | null>(null);
 
 export type PlaybackContext = {
-    collectionId: string;
+    id: string;
     name: string;
     type: "playlist" | "album" | "user";
     isShuffled: boolean;
@@ -60,21 +60,17 @@ export type StreamedTrack = {
 export const playerSdkAtom = atom<Spotify.Player | null>(null);
 
 export const streamedTrackAtom = atom<StreamedTrack | null>(null);
-export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.spotifyId);
-export const streamedPlaylistTrackIdAtom = atom((get) => {
-    const ctx = get(streamedTrackAtom)?.context;
-    return ctx?.type === "playlist" ? get(streamedTrackAtom)?.spotifyId : null;
-});
-export const streamedAlbumTrackIdAtom = atom((get) => {
-    const ctx = get(streamedTrackAtom)?.context;
-    return ctx?.type === "album" ? get(streamedTrackAtom)?.spotifyId : null;
-});
+export const isTrackPausedAtom = atom((get) => get(streamedTrackAtom)?.isPaused ?? false);
+export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.spotifyId ?? "");
 export const streamedPlaylistIdAtom = atom((get) => {
     const ctx = get(streamedTrackAtom)?.context;
-    return ctx?.type === "playlist" ? ctx.collectionId : null;
+    return ctx?.type === "playlist" ? ctx.id : null;
 });
 export const isPlaybackShuffledAtom = atom((get) => get(streamedTrackAtom)?.context?.isShuffled ?? false);
 export const playbackRepeatModeAtom = atom((get) => get(streamedTrackAtom)?.context?.repeatMode ?? "off");
+export const playbackContextIdAtom = atom((get) => get(streamedTrackAtom)?.context?.id);
 export const playbackContextNameAtom = atom((get) => get(streamedTrackAtom)?.context?.name);
 
 export const likedSongIdsAtom = atom<string[]>([]);
+
+export const selectedTrackIdAtom = atom<string | null>(null);

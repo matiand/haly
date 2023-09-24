@@ -3,6 +3,7 @@ import { LuDisc } from "react-icons/lu";
 
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import { PlaybackContextState } from "../../common/usePlaybackContextState";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
@@ -11,24 +12,24 @@ import useScrollToTrack from "../useScrollToTrack";
 type TrackRowProps = {
     index: number;
     track: AlbumTrackDto;
-    isListenedTo?: boolean;
+    playbackState: PlaybackContextState;
     shouldScrollTo?: boolean;
 };
 
-export function AlbumTableTrackRow({ index, track, shouldScrollTo, isListenedTo }: TrackRowProps) {
+export function AlbumTableTrackRow({ index, track, shouldScrollTo, playbackState }: TrackRowProps) {
     const ref = useScrollToTrack();
 
     return (
         <tr ref={shouldScrollTo ? ref : null} className={clsx({ disabled: !track.isPlayable })}>
             <td>
-                <TrackIndexCell index={index} track={track} isListenedTo={isListenedTo} />
+                <TrackIndexCell index={index} track={track} playbackState={playbackState} />
             </td>
 
             <td>
                 <TrackInformation
                     track={track}
                     type="cell"
-                    isListenedTo={isListenedTo}
+                    isListenedTo={playbackState !== "none"}
                     showExplicitMark={track.isExplicit}
                 />
             </td>

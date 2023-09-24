@@ -4,16 +4,17 @@ import TopTracksTable from "../table/toptracks/TopTracksTable";
 import MiniCard from "../ui/card/MiniCards";
 
 type ArtistHighlightsProps = {
+    artistId: string;
     tracks: TrackDto[];
     playlist?: ArtistDetailedDto["highlightedPlaylist"];
 };
 
-function ArtistHighlights({ tracks, playlist }: ArtistHighlightsProps) {
+function ArtistHighlights({ artistId, tracks, playlist }: ArtistHighlightsProps) {
     return (
         <Wrapper>
             <div>
                 <h2>Popular</h2>
-                <TopTracksTable items={tracks} />
+                <TopTracksTable artistId={artistId} items={tracks} />
             </div>
 
             {playlist && (
