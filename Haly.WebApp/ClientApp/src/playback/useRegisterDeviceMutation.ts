@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAtom,useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 
 import { PlaybackContext, playerSdkAtom, StreamedTrack, streamedTrackAtom } from "../common/atoms";
@@ -44,7 +44,13 @@ function useRegisterDeviceMutation() {
         errorMessage,
         registerDevice,
         reset: () => {
+            setErrorMessage("");
+
             player?.disconnect();
+            player?.removeListener("player_state_changed");
+            player?.removeListener("ready");
+            player?.removeListener("not_ready");
+
             registerDevice.reset();
         },
     };
@@ -78,7 +84,8 @@ async function registerDeviceForPlayback(setDeviceId: (deviceId: string) => void
 
     player.on("playback_error", ({ message }) => {
         console.error("playback_error", message);
-        setErrorMsg(message);
+        // These errors are temporary, so we don't inform the user.
+        // setErrorMsg(message);
     });
 
     player.on("initialization_error", ({ message }) => {
