@@ -126,7 +126,8 @@ function mapStreamedTrackFromPlaybackState(state: Spotify.PlaybackState): Stream
         album: {
             id: extractIdFromSpotifyUri(currentTrack.album.uri)!,
             name: currentTrack.album.name,
-            imageUrl: currentTrack.album.images[0]?.url,
+            // Last image is the largest.
+            imageUrl: currentTrack.album.images.at(-1)?.url,
         },
         artists: currentTrack.artists.map((artist) => ({
             id: extractIdFromSpotifyUri(artist.uri)!,

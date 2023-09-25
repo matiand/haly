@@ -1,29 +1,56 @@
 import { useAtomValue } from "jotai";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 
 import { AlbumBriefDto } from "../../generated/haly";
-import { StreamedTrack, streamedTrackAtom } from "../common/atoms";
-import { styled } from "../common/theme";
+import { persistedSidebarWidthAtom, StreamedTrack, streamedTrackAtom } from "../common/atoms";
+import ExpandableImageWithLink from "../ui/ExpandableImageWithLink";
 
-type Props = {
+type PlaybackTrackCoverImageProps = {
     imageUrl: AlbumBriefDto["imageUrl"];
+    trackName: string;
+    artistName: string;
 };
 
-const size = 60;
-
-function PlaybackTrackCoverImage({ imageUrl }: Props) {
+function PlaybackTrackCoverImage({ imageUrl, trackName, artistName }: PlaybackTrackCoverImageProps) {
     const streamedTrack = useAtomValue(streamedTrackAtom);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const sidebarWidth = useAtomValue(persistedSidebarWidthAtom);
+    const contextHref = getScrollToHref(streamedTrack) ?? "#";
 
     if (!imageUrl) return null;
 
-    const contextHref = getScrollToHref(streamedTrack);
-
-    if (!contextHref) return <Image aria-hidden src={imageUrl} loading="eager" width={size} height={size} />;
+    const chevronLabel = isExpanded ? "Collapse cover image" : "Expand cover image";
+    const linkLabel = `Now playing: ${trackName} by ${artistName}`;
+    const toggle = () => setIsExpanded((prev) => !prev);
 
     return (
-        <WrapperLink to={contextHref}>
-            <Image aria-hidden src={imageUrl} loading="eager" width={size} height={size} />
-        </WrapperLink>
+        <>
+            {isExpanded ? (
+                createPortal(
+                    <ExpandableImageWithLink
+                        imageUrl={imageUrl}
+                        linkUrl={contextHref}
+                        isExpanded
+                        toggle={toggle}
+                        size={sidebarWidth}
+                        linkLabel={linkLabel}
+                        chevronLabel={chevronLabel}
+                    />,
+                    document.body,
+                )
+            ) : (
+                <ExpandableImageWithLink
+                    imageUrl={imageUrl}
+                    linkUrl={contextHref}
+                    isExpanded={false}
+                    toggle={toggle}
+                    size={60}
+                    linkLabel={linkLabel}
+                    chevronLabel={chevronLabel}
+                />
+            )}
+        </>
     );
 }
 
@@ -31,20 +58,15 @@ function getScrollToHref(streamedTrack: StreamedTrack | null) {
     if (!streamedTrack || !streamedTrack.context) return null;
 
     const { type, id } = streamedTrack.context;
+
+    const qs = `scrollToTrackId=${streamedTrack.spotifyId}`;
     if (type === "album") {
-        return `/album/${id}?scrollToTrackId=${streamedTrack.spotifyId}`;
+        return `/album/${id}?${qs}`;
+    } else if (type === "user") {
+        return `/collection/tracks?${qs}`;
     } else {
-        return `/playlist/${id}?scrollToTrackId=${streamedTrack.spotifyId}`;
+        return `/playlist/${id}?${qs}`;
     }
 }
-
-const WrapperLink = styled(Link, {
-    display: "flex",
-    flex: "0 0 auto",
-});
-
-const Image = styled("img", {
-    borderRadius: "4px",
-});
 
 export default PlaybackTrackCoverImage;

@@ -20,6 +20,8 @@ const globalStyles = globalCss({
         color: "$white800",
         fontFamily: "$primary",
         lineHeight: 1.6,
+        position: "relative",
+
         "-webkit-font-smoothing": "antialiased",
         "-moz-osx-font-smoothing": "grayscale",
     },
@@ -38,6 +40,12 @@ const globalStyles = globalCss({
     h3: {
         fontSize: "$500",
         fontWeight: 500,
+    },
+
+    button: {
+        background: "transparent",
+        border: 0,
+        padding: 0,
     },
 
     "span, svg": {

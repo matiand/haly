@@ -1,16 +1,17 @@
+import { useAtom } from "jotai";
 import { useEffect } from "react";
-import { useLocalStorage } from "usehooks-ts";
 
+import { persistedSidebarWidthAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 import NavigationList from "./NavigationList";
 import Resizer from "./Resizer";
 import useResize from "./useResize";
 import UserLibrary from "./UserLibrary";
 
-const { defaultWidth, minWidth, maxWidth } = theme.sidebar;
+const { minWidth, maxWidth } = theme.sidebar;
 
 function Sidebar() {
-    const [sidebarWidth, setSidebarWidth] = useLocalStorage("sidebarWidth", defaultWidth);
+    const [sidebarWidth, setSidebarWidth] = useAtom(persistedSidebarWidthAtom);
 
     const { width, enableResize } = useResize({
         initialWidth: sidebarWidth,

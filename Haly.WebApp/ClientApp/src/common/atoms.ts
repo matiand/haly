@@ -3,6 +3,15 @@ import { atom } from "jotai";
 import { AlbumBriefDto, ArtistBriefDto, PrivateUserDto } from "../../generated/haly";
 import { theme } from "./theme";
 
+const sidebarWidthAtom = atom<number>(+localStorage.getItem("sidebarWidth")! || theme.sidebar.defaultWidth);
+export const persistedSidebarWidthAtom = atom(
+    (get) => get(sidebarWidthAtom),
+    (_, set, newValue: number) => {
+        set(sidebarWidthAtom, newValue);
+        localStorage.setItem("sidebarWidth", newValue.toString());
+    },
+);
+
 export const cachedPlaylistIdsAtom = atom<string[] | null>(null);
 export const isPlaylistCachedAtom = (playlistId: string) =>
     atom((get) => get(cachedPlaylistIdsAtom)?.includes(playlistId) ?? false);

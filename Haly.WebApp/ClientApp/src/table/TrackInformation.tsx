@@ -36,7 +36,11 @@ function TrackInformation({
                 (type === "cell" ? (
                     <TrackCoverImage imageUrl={track.album.imageUrl} />
                 ) : (
-                    <PlaybackTrackCoverImage imageUrl={track.album.imageUrl} />
+                    <PlaybackTrackCoverImage
+                        imageUrl={track.album.imageUrl}
+                        trackName={name}
+                        artistName={artists[0].name}
+                    />
                 ))}
 
             <Grid type={type}>
