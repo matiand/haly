@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { GetRecentlyPlayedQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 
-export const RecentlyPlayedQueryKey = ["me", "player", "recently-played"];
-
 function useRecentlyPlayedQuery() {
-    return useQuery(RecentlyPlayedQueryKey, () => halyClient.player.getRecentlyPlayed());
+    return useQuery(GetRecentlyPlayedQueryKey, () => halyClient.player.getRecentlyPlayed());
 }
 
 export default useRecentlyPlayedQuery;

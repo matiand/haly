@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 
-export const QueueQueryKey = ["me", "player", "queue"];
-
 function useQueueQuery() {
-    return useQuery(QueueQueryKey, () => halyClient.player.getQueue());
+    return useQuery(GetQueueQueryKey, () => halyClient.player.getQueue());
 }
 
 export default useQueueQuery;

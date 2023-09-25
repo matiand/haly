@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { TbRepeat, TbRepeatOnce } from "react-icons/tb";
 
 import { PlaybackContext, playbackRepeatModeAtom } from "../common/atoms";
+import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
-import { QueueQueryKey } from "../queue/useQueueQuery";
 import PlaybackButton from "./PlaybackButton";
 
 type RepeatMode = PlaybackContext["repeatMode"];
@@ -18,7 +18,7 @@ function RepeatButton() {
         ["me", "player", "repeat-mode"],
         (repeatMode: RepeatMode) => halyClient.player.setRepeatMode({ repeatMode }),
         {
-            onSuccess: () => queryClient.invalidateQueries(QueueQueryKey),
+            onSuccess: () => queryClient.invalidateQueries(GetQueueQueryKey),
         },
     );
 

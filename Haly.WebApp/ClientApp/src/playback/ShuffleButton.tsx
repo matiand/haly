@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { TbArrowsShuffle } from "react-icons/tb";
 
 import { isPlaybackShuffledAtom } from "../common/atoms";
+import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
-import { QueueQueryKey } from "../queue/useQueueQuery";
 import PlaybackButton from "./PlaybackButton";
 
 function ShuffleButton() {
@@ -13,7 +13,7 @@ function ShuffleButton() {
 
     const queryClient = useQueryClient();
     const shuffle = useMutation(["me", "player", "shuffle"], (state: boolean) => halyClient.player.shuffle({ state }), {
-        onSuccess: () => queryClient.invalidateQueries(QueueQueryKey),
+        onSuccess: () => queryClient.invalidateQueries(GetQueueQueryKey),
     });
 
     useEffect(() => {

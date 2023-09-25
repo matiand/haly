@@ -4,8 +4,7 @@ import { useEffect } from "react";
 
 import { streamedTrackAtom } from "../common/atoms";
 import { delay } from "../common/delay";
-import { QueueQueryKey } from "../queue/useQueueQuery";
-import { RecentlyPlayedQueryKey } from "../queue/useRecentlyPlayedQuery";
+import { GetQueueQueryKey, GetRecentlyPlayedQueryKey } from "../common/queryKeys";
 import ConnectBar from "./ConnectBar";
 import PlaybackControls from "./PlaybackControls";
 import usePlaybackTransferFlow from "./usePlaybackTransferFlow";
@@ -25,8 +24,8 @@ function Playback({ deviceId }: PlaybackProps) {
             // We need to delay this, otherwise those endpoints won't notice the change.
             delay(800).then(() => {
                 console.log("invalidation");
-                queryClient.invalidateQueries(QueueQueryKey);
-                queryClient.invalidateQueries(RecentlyPlayedQueryKey);
+                queryClient.invalidateQueries(GetQueueQueryKey);
+                queryClient.invalidateQueries(GetRecentlyPlayedQueryKey);
             });
         }
     }, [streamedTrack?.spotifyId, queryClient]);
