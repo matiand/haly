@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useSetAtom } from "jotai";
+import { useEffect, useState } from "react";
 
+import { selectedTrackIndicesAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 import QueueTabs, { QueueTabsValues } from "./QueueTabs";
 import QueueTracks from "./QueueTracks";
@@ -7,6 +9,11 @@ import RecentlyPlayedTracks from "./RecentlyPlayedTracks";
 
 function Queue() {
     const [activeTab, setActiveTab] = useState<QueueTabsValues>("queue");
+    const setSelectedTrackIndices = useSetAtom(selectedTrackIndicesAtom);
+
+    useEffect(() => {
+        return () => setSelectedTrackIndices([]);
+    }, [setSelectedTrackIndices]);
 
     const toggleTab = () => setActiveTab((prev) => (prev === "queue" ? "recent" : "queue"));
 

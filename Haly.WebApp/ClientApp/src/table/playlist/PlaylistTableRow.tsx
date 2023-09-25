@@ -31,7 +31,7 @@ function PlaylistTableRow({
     shouldScrollTo = false,
 }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
-    const { isSelected, selectTrack } = useSelectingTrack(track.spotifyId);
+    const { isSelected, selectTrack } = useSelectingTrack(index);
     const ref = useScrollToTrack();
 
     const isLocal = !track.spotifyId;

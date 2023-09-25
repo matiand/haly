@@ -2,7 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { dominantColorsAtom, pageContextAtom, playlistSearchTermAtom, userIdAtom } from "../common/atoms";
+import {
+    dominantColorsAtom,
+    pageContextAtom,
+    playlistSearchTermAtom,
+    selectedTrackIndicesAtom,
+    userIdAtom,
+} from "../common/atoms";
 import { theme } from "../common/theme";
 import usePlaybackContextState from "../common/usePlaybackContextState";
 import halyClient from "../halyClient";
@@ -28,6 +34,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
+    const setSelectedTrackIndices = useSetAtom(selectedTrackIndicesAtom);
     const userId = useAtomValue(userIdAtom);
     const getPlaybackState = usePlaybackContextState();
 
@@ -48,8 +55,9 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
         return () => {
             setPageContext(null);
             setPlaylistSearchTerm("");
+            setSelectedTrackIndices([]);
         };
-    }, [id, setPageContext, setPlaylistSearchTerm]);
+    }, [id, setPageContext, setPlaylistSearchTerm, setSelectedTrackIndices]);
 
     if (!query.data) return null;
 

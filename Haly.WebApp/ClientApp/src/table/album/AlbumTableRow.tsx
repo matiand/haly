@@ -8,6 +8,7 @@ import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import useScrollToTrack from "../useScrollToTrack";
+import useSelectingTrack from "../useSelectingTrack";
 
 type TrackRowProps = {
     index: number;
@@ -18,9 +19,17 @@ type TrackRowProps = {
 
 export function AlbumTableTrackRow({ index, track, shouldScrollTo, playbackState }: TrackRowProps) {
     const ref = useScrollToTrack();
+    const { isSelected, selectTrack } = useSelectingTrack(index);
 
     return (
-        <tr ref={shouldScrollTo ? ref : null} className={clsx({ disabled: !track.isPlayable })}>
+        <tr
+            onClick={selectTrack}
+            ref={shouldScrollTo ? ref : null}
+            className={clsx({
+                disabled: !track.isPlayable,
+                isSelected,
+            })}
+        >
             <td>
                 <TrackIndexCell index={index} track={track} playbackState={playbackState} />
             </td>

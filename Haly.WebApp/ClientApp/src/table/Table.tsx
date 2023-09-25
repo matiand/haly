@@ -73,8 +73,25 @@ export const Body = styled("tbody", {
 
         "&&.isSelected": {
             background: "$trackSelected",
+
             "& a": {
                 color: "$white800",
+            },
+
+            // First row in the selection range.
+            "&:has(+ .isSelected)": {
+                borderRadius: "4px 4px 0 0",
+            },
+
+            // Middle rows of the selection range.
+            "& + .isSelected": {
+                borderRadius: 0,
+            },
+
+            // Last row of the selection range.
+            "&:has(+ :not(.isSelected)), &:last-of-type": {
+                borderBottomRightRadius: "4px",
+                borderBottomLeftRadius: "4px",
             },
         },
 
