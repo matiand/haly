@@ -46,6 +46,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                         key={initialVolume}
                         initialLevel={initialVolume}
                         setVolume={(level) => player.setVolume(level)}
+                        getVolume={() => player.getVolume()}
                     />
                 </div>
             </Wrapper>
@@ -94,6 +95,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                     key={initialVolume}
                     initialLevel={initialVolume}
                     setVolume={(level) => player.setVolume(level)}
+                    getVolume={() => player.getVolume()}
                 />
             </div>
         </Wrapper>

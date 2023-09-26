@@ -7,10 +7,11 @@ import ProgressBar from "./ProgressBar";
 
 type VolumeControlProps = {
     initialLevel?: number;
+    getVolume: () => Promise<number>;
     setVolume: (level: number) => void;
 };
 
-function VolumeControl({ initialLevel, setVolume }: VolumeControlProps) {
+function VolumeControl({ initialLevel, getVolume, setVolume }: VolumeControlProps) {
     const [level, setLevel] = useState(initialLevel ?? 0.5);
     const [isMuted, setIsMuted] = useState(initialLevel === 0);
     const [isProgressBarHighlighted, setIsProgressBarHighlighted] = useState(false);
@@ -20,6 +21,19 @@ function VolumeControl({ initialLevel, setVolume }: VolumeControlProps) {
     useEffect(() => {
         setVolume(actualLevel);
     }, [actualLevel, setVolume]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getVolume().then((newVolume) => {
+                if (newVolume !== actualLevel) {
+                    setLevel(newVolume);
+                    setIsMuted(newVolume === 0);
+                }
+            });
+        }, 2500);
+
+        return () => clearInterval(interval);
+    }, [actualLevel, getVolume]);
 
     const icon = actualLevel === 0 ? <LuVolumeX /> : actualLevel < 0.66 ? <LuVolume1 /> : <LuVolume2 />;
 
