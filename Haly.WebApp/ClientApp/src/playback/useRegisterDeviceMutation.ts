@@ -146,7 +146,7 @@ function mapPlaybackContextFromPlaybackState({
     const type = context.uri.split(":").at(1);
 
     // type === "user" means it's a LikedSongs collection of our user
-    if (type === "playlist" || type === "album" || type === "user") {
+    if (type === "playlist" || type === "album" || type === "user" || type === "artist") {
         return {
             id: extractIdFromSpotifyUri(context.uri)!,
             name: context.metadata.name,

@@ -62,10 +62,12 @@ function getScrollToHref(streamedTrack: StreamedTrack | null) {
     const qs = `scrollToTrackId=${streamedTrack.spotifyId}`;
     if (type === "album") {
         return `/album/${id}?${qs}`;
-    } else if (type === "user") {
-        return `/collection/tracks?${qs}`;
-    } else {
+    } else if (type === "playlist") {
         return `/playlist/${id}?${qs}`;
+    } else if (type === "artist") {
+        return `/artist/${id}`;
+    } else {
+        return `/collection/tracks?${qs}`;
     }
 }
 

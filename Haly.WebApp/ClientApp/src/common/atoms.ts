@@ -45,7 +45,7 @@ export const pageContextAtom = atom<PageContext | null>(null);
 export type PlaybackContext = {
     id: string;
     name: string;
-    type: "playlist" | "album" | "user";
+    type: "playlist" | "album" | "user" | "artist";
     isShuffled: boolean;
     repeatMode: "off" | "track" | "context";
 };
