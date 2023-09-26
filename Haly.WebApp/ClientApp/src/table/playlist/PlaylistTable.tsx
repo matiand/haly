@@ -6,8 +6,9 @@ import { useEffect } from "react";
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { likedSongIdsAtom } from "../../common/atoms";
 import { styled, theme } from "../../common/theme";
+import useMainScrollArea from "../../common/useMainScrollArea";
 import * as Table from "../Table";
-import useScrollToTrackIdParam from "../useScrollToTrackIdParam";
+import useScrollToTrack from "../useScrollToTrack";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import { PlaylistTableHead } from "./PlaylistTableHead";
@@ -33,16 +34,25 @@ function PlaylistTable({
     keepInitialPositionIndex,
     isLikedSongsCollection,
 }: PlaylistTableProps) {
+    const likedTrackIds = useAtomValue(likedSongIdsAtom);
+    const getTableRowPlaybackState = useTableRowPlaybackState(isLikedSongsCollection ? "collection" : playlistId);
+
     const { ref, isSticky } = useStickyTableHead();
+    const mainScrollArea = useMainScrollArea();
+
     const rowVirtualizer = useVirtualizer({
-        getScrollElement: () => document.querySelector("main div[data-overlayscrollbars-viewport]"),
+        getScrollElement: () => mainScrollArea,
         estimateSize: () => theme.tables.rowHeight,
         count: total,
         overscan: 24,
     });
-    const likedTrackIds = useAtomValue(likedSongIdsAtom);
-    const scrollToTrackId = useScrollToTrackIdParam();
-    const getTableRowPlaybackState = useTableRowPlaybackState(isLikedSongsCollection ? "collection" : playlistId);
+
+    useScrollToTrack({
+        mainScrollArea,
+        items,
+        itemsTotal: total,
+        fetchMoreItems,
+    });
 
     useEffect(() => {
         const currentTotal = items.length;
@@ -76,7 +86,6 @@ function PlaylistTable({
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
                         const isLiked = !!track.spotifyId && likedTrackIds.includes(track.spotifyId);
-                        const shouldScrollTo = !!scrollToTrackId && scrollToTrackId === track.spotifyId;
 
                         return (
                             <PlaylistTableRow
@@ -86,7 +95,6 @@ function PlaylistTable({
                                 playbackState={getTableRowPlaybackState(track.spotifyId)}
                                 isLiked={isLiked}
                                 start={virtualItem.start}
-                                shouldScrollTo={shouldScrollTo}
                             />
                         );
                     })}

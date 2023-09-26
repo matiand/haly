@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
 import { playlistSearchTermAtom, playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
@@ -73,11 +73,11 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
     const total = tracksQuery.data?.pages[0].total || 0;
     const keepInitialPositionIndex = Boolean(searchTerm) && !sortOrder;
 
-    const fetchMore = () => {
+    const fetchMore = useCallback(() => {
         if (!tracksQuery.isFetchingNextPage) {
             tracksQuery.fetchNextPage({ cancelRefetch: false });
         }
-    };
+    }, [tracksQuery]);
 
     if (tracksQuery.isInitialLoading) {
         return (

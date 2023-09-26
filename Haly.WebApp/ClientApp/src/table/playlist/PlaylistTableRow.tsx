@@ -10,7 +10,6 @@ import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
-import useScrollToTrack from "../useScrollToTrack";
 import useSelectingTrack from "../useSelectingTrack";
 
 type PlaylistTableRowProps = {
@@ -19,27 +18,17 @@ type PlaylistTableRowProps = {
     playbackState: PlaybackContextState;
     isLiked: boolean;
     start?: number;
-    shouldScrollTo?: boolean;
 };
 
-function PlaylistTableRow({
-    index,
-    track,
-    playbackState,
-    isLiked,
-    start,
-    shouldScrollTo = false,
-}: PlaylistTableRowProps) {
+function PlaylistTableRow({ index, track, playbackState, isLiked, start }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
     const { isSelected, selectTrack } = useSelectingTrack(index);
-    const ref = useScrollToTrack();
 
     const isLocal = !track.spotifyId;
 
     return (
         <TableRow
             onClick={selectTrack}
-            ref={shouldScrollTo ? ref : null}
             style={{ transform: `translateY(${start}px` }}
             className={clsx({
                 disabled: !track.isPlayable,

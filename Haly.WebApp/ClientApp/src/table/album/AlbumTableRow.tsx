@@ -7,24 +7,20 @@ import { PlaybackContextState } from "../../common/usePlaybackContextState";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
-import useScrollToTrack from "../useScrollToTrack";
 import useSelectingTrack from "../useSelectingTrack";
 
 type TrackRowProps = {
     index: number;
     track: AlbumTrackDto;
     playbackState: PlaybackContextState;
-    shouldScrollTo?: boolean;
 };
 
-export function AlbumTableTrackRow({ index, track, shouldScrollTo, playbackState }: TrackRowProps) {
-    const ref = useScrollToTrack();
+export function AlbumTableTrackRow({ index, track, playbackState }: TrackRowProps) {
     const { isSelected, selectTrack } = useSelectingTrack(index);
 
     return (
         <tr
             onClick={selectTrack}
-            ref={shouldScrollTo ? ref : null}
             className={clsx({
                 disabled: !track.isPlayable,
                 isSelected,

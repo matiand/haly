@@ -3,9 +3,10 @@ import { Fragment } from "react";
 
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import useMainScrollArea from "../../common/useMainScrollArea";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
-import useScrollToTrackIdParam from "../useScrollToTrackIdParam";
+import useScrollToTrack from "../useScrollToTrack";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
@@ -16,9 +17,15 @@ type AlbumTableProps = {
 };
 
 function AlbumTable({ albumId, items }: AlbumTableProps) {
-    const { ref, isSticky } = useStickyTableHead();
-    const scrollToTrackId = useScrollToTrackIdParam();
     const getTableRowPlaybackState = useTableRowPlaybackState(albumId);
+    const { ref, isSticky } = useStickyTableHead();
+
+    const mainScrollArea = useMainScrollArea();
+    useScrollToTrack({
+        mainScrollArea,
+        items,
+        itemsTotal: items.length,
+    });
 
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
@@ -54,7 +61,6 @@ function AlbumTable({ albumId, items }: AlbumTableProps) {
                                               index={idx + 1}
                                               track={t}
                                               playbackState={getTableRowPlaybackState(t.spotifyId)}
-                                              shouldScrollTo={t.spotifyId === scrollToTrackId}
                                           />
                                       ))}
                                   </Fragment>
@@ -66,7 +72,6 @@ function AlbumTable({ albumId, items }: AlbumTableProps) {
                                   index={idx + 1}
                                   track={t}
                                   playbackState={getTableRowPlaybackState(t.spotifyId)}
-                                  shouldScrollTo={scrollToTrackId === t.spotifyId}
                               />
                           ))}
                 </Table.Body>

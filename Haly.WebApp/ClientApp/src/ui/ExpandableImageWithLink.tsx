@@ -1,10 +1,9 @@
 import clsx from "clsx";
 import React from "react";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { styled, theme } from "../common/theme";
-import useScrollToTrackIdParam from "../table/useScrollToTrackIdParam";
 
 type Props = {
     imageUrl: string;
@@ -19,7 +18,7 @@ type Props = {
 
 function ExpandableImageWithLink({ imageUrl, linkUrl, isExpanded, toggle, size, linkLabel, chevronLabel }: Props) {
     const navigate = useNavigate();
-    const scrollToTrackId = useScrollToTrackIdParam();
+    const [searchParams] = useSearchParams();
 
     const toggleImage = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -28,7 +27,8 @@ function ExpandableImageWithLink({ imageUrl, linkUrl, isExpanded, toggle, size, 
     };
 
     const navigateToTrack = () => {
-        if (!scrollToTrackId || !linkUrl.includes(scrollToTrackId)) {
+        const trackId = searchParams.get("scrollToTrackId");
+        if (!trackId || !linkUrl.includes(trackId)) {
             navigate(linkUrl);
         }
     };
