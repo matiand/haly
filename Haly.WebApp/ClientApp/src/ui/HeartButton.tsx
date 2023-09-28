@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { GetUserPlaylistsQueryKey } from "../common/queryKeys";
+import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import { keyframes, styled } from "../common/theme";
 import halyClient from "../halyClient";
 
@@ -29,7 +29,7 @@ function HeartButton({ entityId, type, initialState }: HeartButtonProps) {
         {
             onSuccess: () => {
                 if (type === "playlist") {
-                    queryClient.invalidateQueries(GetUserPlaylistsQueryKey);
+                    queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
                 } else {
                     // todo: handle Liked Songs
                 }
@@ -44,7 +44,7 @@ function HeartButton({ entityId, type, initialState }: HeartButtonProps) {
         {
             onSuccess: () => {
                 if (type === "playlist") {
-                    queryClient.invalidateQueries(GetUserPlaylistsQueryKey);
+                    queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
                 } else {
                     // todo: handle Liked Songs
                 }

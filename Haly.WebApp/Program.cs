@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using FluentValidation;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
-using Haly.WebApp.Features.Jobs;
 using Haly.WebApp.Features.Playlists.TotalDuration;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.Validation;
@@ -31,7 +30,6 @@ builder.Services.AddSingleton<ValidateAccessTokenFilterService>();
 builder.Services.AddTransient<ITotalDurationService, TotalDurationService>();
 
 builder.Services.AddSignalR();
-builder.Services.AddHostedService<RefetchPlaylistTracksService>();
 
 // Configure MediatR
 builder.Services.AddMediatR(cfg =>

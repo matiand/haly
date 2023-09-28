@@ -2,6 +2,7 @@
 apis/AlbumsApi.ts
 apis/ArtistsApi.ts
 apis/FollowingApi.ts
+apis/JobsApi.ts
 apis/MeApi.ts
 apis/PlayerApi.ts
 apis/PlaylistsApi.ts

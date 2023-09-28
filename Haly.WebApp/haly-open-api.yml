@@ -451,6 +451,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /Jobs/playlist-tracks:
+    post:
+      tags:
+        - Jobs
+      summary: Refetch current user's playlist tracks
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>'
+      operationId: RefetchCurrentUserPlaylistTracks
+      responses:
+        '200':
+          description: Playlist tracks refetched
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /Me:
     put:
       tags:
@@ -1714,6 +1742,7 @@ tags:
   - name: Albums
   - name: Artists
   - name: Following
+  - name: Jobs
   - name: Player
   - name: Playlists
   - name: Users
