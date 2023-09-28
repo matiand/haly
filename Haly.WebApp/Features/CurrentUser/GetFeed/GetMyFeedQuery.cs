@@ -8,19 +8,19 @@ using MediatR;
 
 namespace Haly.WebApp.Features.CurrentUser.GetFeed;
 
-public record GetCurrentUserFeedQuery(string UserMarket) : IRequest<UserFeedDto>;
+public record GetMyFeedQuery(string UserMarket) : IRequest<UserFeedDto>;
 
-public class GetCurrentUserFeedQueryHandler : IRequestHandler<GetCurrentUserFeedQuery, UserFeedDto>
+public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto>
 {
     private readonly ISpotifyService _spotify;
     private readonly Random _random = new();
 
-    public GetCurrentUserFeedQueryHandler(ISpotifyService spotify)
+    public GetMyFeedQueryHandler(ISpotifyService spotify)
     {
         _spotify = spotify;
     }
 
-    public async Task<UserFeedDto> Handle(GetCurrentUserFeedQuery request, CancellationToken cancellationToken)
+    public async Task<UserFeedDto> Handle(GetMyFeedQuery request, CancellationToken cancellationToken)
     {
         var feedPlaylistsTask = GetFeedPlaylists(request);
         var categoriesBasedOnTopArtistsTask = AddCategoriesBasedOnTopArtists(request);
@@ -34,7 +34,7 @@ public class GetCurrentUserFeedQueryHandler : IRequestHandler<GetCurrentUserFeed
         return dto;
     }
 
-    private async Task<IEnumerable<PlaylistCardDto>> GetFeedPlaylists(GetCurrentUserFeedQuery request)
+    private async Task<IEnumerable<PlaylistCardDto>> GetFeedPlaylists(GetMyFeedQuery request)
     {
         var dailyMixResultsTask = _spotify.Search("daily mix", SearchType.Playlist, request.UserMarket);
         var radarResultsTask = _spotify.Search("radar", SearchType.Playlist, request.UserMarket);
@@ -65,7 +65,7 @@ public class GetCurrentUserFeedQueryHandler : IRequestHandler<GetCurrentUserFeed
     }
 
     private async Task<Dictionary<string, IEnumerable<ReleaseItemDto>>> AddCategoriesBasedOnTopArtists(
-        GetCurrentUserFeedQuery request)
+        GetMyFeedQuery request)
     {
         var topArtists = await _spotify.GetCurrentUserTopArtists();
 

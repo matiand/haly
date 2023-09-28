@@ -5,7 +5,7 @@ import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 
 function AllMyFollowedArtistCards() {
-    const query = useQuery(["me", "following"], () => halyClient.me.getFollowedArtists());
+    const query = useQuery(["me", "following"], () => halyClient.me.getMyFollowedArtists());
 
     if (!query.data) return null;
 

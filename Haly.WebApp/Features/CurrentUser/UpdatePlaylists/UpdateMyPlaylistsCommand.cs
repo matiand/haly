@@ -9,22 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
 
-public record UpdateCurrentUserPlaylistsCommand(string UserId) : IRequest<IEnumerable<PlaylistBriefDto>?>;
+public record UpdateMyPlaylistsCommand(string UserId) : IRequest<IEnumerable<PlaylistBriefDto>?>;
 
-public class UpdateCurrentUserPlaylistsHandler
-    : IRequestHandler<UpdateCurrentUserPlaylistsCommand, IEnumerable<PlaylistBriefDto>?>
+public class UpdateMyPlaylistsHandler : IRequestHandler<UpdateMyPlaylistsCommand, IEnumerable<PlaylistBriefDto>?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
     private readonly List<Playlist> _playlistsWithOldTracks = new();
 
-    public UpdateCurrentUserPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
+    public UpdateMyPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
     {
         _db = db;
         _spotify = spotify;
     }
 
-    public async Task<IEnumerable<PlaylistBriefDto>?> Handle(UpdateCurrentUserPlaylistsCommand request,
+    public async Task<IEnumerable<PlaylistBriefDto>?> Handle(UpdateMyPlaylistsCommand request,
         CancellationToken cancellationToken)
     {
         var userTask = _db.Users.Where(u => u.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);

@@ -16,8 +16,8 @@ function Me() {
     const user = useAtomValue(userAtom)!;
 
     const profileQuery = useQuery(["users", user.id], () => halyClient.users.getUser({ id: user.id }));
-    const topArtistsQuery = useQuery(["me", "top", "artists"], () => halyClient.me.getTopArtists());
-    const followedArtistsQuery = useQuery(["me", "following"], () => halyClient.me.getFollowedArtists());
+    const topArtistsQuery = useQuery(["me", "top", "artists"], () => halyClient.me.getMyTopArtists());
+    const followedArtistsQuery = useQuery(["me", "following"], () => halyClient.me.getMyFollowedArtists());
     const dominantColors = useAtomValue(dominantColorsAtom);
 
     if (!profileQuery.data) return <LoadingIndicator />;

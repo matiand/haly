@@ -10,13 +10,13 @@ function useSyncLikedSongs({ enabled }: { enabled: boolean }) {
     const setLikedTrackIds = useSetAtom(likedSongIdsAtom);
     const queryClient = useQueryClient();
 
-    const syncLikedSongs = useMutation(() => halyClient.me.putLikedSongs(), {
+    const syncLikedSongs = useMutation(() => halyClient.me.putMyLikedSongs(), {
         onSuccess: () => {
             queryClient.invalidateQueries(GetMyLikedSongsQueryKey);
         },
     });
 
-    const likedSongsQuery = useQuery(GetMyLikedSongsQueryKey, () => halyClient.me.getLikedSongs(), {
+    const likedSongsQuery = useQuery(GetMyLikedSongsQueryKey, () => halyClient.me.getMyLikedSongs(), {
         refetchOnWindowFocus: false,
         enabled,
     });

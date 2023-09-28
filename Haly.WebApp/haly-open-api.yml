@@ -535,7 +535,7 @@ paths:
         - Me
       summary: Fetch current user's playlists from Spotify and update our cache if they're changed
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private, playlist-read-collaborative </b>'
-      operationId: PutCurrentUserPlaylists
+      operationId: PutMyPlaylists
       responses:
         '200':
           description: User playlists updated
@@ -574,7 +574,7 @@ paths:
       tags:
         - Me
       summary: Fetch current user's 'Liked Songs' collection from our cache
-      operationId: GetLikedSongs
+      operationId: GetMyLikedSongs
       responses:
         '200':
           description: '''Liked Songs'' collection'
@@ -589,7 +589,7 @@ paths:
         - Me
       summary: Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>'
-      operationId: PutLikedSongs
+      operationId: PutMyLikedSongs
       responses:
         '204':
           description: '''Liked Songs'' collection updated'
@@ -617,7 +617,7 @@ paths:
         - Me
       summary: Fetch current user's followed artists from Spotify
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>'
-      operationId: GetFollowedArtists
+      operationId: GetMyFollowedArtists
       responses:
         '200':
           description: A list of artists
@@ -651,7 +651,7 @@ paths:
         - Me
       summary: Fetch current user's top artists from Spotify
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read </b>'
-      operationId: GetTopArtists
+      operationId: GetMyTopArtists
       responses:
         '200':
           description: A list of top artists
@@ -685,7 +685,7 @@ paths:
         - Me
       summary: Fetch current user's feed
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>'
-      operationId: GetUserFeed
+      operationId: GetMyFeed
       responses:
         '200':
           description: Success

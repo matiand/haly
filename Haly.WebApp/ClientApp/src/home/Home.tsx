@@ -11,7 +11,7 @@ import LoadingIndicator from "../ui/LoadingIndicator";
 import Greeting from "./Greeting";
 
 function Home() {
-    const query = useQuery(["me", "feed"], () => halyClient.me.getUserFeed(), { staleTime: 1000 * 60 * 30 });
+    const query = useQuery(["me", "feed"], () => halyClient.me.getMyFeed(), { staleTime: 1000 * 60 * 30 });
     const user = useAtomValue(userAtom);
 
     const purple = theme.colors.dominantLikedSongs;

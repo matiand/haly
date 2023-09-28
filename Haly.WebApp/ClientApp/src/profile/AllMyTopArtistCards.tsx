@@ -6,7 +6,7 @@ import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 
 function AllMyTopArtistCards() {
-    const query = useQuery(["me", "topArtists"], () => halyClient.me.getTopArtists());
+    const query = useQuery(["me", "topArtists"], () => halyClient.me.getMyTopArtists());
 
     if (!query.data) return null;
 
