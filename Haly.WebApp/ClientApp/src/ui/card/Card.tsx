@@ -35,7 +35,7 @@ function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage, isH
 
                 {isPlayable && (
                     <div id="card-playback-wrapper">
-                        <PlaybackToggle size="medium" isPaused toggle={() => 1} />
+                        <PlaybackToggle size="large" isPaused toggle={() => 1} />
                     </div>
                 )}
             </ImageWrapper>
