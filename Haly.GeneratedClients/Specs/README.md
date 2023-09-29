@@ -29,5 +29,7 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `transfer-a-users-playback` - add _202_ response (same as _204_)
 -   `toggle-shuffle-for-users-playback` - add _202_ response (same as _204_)
 -   `set-repeat-mode-on-users-playback` - add _202_ response (same as _204_)
+-   `start-a-users-playback` - add _202_ response (same as _204_)
+-   `pause-a-users-playback` - add _202_ response (same as _204_)
 -   `QueueObject` - set as nullable: **currently_playing**
 -   `PlayHistoryObject` - set as nullable: **context**
