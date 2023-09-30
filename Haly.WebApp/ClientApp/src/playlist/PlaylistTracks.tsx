@@ -25,7 +25,15 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
     const setSliceSongsTotal = useSetAtom(playlistSliceSongsTotalAtom);
 
     const tracksQuery = useInfiniteQuery(
-        ["playlists", playlistId, "tracks", { searchTerm, sortOrder }],
+        [
+            "playlists",
+            playlistId,
+            "tracks",
+            {
+                searchTerm,
+                sortOrder,
+            },
+        ],
         async ({ pageParam: offset }) => {
             return halyClient.playlists
                 .getTracks({
@@ -35,7 +43,10 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
                     sortOrder: sortOrder!,
                     searchTerm: searchTerm!,
                 })
-                .then((data) => ({ ...data.page, totalDuration: data.totalDuration }));
+                .then((data) => ({
+                    ...data.page,
+                    totalDuration: data.totalDuration,
+                }));
         },
         {
             keepPreviousData: true,
@@ -78,6 +89,8 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
             tracksQuery.fetchNextPage({ cancelRefetch: false });
         }
     }, [tracksQuery]);
+
+    console.log(items.map((t) => t.uri).filter((u) => u != null));
 
     if (tracksQuery.isInitialLoading) {
         return (

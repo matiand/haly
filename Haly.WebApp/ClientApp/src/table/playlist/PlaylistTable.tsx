@@ -74,7 +74,12 @@ function PlaylistTable({
     return (
         <div>
             <div ref={ref} aria-hidden />
-            <TableRoot className={clsx({ showAddedAtColumn, isSticky })}>
+            <TableRoot
+                className={clsx({
+                    showAddedAtColumn,
+                    isSticky,
+                })}
+            >
                 <PlaylistTableHead hasPodcasts={hasPodcasts} />
 
                 <Table.Body style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
@@ -92,6 +97,7 @@ function PlaylistTable({
                                 key={idx}
                                 index={trackIdx}
                                 track={track}
+                                contextUri={`spotify:playlist:${playlistId}`}
                                 playbackState={getTableRowPlaybackState(track.spotifyId)}
                                 isLiked={isLiked}
                                 start={virtualItem.start}

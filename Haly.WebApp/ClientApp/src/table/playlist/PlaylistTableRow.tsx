@@ -5,30 +5,36 @@ import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
 import { PlaybackContextState } from "../../common/usePlaybackContextState";
+import useTrackPlaybackActions from "../../common/useTrackPlaybackActions";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
-import useSelectingTrack from "../useSelectingTrack";
+import useTrackSelection from "../useSelectingTrack";
 
 type PlaylistTableRowProps = {
     index: number;
     track: PlaylistTrackDto;
+    contextUri: string;
     playbackState: PlaybackContextState;
     isLiked: boolean;
     start?: number;
 };
 
-function PlaylistTableRow({ index, track, playbackState, isLiked, start }: PlaylistTableRowProps) {
+function PlaylistTableRow({ index, track, contextUri, playbackState, isLiked, start }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
-    const { isSelected, selectTrack } = useSelectingTrack(index);
+    const { isSelected, selectTrack } = useTrackSelection(index);
+
+    const isListenedTo = playbackState !== "none";
+    const { togglePlayback, updatePlayback } = useTrackPlaybackActions(contextUri, track.uri, playbackState);
 
     const isLocal = !track.spotifyId;
 
     return (
         <TableRow
             onClick={selectTrack}
+            onDoubleClick={track.isSong ? updatePlayback : undefined}
             style={{ transform: `translateY(${start}px` }}
             className={clsx({
                 disabled: !track.isPlayable,
@@ -36,14 +42,19 @@ function PlaylistTableRow({ index, track, playbackState, isLiked, start }: Playl
             })}
         >
             <td>
-                <TrackIndexCell index={index} track={track} noPlayBtn={isLocal} playbackState={playbackState} />
+                <TrackIndexCell
+                    index={index}
+                    track={track}
+                    playbackState={playbackState}
+                    playbackAction={togglePlayback}
+                />
             </td>
 
             <td>
                 <TrackInformation
                     track={track}
                     type="cell"
-                    isListenedTo={playbackState !== "none"}
+                    isListenedTo={isListenedTo}
                     showExplicitMark={track.isExplicit}
                     hideArtists={isLocal || !track.isSong}
                     searchTerm={searchTerm}
@@ -59,7 +70,7 @@ function PlaylistTableRow({ index, track, playbackState, isLiked, start }: Playl
             </td>
 
             <td>
-                <TrackDurationCell track={track} noActions={isLocal} isLiked={isLiked} />
+                <TrackDurationCell track={track} noActions={isLocal || !track.isSong} isLiked={isLiked} />
             </td>
         </TableRow>
     );

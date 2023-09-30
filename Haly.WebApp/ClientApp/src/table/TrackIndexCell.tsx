@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HiPlay } from "react-icons/hi2";
+import { HiPause, HiPlay } from "react-icons/hi2";
 import { MdPodcasts } from "react-icons/md";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
@@ -11,14 +11,11 @@ type TrackIndexCellProps = {
     index: number;
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
     playbackState: PlaybackContextState;
-    noPlayBtn?: boolean;
+    playbackAction?: () => void;
 };
 
-function TrackIndexCell({ index, track, playbackState, noPlayBtn }: TrackIndexCellProps) {
-    const label = `Play ${track.name}`;
-    const isPodcast = "isSong" in track && !track.isSong;
-
-    if (noPlayBtn) {
+function TrackIndexCell({ index, track, playbackState, playbackAction }: TrackIndexCellProps) {
+    if (!playbackAction) {
         return (
             <Wrapper className={clsx({ alwaysIndex: true })}>
                 <Index>{index}</Index>
@@ -26,10 +23,12 @@ function TrackIndexCell({ index, track, playbackState, noPlayBtn }: TrackIndexCe
         );
     }
 
+    const isPodcast = "isSong" in track && !track.isSong;
     if (isPodcast) {
         return (
             <Wrapper>
-                <PlayBtn
+                <Index>{index}</Index>
+                <Button
                     type="button"
                     aria-label="Streaming podcasts is not supported"
                     title="Streaming podcasts is not supported"
@@ -39,23 +38,33 @@ function TrackIndexCell({ index, track, playbackState, noPlayBtn }: TrackIndexCe
                     <span>
                         <MdPodcasts />
                     </span>
-                </PlayBtn>
+                </Button>
+            </Wrapper>
+        );
+    }
+
+    const label = playbackState === "playing" ? `Pause ${track.name}` : `Play ${track.name}`;
+    if (playbackState === "playing") {
+        return (
+            <Wrapper>
+                <AnimatedMusicBars type="track" />
+                <Button type="button" onClick={playbackAction} aria-label={label} title={label}>
+                    <span>
+                        <HiPause />
+                    </span>
+                </Button>
             </Wrapper>
         );
     }
 
     return (
         <Wrapper>
-            {playbackState === "playing" ? (
-                <AnimatedMusicBars type="track" />
-            ) : (
-                <Index className={clsx({ isPaused: playbackState === "paused" })}>{index}</Index>
-            )}
-            <PlayBtn type="button" aria-label={label} title={label}>
+            <Index className={clsx({ isPaused: playbackState === "paused" })}>{index}</Index>
+            <Button type="button" onClick={playbackAction} aria-label={label} title={label}>
                 <span>
                     <HiPlay />
                 </span>
-            </PlayBtn>
+            </Button>
         </Wrapper>
     );
 }
@@ -86,7 +95,7 @@ const Index = styled("span", {
     },
 });
 
-const PlayBtn = styled("button", {
+const Button = styled("button", {
     background: "transparent",
     border: 0,
     color: "$white800",
