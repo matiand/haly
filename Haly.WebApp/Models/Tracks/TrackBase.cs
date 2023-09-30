@@ -22,4 +22,8 @@ public class TrackBase
         : TimeSpan.FromMilliseconds(DurationInMs).ToString(@"m\:ss", CultureInfo.InvariantCulture);
 
     public bool IsSong => Type == TrackType.Song;
+
+    public string? Uri => SpotifyId is not null
+        ? $"spotify:{(Type == TrackType.Song ? "track" : "episode")}:{SpotifyId}"
+        : null;
 }

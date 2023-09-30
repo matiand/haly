@@ -58,6 +58,12 @@ export interface PlaylistTrackDto {
     duration: string;
     /**
      * 
+     * @type {string}
+     * @memberof PlaylistTrackDto
+     */
+    uri?: string | null;
+    /**
+     * 
      * @type {boolean}
      * @memberof PlaylistTrackDto
      */
@@ -126,6 +132,7 @@ export function PlaylistTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'positionInPlaylist': json['positionInPlaylist'],
         'name': json['name'],
         'duration': json['duration'],
+        'uri': !exists(json, 'uri') ? undefined : json['uri'],
         'isPlayable': json['isPlayable'],
         'isExplicit': json['isExplicit'],
         'isSong': json['isSong'],
@@ -148,6 +155,7 @@ export function PlaylistTrackDtoToJSON(value?: PlaylistTrackDto | null): any {
         'positionInPlaylist': value.positionInPlaylist,
         'name': value.name,
         'duration': value.duration,
+        'uri': value.uri,
         'isPlayable': value.isPlayable,
         'isExplicit': value.isExplicit,
         'isSong': value.isSong,

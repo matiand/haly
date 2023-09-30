@@ -52,6 +52,12 @@ export interface TrackDto {
     duration: string;
     /**
      * 
+     * @type {string}
+     * @memberof TrackDto
+     */
+    uri?: string | null;
+    /**
+     * 
      * @type {boolean}
      * @memberof TrackDto
      */
@@ -111,6 +117,7 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'spotifyId': !exists(json, 'spotifyId') ? undefined : json['spotifyId'],
         'name': json['name'],
         'duration': json['duration'],
+        'uri': !exists(json, 'uri') ? undefined : json['uri'],
         'isPlayable': json['isPlayable'],
         'isExplicit': json['isExplicit'],
         'isSong': json['isSong'],
@@ -131,6 +138,7 @@ export function TrackDtoToJSON(value?: TrackDto | null): any {
         'spotifyId': value.spotifyId,
         'name': value.name,
         'duration': value.duration,
+        'uri': value.uri,
         'isPlayable': value.isPlayable,
         'isExplicit': value.isExplicit,
         'isSong': value.isSong,

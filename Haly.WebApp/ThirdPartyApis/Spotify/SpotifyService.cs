@@ -386,4 +386,38 @@ public sealed class SpotifyService : ISpotifyService
     {
         return _spotifyClient.SetRepeatModeOnUsersPlaybackAsync(repeatMode);
     }
+
+    public Task Play()
+    {
+        return _spotifyClient.StartAUsersPlaybackAsync(device_id: null, body: new());
+    }
+
+    public Task Pause()
+    {
+        return _spotifyClient.PauseAUsersPlaybackAsync(device_id: null);
+    }
+
+    public Task UpdatePlayback(string contextUri, string? trackUri)
+    {
+        var offset = trackUri is not null ? new { uri = trackUri } : null;
+        var body = new Body18()
+        {
+            Context_uri = contextUri,
+            Offset = offset!,
+            Position_ms = 0,
+        };
+
+        return _spotifyClient.StartAUsersPlaybackAsync(device_id: null, body);
+    }
+
+    public Task UpdatePlayback(IEnumerable<string> trackUri)
+    {
+        var body = new Body18()
+        {
+            Offset = new { uri = trackUri.ToArray() },
+            Position_ms = 0,
+        };
+
+        return _spotifyClient.StartAUsersPlaybackAsync(device_id: null, body);
+    }
 }

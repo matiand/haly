@@ -916,7 +916,7 @@ paths:
     put:
       tags:
         - Player
-      summary: Set the repeat mode for the user's playback.
+      summary: Set the repeat mode for the user's playback
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>'
       operationId: SetRepeatMode
       parameters:
@@ -924,6 +924,104 @@ paths:
           in: query
           schema:
             type: string
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/Player/play:
+    put:
+      tags:
+        - Player
+      summary: Resume playback of current context
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>'
+      operationId: Play
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/Player/pause:
+    put:
+      tags:
+        - Player
+      summary: Pause playback of current context
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>'
+      operationId: Pause
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /Me/Player/playback:
+    put:
+      tags:
+        - Player
+      summary: Start new playback context
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state, user-modify-playback-state </b>'
+      operationId: PutPlayback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdatePlaybackCommand'
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdatePlaybackCommand'
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdatePlaybackCommand'
       responses:
         '202':
           description: Accepted
@@ -1228,6 +1326,9 @@ components:
           type: string
         duration:
           type: string
+        uri:
+          type: string
+          nullable: true
         isPlayable:
           type: boolean
         isExplicit:
@@ -1490,6 +1591,9 @@ components:
           type: string
         duration:
           type: string
+        uri:
+          type: string
+          nullable: true
         isPlayable:
           type: boolean
         isExplicit:
@@ -1665,6 +1769,9 @@ components:
           type: string
         duration:
           type: string
+        uri:
+          type: string
+          nullable: true
         isPlayable:
           type: boolean
         isExplicit:
@@ -1678,6 +1785,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ArtistBriefDto'
+      additionalProperties: false
+    UpdatePlaybackCommand:
+      required:
+        - contextUri
+      type: object
+      properties:
+        contextUri:
+          type: string
+        trackUri:
+          type: string
+          nullable: true
       additionalProperties: false
     UserFeedDto:
       required:

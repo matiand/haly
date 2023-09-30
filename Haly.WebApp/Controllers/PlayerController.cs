@@ -4,6 +4,7 @@ using Haly.WebApp.Features.Player.GetPlaybackState;
 using Haly.WebApp.Features.Player.GetQueue;
 using Haly.WebApp.Features.Player.GetRecentlyPlayed;
 using Haly.WebApp.Features.Player.SetRepeatModeCommand;
+using Haly.WebApp.Features.Player.UpdatePlayback;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -80,12 +81,45 @@ public class PlayerController : ApiControllerBase
     }
 
     [HttpPut("repeat-mode")]
-    [SwaggerOperation(Summary = "Set the repeat mode for the user's playback.")]
+    [SwaggerOperation(Summary = "Set the repeat mode for the user's playback")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
     public async Task<ActionResult> SetRepeatMode(string repeatMode)
     {
         await Mediator.Send(new SetRepeatModeCommand(repeatMode));
+
+        return Accepted();
+    }
+
+    [HttpPut("play")]
+    [SwaggerOperation(Summary = "Resume playback of current context")]
+    [SwaggerResponse(statusCode: 202, "Accepted")]
+    [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
+    public async Task<ActionResult> Play([FromServices] ISpotifyService spotifyService)
+    {
+        await spotifyService.Play();
+
+        return Accepted();
+    }
+
+    [HttpPut("pause")]
+    [SwaggerOperation(Summary = "Pause playback of current context")]
+    [SwaggerResponse(statusCode: 202, "Accepted")]
+    [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
+    public async Task<ActionResult> Pause([FromServices] ISpotifyService spotifyService)
+    {
+        await spotifyService.Pause();
+
+        return Accepted();
+    }
+
+    [HttpPut("playback")]
+    [SwaggerOperation(Summary = "Start new playback context")]
+    [SwaggerResponse(statusCode: 202, "Accepted")]
+    [CallsSpotifyApi(SpotifyScopes.UserReadPlaybackState, SpotifyScopes.UserModifyPlaybackState)]
+    public async Task<ActionResult> PutPlayback(UpdatePlaybackCommand command)
+    {
+        await Mediator.Send(command);
 
         return Accepted();
     }

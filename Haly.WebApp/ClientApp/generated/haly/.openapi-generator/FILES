@@ -37,9 +37,11 @@ models/PlaylistWithTracksDto.ts
 models/PlaylistWithTracksDtoOwner.ts
 models/PrivateUserDto.ts
 models/Problem.ts
+models/PutPlaybackRequest.ts
 models/ReleaseItemDto.ts
 models/TopArtistDto.ts
 models/TrackDto.ts
+models/UpdatePlaybackCommand.ts
 models/UserFeedDto.ts
 models/UserProfileDto.ts
 models/ValidationProblem.ts

@@ -18,6 +18,7 @@ import type {
   DeviceDto,
   PlaybackStateDto,
   Problem,
+  PutPlaybackRequest,
   TrackDto,
 } from '../models';
 import {
@@ -27,9 +28,15 @@ import {
     PlaybackStateDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    PutPlaybackRequestFromJSON,
+    PutPlaybackRequestToJSON,
     TrackDtoFromJSON,
     TrackDtoToJSON,
 } from '../models';
+
+export interface PutPlaybackOperationRequest {
+    putPlaybackRequest?: PutPlaybackRequest;
+}
 
 export interface SetRepeatModeRequest {
     repeatMode?: string;
@@ -162,7 +169,91 @@ export class PlayerApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
-     * Set the repeat mode for the user\'s playback.
+     * Pause playback of current context
+     */
+    async pauseRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player/pause`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Pause playback of current context
+     */
+    async pause(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.pauseRaw(initOverrides);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Resume playback of current context
+     */
+    async playRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Player/play`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Resume playback of current context
+     */
+    async play(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.playRaw(initOverrides);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state, user-modify-playback-state </b>
+     * Start new playback context
+     */
+    async putPlaybackRaw(requestParameters: PutPlaybackOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/Me/Player/playback`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PutPlaybackRequestToJSON(requestParameters.putPlaybackRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state, user-modify-playback-state </b>
+     * Start new playback context
+     */
+    async putPlayback(requestParameters: PutPlaybackOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.putPlaybackRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Set the repeat mode for the user\'s playback
      */
     async setRepeatModeRaw(requestParameters: SetRepeatModeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
@@ -185,7 +276,7 @@ export class PlayerApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
-     * Set the repeat mode for the user\'s playback.
+     * Set the repeat mode for the user\'s playback
      */
     async setRepeatMode(requestParameters: SetRepeatModeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.setRepeatModeRaw(requestParameters, initOverrides);

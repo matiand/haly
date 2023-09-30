@@ -46,6 +46,12 @@ export interface AlbumTrackDto {
     duration: string;
     /**
      * 
+     * @type {string}
+     * @memberof AlbumTrackDto
+     */
+    uri?: string | null;
+    /**
+     * 
      * @type {boolean}
      * @memberof AlbumTrackDto
      */
@@ -99,6 +105,7 @@ export function AlbumTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boole
         'spotifyId': json['spotifyId'],
         'name': json['name'],
         'duration': json['duration'],
+        'uri': !exists(json, 'uri') ? undefined : json['uri'],
         'isPlayable': json['isPlayable'],
         'isExplicit': json['isExplicit'],
         'discNumber': json['discNumber'],
@@ -118,6 +125,7 @@ export function AlbumTrackDtoToJSON(value?: AlbumTrackDto | null): any {
         'spotifyId': value.spotifyId,
         'name': value.name,
         'duration': value.duration,
+        'uri': value.uri,
         'isPlayable': value.isPlayable,
         'isExplicit': value.isExplicit,
         'discNumber': value.discNumber,
