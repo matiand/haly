@@ -116,7 +116,7 @@ function mapStreamedTrackFromPlaybackState(state: Spotify.PlaybackState): Stream
     if (!currentTrack?.id) return null;
 
     return {
-        spotifyId: currentTrack.id,
+        id: currentTrack.id,
         name: currentTrack.name,
         durationInMs: currentTrack.duration_ms,
         positionInMs: state.position,

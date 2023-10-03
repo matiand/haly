@@ -1314,13 +1314,16 @@ components:
         - artists
         - discNumber
         - duration
+        - id
         - isExplicit
         - isPlayable
         - name
-        - spotifyId
+        - playbackId
       type: object
       properties:
-        spotifyId:
+        id:
+          type: string
+        playbackId:
           type: string
         name:
           type: string
@@ -1581,7 +1584,10 @@ components:
         - positionInPlaylist
       type: object
       properties:
-        spotifyId:
+        id:
+          type: string
+          nullable: true
+        playbackId:
           type: string
           nullable: true
         positionInPlaylist:
@@ -1762,7 +1768,10 @@ components:
         - name
       type: object
       properties:
-        spotifyId:
+        id:
+          type: string
+          nullable: true
+        playbackId:
           type: string
           nullable: true
         name:

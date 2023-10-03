@@ -11619,8 +11619,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/) is applied and is only part of the response if the track linking, in fact, exists. The requested track has been replaced with a different track. The track in the `linked_from` object contains information about the originally requested track.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("linked_from", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public LinkedTrackObject Linked_from { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("linked_from", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public LinkedTrackObject? Linked_from { get; set; } = default!;
 
         /// <summary>
         /// Included in the response when a content restriction is applied.
@@ -12779,8 +12779,8 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking) is applied, and the requested track has been replaced with different track. The track in the `linked_from` object contains information about the originally requested track.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("linked_from", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public LinkedTrackObject Linked_from { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("linked_from", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public LinkedTrackObject? Linked_from { get; set; } = default!;
 
         /// <summary>
         /// Included in the response when a content restriction is applied.

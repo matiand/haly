@@ -20,7 +20,7 @@ function Playback({ deviceId }: PlaybackProps) {
         usePlaybackTransferFlow(deviceId);
 
     useEffect(() => {
-        if (streamedTrack?.spotifyId) {
+        if (streamedTrack?.id) {
             // We need to delay this, otherwise those endpoints won't notice the change.
             delay(800).then(() => {
                 console.log("invalidation");
@@ -28,7 +28,7 @@ function Playback({ deviceId }: PlaybackProps) {
                 queryClient.invalidateQueries(GetRecentlyPlayedQueryKey);
             });
         }
-    }, [streamedTrack?.spotifyId, queryClient]);
+    }, [streamedTrack?.id, queryClient]);
 
     if (state === "initial" || state === "scheduled") return null;
 

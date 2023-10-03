@@ -90,8 +90,6 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
         }
     }, [tracksQuery]);
 
-    console.log(items.map((t) => t.uri).filter((u) => u != null));
-
     if (tracksQuery.isInitialLoading) {
         return (
             <PlaylistTable

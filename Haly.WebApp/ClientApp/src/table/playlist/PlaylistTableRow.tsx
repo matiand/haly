@@ -29,7 +29,7 @@ function PlaylistTableRow({ index, track, contextUri, playbackState, isLiked, st
     const isListenedTo = playbackState !== "none";
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(contextUri, track.uri, playbackState);
 
-    const isLocal = !track.spotifyId;
+    const isLocal = !track.id;
 
     return (
         <TableRow

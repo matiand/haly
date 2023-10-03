@@ -90,7 +90,8 @@ function PlaylistTable({
                         if (!track) return null;
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
-                        const isLiked = !!track.spotifyId && likedTrackIds.includes(track.spotifyId);
+                        const isLiked = !!track.id && likedTrackIds.includes(track.id);
+                        console.log(idx, isLiked);
 
                         return (
                             <PlaylistTableRow
@@ -98,7 +99,7 @@ function PlaylistTable({
                                 index={trackIdx}
                                 track={track}
                                 contextUri={`spotify:playlist:${playlistId}`}
-                                playbackState={getTableRowPlaybackState(track.spotifyId)}
+                                playbackState={getTableRowPlaybackState(track.playbackId)}
                                 isLiked={isLiked}
                                 start={virtualItem.start}
                             />

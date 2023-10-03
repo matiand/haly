@@ -37,7 +37,13 @@ export interface PlaylistTrackDto {
      * @type {string}
      * @memberof PlaylistTrackDto
      */
-    spotifyId?: string | null;
+    id?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistTrackDto
+     */
+    playbackId?: string | null;
     /**
      * 
      * @type {number}
@@ -128,7 +134,8 @@ export function PlaylistTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'spotifyId': !exists(json, 'spotifyId') ? undefined : json['spotifyId'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'playbackId': !exists(json, 'playbackId') ? undefined : json['playbackId'],
         'positionInPlaylist': json['positionInPlaylist'],
         'name': json['name'],
         'duration': json['duration'],
@@ -151,7 +158,8 @@ export function PlaylistTrackDtoToJSON(value?: PlaylistTrackDto | null): any {
     }
     return {
         
-        'spotifyId': value.spotifyId,
+        'id': value.id,
+        'playbackId': value.playbackId,
         'positionInPlaylist': value.positionInPlaylist,
         'name': value.name,
         'duration': value.duration,

@@ -24,7 +24,7 @@ function useScrollToTrack({ mainScrollArea, items, itemsTotal, fetchMoreItems }:
     useEffect(() => {
         if (!trackId || isSettled) return;
 
-        const rowIdx = items.findIndex((i) => i.spotifyId === trackId);
+        const rowIdx = items.findIndex((i) => i.id === trackId || i.playbackId === trackId);
 
         if (rowIdx === -1) {
             if (items.length === itemsTotal) {

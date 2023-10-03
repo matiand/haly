@@ -16,7 +16,8 @@ public class TrackObjectProfile : IRegister
             });
 
         config.ForType<TrackObject, TrackBase>()
-            .Map(dest => dest.SpotifyId, src => src.Id)
+            .Map(dest => dest.Id, src => GetTrackId(src))
+            .Map(dest => dest.PlaybackId, src => src.Id)
             .Map(dest => dest.Name, src => src.Name)
             .Map(dest => dest.Artists, src => src.Artists)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
@@ -25,7 +26,8 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.Type, src => GetTrackType(src.Type));
 
         config.ForType<PlayHistoryObject, TrackBase>()
-            .Map(dest => dest.SpotifyId, src => src.Track.Id)
+            .Map(dest => dest.Id, src => GetTrackId(src.Track))
+            .Map(dest => dest.PlaybackId, src => src.Track.Id)
             .Map(dest => dest.Name, src => src.Track.Name)
             .Map(dest => dest.Artists, src => src.Track.Artists)
             .Map(dest => dest.IsPlayable, src => src.Track.Is_playable)
@@ -35,7 +37,8 @@ public class TrackObjectProfile : IRegister
 
         // I always check if tracks are not null before adapting them.
         config.ForType<PlaylistTrackObject, PlaylistTrack>()
-            .Map(dest => dest.SpotifyId, src => src.Track!.Id)
+            .Map(dest => dest.Id, src => GetTrackId(src.Track!))
+            .Map(dest => dest.PlaybackId, src => src.Track!.Id)
             .Map(dest => dest.Name, src => src.Track!.Name)
             .Map(dest => dest.Album, src => src.Track!.Album)
             .Map(dest => dest.Artists, src => src.Track!.Artists)
@@ -47,7 +50,8 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.Type, src => GetTrackType(src.Track!.Type));
 
         config.ForType<SavedTrackObject, PlaylistTrack>()
-            .Map(dest => dest.SpotifyId, src => src.Track.Id)
+            .Map(dest => dest.Id, src => GetTrackId(src.Track))
+            .Map(dest => dest.PlaybackId, src => src.Track.Id)
             .Map(dest => dest.Name, src => src.Track.Name)
             .Map(dest => dest.Album, src => src.Track.Album)
             .Map(dest => dest.Artists, src => src.Track.Artists)
@@ -59,7 +63,8 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.Type, src => GetTrackType(src.Track.Type));
 
         config.ForType<SimplifiedTrackObject, AlbumTrack>()
-            .Map(dest => dest.SpotifyId, src => src.Id)
+            .Map(dest => dest.Id, src => GetTrackId(src))
+            .Map(dest => dest.PlaybackId, src => src.Id)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
             .Map(dest => dest.DiscNumber, src => src.Disc_number)
@@ -67,11 +72,22 @@ public class TrackObjectProfile : IRegister
             .Map(dest => dest.Type, src => GetTrackType(src.Type));
 
         config.ForType<TrackObject, Track>()
-            .Map(dest => dest.SpotifyId, src => src.Id)
+            .Map(dest => dest.Id, src => GetTrackId(src))
+            .Map(dest => dest.PlaybackId, src => src.Id)
             .Map(dest => dest.IsPlayable, src => src.Is_playable)
             .Map(dest => dest.IsExplicit, src => src.Explicit)
             .Map(dest => dest.DurationInMs, src => src.Duration_ms)
             .Map(dest => dest.Type, src => GetTrackType(src.Type));
+    }
+
+    private static string? GetTrackId(TrackObject track)
+    {
+        return track.Linked_from?.Id ?? track.Id;
+    }
+
+    private static string? GetTrackId(SimplifiedTrackObject track)
+    {
+        return track.Linked_from?.Id ?? track.Id;
     }
 
     private static TrackType GetTrackType(TrackObjectType srcType)

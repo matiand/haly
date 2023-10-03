@@ -5172,6 +5172,7 @@ components:
         linked_from:
           allOf:
           - $ref: '#/components/schemas/LinkedTrackObject'
+          nullable: true
           description: "Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking/)\
             \ is applied and is only part of the response if the track linking, in\
             \ fact, exists. The requested track has been replaced with a different\
@@ -5979,6 +5980,7 @@ components:
         linked_from:
           allOf:
           - $ref: '#/components/schemas/LinkedTrackObject'
+          nullable: true
           description: "Part of the response when [Track Relinking](/documentation/web-api/concepts/track-relinking)\
             \ is applied, and the requested track has been replaced with different\
             \ track. The track in the `linked_from` object contains information about\

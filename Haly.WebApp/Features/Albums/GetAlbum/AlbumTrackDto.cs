@@ -5,7 +5,8 @@ namespace Haly.WebApp.Features.Albums.GetAlbum;
 public record AlbumTrackDto
 {
     // Albums cannot have nullable ids
-    public string SpotifyId { get; init; }
+    public string Id { get; init; }
+    public string PlaybackId { get; init; }
     public string Name { get; init; }
     public string Duration { get; init; }
     public string? Uri { get; init; }

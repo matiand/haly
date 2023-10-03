@@ -94,7 +94,7 @@ function Album() {
             <AlbumTable albumId={albumId} items={tracks} />
             <Copyrights text={copyrights} date={formattedReleaseDate} />
 
-            {albumId && <SimilarAlbums albumId={albumId} trackIds={tracks.map((t) => t.spotifyId)} />}
+            {albumId && <SimilarAlbums albumId={albumId} trackIds={tracks.map((t) => t.id)} />}
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />

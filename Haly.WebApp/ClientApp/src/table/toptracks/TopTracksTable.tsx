@@ -24,10 +24,10 @@ function TopTracksTable({ artistId, items }: TopTracksTableProps) {
                 <Table.Body>
                     {items.slice(0, showMore ? 10 : 5).map((t, idx) => (
                         <TopTracksTableRow
-                            key={t.spotifyId}
+                            key={t.id}
                             index={idx + 1}
                             track={t}
-                            playbackState={getTableRowPlaybackState(t.spotifyId)}
+                            playbackState={getTableRowPlaybackState(t.playbackId)}
                         />
                     ))}
                 </Table.Body>

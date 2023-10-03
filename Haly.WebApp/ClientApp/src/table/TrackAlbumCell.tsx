@@ -10,7 +10,7 @@ type TrackAlbumCellProps = {
 };
 
 function TrackAlbumCell({ track, searchTerm }: TrackAlbumCellProps) {
-    const isLocal = !track.spotifyId;
+    const isLocal = !track.id;
 
     return (
         <Wrapper>

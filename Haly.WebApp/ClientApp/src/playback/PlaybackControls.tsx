@@ -57,7 +57,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
         <Wrapper>
             <div>
                 <TrackInformation track={track} type="playback" />
-                <HeartButton type="track" entityId={track.spotifyId} initialState={true} />
+                <HeartButton type="track" entityId={track.id} initialState={true} />
             </div>
 
             <ControlsWrapper aria-label="Playback controls">
@@ -80,11 +80,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                 </div>
 
                 <div>
-                    <TrackProgress
-                        key={track.spotifyId}
-                        track={track}
-                        seek={(positionInMs) => player.seek(positionInMs)}
-                    />
+                    <TrackProgress key={track.id} track={track} seek={(positionInMs) => player.seek(positionInMs)} />
                 </div>
             </ControlsWrapper>
 

@@ -11,7 +11,7 @@ function useTableRowPlaybackState(contextId: string) {
     const isPaused = useAtomValue(isTrackPausedAtom);
 
     return useCallback(
-        (trackId: TrackDto["spotifyId"]): PlaybackContextState => {
+        (trackId: TrackDto["id"]): PlaybackContextState => {
             if (playbackContextId !== contextId || !trackId) return "none";
 
             if (streamedTrackId === trackId) return isPaused ? "paused" : "playing";

@@ -5,7 +5,8 @@ namespace Haly.WebApp.Features.Player;
 
 public record TrackDto
 {
-    public string? SpotifyId { get; init; }
+    public string? Id { get; init; }
+    public string? PlaybackId { get; init; }
     public string Name { get; init; }
     public string Duration { get; init; }
     public string? Uri { get; init; }

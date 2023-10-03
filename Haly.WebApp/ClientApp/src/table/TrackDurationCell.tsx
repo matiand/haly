@@ -22,7 +22,7 @@ function TrackDurationCell({ track, noActions, isLiked = false }: TrackDurationC
 
     return (
         <Wrapper>
-            <HeartButton type="track" entityId={track.spotifyId!} initialState={isLiked} />
+            <HeartButton key={track.id!} type="track" entityId={track.id!} initialState={isLiked} />
             <Duration>{track.duration}</Duration>
             <MoreOptionsButton label={`More options for track ${track.name}`} type="track" />
         </Wrapper>

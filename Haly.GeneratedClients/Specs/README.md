@@ -12,9 +12,9 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `ArtistObject` - add _show_ value to **type** enum
 -   `SimplifiedArtistObject` - set as nullable: **href**, **id**, **uri**
 -   `SimplifiedArtistObject` - add _show_ value to **type** enum
--   `SimplifiedTrackObject` - set as nullable: **available_markets**, **href**, **id**, **preview_url**, **uri**
+-   `SimplifiedTrackObject` - set as nullable: **available_markets**, **href**, **id**, **linked_from**, **preview_url**, **uri**
 -   `SimplifiedTrackObject` - add _episode_, _track_ values to **type** enum
--   `TrackObject` - set as nullable: **available_markets**, **href**, **id**, **preview_url**, **uri**
+-   `TrackObject` - set as nullable: **available_markets**, **href**, **id**, **linked_from**, **preview_url**, **uri**
 -   `TrackObject` - add _episode_ value to **type** enum
 -   `PlaylistTrackObject` - set as nullable: **track**
 -   `AlbumBase` - remove **total_tracks**, **available_markets** from required list

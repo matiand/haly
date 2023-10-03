@@ -37,7 +37,13 @@ export interface TrackDto {
      * @type {string}
      * @memberof TrackDto
      */
-    spotifyId?: string | null;
+    id?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof TrackDto
+     */
+    playbackId?: string | null;
     /**
      * 
      * @type {string}
@@ -114,7 +120,8 @@ export function TrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'spotifyId': !exists(json, 'spotifyId') ? undefined : json['spotifyId'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'playbackId': !exists(json, 'playbackId') ? undefined : json['playbackId'],
         'name': json['name'],
         'duration': json['duration'],
         'uri': !exists(json, 'uri') ? undefined : json['uri'],
@@ -135,7 +142,8 @@ export function TrackDtoToJSON(value?: TrackDto | null): any {
     }
     return {
         
-        'spotifyId': value.spotifyId,
+        'id': value.id,
+        'playbackId': value.playbackId,
         'name': value.name,
         'duration': value.duration,
         'uri': value.uri,

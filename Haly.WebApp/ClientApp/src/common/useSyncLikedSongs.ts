@@ -29,8 +29,8 @@ function useSyncLikedSongs({ enabled }: { enabled: boolean }) {
 
     useEffect(() => {
         if (likedSongsQuery.data) {
-            // Those ids cannot be null. You can't like a track without a spotifyId.
-            const ids = likedSongsQuery.data.map((track) => track.spotifyId!);
+            // Those ids cannot be null. You can't like a track without an id.
+            const ids = likedSongsQuery.data.map((track) => track.id!);
             setLikedTrackIds(ids);
         }
     }, [likedSongsQuery.data, setLikedTrackIds]);

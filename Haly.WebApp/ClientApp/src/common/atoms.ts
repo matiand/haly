@@ -51,7 +51,7 @@ export type PlaybackContext = {
 };
 
 export type StreamedTrack = {
-    spotifyId: string;
+    id: string;
     name: string;
     durationInMs: number;
     positionInMs: number;
@@ -70,7 +70,7 @@ export const playerSdkAtom = atom<Spotify.Player | null>(null);
 
 export const streamedTrackAtom = atom<StreamedTrack | null>(null);
 export const isTrackPausedAtom = atom((get) => get(streamedTrackAtom)?.isPaused ?? false);
-export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.spotifyId ?? "");
+export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.id ?? "");
 export const isPlaybackShuffledAtom = atom((get) => get(streamedTrackAtom)?.context?.isShuffled ?? false);
 export const playbackRepeatModeAtom = atom((get) => get(streamedTrackAtom)?.context?.repeatMode ?? "off");
 export const playbackContextIdAtom = atom((get) => get(streamedTrackAtom)?.context?.id);

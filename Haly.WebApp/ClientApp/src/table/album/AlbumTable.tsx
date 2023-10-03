@@ -57,10 +57,10 @@ function AlbumTable({ albumId, items }: AlbumTableProps) {
 
                                       {items.map((t, idx) => (
                                           <AlbumTableTrackRow
-                                              key={t.spotifyId}
+                                              key={t.id}
                                               index={idx + 1}
                                               track={t}
-                                              playbackState={getTableRowPlaybackState(t.spotifyId)}
+                                              playbackState={getTableRowPlaybackState(t.playbackId)}
                                           />
                                       ))}
                                   </Fragment>
@@ -68,10 +68,10 @@ function AlbumTable({ albumId, items }: AlbumTableProps) {
                           })
                         : items.map((t, idx) => (
                               <AlbumTableTrackRow
-                                  key={t.spotifyId}
+                                  key={t.id}
                                   index={idx + 1}
                                   track={t}
-                                  playbackState={getTableRowPlaybackState(t.spotifyId)}
+                                  playbackState={getTableRowPlaybackState(t.playbackId)}
                               />
                           ))}
                 </Table.Body>
