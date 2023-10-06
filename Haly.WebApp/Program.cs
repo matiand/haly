@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using FluentValidation;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
+using Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
 using Haly.WebApp.Features.Playlists.TotalDuration;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.Validation;
@@ -28,6 +29,7 @@ builder.Services.AddSingleton<CurrentUserStore>();
 builder.Services.AddSingleton<ValidateAccessTokenFilterService>();
 
 builder.Services.AddTransient<ITotalDurationService, TotalDurationService>();
+builder.Services.AddTransient<IDateOnlyService, DateOnlyService>();
 
 builder.Services.AddSignalR();
 

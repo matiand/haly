@@ -12,6 +12,7 @@ public class Playlist
     public int LikesTotal { get; set; }
     public string? Description { get; set; }
     public string? ImageUrl { get; set; }
+    public DateOnly? UpdatedAt { get; set; }
 
     [Column(TypeName = "jsonb")]
     public Owner Owner { get; set; }
@@ -28,6 +29,7 @@ public class Playlist
         Description = other.Description;
         ImageUrl = other.ImageUrl;
         Owner = other.Owner;
+        UpdatedAt = DateOnly.FromDateTime(DateTime.Now);
 
         // Some requests don't include likes, so LikesTotal is equal to 0. In that case we don't
         // want to lose them so we skip updating them.
@@ -40,5 +42,11 @@ public class Playlist
         {
             Tracks = other.Tracks;
         }
+    }
+
+    public void UpdateTracks(List<PlaylistTrack> otherTracks)
+    {
+        Tracks = otherTracks;
+        UpdatedAt = DateOnly.FromDateTime(DateTime.Now);
     }
 }

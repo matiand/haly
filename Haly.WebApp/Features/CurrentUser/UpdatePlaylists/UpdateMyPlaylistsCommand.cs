@@ -15,12 +15,16 @@ public class UpdateMyPlaylistsHandler : IRequestHandler<UpdateMyPlaylistsCommand
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotify;
-    private readonly List<Playlist> _playlistsWithOldTracks = new();
+    private readonly IDateOnlyService _dateOnlyService;
 
-    public UpdateMyPlaylistsHandler(LibraryContext db, ISpotifyService spotify)
+    private readonly List<Playlist> _oldPlaylists = new();
+    private readonly List<Playlist> _changedPlaylists = new();
+
+    public UpdateMyPlaylistsHandler(LibraryContext db, ISpotifyService spotify, IDateOnlyService dateOnlyService)
     {
         _db = db;
         _spotify = spotify;
+        _dateOnlyService = dateOnlyService;
     }
 
     public async Task<IEnumerable<PlaylistBriefDto>?> Handle(UpdateMyPlaylistsCommand request,
@@ -54,22 +58,34 @@ public class UpdateMyPlaylistsHandler : IRequestHandler<UpdateMyPlaylistsCommand
             var cachedPlaylist = cachedPlaylists.FirstOrDefault(cp => cp.Id == freshPlaylist.Id);
             if (cachedPlaylist is not null)
             {
+                if (_dateOnlyService.IsOlderThanAMonth(cachedPlaylist.UpdatedAt))
+                {
+                    _oldPlaylists.Add(cachedPlaylist);
+                }
+
                 if (cachedPlaylist.SnapshotId == freshPlaylist.SnapshotId) continue;
 
                 cachedPlaylist.UpdateModel(freshPlaylist);
-                _playlistsWithOldTracks.Add(cachedPlaylist);
+                _changedPlaylists.Add(cachedPlaylist);
             }
             else
             {
                 _db.Playlists.Add(freshPlaylist);
-                _playlistsWithOldTracks.Add(freshPlaylist);
+                _changedPlaylists.Add(freshPlaylist);
             }
         }
     }
 
     private void ScheduleBackgroundJobs(PrivateUser user)
     {
-        var refetchTracksJobs = _playlistsWithOldTracks.Select(p => new RefetchPlaylistTracksJob(user, p));
+        // We want playlists that are older than a month but still have the same SnapshotId to
+        // update their tracks, because those tracks might have new PlaybackId (happens when the
+        // license expires) and we prefer to have those up to date.
+
+        var refetchTracksJobs = _oldPlaylists.Concat(_changedPlaylists)
+            .DistinctBy(p => p.Id)
+            .Select(p => new RefetchPlaylistTracksJob(user, p));
+
         _db.RefetchPlaylistTracksJobs.AddRange(refetchTracksJobs);
     }
 }

@@ -56,7 +56,7 @@ public class RefetchPlaylistTracksHandler : IRequestHandler<RefetchPlaylistTrack
             try
             {
                 var freshPlaylist = await _spotify.GetPlaylistWithTracks(job.PlaylistId, job.User.Market);
-                playlist.Tracks = freshPlaylist!.Tracks;
+                playlist.UpdateTracks(freshPlaylist!.Tracks);
 
                 // We also update LikesTotal here, because the CurrentUserPlaylists endpoint doesn't have them.
                 playlist.LikesTotal = freshPlaylist.LikesTotal;
