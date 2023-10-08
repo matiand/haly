@@ -54,7 +54,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
         );
     }
 
-    const likedSongId = likedSongIdByPlaybackId[track.id];
+    const likedSongId = likedSongIdByPlaybackId[track.playbackId];
 
     return (
         <Wrapper>
@@ -64,8 +64,8 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                     // key={track.id}
                     params={{
                         type: "track",
-                        likedId: likedSongId ?? track.id,
-                        playbackId: track.id,
+                        likedId: likedSongId ?? track.playbackId,
+                        playbackId: track.playbackId,
                     }}
                     isOn={Boolean(likedSongId)}
                 />
@@ -91,7 +91,11 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                 </div>
 
                 <div>
-                    <TrackProgress key={track.id} track={track} seek={(positionInMs) => player.seek(positionInMs)} />
+                    <TrackProgress
+                        key={track.playbackId}
+                        track={track}
+                        seek={(positionInMs) => player.seek(positionInMs)}
+                    />
                 </div>
             </ControlsWrapper>
 
