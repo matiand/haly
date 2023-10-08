@@ -6,6 +6,8 @@ import halyClient from "../halyClient";
 import { likedSongIdByPlaybackIdAtom } from "./atoms";
 import { GetMyLikedSongsQueryKey } from "./queryKeys";
 
+const fifteenMinutes = 15 * 60 * 1000;
+
 function useSyncLikedSongs({ enabled }: { enabled: boolean }) {
     const setLikedSongIdByPlaybackId = useSetAtom(likedSongIdByPlaybackIdAtom);
     const queryClient = useQueryClient();
@@ -33,6 +35,14 @@ function useSyncLikedSongs({ enabled }: { enabled: boolean }) {
             setLikedSongIdByPlaybackId(data);
         }
     }, [likedSongsQuery.data, setLikedSongIdByPlaybackId]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            syncLikedSongs.mutate();
+        }, fifteenMinutes);
+
+        return () => clearInterval(interval);
+    }, [syncLikedSongs]);
 }
 
 export default useSyncLikedSongs;
