@@ -123,6 +123,7 @@ const Button = styled("button", {
     background: "transparent",
     border: "0",
     color: "$white700",
+    cursor: "pointer",
     padding: "0",
 
     "&:hover": {

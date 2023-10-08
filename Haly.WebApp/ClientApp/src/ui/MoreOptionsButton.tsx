@@ -22,6 +22,7 @@ const Button = styled("button", {
     background: "transparent",
     border: "0",
     color: "$white700",
+    cursor: "pointer",
     display: "flex",
     justifyContent: "center",
     padding: "0",
