@@ -76,6 +76,6 @@ export const playbackRepeatModeAtom = atom((get) => get(streamedTrackAtom)?.cont
 export const playbackContextIdAtom = atom((get) => get(streamedTrackAtom)?.context?.id);
 export const playbackContextNameAtom = atom((get) => get(streamedTrackAtom)?.context?.name);
 
-export const likedSongIdsAtom = atom<string[]>([]);
+export const likedSongIdByPlaybackIdAtom = atom<Record<string, string | null>>({});
 
 export const selectedTrackIndicesAtom = atom<number[]>([]);

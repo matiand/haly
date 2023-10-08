@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import useMainScrollArea from "../../common/useMainScrollArea";
+import useTableRowLikedState from "../../common/useTableRowLikedState";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
 import useScrollToTrack from "../useScrollToTrack";
@@ -18,6 +19,7 @@ type AlbumTableProps = {
 
 function AlbumTable({ albumId, items }: AlbumTableProps) {
     const getTableRowPlaybackState = useTableRowPlaybackState(albumId);
+    const getTableRowLikedState = useTableRowLikedState();
     const { ref, isSticky } = useStickyTableHead();
 
     const mainScrollArea = useMainScrollArea();
@@ -61,6 +63,7 @@ function AlbumTable({ albumId, items }: AlbumTableProps) {
                                               index={idx + 1}
                                               track={t}
                                               playbackState={getTableRowPlaybackState(t.playbackId)}
+                                              likedState={getTableRowLikedState(t.id, t.playbackId)}
                                           />
                                       ))}
                                   </Fragment>
@@ -72,6 +75,7 @@ function AlbumTable({ albumId, items }: AlbumTableProps) {
                                   index={idx + 1}
                                   track={t}
                                   playbackState={getTableRowPlaybackState(t.playbackId)}
+                                  likedState={getTableRowLikedState(t.id, t.playbackId)}
                               />
                           ))}
                 </Table.Body>

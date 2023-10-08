@@ -20,6 +20,7 @@ models/ArtistDiscographyDto.ts
 models/CreatorType.ts
 models/DeviceDto.ts
 models/FollowedArtistDto.ts
+models/GetMyLikedSongsResponse.ts
 models/HighlightedPlaylistDto.ts
 models/OwnerBriefDto.ts
 models/PaginatedTracksDto.ts

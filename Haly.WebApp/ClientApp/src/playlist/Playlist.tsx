@@ -112,7 +112,13 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                 <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={() => 1} />
 
                 {!isOwnedByCurrentUser && (
-                    <HeartButton entityId={playlist.id} type="playlist" initialState={isInLibrary} />
+                    <HeartButton
+                        params={{
+                            type: "playlist",
+                            id: playlist.id,
+                        }}
+                        isOn={isInLibrary}
+                    />
                 )}
 
                 {!isLikedSongsCollection && (

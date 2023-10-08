@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
-import { playerSdkAtom, StreamedTrack } from "../common/atoms";
+import { likedSongIdByPlaybackIdAtom, playerSdkAtom, StreamedTrack } from "../common/atoms";
 import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
 import HeartButton from "../ui/HeartButton";
@@ -21,6 +21,7 @@ type PlaybackControlsProps = {
 
 function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     const player = useAtomValue(playerSdkAtom);
+    const likedSongIdByPlaybackId = useAtomValue(likedSongIdByPlaybackIdAtom);
 
     if (!player) return null;
 
@@ -53,11 +54,21 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
         );
     }
 
+    const likedSongId = likedSongIdByPlaybackId[track.id];
+
     return (
         <Wrapper>
             <div>
                 <TrackInformation track={track} type="playback" />
-                <HeartButton type="track" entityId={track.id} initialState={true} />
+                <HeartButton
+                    // key={track.id}
+                    params={{
+                        type: "track",
+                        likedId: likedSongId ?? track.id,
+                        playbackId: track.id,
+                    }}
+                    isOn={Boolean(likedSongId)}
+                />
             </div>
 
             <ControlsWrapper aria-label="Playback controls">

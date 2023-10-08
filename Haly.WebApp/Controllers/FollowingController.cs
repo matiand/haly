@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 
-[Route("me/[controller]")]
+[Route("Me/[controller]")]
 public class FollowingController : ApiControllerBase
 {
     [HttpGet("creators/contains")]

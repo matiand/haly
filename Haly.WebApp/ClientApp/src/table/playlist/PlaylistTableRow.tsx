@@ -5,6 +5,7 @@ import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
 import { PlaybackContextState } from "../../common/usePlaybackContextState";
+import { TrackLikedState } from "../../common/useTableRowLikedState";
 import useTrackPlaybackActions from "../../common/useTrackPlaybackActions";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDateAddedCell from "../TrackDateAddedCell";
@@ -18,11 +19,11 @@ type PlaylistTableRowProps = {
     track: PlaylistTrackDto;
     contextUri: string;
     playbackState: PlaybackContextState;
-    isLiked: boolean;
+    likedState: TrackLikedState;
     start?: number;
 };
 
-function PlaylistTableRow({ index, track, contextUri, playbackState, isLiked, start }: PlaylistTableRowProps) {
+function PlaylistTableRow({ index, track, contextUri, playbackState, likedState, start }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
     const { isSelected, selectTrack } = useTrackSelection(index);
 
@@ -70,7 +71,7 @@ function PlaylistTableRow({ index, track, contextUri, playbackState, isLiked, st
             </td>
 
             <td>
-                <TrackDurationCell track={track} noActions={isLocal || !track.isSong} isLiked={isLiked} />
+                <TrackDurationCell track={track} noActions={isLocal || !track.isSong} likedState={likedState} />
             </td>
         </TableRow>
     );

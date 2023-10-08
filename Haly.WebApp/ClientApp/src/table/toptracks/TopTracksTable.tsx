@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { TrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import useTableRowLikedState from "../../common/useTableRowLikedState";
 import * as Table from "../Table";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import TopTracksTableRow from "./TopTracksTableRow";
@@ -14,6 +15,7 @@ type TopTracksTableProps = {
 function TopTracksTable({ artistId, items }: TopTracksTableProps) {
     const [showMore, setShowMore] = useState(false);
     const getTableRowPlaybackState = useTableRowPlaybackState(artistId);
+    const getTableRowLikedState = useTableRowLikedState();
 
     const showButton = items.length > 5;
     const btnLabel = showMore ? "Show less" : "See more";
@@ -28,6 +30,7 @@ function TopTracksTable({ artistId, items }: TopTracksTableProps) {
                             index={idx + 1}
                             track={t}
                             playbackState={getTableRowPlaybackState(t.playbackId)}
+                            likedState={getTableRowLikedState(t.id, t.playbackId)}
                         />
                     ))}
                 </Table.Body>

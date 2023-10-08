@@ -1,69 +1,28 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import { keyframes, styled } from "../common/theme";
-import halyClient from "../halyClient";
+import useFollowMutations, { FollowMutationParams } from "../common/useFollowMutations";
 
 type HeartButtonProps = {
-    entityId: string;
-    type: "playlist" | "track";
-    initialState: boolean;
+    params: FollowMutationParams;
+    isOn: boolean;
 };
 
-type MutationParams = {
-    id: string;
-    type: "playlist" | "track";
-};
-
-function HeartButton({ entityId, type, initialState }: HeartButtonProps) {
-    const queryClient = useQueryClient();
-    const [isOn, setIsOn] = useState(initialState);
+function HeartButton({ params, isOn }: HeartButtonProps) {
     const [isAnimated, setIsAnimated] = useState(false);
-
-    const follow = useMutation(
-        ({ type, id }: MutationParams) =>
-            type === "playlist"
-                ? halyClient.following.followPlaylist({ id })
-                : halyClient.following.followTracks({ ids: id }),
-        {
-            onSuccess: () => {
-                if (type === "playlist") {
-                    queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
-                } else {
-                    // todo: handle Liked Songs
-                }
-            },
-        },
-    );
-    const unfollow = useMutation(
-        ({ type, id }: MutationParams) =>
-            type === "playlist"
-                ? halyClient.following.unfollowPlaylist({ id })
-                : halyClient.following.unfollowTracks({ ids: id }),
-        {
-            onSuccess: () => {
-                if (type === "playlist") {
-                    queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
-                } else {
-                    // todo: handle Liked Songs
-                }
-            },
-        },
-    );
+    const { follow, unfollow } = useFollowMutations();
 
     const toggle = () => {
         if (isOn) {
-            unfollow.mutate({ id: entityId, type });
+            unfollow.mutate(params);
         } else {
-            follow.mutate({ id: entityId, type });
+            follow.mutate(params);
         }
 
-        setIsOn(!isOn);
         setIsAnimated(true);
     };
 
-    const btnLabel = isOn ? "Remove from 'Liked Songs' collection" : "Save to 'Liked Songs' collection";
+    const btnLabel = isOn ? "Remove from Your Library" : "Save to Your Library";
 
     return (
         <Button
@@ -75,7 +34,7 @@ function HeartButton({ entityId, type, initialState }: HeartButtonProps) {
             role="switch"
             aria-checked={isOn}
         >
-            <Icon aria-hidden type={type} viewBox="0 0 16 16">
+            <Icon aria-hidden type={params.type} viewBox="0 0 16 16">
                 {/*Taken from https://developer.spotify.com/documentation/general/design-and-branding/#liking-a-song*/}
                 {isOn ? (
                     <path d="M15.724 4.22A4.313 4.313 0 0012.192.814a4.269 4.269 0 00-3.622 1.13.837.837 0 01-1.14 0 4.272 4.272 0 00-6.21 5.855l5.916 7.05a1.128 1.128 0 001.727 0l5.916-7.05a4.228 4.228 0 00.945-3.577z"></path>

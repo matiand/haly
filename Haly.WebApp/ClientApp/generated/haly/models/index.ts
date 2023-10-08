@@ -11,6 +11,7 @@ export * from './ArtistDiscographyDto';
 export * from './CreatorType';
 export * from './DeviceDto';
 export * from './FollowedArtistDto';
+export * from './GetMyLikedSongsResponse';
 export * from './HighlightedPlaylistDto';
 export * from './OwnerBriefDto';
 export * from './PaginatedTracksDto';

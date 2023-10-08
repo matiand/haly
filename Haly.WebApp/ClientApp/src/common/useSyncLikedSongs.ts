@@ -3,11 +3,11 @@ import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import halyClient from "../halyClient";
-import { likedSongIdsAtom } from "./atoms";
+import { likedSongIdByPlaybackIdAtom } from "./atoms";
 import { GetMyLikedSongsQueryKey } from "./queryKeys";
 
 function useSyncLikedSongs({ enabled }: { enabled: boolean }) {
-    const setLikedTrackIds = useSetAtom(likedSongIdsAtom);
+    const setLikedSongIdByPlaybackId = useSetAtom(likedSongIdByPlaybackIdAtom);
     const queryClient = useQueryClient();
 
     const syncLikedSongs = useMutation(() => halyClient.me.putMyLikedSongs(), {
@@ -29,11 +29,10 @@ function useSyncLikedSongs({ enabled }: { enabled: boolean }) {
 
     useEffect(() => {
         if (likedSongsQuery.data) {
-            // Those ids cannot be null. You can't like a track without an id.
-            const ids = likedSongsQuery.data.map((track) => track.id!);
-            setLikedTrackIds(ids);
+            const data = likedSongsQuery.data.likedSongIdByPlaybackId;
+            setLikedSongIdByPlaybackId(data);
         }
-    }, [likedSongsQuery.data, setLikedTrackIds]);
+    }, [likedSongsQuery.data, setLikedSongIdByPlaybackId]);
 }
 
 export default useSyncLikedSongs;

@@ -2,6 +2,7 @@ import clsx from "clsx";
 
 import { TrackDto } from "../../../generated/haly";
 import { PlaybackContextState } from "../../common/usePlaybackContextState";
+import { TrackLikedState } from "../../common/useTableRowLikedState";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
@@ -12,9 +13,10 @@ type QueueTableRowProps = {
     index: number;
     track: TrackDto;
     playbackState: PlaybackContextState;
+    likedState: TrackLikedState;
 };
 
-function QueueTableRow({ index, track, playbackState }: QueueTableRowProps) {
+function QueueTableRow({ index, track, playbackState, likedState }: QueueTableRowProps) {
     const { isSelected, selectTrack } = useSelectingTrack(index);
 
     return (
@@ -40,7 +42,7 @@ function QueueTableRow({ index, track, playbackState }: QueueTableRowProps) {
                 <TrackAlbumCell track={track} />
             </td>
             <td>
-                <TrackDurationCell track={track} />
+                <TrackDurationCell track={track} likedState={likedState} />
             </td>
         </tr>
     );

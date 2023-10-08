@@ -2,17 +2,19 @@ import clsx from "clsx";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
+import { FollowMutationParams } from "../common/useFollowMutations";
+import { TrackLikedState } from "../common/useTableRowLikedState";
 import HeartButton from "../ui/HeartButton";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
 
 type TrackDurationCellProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
-    isLiked?: boolean;
+    likedState?: TrackLikedState;
     noActions?: boolean;
 };
 
-function TrackDurationCell({ track, noActions, isLiked = false }: TrackDurationCellProps) {
-    if (noActions) {
+function TrackDurationCell({ track, noActions, likedState }: TrackDurationCellProps) {
+    if (noActions || !likedState) {
         return (
             <Wrapper>
                 <Duration className={clsx({ noActions })}>{track.duration}</Duration>
@@ -20,9 +22,15 @@ function TrackDurationCell({ track, noActions, isLiked = false }: TrackDurationC
         );
     }
 
+    const heartBtnParams: FollowMutationParams = {
+        type: "track",
+        likedId: likedState.likedId!,
+        playbackId: track.playbackId!,
+    };
+
     return (
         <Wrapper>
-            <HeartButton key={track.id!} type="track" entityId={track.id!} initialState={isLiked} />
+            <HeartButton key={track.id!} params={heartBtnParams} isOn={likedState.isLiked} />
             <Duration>{track.duration}</Duration>
             <MoreOptionsButton label={`More options for track ${track.name}`} type="track" />
         </Wrapper>

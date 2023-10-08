@@ -1,12 +1,11 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
-import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
-import { likedSongIdsAtom } from "../../common/atoms";
 import { styled, theme } from "../../common/theme";
 import useMainScrollArea from "../../common/useMainScrollArea";
+import useTableRowLikedState from "../../common/useTableRowLikedState";
 import * as Table from "../Table";
 import useScrollToTrack from "../useScrollToTrack";
 import useStickyTableHead from "../useStickyTableHead";
@@ -34,8 +33,8 @@ function PlaylistTable({
     keepInitialPositionIndex,
     isLikedSongsCollection,
 }: PlaylistTableProps) {
-    const likedTrackIds = useAtomValue(likedSongIdsAtom);
     const getTableRowPlaybackState = useTableRowPlaybackState(isLikedSongsCollection ? "collection" : playlistId);
+    const getTableRowLikedState = useTableRowLikedState();
 
     const { ref, isSticky } = useStickyTableHead();
     const mainScrollArea = useMainScrollArea();
@@ -90,8 +89,6 @@ function PlaylistTable({
                         if (!track) return null;
 
                         const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
-                        const isLiked = !!track.id && likedTrackIds.includes(track.id);
-                        console.log(idx, isLiked);
 
                         return (
                             <PlaylistTableRow
@@ -100,7 +97,7 @@ function PlaylistTable({
                                 track={track}
                                 contextUri={`spotify:playlist:${playlistId}`}
                                 playbackState={getTableRowPlaybackState(track.playbackId)}
-                                isLiked={isLiked}
+                                likedState={getTableRowLikedState(track.id, track.playbackId)}
                                 start={virtualItem.start}
                             />
                         );

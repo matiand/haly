@@ -57,8 +57,8 @@ public class MeController : ApiControllerBase
 
     [HttpGet("tracks")]
     [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from our cache")]
-    [SwaggerResponse(statusCode: 200, "'Liked Songs' collection", typeof(IEnumerable<PlaylistTrackDto>))]
-    public async Task<IEnumerable<PlaylistTrackDto>> GetMyLikedSongs(
+    [SwaggerResponse(statusCode: 200, "'Liked Songs' collection", typeof(GetMyLikedSongsResponse))]
+    public async Task<GetMyLikedSongsResponse> GetMyLikedSongs(
         [FromServices] CurrentUserStore currentUserStore)
     {
         var response = await Mediator.Send(new GetMyLikedSongsQuery(currentUserStore.User!));

@@ -4,6 +4,7 @@ import { TrackDto } from "../../../generated/haly";
 import { streamedTrackAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
 import { PlaybackContextState } from "../../common/usePlaybackContextState";
+import useTableRowLikedState from "../../common/useTableRowLikedState";
 import * as Table from "../Table";
 import QueueTableRow from "./QueueTableRow";
 
@@ -13,6 +14,7 @@ type QueueTableProps = {
 };
 
 function QueueTable({ tracks, indexOffset }: QueueTableProps) {
+    const getTableRowLikedState = useTableRowLikedState();
     const streamedTrack = useAtomValue(streamedTrackAtom);
     const isTrackPaused = streamedTrack?.isPaused;
 
@@ -33,6 +35,7 @@ function QueueTable({ tracks, indexOffset }: QueueTableProps) {
                             index={indexOffset + idx}
                             track={track}
                             playbackState={playbackState}
+                            likedState={getTableRowLikedState(track.id, track.playbackId)}
                         />
                     ))}
                 </Table.Body>

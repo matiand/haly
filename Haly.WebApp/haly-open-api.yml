@@ -581,9 +581,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PlaylistTrackDto'
+                $ref: '#/components/schemas/GetMyLikedSongsResponse'
     put:
       tags:
         - Me
@@ -1478,6 +1476,16 @@ components:
         followersTotal:
           type: integer
           format: int32
+      additionalProperties: false
+    GetMyLikedSongsResponse:
+      required:
+        - likedSongIdByPlaybackId
+      type: object
+      properties:
+        likedSongIdByPlaybackId:
+          type: object
+          additionalProperties:
+            type: string
       additionalProperties: false
     HighlightedPlaylistDto:
       required:

@@ -16,8 +16,8 @@
 import * as runtime from '../runtime';
 import type {
   FollowedArtistDto,
+  GetMyLikedSongsResponse,
   PlaylistBriefDto,
-  PlaylistTrackDto,
   PrivateUserDto,
   Problem,
   TopArtistDto,
@@ -26,10 +26,10 @@ import type {
 import {
     FollowedArtistDtoFromJSON,
     FollowedArtistDtoToJSON,
+    GetMyLikedSongsResponseFromJSON,
+    GetMyLikedSongsResponseToJSON,
     PlaylistBriefDtoFromJSON,
     PlaylistBriefDtoToJSON,
-    PlaylistTrackDtoFromJSON,
-    PlaylistTrackDtoToJSON,
     PrivateUserDtoFromJSON,
     PrivateUserDtoToJSON,
     ProblemFromJSON,
@@ -108,7 +108,7 @@ export class MeApi extends runtime.BaseAPI {
     /**
      * Fetch current user\'s \'Liked Songs\' collection from our cache
      */
-    async getMyLikedSongsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PlaylistTrackDto>>> {
+    async getMyLikedSongsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMyLikedSongsResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -120,13 +120,13 @@ export class MeApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PlaylistTrackDtoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetMyLikedSongsResponseFromJSON(jsonValue));
     }
 
     /**
      * Fetch current user\'s \'Liked Songs\' collection from our cache
      */
-    async getMyLikedSongs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PlaylistTrackDto>> {
+    async getMyLikedSongs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMyLikedSongsResponse> {
         const response = await this.getMyLikedSongsRaw(initOverrides);
         return await response.value();
     }

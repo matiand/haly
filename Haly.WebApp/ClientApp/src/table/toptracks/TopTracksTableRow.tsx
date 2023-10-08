@@ -2,6 +2,7 @@ import clsx from "clsx";
 
 import { TrackDto } from "../../../generated/haly";
 import { PlaybackContextState } from "../../common/usePlaybackContextState";
+import { TrackLikedState } from "../../common/useTableRowLikedState";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
@@ -10,9 +11,10 @@ type TrackRowProps = {
     index: number;
     track: TrackDto;
     playbackState: PlaybackContextState;
+    likedState: TrackLikedState;
 };
 
-function TopTracksTableRow({ index, track, playbackState }: TrackRowProps) {
+function TopTracksTableRow({ index, track, playbackState, likedState }: TrackRowProps) {
     return (
         <tr className={clsx({ disabled: !track.isPlayable })}>
             <td>
@@ -30,7 +32,7 @@ function TopTracksTableRow({ index, track, playbackState }: TrackRowProps) {
             </td>
 
             <td>
-                <TrackDurationCell track={track} />
+                <TrackDurationCell track={track} likedState={likedState} />
             </td>
         </tr>
     );
