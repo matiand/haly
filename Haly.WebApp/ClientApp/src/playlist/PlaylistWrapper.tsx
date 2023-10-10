@@ -6,11 +6,11 @@ import halyClient from "../halyClient";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import Playlist from "./Playlist";
 import useIsPlaylistInLibrary from "./useIsPlaylistInLibrary";
-import { usePersistedSortOrder } from "./useSortOrder";
+import { usePlaylistSortOrder } from "./usePlaylistSortOrder";
 
 function PlaylistWrapper() {
     const { id } = useParams();
-    const [sortOrder] = usePersistedSortOrder(id!);
+    const { sortOrder } = usePlaylistSortOrder(id!, false);
     const isInLibrary = useIsPlaylistInLibrary(id!);
     const syncPlaylist = useMutation(() => halyClient.playlists.putPlaylist({ id: id! }));
 

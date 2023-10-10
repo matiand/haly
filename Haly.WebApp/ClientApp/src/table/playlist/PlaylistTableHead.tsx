@@ -3,17 +3,18 @@ import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { useParams } from "react-router-dom";
 
 import { styled } from "../../common/theme";
-import { PlaylistSortOrder, usePersistedSortOrder } from "../../playlist/useSortOrder";
+import { PlaylistSortOrder, usePlaylistSortOrder } from "../../playlist/usePlaylistSortOrder";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
 
 type PlaylistTableHeadProps = {
     hasPodcasts: boolean;
+    isLikedSongsCollection: boolean;
 };
 
-export function PlaylistTableHead({ hasPodcasts }: PlaylistTableHeadProps) {
+export function PlaylistTableHead({ hasPodcasts, isLikedSongsCollection }: PlaylistTableHeadProps) {
     const { id: playlistId } = useParams();
-    const [sortOrder, setSortOrder] = usePersistedSortOrder(playlistId!);
+    const { sortOrder, setSortOrder } = usePlaylistSortOrder(playlistId!, isLikedSongsCollection);
 
     return (
         <Table.Head>

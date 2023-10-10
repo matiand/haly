@@ -6,7 +6,7 @@ import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
 import { playlistSearchTermAtom, playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import PlaylistTable from "../table/playlist/PlaylistTable";
-import { PlaylistSortOrder } from "./useSortOrder";
+import { PlaylistSortOrder } from "./usePlaylistSortOrder";
 
 type PlaylistTracksProps = {
     playlistId: string;

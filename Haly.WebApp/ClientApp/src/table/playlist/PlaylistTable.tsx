@@ -79,7 +79,7 @@ function PlaylistTable({
                     isSticky,
                 })}
             >
-                <PlaylistTableHead hasPodcasts={hasPodcasts} />
+                <PlaylistTableHead hasPodcasts={hasPodcasts} isLikedSongsCollection={isLikedSongsCollection} />
 
                 <Table.Body style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
                     {rowVirtualizer.getVirtualItems().map((virtualItem) => {

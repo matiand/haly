@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 import { styled } from "../common/theme";
-import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/useSortOrder";
+import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/usePlaylistSortOrder";
 import Checkbox from "./Checkbox";
 import Select from "./Select";
 
 function Preferences() {
     const [hasAccurateColors, setHasAccurateColors] = useState(true);
     const [hasCustomShuffle, setHasCustomShuffle] = useState(false);
-    const [globalSortOrder, setGlobalSortOrder] = useGlobalSortOrder();
+    const { globalSortOrder, setGlobalSortOrder } = useGlobalSortOrder();
 
     const sortingOptions: Record<PlaylistSortOrder, string> = {
         [""]: "Default order",

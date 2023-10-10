@@ -20,7 +20,7 @@ import PageControls from "../ui/PageControls";
 import PageGradient from "./PageGradient";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
-import { PlaylistSortOrder } from "./useSortOrder";
+import { PlaylistSortOrder } from "./usePlaylistSortOrder";
 
 type PlaylistProps = {
     id: string;
