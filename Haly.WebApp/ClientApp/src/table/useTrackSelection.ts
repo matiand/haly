@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 
 import { selectedTrackIndicesAtom } from "../common/atoms";
 
-function useSelectingTrack(index: number) {
+function useTrackSelection(index: number) {
     const [trackIndices, setTrackIndices] = useAtom(selectedTrackIndicesAtom);
 
     const selectTrack: React.MouseEventHandler<HTMLTableRowElement> = useCallback(
@@ -57,4 +57,4 @@ function useSelectingTrack(index: number) {
     };
 }
 
-export default useSelectingTrack;
+export default useTrackSelection;

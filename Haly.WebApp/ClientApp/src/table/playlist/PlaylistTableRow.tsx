@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
-import { useTrackPlaybackActions } from "../../common/usePlaybackActions";
+import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";

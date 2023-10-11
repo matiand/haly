@@ -5,9 +5,9 @@ import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
-import useSelectingTrack from "../useSelectingTrack";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
+import useTrackSelection from "../useTrackSelection";
 
 type QueueTableRowProps = {
     index: number;
@@ -17,7 +17,7 @@ type QueueTableRowProps = {
 };
 
 function QueueTableRow({ index, track, playbackState, likedState }: QueueTableRowProps) {
-    const { isSelected, selectTrack } = useSelectingTrack(index);
+    const { isSelected, selectTrack } = useTrackSelection(index);
 
     return (
         <tr

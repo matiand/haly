@@ -5,10 +5,10 @@ import { Link, useParams } from "react-router-dom";
 
 import { dominantColorsAtom, pageContextAtom, selectedTrackIndicesAtom } from "../common/atoms";
 import { pluralize } from "../common/pluralize";
-import { useContextPlaybackActions } from "../common/usePlaybackActions";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
+import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
 import LoadingIndicator from "../ui/LoadingIndicator";

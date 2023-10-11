@@ -4,14 +4,14 @@ import { useCallback } from "react";
 
 import { PutPlaybackRequest, TrackDto } from "../../generated/haly";
 import halyClient from "../halyClient";
-import { ContextPlaybackState } from "../playback/useContextPlaybackState";
+import { ContextPlaybackState } from "./useContextPlaybackState";
 import { TrackPlaybackState } from "../table/useTableRowPlaybackState";
-import { pageContextUriAtom } from "./atoms";
+import { pageContextUriAtom } from "../common/atoms";
 
 type TrackUri = TrackDto["uri"];
 
 export function useTrackPlaybackActions(state: TrackPlaybackState, track: TrackDto) {
-    const { togglePlayback, updatePlayback } = useStreamingActions(state, track.uri);
+    const { togglePlayback, updatePlayback } = usePlaybackActions(state, track.uri);
 
     // Don't allow playback of local tracks and podcasts.
     if (!track.uri || !track.isSong) {
@@ -28,7 +28,7 @@ export function useTrackPlaybackActions(state: TrackPlaybackState, track: TrackD
 }
 
 export function useContextPlaybackActions(state: ContextPlaybackState) {
-    const { togglePlayback, updatePlayback } = useStreamingActions(state);
+    const { togglePlayback, updatePlayback } = usePlaybackActions(state);
 
     return {
         togglePlayback,
@@ -45,7 +45,7 @@ type UpdatePlaybackMutationParam = {
     trackUri: TrackUri;
 };
 
-function useStreamingActions(state: ContextPlaybackState | TrackPlaybackState, trackUri?: TrackUri) {
+function usePlaybackActions(state: ContextPlaybackState | TrackPlaybackState, trackUri?: TrackUri) {
     const contextUri = useAtomValue(pageContextUriAtom);
 
     const togglePlaybackMutation = useMutation(({ state }: TogglePlaybackMutationParam) => {
@@ -79,4 +79,4 @@ function useStreamingActions(state: ContextPlaybackState | TrackPlaybackState, t
     };
 }
 
-export default useStreamingActions;
+export default usePlaybackActions;

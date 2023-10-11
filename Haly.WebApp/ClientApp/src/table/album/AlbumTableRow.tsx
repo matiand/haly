@@ -6,9 +6,9 @@ import { styled } from "../../common/theme";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
-import useSelectingTrack from "../useSelectingTrack";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
+import useTrackSelection from "../useTrackSelection";
 
 type TrackRowProps = {
     index: number;
@@ -18,7 +18,7 @@ type TrackRowProps = {
 };
 
 export function AlbumTableTrackRow({ index, track, playbackState, likedState }: TrackRowProps) {
-    const { isSelected, selectTrack } = useSelectingTrack(index);
+    const { isSelected, selectTrack } = useTrackSelection(index);
 
     return (
         <tr
