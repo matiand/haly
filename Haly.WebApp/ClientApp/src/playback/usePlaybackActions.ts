@@ -1,12 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 import { PutPlaybackRequest, TrackDto } from "../../generated/haly";
-import halyClient from "../halyClient";
-import { ContextPlaybackState } from "./useContextPlaybackState";
-import { TrackPlaybackState } from "../table/useTableRowPlaybackState";
 import { pageContextUriAtom } from "../common/atoms";
+import halyClient from "../halyClient";
+import { TrackPlaybackState } from "../table/useTableRowPlaybackState";
+import { ContextPlaybackState } from "./useContextPlaybackState";
 
 type TrackUri = TrackDto["uri"];
 
@@ -18,6 +19,13 @@ export function useTrackPlaybackActions(state: TrackPlaybackState, track: TrackD
         return {
             togglePlayback: undefined,
             updatePlayback: undefined,
+        };
+    }
+
+    if (!track.isPlayable) {
+        return {
+            togglePlayback: () => toast.success("This content is not available."),
+            updatePlayback: () => toast("This content is not available."),
         };
     }
 

@@ -9,6 +9,7 @@ export const theme = {
         primary600: "#cfba01",
         primary700: "#baa701",
 
+        // todo: is this even used?
         secondary300: "#6AA9F6",
         secondary400: "#509BF5",
         secondary500: "#3B8EF4",
@@ -30,6 +31,7 @@ export const theme = {
         black700: "#0a0a0a",
         black800: "#000000",
 
+        info400: "#005AA4",
         danger400: "#e91429",
 
         scrollbarThumb: "rgba(255, 255, 255, 0.3)",
@@ -97,6 +99,7 @@ export const theme = {
         dropdownMenuMinWidth: "200px",
         upperMenuHeight: "64px",
         volumeControlWidth: "132px",
+        toasterBottom: "100px",
     },
     tables: {
         headHeight: 36,
