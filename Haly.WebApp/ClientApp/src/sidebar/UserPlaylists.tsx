@@ -1,6 +1,6 @@
 import { PlaylistBriefDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import usePlaybackContextState from "../common/usePlaybackContextState";
+import useContextPlaybackState from "../playback/useContextPlaybackState";
 import UserLibraryLink from "./UserLibraryLink";
 
 type UserPlaylistsProps = {
@@ -8,7 +8,7 @@ type UserPlaylistsProps = {
 };
 
 function UserPlaylists({ playlists }: UserPlaylistsProps) {
-    const getPlaybackState = usePlaybackContextState();
+    const getPlaybackState = useContextPlaybackState();
 
     return (
         <List>

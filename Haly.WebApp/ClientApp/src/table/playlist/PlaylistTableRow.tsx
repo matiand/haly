@@ -4,38 +4,36 @@ import { useAtomValue } from "jotai";
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
-import { PlaybackContextState } from "../../common/usePlaybackContextState";
+import { useTrackPlaybackActions } from "../../common/useStreamingActions";
 import { TrackLikedState } from "../../common/useTableRowLikedState";
-import useTrackPlaybackActions from "../../common/useTrackPlaybackActions";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import useTrackSelection from "../useSelectingTrack";
+import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
 type PlaylistTableRowProps = {
     index: number;
     track: PlaylistTrackDto;
-    contextUri: string;
-    playbackState: PlaybackContextState;
+    playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
     start?: number;
 };
 
-function PlaylistTableRow({ index, track, contextUri, playbackState, likedState, start }: PlaylistTableRowProps) {
+function PlaylistTableRow({ index, track, playbackState, likedState, start }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
     const { isSelected, selectTrack } = useTrackSelection(index);
+    const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
 
     const isListenedTo = playbackState !== "none";
-    const { togglePlayback, updatePlayback } = useTrackPlaybackActions(contextUri, track.uri, playbackState);
-
     const isLocal = !track.id;
 
     return (
         <TableRow
             onClick={selectTrack}
-            onDoubleClick={track.isSong ? updatePlayback : undefined}
+            onDoubleClick={updatePlayback}
             style={{ transform: `translateY(${start}px` }}
             className={clsx({
                 disabled: !track.isPlayable,

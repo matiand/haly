@@ -3,12 +3,12 @@ import { HiSpeakerWave } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
 
 import { styled } from "../common/theme";
-import { PlaybackContextState } from "../common/usePlaybackContextState";
+import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 
 type UserLibraryLinkProps = {
     name: string;
     href: string;
-    playbackState: PlaybackContextState;
+    playbackState: ContextPlaybackState;
 };
 
 function UserLibraryLink({ name, href, playbackState }: UserLibraryLinkProps) {

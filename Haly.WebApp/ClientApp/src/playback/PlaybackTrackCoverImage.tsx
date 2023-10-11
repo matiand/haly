@@ -24,6 +24,8 @@ function PlaybackTrackCoverImage({ imageUrl, trackName, artistName }: PlaybackTr
     const linkLabel = `Now playing: ${trackName} by ${artistName}`;
     const toggle = () => setIsExpanded((prev) => !prev);
 
+    console.log(contextHref);
+
     return (
         <>
             {isExpanded ? (

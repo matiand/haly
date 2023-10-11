@@ -1,18 +1,18 @@
 import clsx from "clsx";
 
 import { TrackDto } from "../../../generated/haly";
-import { PlaybackContextState } from "../../common/usePlaybackContextState";
 import { TrackLikedState } from "../../common/useTableRowLikedState";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import useSelectingTrack from "../useSelectingTrack";
+import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
 type QueueTableRowProps = {
     index: number;
     track: TrackDto;
-    playbackState: PlaybackContextState;
+    playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
 };
 

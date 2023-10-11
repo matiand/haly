@@ -26,14 +26,13 @@ type PlaylistTableProps = {
 const FETCH_MORE_THRESHOLD = 50;
 
 function PlaylistTable({
-    playlistId,
     items,
     total,
     fetchMoreItems,
     keepInitialPositionIndex,
     isLikedSongsCollection,
 }: PlaylistTableProps) {
-    const getTableRowPlaybackState = useTableRowPlaybackState(isLikedSongsCollection ? "collection" : playlistId);
+    const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
 
     const { ref, isSticky } = useStickyTableHead();
@@ -95,7 +94,6 @@ function PlaylistTable({
                                 key={idx}
                                 index={trackIdx}
                                 track={track}
-                                contextUri={`spotify:playlist:${playlistId}`}
                                 playbackState={getTableRowPlaybackState(track.playbackId)}
                                 likedState={getTableRowLikedState(track.id, track.playbackId)}
                                 start={virtualItem.start}

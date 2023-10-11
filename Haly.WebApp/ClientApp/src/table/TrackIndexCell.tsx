@@ -4,13 +4,13 @@ import { MdPodcasts } from "react-icons/md";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import { PlaybackContextState } from "../common/usePlaybackContextState";
 import AnimatedMusicBars from "../ui/AnimatedMusicBars";
+import { TrackPlaybackState } from "./useTableRowPlaybackState";
 
 type TrackIndexCellProps = {
     index: number;
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
-    playbackState: PlaybackContextState;
+    playbackState: TrackPlaybackState;
     playbackAction?: () => void;
 };
 

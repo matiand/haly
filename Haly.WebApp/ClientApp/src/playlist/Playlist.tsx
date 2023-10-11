@@ -10,9 +10,10 @@ import {
     userIdAtom,
 } from "../common/atoms";
 import { theme } from "../common/theme";
-import usePlaybackContextState from "../common/usePlaybackContextState";
+import { useContextPlaybackActions } from "../common/useStreamingActions";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
+import useContextPlaybackState from "../playback/useContextPlaybackState";
 import SearchBar from "../search/SearchBar";
 import HeartButton from "../ui/HeartButton";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
@@ -36,20 +37,23 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
     const setSelectedTrackIndices = useSetAtom(selectedTrackIndicesAtom);
     const userId = useAtomValue(userIdAtom);
-    const getPlaybackState = usePlaybackContextState();
+
+    const contextId = isLikedSongsCollection ? "collection" : id;
+    const getPlaybackState = useContextPlaybackState();
+    const playbackState = getPlaybackState(contextId);
+    const { togglePlayback } = useContextPlaybackActions(playbackState);
 
     useEffect(() => {
         if (query.data) {
-            const { id, name, imageUrl } = query.data;
+            const { name, imageUrl } = query.data;
             setPageContext({
+                id: contextId,
+                type: isLikedSongsCollection ? "user" : "playlist",
                 title: name,
                 imageUrl: imageUrl,
-                onPlayback: () => {
-                    console.log("Play:", id);
-                },
             });
         }
-    }, [query.data, setPageContext]);
+    }, [query.data, contextId, isLikedSongsCollection, setPageContext]);
 
     useEffect(() => {
         return () => {
@@ -63,7 +67,6 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
     const playlist = query.data;
 
-    const playbackState = getPlaybackState(isLikedSongsCollection ? "collection" : playlist.id);
     const hasTracks = query.data.tracks.total > 0;
     const isOwnedByCurrentUser = playlist.owner.id === userId;
     const dominantColor = isLikedSongsCollection
@@ -109,7 +112,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                 isPersonalized={playlist.isPersonalized}
             />
             <PageControls>
-                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={() => 1} />
+                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
 
                 {!isOwnedByCurrentUser && (
                     <HeartButton

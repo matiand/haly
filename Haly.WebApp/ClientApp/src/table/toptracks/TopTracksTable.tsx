@@ -12,9 +12,9 @@ type TopTracksTableProps = {
     items: TrackDto[];
 };
 
-function TopTracksTable({ artistId, items }: TopTracksTableProps) {
+function TopTracksTable({ items }: TopTracksTableProps) {
     const [showMore, setShowMore] = useState(false);
-    const getTableRowPlaybackState = useTableRowPlaybackState(artistId);
+    const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
 
     const showButton = items.length > 5;

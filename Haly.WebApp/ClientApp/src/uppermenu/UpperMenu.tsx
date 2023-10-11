@@ -28,7 +28,7 @@ function UpperMenu() {
             </Background>
 
             <ContextDetails css={showDetails ? { opacity: 1, visibility: "visible", pointerEvents: "all" } : {}}>
-                {pageContext.onPlayback && <PlaybackToggle size="medium" isPaused toggle={() => 1} />}
+                {/*{pageContext.onPlayback && <PlaybackToggle size="medium" isPaused toggle={() => 1} />}*/}
                 <span className="line-clamp-ellipsis">{pageContext.title}</span>
             </ContextDetails>
 

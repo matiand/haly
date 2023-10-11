@@ -34,14 +34,6 @@ export const playlistSearchTermAtom = atom<string>("");
 export const playlistSliceDurationAtom = atom<string | null>(null);
 export const playlistSliceSongsTotalAtom = atom<number | null>(null);
 
-export type PageContext = {
-    title: string;
-    // Needed for accessing its dominant color
-    imageUrl?: string | null;
-    onPlayback?: () => void;
-};
-export const pageContextAtom = atom<PageContext | null>(null);
-
 export type PlaybackContext = {
     id: string;
     name: string;
@@ -49,6 +41,26 @@ export type PlaybackContext = {
     isShuffled: boolean;
     repeatMode: "off" | "track" | "context";
 };
+
+export type PageContext = {
+    id: string;
+    title: string;
+    type: PlaybackContext["type"];
+    // Needed for accessing its dominant color
+    imageUrl?: string | null;
+};
+export const pageContextAtom = atom<PageContext | null>(null);
+export const pageContextIdAtom = atom((get) => get(pageContextAtom)?.id);
+export const pageContextUriAtom = atom((get) => {
+    // I'm using PageContext, because it's always available on relevant pages, unlike PlaybackContext.
+    const pageContext = get(pageContextAtom);
+    if (!pageContext) return "";
+
+    const userId = get(userIdAtom);
+    if (pageContext.type === "user") return `spotify:user:${userId}:collection`;
+
+    return `spotify:${pageContext.type}:${pageContext.id}`;
+});
 
 export type StreamedTrack = {
     // They don't give us the actual id of streamed track.

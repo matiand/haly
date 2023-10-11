@@ -24,8 +24,10 @@ function Artist() {
 
     useEffect(() => {
         if (query.data) {
-            const { name, imageUrl } = query.data;
+            const { id, name, imageUrl } = query.data;
             setPageContext({
+                id,
+                type: "artist",
                 title: name,
                 imageUrl: imageUrl,
             });

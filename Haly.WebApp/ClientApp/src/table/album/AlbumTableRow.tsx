@@ -3,17 +3,17 @@ import { LuDisc } from "react-icons/lu";
 
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
-import { PlaybackContextState } from "../../common/usePlaybackContextState";
 import { TrackLikedState } from "../../common/useTableRowLikedState";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import useSelectingTrack from "../useSelectingTrack";
+import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
 type TrackRowProps = {
     index: number;
     track: AlbumTrackDto;
-    playbackState: PlaybackContextState;
+    playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
 };
 

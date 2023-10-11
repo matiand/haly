@@ -5,9 +5,10 @@ import { Link, useParams } from "react-router-dom";
 
 import { dominantColorsAtom, pageContextAtom, selectedTrackIndicesAtom } from "../common/atoms";
 import { pluralize } from "../common/pluralize";
-import usePlaybackContextState from "../common/usePlaybackContextState";
+import { useContextPlaybackActions } from "../common/useStreamingActions";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
+import useContextPlaybackState from "../playback/useContextPlaybackState";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
 import LoadingIndicator from "../ui/LoadingIndicator";
@@ -23,17 +24,19 @@ function Album() {
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setSelectedTrackIndices = useSetAtom(selectedTrackIndicesAtom);
-    const getPlaybackState = usePlaybackContextState();
+
+    const getPlaybackState = useContextPlaybackState();
+    const playbackState = getPlaybackState(id!);
+    const { togglePlayback } = useContextPlaybackActions(playbackState);
 
     useEffect(() => {
         if (query.data) {
             const { id, name, imageUrl } = query.data;
             setPageContext({
+                id,
+                type: "album",
                 title: name,
                 imageUrl: imageUrl,
-                onPlayback: () => {
-                    console.log("Play:", id);
-                },
             });
         }
 
@@ -61,7 +64,6 @@ function Album() {
 
     const dominantColor = dominantColors[imageUrl ?? ""];
     const isPlayable = tracks.some((t) => t.isPlayable);
-    const playbackState = getPlaybackState(albumId);
 
     return (
         <div>
@@ -87,7 +89,9 @@ function Album() {
             </PageHeader>
 
             <PageControls>
-                {isPlayable && <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={() => 1} />}
+                {isPlayable && (
+                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
+                )}
                 <MoreOptionsButton label={`More options for album: '${name}'`} type="album" />
             </PageControls>
 

@@ -17,8 +17,8 @@ type AlbumTableProps = {
     items: AlbumTrackDto[];
 };
 
-function AlbumTable({ albumId, items }: AlbumTableProps) {
-    const getTableRowPlaybackState = useTableRowPlaybackState(albumId);
+function AlbumTable({ items }: AlbumTableProps) {
+    const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
     const { ref, isSticky } = useStickyTableHead();
 
