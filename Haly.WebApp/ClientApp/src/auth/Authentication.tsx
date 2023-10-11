@@ -15,7 +15,6 @@ function Authentication(props: AuthenticationProps) {
     const isTokenExpirationHandlerRegistered = useRef(false);
     const refreshToken = useRefreshTokenMutation();
 
-    console.log("debug auth user", auth.user);
     console.log("debug auth user", auth.user?.expires_in);
 
     // Normally automatic token renewals in 'auth' are enabled by default.
@@ -40,7 +39,7 @@ function Authentication(props: AuthenticationProps) {
     useEffect(() => {
         if (auth.isAuthenticated && auth.user?.access_token) {
             // Web Playback SDK uses a fn for retrieving an access token, it calls that fn
-            // internally so it's hard for use to manage that. That's why we store it in
+            // internally so it's hard for us to manage that. That's why we store it in
             // local storage.
             localStorage.setItem("spotifyToken", auth.user.access_token);
         }

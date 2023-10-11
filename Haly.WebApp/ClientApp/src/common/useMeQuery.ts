@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
+import { useCallback, useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 
 import { ResponseError } from "../../generated/haly";
@@ -7,14 +8,11 @@ import halyClient from "../halyClient";
 import { userAtom } from "./atoms";
 
 function useMeQuery() {
-    const auth = useAuth();
     const setUser = useSetAtom(userAtom);
+    const auth = useAuth();
     const accessToken = auth.user!.access_token;
 
-    // This is actually a PUT request, but we treat it as a query, because it's idempotent and we want
-    // to have the user up to date.
-    const meQuery = useQuery(
-        ["me"],
+    const queryFn = useCallback(
         () =>
             halyClient.me
                 .putCurrentUser({ body: accessToken })
@@ -30,8 +28,19 @@ function useMeQuery() {
                         }
                     }
                 }),
-        { refetchOnWindowFocus: "always" },
+        [accessToken, setUser, auth],
     );
+
+    // This is actually a PUT request, but we treat it as a query, because it's idempotent and it's
+    // easier to manage it that way.
+    const meQuery = useQuery(["me"], queryFn, { refetchOnWindowFocus: "always" });
+
+    useEffect(() => {
+        if (meQuery.isFetched) {
+            console.log("Token was refreshed, updating user...");
+            meQuery.refetch();
+        }
+    }, [accessToken, meQuery]);
 
     return meQuery;
 }
