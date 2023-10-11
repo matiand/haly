@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { TrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
-import useTableRowLikedState from "../../common/useTableRowLikedState";
 import * as Table from "../Table";
+import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import TopTracksTableRow from "./TopTracksTableRow";
 

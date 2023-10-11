@@ -4,11 +4,11 @@ import { Fragment } from "react";
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import useMainScrollArea from "../../common/useMainScrollArea";
-import useTableRowLikedState from "../../common/useTableRowLikedState";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
 import useScrollToTrack from "../useScrollToTrack";
 import useStickyTableHead from "../useStickyTableHead";
+import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 

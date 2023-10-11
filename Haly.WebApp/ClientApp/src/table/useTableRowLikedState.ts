@@ -1,8 +1,8 @@
-import { useAtomValue } from "jotai/index";
+import { useAtomValue } from "jotai";
 import { useCallback } from "react";
 
 import { TrackDto } from "../../generated/haly";
-import { likedSongIdByPlaybackIdAtom } from "./atoms";
+import { likedSongIdByPlaybackIdAtom } from "../common/atoms";
 
 export type TrackLikedState = {
     likedId: TrackDto["id"] | TrackDto["playbackId"];

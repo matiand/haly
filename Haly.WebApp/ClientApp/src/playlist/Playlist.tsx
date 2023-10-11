@@ -10,7 +10,7 @@ import {
     userIdAtom,
 } from "../common/atoms";
 import { theme } from "../common/theme";
-import { useContextPlaybackActions } from "../common/useStreamingActions";
+import { useContextPlaybackActions } from "../common/usePlaybackActions";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";

@@ -3,8 +3,8 @@ import { useAtomValue } from "jotai";
 import { TrackDto } from "../../../generated/haly";
 import { streamedTrackAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
-import useTableRowLikedState from "../../common/useTableRowLikedState";
 import * as Table from "../Table";
+import useTableRowLikedState from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 import QueueTableRow from "./QueueTableRow";
 

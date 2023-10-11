@@ -1,10 +1,10 @@
 import clsx from "clsx";
 
 import { TrackDto } from "../../../generated/haly";
-import { TrackLikedState } from "../../common/useTableRowLikedState";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
+import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
 type TrackRowProps = {

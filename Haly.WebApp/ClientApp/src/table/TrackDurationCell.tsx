@@ -3,9 +3,9 @@ import clsx from "clsx";
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import { FollowMutationParams } from "../common/useFollowMutations";
-import { TrackLikedState } from "../common/useTableRowLikedState";
 import HeartButton from "../ui/HeartButton";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
+import { TrackLikedState } from "./useTableRowLikedState";
 
 type TrackDurationCellProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
