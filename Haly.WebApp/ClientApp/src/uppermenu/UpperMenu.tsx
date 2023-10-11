@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 
 import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import { styled } from "../common/theme";
-import PlaybackToggle from "../playback/PlaybackToggle";
+import UpperMenuControls from "./UpperMenuControls";
 import useDynamicBackground from "./useDynamicBackground";
 import UserDropdownMenu from "./UserDropdownMenu";
 
@@ -23,12 +23,27 @@ function UpperMenu() {
 
     return (
         <Header aria-label="User menu">
-            <Background css={{ $$color: color, opacity }}>
+            <Background
+                css={{
+                    $$color: color,
+                    opacity,
+                }}
+            >
                 <div />
             </Background>
 
-            <ContextDetails css={showDetails ? { opacity: 1, visibility: "visible", pointerEvents: "all" } : {}}>
-                {/*{pageContext.onPlayback && <PlaybackToggle size="medium" isPaused toggle={() => 1} />}*/}
+            <ContextDetails
+                css={
+                    showDetails
+                        ? {
+                              opacity: 1,
+                              visibility: "visible",
+                              pointerEvents: "all",
+                          }
+                        : {}
+                }
+            >
+                {pageContext.id && <UpperMenuControls contextId={pageContext.id} />}
                 <span className="line-clamp-ellipsis">{pageContext.title}</span>
             </ContextDetails>
 

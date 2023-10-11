@@ -36,7 +36,8 @@ const HeaderWrapper = styled("div", {
         borderRadius: "50%",
         gridArea: "img",
         height: "$$imgSize",
-        objectFit: "center",
+        objectFit: "cover",
+        objectPosition: "center center",
         width: "$$imgSize",
     },
 

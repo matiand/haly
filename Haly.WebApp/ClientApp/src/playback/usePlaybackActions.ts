@@ -86,5 +86,3 @@ function usePlaybackActions(state: ContextPlaybackState | TrackPlaybackState, tr
         updatePlayback,
     };
 }
-
-export default usePlaybackActions;
