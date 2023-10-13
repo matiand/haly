@@ -1,7 +1,8 @@
-import { styled } from "../../common/theme";
-import { Link, useNavigate } from "react-router-dom";
 import { KeyboardEventHandler } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { PlaylistCardDto } from "../../../generated/haly";
+import { styled } from "../../common/theme";
 
 type CardProps = {
     id: string;
@@ -54,6 +55,7 @@ const Wrapper = styled("div", {
     gridTemplateColumns: "auto 1fr",
     userSelect: "none",
 });
+
 const ImageWrapper = styled("div", {
     cursor: "pointer",
     height: `${imgSize}px`,
@@ -61,12 +63,15 @@ const ImageWrapper = styled("div", {
 
     "& > img": {
         borderRadius: "4px",
+        objectFit: "cover",
+        objectPosition: "center center",
 
         "&[data-is-rounded=true]": {
             borderRadius: "50%",
         },
     },
 });
+
 const ContentWrapper = styled("div", {
     alignSelf: "center",
 
@@ -83,9 +88,11 @@ const ContentWrapper = styled("div", {
         },
     },
 });
+
 const Subtitle = styled("div", {
     color: "$white500",
     fontSize: "$200",
     fontWeight: 500,
 });
+
 export default MiniCard;
