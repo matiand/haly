@@ -5,7 +5,8 @@ using MediatR;
 
 namespace Haly.WebApp.Features.Player.UpdatePlayback;
 
-public record UpdatePlaybackCommand(string ContextUri, string? TrackUri) : IRequest<UpdatePlaybackResponse>;
+public record UpdatePlaybackCommand(string ContextUri, string? TrackUri, bool WithImprovedShuffle)
+    : IRequest<UpdatePlaybackResponse>;
 
 public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackCommand, UpdatePlaybackResponse>
 {
@@ -33,6 +34,20 @@ public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackComman
             throw;
         }
 
+        await HandleShuffleFlag(request);
+
         return new UpdatePlaybackResponse(IsAvailable: true);
+    }
+
+    private async Task HandleShuffleFlag(UpdatePlaybackCommand request)
+    {
+        if (request.WithImprovedShuffle)
+        {
+            var playbackState = await _spotify.GetPlaybackState();
+            if (playbackState?.IsShuffled ?? false)
+            {
+                await _spotify.ShufflePlayback(state: true);
+            }
+        }
     }
 }

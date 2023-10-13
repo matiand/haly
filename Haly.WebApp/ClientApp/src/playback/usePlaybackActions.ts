@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import toast from "react-hot-toast";
 
 import { Problem, PutPlaybackRequest, ResponseError, TrackDto } from "../../generated/haly";
-import { pageContextUriAtom } from "../common/atoms";
+import { pageContextUriAtom, persistedWithImprovedShuffleAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import { TrackPlaybackState } from "../table/useTableRowPlaybackState";
 import { ContextPlaybackState } from "./useContextPlaybackState";
@@ -51,33 +51,38 @@ type TogglePlaybackMutationParam = {
 type UpdatePlaybackMutationParam = {
     contextUri: string;
     trackUri: TrackUri;
+    withImprovedShuffle: boolean;
 };
 
 function usePlaybackActions(state: ContextPlaybackState | TrackPlaybackState, trackUri?: TrackUri) {
     const contextUri = useAtomValue(pageContextUriAtom);
+    const withImprovedShuffle = useAtomValue(persistedWithImprovedShuffleAtom);
 
     const togglePlaybackMutation = useMutation(({ state }: TogglePlaybackMutationParam) => {
         return state === "playing" ? halyClient.player.pause() : halyClient.player.play();
     });
 
-    const updatePlaybackMutation = useMutation(async ({ contextUri, trackUri }: UpdatePlaybackMutationParam) => {
-        const body: PutPlaybackRequest = {
-            contextUri,
-            trackUri,
-        };
+    const updatePlaybackMutation = useMutation(
+        async ({ contextUri, trackUri, withImprovedShuffle }: UpdatePlaybackMutationParam) => {
+            const body: PutPlaybackRequest = {
+                contextUri,
+                trackUri,
+                withImprovedShuffle,
+            };
 
-        try {
-            return await halyClient.player.putPlayback({ putPlaybackRequest: body });
-        } catch (e) {
-            if (e instanceof ResponseError && e.response.status === 404) {
-                const problem: Problem = await e.response.json();
-                toast(problem.title);
+            try {
+                return await halyClient.player.putPlayback({ putPlaybackRequest: body });
+            } catch (e) {
+                if (e instanceof ResponseError && e.response.status === 404) {
+                    const problem: Problem = await e.response.json();
+                    toast(problem.title);
 
-                return;
+                    return;
+                }
+                throw e;
             }
-            throw e;
-        }
-    });
+        },
+    );
 
     const togglePlayback = useCallback(() => togglePlaybackMutation.mutate({ state }), [state, togglePlaybackMutation]);
 
@@ -86,8 +91,9 @@ function usePlaybackActions(state: ContextPlaybackState | TrackPlaybackState, tr
             updatePlaybackMutation.mutate({
                 contextUri,
                 trackUri,
+                withImprovedShuffle,
             }),
-        [contextUri, trackUri, updatePlaybackMutation],
+        [contextUri, trackUri, updatePlaybackMutation, withImprovedShuffle],
     );
 
     return {

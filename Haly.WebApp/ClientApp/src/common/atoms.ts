@@ -11,6 +11,14 @@ export const persistedSidebarWidthAtom = atom(
         localStorage.setItem("sidebarWidth", newValue.toString());
     },
 );
+const withImprovedShuffleAtom = atom<boolean>(localStorage.getItem("withImprovedShuffle") === "true");
+export const persistedWithImprovedShuffleAtom = atom(
+    (get) => get(withImprovedShuffleAtom),
+    (_, set, newValue: boolean) => {
+        set(withImprovedShuffleAtom, newValue);
+        localStorage.setItem("withImprovedShuffle", newValue.toString());
+    },
+);
 
 export const cachedPlaylistIdsAtom = atom<string[] | null>(null);
 export const isPlaylistCachedAtom = (playlistId: string) =>

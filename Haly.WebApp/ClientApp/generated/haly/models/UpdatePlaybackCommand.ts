@@ -31,6 +31,12 @@ export interface UpdatePlaybackCommand {
      * @memberof UpdatePlaybackCommand
      */
     trackUri?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdatePlaybackCommand
+     */
+    withImprovedShuffle: boolean;
 }
 
 /**
@@ -39,6 +45,7 @@ export interface UpdatePlaybackCommand {
 export function instanceOfUpdatePlaybackCommand(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "contextUri" in value;
+    isInstance = isInstance && "withImprovedShuffle" in value;
 
     return isInstance;
 }
@@ -55,6 +62,7 @@ export function UpdatePlaybackCommandFromJSONTyped(json: any, ignoreDiscriminato
         
         'contextUri': json['contextUri'],
         'trackUri': !exists(json, 'trackUri') ? undefined : json['trackUri'],
+        'withImprovedShuffle': json['withImprovedShuffle'],
     };
 }
 
@@ -69,6 +77,7 @@ export function UpdatePlaybackCommandToJSON(value?: UpdatePlaybackCommand | null
         
         'contextUri': value.contextUri,
         'trackUri': value.trackUri,
+        'withImprovedShuffle': value.withImprovedShuffle,
     };
 }
 

@@ -9,7 +9,8 @@ public class CurrentlyPlayingObjectProfile : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.ForType<CurrentlyPlayingContextObject, PlaybackState>()
-            .Map(dest => dest.Context, src => GetPlaybackContext(src.Context));
+            .Map(dest => dest.Context, src => GetPlaybackContext(src.Context))
+            .Map(dest => dest.IsShuffled, src => src.Shuffle_state);
     }
 
     private static PlaybackContext? GetPlaybackContext(ContextObject? src)

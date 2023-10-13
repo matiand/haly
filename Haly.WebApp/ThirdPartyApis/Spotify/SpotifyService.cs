@@ -316,16 +316,16 @@ public sealed class SpotifyService : ISpotifyService
         return tracks.Where(t => t.IsSong).ToList();
     }
 
-    public async Task FollowCreator(CreatorType creatorType, string creatorId)
+    public Task FollowCreator(CreatorType creatorType, string creatorId)
     {
         var type = creatorType is CreatorType.Artist ? Type2.Artist : Type2.User;
-        await _spotifyClient.FollowArtistsUsersAsync(type, creatorId);
+        return _spotifyClient.FollowArtistsUsersAsync(type, creatorId);
     }
 
-    public async Task UnfollowCreator(CreatorType creatorType, string creatorId)
+    public Task UnfollowCreator(CreatorType creatorType, string creatorId)
     {
         var type = creatorType is CreatorType.Artist ? Type3.Artist : Type3.User;
-        await _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
+        return _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
     }
 
     public Task FollowPlaylist(string id)

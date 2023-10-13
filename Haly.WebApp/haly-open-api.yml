@@ -1812,6 +1812,7 @@ components:
     UpdatePlaybackCommand:
       required:
         - contextUri
+        - withImprovedShuffle
       type: object
       properties:
         contextUri:
@@ -1819,6 +1820,8 @@ components:
         trackUri:
           type: string
           nullable: true
+        withImprovedShuffle:
+          type: boolean
       additionalProperties: false
     UserFeedDto:
       required:

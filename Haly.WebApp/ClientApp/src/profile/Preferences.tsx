@@ -1,5 +1,7 @@
+import { useAtom } from "jotai";
 import { useState } from "react";
 
+import { persistedWithImprovedShuffleAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/usePlaylistSortOrder";
 import Checkbox from "./Checkbox";
@@ -7,7 +9,7 @@ import Select from "./Select";
 
 function Preferences() {
     const [hasAccurateColors, setHasAccurateColors] = useState(true);
-    const [hasCustomShuffle, setHasCustomShuffle] = useState(false);
+    const [withImprovedShuffle, setWithImprovedShuffle] = useAtom(persistedWithImprovedShuffleAtom);
     const { globalSortOrder, setGlobalSortOrder } = useGlobalSortOrder();
 
     const sortingOptions: Record<PlaylistSortOrder, string> = {
@@ -44,7 +46,7 @@ function Preferences() {
                 <Checkbox
                     id="performance.c1"
                     label="Use more accurate colors for page header backgrounds"
-                    onChange={() => null}
+                    onChange={() => setHasAccurateColors((prev) => !prev)}
                     defaultValue={hasAccurateColors}
                 />
             </div>
@@ -53,9 +55,9 @@ function Preferences() {
                 <h2>Playback</h2>
                 <Checkbox
                     id="playback.c1"
-                    label="Use custom shuffle algorithm"
-                    onChange={() => null}
-                    defaultValue={hasCustomShuffle}
+                    label="Improve shuffling of tracks"
+                    onChange={() => setWithImprovedShuffle(!withImprovedShuffle)}
+                    defaultValue={withImprovedShuffle}
                 />
             </div>
         </Section>
@@ -68,6 +70,10 @@ const Section = styled("section", {
     gap: "$700",
     margin: "0 auto",
     maxWidth: "900px",
+
+    label: {
+        userSelect: "none",
+    },
 
     "&&&": {
         paddingTop: "$700",

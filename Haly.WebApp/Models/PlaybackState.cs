@@ -4,6 +4,7 @@ public record PlaybackState
 {
     public Device Device { get; set; }
     public PlaybackContext? Context { get; set; }
+    public bool IsShuffled { get; set; }
 }
 
 public record PlaybackContext

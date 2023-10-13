@@ -38,6 +38,12 @@ export interface PutPlaybackRequest {
      * @memberof PutPlaybackRequest
      */
     trackUri?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PutPlaybackRequest
+     */
+    withImprovedShuffle: boolean;
 }
 
 /**
@@ -46,6 +52,7 @@ export interface PutPlaybackRequest {
 export function instanceOfPutPlaybackRequest(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "contextUri" in value;
+    isInstance = isInstance && "withImprovedShuffle" in value;
 
     return isInstance;
 }
@@ -62,6 +69,7 @@ export function PutPlaybackRequestFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'contextUri': json['contextUri'],
         'trackUri': !exists(json, 'trackUri') ? undefined : json['trackUri'],
+        'withImprovedShuffle': json['withImprovedShuffle'],
     };
 }
 
@@ -76,6 +84,7 @@ export function PutPlaybackRequestToJSON(value?: PutPlaybackRequest | null): any
         
         'contextUri': value.contextUri,
         'trackUri': value.trackUri,
+        'withImprovedShuffle': value.withImprovedShuffle,
     };
 }
 

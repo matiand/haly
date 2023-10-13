@@ -24,6 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ISpotifyEndpointCollector, SpotifyEndpointCollector>();
 builder.Services.AddHttpClient<ISpotifyService, SpotifyService>().AddExponentialRetryPolicy();
+builder.Services.AddHttpClient<ISpotifyPlaybackService, SpotifyPlaybackService>().AddExponentialRetryPolicy();
 
 builder.Services.AddSingleton<CurrentUserStore>();
 builder.Services.AddSingleton<ValidateAccessTokenFilterService>();
