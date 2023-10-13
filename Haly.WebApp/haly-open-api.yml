@@ -200,7 +200,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /me/Following/creators/contains:
+  /Me/Following/creators/contains:
     get:
       tags:
         - Following
@@ -242,7 +242,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  '/me/Following/creators/{id}':
+  '/Me/Following/creators/{id}':
     put:
       tags:
         - Following
@@ -319,7 +319,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  '/me/Following/playlists/{id}':
+  '/Me/Following/playlists/{id}':
     put:
       tags:
         - Following
@@ -386,7 +386,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /me/Following/tracks:
+  /Me/Following/tracks:
     put:
       tags:
         - Following
@@ -1023,6 +1023,12 @@ paths:
       responses:
         '202':
           description: Accepted
+        '404':
+          description: Content is not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '400':
           description: Bad request
           content:

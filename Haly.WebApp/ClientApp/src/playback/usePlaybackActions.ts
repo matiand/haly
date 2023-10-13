@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 
-import { PutPlaybackRequest, TrackDto } from "../../generated/haly";
+import { Problem, PutPlaybackRequest, ResponseError, TrackDto } from "../../generated/haly";
 import { pageContextUriAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import { TrackPlaybackState } from "../table/useTableRowPlaybackState";
@@ -24,7 +24,7 @@ export function useTrackPlaybackActions(state: TrackPlaybackState, track: TrackD
 
     if (!track.isPlayable) {
         return {
-            togglePlayback: () => toast.success("This content is not available."),
+            togglePlayback: () => toast("This content is not available."),
             updatePlayback: () => toast("This content is not available."),
         };
     }
@@ -60,14 +60,23 @@ function usePlaybackActions(state: ContextPlaybackState | TrackPlaybackState, tr
         return state === "playing" ? halyClient.player.pause() : halyClient.player.play();
     });
 
-    const updatePlaybackMutation = useMutation(({ contextUri, trackUri }: UpdatePlaybackMutationParam) => {
+    const updatePlaybackMutation = useMutation(async ({ contextUri, trackUri }: UpdatePlaybackMutationParam) => {
         const body: PutPlaybackRequest = {
             contextUri,
             trackUri,
         };
 
-        console.log("updatePlayback", contextUri, trackUri);
-        return halyClient.player.putPlayback({ putPlaybackRequest: body });
+        try {
+            return await halyClient.player.putPlayback({ putPlaybackRequest: body });
+        } catch (e) {
+            if (e instanceof ResponseError && e.response.status === 404) {
+                const problem: Problem = await e.response.json();
+                toast(problem.title);
+
+                return;
+            }
+            throw e;
+        }
     });
 
     const togglePlayback = useCallback(() => togglePlaybackMutation.mutate({ state }), [state, togglePlaybackMutation]);

@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Player;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Features.Player.GetPlaybackState;
@@ -116,10 +117,12 @@ public class PlayerController : ApiControllerBase
     [HttpPut("playback")]
     [SwaggerOperation(Summary = "Start new playback context")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
+    [SwaggerResponse(statusCode: 404, "Content is not available", typeof(Problem))]
     [CallsSpotifyApi(SpotifyScopes.UserReadPlaybackState, SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> PutPlayback(UpdatePlaybackCommand command)
+    public async Task<IActionResult> PutPlayback(UpdatePlaybackCommand command)
     {
-        await Mediator.Send(command);
+        var response = await Mediator.Send(command);
+        if (!response.IsAvailable) return ProblemResponses.NotFound("Content is not available.");
 
         return Accepted();
     }
