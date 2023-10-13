@@ -32,9 +32,9 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Transfer playback to a new device")]
     [SwaggerResponse(statusCode: 204, "Playback transferred")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> TransferPlayback(string deviceId, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> TransferPlayback(string deviceId, [FromServices] ISpotifyPlaybackService playbackService)
     {
-        await spotifyService.TransferPlayback(deviceId);
+        await playbackService.TransferPlayback(deviceId);
 
         return NoContent();
     }
@@ -74,9 +74,9 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Toggle shuffle on or off")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> Shuffle(bool state, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> Shuffle(bool state, [FromServices] ISpotifyPlaybackService playbackService)
     {
-        await spotifyService.ShufflePlayback(state);
+        await playbackService.ShufflePlayback(state);
 
         return Accepted();
     }
@@ -96,9 +96,9 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Resume playback of current context")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> Play([FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> Play([FromServices] ISpotifyPlaybackService playbackService)
     {
-        await spotifyService.Play();
+        await playbackService.Play();
 
         return Accepted();
     }
@@ -107,9 +107,9 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Pause playback of current context")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> Pause([FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> Pause([FromServices] ISpotifyPlaybackService playbackService)
     {
-        await spotifyService.Pause();
+        await playbackService.Pause();
 
         return Accepted();
     }

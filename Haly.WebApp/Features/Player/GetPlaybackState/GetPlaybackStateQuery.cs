@@ -8,16 +8,16 @@ public record GetPlaybackStateQuery : IRequest<PlaybackStateDto?>;
 
 public record GetPlaybackStateHandler : IRequestHandler<GetPlaybackStateQuery, PlaybackStateDto?>
 {
-    private readonly ISpotifyService _spotifyService;
+    private readonly ISpotifyPlaybackService _spotify;
 
-    public GetPlaybackStateHandler(ISpotifyService spotifyService)
+    public GetPlaybackStateHandler(ISpotifyPlaybackService spotify)
     {
-        _spotifyService = spotifyService;
+        _spotify = spotify;
     }
 
     public async Task<PlaybackStateDto?> Handle(GetPlaybackStateQuery request, CancellationToken cancellationToken)
     {
-        var playbackState = await _spotifyService.GetPlaybackState();
+        var playbackState = await _spotify.GetPlaybackState();
 
         return playbackState?.Adapt<PlaybackStateDto>();
     }

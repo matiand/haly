@@ -24,7 +24,6 @@ public interface ISpotifyService
     Task<AlbumDetailed> GetAlbum(string albumId, string userMarket);
     Task<SpotifySearchResult> Search(string query, SearchType type, string userMarket);
     Task<List<RecommendedTrack>> GetRecommendations(string userMarket, string? trackIds, string? artistIds);
-    Task<PlaybackState?> GetPlaybackState();
     Task<List<Track>> GetQueue();
     Task<List<Track>> GetRecentlyPlayedTracks();
 
@@ -34,13 +33,7 @@ public interface ISpotifyService
     Task UnfollowPlaylist(string id);
     Task FollowTracks(string ids);
     Task UnfollowTracks(string ids);
-    Task TransferPlayback(string deviceId);
-    Task ShufflePlayback(bool state);
-    Task SetPlaybackRepeatMode(string repeatMode);
-    Task Play();
-    Task Pause();
-    Task UpdatePlayback(string contextUri, string? trackUri);
-    Task UpdatePlayback(IEnumerable<string> trackUri);
+
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);

@@ -9,9 +9,9 @@ public record UpdatePlaybackCommand(string ContextUri, string? TrackUri) : IRequ
 
 public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackCommand, UpdatePlaybackResponse>
 {
-    private readonly ISpotifyService _spotify;
+    private readonly ISpotifyPlaybackService _spotify;
 
-    public UpdatePlaybackCommandHandler(ISpotifyService spotify)
+    public UpdatePlaybackCommandHandler(ISpotifyPlaybackService spotify)
     {
         _spotify = spotify;
     }

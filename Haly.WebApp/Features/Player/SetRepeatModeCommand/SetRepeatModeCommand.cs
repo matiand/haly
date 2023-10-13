@@ -8,16 +8,16 @@ public record SetRepeatModeCommand(string RepeatMode) : IRequest<Unit>;
 
 public class SetRepeatModeCommandHandler : IRequestHandler<SetRepeatModeCommand, Unit>
 {
-    private readonly ISpotifyService _spotifyService;
+    private readonly ISpotifyPlaybackService _spotify;
 
-    public SetRepeatModeCommandHandler(ISpotifyService spotifyService)
+    public SetRepeatModeCommandHandler(ISpotifyPlaybackService spotify)
     {
-        _spotifyService = spotifyService;
+        _spotify = spotify;
     }
 
     public async Task<Unit> Handle(SetRepeatModeCommand request, CancellationToken cancellationToken)
     {
-        await _spotifyService.SetPlaybackRepeatMode(request.RepeatMode);
+        await _spotify.SetPlaybackRepeatMode(request.RepeatMode);
 
         return Unit.Value;
     }
