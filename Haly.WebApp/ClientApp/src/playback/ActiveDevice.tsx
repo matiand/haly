@@ -1,10 +1,23 @@
+import { useAtomValue } from "jotai";
+import { LuLaptop2 } from "react-icons/lu";
+
+import { isTrackPausedAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import AnimatedMusicBars from "../ui/AnimatedMusicBars";
 
 function ActiveDevice({ name }: { name: string }) {
+    const isTrackPaused = useAtomValue(isTrackPausedAtom);
+
     return (
         <Wrapper>
-            <AnimatedMusicBars type="device" />
+            {isTrackPaused ? (
+                <span aria-hidden>
+                    <LuLaptop2 />
+                </span>
+            ) : (
+                <AnimatedMusicBars type="device" />
+            )}
+
             <h3>Current device</h3>
             <p>{name}</p>
         </Wrapper>
@@ -14,14 +27,20 @@ function ActiveDevice({ name }: { name: string }) {
 const Wrapper = styled("div", {
     alignItems: "center",
     display: "grid",
-    gridTemplateAreas: `"bars heading" "bars name"`,
+    gridTemplateAreas: `"device heading" "device name"`,
     gridTemplateColumns: "auto 1fr",
     rowGap: "$100",
     zIndex: "$deviceDropdown",
 
     "& > :first-child": {
-        gridArea: "bars",
+        color: "$primary400",
+        gridArea: "device",
         marginRight: "$600",
+
+        svg: {
+            height: "$deviceDropdownIconSize",
+            width: "$deviceDropdownIconSize",
+        },
     },
 
     h3: {

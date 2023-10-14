@@ -73,8 +73,8 @@ const Item = styled(DropdownMenu.ItemBase, {
     },
 
     "& > span, & svg": {
-        height: "32px",
-        width: "32px",
+        height: "$deviceDropdownIconSize",
+        width: "$deviceDropdownIconSize",
     },
 });
 

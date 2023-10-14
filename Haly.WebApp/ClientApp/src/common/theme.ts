@@ -100,6 +100,7 @@ export const theme = {
         upperMenuHeight: "64px",
         volumeControlWidth: "132px",
         toasterBottom: "100px",
+        deviceDropdownIconSize: "32px",
     },
     tables: {
         headHeight: 36,
