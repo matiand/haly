@@ -19,6 +19,7 @@ public class GetRecentlyPlayedQueryHandler : IRequestHandler<GetRecentlyPlayedQu
     {
         var items = await _spotify.GetRecentlyPlayedTracks();
 
-        return items.Adapt<IEnumerable<TrackDto>>();
+        // This list is often buggy and can contain multiple duplicates in a row.
+        return items.DistinctBy(t => t.Id).Adapt<IEnumerable<TrackDto>>();
     }
 }

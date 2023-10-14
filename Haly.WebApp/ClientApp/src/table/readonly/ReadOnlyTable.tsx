@@ -52,6 +52,11 @@ const TableRoot = styled(Table.Root, {
         color: "$white400",
         justifySelf: "end",
     },
+
+    // Fix first cell being hidden on hover.
+    "&& tr:hover > td:nth-of-type(1) > div > div": {
+        display: "grid",
+    },
 });
 
 export default ReadOnlyTable;
