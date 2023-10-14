@@ -27,7 +27,7 @@ function Album() {
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(id!);
-    const { togglePlayback } = useContextPlaybackActions(playbackState);
+    const { playbackAction } = useContextPlaybackActions(playbackState);
 
     useEffect(() => {
         if (query.data) {
@@ -90,7 +90,7 @@ function Album() {
 
             <PageControls>
                 {isPlayable && (
-                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
+                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                 )}
                 <MoreOptionsButton label={`More options for album: '${name}'`} type="album" />
             </PageControls>

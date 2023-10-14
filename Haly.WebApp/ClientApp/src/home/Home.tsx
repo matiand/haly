@@ -23,7 +23,7 @@ function Home() {
             href: `/playlist/${p.id}`,
             imageUrl: p.imageUrl,
             subtitle: p.description ?? "",
-            isPlayable: true,
+            contextUri: `spotify:playlist:${p.id}`,
             hasRoundedImage: false,
         };
     });
@@ -45,7 +45,7 @@ function Home() {
                     href: `/album/${a.id}`,
                     imageUrl: a.imageUrl,
                     subtitle: a.artists.map((artist) => artist.name).join(", "),
-                    isPlayable: false,
+                    contextUri: `spotify:album:${a.id}`,
                     hasRoundedImage: false,
                 }));
 

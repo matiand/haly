@@ -79,8 +79,8 @@ const mapToCards = (items: ReleaseItemDto[]) => {
         subtitle: i.type,
         imageUrl: i.imageUrl,
         href: `/album/${i.id}`,
+        contextUri: `spotify:album:${i.id}`,
         hasRoundedImage: false,
-        isPlayable: true,
         isHighlighted: i.type === "Album",
     }));
 };

@@ -17,7 +17,6 @@ function AllMyFollowedArtistCards() {
             imageUrl: f.imageUrl,
             href: `/artist/${f.id}`,
             hasRoundedImage: true,
-            isPlayable: false,
         };
     });
 

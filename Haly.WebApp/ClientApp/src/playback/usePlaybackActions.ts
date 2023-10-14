@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 
-import { Problem, PutPlaybackRequest, ResponseError, TrackDto } from "../../generated/haly";
+import { AlbumTrackDto, Problem, PutPlaybackRequest, ResponseError, TrackDto } from "../../generated/haly";
 import { pageContextUriAtom, persistedWithImprovedShuffleAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import { TrackPlaybackState } from "../table/useTableRowPlaybackState";
@@ -11,11 +11,16 @@ import { ContextPlaybackState } from "./useContextPlaybackState";
 
 type TrackUri = TrackDto["uri"];
 
-export function useTrackPlaybackActions(state: TrackPlaybackState, track: TrackDto) {
-    const { togglePlayback, updatePlayback } = usePlaybackActions(state, track.uri);
+export function useTrackPlaybackActions(
+    state: TrackPlaybackState,
+    track: TrackDto | AlbumTrackDto,
+    contextUri?: string,
+) {
+    const { togglePlayback, updatePlayback } = useBasePlaybackActions({ state, trackUri: track.uri, contextUri });
 
+    const isPodcast = "isSong" in track && !track.isSong;
     // Don't allow playback of local tracks and podcasts.
-    if (!track.uri || !track.isSong) {
+    if (!track.uri || isPodcast) {
         return {
             togglePlayback: undefined,
             updatePlayback: undefined,
@@ -30,17 +35,16 @@ export function useTrackPlaybackActions(state: TrackPlaybackState, track: TrackD
     }
 
     return {
-        togglePlayback,
+        togglePlayback: state !== "none" ? togglePlayback : updatePlayback,
         updatePlayback,
     };
 }
 
-export function useContextPlaybackActions(state: ContextPlaybackState) {
-    const { togglePlayback, updatePlayback } = usePlaybackActions(state);
+export function useContextPlaybackActions(state: ContextPlaybackState, contextUri?: string) {
+    const { togglePlayback, updatePlayback } = useBasePlaybackActions({ state, contextUri });
 
     return {
-        togglePlayback,
-        updatePlayback,
+        playbackAction: state !== "none" ? togglePlayback : updatePlayback,
     };
 }
 
@@ -54,8 +58,14 @@ type UpdatePlaybackMutationParam = {
     withImprovedShuffle: boolean;
 };
 
-function usePlaybackActions(state: ContextPlaybackState | TrackPlaybackState, trackUri?: TrackUri) {
-    const contextUri = useAtomValue(pageContextUriAtom);
+type BaseHookParams = {
+    state: ContextPlaybackState | TrackPlaybackState;
+    trackUri?: TrackUri;
+    contextUri?: string;
+};
+
+function useBasePlaybackActions({ state, trackUri, contextUri }: BaseHookParams) {
+    const pageContextUri = useAtomValue(pageContextUriAtom);
     const withImprovedShuffle = useAtomValue(persistedWithImprovedShuffleAtom);
 
     const togglePlaybackMutation = useMutation(({ state }: TogglePlaybackMutationParam) => {
@@ -89,15 +99,15 @@ function usePlaybackActions(state: ContextPlaybackState | TrackPlaybackState, tr
     const updatePlayback = useCallback(
         () =>
             updatePlaybackMutation.mutate({
-                contextUri,
+                contextUri: contextUri ?? pageContextUri,
                 trackUri,
                 withImprovedShuffle,
             }),
-        [contextUri, trackUri, updatePlaybackMutation, withImprovedShuffle],
+        [contextUri, pageContextUri, trackUri, updatePlaybackMutation, withImprovedShuffle],
     );
 
     return {
-        togglePlayback: state !== "none" ? togglePlayback : updatePlayback,
+        togglePlayback,
         updatePlayback,
     };
 }

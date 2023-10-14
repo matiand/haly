@@ -4,18 +4,21 @@ import { NavLink } from "react-router-dom";
 
 import { styled } from "../common/theme";
 import { ContextPlaybackState } from "../playback/useContextPlaybackState";
+import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 
 type UserLibraryLinkProps = {
     name: string;
+    contextUri: string;
     href: string;
     playbackState: ContextPlaybackState;
 };
 
-function UserLibraryLink({ name, href, playbackState }: UserLibraryLinkProps) {
+function UserLibraryLink({ name, contextUri, href, playbackState }: UserLibraryLinkProps) {
+    const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
     const isListenedTo = playbackState !== "none";
 
     return (
-        <Link to={href}>
+        <Link to={href} onDoubleClick={playbackAction}>
             <span className={clsx({ isListenedTo })}>{name}</span>
 
             <span aria-hidden>{playbackState === "playing" && <Icon />}</span>

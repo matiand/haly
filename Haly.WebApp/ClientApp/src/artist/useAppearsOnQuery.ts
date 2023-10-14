@@ -31,7 +31,7 @@ function useAppearsOnQuery(artistId: string, initialFilter: AppearsOnFilter = "a
             imageUrl: i.imageUrl,
             href: `/album/${i.id}`,
             hasRoundedImage: false,
-            isPlayable: true,
+            contextUri: `spotify:album:${i.id}`,
             subtitle: [i.releaseYear, capitalize(i.type)],
         })),
         options,

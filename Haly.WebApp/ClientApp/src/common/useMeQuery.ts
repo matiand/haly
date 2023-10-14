@@ -40,7 +40,8 @@ function useMeQuery() {
             console.log("Token was refreshed, updating user...");
             meQuery.refetch();
         }
-    }, [accessToken, meQuery]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accessToken]);
 
     return meQuery;
 }

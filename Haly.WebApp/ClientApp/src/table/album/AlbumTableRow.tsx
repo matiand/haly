@@ -3,6 +3,7 @@ import { LuDisc } from "react-icons/lu";
 
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
@@ -19,17 +20,24 @@ type TrackRowProps = {
 
 export function AlbumTableTrackRow({ index, track, playbackState, likedState }: TrackRowProps) {
     const { isSelected, selectTrack } = useTrackSelection(index);
+    const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
 
     return (
         <tr
             onClick={selectTrack}
+            onDoubleClick={updatePlayback}
             className={clsx({
                 disabled: !track.isPlayable,
                 isSelected,
             })}
         >
             <td>
-                <TrackIndexCell index={index} track={track} playbackState={playbackState} />
+                <TrackIndexCell
+                    index={index}
+                    track={track}
+                    playbackState={playbackState}
+                    playbackAction={togglePlayback}
+                />
             </td>
 
             <td>

@@ -41,7 +41,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     const contextId = isLikedSongsCollection ? "collection" : id;
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(contextId);
-    const { togglePlayback } = useContextPlaybackActions(playbackState);
+    const { playbackAction } = useContextPlaybackActions(playbackState);
 
     useEffect(() => {
         if (query.data) {
@@ -112,7 +112,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                 isPersonalized={playlist.isPersonalized}
             />
             <PageControls>
-                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
+                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
 
                 {!isOwnedByCurrentUser && (
                     <HeartButton

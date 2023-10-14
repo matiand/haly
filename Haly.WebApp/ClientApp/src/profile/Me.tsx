@@ -33,8 +33,8 @@ function Me() {
             subtitle: "Profile",
             imageUrl: f.imageUrl,
             href: `/artist/${f.id}`,
+            contextUri: `spotify:artist:${f.id}`,
             hasRoundedImage: true,
-            isPlayable: false,
         };
     });
 
@@ -46,7 +46,6 @@ function Me() {
             imageUrl: a.imageUrl,
             href: `/artist/${a.id}`,
             hasRoundedImage: true,
-            isPlayable: true,
         };
     });
 

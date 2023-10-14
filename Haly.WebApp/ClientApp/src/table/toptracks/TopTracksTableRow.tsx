@@ -6,6 +6,7 @@ import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
+import useTrackSelection from "../useTrackSelection";
 
 type TrackRowProps = {
     index: number;
@@ -15,8 +16,19 @@ type TrackRowProps = {
 };
 
 function TopTracksTableRow({ index, track, playbackState, likedState }: TrackRowProps) {
+    const { isSelected, selectTrack } = useTrackSelection(index);
+    // Playback of individual tracks is not allowed for this table. Their api doesn't allow it.
+
+    const isListenedTo = playbackState !== "none";
+
     return (
-        <tr className={clsx({ disabled: !track.isPlayable })}>
+        <tr
+            onClick={selectTrack}
+            className={clsx({
+                disabled: !track.isPlayable,
+                isSelected,
+            })}
+        >
             <td>
                 <TrackIndexCell index={index} track={track} playbackState={playbackState} />
             </td>
@@ -27,7 +39,7 @@ function TopTracksTableRow({ index, track, playbackState, likedState }: TrackRow
                     type="cell"
                     showExplicitMark={track.isExplicit}
                     hideArtists
-                    isListenedTo={playbackState !== "none"}
+                    isListenedTo={isListenedTo}
                 />
             </td>
 

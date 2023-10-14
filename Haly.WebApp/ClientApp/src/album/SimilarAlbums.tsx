@@ -30,7 +30,7 @@ function SimilarAlbums({ albumId, trackIds }: SimilarAlbumsProps) {
             href: `/album/${album.id}`,
             subtitle: [album.releaseYear, artists],
             imageUrl: album.imageUrl,
-            isPlayable: false,
+            contextUri: `spotify:album:${album.id}`,
             hasRoundedImage: false,
         };
     });

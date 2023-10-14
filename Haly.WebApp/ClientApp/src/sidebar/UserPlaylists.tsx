@@ -1,4 +1,7 @@
+import { useAtomValue } from "jotai";
+
 import { PlaylistBriefDto } from "../../generated/haly";
+import { userIdAtom } from "../common/atoms";
 import { styled } from "../common/theme";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
 import UserLibraryLink from "./UserLibraryLink";
@@ -8,12 +11,14 @@ type UserPlaylistsProps = {
 };
 
 function UserPlaylists({ playlists }: UserPlaylistsProps) {
+    const userId = useAtomValue(userIdAtom);
     const getPlaybackState = useContextPlaybackState();
 
     return (
         <List>
             <li>
                 <UserLibraryLink
+                    contextUri={`spotify:user:${userId}:collection`}
                     name="Liked Songs"
                     href="/collection/tracks"
                     playbackState={getPlaybackState("collection")}
@@ -22,10 +27,16 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
 
             {playlists.map((p) => {
                 const href = `playlist/${p.id}`;
+                const contextUri = `spotify:playlist:${p.id}`;
 
                 return (
                     <li key={p.id}>
-                        <UserLibraryLink name={p.name} href={href} playbackState={getPlaybackState(p.id)} />
+                        <UserLibraryLink
+                            name={p.name}
+                            contextUri={contextUri}
+                            href={href}
+                            playbackState={getPlaybackState(p.id)}
+                        />
                     </li>
                 );
             })}

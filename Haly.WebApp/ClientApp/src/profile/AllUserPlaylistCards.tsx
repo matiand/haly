@@ -18,7 +18,7 @@ function AllUserPlaylistCards() {
             imageUrl: p.imageUrl,
             href: `/playlist/${p.id}`,
             hasRoundedImage: false,
-            isPlayable: true,
+            contextUri: `spotify:playlist:${p.id}`,
         };
     });
 

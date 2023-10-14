@@ -10,11 +10,11 @@ function UpperMenuControls({ contextId }: UpperMenuControlsProps) {
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(contextId);
 
-    const { togglePlayback } = useContextPlaybackActions(playbackState);
+    const { playbackAction } = useContextPlaybackActions(playbackState);
 
     const isPaused = playbackState !== "playing";
 
-    return <PlaybackToggle size="medium" isPaused={isPaused} toggle={togglePlayback} />;
+    return <PlaybackToggle size="medium" isPaused={isPaused} toggle={playbackAction} />;
 }
 
 export default UpperMenuControls;

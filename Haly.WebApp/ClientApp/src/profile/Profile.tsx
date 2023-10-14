@@ -32,8 +32,8 @@ function Profile() {
             name: p.name,
             imageUrl: p.imageUrl,
             href: `/playlist/${p.id}`,
+            contextUri: `spotify:playlist:${p.id}`,
             hasRoundedImage: false,
-            isPlayable: true,
         };
     });
 

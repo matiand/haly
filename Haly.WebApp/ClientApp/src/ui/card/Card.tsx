@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { PlaylistCardDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import PlaybackToggle from "../../playback/PlaybackToggle";
+import UseContextPlaybackState from "../../playback/useContextPlaybackState";
+import { useContextPlaybackActions } from "../../playback/usePlaybackActions";
 import EmptyCoverImage from "../EmptyCoverImage";
 
 export type CardProps = {
@@ -13,13 +15,16 @@ export type CardProps = {
     // A subtitle OR or a year + subtitle tuple
     subtitle?: string | [number, string];
     imageUrl?: PlaylistCardDto["imageUrl"];
-    isPlayable: boolean;
+    contextUri?: string;
     hasRoundedImage: boolean;
     isHighlighted?: boolean;
 };
 
-function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage, isHighlighted }: CardProps) {
+function Card({ id, name, href, subtitle, imageUrl, contextUri, hasRoundedImage, isHighlighted }: CardProps) {
     const navigate = useNavigate();
+    const getPlaybackState = UseContextPlaybackState();
+    const playbackState = getPlaybackState(id);
+    const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
 
     const navigateOnClick: MouseEventHandler = (e) => {
         const target = e.target as HTMLElement;
@@ -33,9 +38,9 @@ function Card({ name, href, subtitle, imageUrl, isPlayable, hasRoundedImage, isH
             <ImageWrapper data-is-rounded={hasRoundedImage}>
                 {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 
-                {isPlayable && (
+                {contextUri && (
                     <div id="card-playback-wrapper">
-                        <PlaybackToggle size="large" isPaused toggle={() => 1} />
+                        <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                     </div>
                 )}
             </ImageWrapper>

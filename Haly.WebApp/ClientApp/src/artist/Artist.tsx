@@ -6,6 +6,9 @@ import { useParams } from "react-router-dom";
 import { artistNameAtom, dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
+import PlaybackToggle from "../playback/PlaybackToggle";
+import useContextPlaybackState from "../playback/useContextPlaybackState";
+import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import PageGradient from "../playlist/PageGradient";
 import FollowButton from "../profile/FollowButton";
 import LoadingIndicator from "../ui/LoadingIndicator";
@@ -21,6 +24,10 @@ function Artist() {
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setArtistName = useSetAtom(artistNameAtom);
+
+    const getPlaybackState = useContextPlaybackState();
+    const playbackState = getPlaybackState(id!);
+    const { playbackAction } = useContextPlaybackActions(playbackState);
 
     useEffect(() => {
         if (query.data) {
@@ -67,6 +74,7 @@ function Artist() {
             </PageHeader>
 
             <PageControls>
+                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                 <FollowButton creatorId={artistId} initialValue={isFollowed} type="Artist" />
             </PageControls>
 

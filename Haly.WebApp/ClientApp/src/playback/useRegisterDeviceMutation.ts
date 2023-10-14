@@ -149,6 +149,7 @@ function mapPlaybackContextFromPlaybackState({
     if (type === "playlist" || type === "album" || type === "user" || type === "artist") {
         return {
             id: extractIdFromSpotifyUri(context.uri)!,
+            uri: context.uri,
             name: context.metadata.name,
             type,
             isShuffled: shuffle,

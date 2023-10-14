@@ -44,6 +44,7 @@ export const playlistSliceSongsTotalAtom = atom<number | null>(null);
 
 export type PlaybackContext = {
     id: string;
+    uri: string;
     name: string;
     type: "playlist" | "album" | "user" | "artist";
     isShuffled: boolean;
@@ -95,6 +96,7 @@ export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.playbac
 export const isPlaybackShuffledAtom = atom((get) => get(streamedTrackAtom)?.context?.isShuffled ?? false);
 export const playbackRepeatModeAtom = atom((get) => get(streamedTrackAtom)?.context?.repeatMode ?? "off");
 export const playbackContextIdAtom = atom((get) => get(streamedTrackAtom)?.context?.id);
+export const playbackContextUriAtom = atom((get) => get(streamedTrackAtom)?.context?.uri);
 export const playbackContextNameAtom = atom((get) => get(streamedTrackAtom)?.context?.name);
 
 export const likedSongIdByPlaybackIdAtom = atom<Record<string, string | null>>({});
