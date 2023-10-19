@@ -319,6 +319,110 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /Me/Following/albums/contains:
+    get:
+      tags:
+        - Following
+      summary: Check if current user follows an album
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>'
+      operationId: CheckIfCurrentUserFollowsAnAlbum
+      parameters:
+        - name: albumId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  '/Me/Following/albums/{id}':
+    put:
+      tags:
+        - Following
+      summary: Follow an album
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>'
+      operationId: FollowAlbum
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      tags:
+        - Following
+      summary: Unfollow an album
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>'
+      operationId: UnfollowAlbum
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Me/Following/playlists/{id}':
     put:
       tags:

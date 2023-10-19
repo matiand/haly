@@ -15,6 +15,7 @@ import LoadingIndicator from "../ui/LoadingIndicator";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
 import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
+import AlbumHeartButton from "./AlbumHeartButton";
 import Copyrights from "./Copyrights";
 import SimilarAlbums from "./SimilarAlbums";
 
@@ -93,6 +94,7 @@ function Album() {
                     <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                 )}
                 <MoreOptionsButton label={`More options for album: '${name}'`} type="album" />
+                <AlbumHeartButton albumId={albumId} />
             </PageControls>
 
             <AlbumTable albumId={albumId} items={tracks} />

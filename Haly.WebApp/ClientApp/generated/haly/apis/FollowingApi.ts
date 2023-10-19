@@ -25,9 +25,17 @@ import {
     ProblemToJSON,
 } from '../models';
 
+export interface CheckIfCurrentUserFollowsAnAlbumRequest {
+    albumId?: string;
+}
+
 export interface CheckIfCurrentUserFollowsCreatorRequest {
     type?: CreatorType;
     creatorId?: string;
+}
+
+export interface FollowAlbumRequest {
+    id: string;
 }
 
 export interface FollowCreatorRequest {
@@ -41,6 +49,10 @@ export interface FollowPlaylistRequest {
 
 export interface FollowTracksRequest {
     ids?: string;
+}
+
+export interface UnfollowAlbumRequest {
+    id: string;
 }
 
 export interface UnfollowCreatorRequest {
@@ -60,6 +72,38 @@ export interface UnfollowTracksRequest {
  * 
  */
 export class FollowingApi extends runtime.BaseAPI {
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
+     * Check if current user follows an album
+     */
+    async checkIfCurrentUserFollowsAnAlbumRaw(requestParameters: CheckIfCurrentUserFollowsAnAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.albumId !== undefined) {
+            queryParameters['albumId'] = requestParameters.albumId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Following/albums/contains`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.TextApiResponse(response) as any;
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
+     * Check if current user follows an album
+     */
+    async checkIfCurrentUserFollowsAnAlbum(requestParameters: CheckIfCurrentUserFollowsAnAlbumRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<boolean> {
+        const response = await this.checkIfCurrentUserFollowsAnAlbumRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>
@@ -95,6 +139,37 @@ export class FollowingApi extends runtime.BaseAPI {
     async checkIfCurrentUserFollowsCreator(requestParameters: CheckIfCurrentUserFollowsCreatorRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<boolean> {
         const response = await this.checkIfCurrentUserFollowsCreatorRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
+     * Follow an album
+     */
+    async followAlbumRaw(requestParameters: FollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling followAlbum.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Following/albums/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
+     * Follow an album
+     */
+    async followAlbum(requestParameters: FollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.followAlbumRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -192,6 +267,37 @@ export class FollowingApi extends runtime.BaseAPI {
      */
     async followTracks(requestParameters: FollowTracksRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.followTracksRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
+     * Unfollow an album
+     */
+    async unfollowAlbumRaw(requestParameters: UnfollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling unfollowAlbum.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/Following/albums/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
+     * Unfollow an album
+     */
+    async unfollowAlbum(requestParameters: UnfollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.unfollowAlbumRaw(requestParameters, initOverrides);
     }
 
     /**

@@ -15,7 +15,8 @@ public interface ISpotifyService
     Task<List<PlaylistTrack>> GetPlaylistTracks(string playlistId, string userMarket);
     Task<LikedSongsDto?> GetLikedSongsIfChanged(string userMarket, string? prevSnapshotId);
     Task<List<Device>> GetAvailableDevices();
-    Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId);
+    Task<bool> IsCurrentUserFollowingCreator(CreatorType creatorType, string creatorId);
+    Task<bool> IsCurrentUserFollowingAnAlbum(string albumId);
     Task<List<FollowedArtist>> GetCurrentUserFollows();
     Task<List<TopArtist>> GetCurrentUserTopArtists();
     Task<List<TrackBase>> GetCurrentUserTopTracks();
@@ -29,6 +30,8 @@ public interface ISpotifyService
 
     Task FollowCreator(CreatorType creatorType, string creatorId);
     Task UnfollowCreator(CreatorType creatorType, string creatorId);
+    Task FollowAlbum(string id);
+    Task UnfollowAlbum(string id);
     Task FollowPlaylist(string id);
     Task UnfollowPlaylist(string id);
     Task FollowTracks(string ids);

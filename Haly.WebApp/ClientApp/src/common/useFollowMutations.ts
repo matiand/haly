@@ -3,13 +3,14 @@ import { useSetAtom } from "jotai";
 
 import halyClient from "../halyClient";
 import { likedSongIdByPlaybackIdAtom } from "./atoms";
-import { GetMyPlaylistsQueryKey } from "./queryKeys";
+import { GetMyPlaylistsQueryKey, IsCurrentUserFollowingAlbum } from "./queryKeys";
 
 export type FollowMutationParams =
     | {
-          // If the track is not followed, we use track id for collections and playbackId for
+          // todo: this comment is wrong
+          // If the track is not followed, we use 'likedId' for collections and 'playbackId' for
           // streamed tracks (that's the only id they have).
-          // For followed ones, we use the id that was used for follow.
+          // For followed ones, we use 'likedId'.
           likedId: string;
           playbackId: string;
           type: "track";
@@ -17,6 +18,10 @@ export type FollowMutationParams =
     | {
           id: string;
           type: "playlist";
+      }
+    | {
+          id: string;
+          type: "album";
       };
 
 function useFollowMutations() {
@@ -24,14 +29,24 @@ function useFollowMutations() {
     const setLikedSongIdByPlaybackId = useSetAtom(likedSongIdByPlaybackIdAtom);
 
     const follow = useMutation<FollowMutationParams, unknown, FollowMutationParams>(
-        (params) =>
-            params.type === "playlist"
-                ? halyClient.following.followPlaylist({ id: params.id }).then(() => params)
-                : halyClient.following.followTracks({ ids: params.likedId }).then(() => params),
+        async (params) => {
+            if (params.type === "playlist") {
+                await halyClient.following.followPlaylist({ id: params.id });
+                return params;
+            } else if (params.type === "album") {
+                await halyClient.following.followAlbum({ id: params.id });
+                return params;
+            } else {
+                await halyClient.following.followTracks({ ids: params.likedId });
+                return params;
+            }
+        },
         {
             onSuccess: (params) => {
                 if (params.type === "playlist") {
                     queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+                } else if (params.type === "album") {
+                    queryClient.invalidateQueries(IsCurrentUserFollowingAlbum(params.id));
                 } else {
                     setLikedSongIdByPlaybackId((prev) => ({
                         ...prev,
@@ -44,14 +59,24 @@ function useFollowMutations() {
     );
 
     const unfollow = useMutation<FollowMutationParams, unknown, FollowMutationParams>(
-        (params) =>
-            params.type === "playlist"
-                ? halyClient.following.unfollowPlaylist({ id: params.id }).then(() => params)
-                : halyClient.following.unfollowTracks({ ids: params.likedId }).then(() => params),
+        async function (params) {
+            if (params.type === "playlist") {
+                await halyClient.following.unfollowPlaylist({ id: params.id });
+                return params;
+            } else if (params.type === "album") {
+                await halyClient.following.unfollowAlbum({ id: params.id });
+                return params;
+            } else {
+                await halyClient.following.unfollowTracks({ ids: params.likedId });
+                return params;
+            }
+        },
         {
             onSuccess: (params) => {
                 if (params.type === "playlist") {
                     queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+                } else if (params.type === "album") {
+                    queryClient.invalidateQueries(IsCurrentUserFollowingAlbum(params.id));
                 } else {
                     setLikedSongIdByPlaybackId((prev) => ({
                         ...prev,

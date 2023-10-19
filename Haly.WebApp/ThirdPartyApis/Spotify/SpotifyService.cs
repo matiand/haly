@@ -147,10 +147,17 @@ public sealed class SpotifyService : ISpotifyService
         return response.Devices.Adapt<List<Device>>();
     }
 
-    public async Task<bool> IsCurrentUserFollowing(CreatorType creatorType, string creatorId)
+    public async Task<bool> IsCurrentUserFollowingCreator(CreatorType creatorType, string creatorId)
     {
         var type = creatorType is CreatorType.Artist ? Type4.Artist : Type4.User;
         var response = await _spotifyClient.CheckCurrentUserFollowsAsync(type, creatorId);
+
+        return response.First();
+    }
+
+    public async Task<bool> IsCurrentUserFollowingAnAlbum(string albumId)
+    {
+        var response = await _spotifyClient.CheckUsersSavedAlbumsAsync(albumId);
 
         return response.First();
     }
@@ -326,6 +333,16 @@ public sealed class SpotifyService : ISpotifyService
     {
         var type = creatorType is CreatorType.Artist ? Type3.Artist : Type3.User;
         return _spotifyClient.UnfollowArtistsUsersAsync(type, creatorId);
+    }
+
+    public Task FollowAlbum(string id)
+    {
+        return _spotifyClient.SaveAlbumsUserAsync(id);
+    }
+
+    public Task UnfollowAlbum(string id)
+    {
+        return _spotifyClient.RemoveAlbumsUserAsync(id);
     }
 
     public Task FollowPlaylist(string id)

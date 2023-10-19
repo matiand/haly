@@ -15,7 +15,7 @@ public class FollowingController : ApiControllerBase
     public async Task<ActionResult<bool>> CheckIfCurrentUserFollowsCreator(CreatorType type, string creatorId,
         [FromServices] ISpotifyService spotifyService)
     {
-        var response = await spotifyService.IsCurrentUserFollowing(type, creatorId);
+        var response = await spotifyService.IsCurrentUserFollowingCreator(type, creatorId);
 
         return Ok(response);
     }
@@ -44,6 +44,39 @@ public class FollowingController : ApiControllerBase
         return NoContent();
     }
 
+    [HttpGet("albums/contains")]
+    [SwaggerOperation(Summary = "Check if current user follows an album")]
+    [SwaggerResponse(statusCode: 200, "", typeof(bool))]
+    [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
+    public async Task<ActionResult<bool>> CheckIfCurrentUserFollowsAnAlbum(string albumId,
+        [FromServices] ISpotifyService spotifyService)
+    {
+        var response = await spotifyService.IsCurrentUserFollowingAnAlbum(albumId);
+
+        return Ok(response);
+    }
+
+    [HttpPut("albums/{id}")]
+    [SwaggerOperation(Summary = "Follow an album")]
+    [SwaggerResponse(statusCode: 204)]
+    [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
+    public async Task<ActionResult> FollowAlbum(string id, [FromServices] ISpotifyService spotifyService)
+    {
+        await spotifyService.FollowAlbum(id);
+
+        return NoContent();
+    }
+
+    [HttpDelete("albums/{id}")]
+    [SwaggerOperation(Summary = "Unfollow an album")]
+    [SwaggerResponse(statusCode: 204)]
+    [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
+    public async Task<ActionResult> UnfollowAlbum(string id, [FromServices] ISpotifyService spotifyService)
+    {
+        await spotifyService.UnfollowAlbum(id);
+
+        return NoContent();
+    }
 
     [HttpPut("playlists/{id}")]
     [SwaggerOperation(Summary = "Save a playlist to your library")]

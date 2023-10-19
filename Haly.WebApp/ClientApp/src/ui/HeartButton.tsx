@@ -113,12 +113,13 @@ const Icon = styled("svg", {
                 height: "16px",
                 width: "16px",
             },
-            playlist: {
-                height: "32px",
-                width: "32px",
-            },
+            playlist: {},
+            album: {},
         },
     },
+
+    height: "32px",
+    width: "32px",
 });
 
 export default HeartButton;

@@ -22,7 +22,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserProfileDto?
         if (user is null) return null;
 
         var dto = user.Adapt<UserProfileDto>();
-        dto.IsFollowed = await _spotifyService.IsCurrentUserFollowing(CreatorType.User, creatorId: user.Id);
+        dto.IsFollowed = await _spotifyService.IsCurrentUserFollowingCreator(CreatorType.User, creatorId: user.Id);
 
         return dto;
     }

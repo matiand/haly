@@ -21,7 +21,7 @@ public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailedDt
     public async Task<ArtistDetailedDto> Handle(GetArtistQuery request, CancellationToken cancellationToken)
     {
         var artistTask = _spotify.GetArtist(request.Id, request.UserMarket);
-        var isFollowedTask = _spotify.IsCurrentUserFollowing(CreatorType.Artist, request.Id);
+        var isFollowedTask = _spotify.IsCurrentUserFollowingCreator(CreatorType.Artist, request.Id);
 
         var (artist, isFollowed) = (await artistTask, await isFollowedTask);
         var dto = artist.Adapt<ArtistDetailedDto>();
