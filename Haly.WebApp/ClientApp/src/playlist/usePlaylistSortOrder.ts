@@ -56,16 +56,17 @@ const persistedPlaylistSortOrderById = atom(
 
 export function usePlaylistSortOrder(playlistId: string, isLikedSongsCollection: boolean) {
     const [sortOrderById, setter] = useAtom(persistedPlaylistSortOrderById);
+    const idToUse = isLikedSongsCollection ? "likes" : playlistId;
 
     const sortOrder = useMemo(() => {
-        if (isLikedSongsCollection) return sortOrderById[playlistId] ?? ("added_at_desc" as PlaylistSortOrder);
+        if (isLikedSongsCollection) return sortOrderById[idToUse] ?? ("added_at_desc" as PlaylistSortOrder);
 
-        return sortOrderById[playlistId] ?? sortOrderById.global;
-    }, [sortOrderById, playlistId, isLikedSongsCollection]);
+        return sortOrderById[idToUse] ?? sortOrderById.global;
+    }, [sortOrderById, idToUse, isLikedSongsCollection]);
 
     return {
         sortOrder,
-        setSortOrder: (newValue: PlaylistSortOrder) => setter(playlistId, newValue),
+        setSortOrder: (newValue: PlaylistSortOrder) => setter(idToUse, newValue),
     };
 }
 
@@ -77,38 +78,3 @@ export function useGlobalSortOrder() {
         setGlobalSortOrder: (newValue: PlaylistSortOrder) => setter("global", newValue),
     };
 }
-
-// export function usePersistedSortOrder(playlistId: string) {
-//     const storeKey = `playlist:${playlistId}:sortOrder`;
-//
-//     const [sortOrders, setSortOrders] = useAtom(sortOrderByPlaylistId);
-//     const globalSortOrder = localStorage.getItem(globalSortOrderStoreKey);
-//     const savedSortOrder = localStorage.getItem(storeKey);
-//
-//     const sortOrder = sortOrders[playlistId] ?? savedSortOrder ?? globalSortOrder ?? "";
-//
-//     const setter = (newValue: PlaylistSortOrder) => {
-//         setSortOrders((prev) => ({
-//             ...prev,
-//             [playlistId]: newValue,
-//         }));
-//         localStorage.setItem(storeKey, newValue);
-//     };
-//
-//     useEffect(() => {
-//         const savedValue = localStorage.getItem(storeKey) ?? globalSortOrder;
-//         setSortOrders((prev) => ({
-//             ...prev,
-//             [playlistId]: savedValue as PlaylistSortOrder,
-//         }));
-//     }, [playlistId, storeKey, globalSortOrder, setSortOrders]);
-//
-//     return [sortOrder, setter] as [PlaylistSortOrder, typeof setter];
-// }
-//
-// export function useGlobalSortOrder() {
-//     const globalSortOrder = localStorage.getItem(globalSortOrderStoreKey) ?? "";
-//     const setter = (newValue: PlaylistSortOrder) => localStorage.setItem(globalSortOrderStoreKey, newValue);
-//
-//     return [globalSortOrder, setter] as [PlaylistSortOrder, typeof setter];
-// }
