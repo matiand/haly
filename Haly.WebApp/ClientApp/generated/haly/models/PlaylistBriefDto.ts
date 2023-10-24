@@ -31,6 +31,12 @@ export interface PlaylistBriefDto {
      * @memberof PlaylistBriefDto
      */
     name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistBriefDto
+     */
+    ownerId: string;
 }
 
 /**
@@ -40,6 +46,7 @@ export function instanceOfPlaylistBriefDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "ownerId" in value;
 
     return isInstance;
 }
@@ -56,6 +63,7 @@ export function PlaylistBriefDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'id': json['id'],
         'name': json['name'],
+        'ownerId': json['ownerId'],
     };
 }
 
@@ -70,6 +78,7 @@ export function PlaylistBriefDtoToJSON(value?: PlaylistBriefDto | null): any {
         
         'id': value.id,
         'name': value.name,
+        'ownerId': value.ownerId,
     };
 }
 

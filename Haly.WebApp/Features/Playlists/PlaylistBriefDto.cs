@@ -4,4 +4,5 @@ public record PlaylistBriefDto
 {
     public string Id { get; init; }
     public string Name { get; init; }
+    public string OwnerId { get; init; }
 }

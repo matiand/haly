@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-import { AlbumBriefDto, ArtistBriefDto, PrivateUserDto } from "../../generated/haly";
+import { AlbumBriefDto, ArtistBriefDto, PlaylistBriefDto, PrivateUserDto, TrackDto } from "../../generated/haly";
 import { theme } from "./theme";
 
 const sidebarWidthAtom = atom<number>(+localStorage.getItem("sidebarWidth")! || theme.sidebar.defaultWidth);
@@ -20,9 +20,9 @@ export const persistedWithImprovedShuffleAtom = atom(
     },
 );
 
-export const cachedPlaylistIdsAtom = atom<string[] | null>(null);
+export const cachedPlaylists = atom<PlaylistBriefDto[]>([]);
 export const isPlaylistCachedAtom = (playlistId: string) =>
-    atom((get) => get(cachedPlaylistIdsAtom)?.includes(playlistId) ?? false);
+    atom((get) => get(cachedPlaylists).some((p) => p.id === playlistId));
 
 export const dominantColorsAtom = atom<Record<string, string | undefined>>({
     "": theme.colors.dominantDefault,

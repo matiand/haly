@@ -1665,11 +1665,14 @@ components:
       required:
         - id
         - name
+        - ownerId
       type: object
       properties:
         id:
           type: string
         name:
+          type: string
+        ownerId:
           type: string
       additionalProperties: false
     PlaylistCardDto:
