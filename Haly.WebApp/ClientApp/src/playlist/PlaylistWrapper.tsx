@@ -1,7 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+import { selectedTracksAtom } from "../common/atoms";
 import halyClient from "../halyClient";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import Playlist from "./Playlist";
@@ -21,6 +23,11 @@ function PlaylistWrapper() {
             syncPlaylist.mutate();
         }
     }, [isInLibrary, syncPlaylist]);
+
+    const setSelectedTracks = useSetAtom(selectedTracksAtom);
+    useEffect(() => {
+        setSelectedTracks([]);
+    }, [sortOrder, setSelectedTracks]);
 
     if (!isInLibrary && (syncPlaylist.isLoading || syncPlaylist.isIdle)) {
         return <LoadingIndicator />;

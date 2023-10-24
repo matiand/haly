@@ -101,4 +101,8 @@ export const playbackContextNameAtom = atom((get) => get(streamedTrackAtom)?.con
 
 export const likedSongIdByPlaybackIdAtom = atom<Record<string, string | null>>({});
 
-export const selectedTrackIndicesAtom = atom<number[]>([]);
+type SelectedTrack = {
+    index: number;
+    id: TrackDto["id"];
+};
+export const selectedTracksAtom = atom<SelectedTrack[]>([]);

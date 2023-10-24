@@ -6,7 +6,7 @@ import {
     dominantColorsAtom,
     pageContextAtom,
     playlistSearchTermAtom,
-    selectedTrackIndicesAtom,
+    selectedTracksAtom,
     userIdAtom,
 } from "../common/atoms";
 import { theme } from "../common/theme";
@@ -35,7 +35,6 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
-    const setSelectedTrackIndices = useSetAtom(selectedTrackIndicesAtom);
     const userId = useAtomValue(userIdAtom);
 
     const contextId = isLikedSongsCollection ? "collection" : id;
@@ -59,9 +58,8 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
         return () => {
             setPageContext(null);
             setPlaylistSearchTerm("");
-            setSelectedTrackIndices([]);
         };
-    }, [id, setPageContext, setPlaylistSearchTerm, setSelectedTrackIndices]);
+    }, [id, setPageContext, setPlaylistSearchTerm]);
 
     if (!query.data) return null;
 

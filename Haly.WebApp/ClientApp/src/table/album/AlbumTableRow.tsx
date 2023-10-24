@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React from "react";
 import { LuDisc } from "react-icons/lu";
 
 import { AlbumTrackDto } from "../../../generated/haly";
@@ -9,17 +10,24 @@ import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
 
 type TrackRowProps = {
-    index: number;
+    position: number;
     track: AlbumTrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
+    isSelected: boolean;
+    selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
 };
 
-export function AlbumTableTrackRow({ index, track, playbackState, likedState }: TrackRowProps) {
-    const { isSelected, selectTrack } = useTrackSelection(index);
+export function AlbumTableTrackRow({
+    position,
+    track,
+    playbackState,
+    likedState,
+    isSelected,
+    selectTrack,
+}: TrackRowProps) {
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
 
     return (
@@ -33,7 +41,7 @@ export function AlbumTableTrackRow({ index, track, playbackState, likedState }: 
         >
             <td>
                 <TrackIndexCell
-                    index={index}
+                    position={position}
                     track={track}
                     playbackState={playbackState}
                     playbackAction={togglePlayback}

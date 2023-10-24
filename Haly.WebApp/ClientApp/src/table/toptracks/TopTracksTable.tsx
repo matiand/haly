@@ -5,6 +5,7 @@ import { styled } from "../../common/theme";
 import * as Table from "../Table";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
+import useTrackSelection from "../useTrackSelection";
 import TopTracksTableRow from "./TopTracksTableRow";
 
 type TopTracksTableProps = {
@@ -16,6 +17,7 @@ function TopTracksTable({ items }: TopTracksTableProps) {
     const [showMore, setShowMore] = useState(false);
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
+    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
 
     const showButton = items.length > 5;
     const btnLabel = showMore ? "Show less" : "See more";
@@ -27,10 +29,12 @@ function TopTracksTable({ items }: TopTracksTableProps) {
                     {items.slice(0, showMore ? 10 : 5).map((t, idx) => (
                         <TopTracksTableRow
                             key={t.id}
-                            index={idx + 1}
+                            position={idx + 1}
                             track={t}
                             playbackState={getTableRowPlaybackState(t.playbackId)}
                             likedState={getTableRowLikedState(t.id, t.playbackId)}
+                            isSelected={isSelectedRow(idx)}
+                            selectTrack={selectTableRow(idx)}
                         />
                     ))}
                 </Table.Body>

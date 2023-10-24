@@ -8,17 +8,17 @@ import AnimatedMusicBars from "../ui/AnimatedMusicBars";
 import { TrackPlaybackState } from "./useTableRowPlaybackState";
 
 type TrackIndexCellProps = {
-    index: number;
+    position: number;
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
     playbackState: TrackPlaybackState;
     playbackAction?: () => void;
 };
 
-function TrackIndexCell({ index, track, playbackState, playbackAction }: TrackIndexCellProps) {
+function TrackIndexCell({ position, track, playbackState, playbackAction }: TrackIndexCellProps) {
     if (!playbackAction) {
         return (
             <Wrapper className={clsx({ alwaysIndex: true })}>
-                <Index>{index}</Index>
+                <Index>{position}</Index>
             </Wrapper>
         );
     }
@@ -27,7 +27,7 @@ function TrackIndexCell({ index, track, playbackState, playbackAction }: TrackIn
     if (isPodcast) {
         return (
             <Wrapper>
-                <Index>{index}</Index>
+                <Index>{position}</Index>
                 <Button
                     type="button"
                     aria-label="Streaming podcasts is not supported"
@@ -59,7 +59,7 @@ function TrackIndexCell({ index, track, playbackState, playbackAction }: TrackIn
 
     return (
         <Wrapper>
-            <Index className={clsx({ isPaused: playbackState === "paused" })}>{index}</Index>
+            <Index className={clsx({ isPaused: playbackState === "paused" })}>{position}</Index>
             <Button type="button" onClick={playbackAction} aria-label={label} title={label}>
                 <span>
                     <HiPlay />

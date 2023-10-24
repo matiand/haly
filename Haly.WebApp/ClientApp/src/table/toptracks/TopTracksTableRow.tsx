@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React from "react";
 
 import { TrackDto } from "../../../generated/haly";
 import TrackDurationCell from "../TrackDurationCell";
@@ -6,17 +7,17 @@ import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
 
 type TrackRowProps = {
-    index: number;
+    position: number;
     track: TrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
+    isSelected: boolean;
+    selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
 };
 
-function TopTracksTableRow({ index, track, playbackState, likedState }: TrackRowProps) {
-    const { isSelected, selectTrack } = useTrackSelection(index);
+function TopTracksTableRow({ position, track, playbackState, likedState, isSelected, selectTrack }: TrackRowProps) {
     // Playback of individual tracks is not allowed for this table. Their api doesn't allow it.
 
     const isListenedTo = playbackState !== "none";
@@ -30,7 +31,7 @@ function TopTracksTableRow({ index, track, playbackState, likedState }: TrackRow
             })}
         >
             <td>
-                <TrackIndexCell index={index} track={track} playbackState={playbackState} />
+                <TrackIndexCell position={position} track={track} playbackState={playbackState} />
             </td>
 
             <td>

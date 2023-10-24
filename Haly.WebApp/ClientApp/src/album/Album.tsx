@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { dominantColorsAtom, pageContextAtom, selectedTrackIndicesAtom } from "../common/atoms";
+import { dominantColorsAtom, pageContextAtom, selectedTracksAtom } from "../common/atoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -24,7 +24,6 @@ function Album() {
     const query = useQuery(["albums", id], () => halyClient.albums.getAlbum({ id: id! }));
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
-    const setSelectedTrackIndices = useSetAtom(selectedTrackIndicesAtom);
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(id!);
@@ -43,10 +42,6 @@ function Album() {
 
         return () => setPageContext(null);
     }, [query, setPageContext]);
-
-    useEffect(() => {
-        return () => setSelectedTrackIndices([]);
-    }, [setSelectedTrackIndices]);
 
     if (!query.data) return <LoadingIndicator />;
 

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
+import React from "react";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms";
@@ -12,19 +13,27 @@ import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
 
 type PlaylistTableRowProps = {
-    index: number;
+    position: number;
     track: PlaylistTrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
+    isSelected: boolean;
+    selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
     start?: number;
 };
 
-function PlaylistTableRow({ index, track, playbackState, likedState, start }: PlaylistTableRowProps) {
+function PlaylistTableRow({
+    position,
+    track,
+    playbackState,
+    likedState,
+    isSelected,
+    selectTrack,
+    start,
+}: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
-    const { isSelected, selectTrack } = useTrackSelection(index);
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
 
     const isListenedTo = playbackState !== "none";
@@ -34,6 +43,7 @@ function PlaylistTableRow({ index, track, playbackState, likedState, start }: Pl
         <TableRow
             onClick={selectTrack}
             onDoubleClick={updatePlayback}
+            onContextMenu={() => console.log("foo")}
             style={{ transform: `translateY(${start}px` }}
             className={clsx({
                 disabled: !track.isPlayable,
@@ -42,7 +52,7 @@ function PlaylistTableRow({ index, track, playbackState, likedState, start }: Pl
         >
             <td>
                 <TrackIndexCell
-                    index={index}
+                    position={position}
                     track={track}
                     playbackState={playbackState}
                     playbackAction={togglePlayback}

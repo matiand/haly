@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
+import React from "react";
 
 import { TrackDto } from "../../../generated/haly";
 import { playbackContextUriAtom } from "../../common/atoms";
@@ -10,18 +11,18 @@ import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
 
 type QueueTableRowProps = {
-    index: number;
+    position: number;
     track: TrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
+    isSelected: boolean;
+    selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
 };
 
-function QueueTableRow({ index, track, playbackState, likedState }: QueueTableRowProps) {
+function QueueTableRow({ position, track, playbackState, likedState, isSelected, selectTrack }: QueueTableRowProps) {
     const contextUri = useAtomValue(playbackContextUriAtom);
-    const { isSelected, selectTrack } = useTrackSelection(index);
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track, contextUri);
 
     return (
@@ -35,7 +36,7 @@ function QueueTableRow({ index, track, playbackState, likedState }: QueueTableRo
         >
             <td>
                 <TrackIndexCell
-                    index={index}
+                    position={position}
                     track={track}
                     playbackState={playbackState}
                     playbackAction={togglePlayback}

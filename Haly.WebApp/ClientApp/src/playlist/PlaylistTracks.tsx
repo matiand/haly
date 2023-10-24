@@ -82,7 +82,7 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     const total = tracksQuery.data?.pages[0].total || 0;
-    const keepInitialPositionIndex = Boolean(searchTerm) && !sortOrder;
+    const keepInitialPosition = Boolean(searchTerm) && !sortOrder;
 
     const fetchMore = useCallback(() => {
         if (!tracksQuery.isFetchingNextPage) {
@@ -97,7 +97,7 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
                 items={initialTracks.items}
                 total={initialTracks.total}
                 fetchMoreItems={fetchMore}
-                keepInitialPositionIndex={keepInitialPositionIndex}
+                keepInitialPosition={keepInitialPosition}
                 isLikedSongsCollection={isLikedSongsCollection}
             />
         );
@@ -109,7 +109,7 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
             items={items}
             total={total}
             fetchMoreItems={fetchMore}
-            keepInitialPositionIndex={keepInitialPositionIndex}
+            keepInitialPosition={keepInitialPosition}
             isLikedSongsCollection={isLikedSongsCollection}
         />
     );

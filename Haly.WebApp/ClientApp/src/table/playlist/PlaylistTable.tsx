@@ -11,6 +11,7 @@ import useScrollToTrack from "../useScrollToTrack";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
+import useTrackSelection from "../useTrackSelection";
 import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
 
@@ -19,7 +20,7 @@ type PlaylistTableProps = {
     items: PlaylistTrackDto[];
     total: number;
     fetchMoreItems: () => void;
-    keepInitialPositionIndex: boolean;
+    keepInitialPosition: boolean;
     isLikedSongsCollection: boolean;
 };
 
@@ -30,11 +31,12 @@ function PlaylistTable({
     items,
     total,
     fetchMoreItems,
-    keepInitialPositionIndex,
+    keepInitialPosition,
     isLikedSongsCollection,
 }: PlaylistTableProps) {
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
+    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
 
     const { ref, isSticky } = useStickyTableHead();
     const mainScrollArea = useMainScrollArea();
@@ -93,15 +95,17 @@ function PlaylistTable({
 
                         if (!track) return null;
 
-                        const trackIdx = keepInitialPositionIndex ? track.positionInPlaylist + 1 : idx + 1;
+                        const position = keepInitialPosition ? track.positionInPlaylist + 1 : idx + 1;
 
                         return (
                             <PlaylistTableRow
                                 key={idx}
-                                index={trackIdx}
+                                position={position}
                                 track={track}
                                 playbackState={getTableRowPlaybackState(track.playbackId)}
                                 likedState={getTableRowLikedState(track.id, track.playbackId)}
+                                isSelected={isSelectedRow(idx)}
+                                selectTrack={selectTableRow(idx)}
                                 start={virtualItem.start}
                             />
                         );

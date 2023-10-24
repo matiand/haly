@@ -10,6 +10,7 @@ import useScrollToTrack from "../useScrollToTrack";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
+import useTrackSelection from "../useTrackSelection";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 
 type AlbumTableProps = {
@@ -20,6 +21,7 @@ type AlbumTableProps = {
 function AlbumTable({ items }: AlbumTableProps) {
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
+    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
     const { ref, isSticky } = useStickyTableHead();
 
     const mainScrollArea = useMainScrollArea();
@@ -60,10 +62,12 @@ function AlbumTable({ items }: AlbumTableProps) {
                                       {items.map((t, idx) => (
                                           <AlbumTableTrackRow
                                               key={t.id}
-                                              index={idx + 1}
+                                              position={idx + 1}
                                               track={t}
                                               playbackState={getTableRowPlaybackState(t.playbackId)}
                                               likedState={getTableRowLikedState(t.id, t.playbackId)}
+                                              isSelected={isSelectedRow(idx)}
+                                              selectTrack={selectTableRow(idx)}
                                           />
                                       ))}
                                   </Fragment>
@@ -72,10 +76,12 @@ function AlbumTable({ items }: AlbumTableProps) {
                         : items.map((t, idx) => (
                               <AlbumTableTrackRow
                                   key={t.id}
-                                  index={idx + 1}
+                                  position={idx + 1}
                                   track={t}
                                   playbackState={getTableRowPlaybackState(t.playbackId)}
                                   likedState={getTableRowLikedState(t.id, t.playbackId)}
+                                  isSelected={isSelectedRow(idx)}
+                                  selectTrack={selectTableRow(idx)}
                               />
                           ))}
                 </Table.Body>
