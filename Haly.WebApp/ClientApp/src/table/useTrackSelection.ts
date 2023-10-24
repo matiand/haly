@@ -7,6 +7,8 @@ import { pageContextIdAtom, playlistSearchTermAtom, selectedTracksAtom } from ".
 function useTrackSelection(items: (TrackDto | AlbumTrackDto)[]) {
     const [selectedTracks, setSelectedTracks] = useAtom(selectedTracksAtom);
 
+    console.log(selectedTracks);
+
     const pageContextId = useAtomValue(pageContextIdAtom);
     const searchTerm = useAtomValue(playlistSearchTermAtom);
 
@@ -26,7 +28,7 @@ function useTrackSelection(items: (TrackDto | AlbumTrackDto)[]) {
                             ...prev,
                             {
                                 index,
-                                id: items[index].id,
+                                track: items[index],
                             },
                         ];
                     }
@@ -37,7 +39,7 @@ function useTrackSelection(items: (TrackDto | AlbumTrackDto)[]) {
                     .filter((_, idx) => idx <= index)
                     .map((item, idx) => ({
                         index: idx,
-                        id: item.id,
+                        track: item,
                     }));
                 setSelectedTracks(selection);
             } else if (event.shiftKey && selectedTracks.length > 0) {
@@ -57,9 +59,9 @@ function useTrackSelection(items: (TrackDto | AlbumTrackDto)[]) {
                     .filter((i) => i !== lastIndex)
                     .concat([lastIndex]);
 
-                const selection = finalIndices.map((i) => ({
-                    index: i,
-                    id: items[i].id,
+                const selection = finalIndices.map((idx) => ({
+                    index: idx,
+                    track: items[idx],
                 }));
 
                 setSelectedTracks(selection);
@@ -72,7 +74,7 @@ function useTrackSelection(items: (TrackDto | AlbumTrackDto)[]) {
                         return [
                             {
                                 index,
-                                id: items[index].id,
+                                track: items[index],
                             },
                         ];
                     }

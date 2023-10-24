@@ -1,6 +1,13 @@
 import { atom } from "jotai";
 
-import { AlbumBriefDto, ArtistBriefDto, PlaylistBriefDto, PrivateUserDto, TrackDto } from "../../generated/haly";
+import {
+    AlbumBriefDto,
+    AlbumTrackDto,
+    ArtistBriefDto,
+    PlaylistBriefDto,
+    PrivateUserDto,
+    TrackDto,
+} from "../../generated/haly";
 import { theme } from "./theme";
 
 const sidebarWidthAtom = atom<number>(+localStorage.getItem("sidebarWidth")! || theme.sidebar.defaultWidth);
@@ -103,6 +110,6 @@ export const likedSongIdByPlaybackIdAtom = atom<Record<string, string | null>>({
 
 type SelectedTrack = {
     index: number;
-    id: TrackDto["id"];
+    track: TrackDto | AlbumTrackDto;
 };
 export const selectedTracksAtom = atom<SelectedTrack[]>([]);
