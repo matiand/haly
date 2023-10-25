@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-import { styled } from "../../common/theme";
+import { styled } from "../common/theme";
 
 export const Root = DropdownMenu.Root;
 export const Trigger = DropdownMenu.Trigger;

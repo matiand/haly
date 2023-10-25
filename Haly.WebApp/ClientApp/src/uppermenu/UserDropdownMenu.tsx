@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { userAtom } from "../common/atoms";
 import { styled } from "../common/theme";
-import * as DropdownMenu from "../ui/menu/DropdownMenu";
+import * as DropdownMenu from "../ui/DropdownMenu";
 import UserDropdownMenuHeader from "./UserDropdownMenuHeader";
 
 function UserDropdownMenu() {

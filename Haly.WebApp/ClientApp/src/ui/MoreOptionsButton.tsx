@@ -4,12 +4,12 @@ import { styled } from "../common/theme";
 
 type MoreOptionsButtonProps = {
     label: string;
-    type: "album" | "playlist" | "track";
+    type: "header" | "album" | "playlist" | "track";
 };
 
 function MoreOptionsButton({ label, type }: MoreOptionsButtonProps) {
     return (
-        <Button type="button" aria-haspopup="menu" aria-label={label} title={label}>
+        <Button type="button" aria-label={label} title={label}>
             <span aria-hidden>
                 <Icon type={type} />
             </span>
@@ -36,6 +36,7 @@ const Icon = styled(FiMoreHorizontal, {
     variants: {
         type: {
             album: {},
+            header: {},
             playlist: {},
             track: {
                 color: "$white800",

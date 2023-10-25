@@ -1,5 +1,7 @@
 import { createStitches } from "@stitches/react";
 
+import resizer from "../sidebar/Resizer";
+
 export const theme = {
     colors: {
         primary200: "#feeb44",
@@ -58,6 +60,8 @@ export const theme = {
         collectionImage: "rgba(0, 0, 0, 0.5)",
         cardImage: "rgba(0, 0, 0, 0.5)",
         collectionTableStickyHead: "rgba(0, 0, 0, 0.5)",
+        moreOptionsMenuMajor: "rgba(0, 0, 0, 0.3)",
+        moreOptionsMenuMinor: "rgba(0, 0, 0, 0.2)",
     },
     fonts: {
         primary: '"Plus Jakarta Sans", sans-serif',
@@ -118,6 +122,7 @@ export const theme = {
         maxWidth: 440,
     },
     zIndices: {
+        moreOptionsMenu: 99,
         verticalScrollbar: 10,
         resizer: 10,
         upperMenuContents: 4,

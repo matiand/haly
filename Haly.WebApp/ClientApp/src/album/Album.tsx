@@ -12,11 +12,11 @@ import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
 import LoadingIndicator from "../ui/LoadingIndicator";
-import MoreOptionsButton from "../ui/MoreOptionsButton";
 import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
 import AlbumHeartButton from "./AlbumHeartButton";
 import Copyrights from "./Copyrights";
+import MoreOptionsAlbum from "./MoreOptionsAlbum";
 import SimilarAlbums from "./SimilarAlbums";
 
 function Album() {
@@ -88,8 +88,8 @@ function Album() {
                 {isPlayable && (
                     <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                 )}
-                <MoreOptionsButton label={`More options for album: '${name}'`} type="album" />
                 <AlbumHeartButton albumId={albumId} />
+                <MoreOptionsAlbum album={query.data} />
             </PageControls>
 
             <AlbumTable albumId={albumId} items={tracks} />

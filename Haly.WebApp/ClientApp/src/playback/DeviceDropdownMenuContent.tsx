@@ -4,7 +4,7 @@ import { LuLaptop2, LuSmartphone, LuSquareDot } from "react-icons/lu";
 import { DeviceDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
-import * as DropdownMenu from "../ui/menu/DropdownMenu";
+import * as DropdownMenu from "../ui/DropdownMenu";
 import ActiveDevice from "./ActiveDevice";
 
 function DeviceDropdownMenuContent() {
