@@ -88,6 +88,13 @@ const globalStyles = globalCss({
         left: "210px !important",
     },
 
+    // Some styles of react-hot-toast Toaster have to be customized this way.
+    ".toaster": {
+        "div[role='status']": {
+            margin: 0,
+        },
+    },
+
     "a, button": {
         touchAction: "manipulation",
     },
