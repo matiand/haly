@@ -2,13 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import {
-    dominantColorsAtom,
-    pageContextAtom,
-    playlistSearchTermAtom,
-    selectedTracksAtom,
-    userIdAtom,
-} from "../common/atoms";
+import { dominantColorsAtom, pageContextAtom, playlistSearchTermAtom, userIdAtom } from "../common/atoms";
 import { theme } from "../common/theme";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -118,7 +112,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                             type: "playlist",
                             id: playlist.id,
                         }}
-                        isOn={isInLibrary}
+                        initialState={isInLibrary}
                     />
                 )}
 

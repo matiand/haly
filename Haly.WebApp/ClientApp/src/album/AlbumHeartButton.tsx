@@ -24,7 +24,7 @@ function AlbumHeartButton({ albumId }: AlbumHeartButtonProps) {
                 id: albumId,
                 type: "album",
             }}
-            isOn={isOn}
+            initialState={isOn}
         />
     );
 }

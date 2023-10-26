@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import { FollowMutationParams } from "../common/useFollowMutations";
+import { HeartMutationParams } from "../common/useHeartMutations";
 import HeartButton from "../ui/HeartButton";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
 import { TrackLikedState } from "./useTableRowLikedState";
@@ -22,7 +22,7 @@ function TrackDurationCell({ track, noActions, likedState }: TrackDurationCellPr
         );
     }
 
-    const heartBtnParams: FollowMutationParams = {
+    const heartBtnParams: HeartMutationParams = {
         type: "track",
         likedId: likedState.likedId!,
         playbackId: track.playbackId!,
@@ -30,7 +30,7 @@ function TrackDurationCell({ track, noActions, likedState }: TrackDurationCellPr
 
     return (
         <Wrapper>
-            <HeartButton key={track.id!} params={heartBtnParams} isOn={likedState.isLiked} />
+            <HeartButton key={track.id!} params={heartBtnParams} initialState={likedState.isLiked} />
             <Duration>{track.duration}</Duration>
             <MoreOptionsButton label={`More options for track ${track.name}`} type="track" />
         </Wrapper>

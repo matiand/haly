@@ -11,7 +11,7 @@ import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
-import FollowButton from "./FollowButton";
+import FollowCreatorButton from "./FollowCreatorButton";
 
 function Profile() {
     const { id } = useParams();
@@ -45,7 +45,7 @@ function Profile() {
             </PageHeader>
 
             <PageControls>
-                <FollowButton creatorId={userId} initialValue={isFollowed} type="User" />
+                <FollowCreatorButton creatorId={userId} initialValue={isFollowed} type="User" />
             </PageControls>
 
             <ResizableCardGroup title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />

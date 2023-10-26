@@ -10,7 +10,7 @@ import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import PageGradient from "../playlist/PageGradient";
-import FollowButton from "../profile/FollowButton";
+import FollowCreatorButton from "../profile/FollowCreatorButton";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
@@ -75,7 +75,7 @@ function Artist() {
 
             <PageControls>
                 <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
-                <FollowButton creatorId={artistId} initialValue={isFollowed} type="Artist" />
+                <FollowCreatorButton creatorId={artistId} initialValue={isFollowed} type="Artist" />
             </PageControls>
 
             <ArtistHighlights artistId={artistId} tracks={topTracks} playlist={highlightedPlaylist} />

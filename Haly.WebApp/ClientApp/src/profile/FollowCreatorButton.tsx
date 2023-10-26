@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CreatorType } from "../../generated/haly";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
+import toast from "react-hot-toast";
 
 type FollowButtonProps = {
     creatorId: string;
@@ -11,19 +12,24 @@ type FollowButtonProps = {
     type: CreatorType;
 };
 
-function FollowButton({ creatorId, initialValue, type }: FollowButtonProps) {
+function FollowCreatorButton({ creatorId, initialValue, type }: FollowButtonProps) {
     const [isFollowing, setIsFollowing] = useState(initialValue);
-    const follow = useMutation((creatorId: string) =>
-        halyClient.following.followCreator({
-            id: creatorId,
-            type,
-        }),
+    
+    const follow = useMutation(
+        (creatorId: string) =>
+            halyClient.following.followCreator({
+                id: creatorId,
+                type,
+            }),
+        { onSuccess: () => toast("Added to Your Library.") },
     );
-    const unfollow = useMutation((creatorId: string) =>
-        halyClient.following.followCreator({
-            id: creatorId,
-            type,
-        }),
+    const unfollow = useMutation(
+        (creatorId: string) =>
+            halyClient.following.followCreator({
+                id: creatorId,
+                type,
+            }),
+        { onSuccess: () => toast("Removed from Your Library.") },
     );
 
     const onClick = () => {
@@ -68,4 +74,4 @@ const Button = styled("button", {
     },
 });
 
-export default FollowButton;
+export default FollowCreatorButton;

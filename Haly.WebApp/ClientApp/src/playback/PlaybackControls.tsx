@@ -67,7 +67,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                         likedId: likedSongId ?? track.playbackId,
                         playbackId: track.playbackId,
                     }}
-                    isOn={Boolean(likedSongId)}
+                    initialState={Boolean(likedSongId)}
                 />
             </div>
 
