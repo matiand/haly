@@ -15,11 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
+  PlaylistBriefDto,
   PlaylistCardDto,
   Problem,
   UserProfileDto,
 } from '../models';
 import {
+    PlaylistBriefDtoFromJSON,
+    PlaylistBriefDtoToJSON,
     PlaylistCardDtoFromJSON,
     PlaylistCardDtoToJSON,
     ProblemFromJSON,
@@ -27,6 +30,11 @@ import {
     UserProfileDtoFromJSON,
     UserProfileDtoToJSON,
 } from '../models';
+
+export interface CreatePlaylistRequest {
+    userId: string;
+    name?: string;
+}
 
 export interface GetPlaylistsRequest {
     userId: string;
@@ -40,6 +48,42 @@ export interface GetUserRequest {
  * 
  */
 export class UsersApi extends runtime.BaseAPI {
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public </b>
+     * Create new playlist
+     */
+    async createPlaylistRaw(requestParameters: CreatePlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistBriefDto>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling createPlaylist.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.name !== undefined) {
+            queryParameters['name'] = requestParameters.name;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Users/{userId}/playlist`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistBriefDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public </b>
+     * Create new playlist
+     */
+    async createPlaylist(requestParameters: CreatePlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistBriefDto> {
+        const response = await this.createPlaylistRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Fetch a list of the playlists owned or followed by user from Spotify<br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-collaborative </b>

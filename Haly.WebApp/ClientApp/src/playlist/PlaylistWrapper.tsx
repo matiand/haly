@@ -29,15 +29,21 @@ function PlaylistWrapper() {
         setSelectedTracks([]);
     }, [sortOrder, setSelectedTracks]);
 
-    if (!isInLibrary && (syncPlaylist.isLoading || syncPlaylist.isIdle)) {
-        return <LoadingIndicator />;
+    if (isInLibrary || syncPlaylist.isSuccess) {
+        // I always want the Playlist component to unmount when route changes. This way old tracks from
+        // previous playlist don't show up and PlaylistTracks actually uses the initialTracks prop.
+        return (
+            <Playlist
+                key={id}
+                id={id!}
+                sortOrder={sortOrder}
+                isInLibrary={isInLibrary}
+                isLikedSongsCollection={false}
+            />
+        );
     }
 
-    // I always want the Playlist component to unmount when route changes. This way old tracks from
-    // previous playlist don't show up and PlaylistTracks actually uses the initialTracks prop.
-    return (
-        <Playlist key={id} id={id!} sortOrder={sortOrder} isInLibrary={isInLibrary} isLikedSongsCollection={false} />
-    );
+    return <LoadingIndicator />;
 }
 
 export default PlaylistWrapper;

@@ -36,7 +36,7 @@ public interface ISpotifyService
     Task UnfollowPlaylist(string id);
     Task FollowTracks(string ids);
     Task UnfollowTracks(string ids);
-
+    Task<Playlist> CreatePlaylist(string userId, string name);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);

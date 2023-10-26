@@ -364,4 +364,10 @@ public sealed class SpotifyService : ISpotifyService
     {
         return _spotifyClient.RemoveTracksUserAsync(ids);
     }
+
+    public async Task<Playlist> CreatePlaylist(string userId, string name)
+    {
+        var response = await _spotifyClient.CreatePlaylistAsync(userId, new Body13() { Name = name });
+        return response.Adapt<Playlist>();
+    }
 }

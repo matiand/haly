@@ -2,8 +2,11 @@ import { HiPlus } from "react-icons/hi2";
 import { MdLibraryMusic } from "react-icons/md";
 
 import { styled } from "../common/theme";
+import useCreatePlaylistMutation from "../playlist/useCreatePlaylistMutation";
 
 function UserLibraryHeader() {
+    const createPlaylist = useCreatePlaylistMutation();
+
     return (
         <Header>
             <Title>
@@ -13,7 +16,12 @@ function UserLibraryHeader() {
                 <h2>Your Library</h2>
             </Title>
 
-            <AddButton type="button" aria-label="Create playlist" title="Create playlist">
+            <AddButton
+                onClick={() => createPlaylist.mutate()}
+                type="button"
+                aria-label="Create playlist"
+                title="Create playlist"
+            >
                 <span>
                     <AddButtonIcon />
                 </span>
