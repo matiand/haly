@@ -13,10 +13,12 @@ const options: ToasterProps["toastOptions"] = {
         background: theme.colors.white800,
         boxShadow: `0px 4px 12px 0px ${theme.shadows.toast}`,
         color: theme.colors.black800,
+        cursor: "default",
         fontWeight: 500,
         lineHeight: 1.5,
         padding: `${theme.space["500"]}`,
         margin: 0,
+        userSelect: "none",
 
         // Old colors
         // background: theme.colors.info400,
