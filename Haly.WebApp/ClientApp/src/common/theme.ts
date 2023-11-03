@@ -43,6 +43,7 @@ export const theme = {
         userDropdownBtnBg: "rgba(0, 0, 0, 0.72)",
         userDropdownBtnHover: "rgba(0, 0, 0, 0.8)",
         menuItemText: "rgba(255, 255, 255, 0.9)",
+        modalOverlayBg: "rgba(0, 0, 0, 0.7)",
         explicitMarkBg: "rgba(255, 255, 255, 0.6)",
         radioBtnBg: "rgba(255, 255, 255, 0.08)",
         radioBtnBgHover: "rgba(255, 255, 255, 0.12)",
@@ -94,6 +95,7 @@ export const theme = {
         collectionRowHeight: "56px",
         majorCollectionBackgroundHeight: "304px",
         minorCollectionBackgroundHeight: "230px",
+        modalBtnHeight: "48px",
         navIconSize: "24px",
         playbackControlsHeight: "72px",
         playbackControlsButtonSize: "36px",
@@ -121,7 +123,6 @@ export const theme = {
         maxWidth: 440,
     },
     zIndices: {
-        moreOptionsMenu: 99,
         verticalScrollbar: 10,
         resizer: 10,
         upperMenuContents: 4,
