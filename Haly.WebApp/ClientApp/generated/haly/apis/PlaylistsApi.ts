@@ -15,21 +15,38 @@
 
 import * as runtime from '../runtime';
 import type {
+  AddTracksRequest,
+  DuplicateProblem,
   PaginatedTracksDto,
+  PlaylistBriefDto,
   PlaylistWithTracksDto,
   Problem,
+  UpdatePlaylistDetailsRequest,
   ValidationProblem,
 } from '../models';
 import {
+    AddTracksRequestFromJSON,
+    AddTracksRequestToJSON,
+    DuplicateProblemFromJSON,
+    DuplicateProblemToJSON,
     PaginatedTracksDtoFromJSON,
     PaginatedTracksDtoToJSON,
+    PlaylistBriefDtoFromJSON,
+    PlaylistBriefDtoToJSON,
     PlaylistWithTracksDtoFromJSON,
     PlaylistWithTracksDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    UpdatePlaylistDetailsRequestFromJSON,
+    UpdatePlaylistDetailsRequestToJSON,
     ValidationProblemFromJSON,
     ValidationProblemToJSON,
 } from '../models';
+
+export interface AddTracksOperationRequest {
+    playlistId: string;
+    addTracksRequest?: AddTracksRequest;
+}
 
 export interface GetPlaylistRequest {
     id: string;
@@ -48,10 +65,50 @@ export interface PutPlaylistRequest {
     id: string;
 }
 
+export interface UpdatePlaylistDetailsOperationRequest {
+    playlistId: string;
+    updatePlaylistDetailsRequest?: UpdatePlaylistDetailsRequest;
+}
+
 /**
  * 
  */
 export class PlaylistsApi extends runtime.BaseAPI {
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
+     * Add tracks to a playlist
+     */
+    async addTracksRaw(requestParameters: AddTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistBriefDto>> {
+        if (requestParameters.playlistId === null || requestParameters.playlistId === undefined) {
+            throw new runtime.RequiredError('playlistId','Required parameter requestParameters.playlistId was null or undefined when calling addTracks.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/Playlists/{playlistId}/tracks`.replace(`{${"playlistId"}}`, encodeURIComponent(String(requestParameters.playlistId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddTracksRequestToJSON(requestParameters.addTracksRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistBriefDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
+     * Add tracks to a playlist
+     */
+    async addTracks(requestParameters: AddTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistBriefDto> {
+        const response = await this.addTracksRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Get playlist from our cache
@@ -166,6 +223,40 @@ export class PlaylistsApi extends runtime.BaseAPI {
      */
     async putPlaylist(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.putPlaylistRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
+     * Update playlist details
+     */
+    async updatePlaylistDetailsRaw(requestParameters: UpdatePlaylistDetailsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.playlistId === null || requestParameters.playlistId === undefined) {
+            throw new runtime.RequiredError('playlistId','Required parameter requestParameters.playlistId was null or undefined when calling updatePlaylistDetails.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/Playlists/{playlistId}/details`.replace(`{${"playlistId"}}`, encodeURIComponent(String(requestParameters.playlistId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdatePlaylistDetailsRequestToJSON(requestParameters.updatePlaylistDetailsRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
+     * Update playlist details
+     */
+    async updatePlaylistDetails(requestParameters: UpdatePlaylistDetailsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updatePlaylistDetailsRaw(requestParameters, initOverrides);
     }
 
 }

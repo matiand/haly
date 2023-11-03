@@ -1,9 +1,11 @@
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Playlists;
+using Haly.WebApp.Features.Playlists.AddTracks;
 using Haly.WebApp.Features.Playlists.GetPlaylist;
 using Haly.WebApp.Features.Playlists.GetTracks;
 using Haly.WebApp.Features.Playlists.UpdatePlaylist;
+using Haly.WebApp.Features.Playlists.UpdatePlaylistDetails;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -67,5 +69,44 @@ public class PlaylistsController : ApiControllerBase
         if (response is null) return NotFound();
 
         return Ok(response);
+    }
+
+    [HttpPost("{playlistId}/tracks")]
+    [SwaggerOperation(Summary = "Add tracks to a playlist")]
+    [SwaggerResponse(statusCode: 200, "Tracks added", typeof(PlaylistBriefDto))]
+    [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
+    [SwaggerResponse(statusCode: 409, "Duplicate tracks were found", typeof(DuplicateProblem))]
+    [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
+    public async Task<IActionResult> AddTracks(string playlistId, AddTracksRequestBody body,
+        [FromServices] CurrentUserStore currentUserStore)
+    {
+        var userMarket = currentUserStore.User!.Market;
+        var command = new AddTracksCommand()
+        {
+            PlaylistId = playlistId,
+            UserMarket = userMarket,
+            Body = body,
+        };
+
+        var response = await Mediator.Send(command);
+
+        if (response.Playlist is null) return ProblemResponses.NotFound("Playlist not found");
+
+        if (response.SomeDuplicates)
+            return ProblemResponses.DuplicateConflict(response.AllDuplicates, response.SomeDuplicates);
+
+        return Ok(response.Playlist);
+    }
+
+    [HttpPut("{playlistId}/details")]
+    [SwaggerOperation(Summary = "Update playlist details")]
+    [SwaggerResponse(statusCode: 204, "Playlist details updated")]
+    [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
+    public async Task<ActionResult> UpdatePlaylistDetails(string playlistId, UpdatePlaylistDetailsRequestBody body)
+    {
+        var command = new UpdatePlaylistDetailsCommand(playlistId, body);
+        await Mediator.Send(command);
+
+        return NoContent();
     }
 }

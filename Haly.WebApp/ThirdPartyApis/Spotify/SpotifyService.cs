@@ -370,4 +370,25 @@ public sealed class SpotifyService : ISpotifyService
         var response = await _spotifyClient.CreatePlaylistAsync(userId, new Body13() { Name = name });
         return response.Adapt<Playlist>();
     }
+
+    public Task UpdatePlaylistDetails(string playlistId, string name, string description)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return _spotifyClient.ChangePlaylistDetailsAsync(playlistId, new Body() { Name = name });
+        }
+
+        return _spotifyClient.ChangePlaylistDetailsAsync(playlistId,
+            new Body() { Name = name, Description = description });
+    }
+
+    public async Task AddTracks(string playlistId, IEnumerable<string> trackUris)
+    {
+        var body = new Body2()
+        {
+            Uris = trackUris.ToList(),
+        };
+
+        await _spotifyClient.AddTracksToPlaylistAsync(playlistId, body: body);
+    }
 }

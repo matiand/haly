@@ -37,6 +37,8 @@ public interface ISpotifyService
     Task FollowTracks(string ids);
     Task UnfollowTracks(string ids);
     Task<Playlist> CreatePlaylist(string userId, string name);
+    Task UpdatePlaylistDetails(string playlistId, string name, string description);
+    Task AddTracks(string playlistId, IEnumerable<string> trackUris);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);

@@ -55,6 +55,20 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 404 };
     }
 
+    public static IActionResult DuplicateConflict(bool? allDuplicates, bool? someDuplicates)
+    {
+        var problem = new DuplicateProblem
+        {
+            Type = "https://httpstatuses.io/409",
+            Status = 409,
+            Title = "One or more duplicates were found",
+            SomeDuplicates = someDuplicates ?? false,
+            AllDuplicates = allDuplicates ?? false,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 409 };
+    }
+
     public static IActionResult TooManyRequestsProblem(string title)
     {
         var problem = new Problem

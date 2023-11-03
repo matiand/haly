@@ -1,5 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddTracksRequest';
+export * from './AddTracksRequestBody';
 export * from './AlbumBriefDto';
 export * from './AlbumDetailedDto';
 export * from './AlbumTrackDto';
@@ -10,6 +12,7 @@ export * from './ArtistDetailedDtoHighlightedPlaylist';
 export * from './ArtistDiscographyDto';
 export * from './CreatorType';
 export * from './DeviceDto';
+export * from './DuplicateProblem';
 export * from './FollowedArtistDto';
 export * from './GetMyLikedSongsResponse';
 export * from './HighlightedPlaylistDto';
@@ -34,6 +37,8 @@ export * from './ReleaseItemDto';
 export * from './TopArtistDto';
 export * from './TrackDto';
 export * from './UpdatePlaybackCommand';
+export * from './UpdatePlaylistDetailsRequest';
+export * from './UpdatePlaylistDetailsRequestBody';
 export * from './UserFeedDto';
 export * from './UserProfileDto';
 export * from './ValidationProblem';

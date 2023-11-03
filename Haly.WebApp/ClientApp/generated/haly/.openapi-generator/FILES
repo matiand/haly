@@ -9,6 +9,8 @@ apis/PlaylistsApi.ts
 apis/UsersApi.ts
 apis/index.ts
 index.ts
+models/AddTracksRequest.ts
+models/AddTracksRequestBody.ts
 models/AlbumBriefDto.ts
 models/AlbumDetailedDto.ts
 models/AlbumTrackDto.ts
@@ -19,6 +21,7 @@ models/ArtistDetailedDtoHighlightedPlaylist.ts
 models/ArtistDiscographyDto.ts
 models/CreatorType.ts
 models/DeviceDto.ts
+models/DuplicateProblem.ts
 models/FollowedArtistDto.ts
 models/GetMyLikedSongsResponse.ts
 models/HighlightedPlaylistDto.ts
@@ -43,6 +46,8 @@ models/ReleaseItemDto.ts
 models/TopArtistDto.ts
 models/TrackDto.ts
 models/UpdatePlaybackCommand.ts
+models/UpdatePlaylistDetailsRequest.ts
+models/UpdatePlaylistDetailsRequestBody.ts
 models/UserFeedDto.ts
 models/UserProfileDto.ts
 models/ValidationProblem.ts
