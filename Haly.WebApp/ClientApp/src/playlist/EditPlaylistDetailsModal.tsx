@@ -47,7 +47,10 @@ function EditPlaylistDetailsModal({ id, name, description, onClose }: EditPlayli
 
     const onSubmit = handleSubmit((data) => {
         onClose();
-        updatePlaylistDetails.mutate(data);
+        updatePlaylistDetails.mutate({
+            name: data.name,
+            description: data.description.replaceAll("\n", " "),
+        });
     });
 
     return (
