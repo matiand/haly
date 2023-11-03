@@ -3,8 +3,10 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import { dominantColorsAtom, pageContextAtom, playlistSearchTermAtom, userIdAtom } from "../common/atoms";
+import { GetPlaylistQueryKey } from "../common/queryKeys";
 import { theme } from "../common/theme";
 import halyClient from "../halyClient";
+import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
@@ -30,6 +32,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
     const userId = useAtomValue(userIdAtom);
+    const { onContextMenu, menuProps } = useContextMenu();
 
     const contextId = isLikedSongsCollection ? "collection" : id;
     const getPlaybackState = useContextPlaybackState();
@@ -68,17 +71,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     if (!hasTracks) {
         return (
             <div>
-                <PlaylistHeader
-                    key={playlist.id}
-                    name={playlist.name}
-                    description={playlist.description}
-                    imageUrl={playlist.imageUrl}
-                    likesTotal={playlist.likesTotal}
-                    duration={playlist.totalDuration}
-                    songsTotal={playlist.tracks.total}
-                    owner={playlist.owner}
-                    isPersonalized={playlist.isPersonalized}
-                />
+                <PlaylistHeader playlist={playlist} onContextMenu={onContextMenu} />
                 <PageControls>
                     {!isLikedSongsCollection && (
                         <MoreOptionsButton label={`More options for playlist ${playlist.name}`} type="playlist" />
@@ -93,16 +86,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
     return (
         <div>
-            <PlaylistHeader
-                name={playlist.name}
-                description={playlist.description}
-                imageUrl={playlist.imageUrl}
-                likesTotal={playlist.likesTotal}
-                duration={playlist.totalDuration}
-                songsTotal={playlist.tracks.total}
-                owner={playlist.owner}
-                isPersonalized={playlist.isPersonalized}
-            />
+            <PlaylistHeader playlist={playlist} onContextMenu={onContextMenu} />
             <PageControls>
                 <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
 
@@ -149,7 +133,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
 function usePlaylistQuery(playlistId: string, sortOrder: PlaylistSortOrder) {
     return useQuery(
-        ["playlists", playlistId, { sortOrder }],
+        GetPlaylistQueryKey(playlistId, sortOrder),
         () =>
             halyClient.playlists.getPlaylist({
                 id: playlistId,

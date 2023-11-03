@@ -4,9 +4,9 @@ import { useInView } from "react-intersection-observer";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import { pageHeaderVisibilityAtom } from "../common/atoms";
+import { styled } from "../common/theme";
 import HeaderImage from "./HeaderImage";
 import HeaderTitle from "./HeaderTitle";
-import { styled } from "../common/theme";
 
 type PageHeaderProps = {
     title: string;
@@ -14,10 +14,21 @@ type PageHeaderProps = {
     subtitle?: string;
     imageUrl?: PlaylistWithTracksDto["imageUrl"];
     description?: PlaylistWithTracksDto["description"];
+    onContextMenu?: (e: React.MouseEvent) => void;
+    onTitleClick?: () => void;
     children?: React.ReactNode;
 };
 
-function PageHeader({ title, type, subtitle, imageUrl, description, children }: PageHeaderProps) {
+function PageHeader({
+    title,
+    type,
+    subtitle,
+    imageUrl,
+    description,
+    onContextMenu,
+    onTitleClick,
+    children,
+}: PageHeaderProps) {
     const setPageHeaderVisibility = useSetAtom(pageHeaderVisibilityAtom);
     const { ref } = useInView({
         threshold: [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0],
@@ -36,12 +47,20 @@ function PageHeader({ title, type, subtitle, imageUrl, description, children }: 
     return (
         <Wrapper ref={ref}>
             <HeaderImage imageUrl={imageUrl} alt={altImageText} isRounded={hasRoundedImage} />
-            <PlaylistInfo>
+            <HeaderInfo>
                 <Subtitle>{subtitle ?? type}</Subtitle>
-                <HeaderTitle name={title} />
+
+                {onTitleClick ? (
+                    <Button type="button" onClick={onTitleClick}>
+                        <HeaderTitle name={title} onContextMenu={onContextMenu} />
+                    </Button>
+                ) : (
+                    <HeaderTitle name={title} onContextMenu={onContextMenu} />
+                )}
+
                 {description && <Description>{description}</Description>}
                 <Details>{children}</Details>
-            </PlaylistInfo>
+            </HeaderInfo>
 
             <div ref={ref} aria-hidden />
         </Wrapper>
@@ -63,7 +82,7 @@ const Wrapper = styled("div", {
     },
 });
 
-const PlaylistInfo = styled("div", {
+const HeaderInfo = styled("div", {
     display: "flex",
     flexFlow: "column",
     justifyContent: "flex-end",
@@ -116,6 +135,12 @@ const Details = styled("div", {
         display: "inline",
         marginLeft: "$100",
     },
+});
+
+const Button = styled("button", {
+    color: "inherit",
+    cursor: "pointer",
+    textAlign: "start",
 });
 
 export default PageHeader;

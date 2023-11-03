@@ -1,11 +1,16 @@
-import { useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { useResizeDetector } from "react-resize-detector";
 
 import { styled } from "../common/theme";
 
 const titleSizeSteps = [90, 66, 42, 30];
 
-function HeaderTitle({ name }: { name: string }) {
+type HeaderTitleProps = {
+    name: string;
+    onContextMenu?: (e: React.MouseEvent) => void;
+};
+
+function HeaderTitle({ name, onContextMenu }: HeaderTitleProps) {
     const titleRef = useRef<HTMLHeadingElement>(null);
 
     // Measure the title size and adjust it to fit the container
@@ -29,9 +34,16 @@ function HeaderTitle({ name }: { name: string }) {
         node.style.setProperty("visibility", "visible");
     }, []);
 
-    useResizeDetector({ targetRef: titleRef, onResize });
+    useResizeDetector({
+        targetRef: titleRef,
+        onResize,
+    });
 
-    return <Title ref={titleRef}>{name}</Title>;
+    return (
+        <Title ref={titleRef} onContextMenu={onContextMenu}>
+            {name}
+        </Title>
+    );
 }
 
 const Title = styled("h1", {
