@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
-import { styled } from "../common/theme";
+import { keyframes, styled } from "../common/theme";
 
 type ModalProps = {
     children: React.ReactNode;
@@ -17,10 +17,10 @@ function Modal({ children, title, renderDescription, onClose }: ModalProps) {
             <Dialog.Portal>
                 <Overlay />
 
-                <Content>
+                <Box>
                     <TitleWrapper>
                         <Title>{title}</Title>
-                        {renderDescription && <Description>{renderDescription()}</Description>}
+                        {renderDescription && <Description asChild>{renderDescription()}</Description>}
 
                         <CloseButton aria-label="Close dialog" title="Close dialog">
                             <span aria-hidden>
@@ -30,19 +30,30 @@ function Modal({ children, title, renderDescription, onClose }: ModalProps) {
                     </TitleWrapper>
 
                     {children}
-                </Content>
+                </Box>
             </Dialog.Portal>
         </Dialog.Root>
     );
 }
 
+const fadeIn = keyframes({
+    from: {
+        opacity: 0,
+    },
+    to: {
+        opacity: 1,
+    },
+});
+
 const Overlay = styled(Dialog.Overlay, {
+    animation: `${fadeIn} 200ms linear`,
     background: "$modalOverlayBg",
     position: "fixed",
     inset: 0,
 });
 
-const Content = styled(Dialog.Content, {
+const Box = styled(Dialog.Content, {
+    animation: `${fadeIn} 200ms linear`,
     background: "$white800",
     borderRadius: "8px",
     color: "$black600",
@@ -50,7 +61,7 @@ const Content = styled(Dialog.Content, {
     minWidth: "400px",
     padding: "$700",
     position: "fixed",
-    top: "40%",
+    top: "45%",
     transform: "translate(-50%, -50%)",
 
     "& button": {

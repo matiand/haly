@@ -41,10 +41,10 @@ function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }
                 <Modal
                     title={modalTitle}
                     renderDescription={() => (
-                        <div>
+                        <p>
                             This will {isOwnedByCurrentUser ? "delete " : "remove "}
                             <b>{entityName}</b> from <b>Your Library.</b>
-                        </div>
+                        </p>
                     )}
                     onClose={() => setIsModalOpen(false)}
                 >

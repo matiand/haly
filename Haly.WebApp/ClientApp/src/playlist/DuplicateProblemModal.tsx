@@ -18,9 +18,9 @@ function DuplicateProblemModal({ problem, playlistName, onAccept, onCancel }: Du
             title={title}
             onClose={onCancel}
             renderDescription={() => (
-                <div>
+                <p>
                     {descriptionPrefix} already in your <b>{playlistName}</b> playlist.
-                </div>
+                </p>
             )}
         >
             <ModalContents>
