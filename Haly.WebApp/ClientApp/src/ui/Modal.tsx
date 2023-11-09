@@ -7,27 +7,27 @@ import { styled } from "../common/theme";
 type ModalProps = {
     children: React.ReactNode;
     title: string;
-    description?: string;
+    renderDescription?: () => React.ReactNode;
     onClose: () => void;
 };
 
-function Modal({ children, title, description, onClose }: ModalProps) {
+function Modal({ children, title, renderDescription, onClose }: ModalProps) {
     return (
         <Dialog.Root defaultOpen onOpenChange={(open) => !open && onClose()}>
             <Dialog.Portal>
                 <Overlay />
 
                 <Content>
-                    <div>
+                    <TitleWrapper>
                         <Title>{title}</Title>
-                        {description && <Description>{description}</Description>}
+                        {renderDescription && <Description>{renderDescription()}</Description>}
 
                         <CloseButton aria-label="Close dialog" title="Close dialog">
                             <span aria-hidden>
                                 <IoMdClose />
                             </span>
                         </CloseButton>
-                    </div>
+                    </TitleWrapper>
 
                     {children}
                 </Content>
@@ -47,6 +47,7 @@ const Content = styled(Dialog.Content, {
     borderRadius: "8px",
     color: "$black600",
     left: "50%",
+    minWidth: "400px",
     padding: "$700",
     position: "fixed",
     top: "40%",
@@ -54,17 +55,30 @@ const Content = styled(Dialog.Content, {
 
     "& button": {
         cursor: "pointer",
+        fontWeight: 700,
         height: "$modalBtnHeight",
         padding: "$400 $800",
+
+        "&:hover": {
+            transform: "scale(1.05)",
+        },
     },
 });
 
+const TitleWrapper = styled("div", {
+    display: "flex",
+    flexDirection: "column",
+    gap: "$400",
+});
+
 const Title = styled(Dialog.Title, {
+    fontSize: "$500",
     fontWeight: 800,
     userSelect: "none",
 });
 
 const Description = styled(Dialog.Description, {
+    fontSize: "$300",
     fontWeight: 500,
     userSelect: "none",
 });
@@ -76,8 +90,8 @@ const CloseButton = styled(Dialog.Close, {
         height: "32px",
         padding: "$400",
         position: "absolute",
-        right: "$600",
-        top: "$600",
+        right: "$400",
+        top: "$400",
         width: "32px",
 
         "&:hover": {

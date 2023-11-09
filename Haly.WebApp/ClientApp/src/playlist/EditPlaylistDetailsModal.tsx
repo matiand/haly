@@ -183,13 +183,8 @@ const SubmitButton = styled("button", {
     border: "none",
     borderRadius: "9999px",
     color: "$white800",
-    fontWeight: 700,
     marginTop: "$400",
     padding: "$400 $600",
-
-    "&:hover": {
-        background: "$black300",
-    },
 });
 
 export default EditPlaylistDetailsModal;

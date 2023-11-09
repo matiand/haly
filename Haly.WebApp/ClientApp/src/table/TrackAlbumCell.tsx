@@ -15,7 +15,11 @@ function TrackAlbumCell({ track, searchTerm }: TrackAlbumCellProps) {
     return (
         <Wrapper>
             {track.isSong && !isLocal ? (
-                <Link className="line-clamp-ellipsis" to={`/album/${track.album.id}`}>
+                <Link
+                    onContextMenu={() => console.log("bar")}
+                    className="line-clamp-ellipsis"
+                    to={`/album/${track.album.id}`}
+                >
                     <HighlightableText text={track.album.name} markedText={searchTerm} />
                 </Link>
             ) : (

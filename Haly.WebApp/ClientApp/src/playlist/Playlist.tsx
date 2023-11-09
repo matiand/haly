@@ -14,6 +14,7 @@ import SearchBar from "../search/SearchBar";
 import HeartButton from "../ui/HeartButton";
 import MoreOptionsButton from "../ui/MoreOptionsButton";
 import PageControls from "../ui/PageControls";
+import PlaylistContextMenu from "./menus/PlaylistContextMenu";
 import PageGradient from "./PageGradient";
 import PlaylistHeader from "./PlaylistHeader";
 import PlaylistTracks from "./PlaylistTracks";
@@ -80,6 +81,8 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
                 <PageGradient color={dominantColor} type="major" />
                 <PageGradient color={dominantColor} type="minor" />
+
+                <PlaylistContextMenu playlist={playlist} menuProps={menuProps} />
             </div>
         );
     }
@@ -127,6 +130,8 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />
+
+            <PlaylistContextMenu playlist={playlist} menuProps={menuProps} />
         </div>
     );
 }

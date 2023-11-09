@@ -2,7 +2,7 @@ import { MenuItem, SubMenu } from "@szhsin/react-menu";
 import toast from "react-hot-toast";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-import { styled } from "../common/theme";
+import { styled } from "../../common/theme";
 
 type ShareMenuSectionProps = {
     type: "song" | "album" | "playlist";
@@ -11,15 +11,15 @@ type ShareMenuSectionProps = {
     path?: string;
 };
 
-function ShareMenuSection({ type, id, name, path }: ShareMenuSectionProps) {
+function ShareMenuItems({ type, id, name, path }: ShareMenuSectionProps) {
     if (!id && !name && !path) return null;
 
     const entityName = type;
     const href = path ? `${SpotifyOrigin}${path}` : undefined;
 
-    const copyLink = () => copyToClipboard(href ?? "", "Link copied to clipboard");
-    const copyId = () => copyToClipboard(id ?? "", "Id copied to clipboard");
-    const copyName = () => copyToClipboard(name ?? "", "Name copied to clipboard");
+    const copyLink = () => copyToClipboard(href ?? "", "Link copied to clipboard.");
+    const copyId = () => copyToClipboard(id ?? "", "Id copied to clipboard.");
+    const copyName = () => copyToClipboard(name ?? "", "Name copied to clipboard.");
 
     return (
         <>
@@ -68,4 +68,4 @@ const ExternalLinkIcon = styled(HiOutlineExternalLink, {
     width: "20px",
 });
 
-export default ShareMenuSection;
+export default ShareMenuItems;

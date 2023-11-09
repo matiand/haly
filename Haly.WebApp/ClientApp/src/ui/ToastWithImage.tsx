@@ -1,16 +1,17 @@
 import React from "react";
 
+import { PlaylistBriefDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 
 type ToastWithImageProps = {
-    imageUrl: string;
+    imageUrl: PlaylistBriefDto["imageUrl"];
     children: React.ReactNode;
 };
 
 function ToastWithImage({ imageUrl, children }: ToastWithImageProps) {
     return (
         <Wrapper>
-            <img src={imageUrl} alt="" width={32} height={32} />
+            {imageUrl && <img src={imageUrl} alt="" width={32} height={32} />}
             <div>{children}</div>
         </Wrapper>
     );

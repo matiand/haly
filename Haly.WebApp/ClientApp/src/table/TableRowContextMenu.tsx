@@ -3,8 +3,8 @@ import { useAtomValue } from "jotai";
 
 import { AlbumTrackDto, TrackDto } from "../../generated/haly";
 import { selectedTracksAtom, TrackDisallowedActions, trackDisallowedActionsAtom } from "../common/atoms";
-import AddToQueueMenuItem from "../contextmenu/AddToQueueMenuItem";
-import FollowMenuItem from "../contextmenu/FollowMenuItem";
+// import AddToQueueMenuItem from "../menus/AddToQueueMenuItem";
+// import FollowMenuItem from "../menus/FollowMenuItem";
 
 function TableRowContextMenu() {
     const selectedTracks = useAtomValue(selectedTracksAtom);
@@ -41,8 +41,8 @@ function Items({ tracks, disallowedActions }: ItemsProps) {
     if (tracks.length === 1)
         return (
             <>
-                <FollowMenuItem />
-                {disallowedActions?.queueAdd ? null : <AddToQueueMenuItem />}
+                {/*<FollowMenuItem />*/}
+                {/*{disallowedActions?.queueAdd ? null : <AddToQueueMenuItem />}*/}
                 <MenuDivider />
 
                 {/*<AddToPlaylistMenuItem />*/}

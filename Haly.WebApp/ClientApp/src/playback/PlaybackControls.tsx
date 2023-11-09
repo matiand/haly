@@ -61,7 +61,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
             <div>
                 <TrackInformation track={track} type="playback" />
                 <HeartButton
-                    // key={track.id}
+                    key={track.playbackId}
                     params={{
                         type: "track",
                         likedId: likedSongId ?? track.playbackId,
