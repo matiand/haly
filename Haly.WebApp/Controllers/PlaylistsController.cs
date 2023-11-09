@@ -74,26 +74,24 @@ public class PlaylistsController : ApiControllerBase
     [HttpPost("{playlistId}/tracks")]
     [SwaggerOperation(Summary = "Add tracks to a playlist")]
     [SwaggerResponse(statusCode: 200, "Tracks added", typeof(PlaylistBriefDto))]
-    [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
+    [SwaggerResponse(statusCode: 404, "Playlist or tracks were not found", typeof(Problem))]
     [SwaggerResponse(statusCode: 409, "Duplicate tracks were found", typeof(DuplicateProblem))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
     public async Task<IActionResult> AddTracks(string playlistId, AddTracksRequestBody body,
         [FromServices] CurrentUserStore currentUserStore)
     {
-        var userMarket = currentUserStore.User!.Market;
         var command = new AddTracksCommand()
         {
             PlaylistId = playlistId,
-            UserMarket = userMarket,
+            UserMarket = currentUserStore.User!.Market,
             Body = body,
         };
-
         var response = await Mediator.Send(command);
 
-        if (response.Playlist is null) return ProblemResponses.NotFound("Playlist not found");
+        if (response.Playlist is null) return ProblemResponses.NotFound("Playlist or tracks were not found.");
 
-        if (response.SomeDuplicates)
-            return ProblemResponses.DuplicateConflict(response.AllDuplicates, response.SomeDuplicates);
+        if (response.DuplicateType is not DuplicateType.None)
+            return ProblemResponses.DuplicateConflict(playlistId, response.DuplicateType);
 
         return Ok(response.Playlist);
     }

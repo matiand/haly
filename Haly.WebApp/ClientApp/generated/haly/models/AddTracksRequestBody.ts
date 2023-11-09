@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { DuplicatesStrategy } from './DuplicatesStrategy';
+import {
+    DuplicatesStrategyFromJSON,
+    DuplicatesStrategyFromJSONTyped,
+    DuplicatesStrategyToJSON,
+} from './DuplicatesStrategy';
+
 /**
  * 
  * @export
@@ -33,10 +40,10 @@ export interface AddTracksRequestBody {
     trackUris?: Array<string> | null;
     /**
      * 
-     * @type {boolean}
+     * @type {DuplicatesStrategy}
      * @memberof AddTracksRequestBody
      */
-    allowDuplicates: boolean;
+    duplicatesStrategy: DuplicatesStrategy | null;
 }
 
 /**
@@ -44,7 +51,7 @@ export interface AddTracksRequestBody {
  */
 export function instanceOfAddTracksRequestBody(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "allowDuplicates" in value;
+    isInstance = isInstance && "duplicatesStrategy" in value;
 
     return isInstance;
 }
@@ -61,7 +68,7 @@ export function AddTracksRequestBodyFromJSONTyped(json: any, ignoreDiscriminator
         
         'collectionUri': !exists(json, 'collectionUri') ? undefined : json['collectionUri'],
         'trackUris': !exists(json, 'trackUris') ? undefined : json['trackUris'],
-        'allowDuplicates': json['allowDuplicates'],
+        'duplicatesStrategy': DuplicatesStrategyFromJSON(json['duplicatesStrategy']),
     };
 }
 
@@ -76,7 +83,7 @@ export function AddTracksRequestBodyToJSON(value?: AddTracksRequestBody | null):
         
         'collectionUri': value.collectionUri,
         'trackUris': value.trackUris,
-        'allowDuplicates': value.allowDuplicates,
+        'duplicatesStrategy': DuplicatesStrategyToJSON(value.duplicatesStrategy),
     };
 }
 

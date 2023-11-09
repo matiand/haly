@@ -13,6 +13,8 @@ export * from './ArtistDiscographyDto';
 export * from './CreatorType';
 export * from './DeviceDto';
 export * from './DuplicateProblem';
+export * from './DuplicateType';
+export * from './DuplicatesStrategy';
 export * from './FollowedArtistDto';
 export * from './GetMyLikedSongsResponse';
 export * from './HighlightedPlaylistDto';

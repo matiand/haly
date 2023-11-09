@@ -1,7 +1,9 @@
+using Haly.WebApp.Features.Playlists.AddTracks;
+
 namespace Haly.WebApp.Features.ErrorHandling;
 
 public record DuplicateProblem : Problem
 {
-    public bool AllDuplicates { get; init; }
-    public bool SomeDuplicates { get; init; }
+    public string PlaylistId { get; init; }
+    public DuplicateType DuplicateType { get; init; }
 }

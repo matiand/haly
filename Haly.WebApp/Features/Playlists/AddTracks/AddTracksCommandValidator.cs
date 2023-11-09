@@ -8,6 +8,7 @@ public class AddTracksCommandValidator : AbstractValidator<AddTracksCommand>
     {
         RuleFor(x => x.PlaylistId).NotEmpty();
         RuleFor(x => x.UserMarket).NotEmpty();
+        RuleFor(x => x.Body.DuplicatesStrategy).IsInEnum();
 
         RuleFor(command => command.Body.CollectionUri)
              .Must(uri => !string.IsNullOrWhiteSpace(uri))

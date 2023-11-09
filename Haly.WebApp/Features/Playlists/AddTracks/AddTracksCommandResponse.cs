@@ -1,3 +1,3 @@
 namespace Haly.WebApp.Features.Playlists.AddTracks;
 
-public record AddTracksCommandResponse(PlaylistBriefDto? Playlist, bool AllDuplicates, bool SomeDuplicates);
+public record AddTracksCommandResponse(PlaylistBriefDto? Playlist, DuplicateType DuplicateType = DuplicateType.None);

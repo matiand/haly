@@ -34,20 +34,32 @@ public class AddTracksCommandHandler : IRequestHandler<AddTracksCommand, AddTrac
 
         var (cachedPlaylist, trackUris) = (await cachedPlaylistTask, await trackUrisTask);
 
-        if (cachedPlaylist is null)
+        if (cachedPlaylist is null || trackUris.Count == 0)
         {
-            return new AddTracksCommandResponse(Playlist: null, AllDuplicates: false, SomeDuplicates: false);
+            return new AddTracksCommandResponse(Playlist: null);
         }
 
-        var (allDuplicates, someDuplicates) = CheckForDuplicates(cachedPlaylist, trackUris);
-        if (!someDuplicates || request.Body.AllowDuplicates)
+        // Track uris that are not already in the playlist.
+        var newTrackUris = trackUris.Where(uri => !cachedPlaylist.Tracks.Select(t => t.Uri).Contains(uri)).ToList();
+        var hasDuplicates = newTrackUris.Count != trackUris.Count;
+
+        if (hasDuplicates && request.Body.DuplicatesStrategy == DuplicatesStrategy.FailWhenAnyDuplicate)
+        {
+            var duplicateStatus = newTrackUris.Count == 0 ? DuplicateType.All : DuplicateType.Some;
+            return new AddTracksCommandResponse(cachedPlaylist.Adapt<PlaylistBriefDto>(), duplicateStatus);
+        }
+        else if (hasDuplicates && request.Body.DuplicatesStrategy == DuplicatesStrategy.AddNewOnes)
+        {
+            await _spotify.AddTracks(request.PlaylistId, newTrackUris);
+        }
+        else
         {
             await _spotify.AddTracks(request.PlaylistId, trackUris);
-            await UpdateCachedPlaylist(cachedPlaylist, request, cancellationToken);
         }
 
-        var playlistDto = cachedPlaylist.Adapt<PlaylistBriefDto>();
-        return new AddTracksCommandResponse(Playlist: playlistDto, allDuplicates, someDuplicates);
+        var playlist = await UpdateCachedPlaylist(cachedPlaylist, request, cancellationToken);
+
+        return new AddTracksCommandResponse(playlist.Adapt<PlaylistBriefDto>());
     }
 
     private async Task<List<string>> CollectTrackUris(AddTracksCommand request)
@@ -57,32 +69,32 @@ public class AddTracksCommandHandler : IRequestHandler<AddTracksCommand, AddTrac
             return request.Body.TrackUris.ToList();
         }
 
+        var collectionId = GetCollectionIdFromUri(request.Body.CollectionUri!);
         if (request.Body.CollectionUri!.Contains("album"))
         {
-            var album = await _spotify.GetAlbum(request.Body.CollectionUri, request.UserMarket);
+            var album = await _spotify.GetAlbum(collectionId, request.UserMarket);
             return album.Tracks.Select(t => t.Uri!).ToList();
         }
         else
         {
-            var tracks = await _spotify.GetPlaylistTracks(request.Body.CollectionUri, request.UserMarket);
-            return tracks.Where(t => string.IsNullOrEmpty(t.Uri)).Select(t => t.Uri!).ToList();
+            var tracks = await _spotify.GetPlaylistTracks(collectionId, request.UserMarket);
+            return tracks.Where(t => !string.IsNullOrEmpty(t.Uri)).Select(t => t.Uri!).ToList();
         }
     }
 
-    private static (bool all, bool some) CheckForDuplicates(Playlist cachedPlaylist, List<string> trackUrisToAdd)
-    {
-        var allDuplicates = trackUrisToAdd.All(uri => cachedPlaylist.Tracks.Any(track => track.Uri == uri));
-        var someDuplicates = trackUrisToAdd.Any(uri => cachedPlaylist.Tracks.Any(track => track.Uri == uri));
-
-        return (allDuplicates, someDuplicates);
-    }
-
-    private async Task UpdateCachedPlaylist(Playlist cachedPlaylist, AddTracksCommand request,
+    private async Task<Playlist> UpdateCachedPlaylist(Playlist cachedPlaylist, AddTracksCommand request,
         CancellationToken cancellationToken)
     {
         var freshPlaylistTracks = await _spotify.GetPlaylistTracks(request.PlaylistId, request.UserMarket);
 
-        cachedPlaylist.Tracks = freshPlaylistTracks;
+        cachedPlaylist.UpdateTracks(freshPlaylistTracks);
         await _db.SaveChangesAsync(cancellationToken);
+
+        return cachedPlaylist;
+    }
+
+    private static string GetCollectionIdFromUri(string collectionUri)
+    {
+        return collectionUri.Split(":").Last();
     }
 }

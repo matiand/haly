@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { DuplicateType } from './DuplicateType';
+import {
+    DuplicateTypeFromJSON,
+    DuplicateTypeFromJSONTyped,
+    DuplicateTypeToJSON,
+} from './DuplicateType';
+
 /**
  * 
  * @export
@@ -39,16 +46,16 @@ export interface DuplicateProblem {
     title: string;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof DuplicateProblem
      */
-    allDuplicates: boolean;
+    playlistId: string;
     /**
      * 
-     * @type {boolean}
+     * @type {DuplicateType}
      * @memberof DuplicateProblem
      */
-    someDuplicates: boolean;
+    duplicateType: DuplicateType | null;
 }
 
 /**
@@ -59,8 +66,8 @@ export function instanceOfDuplicateProblem(value: object): boolean {
     isInstance = isInstance && "type" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "title" in value;
-    isInstance = isInstance && "allDuplicates" in value;
-    isInstance = isInstance && "someDuplicates" in value;
+    isInstance = isInstance && "playlistId" in value;
+    isInstance = isInstance && "duplicateType" in value;
 
     return isInstance;
 }
@@ -78,8 +85,8 @@ export function DuplicateProblemFromJSONTyped(json: any, ignoreDiscriminator: bo
         'type': json['type'],
         'status': json['status'],
         'title': json['title'],
-        'allDuplicates': json['allDuplicates'],
-        'someDuplicates': json['someDuplicates'],
+        'playlistId': json['playlistId'],
+        'duplicateType': DuplicateTypeFromJSON(json['duplicateType']),
     };
 }
 
@@ -95,8 +102,8 @@ export function DuplicateProblemToJSON(value?: DuplicateProblem | null): any {
         'type': value.type,
         'status': value.status,
         'title': value.title,
-        'allDuplicates': value.allDuplicates,
-        'someDuplicates': value.someDuplicates,
+        'playlistId': value.playlistId,
+        'duplicateType': DuplicateTypeToJSON(value.duplicateType),
     };
 }
 

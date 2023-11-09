@@ -1310,7 +1310,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlaylistBriefDto'
         '404':
-          description: Playlist not found
+          description: Playlist or tracks were not found
           content:
             application/json:
               schema:
@@ -1517,7 +1517,7 @@ components:
   schemas:
     AddTracksRequestBody:
       required:
-        - allowDuplicates
+        - duplicatesStrategy
       type: object
       properties:
         collectionUri:
@@ -1528,8 +1528,9 @@ components:
           items:
             type: string
           nullable: true
-        allowDuplicates:
-          type: boolean
+        duplicatesStrategy:
+          allOf:
+            - $ref: '#/components/schemas/DuplicatesStrategy'
       additionalProperties: false
     AlbumBriefDto:
       required:
@@ -1740,8 +1741,8 @@ components:
       additionalProperties: false
     DuplicateProblem:
       required:
-        - allDuplicates
-        - someDuplicates
+        - duplicateType
+        - playlistId
         - status
         - title
         - type
@@ -1754,11 +1755,24 @@ components:
           format: int32
         title:
           type: string
-        allDuplicates:
-          type: boolean
-        someDuplicates:
-          type: boolean
+        playlistId:
+          type: string
+        duplicateType:
+          allOf:
+            - $ref: '#/components/schemas/DuplicateType'
       additionalProperties: false
+    DuplicateType:
+      enum:
+        - None
+        - Some
+        - All
+      type: string
+    DuplicatesStrategy:
+      enum:
+        - FailWhenAnyDuplicate
+        - AddNewOnes
+        - AddAll
+      type: string
     FollowedArtistDto:
       required:
         - followersTotal

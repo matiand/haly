@@ -22,6 +22,8 @@ models/ArtistDiscographyDto.ts
 models/CreatorType.ts
 models/DeviceDto.ts
 models/DuplicateProblem.ts
+models/DuplicateType.ts
+models/DuplicatesStrategy.ts
 models/FollowedArtistDto.ts
 models/GetMyLikedSongsResponse.ts
 models/HighlightedPlaylistDto.ts
