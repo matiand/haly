@@ -123,6 +123,7 @@ export const theme = {
         maxWidth: 440,
     },
     zIndices: {
+        menu: 11,
         verticalScrollbar: 10,
         resizer: 10,
         upperMenuContents: 4,

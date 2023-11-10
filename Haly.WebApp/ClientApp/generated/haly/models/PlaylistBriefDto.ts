@@ -42,6 +42,12 @@ export interface PlaylistBriefDto {
      * @type {string}
      * @memberof PlaylistBriefDto
      */
+    description?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistBriefDto
+     */
     imageUrl?: string | null;
 }
 
@@ -70,6 +76,7 @@ export function PlaylistBriefDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'id': json['id'],
         'name': json['name'],
         'ownerId': json['ownerId'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
     };
 }
@@ -86,6 +93,7 @@ export function PlaylistBriefDtoToJSON(value?: PlaylistBriefDto | null): any {
         'id': value.id,
         'name': value.name,
         'ownerId': value.ownerId,
+        'description': value.description,
         'imageUrl': value.imageUrl,
     };
 }

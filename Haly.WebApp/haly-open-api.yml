@@ -1878,6 +1878,9 @@ components:
           type: string
         ownerId:
           type: string
+        description:
+          type: string
+          nullable: true
         imageUrl:
           type: string
           nullable: true

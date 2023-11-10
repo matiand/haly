@@ -2,31 +2,38 @@ import { HiPlus } from "react-icons/hi2";
 import { MdLibraryMusic } from "react-icons/md";
 
 import { styled } from "../common/theme";
+import useContextMenu from "../menus/useContextMenu";
 import useCreatePlaylistMutation from "../playlist/useCreatePlaylistMutation";
+import UserLibraryContextMenu from "./UserLibraryContextMenu";
 
 function UserLibraryHeader() {
     const createPlaylist = useCreatePlaylistMutation();
+    const { menuProps, onContextMenu } = useContextMenu();
 
     return (
-        <Header>
-            <Title>
-                <span aria-hidden>
-                    <TitleIcon />
-                </span>
-                <h2>Your Library</h2>
-            </Title>
+        <>
+            <Header onContextMenu={onContextMenu}>
+                <Title>
+                    <span aria-hidden>
+                        <TitleIcon />
+                    </span>
+                    <h2>Your Library</h2>
+                </Title>
 
-            <AddButton
-                onClick={() => createPlaylist.mutate()}
-                type="button"
-                aria-label="Create playlist"
-                title="Create playlist"
-            >
-                <span>
-                    <AddButtonIcon />
-                </span>
-            </AddButton>
-        </Header>
+                <AddButton
+                    onClick={() => createPlaylist.mutate()}
+                    type="button"
+                    aria-label="Create playlist"
+                    title="Create playlist"
+                >
+                    <span>
+                        <AddButtonIcon />
+                    </span>
+                </AddButton>
+            </Header>
+
+            <UserLibraryContextMenu menuProps={menuProps} createPlaylist={() => createPlaylist.mutate()} />
+        </>
     );
 }
 

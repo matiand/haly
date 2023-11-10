@@ -5,24 +5,53 @@ import { NavLink } from "react-router-dom";
 import { styled } from "../common/theme";
 import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
+import PlaylistContextMenu from "../playlist/menus/PlaylistContextMenu";
+import useContextMenu from "../menus/useContextMenu";
+import { AlbumBriefDto, PlaylistBriefDto } from "../../generated/haly";
 
-type UserLibraryLinkProps = {
-    name: string;
+type UserLibraryItemProps = {
+    item:
+        | {
+              type: "playlist";
+              dto: PlaylistBriefDto;
+          }
+        | {
+              type: "album";
+              dto: AlbumBriefDto;
+          }
+        | {
+              type: "collection";
+          };
     contextUri: string;
     href: string;
     playbackState: ContextPlaybackState;
 };
 
-function UserLibraryLink({ name, contextUri, href, playbackState }: UserLibraryLinkProps) {
+function UserLibraryItem({ item, contextUri, href, playbackState }: UserLibraryItemProps) {
     const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
+    const { onContextMenu, menuProps } = useContextMenu();
+
     const isListenedTo = playbackState !== "none";
+    const name = item.type === "collection" ? "Liked Songs" : item.dto.name;
 
     return (
-        <Link to={href} onDoubleClick={playbackAction}>
-            <span className={clsx({ isListenedTo })}>{name}</span>
+        <>
+            <li onContextMenu={onContextMenu}>
+                <Link to={href} onDoubleClick={playbackAction}>
+                    <span className={clsx({ isListenedTo })}>{name}</span>
 
-            <span aria-hidden>{playbackState === "playing" && <Icon />}</span>
-        </Link>
+                    <span aria-hidden>{playbackState === "playing" && <Icon />}</span>
+                </Link>
+            </li>
+
+            {item.type === "playlist" && (
+                <PlaylistContextMenu
+                    playlist={item.dto}
+                    menuProps={menuProps}
+                    isLikedSongsCollection={false}
+                />
+            )}
+        </>
     );
 }
 
@@ -71,4 +100,4 @@ const Icon = styled(HiSpeakerWave, {
     width: "14px",
 });
 
-export default UserLibraryLink;
+export default UserLibraryItem;

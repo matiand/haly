@@ -1,6 +1,6 @@
 import { MenuDivider } from "@szhsin/react-menu";
 
-import { PlaylistWithTracksDto } from "../../../generated/haly";
+import { PlaylistBriefDto, PlaylistWithTracksDto } from "../../../generated/haly";
 import { HeartMutationParams } from "../../common/useHeartMutations";
 import AddToPlaylistMenuItem from "../../menus/items/AddToPlaylistMenuItem";
 import EditPlaylistDetailsMenuItem from "../../menus/items/EditPlaylistDetailsMenuItem";
@@ -9,10 +9,10 @@ import HeartMenuItem from "../../menus/items/HeartMenuItem";
 import ShareMenuItems from "../../menus/items/ShareMenuItems";
 
 type PlaylistMenuItemsProps = {
-    playlist: PlaylistWithTracksDto;
+    playlist: PlaylistBriefDto | PlaylistWithTracksDto;
     isInLibrary: boolean;
     isOwnedByCurrentUser: boolean;
-    isLikedSongsCollection: boolean;
+    isLikedSongsCollection?: boolean;
 };
 
 function PlaylistMenuItems({
@@ -21,12 +21,13 @@ function PlaylistMenuItems({
     isOwnedByCurrentUser,
     isLikedSongsCollection,
 }: PlaylistMenuItemsProps) {
-    // if(isLikedSongsCollection){
-    // return
-    // <>
-    //     <ForcePlaylistSyncMenuItem id={playlist.id} isLikedSongsCollection/>
-    // </>
-    // }
+    if (isLikedSongsCollection) {
+        return (
+            <>
+                <ForcePlaylistSyncMenuItem id={playlist.id} isLikedSongsCollection />
+            </>
+        );
+    }
 
     const heartMutationParams: HeartMutationParams = {
         id: playlist.id,

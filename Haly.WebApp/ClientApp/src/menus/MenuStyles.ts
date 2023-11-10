@@ -5,6 +5,7 @@ import { styled } from "../common/theme";
 
 export const StyledMenu = styled(ControlledMenu, {
     [`${menuSelector.name}`]: {
+        // todo: remove this, please
         // "&&&": { display: "unset !important" },
         background: "$black200",
         boxShadow: "0px 12px 20px $moreOptionsMenuMajor, 0px 4px 6px $moreOptionsMenuMinor",
@@ -16,6 +17,7 @@ export const StyledMenu = styled(ControlledMenu, {
         maxHeight: "calc(100vh - 24px)",
         padding: "$200",
         userSelect: "none",
+        zIndex: "$menu",
     },
 
     [`${menuItemSelector.name}`]: {
