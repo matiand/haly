@@ -9,6 +9,10 @@ type ContextMenuProps = {
 };
 
 export function ContextMenu({ children, menuProps }: ContextMenuProps) {
+    if (menuProps.state === "closed") {
+        return null;
+    }
+
     return (
         <StyledMenu {...menuProps} direction="bottom" portal boundingBoxPadding="32">
             {children}

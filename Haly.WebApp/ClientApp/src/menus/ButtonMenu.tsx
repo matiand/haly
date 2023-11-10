@@ -23,16 +23,18 @@ function ButtonMenu({ label, children }: ButtonMenuProps) {
                 </span>
             </Button>
 
-            <StyledMenu
-                state={isOpen ? "open" : "closed"}
-                anchorRef={ref}
-                direction="bottom"
-                onClose={() => setOpen(false)}
-                portal
-                boundingBoxPadding="32"
-            >
-                {children}
-            </StyledMenu>
+            {isOpen && (
+                <StyledMenu
+                    state="open"
+                    anchorRef={ref}
+                    direction="bottom"
+                    onClose={() => setOpen(false)}
+                    portal
+                    boundingBoxPadding="32"
+                >
+                    {children}
+                </StyledMenu>
+            )}
         </>
     );
 }
