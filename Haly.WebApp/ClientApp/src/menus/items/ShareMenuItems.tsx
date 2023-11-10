@@ -18,7 +18,7 @@ function ShareMenuItems({ type, id, name, path }: ShareMenuSectionProps) {
     const href = path ? `${SpotifyOrigin}${path}` : undefined;
 
     const copyLink = () => copyToClipboard(href ?? "", "Link copied to clipboard.");
-    const copyId = () => copyToClipboard(id ?? "", "Id copied to clipboard.");
+    const copyId = () => copyToClipboard(id ?? "", "Copied to clipboard.");
     const copyName = () => copyToClipboard(name ?? "", "Name copied to clipboard.");
 
     return (

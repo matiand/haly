@@ -1,27 +1,29 @@
-import { useAtomValue } from "jotai";
-
 import { PlaylistWithTracksDto } from "../../../generated/haly";
-import { userIdAtom } from "../../common/atoms";
 import ButtonMenu from "../../menus/ButtonMenu";
 import useIsPlaylistInLibrary from "../useIsPlaylistInLibrary";
+import useIsPlaylistOwnedByCurrentUser from "../useIsPlaylistOwnedByCurrentUser";
 import PlaylistMenuItems from "./PlaylistMenuItems";
 
 type PlaylistButtonMenuProps = {
     playlist: PlaylistWithTracksDto;
+    isLikedSongsCollection: boolean;
 };
 
-function PlaylistButtonMenu({ playlist }: PlaylistButtonMenuProps) {
-    const userId = useAtomValue(userIdAtom);
+function PlaylistButtonMenu({ playlist, isLikedSongsCollection }: PlaylistButtonMenuProps) {
     const isInLibrary = useIsPlaylistInLibrary(playlist.id);
+    const isOwnedByCurrentUser = useIsPlaylistOwnedByCurrentUser(playlist.owner.id);
 
-    const isOwnedByCurrentUser = playlist.owner.id === userId;
+    const btnLabel = isLikedSongsCollection
+        ? "More options for 'Liked Songs' collection"
+        : `More options for playlist ${playlist.name}`;
 
     return (
-        <ButtonMenu label={`More options for playlist ${playlist.name}`}>
+        <ButtonMenu label={btnLabel}>
             <PlaylistMenuItems
                 playlist={playlist}
                 isInLibrary={isInLibrary}
                 isOwnedByCurrentUser={isOwnedByCurrentUser}
+                isLikedSongsCollection={isLikedSongsCollection}
             />
         </ButtonMenu>
     );

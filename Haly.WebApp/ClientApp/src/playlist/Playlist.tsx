@@ -12,8 +12,8 @@ import useContextPlaybackState from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import SearchBar from "../search/SearchBar";
 import HeartButton from "../ui/HeartButton";
-import MoreOptionsButton from "../ui/MoreOptionsButton";
 import PageControls from "../ui/PageControls";
+import PlaylistButtonMenu from "./menus/PlaylistButtonMenu";
 import PlaylistContextMenu from "./menus/PlaylistContextMenu";
 import PageGradient from "./PageGradient";
 import PlaylistHeader from "./PlaylistHeader";
@@ -69,29 +69,13 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
         ? theme.colors.dominantLikedSongs
         : dominantColors[playlist.imageUrl ?? ""];
 
-    if (!hasTracks) {
-        return (
-            <div>
-                <PlaylistHeader playlist={playlist} onContextMenu={onContextMenu} />
-                <PageControls>
-                    {!isLikedSongsCollection && (
-                        <MoreOptionsButton label={`More options for playlist ${playlist.name}`} type="playlist" />
-                    )}
-                </PageControls>
-
-                <PageGradient color={dominantColor} type="major" />
-                <PageGradient color={dominantColor} type="minor" />
-
-                <PlaylistContextMenu playlist={playlist} menuProps={menuProps} />
-            </div>
-        );
-    }
-
     return (
         <div>
             <PlaylistHeader playlist={playlist} onContextMenu={onContextMenu} />
             <PageControls>
-                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
+                {hasTracks && (
+                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
+                )}
 
                 {!isOwnedByCurrentUser && (
                     <HeartButton
@@ -103,35 +87,41 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                     />
                 )}
 
-                {!isLikedSongsCollection && (
-                    <MoreOptionsButton label={`More options for playlist ${playlist.name}`} type="playlist" />
-                )}
+                <PlaylistButtonMenu playlist={playlist} isLikedSongsCollection={isLikedSongsCollection} />
 
-                <SearchBar
-                    variant="playlist"
-                    onChange={(text) => {
-                        // We need to check if our text is a valid RegExp
-                        try {
-                            new RegExp(text);
-                            setPlaylistSearchTerm(text);
-                            // Don't update it if it fails validation
-                            // eslint-disable-next-line no-empty
-                        } catch (e) {}
-                    }}
-                />
+                {hasTracks && (
+                    <SearchBar
+                        variant="playlist"
+                        onChange={(text) => {
+                            // We need to check if our text is a valid RegExp
+                            try {
+                                new RegExp(text);
+                                setPlaylistSearchTerm(text);
+                                // Don't update it if it fails validation
+                                // eslint-disable-next-line no-empty
+                            } catch (e) {}
+                        }}
+                    />
+                )}
             </PageControls>
 
-            <PlaylistTracks
-                playlistId={playlist.id}
-                sortOrder={sortOrder}
-                initialTracks={playlist.tracks}
-                isLikedSongsCollection={isLikedSongsCollection}
-            />
+            {hasTracks && (
+                <PlaylistTracks
+                    playlistId={playlist.id}
+                    sortOrder={sortOrder}
+                    initialTracks={playlist.tracks}
+                    isLikedSongsCollection={isLikedSongsCollection}
+                />
+            )}
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />
 
-            <PlaylistContextMenu playlist={playlist} menuProps={menuProps} />
+            <PlaylistContextMenu
+                playlist={playlist}
+                menuProps={menuProps}
+                isLikedSongsCollection={isLikedSongsCollection}
+            />
         </div>
     );
 }
