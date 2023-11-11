@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  AddToQueueRequest,
   DeviceDto,
   PlaybackStateDto,
   Problem,
@@ -22,6 +23,8 @@ import type {
   TrackDto,
 } from '../models';
 import {
+    AddToQueueRequestFromJSON,
+    AddToQueueRequestToJSON,
     DeviceDtoFromJSON,
     DeviceDtoToJSON,
     PlaybackStateDtoFromJSON,
@@ -33,6 +36,10 @@ import {
     TrackDtoFromJSON,
     TrackDtoToJSON,
 } from '../models';
+
+export interface AddToQueueOperationRequest {
+    addToQueueRequest?: AddToQueueRequest;
+}
 
 export interface PutPlaybackOperationRequest {
     putPlaybackRequest?: PutPlaybackRequest;
@@ -54,6 +61,36 @@ export interface TransferPlaybackRequest {
  * 
  */
 export class PlayerApi extends runtime.BaseAPI {
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Add to playback queue
+     */
+    async addToQueueRaw(requestParameters: AddToQueueOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/Me/Player/queue`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddToQueueRequestToJSON(requestParameters.addToQueueRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>
+     * Add to playback queue
+     */
+    async addToQueue(requestParameters: AddToQueueOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.addToQueueRaw(requestParameters, initOverrides);
+    }
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-playback-state </b>

@@ -12,4 +12,6 @@ public interface ISpotifyPlaybackService
     Task Pause();
     Task UpdatePlayback(string contextUri, string? trackUri);
     Task UpdatePlayback(IEnumerable<string> trackUri);
+    Task AddToQueue(string collectionUri);
+    Task AddToQueue(IEnumerable<string> trackUris);
 }

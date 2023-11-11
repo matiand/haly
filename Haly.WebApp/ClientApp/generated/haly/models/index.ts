@@ -1,5 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddToQueueCommand';
+export * from './AddToQueueRequest';
 export * from './AddTracksRequest';
 export * from './AddTracksRequestBody';
 export * from './AlbumBriefDto';

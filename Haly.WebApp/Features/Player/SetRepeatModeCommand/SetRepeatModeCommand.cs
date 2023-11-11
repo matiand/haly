@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Haly.WebApp.Features.Player.SetRepeatModeCommand;
 
-// Command must be IRequest<Unit>, otherwise our ValidationBehavior for it won't work.
+// Command must implement IRequest<Unit>, otherwise our ValidationBehavior for it won't work.
 public record SetRepeatModeCommand(string RepeatMode) : IRequest<Unit>;
 
 public class SetRepeatModeCommandHandler : IRequestHandler<SetRepeatModeCommand, Unit>

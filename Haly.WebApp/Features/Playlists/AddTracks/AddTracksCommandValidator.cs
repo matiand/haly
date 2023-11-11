@@ -16,7 +16,7 @@ public class AddTracksCommandValidator : AbstractValidator<AddTracksCommand>
              .WithMessage("Either CollectionUri or TrackUris must be provided.");
 
         RuleFor(command => command.Body.TrackUris)
-            .Must(uris => uris?.Count() > 0)
+            .Must(uris => uris is not null && uris.All(uri => !string.IsNullOrWhiteSpace(uri)))
             .When(command => string.IsNullOrWhiteSpace(command.Body.CollectionUri))
             .WithMessage("Either CollectionUri or TrackUris must be provided.");
     }

@@ -1,5 +1,6 @@
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Player;
+using Haly.WebApp.Features.Player.AddToQueue;
 using Haly.WebApp.Features.Player.GetAvailableDevices;
 using Haly.WebApp.Features.Player.GetPlaybackState;
 using Haly.WebApp.Features.Player.GetQueue;
@@ -123,6 +124,17 @@ public class PlayerController : ApiControllerBase
     {
         var response = await Mediator.Send(command);
         if (!response.IsAvailable) return ProblemResponses.NotFound("Content is not available.");
+
+        return Accepted();
+    }
+
+    [HttpPost("queue")]
+    [SwaggerOperation(Summary = "Add to playback queue")]
+    [SwaggerResponse(statusCode: 202, "Accepted")]
+    [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
+    public async Task<IActionResult> AddToQueue(AddToQueueCommand command)
+    {
+        await Mediator.Send(command);
 
         return Accepted();
     }

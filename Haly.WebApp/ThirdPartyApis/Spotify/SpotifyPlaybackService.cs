@@ -90,4 +90,17 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
 
         return _spotifyClient.StartAUsersPlaybackAsync(device_id: null, body);
     }
+
+    public Task AddToQueue(string collectionUri)
+    {
+        return _spotifyClient.AddToQueueAsync(collectionUri);
+    }
+
+    public async Task AddToQueue(IEnumerable<string> trackUris)
+    {
+        foreach (var uri in trackUris)
+        {
+            await _spotifyClient.AddToQueueAsync(uri);
+        }
+    }
 }

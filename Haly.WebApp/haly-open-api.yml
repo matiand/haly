@@ -947,6 +947,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+    post:
+      tags:
+        - Player
+      summary: Add to playback queue
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-modify-playback-state </b>'
+      operationId: AddToQueue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AddToQueueCommand'
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AddToQueueCommand'
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/AddToQueueCommand'
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /Me/Player/recently-played:
     get:
       tags:
@@ -1515,6 +1556,18 @@ paths:
                 $ref: '#/components/schemas/Problem'
 components:
   schemas:
+    AddToQueueCommand:
+      type: object
+      properties:
+        collectionUri:
+          type: string
+          nullable: true
+        trackUris:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
     AddTracksRequestBody:
       required:
         - duplicatesStrategy
