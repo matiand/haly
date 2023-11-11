@@ -958,15 +958,15 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/AddToQueueCommand'
+                - $ref: '#/components/schemas/AddToQueueRequestBody'
           text/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/AddToQueueCommand'
+                - $ref: '#/components/schemas/AddToQueueRequestBody'
           application/*+json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/AddToQueueCommand'
+                - $ref: '#/components/schemas/AddToQueueRequestBody'
       responses:
         '202':
           description: Accepted
@@ -1556,7 +1556,7 @@ paths:
                 $ref: '#/components/schemas/Problem'
 components:
   schemas:
-    AddToQueueCommand:
+    AddToQueueRequestBody:
       type: object
       properties:
         collectionUri:

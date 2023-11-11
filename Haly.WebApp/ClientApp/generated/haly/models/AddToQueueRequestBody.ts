@@ -16,37 +16,37 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface AddToQueueCommand
+ * @interface AddToQueueRequestBody
  */
-export interface AddToQueueCommand {
+export interface AddToQueueRequestBody {
     /**
      * 
      * @type {string}
-     * @memberof AddToQueueCommand
+     * @memberof AddToQueueRequestBody
      */
     collectionUri?: string | null;
     /**
      * 
      * @type {Array<string>}
-     * @memberof AddToQueueCommand
+     * @memberof AddToQueueRequestBody
      */
     trackUris?: Array<string> | null;
 }
 
 /**
- * Check if a given object implements the AddToQueueCommand interface.
+ * Check if a given object implements the AddToQueueRequestBody interface.
  */
-export function instanceOfAddToQueueCommand(value: object): boolean {
+export function instanceOfAddToQueueRequestBody(value: object): boolean {
     let isInstance = true;
 
     return isInstance;
 }
 
-export function AddToQueueCommandFromJSON(json: any): AddToQueueCommand {
-    return AddToQueueCommandFromJSONTyped(json, false);
+export function AddToQueueRequestBodyFromJSON(json: any): AddToQueueRequestBody {
+    return AddToQueueRequestBodyFromJSONTyped(json, false);
 }
 
-export function AddToQueueCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): AddToQueueCommand {
+export function AddToQueueRequestBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): AddToQueueRequestBody {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function AddToQueueCommandFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function AddToQueueCommandToJSON(value?: AddToQueueCommand | null): any {
+export function AddToQueueRequestBodyToJSON(value?: AddToQueueRequestBody | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Player;
 using Haly.WebApp.Features.Player.AddToQueue;
@@ -33,7 +34,8 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Transfer playback to a new device")]
     [SwaggerResponse(statusCode: 204, "Playback transferred")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> TransferPlayback(string deviceId, [FromServices] ISpotifyPlaybackService playbackService)
+    public async Task<ActionResult> TransferPlayback(string deviceId,
+        [FromServices] ISpotifyPlaybackService playbackService)
     {
         await playbackService.TransferPlayback(deviceId);
 
@@ -132,8 +134,14 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Add to playback queue")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<IActionResult> AddToQueue(AddToQueueCommand command)
+    public async Task<IActionResult> AddToQueue(AddToQueueRequestBody body,
+        [FromServices] CurrentUserStore currentUserStore)
     {
+        var command = new AddToQueueCommand()
+        {
+            UserMarket = currentUserStore.User!.Market,
+            Body = body,
+        };
         await Mediator.Send(command);
 
         return Accepted();

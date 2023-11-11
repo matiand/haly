@@ -9,8 +9,8 @@ apis/PlaylistsApi.ts
 apis/UsersApi.ts
 apis/index.ts
 index.ts
-models/AddToQueueCommand.ts
 models/AddToQueueRequest.ts
+models/AddToQueueRequestBody.ts
 models/AddTracksRequest.ts
 models/AddTracksRequestBody.ts
 models/AlbumBriefDto.ts

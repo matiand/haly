@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { AddToQueueCommand } from './AddToQueueCommand';
+import type { AddToQueueRequestBody } from './AddToQueueRequestBody';
 import {
-    AddToQueueCommandFromJSON,
-    AddToQueueCommandFromJSONTyped,
-    AddToQueueCommandToJSON,
-} from './AddToQueueCommand';
+    AddToQueueRequestBodyFromJSON,
+    AddToQueueRequestBodyFromJSONTyped,
+    AddToQueueRequestBodyToJSON,
+} from './AddToQueueRequestBody';
 
 /**
  * 
