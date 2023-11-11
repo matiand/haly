@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.CurrentUser.GetLikedSongs;
 
-public record GetMyLikedSongsQuery(PrivateUserDto User) : IRequest<GetMyLikedSongsResponse>;
+public record GetMyLikedSongsQuery(PrivateUserDto User) : IRequest<GetMyLikedSongsQueryResponse>;
 
-public class GetMyLikedSongsQueryHandler : IRequestHandler<GetMyLikedSongsQuery, GetMyLikedSongsResponse>
+public class GetMyLikedSongsQueryHandler : IRequestHandler<GetMyLikedSongsQuery, GetMyLikedSongsQueryResponse>
 {
     private readonly LibraryContext _db;
 
@@ -15,7 +15,7 @@ public class GetMyLikedSongsQueryHandler : IRequestHandler<GetMyLikedSongsQuery,
         _db = db;
     }
 
-    public async Task<GetMyLikedSongsResponse> Handle(GetMyLikedSongsQuery request,
+    public async Task<GetMyLikedSongsQueryResponse> Handle(GetMyLikedSongsQuery request,
         CancellationToken cancellationToken)
     {
         var playlistId = request.User.LikedSongsCollectionId;
@@ -26,6 +26,6 @@ public class GetMyLikedSongsQueryHandler : IRequestHandler<GetMyLikedSongsQuery,
         var likedSongIdByPlaybackId = songs.DistinctBy(t => t.PlaybackId)
             .ToDictionary(track => track.PlaybackId!, track => track.Id!);
 
-        return new GetMyLikedSongsResponse(likedSongIdByPlaybackId);
+        return new GetMyLikedSongsQueryResponse(likedSongIdByPlaybackId);
     }
 }

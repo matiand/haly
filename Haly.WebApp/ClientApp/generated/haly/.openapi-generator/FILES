@@ -27,7 +27,7 @@ models/DuplicateProblem.ts
 models/DuplicateType.ts
 models/DuplicatesStrategy.ts
 models/FollowedArtistDto.ts
-models/GetMyLikedSongsResponse.ts
+models/GetMyLikedSongsQueryResponse.ts
 models/HighlightedPlaylistDto.ts
 models/OwnerBriefDto.ts
 models/PaginatedTracksDto.ts

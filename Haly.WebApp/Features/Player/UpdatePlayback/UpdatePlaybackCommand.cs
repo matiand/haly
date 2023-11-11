@@ -6,9 +6,9 @@ using MediatR;
 namespace Haly.WebApp.Features.Player.UpdatePlayback;
 
 public record UpdatePlaybackCommand(string ContextUri, string? TrackUri, bool WithImprovedShuffle)
-    : IRequest<UpdatePlaybackResponse>;
+    : IRequest<UpdatePlaybackCommandResponse>;
 
-public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackCommand, UpdatePlaybackResponse>
+public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackCommand, UpdatePlaybackCommandResponse>
 {
     private readonly ISpotifyPlaybackService _spotify;
 
@@ -17,7 +17,7 @@ public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackComman
         _spotify = spotify;
     }
 
-    public async Task<UpdatePlaybackResponse> Handle(UpdatePlaybackCommand request, CancellationToken cancellationToken)
+    public async Task<UpdatePlaybackCommandResponse> Handle(UpdatePlaybackCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -28,7 +28,7 @@ public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackComman
             // They return this code when content is not available.
             if (e.StatusCode == (int)HttpStatusCode.BadGateway)
             {
-                return new UpdatePlaybackResponse(IsAvailable: false);
+                return new UpdatePlaybackCommandResponse(IsAvailable: false);
             }
 
             throw;
@@ -36,7 +36,7 @@ public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackComman
 
         await HandleShuffleFlag(request);
 
-        return new UpdatePlaybackResponse(IsAvailable: true);
+        return new UpdatePlaybackCommandResponse(IsAvailable: true);
     }
 
     private async Task HandleShuffleFlag(UpdatePlaybackCommand request)

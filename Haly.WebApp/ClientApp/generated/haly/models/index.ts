@@ -18,7 +18,7 @@ export * from './DuplicateProblem';
 export * from './DuplicateType';
 export * from './DuplicatesStrategy';
 export * from './FollowedArtistDto';
-export * from './GetMyLikedSongsResponse';
+export * from './GetMyLikedSongsQueryResponse';
 export * from './HighlightedPlaylistDto';
 export * from './OwnerBriefDto';
 export * from './PaginatedTracksDto';

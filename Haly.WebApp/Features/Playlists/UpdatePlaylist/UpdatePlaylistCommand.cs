@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.UpdatePlaylist;
 
-public record UpdatePlaylistCommand(string PlaylistId, string UserMarket) : IRequest<UpdatePlaylistResponse?>;
+public record UpdatePlaylistCommand(string PlaylistId, string UserMarket) : IRequest<UpdatePlaylistCommandResponse?>;
 
-public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, UpdatePlaylistResponse?>
+public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, UpdatePlaylistCommandResponse?>
 {
     private readonly LibraryContext _db;
     private readonly ISpotifyService _spotifyService;
@@ -18,7 +18,7 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
         _spotifyService = spotifyService;
     }
 
-    public async Task<UpdatePlaylistResponse?> Handle(UpdatePlaylistCommand request,
+    public async Task<UpdatePlaylistCommandResponse?> Handle(UpdatePlaylistCommand request,
         CancellationToken cancellationToken)
     {
         var cachedPlaylistTask = _db.Playlists
@@ -36,7 +36,7 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
             _db.Playlists.Add(freshPlaylist);
             await _db.SaveChangesAsync(cancellationToken);
 
-            return new UpdatePlaylistResponse(Created: true, freshPlaylist.Id);
+            return new UpdatePlaylistCommandResponse(Created: true, freshPlaylist.Id);
         }
 
         if (cachedPlaylist.SnapshotId != freshPlaylist.SnapshotId)
@@ -45,6 +45,6 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
             await _db.SaveChangesAsync(cancellationToken);
         }
 
-        return new UpdatePlaylistResponse(Created: false, freshPlaylist.Id);
+        return new UpdatePlaylistCommandResponse(Created: false, freshPlaylist.Id);
     }
 }

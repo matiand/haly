@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface GetMyLikedSongsResponse
+ * @interface GetMyLikedSongsQueryResponse
  */
-export interface GetMyLikedSongsResponse {
+export interface GetMyLikedSongsQueryResponse {
     /**
      * 
      * @type {{ [key: string]: string; }}
-     * @memberof GetMyLikedSongsResponse
+     * @memberof GetMyLikedSongsQueryResponse
      */
     likedSongIdByPlaybackId: { [key: string]: string; };
 }
 
 /**
- * Check if a given object implements the GetMyLikedSongsResponse interface.
+ * Check if a given object implements the GetMyLikedSongsQueryResponse interface.
  */
-export function instanceOfGetMyLikedSongsResponse(value: object): boolean {
+export function instanceOfGetMyLikedSongsQueryResponse(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "likedSongIdByPlaybackId" in value;
 
     return isInstance;
 }
 
-export function GetMyLikedSongsResponseFromJSON(json: any): GetMyLikedSongsResponse {
-    return GetMyLikedSongsResponseFromJSONTyped(json, false);
+export function GetMyLikedSongsQueryResponseFromJSON(json: any): GetMyLikedSongsQueryResponse {
+    return GetMyLikedSongsQueryResponseFromJSONTyped(json, false);
 }
 
-export function GetMyLikedSongsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetMyLikedSongsResponse {
+export function GetMyLikedSongsQueryResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetMyLikedSongsQueryResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -51,7 +51,7 @@ export function GetMyLikedSongsResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function GetMyLikedSongsResponseToJSON(value?: GetMyLikedSongsResponse | null): any {
+export function GetMyLikedSongsQueryResponseToJSON(value?: GetMyLikedSongsQueryResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
