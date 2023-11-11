@@ -5,6 +5,7 @@ import { useState } from "react";
 import { DuplicatesStrategy } from "../../../generated/haly";
 import { cachedPlaylists, userIdAtom } from "../../common/atoms";
 import { styled } from "../../common/theme";
+import halyClient from "../../halyClient";
 import DuplicateProblemModal from "../../playlist/DuplicateProblemModal";
 import useAddToPlaylistMutation from "../../playlist/useAddToPlaylistMutation";
 import useCreatePlaylistMutation from "../../playlist/useCreatePlaylistMutation";
@@ -51,16 +52,19 @@ function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuIt
                         <MenuItem
                             onClick={() =>
                                 createPlaylist.mutateAsync().then((playlist) => {
-                                    addToPlaylist.mutate({
-                                        playlistId: playlist.id,
-                                        collectionUri,
-                                        trackUris,
-                                        duplicatesStrategy: DuplicatesStrategy.FailWhenAnyDuplicate,
-                                    });
+                                    // We need to update our cache before we can call addToPlaylist endpoint.
+                                    halyClient.me.putMyPlaylists().then(() =>
+                                        addToPlaylist.mutate({
+                                            playlistId: playlist.id,
+                                            collectionUri,
+                                            trackUris,
+                                            duplicatesStrategy: DuplicatesStrategy.FailWhenAnyDuplicate,
+                                        }),
+                                    );
                                 })
                             }
                         >
-                            Create Playlist
+                            <div>Create Playlist</div>
                         </MenuItem>
 
                         {filteredPlaylists.length > 0 && <MenuDivider />}

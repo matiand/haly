@@ -1,13 +1,21 @@
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { HiPlus } from "react-icons/hi2";
 import { MdLibraryMusic } from "react-icons/md";
 
+import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import { styled } from "../common/theme";
 import useContextMenu from "../menus/useContextMenu";
 import useCreatePlaylistMutation from "../playlist/useCreatePlaylistMutation";
 import UserLibraryContextMenu from "./UserLibraryContextMenu";
 
 function UserLibraryHeader() {
-    const createPlaylist = useCreatePlaylistMutation();
+    const queryClient = useQueryClient();
+    const createPlaylist = useCreatePlaylistMutation(() => {
+        queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+        // We show a toast instead of navigating to the new playlist.
+        toast("Created new playlist");
+    });
     const { menuProps, onContextMenu } = useContextMenu();
 
     return (

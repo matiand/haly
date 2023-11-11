@@ -57,9 +57,7 @@ public class AddTracksCommandHandler : IRequestHandler<AddTracksCommand, AddTrac
             await _spotify.AddTracks(request.PlaylistId, trackUris);
         }
 
-        var playlist = await UpdateCachedPlaylist(cachedPlaylist, request, cancellationToken);
-
-        return new AddTracksCommandResponse(playlist.Adapt<PlaylistBriefDto>());
+        return new AddTracksCommandResponse(cachedPlaylist.Adapt<PlaylistBriefDto>());
     }
 
     private async Task<List<string>> CollectTrackUris(AddTracksCommand request)
@@ -80,17 +78,6 @@ public class AddTracksCommandHandler : IRequestHandler<AddTracksCommand, AddTrac
             var tracks = await _spotify.GetPlaylistTracks(collectionId, request.UserMarket);
             return tracks.Where(t => !string.IsNullOrEmpty(t.Uri)).Select(t => t.Uri!).ToList();
         }
-    }
-
-    private async Task<Playlist> UpdateCachedPlaylist(Playlist cachedPlaylist, AddTracksCommand request,
-        CancellationToken cancellationToken)
-    {
-        var freshPlaylistTracks = await _spotify.GetPlaylistTracks(request.PlaylistId, request.UserMarket);
-
-        cachedPlaylist.UpdateTracks(freshPlaylistTracks);
-        await _db.SaveChangesAsync(cancellationToken);
-
-        return cachedPlaylist;
     }
 
     private static string GetCollectionIdFromUri(string collectionUri)

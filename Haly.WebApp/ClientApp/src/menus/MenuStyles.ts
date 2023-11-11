@@ -1,5 +1,11 @@
 import { ControlledMenu } from "@szhsin/react-menu";
-import { menuDividerSelector, menuItemSelector, menuSelector, submenuSelector } from "@szhsin/react-menu/style-utils";
+import {
+    menuDividerSelector,
+    menuGroupSelector,
+    menuItemSelector,
+    menuSelector,
+    submenuSelector,
+} from "@szhsin/react-menu/style-utils";
 
 import { styled } from "../common/theme";
 
@@ -56,6 +62,10 @@ export const StyledMenu = styled(ControlledMenu, {
     [`${menuItemSelector.hover}:not(${menuItemSelector.focusable})`]: {
         backgroundColor: "$trackHover",
         outline: 0,
+    },
+
+    [`${menuGroupSelector.name} [data-overlayscrollbars-viewport]`]: {
+        borderRadius: 0,
     },
 
     input: {

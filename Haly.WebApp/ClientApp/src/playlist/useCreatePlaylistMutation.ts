@@ -1,15 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
-import toast from "react-hot-toast";
 
 import { cachedPlaylists, userIdAtom } from "../common/atoms";
-import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 
-function useCreatePlaylistMutation() {
+function useCreatePlaylistMutation(onSuccess?: () => void) {
     const userId = useAtomValue(userIdAtom);
     const playlists = useAtomValue(cachedPlaylists);
-    const queryClient = useQueryClient();
 
     const newPlaylistName = preparePlaylistName(playlists.filter((p) => p.ownerId === userId).length);
 
@@ -20,13 +17,7 @@ function useCreatePlaylistMutation() {
                 userId,
                 name: newPlaylistName,
             }),
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
-                // We show a toast instead of navigating to it.
-                toast("Created new playlist");
-            },
-        },
+        { onSuccess },
     );
 }
 
