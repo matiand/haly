@@ -79,6 +79,8 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
                 {!isOwnedByCurrentUser && (
                     <HeartButton
+                        // Force rerender when the state was modified outside of the component (e.g. using a menu).
+                        key={isInLibrary ? 1 : 0}
                         params={{
                             type: "playlist",
                             id: playlist.id,

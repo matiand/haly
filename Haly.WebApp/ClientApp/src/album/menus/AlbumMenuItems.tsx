@@ -6,12 +6,14 @@ import AddToPlaylistMenuItem from "../../menus/items/AddToPlaylistMenuItem";
 import AddToQueueMenuItem from "../../menus/items/AddToQueueMenuItem";
 import HeartMenuItem from "../../menus/items/HeartMenuItem";
 import ShareMenuItems from "../../menus/items/ShareMenuItems";
+import useIsAlbumInLibrary from "../../useIsAlbumInLibrary";
 
 type AlbumMenuItemsProps = {
     album: AlbumBriefDto | AlbumDetailedDto;
 };
 
 function AlbumMenuItems({ album }: AlbumMenuItemsProps) {
+    const { isLoading: isLibraryStatusLoading, isOn } = useIsAlbumInLibrary(album.id);
     const heartMutationParams: HeartMutationParams = {
         id: album.id,
         type: "album",
@@ -21,7 +23,7 @@ function AlbumMenuItems({ album }: AlbumMenuItemsProps) {
 
     return (
         <>
-            <HeartMenuItem params={heartMutationParams} isInLibrary={false} />
+            {!isLibraryStatusLoading && <HeartMenuItem params={heartMutationParams} isInLibrary={isOn} />}
             <AddToQueueMenuItem collectionUri={albumUri} />
             <MenuDivider />
             <AddToPlaylistMenuItem collectionUri={albumUri} />
