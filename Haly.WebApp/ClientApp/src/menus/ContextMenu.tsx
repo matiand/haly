@@ -8,7 +8,7 @@ type ContextMenuProps = {
     menuProps: AnchorPointMenuProps;
 };
 
-export function ContextMenu({ children, menuProps }: ContextMenuProps) {
+function ContextMenu({ children, menuProps }: ContextMenuProps) {
     // if (menuProps.state === "closed") {
     //     return null;
     // }

@@ -3,20 +3,22 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { dominantColorsAtom, pageContextAtom, selectedTracksAtom } from "../common/atoms";
+import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
+import UseContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
 import LoadingIndicator from "../ui/LoadingIndicator";
-import MoreOptionsButton from "../ui/MoreOptionsButton";
 import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
 import AlbumHeartButton from "./AlbumHeartButton";
 import Copyrights from "./Copyrights";
+import AlbumButtonMenu from "./menus/AlbumButtonMenu";
+import AlbumContextMenu from "./menus/AlbumContextMenu";
 import SimilarAlbums from "./SimilarAlbums";
 
 function Album() {
@@ -24,6 +26,7 @@ function Album() {
     const query = useQuery(["albums", id], () => halyClient.albums.getAlbum({ id: id! }));
     const dominantColors = useAtomValue(dominantColorsAtom);
     const setPageContext = useSetAtom(pageContextAtom);
+    const { onContextMenu, menuProps } = UseContextMenu();
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(id!);
@@ -63,7 +66,14 @@ function Album() {
 
     return (
         <div>
-            <PageHeader title={name} subtitle={type} type="Album" imageUrl={imageUrl} description={null}>
+            <PageHeader
+                title={name}
+                subtitle={type}
+                type="Album"
+                imageUrl={imageUrl}
+                description={null}
+                onContextMenu={onContextMenu}
+            >
                 {artists.map((a) => {
                     const artistHref = `/artist/${a.id}`;
                     if (a.name === "Various Artists") {
@@ -89,7 +99,7 @@ function Album() {
                     <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                 )}
                 <AlbumHeartButton albumId={albumId} />
-                <MoreOptionsButton label="" type="album" />
+                <AlbumButtonMenu album={query.data} />
             </PageControls>
 
             <AlbumTable albumId={albumId} items={tracks} />
@@ -99,6 +109,8 @@ function Album() {
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />
+
+            <AlbumContextMenu album={query.data} menuProps={menuProps} />
         </div>
     );
 }
