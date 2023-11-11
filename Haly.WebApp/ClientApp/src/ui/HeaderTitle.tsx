@@ -51,7 +51,7 @@ const Title = styled("h1", {
 
     fontSize: "$$fontSize",
     fontWeight: 800,
-    letterSpacing: "-0.03em",
+    letterSpacing: "-0.01em",
     lineHeight: 1.25,
     margin: "0 0 $600",
     overflow: "hidden",

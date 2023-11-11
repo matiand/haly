@@ -92,6 +92,10 @@ const Description = styled(Dialog.Description, {
     fontSize: "$300",
     fontWeight: 500,
     userSelect: "none",
+
+    b: {
+        margin: "0 $100",
+    },
 });
 
 const CloseButton = styled(Dialog.Close, {
