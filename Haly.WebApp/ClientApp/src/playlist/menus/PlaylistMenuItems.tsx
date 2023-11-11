@@ -37,9 +37,6 @@ function PlaylistMenuItems({
 
     return (
         <>
-            {!isOwnedByCurrentUser && (
-                <HeartMenuItem params={heartMutationParams} isInLibrary={isInLibrary} entityName={playlist.name} />
-            )}
             <ForcePlaylistSyncMenuItem id={playlist.id} />
             <MenuDivider />
 
@@ -55,14 +52,12 @@ function PlaylistMenuItems({
                 name={playlist.name}
                 description={playlist.description ?? ""}
             />
-            {isOwnedByCurrentUser && (
-                <HeartMenuItem
-                    params={heartMutationParams}
-                    isInLibrary
-                    isOwnedByCurrentUser
-                    entityName={playlist.name}
-                />
-            )}
+            <HeartMenuItem
+                params={heartMutationParams}
+                isInLibrary={isInLibrary}
+                isOwnedByCurrentUser={isOwnedByCurrentUser}
+                entityName={playlist.name}
+            />
             <MenuDivider />
             <AddToPlaylistMenuItem collectionUri={playlistUri} />
             <MenuDivider />

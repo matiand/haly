@@ -31,7 +31,6 @@ function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }
     };
 
     const name = getMenuItemName(params, isInLibrary, isOwnedByCurrentUser);
-    const modalTitle = isOwnedByCurrentUser ? "Delete from Your Library?" : "Remove from Your Library?";
 
     return (
         <>
@@ -39,11 +38,11 @@ function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }
 
             {isModalOpen && (
                 <Modal
-                    title={modalTitle}
+                    title={`${isOwnedByCurrentUser ? "Delete" : "Remove"} from Your Library?`}
                     renderDescription={() => (
                         <p>
-                            This will {isOwnedByCurrentUser ? "delete " : "remove "}
-                            <b>{entityName}</b> from <b>Your Library.</b>
+                            This will {isOwnedByCurrentUser ? "delete" : "remove"} <b>{entityName}</b> from{" "}
+                            <b>Your Library.</b>
                         </p>
                     )}
                     onClose={() => setIsModalOpen(false)}
@@ -58,7 +57,7 @@ function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }
                                 setIsModalOpen(false);
                                 action();
 
-                                if (params.type === "playlist" && params.id === routeId) {
+                                if (isOwnedByCurrentUser && params.type === "playlist" && params.id === routeId) {
                                     navigate("/");
                                 }
                             }}
@@ -90,6 +89,7 @@ const ModalContents = styled("div", {
 
     "& > button:last-child": {
         background: "$primary400",
+        border: "2px solid $black800",
         borderRadius: "9999px",
     },
 });
