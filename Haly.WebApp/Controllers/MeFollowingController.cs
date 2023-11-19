@@ -5,8 +5,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 
-[Route("Me/[controller]")]
-public class FollowingController : ApiControllerBase
+[Route("Me/Following")]
+public class MeFollowingController : ApiControllerBase
 {
     [HttpGet("creators/contains")]
     [SwaggerOperation(Summary = "Check if current user follows a creator")]
@@ -21,7 +21,7 @@ public class FollowingController : ApiControllerBase
     }
 
     [HttpPut("creators/{id}")]
-    [SwaggerOperation(Summary = "Follow a creator")]
+    [SwaggerOperation(Summary = "Make current user follow a creator")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
     public async Task<ActionResult> FollowCreator(string id, CreatorType type,
@@ -33,7 +33,7 @@ public class FollowingController : ApiControllerBase
     }
 
     [HttpDelete("creators/{id}")]
-    [SwaggerOperation(Summary = "Unfollow a creator")]
+    [SwaggerOperation(Summary = "Make current user unfollow a creator")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
     public async Task<ActionResult> UnfollowCreator(string id, CreatorType type,
@@ -57,7 +57,7 @@ public class FollowingController : ApiControllerBase
     }
 
     [HttpPut("albums/{id}")]
-    [SwaggerOperation(Summary = "Follow an album")]
+    [SwaggerOperation(Summary = "Save an album to your library")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
     public async Task<ActionResult> FollowAlbum(string id, [FromServices] ISpotifyService spotifyService)
@@ -68,7 +68,7 @@ public class FollowingController : ApiControllerBase
     }
 
     [HttpDelete("albums/{id}")]
-    [SwaggerOperation(Summary = "Unfollow an album")]
+    [SwaggerOperation(Summary = "Remove an album from your library")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
     public async Task<ActionResult> UnfollowAlbum(string id, [FromServices] ISpotifyService spotifyService)

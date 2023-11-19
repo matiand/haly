@@ -9,6 +9,7 @@ using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Playlists;
+using Haly.WebApp.Features.Playlists.CreatePlaylist;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,19 @@ public class MeController : ApiControllerBase
         return response.User;
     }
 
+    [HttpPost("playlists")]
+    [SwaggerOperation(Summary = "Create new playlist")]
+    [SwaggerResponse(statusCode: 201, "", typeof(PlaylistBriefDto))]
+    [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic)]
+    public async Task<ActionResult<PlaylistBriefDto>> CreatePlaylist(string name,
+        [FromServices] CurrentUserStore currentUserStore)
+    {
+        var userId = currentUserStore.User!.Id;
+        var response = await Mediator.Send(new CreatePlaylistCommand(userId, name));
+
+        return response;
+    }
+
     [HttpPut("playlists")]
     [SwaggerOperation(Summary = "Fetch current user's playlists from Spotify and update our cache if they're changed")]
     [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(IEnumerable<PlaylistBriefDto>))]
@@ -67,7 +81,8 @@ public class MeController : ApiControllerBase
     }
 
     [HttpPut("tracks")]
-    [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
+    [SwaggerOperation(Summary =
+        "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 204, "'Liked Songs' collection updated")]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
     public async Task<ActionResult<PlaylistBriefDto>> PutMyLikedSongs(
@@ -89,17 +104,6 @@ public class MeController : ApiControllerBase
         return response;
     }
 
-    [HttpGet("top/artists")]
-    [SwaggerOperation(Summary = "Fetch current user's top artists from Spotify")]
-    [SwaggerResponse(statusCode: 200, "A list of top artists", typeof(IEnumerable<TopArtistDto>))]
-    [CallsSpotifyApi(SpotifyScopes.UserTopRead)]
-    public async Task<IEnumerable<TopArtistDto>> GetMyTopArtists()
-    {
-        var response = await Mediator.Send(new GetMyTopArtistsQuery());
-
-        return response;
-    }
-
     [HttpGet("feed")]
     [SwaggerOperation(Summary = "Fetch current user's feed")]
     [CallsSpotifyApi(SpotifyScopes.UserTopRead, SpotifyScopes.UserReadRecentlyPlayed)]
@@ -107,6 +111,17 @@ public class MeController : ApiControllerBase
     {
         var currentUser = currentUserStore.User!;
         var response = await Mediator.Send(new GetMyFeedQuery(currentUser.Market));
+
+        return response;
+    }
+
+    [HttpGet("feed/artists")]
+    [SwaggerOperation(Summary = "Fetch current user's top artists from Spotify")]
+    [SwaggerResponse(statusCode: 200, "A list of top artists", typeof(IEnumerable<TopArtistDto>))]
+    [CallsSpotifyApi(SpotifyScopes.UserTopRead)]
+    public async Task<IEnumerable<TopArtistDto>> GetMyTopArtists()
+    {
+        var response = await Mediator.Send(new GetMyTopArtistsQuery());
 
         return response;
     }

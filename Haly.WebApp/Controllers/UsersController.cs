@@ -1,6 +1,4 @@
 using Haly.WebApp.Features.ErrorHandling;
-using Haly.WebApp.Features.Playlists;
-using Haly.WebApp.Features.Playlists.CreatePlaylist;
 using Haly.WebApp.Features.Users.GetUser;
 using Haly.WebApp.Features.Users.GetUserPlaylists;
 using Haly.WebApp.ThirdPartyApis.Spotify;
@@ -34,16 +32,4 @@ public class UsersController : ApiControllerBase
 
         return Ok(response);
     }
-
-    [HttpPost("{userId}/playlist")]
-    [SwaggerOperation(Summary = "Create new playlist")]
-    [SwaggerResponse(statusCode: 201, "", typeof(PlaylistBriefDto))]
-    [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic)]
-    public async Task<ActionResult<PlaylistBriefDto>> CreatePlaylist(string userId, string name)
-    {
-        var response = await Mediator.Send(new CreatePlaylistCommand(userId, name));
-
-        return response;
-    }
-
 }

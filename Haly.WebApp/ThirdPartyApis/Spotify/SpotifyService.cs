@@ -29,6 +29,7 @@ public sealed class SpotifyService : ISpotifyService
     private const int ArtistReleasesLimit = 50;
     private const int RecommendationsLimit = 100;
     private const int RecentlyPlayedTracksLimit = 50;
+    private const int AddingTracksLimit = 100;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
         ISpotifyEndpointCollector endpointCollector)
@@ -382,13 +383,24 @@ public sealed class SpotifyService : ISpotifyService
             new Body() { Name = name, Description = description });
     }
 
-    public async Task AddTracks(string playlistId, IEnumerable<string> trackUris)
+    public async Task AddTracks(string playlistId, IReadOnlyCollection<string> trackUris)
     {
-        var body = new Body2()
-        {
-            Uris = trackUris.ToList(),
-        };
+        // Their documentation says that AddTracksToPlaylistAsync will append tracks by default, but
+        // they actual prepend them. To fix this issue we fetch playlist tracks total and use it to
+        // calculate the position.
+        var playlistResponse = await _spotifyClient.GetPlaylistAsync(playlistId);
+        var positionOffset = playlistResponse.Tracks.Total;
 
-        await _spotifyClient.AddTracksToPlaylistAsync(playlistId, body: body);
+        var limit = AddingTracksLimit;
+        for (var i = 0; i < trackUris.Count; i += limit)
+        {
+            var urisBatch = trackUris.Skip(i).Take(limit).ToList();
+
+            await _spotifyClient.AddTracksToPlaylistAsync(playlistId, body: new()
+            {
+                Uris = urisBatch,
+                Position = positionOffset + i,
+            });
+        }
     }
 }

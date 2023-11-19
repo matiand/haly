@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Haly.WebApp.Features.Swagger;
 
-// Explains why you need to call the PutCurrentUser action before other endpoints
+// Explains why you need to call the PutCurrentUser action before other endpoints.
 public class GettingStartedFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -11,7 +11,7 @@ public class GettingStartedFilter : IOperationFilter
         operation.Summary = "Update current user";
 
         operation.Description = string.Join("<br/>",
-            "Updates the User linked with specified token by fetching him from Spotify API, creates a new one for first time clients. Successful response links that token with our CurrentUser, and allows us to use endpoints that call Spotify API.",
+            "Fetch the user associated with a given token from the Spotify API and update our cache. Subsequent API calls will use this token for endpoints that interact with the Spotify API.",
             operation.Description);
 
         operation.RequestBody.Description =
