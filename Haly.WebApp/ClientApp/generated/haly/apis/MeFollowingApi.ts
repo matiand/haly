@@ -48,7 +48,7 @@ export interface FollowPlaylistRequest {
 }
 
 export interface FollowTracksRequest {
-    ids?: string;
+    requestBody?: Array<string>;
 }
 
 export interface UnfollowAlbumRequest {
@@ -65,13 +65,13 @@ export interface UnfollowPlaylistRequest {
 }
 
 export interface UnfollowTracksRequest {
-    ids?: string;
+    requestBody?: Array<string>;
 }
 
 /**
  * 
  */
-export class FollowingApi extends runtime.BaseAPI {
+export class MeFollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-library-read </b>
@@ -143,7 +143,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Follow an album
+     * Save an album to your library
      */
     async followAlbumRaw(requestParameters: FollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
@@ -166,7 +166,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Follow an album
+     * Save an album to your library
      */
     async followAlbum(requestParameters: FollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.followAlbumRaw(requestParameters, initOverrides);
@@ -174,7 +174,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Follow a creator
+     * Make current user follow a creator
      */
     async followCreatorRaw(requestParameters: FollowCreatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
@@ -201,7 +201,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Follow a creator
+     * Make current user follow a creator
      */
     async followCreator(requestParameters: FollowCreatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.followCreatorRaw(requestParameters, initOverrides);
@@ -245,17 +245,16 @@ export class FollowingApi extends runtime.BaseAPI {
     async followTracksRaw(requestParameters: FollowTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
-        if (requestParameters.ids !== undefined) {
-            queryParameters['ids'] = requestParameters.ids;
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/Me/Following/tracks`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
+            body: requestParameters.requestBody,
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -271,7 +270,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Unfollow an album
+     * Remove an album from your library
      */
     async unfollowAlbumRaw(requestParameters: UnfollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
@@ -294,7 +293,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Unfollow an album
+     * Remove an album from your library
      */
     async unfollowAlbum(requestParameters: UnfollowAlbumRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.unfollowAlbumRaw(requestParameters, initOverrides);
@@ -302,7 +301,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Unfollow a creator
+     * Make current user unfollow a creator
      */
     async unfollowCreatorRaw(requestParameters: UnfollowCreatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
@@ -329,7 +328,7 @@ export class FollowingApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-modify </b>
-     * Unfollow a creator
+     * Make current user unfollow a creator
      */
     async unfollowCreator(requestParameters: UnfollowCreatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.unfollowCreatorRaw(requestParameters, initOverrides);
@@ -373,17 +372,16 @@ export class FollowingApi extends runtime.BaseAPI {
     async unfollowTracksRaw(requestParameters: UnfollowTracksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
-        if (requestParameters.ids !== undefined) {
-            queryParameters['ids'] = requestParameters.ids;
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/Me/Following/tracks`,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
+            body: requestParameters.requestBody,
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

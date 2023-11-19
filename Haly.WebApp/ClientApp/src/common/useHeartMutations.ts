@@ -8,13 +8,14 @@ import { GetMyPlaylistsQueryKey, IsCurrentUserFollowingAlbum } from "./queryKeys
 
 export type HeartMutationParams =
     | {
-          // 'likedId' is the id used for following/unfollowing.
-          // If the track is not followed, we use its 'id' in collections and 'playbackId' for
-          // streamed tracks (that's the only id they have).
-          // For followed ones, we use 'likedId'.
-          likedId: string;
-          playbackId: string;
           type: "track";
+          ids: {
+              // 'likedId' is the id used for following/unfollowing.
+              // If the track is not followed, we use its 'id' in collections and 'playbackId' for
+              // streamed tracks (that's the only id they have).
+              likedId: string;
+              playbackId: string;
+          }[];
       }
     | {
           id: string;
@@ -39,7 +40,7 @@ function useHeartMutations() {
                 await halyClient.following.followAlbum({ id: params.id });
                 return params;
             } else {
-                await halyClient.following.followTracks({ ids: params.likedId });
+                await halyClient.following.followTracks({ requestBody: params.ids.map((item) => item.likedId) });
                 return params;
             }
         },
@@ -52,12 +53,17 @@ function useHeartMutations() {
                     queryClient.invalidateQueries(IsCurrentUserFollowingAlbum(params.id));
                     toast("Added to Your Library.");
                 } else {
-                    setLikedSongIdByPlaybackId((prev) => ({
-                        ...prev,
-                        [params.playbackId]: params.likedId,
-                    }));
+                    const next = params.ids.reduce(
+                        (acc, item) => ({
+                            ...acc,
+                            [item.playbackId]: item.likedId,
+                        }),
+                        {},
+                    );
+                    setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
+
+                    halyClient.me.putMyLikedSongs();
                     toast("Added to Liked Songs.");
-                    // todo: use webapi to add to LikesOf* playlist
                 }
             },
         },
@@ -72,7 +78,7 @@ function useHeartMutations() {
                 await halyClient.following.unfollowAlbum({ id: params.id });
                 return params;
             } else {
-                await halyClient.following.unfollowTracks({ ids: params.likedId });
+                await halyClient.following.unfollowTracks({ requestBody: params.ids.map((item) => item.likedId) });
                 return params;
             }
         },
@@ -85,12 +91,17 @@ function useHeartMutations() {
                     queryClient.invalidateQueries(IsCurrentUserFollowingAlbum(params.id));
                     toast("Removed from Your Library.");
                 } else {
-                    setLikedSongIdByPlaybackId((prev) => ({
-                        ...prev,
-                        [params.playbackId]: null,
-                    }));
+                    const next = params.ids.reduce(
+                        (acc, item) => ({
+                            ...acc,
+                            [item.playbackId]: null,
+                        }),
+                        {},
+                    );
+                    setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
+
+                    halyClient.me.putMyLikedSongs();
                     toast("Removed from Liked Songs.");
-                    // todo: use webapi to remove from LikesOf* playlist
                 }
             },
         },

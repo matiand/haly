@@ -29,6 +29,7 @@ public sealed class SpotifyService : ISpotifyService
     private const int ArtistReleasesLimit = 50;
     private const int RecommendationsLimit = 100;
     private const int RecentlyPlayedTracksLimit = 50;
+    private const int FollowingTracksLimit = 50;
     private const int AddingTracksLimit = 100;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
@@ -356,19 +357,35 @@ public sealed class SpotifyService : ISpotifyService
         return _spotifyClient.UnfollowPlaylistAsync(id);
     }
 
-    public Task FollowTracks(string ids)
+    public async Task FollowTracks(IReadOnlyCollection<string> ids)
     {
-        return _spotifyClient.SaveTracksUserAsync(ids);
+        var limit = FollowingTracksLimit;
+        for (var i = 0; i < ids.Count; i += limit)
+        {
+            var idsBatch = ids.Skip(i).Take(limit).ToList();
+            await _spotifyClient.SaveTracksUserAsync(ids: null!, body: new()
+            {
+                Ids = idsBatch,
+            });
+        }
     }
 
-    public Task UnfollowTracks(string ids)
+    public async Task UnfollowTracks(IReadOnlyCollection<string> ids)
     {
-        return _spotifyClient.RemoveTracksUserAsync(ids);
+        var limit = FollowingTracksLimit;
+        for (var i = 0; i < ids.Count; i += limit)
+        {
+            var idsBatch = ids.Skip(i).Take(limit).ToList();
+            await _spotifyClient.RemoveTracksUserAsync(ids: null!, body: new()
+            {
+                Ids = idsBatch,
+            });
+        }
     }
 
     public async Task<Playlist> CreatePlaylist(string userId, string name)
     {
-        var response = await _spotifyClient.CreatePlaylistAsync(userId, new Body13() { Name = name });
+        var response = await _spotifyClient.CreatePlaylistAsync(userId, body: new() { Name = name });
         return response.Adapt<Playlist>();
     }
 
@@ -376,11 +393,11 @@ public sealed class SpotifyService : ISpotifyService
     {
         if (string.IsNullOrWhiteSpace(description))
         {
-            return _spotifyClient.ChangePlaylistDetailsAsync(playlistId, new Body() { Name = name });
+            return _spotifyClient.ChangePlaylistDetailsAsync(playlistId, body: new() { Name = name });
         }
 
         return _spotifyClient.ChangePlaylistDetailsAsync(playlistId,
-            new Body() { Name = name, Description = description });
+            body: new() { Name = name, Description = description });
     }
 
     public async Task AddTracks(string playlistId, IReadOnlyCollection<string> trackUris)

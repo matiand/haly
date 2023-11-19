@@ -104,7 +104,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Save tracks to your 'Liked Songs' collection")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryModify)]
-    public async Task<ActionResult> FollowTracks(string ids, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> FollowTracks(List<string> ids, [FromServices] ISpotifyService spotifyService)
     {
         await spotifyService.FollowTracks(ids);
 
@@ -115,7 +115,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Remove tracks from your 'Liked Songs' collection")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryModify)]
-    public async Task<ActionResult> UnfollowTracks(string ids, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> UnfollowTracks(List<string> ids, [FromServices] ISpotifyService spotifyService)
     {
         await spotifyService.UnfollowTracks(ids);
 

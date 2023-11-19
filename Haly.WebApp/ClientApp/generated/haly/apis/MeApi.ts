@@ -40,6 +40,10 @@ import {
     UserFeedDtoToJSON,
 } from '../models';
 
+export interface CreatePlaylistRequest {
+    name?: string;
+}
+
 export interface PutCurrentUserRequest {
     body?: string;
 }
@@ -48,6 +52,38 @@ export interface PutCurrentUserRequest {
  * 
  */
 export class MeApi extends runtime.BaseAPI {
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public </b>
+     * Create new playlist
+     */
+    async createPlaylistRaw(requestParameters: CreatePlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistBriefDto>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.name !== undefined) {
+            queryParameters['name'] = requestParameters.name;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Me/playlists`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistBriefDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public </b>
+     * Create new playlist
+     */
+    async createPlaylist(requestParameters: CreatePlaylistRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistBriefDto> {
+        const response = await this.createPlaylistRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>
@@ -141,7 +177,7 @@ export class MeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/Me/top/artists`,
+            path: `/Me/feed/artists`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -160,7 +196,7 @@ export class MeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates the User linked with specified token by fetching him from Spotify API, creates a new one for first time clients. Successful response links that token with our CurrentUser, and allows us to use endpoints that call Spotify API.<br/><br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-private </b>
+     * Fetch the user associated with a given token from the Spotify API and update our cache. Subsequent API calls will use this token for endpoints that interact with the Spotify API.<br/><br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-private </b>
      * Update current user
      */
     async putCurrentUserRaw(requestParameters: PutCurrentUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PrivateUserDto>> {
@@ -182,7 +218,7 @@ export class MeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates the User linked with specified token by fetching him from Spotify API, creates a new one for first time clients. Successful response links that token with our CurrentUser, and allows us to use endpoints that call Spotify API.<br/><br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-private </b>
+     * Fetch the user associated with a given token from the Spotify API and update our cache. Subsequent API calls will use this token for endpoints that interact with the Spotify API.<br/><br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-private </b>
      * Update current user
      */
     async putCurrentUser(requestParameters: PutCurrentUserRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PrivateUserDto> {

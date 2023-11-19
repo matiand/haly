@@ -34,8 +34,8 @@ public interface ISpotifyService
     Task UnfollowAlbum(string id);
     Task FollowPlaylist(string id);
     Task UnfollowPlaylist(string id);
-    Task FollowTracks(string ids);
-    Task UnfollowTracks(string ids);
+    Task FollowTracks(IReadOnlyCollection<string> ids);
+    Task UnfollowTracks(IReadOnlyCollection<string> ids);
     Task<Playlist> CreatePlaylist(string userId, string name);
     Task UpdatePlaylistDetails(string playlistId, string name, string description);
     Task AddTracks(string playlistId, IReadOnlyCollection<string> trackUris);
