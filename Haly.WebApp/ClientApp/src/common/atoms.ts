@@ -5,6 +5,7 @@ import {
     AlbumTrackDto,
     ArtistBriefDto,
     PlaylistBriefDto,
+    PlaylistTrackDto,
     PrivateUserDto,
     TrackDto,
 } from "../../generated/haly";
@@ -62,6 +63,7 @@ export type PlaybackContext = {
 export type PageContext = {
     id: string;
     title: string;
+    // todo: why does it share the same type as PlaybackContext?
     type: PlaybackContext["type"];
     // Needed for accessing its dominant color
     imageUrl?: string | null;
@@ -70,10 +72,10 @@ export type PageContext = {
     };
 };
 export type TrackDisallowedActions = {
-    playlistRemove?: boolean;
-    queueAdd?: boolean;
-    artistNavigate?: boolean;
-    albumNavigate?: boolean;
+    removeFromPlaylist?: boolean;
+    addToQueue?: boolean;
+    goToArtist?: boolean;
+    goToAlbum?: boolean;
 };
 export const pageContextAtom = atom<PageContext | null>(null);
 export const pageContextIdAtom = atom((get) => get(pageContextAtom)?.id);
@@ -123,6 +125,6 @@ export const likedSongIdByPlaybackIdAtom = atom<Record<string, string | null>>({
 
 type SelectedTrack = {
     index: number;
-    track: TrackDto | AlbumTrackDto;
+    track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
 };
 export const selectedTracksAtom = atom<SelectedTrack[]>([]);
