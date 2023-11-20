@@ -3,6 +3,7 @@ using Haly.GeneratedClients;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 using Haly.WebApp.Features.Pagination;
+using Haly.WebApp.Features.Playlists.RemoveTracks;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Search;
@@ -31,6 +32,7 @@ public sealed class SpotifyService : ISpotifyService
     private const int RecentlyPlayedTracksLimit = 50;
     private const int FollowingTracksLimit = 50;
     private const int AddingTracksLimit = 100;
+    private const int RemovingTracksLimit = 100;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
         ISpotifyEndpointCollector endpointCollector)
@@ -417,6 +419,23 @@ public sealed class SpotifyService : ISpotifyService
             {
                 Uris = urisBatch,
                 Position = positionOffset + i,
+            });
+        }
+    }
+
+    public async Task RemoveTracks(string playlistId, IReadOnlyCollection<RemoveTrackDto> tracks)
+    {
+        var limit = RemovingTracksLimit;
+        for (var i = 0; i < tracks.Count; i += limit)
+        {
+            var batch = tracks.Skip(i)
+                .Take(limit)
+                .Select(dto => new Tracks2() { Uri = dto.Uri, Positions = dto.Positions })
+                .ToList();
+
+            await _spotifyClient.RemoveTracksPlaylistAsync(playlistId, body: new()
+            {
+                Tracks = batch,
             });
         }
     }

@@ -4,6 +4,7 @@ using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.Playlists.AddTracks;
 using Haly.WebApp.Features.Playlists.GetPlaylist;
 using Haly.WebApp.Features.Playlists.GetTracks;
+using Haly.WebApp.Features.Playlists.RemoveTracks;
 using Haly.WebApp.Features.Playlists.UpdatePlaylist;
 using Haly.WebApp.Features.Playlists.UpdatePlaylistDetails;
 using Haly.WebApp.ThirdPartyApis.Spotify;
@@ -94,6 +95,17 @@ public class PlaylistsController : ApiControllerBase
             return ProblemResponses.DuplicateConflict(playlistId, response.DuplicateType);
 
         return Ok(response.Playlist);
+    }
+
+    [HttpDelete("{playlistId}/tracks")]
+    [SwaggerOperation(Summary = "Remove tracks from a playlist")]
+    [SwaggerResponse(statusCode: 200, "Tracks removed", typeof(PlaylistBriefDto))]
+    [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
+    public async Task<IActionResult> RemoveTracks(string playlistId, RemoveTracksRequestBody body)
+    {
+        await Mediator.Send(new RemoveTracksCommand(playlistId, body));
+
+        return Ok();
     }
 
     [HttpPut("{playlistId}/details")]

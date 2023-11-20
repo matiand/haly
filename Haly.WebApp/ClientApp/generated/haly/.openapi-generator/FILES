@@ -47,6 +47,9 @@ models/PrivateUserDto.ts
 models/Problem.ts
 models/PutPlaybackRequest.ts
 models/ReleaseItemDto.ts
+models/RemoveTrackDto.ts
+models/RemoveTracksRequest.ts
+models/RemoveTracksRequestBody.ts
 models/TopArtistDto.ts
 models/TrackDto.ts
 models/UpdatePlaybackCommand.ts

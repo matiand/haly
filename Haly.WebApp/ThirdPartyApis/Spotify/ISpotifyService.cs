@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.Playlists.RemoveTracks;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Search;
@@ -39,6 +40,7 @@ public interface ISpotifyService
     Task<Playlist> CreatePlaylist(string userId, string name);
     Task UpdatePlaylistDetails(string playlistId, string name, string description);
     Task AddTracks(string playlistId, IReadOnlyCollection<string> trackUris);
+    Task RemoveTracks(string playlistId, IReadOnlyCollection<RemoveTrackDto> tracks);
 }
 
 public record CurrentUserPlaylistsDto(List<Playlist> Playlists, List<string> PlaylistOrder);

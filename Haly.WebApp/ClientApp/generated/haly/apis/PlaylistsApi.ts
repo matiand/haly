@@ -21,6 +21,7 @@ import type {
   PlaylistBriefDto,
   PlaylistWithTracksDto,
   Problem,
+  RemoveTracksRequest,
   UpdatePlaylistDetailsRequest,
   ValidationProblem,
 } from '../models';
@@ -37,6 +38,8 @@ import {
     PlaylistWithTracksDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
+    RemoveTracksRequestFromJSON,
+    RemoveTracksRequestToJSON,
     UpdatePlaylistDetailsRequestFromJSON,
     UpdatePlaylistDetailsRequestToJSON,
     ValidationProblemFromJSON,
@@ -63,6 +66,11 @@ export interface GetTracksRequest {
 
 export interface PutPlaylistRequest {
     id: string;
+}
+
+export interface RemoveTracksOperationRequest {
+    playlistId: string;
+    removeTracksRequest?: RemoveTracksRequest;
 }
 
 export interface UpdatePlaylistDetailsOperationRequest {
@@ -223,6 +231,41 @@ export class PlaylistsApi extends runtime.BaseAPI {
      */
     async putPlaylist(requestParameters: PutPlaylistRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.putPlaylistRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
+     * Remove tracks from a playlist
+     */
+    async removeTracksRaw(requestParameters: RemoveTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistBriefDto>> {
+        if (requestParameters.playlistId === null || requestParameters.playlistId === undefined) {
+            throw new runtime.RequiredError('playlistId','Required parameter requestParameters.playlistId was null or undefined when calling removeTracks.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/Playlists/{playlistId}/tracks`.replace(`{${"playlistId"}}`, encodeURIComponent(String(requestParameters.playlistId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RemoveTracksRequestToJSON(requestParameters.removeTracksRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistBriefDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
+     * Remove tracks from a playlist
+     */
+    async removeTracks(requestParameters: RemoveTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistBriefDto> {
+        const response = await this.removeTracksRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

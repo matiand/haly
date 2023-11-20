@@ -1440,6 +1440,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+    delete:
+      tags:
+        - Playlists
+      summary: Remove tracks from a playlist
+      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>'
+      operationId: RemoveTracks
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RemoveTracksRequestBody'
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RemoveTracksRequestBody'
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RemoveTracksRequestBody'
+      responses:
+        '200':
+          description: Tracks removed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistBriefDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Playlists/{playlistId}/details':
     put:
       tags:
@@ -2139,6 +2190,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ArtistBriefDto'
+      additionalProperties: false
+    RemoveTrackDto:
+      required:
+        - positions
+        - uri
+      type: object
+      properties:
+        uri:
+          type: string
+        positions:
+          type: array
+          items:
+            type: integer
+            format: int32
+      additionalProperties: false
+    RemoveTracksRequestBody:
+      required:
+        - tracks
+      type: object
+      properties:
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemoveTrackDto'
       additionalProperties: false
     TopArtistDto:
       required:
