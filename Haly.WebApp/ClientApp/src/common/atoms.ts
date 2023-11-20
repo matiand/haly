@@ -67,15 +67,6 @@ export type PageContext = {
     type: PlaybackContext["type"];
     // Needed for accessing its dominant color
     imageUrl?: string | null;
-    disallowedActions?: {
-        track: TrackDisallowedActions;
-    };
-};
-export type TrackDisallowedActions = {
-    removeFromPlaylist?: boolean;
-    addToQueue?: boolean;
-    goToArtist?: boolean;
-    goToAlbum?: boolean;
 };
 export const pageContextAtom = atom<PageContext | null>(null);
 export const pageContextIdAtom = atom((get) => get(pageContextAtom)?.id);
@@ -89,9 +80,6 @@ export const pageContextUriAtom = atom((get) => {
 
     return `spotify:${pageContext.type}:${pageContext.id}`;
 });
-export const trackDisallowedActionsAtom = atom<TrackDisallowedActions | null>(
-    (get) => get(pageContextAtom)?.disallowedActions?.track ?? null,
-);
 
 export type StreamedTrack = {
     // They don't give us the actual id of streamed track.

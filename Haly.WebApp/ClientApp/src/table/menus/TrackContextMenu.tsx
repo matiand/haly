@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../../generated/haly";
-import { selectedTracksAtom, trackDisallowedActionsAtom } from "../../common/atoms";
+import { selectedTracksAtom } from "../../common/atoms";
 import ContextMenu from "../../menus/ContextMenu";
 import { AnchorPointMenuProps } from "../../menus/useContextMenu";
 import useTableRowLikedState from "../useTableRowLikedState";
@@ -10,11 +10,9 @@ import TrackMenuItems from "./TrackMenuItems";
 type TrackContextMenuProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
     menuProps: AnchorPointMenuProps;
-    collectionId?: string;
 };
 
-function TrackContextMenu({ track, menuProps, collectionId }: TrackContextMenuProps) {
-    const disallowedActions = useAtomValue(trackDisallowedActionsAtom);
+function TrackContextMenu({ track, menuProps }: TrackContextMenuProps) {
     const selectedTracks = useAtomValue(selectedTracksAtom);
     const getLikedState = useTableRowLikedState();
 
@@ -23,12 +21,7 @@ function TrackContextMenu({ track, menuProps, collectionId }: TrackContextMenuPr
 
     return (
         <ContextMenu menuProps={menuProps}>
-            <TrackMenuItems
-                tracks={tracks}
-                likedStates={likedStates}
-                disallowedActions={disallowedActions as object}
-                collectionId={collectionId}
-            />
+            <TrackMenuItems tracks={tracks} likedStates={likedStates} />
         </ContextMenu>
     );
 }

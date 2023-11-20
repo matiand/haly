@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../../generated/haly";
-import { selectedTracksAtom, trackDisallowedActionsAtom } from "../../common/atoms";
+import { selectedTracksAtom } from "../../common/atoms";
 import ButtonMenu from "../../menus/ButtonMenu";
 import useTableRowLikedState from "../useTableRowLikedState";
 import TrackMenuItems from "./TrackMenuItems";
@@ -11,8 +11,7 @@ type TrackButtonMenuProps = {
     collectionId?: string;
 };
 
-function TrackButtonMenu({ track, collectionId }: TrackButtonMenuProps) {
-    const disallowedActions = useAtomValue(trackDisallowedActionsAtom);
+function TrackButtonMenu({ track }: TrackButtonMenuProps) {
     const selectedTracks = useAtomValue(selectedTracksAtom);
     const getLikedState = useTableRowLikedState();
 
@@ -21,12 +20,7 @@ function TrackButtonMenu({ track, collectionId }: TrackButtonMenuProps) {
 
     return (
         <ButtonMenu label={`More options for track ${track.name}`}>
-            <TrackMenuItems
-                tracks={tracks}
-                likedStates={likedStates}
-                disallowedActions={disallowedActions as object}
-                collectionId={collectionId}
-            />
+            <TrackMenuItems tracks={tracks} likedStates={likedStates} />
         </ButtonMenu>
     );
 }
