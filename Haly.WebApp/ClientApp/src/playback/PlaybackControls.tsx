@@ -64,8 +64,12 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                     key={track.playbackId}
                     params={{
                         type: "track",
-                        likedId: likedSongId ?? track.playbackId,
-                        playbackId: track.playbackId,
+                        ids: [
+                            {
+                                likedId: likedSongId ?? track.playbackId,
+                                playbackId: track.playbackId,
+                            },
+                        ],
                     }}
                     initialState={Boolean(likedSongId)}
                 />

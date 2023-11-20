@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import { CreatorType } from "../../generated/haly";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
-import toast from "react-hot-toast";
 
 type FollowButtonProps = {
     creatorId: string;
@@ -14,10 +14,10 @@ type FollowButtonProps = {
 
 function FollowCreatorButton({ creatorId, initialValue, type }: FollowButtonProps) {
     const [isFollowing, setIsFollowing] = useState(initialValue);
-    
+
     const follow = useMutation(
         (creatorId: string) =>
-            halyClient.following.followCreator({
+            halyClient.meFollowing.followCreator({
                 id: creatorId,
                 type,
             }),
@@ -25,7 +25,7 @@ function FollowCreatorButton({ creatorId, initialValue, type }: FollowButtonProp
     );
     const unfollow = useMutation(
         (creatorId: string) =>
-            halyClient.following.followCreator({
+            halyClient.meFollowing.followCreator({
                 id: creatorId,
                 type,
             }),

@@ -34,13 +34,13 @@ function useHeartMutations() {
     const follow = useMutation<HeartMutationParams, unknown, HeartMutationParams>(
         async (params) => {
             if (params.type === "playlist") {
-                await halyClient.following.followPlaylist({ id: params.id });
+                await halyClient.meFollowing.followPlaylist({ id: params.id });
                 return params;
             } else if (params.type === "album") {
-                await halyClient.following.followAlbum({ id: params.id });
+                await halyClient.meFollowing.followAlbum({ id: params.id });
                 return params;
             } else {
-                await halyClient.following.followTracks({ requestBody: params.ids.map((item) => item.likedId) });
+                await halyClient.meFollowing.followTracks({ requestBody: params.ids.map((item) => item.likedId) });
                 return params;
             }
         },
@@ -72,13 +72,13 @@ function useHeartMutations() {
     const unfollow = useMutation<HeartMutationParams, unknown, HeartMutationParams>(
         async function (params) {
             if (params.type === "playlist") {
-                await halyClient.following.unfollowPlaylist({ id: params.id });
+                await halyClient.meFollowing.unfollowPlaylist({ id: params.id });
                 return params;
             } else if (params.type === "album") {
-                await halyClient.following.unfollowAlbum({ id: params.id });
+                await halyClient.meFollowing.unfollowAlbum({ id: params.id });
                 return params;
             } else {
-                await halyClient.following.unfollowTracks({ requestBody: params.ids.map((item) => item.likedId) });
+                await halyClient.meFollowing.unfollowTracks({ requestBody: params.ids.map((item) => item.likedId) });
                 return params;
             }
         },

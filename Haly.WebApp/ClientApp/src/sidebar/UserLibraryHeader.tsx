@@ -11,7 +11,7 @@ import UserLibraryContextMenu from "./UserLibraryContextMenu";
 
 function UserLibraryHeader() {
     const queryClient = useQueryClient();
-    const createPlaylist = useCreatePlaylistMutation(() => {
+    const { createPlaylist } = useCreatePlaylistMutation(() => {
         queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
         // We show a toast instead of navigating to the new playlist.
         toast("Created new playlist");
@@ -29,7 +29,7 @@ function UserLibraryHeader() {
                 </Title>
 
                 <AddButton
-                    onClick={() => createPlaylist.mutate()}
+                    onClick={() => createPlaylist()}
                     type="button"
                     aria-label="Create playlist"
                     title="Create playlist"
@@ -40,7 +40,7 @@ function UserLibraryHeader() {
                 </AddButton>
             </Header>
 
-            <UserLibraryContextMenu menuProps={menuProps} createPlaylist={() => createPlaylist.mutate()} />
+            <UserLibraryContextMenu menuProps={menuProps} createPlaylist={() => createPlaylist()} />
         </>
     );
 }

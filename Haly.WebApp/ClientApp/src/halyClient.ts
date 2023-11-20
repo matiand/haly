@@ -2,9 +2,9 @@ import {
     AlbumsApi,
     ArtistsApi,
     Configuration,
-    FollowingApi,
     JobsApi,
     MeApi,
+    MeFollowingApi,
     Middleware,
     PlayerApi,
     PlaylistsApi,
@@ -33,12 +33,12 @@ const config = new Configuration({
 
 export default {
     me: new MeApi(config),
+    meFollowing: new MeFollowingApi(config),
     playlists: new PlaylistsApi(config),
     player: new PlayerApi(config),
     users: new UsersApi(config),
     artists: new ArtistsApi(config),
     albums: new AlbumsApi(config),
-    following: new FollowingApi(config),
     jobs: new JobsApi(config),
     isProblem: (obj: unknown): obj is Problem => {
         return typeof obj == "object" && obj !== null && "type" in obj && "status" in obj && "title" in obj;

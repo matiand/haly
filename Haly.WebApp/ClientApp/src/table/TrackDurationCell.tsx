@@ -24,8 +24,12 @@ function TrackDurationCell({ track, noActions, likedState }: TrackDurationCellPr
 
     const heartBtnParams: HeartMutationParams = {
         type: "track",
-        likedId: likedState.likedId!,
-        playbackId: track.playbackId!,
+        ids: [
+            {
+                likedId: likedState.likedId!,
+                playbackId: track.playbackId!,
+            },
+        ],
     };
 
     return (

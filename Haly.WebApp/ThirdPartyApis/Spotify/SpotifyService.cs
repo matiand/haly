@@ -403,7 +403,7 @@ public sealed class SpotifyService : ISpotifyService
     public async Task AddTracks(string playlistId, IReadOnlyCollection<string> trackUris)
     {
         // Their documentation says that AddTracksToPlaylistAsync will append tracks by default, but
-        // they actual prepend them. To fix this issue we fetch playlist tracks total and use it to
+        // they actually prepend them. To fix this issue we check how many tracks there are in total and use it to
         // calculate the position.
         var playlistResponse = await _spotifyClient.GetPlaylistAsync(playlistId);
         var positionOffset = playlistResponse.Tracks.Total;

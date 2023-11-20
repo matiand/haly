@@ -21,7 +21,7 @@ function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuIt
     const userId = useAtomValue(userIdAtom);
     const playlists = useAtomValue(cachedPlaylists);
 
-    const createPlaylist = useCreatePlaylistMutation();
+    const { createPlaylist } = useCreatePlaylistMutation();
     const { addToPlaylist, problem, clearProblem } = useAddToPlaylistMutation();
 
     const filteredPlaylists = playlists.filter(
@@ -51,7 +51,7 @@ function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuIt
                     <ScrollArea>
                         <MenuItem
                             onClick={() =>
-                                createPlaylist.mutateAsync().then((playlist) => {
+                                createPlaylist().then((playlist) => {
                                     // We need to update our cache before we can call addToPlaylist endpoint.
                                     halyClient.me.putMyPlaylists().then(() =>
                                         addToPlaylist.mutate({

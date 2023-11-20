@@ -5,7 +5,7 @@ import halyClient from "./halyClient";
 
 function useIsAlbumInLibrary(albumId: string) {
     const query = useQuery(IsCurrentUserFollowingAlbum(albumId), () =>
-        halyClient.following.checkIfCurrentUserFollowsAnAlbum({ albumId }),
+        halyClient.meFollowing.checkIfCurrentUserFollowsAnAlbum({ albumId }),
     );
 
     // The halyClient runtime returns a string, not a boolean.
