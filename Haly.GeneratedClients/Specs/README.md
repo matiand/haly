@@ -23,7 +23,8 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `CursorPagingObject` - set as nullable: **next**
 -   `CursorObject` - set as nullable: **after** and **before**
 -   `unfollow-artists-users` - replace _200_ response with _204_
--   `SimplifiedPlaylistObject` - set as nullable: **public**
+-   `PlaylistObject` - set as nullable: **images**
+-   `SimplifiedPlaylistObject` - set as nullable: **public**, **images**
 -   `CurrentlyPlayingContextObject` - add **format: int64** to _timestamp_ property
 -   `CurrentlyPlayingContextObject` - set as nullable: **context**, **item**
 -   `transfer-a-users-playback` - add _202_ response (same as _204_)

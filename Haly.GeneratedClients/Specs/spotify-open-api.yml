@@ -5739,6 +5739,7 @@ components:
             The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.
         images:
           type: array
+          nullable: true
           items:
             $ref: '#/components/schemas/ImageObject'
           description: |
@@ -5801,6 +5802,7 @@ components:
             The [Spotify ID](/documentation/web-api/concepts/spotify-uris-ids) for the playlist.
         images:
           type: array
+          nullable: true
           items:
             $ref: '#/components/schemas/ImageObject'
           description: |
