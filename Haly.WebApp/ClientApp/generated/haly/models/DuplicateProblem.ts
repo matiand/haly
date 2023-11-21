@@ -52,6 +52,12 @@ export interface DuplicateProblem {
     playlistId: string;
     /**
      * 
+     * @type {string}
+     * @memberof DuplicateProblem
+     */
+    playlistName: string;
+    /**
+     * 
      * @type {DuplicateType}
      * @memberof DuplicateProblem
      */
@@ -67,6 +73,7 @@ export function instanceOfDuplicateProblem(value: object): boolean {
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "title" in value;
     isInstance = isInstance && "playlistId" in value;
+    isInstance = isInstance && "playlistName" in value;
     isInstance = isInstance && "duplicateType" in value;
 
     return isInstance;
@@ -86,6 +93,7 @@ export function DuplicateProblemFromJSONTyped(json: any, ignoreDiscriminator: bo
         'status': json['status'],
         'title': json['title'],
         'playlistId': json['playlistId'],
+        'playlistName': json['playlistName'],
         'duplicateType': DuplicateTypeFromJSON(json['duplicateType']),
     };
 }
@@ -103,6 +111,7 @@ export function DuplicateProblemToJSON(value?: DuplicateProblem | null): any {
         'status': value.status,
         'title': value.title,
         'playlistId': value.playlistId,
+        'playlistName': value.playlistName,
         'duplicateType': DuplicateTypeToJSON(value.duplicateType),
     };
 }

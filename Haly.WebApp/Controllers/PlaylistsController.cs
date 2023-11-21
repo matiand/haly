@@ -92,7 +92,7 @@ public class PlaylistsController : ApiControllerBase
         if (response.Playlist is null) return ProblemResponses.NotFound("Playlist or tracks were not found.");
 
         if (response.DuplicateType is not DuplicateType.None)
-            return ProblemResponses.DuplicateConflict(playlistId, response.DuplicateType);
+            return ProblemResponses.DuplicateConflict(response.Playlist, response.DuplicateType);
 
         return Ok(response.Playlist);
     }

@@ -20,54 +20,38 @@ function useAddToPlaylistMutation() {
     const setModal = useSetAtom(modalAtom);
 
     const addToPlaylist = useMutation(
-        async ({ playlistId, collectionUri, trackUris, duplicatesStrategy }: AddToPlaylistMutationParams) => {
-            try {
-                return halyClient.playlists.addTracks({
-                    playlistId,
-                    addTracksRequest: {
-                        trackUris,
-                        collectionUri,
-                        duplicatesStrategy,
-                    },
-                });
-            } catch (e) {
-                // todo: when testing error handling, check if 404 is caught automatically or do we need to catch it manually
-                if (e instanceof ResponseError && e.response.status === 409) {
-                    const problem: DuplicateProblem = await e.response.json();
-
-                    return {
-                        problem,
-                        playlistId,
-                        collectionUri,
-                        trackUris,
-                    };
-                }
-
-                throw e;
-            }
-        },
+        ({ playlistId, collectionUri, trackUris, duplicatesStrategy }: AddToPlaylistMutationParams) =>
+            halyClient.playlists.addTracks({
+                playlistId,
+                addTracksRequest: {
+                    trackUris,
+                    collectionUri,
+                    duplicatesStrategy,
+                },
+            }),
         {
             onSuccess: (response) => {
-                // Check if it's a playlist.
-                if ("id" in response) {
-                    toast(
-                        <ToastWithImage imageUrl={response.imageUrl}>
-                            Added to <b>{response.name}</b>
-                        </ToastWithImage>,
-                    );
+                toast(
+                    <ToastWithImage imageUrl={response.imageUrl}>
+                        Added to <b>{response.name}</b>
+                    </ToastWithImage>,
+                );
 
-                    // This will cause our playlist cache to be updated.
-                    queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
-                } else {
-                    // Otherwise response is a DuplicateProblem
-                    const { problem, playlistId, collectionUri, trackUris } = response;
+                // This will cause our playlist cache to be updated.
+                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+            },
+            onError: async (err, { collectionUri, trackUris }) => {
+                // todo: when testing error handling, check if 404 is caught automatically or do we need to catch it manually
+                if (err instanceof ResponseError && err.response.status === 409) {
+                    const problem: DuplicateProblem = await err.response.json();
+
                     setModal({
                         type: "duplicateTracksProblem",
                         props: {
                             problem,
                             onAccept: (strategy: DuplicatesStrategy) => {
                                 addToPlaylist.mutate({
-                                    playlistId,
+                                    playlistId: problem.playlistId,
                                     collectionUri,
                                     trackUris,
                                     duplicatesStrategy: strategy,

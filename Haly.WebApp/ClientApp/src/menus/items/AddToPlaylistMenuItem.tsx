@@ -50,7 +50,7 @@ function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuIt
                     <MenuItem
                         onClick={() =>
                             createPlaylist().then((playlist) => {
-                                // We need to update our cache before we can call addToPlaylist endpoint.
+                                // We need to update our cache before calling addToPlaylist endpoint.
                                 halyClient.me.putMyPlaylists().then(() =>
                                     addToPlaylist.mutate({
                                         playlistId: playlist.id,

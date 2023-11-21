@@ -1865,6 +1865,7 @@ components:
       required:
         - duplicateType
         - playlistId
+        - playlistName
         - status
         - title
         - type
@@ -1878,6 +1879,8 @@ components:
         title:
           type: string
         playlistId:
+          type: string
+        playlistName:
           type: string
         duplicateType:
           allOf:

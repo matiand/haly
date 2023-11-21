@@ -1,4 +1,5 @@
 using FluentValidation;
+using Haly.WebApp.Features.Playlists;
 using Haly.WebApp.Features.Playlists.AddTracks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,14 +57,15 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 404 };
     }
 
-    public static IActionResult DuplicateConflict(string playlistId, DuplicateType duplicateType)
+    public static IActionResult DuplicateConflict(PlaylistBriefDto playlist, DuplicateType duplicateType)
     {
         var problem = new DuplicateProblem
         {
             Type = "https://httpstatuses.io/409",
             Status = 409,
             Title = "One or more duplicates were found",
-            PlaylistId = playlistId,
+            PlaylistId = playlist.Id,
+            PlaylistName = playlist.Name,
             DuplicateType = duplicateType,
         };
 

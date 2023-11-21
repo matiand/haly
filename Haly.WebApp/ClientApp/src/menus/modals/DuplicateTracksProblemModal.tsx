@@ -18,8 +18,7 @@ function DuplicateTracksProblemModal({ problem, onAccept, onCancel }: DuplicateT
             onClose={onCancel}
             renderDescription={() => (
                 <p>
-                    {/*// todo: playlistName*/}
-                    {descriptionPrefix} already in your <b>{""}</b> playlist.
+                    {descriptionPrefix} already in your <b>{problem.playlistName}</b> playlist.
                 </p>
             )}
         >
@@ -30,7 +29,7 @@ function DuplicateTracksProblemModal({ problem, onAccept, onCancel }: DuplicateT
                             Add anyway
                         </button>
                         <button type="button" onClick={onCancel}>
-                            Don&amp;&apos;t add
+                            Don&apos;t add
                         </button>
                     </>
                 ) : (
