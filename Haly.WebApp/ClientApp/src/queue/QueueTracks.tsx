@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { LuMenu } from "react-icons/lu";
 
-import { playbackContextNameAtom } from "../common/atoms";
+import { playbackContextNameAtom } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import QueueTable from "../table/queue/QueueTable";
 import QueueEmptyState from "./QueueEmptyState";

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { pageHeaderVisibilityAtom } from "../common/atoms";
+import { pageHeaderVisibilityAtom } from "../common/atoms/pageAtoms";
 import { styled } from "../common/theme";
 import HeaderImage from "./HeaderImage";
 import HeaderTitle from "./HeaderTitle";

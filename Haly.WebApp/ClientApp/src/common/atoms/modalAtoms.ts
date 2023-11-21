@@ -1,4 +1,4 @@
-import { atom } from "jotai/index";
+import { atom } from "jotai";
 
 import { DuplicateProblem, DuplicatesStrategy } from "../../../generated/haly";
 
@@ -28,6 +28,4 @@ type ModalVariant =
           };
       };
 
-const modalAtom = atom<ModalVariant | null>(null);
-
-export default modalAtom;
+export const modalAtom = atom<ModalVariant | null>(null);

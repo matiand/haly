@@ -5,7 +5,7 @@ import { useAuth } from "react-oidc-context";
 
 import { ResponseError } from "../../generated/haly";
 import halyClient from "../halyClient";
-import { userAtom } from "./atoms";
+import { userAtom } from "./atoms/userAtoms";
 
 function useMeQuery() {
     const setUser = useSetAtom(userAtom);

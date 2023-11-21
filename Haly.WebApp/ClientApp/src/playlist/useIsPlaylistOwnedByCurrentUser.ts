@@ -1,7 +1,7 @@
-import { useAtomValue } from "jotai/index";
+import { useAtomValue } from "jotai";
 
 import { PlaylistBriefDto } from "../../generated/haly";
-import { userIdAtom } from "../common/atoms";
+import { userIdAtom } from "../common/atoms/userAtoms";
 
 function useIsPlaylistOwnedByCurrentUser(ownerId: PlaylistBriefDto["ownerId"]) {
     const userId = useAtomValue(userIdAtom);

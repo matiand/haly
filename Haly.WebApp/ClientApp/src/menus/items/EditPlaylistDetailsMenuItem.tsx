@@ -1,7 +1,7 @@
 import { MenuItem } from "@szhsin/react-menu";
 import { useSetAtom } from "jotai";
 
-import modalAtom from "../modals/modalAtom";
+import { modalAtom } from "../../common/atoms/modalAtoms";
 
 type EditPlaylistDetailsMenuItemProps = {
     id: string;

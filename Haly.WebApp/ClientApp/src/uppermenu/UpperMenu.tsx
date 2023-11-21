@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 
-import { dominantColorsAtom, pageContextAtom } from "../common/atoms";
+import { dominantColorsAtom, pageContextAtom } from "../common/atoms/pageAtoms";
 import { styled } from "../common/theme";
 import UpperMenuControls from "./UpperMenuControls";
 import useDynamicBackground from "./useDynamicBackground";

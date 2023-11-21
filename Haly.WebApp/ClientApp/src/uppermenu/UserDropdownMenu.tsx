@@ -1,19 +1,27 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { HiOutlineUser } from "react-icons/hi";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
 
-import { userAtom } from "../common/atoms";
+import { userAtom } from "../common/atoms/userAtoms";
 import { styled } from "../common/theme";
 import * as DropdownMenu from "../ui/DropdownMenu";
 import UserDropdownMenuHeader from "./UserDropdownMenuHeader";
 
 function UserDropdownMenu() {
     const auth = useAuth();
+    const queryClient = useQueryClient();
     const user = useAtomValue(userAtom);
     const navigate = useNavigate();
 
     if (!user) return null;
+
+    const onLogout = () => {
+        auth.removeUser();
+        navigate("/");
+        queryClient.clear();
+    };
 
     return (
         <DropdownMenu.Root>
@@ -37,13 +45,7 @@ function UserDropdownMenu() {
 
                 <DropdownMenu.Separator />
 
-                <DropdownMenu.Item
-                    name="Log out"
-                    onClick={() => {
-                        auth.removeUser();
-                        navigate("/");
-                    }}
-                />
+                <DropdownMenu.Item name="Log out" onClick={onLogout} />
             </MenuContent>
         </DropdownMenu.Root>
     );

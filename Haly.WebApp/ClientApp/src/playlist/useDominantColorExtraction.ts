@@ -5,7 +5,7 @@ import { PaletteColor, paletteFromImage } from "palette-from-image";
 import { useCallback, useRef } from "react";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { dominantColorsAtom } from "../common/atoms";
+import { dominantColorsAtom } from "../common/atoms/pageAtoms";
 import { theme } from "../common/theme";
 
 extend([lab]);

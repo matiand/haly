@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 
 import halyClient from "../halyClient";
-import { likedSongIdByPlaybackIdAtom } from "./atoms";
+import { likedSongIdByPlaybackIdAtom } from "./atoms/trackAtoms";
 import { GetMyPlaylistsQueryKey, IsCurrentUserFollowingAlbum } from "./queryKeys";
 
 export type HeartMutationParams =

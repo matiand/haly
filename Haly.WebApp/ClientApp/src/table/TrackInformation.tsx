@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
-import { StreamedTrack } from "../common/atoms";
+import { StreamedTrack } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import PlaybackTrackCoverImage from "../playback/PlaybackTrackCoverImage";
 import HighlightableText from "./HighlightableText";

@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
-import { streamedTrackAtom } from "../common/atoms";
+import { streamedTrackAtom } from "../common/atoms/playbackAtoms";
 import { delay } from "../common/delay";
 import { GetQueueQueryKey, GetRecentlyPlayedQueryKey } from "../common/queryKeys";
 import ConnectBar from "./ConnectBar";

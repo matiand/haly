@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import React from "react";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
-import { playlistSearchTermAtom } from "../../common/atoms";
+import { playlistSearchTermAtom } from "../../common/atoms/playlistAtoms";
 import { styled } from "../../common/theme";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackAlbumCell from "../TrackAlbumCell";

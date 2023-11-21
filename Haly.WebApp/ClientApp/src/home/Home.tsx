@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
-import { userAtom } from "../common/atoms";
+import { userNameAtom } from "../common/atoms/userAtoms";
 import { theme } from "../common/theme";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
@@ -12,7 +12,7 @@ import Greeting from "./Greeting";
 
 function Home() {
     const query = useQuery(["me", "feed"], () => halyClient.me.getMyFeed(), { staleTime: 1000 * 60 * 30 });
-    const user = useAtomValue(userAtom);
+    const userName = useAtomValue(userNameAtom);
 
     const purple = theme.colors.dominantLikedSongs;
 
@@ -28,7 +28,7 @@ function Home() {
         };
     });
 
-    if (!user || !query.data) return <LoadingIndicator />;
+    if (!userName || !query.data) return <LoadingIndicator />;
 
     const albumsByCategory = query.data.albumsByCategory;
 
@@ -36,7 +36,7 @@ function Home() {
         <div>
             <Greeting date={new Date()} />
 
-            <ResizableCardGroup title={`Made for ${user.name}`} items={cards} maxRows={1} />
+            <ResizableCardGroup title={`Made for ${userName}`} items={cards} maxRows={1} />
 
             {Object.entries(albumsByCategory).map(([category, albums]) => {
                 const cards: CardProps[] = albums.map((a) => ({

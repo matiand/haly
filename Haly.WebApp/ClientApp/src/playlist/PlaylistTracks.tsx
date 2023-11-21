@@ -3,7 +3,11 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
 import { PlaylistTrackDtoPaginatedList } from "../../generated/haly";
-import { playlistSearchTermAtom, playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
+import {
+    playlistSearchTermAtom,
+    playlistSliceDurationAtom,
+    playlistSliceSongsTotalAtom,
+} from "../common/atoms/playlistAtoms";
 import { GetPlaylistTracksQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import PlaylistTable from "../table/playlist/PlaylistTable";

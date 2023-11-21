@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { useCallback } from "react";
 
-import { isTrackPausedAtom, playbackContextIdAtom } from "../common/atoms";
+import { isTrackPausedAtom, playbackContextIdAtom } from "../common/atoms/playbackAtoms";
 
 export type ContextPlaybackState = "playing" | "paused" | "none";
 

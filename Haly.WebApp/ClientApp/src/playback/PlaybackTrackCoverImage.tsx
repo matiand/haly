@@ -3,7 +3,8 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 
 import { AlbumBriefDto } from "../../generated/haly";
-import { persistedSidebarWidthAtom, StreamedTrack, streamedTrackAtom } from "../common/atoms";
+import { persistedSidebarWidthAtom } from "../common/atoms/pageAtoms";
+import { StreamedTrack, streamedTrackAtom } from "../common/atoms/playbackAtoms";
 import ExpandableImageWithLink from "../ui/ExpandableImageWithLink";
 
 type PlaybackTrackCoverImageProps = {

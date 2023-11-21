@@ -1,7 +1,8 @@
 import { useAtomValue } from "jotai";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
-import { likedSongIdByPlaybackIdAtom, playerSdkAtom, StreamedTrack } from "../common/atoms";
+import { playerSdkAtom, StreamedTrack } from "../common/atoms/playbackAtoms";
+import { likedSongIdByPlaybackIdAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
 import TrackInformation from "../table/TrackInformation";
 import HeartButton from "../ui/HeartButton";

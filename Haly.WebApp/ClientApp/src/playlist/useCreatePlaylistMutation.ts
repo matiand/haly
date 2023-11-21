@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
-import { cachedPlaylists, userIdAtom } from "../common/atoms";
+import { cachedPlaylists } from "../common/atoms/playlistAtoms";
+import { userIdAtom } from "../common/atoms/userAtoms";
 import halyClient from "../halyClient";
 
 function useCreatePlaylistMutation(onSuccess?: () => void) {

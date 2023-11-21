@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 
-import { pageHeaderVisibilityAtom } from "../common/atoms";
+import { pageHeaderVisibilityAtom } from "../common/atoms/pageAtoms";
 
 function useDynamicBackground() {
     const pageHeaderVisibility = useAtomValue(pageHeaderVisibilityAtom);

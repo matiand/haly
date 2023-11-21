@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 
 import { PrivateUserDto } from "../../generated/haly";
-import { playlistIdsWithOldTracksAtom } from "../common/atoms";
+import { playlistIdsWithOldTracksAtom } from "../common/atoms/playlistAtoms";
 import { styled, theme } from "../common/theme";
 
 type UserDropdownMenuHeaderProps = {

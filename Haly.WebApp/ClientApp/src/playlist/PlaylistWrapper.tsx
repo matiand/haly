@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { selectedTracksAtom } from "../common/atoms";
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import halyClient from "../halyClient";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import Playlist from "./Playlist";

@@ -1,7 +1,7 @@
 import format from "date-fns/format";
 import { useEffect, useRef, useState } from "react";
 
-import { StreamedTrack } from "../common/atoms";
+import { StreamedTrack } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import ProgressBar from "./ProgressBar";
 

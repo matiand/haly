@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 
 import { TrackDto } from "../../../generated/haly";
-import { streamedTrackAtom } from "../../common/atoms";
+import { streamedTrackAtom } from "../../common/atoms/playbackAtoms";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
 import useTableRowLikedState from "../useTableRowLikedState";

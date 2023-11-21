@@ -2,7 +2,9 @@ import { useAtom, useAtomValue } from "jotai";
 import React, { useCallback, useEffect } from "react";
 
 import { AlbumTrackDto, TrackDto } from "../../generated/haly";
-import { pageContextIdAtom, playlistSearchTermAtom, selectedTracksAtom } from "../common/atoms";
+import { pageContextIdAtom } from "../common/atoms/pageAtoms";
+import { playlistSearchTermAtom } from "../common/atoms/playlistAtoms";
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 
 function useTrackSelection(items: (TrackDto | AlbumTrackDto)[]) {
     const [selectedTracks, setSelectedTracks] = useAtom(selectedTracksAtom);

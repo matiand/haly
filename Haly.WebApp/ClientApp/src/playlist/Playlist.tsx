@@ -2,7 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { dominantColorsAtom, pageContextAtom, playlistSearchTermAtom, userIdAtom } from "../common/atoms";
+import { dominantColorsAtom, pageContextAtom } from "../common/atoms/pageAtoms";
+import { playlistSearchTermAtom } from "../common/atoms/playlistAtoms";
+import { userIdAtom } from "../common/atoms/userAtoms";
 import { GetPlaylistQueryKey } from "../common/queryKeys";
 import { theme } from "../common/theme";
 import halyClient from "../halyClient";

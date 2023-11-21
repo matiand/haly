@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useState } from "react";
 
-import { persistedWithImprovedShuffleAtom } from "../common/atoms";
+import { persistedWithImprovedShuffleAtom } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/usePlaylistSortOrder";
 import Checkbox from "./Checkbox";

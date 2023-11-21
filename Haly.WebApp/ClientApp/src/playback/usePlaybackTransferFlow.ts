@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 
-import { streamedTrackAtom } from "../common/atoms";
+import { streamedTrackAtom } from "../common/atoms/playbackAtoms";
 import halyClient from "../halyClient";
 
 type PlaybackTransferState =

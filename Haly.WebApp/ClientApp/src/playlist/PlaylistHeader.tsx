@@ -2,9 +2,9 @@ import { useAtomValue, useSetAtom } from "jotai";
 import React from "react";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
+import { modalAtom } from "../common/atoms/modalAtoms";
+import { playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms/playlistAtoms";
 import { pluralize } from "../common/pluralize";
-import modalAtom from "../menus/modals/modalAtom";
 import PageHeader from "../ui/PageHeader";
 import PlaylistOwner from "./PlaylistOwner";
 

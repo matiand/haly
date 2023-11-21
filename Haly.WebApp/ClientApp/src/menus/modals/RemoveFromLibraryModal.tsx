@@ -1,8 +1,8 @@
 import { useSetAtom } from "jotai";
 
+import { modalAtom } from "../../common/atoms/modalAtoms";
 import { styled } from "../../common/theme";
 import Modal from "./Modal";
-import modalAtom from "./modalAtom";
 
 type RemoveFromLibraryModalProps = {
     isOwnedByCurrentUser: boolean;

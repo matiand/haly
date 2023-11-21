@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import React from "react";
 
 import { TrackDto } from "../../../generated/haly";
-import { playbackContextUriAtom } from "../../common/atoms";
+import { playbackContextUriAtom } from "../../common/atoms/playbackAtoms";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";

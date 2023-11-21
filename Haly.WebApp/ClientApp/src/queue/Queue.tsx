@@ -1,7 +1,5 @@
-import { useSetAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { selectedTracksAtom } from "../common/atoms";
 import { styled, theme } from "../common/theme";
 import QueueTabs, { QueueTabsValues } from "./QueueTabs";
 import QueueTracks from "./QueueTracks";

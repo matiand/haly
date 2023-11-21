@@ -2,8 +2,8 @@ import { MenuItem } from "@szhsin/react-menu";
 import { useSetAtom } from "jotai";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { modalAtom } from "../../common/atoms/modalAtoms";
 import useHeartMutations, { HeartMutationParams } from "../../common/useHeartMutations";
-import modalAtom from "../modals/modalAtom";
 
 type HeartMenuItemProps = {
     params: HeartMutationParams;

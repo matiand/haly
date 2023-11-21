@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSetAtom } from "jotai/index";
+import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 
 import { DuplicateProblem, DuplicatesStrategy, ResponseError } from "../../generated/haly";
+import { modalAtom } from "../common/atoms/modalAtoms";
 import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
-import modalAtom from "../menus/modals/modalAtom";
 import ToastWithImage from "../ui/ToastWithImage";
 
 type AddToPlaylistMutationParams = {

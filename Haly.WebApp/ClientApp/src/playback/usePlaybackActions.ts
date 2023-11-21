@@ -4,7 +4,8 @@ import { useCallback } from "react";
 import toast from "react-hot-toast";
 
 import { AlbumTrackDto, Problem, PutPlaybackRequest, ResponseError, TrackDto } from "../../generated/haly";
-import { pageContextUriAtom, persistedWithImprovedShuffleAtom } from "../common/atoms";
+import { pageContextUriAtom } from "../common/atoms/pageAtoms";
+import { persistedWithImprovedShuffleAtom } from "../common/atoms/playbackAtoms";
 import halyClient from "../halyClient";
 import { TrackPlaybackState } from "../table/useTableRowPlaybackState";
 import { ContextPlaybackState } from "./useContextPlaybackState";

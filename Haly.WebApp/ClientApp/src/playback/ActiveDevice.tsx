@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { LuLaptop2 } from "react-icons/lu";
 
-import { isTrackPausedAtom } from "../common/atoms";
+import { isTrackPausedAtom } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import AnimatedMusicBars from "../ui/AnimatedMusicBars";
 

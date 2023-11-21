@@ -3,7 +3,8 @@ import { useAtomValue } from "jotai";
 import { useState } from "react";
 
 import { DuplicatesStrategy } from "../../../generated/haly";
-import { cachedPlaylists, userIdAtom } from "../../common/atoms";
+import { cachedPlaylists } from "../../common/atoms/playlistAtoms";
+import { userIdAtom } from "../../common/atoms/userAtoms";
 import { styled } from "../../common/theme";
 import halyClient from "../../halyClient";
 import useAddToPlaylistMutation from "../../playlist/useAddToPlaylistMutation";

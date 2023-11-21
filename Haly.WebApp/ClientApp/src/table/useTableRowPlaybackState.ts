@@ -2,10 +2,11 @@ import { useAtomValue } from "jotai";
 import { useCallback } from "react";
 
 import { TrackDto } from "../../generated/haly";
-import { isTrackPausedAtom, pageContextIdAtom, playbackContextIdAtom, streamedTrackIdAtom } from "../common/atoms";
+import { pageContextIdAtom } from "../common/atoms/pageAtoms";
+import { isTrackPausedAtom, playbackContextIdAtom, streamedTrackIdAtom } from "../common/atoms/playbackAtoms";
 
-// You might notice that this type has the same values as ContextPlaybackState, we use a different
-// one for tracks for better readability.
+// You might notice that this type has the same values as ContextPlaybackState. This is just a
+// coincidence and they may change in future.
 export type TrackPlaybackState = "playing" | "paused" | "none";
 
 function useTableRowPlaybackState() {

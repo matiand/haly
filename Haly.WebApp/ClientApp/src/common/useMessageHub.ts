@@ -2,7 +2,7 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 
-import { playlistIdsWithOldTracksAtom } from "./atoms";
+import { playlistIdsWithOldTracksAtom } from "./atoms/playlistAtoms";
 
 // MessageHub is a SignalR hub used for minor communication with our backend. These messages improve
 // the user experience, but aren't necessary for enjoying this app

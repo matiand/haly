@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
-import { userCanStreamTracksAtom } from "../common/atoms";
+import { userCanStreamTracksAtom } from "../common/atoms/userAtoms";
 import { styled } from "../common/theme";
 import ConnectBar from "./ConnectBar";
 import Playback from "./Playback";

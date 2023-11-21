@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
-import { dominantColorsAtom, userAtom } from "../common/atoms";
+import { dominantColorsAtom } from "../common/atoms/pageAtoms";
+import { userIdAtom } from "../common/atoms/userAtoms";
 import { capitalize } from "../common/capitalize";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
@@ -13,9 +14,9 @@ import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
 
 function Me() {
-    const user = useAtomValue(userAtom)!;
+    const userId = useAtomValue(userIdAtom);
 
-    const profileQuery = useQuery(["users", user.id], () => halyClient.users.getUser({ id: user.id }));
+    const profileQuery = useQuery(["users", userId], () => halyClient.users.getUser({ id: userId }));
     const topArtistsQuery = useQuery(["me", "top", "artists"], () => halyClient.me.getMyTopArtists());
     const followedArtistsQuery = useQuery(["me", "following"], () => halyClient.me.getMyFollowedArtists());
     const dominantColors = useAtomValue(dominantColorsAtom);

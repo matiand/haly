@@ -1,18 +1,18 @@
 import { useAtomValue } from "jotai";
 
-import { userAtom } from "../common/atoms";
+import { userAtom } from "../common/atoms/userAtoms";
 import Playlist from "../playlist/Playlist";
 import { usePlaylistSortOrder } from "./usePlaylistSortOrder";
 
 function LikedSongs() {
     const user = useAtomValue(userAtom);
-    const id = user?.likedSongsCollectionId;
-    const { sortOrder } = usePlaylistSortOrder(id ?? "", true);
+    const collectionId = user?.likedSongsCollectionId;
+    const { sortOrder } = usePlaylistSortOrder(collectionId ?? "", true);
 
     // This should never happen. We don't start rendering our app until we have a user.
-    if (!id) return null;
+    if (!collectionId) return null;
 
-    return <Playlist id={id} sortOrder={sortOrder} isInLibrary isLikedSongsCollection />;
+    return <Playlist id={collectionId} sortOrder={sortOrder} isInLibrary isLikedSongsCollection />;
 }
 
 export default LikedSongs;

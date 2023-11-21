@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { TbArrowsShuffle } from "react-icons/tb";
 
-import { isPlaybackShuffledAtom } from "../common/atoms";
+import { isPlaybackShuffledAtom } from "../common/atoms/playbackAtoms";
 import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import PlaybackButton from "./PlaybackButton";

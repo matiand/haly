@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import { Link } from "react-router-dom";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { userAtom } from "../common/atoms";
+import { userIdAtom, userNameAtom } from "../common/atoms/userAtoms";
 
 type PlaylistOwnerProps = {
     owner: PlaylistWithTracksDto["owner"];
@@ -10,15 +10,17 @@ type PlaylistOwnerProps = {
 };
 
 function PlaylistOwner({ owner, isPersonalized }: PlaylistOwnerProps) {
-    const user = useAtomValue(userAtom);
-    const href = owner.id === user?.id || isPersonalized ? "/me" : `/user/${owner.id}`;
+    const userId = useAtomValue(userIdAtom);
+    const userName = useAtomValue(userNameAtom);
+
+    const href = owner.id === userId || isPersonalized ? "/me" : `/user/${owner.id}`;
 
     if (isPersonalized) {
         return (
             <span>
                 <span style={{ margin: 0 }}>{"Made for "}</span>
                 <Link to={href}>
-                    <strong style={{ marginLeft: "2px" }}>{user?.name}</strong>
+                    <strong style={{ marginLeft: "2px" }}>{userName}</strong>
                 </Link>
             </span>
         );

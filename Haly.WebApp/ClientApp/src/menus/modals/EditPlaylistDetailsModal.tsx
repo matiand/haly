@@ -4,10 +4,10 @@ import { useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
 import { LuAlertCircle } from "react-icons/lu";
 
-import modalAtom from "./modalAtom";
 import { UpdatePlaylistDetailsRequestBody } from "../../../generated/haly";
-import halyClient from "../../halyClient";
+import { modalAtom } from "../../common/atoms/modalAtoms";
 import { GetMyPlaylistsQueryKey, GetPlaylistQueryKey } from "../../common/queryKeys";
+import halyClient from "../../halyClient";
 import Modal from "./Modal";
 
 type Inputs = {

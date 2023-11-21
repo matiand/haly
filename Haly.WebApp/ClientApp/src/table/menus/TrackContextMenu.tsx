@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../../generated/haly";
-import { selectedTracksAtom } from "../../common/atoms";
+import { selectedTracksAtom } from "../../common/atoms/trackAtoms";
 import ContextMenu from "../../menus/ContextMenu";
 import { AnchorPointMenuProps } from "../../menus/useContextMenu";
 import useTableRowLikedState from "../useTableRowLikedState";

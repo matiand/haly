@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 import halyClient from "../halyClient";
-import { likedSongIdByPlaybackIdAtom } from "./atoms";
+import { likedSongIdByPlaybackIdAtom } from "./atoms/trackAtoms";
 import { GetMyLikedSongsQueryKey } from "./queryKeys";
 
 const fifteenMinutes = 15 * 60 * 1000;

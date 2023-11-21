@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSetAtom } from "jotai/index";
+import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { cachedPlaylists } from "../common/atoms";
+import { cachedPlaylists } from "../common/atoms/playlistAtoms";
 import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyApi from "../halyClient";
 

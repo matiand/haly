@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router-dom";
 
-import { dominantColorsAtom } from "../common/atoms";
+import { dominantColorsAtom } from "../common/atoms/pageAtoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";

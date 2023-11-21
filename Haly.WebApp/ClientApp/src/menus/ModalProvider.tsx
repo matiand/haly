@@ -1,8 +1,8 @@
 import { useAtomValue } from "jotai";
 
+import { modalAtom } from "../common/atoms/modalAtoms";
 import DuplicateTracksProblemModal from "./modals/DuplicateTracksProblemModal";
 import EditPlaylistDetailsModal from "./modals/EditPlaylistDetailsModal";
-import modalAtom from "./modals/modalAtom";
 import RemoveFromLibraryModal from "./modals/RemoveFromLibraryModal";
 
 function ModalProvider() {

@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { TbRepeat, TbRepeatOnce } from "react-icons/tb";
 
-import { PlaybackContext, playbackRepeatModeAtom } from "../common/atoms";
+import { PlaybackContext, playbackRepeatModeAtom } from "../common/atoms/playbackAtoms";
 import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import PlaybackButton from "./PlaybackButton";

@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
-import { persistedSidebarWidthAtom } from "../common/atoms";
+import { persistedSidebarWidthAtom } from "../common/atoms/pageAtoms";
 import { styled, theme } from "../common/theme";
 import NavigationList from "./NavigationList";
 import Resizer from "./Resizer";
