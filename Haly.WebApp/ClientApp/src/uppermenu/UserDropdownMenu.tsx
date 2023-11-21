@@ -37,7 +37,13 @@ function UserDropdownMenu() {
 
                 <DropdownMenu.Separator />
 
-                <DropdownMenu.Item name="Log out" onClick={() => auth.removeUser()} />
+                <DropdownMenu.Item
+                    name="Log out"
+                    onClick={() => {
+                        auth.removeUser();
+                        navigate("/");
+                    }}
+                />
             </MenuContent>
         </DropdownMenu.Root>
     );

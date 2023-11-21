@@ -14,9 +14,22 @@ export function Login(props: { loginFn: () => unknown }) {
 const Main = styled("main", {
     width: "40vw",
     margin: "$900 auto",
-    color: "$black700",
+    color: "$white800",
     textAlign: "center",
-    "& h1": {
+
+    h1: {
         marginBottom: "$500",
+    },
+
+    button: {
+        background: "$white800",
+        borderRadius: "999px",
+        cursor: "pointer",
+        fontWeight: 700,
+        padding: "$400 $800",
+
+        "&:hover": {
+            transform: "scale(1.05)",
+        },
     },
 });
