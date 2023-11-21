@@ -1,15 +1,13 @@
 import { useAtom, useAtomValue } from "jotai";
 import React, { useCallback, useEffect } from "react";
 
-import { AlbumTrackDto, TrackDto } from "../../generated/haly";
+import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { pageContextIdAtom } from "../common/atoms/pageAtoms";
 import { playlistSearchTermAtom } from "../common/atoms/playlistAtoms";
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 
-function useTrackSelection(items: (TrackDto | AlbumTrackDto)[]) {
+function useTrackSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDto)[]) {
     const [selectedTracks, setSelectedTracks] = useAtom(selectedTracksAtom);
-
-    console.log(selectedTracks);
 
     const pageContextId = useAtomValue(pageContextIdAtom);
     const searchTerm = useAtomValue(playlistSearchTermAtom);

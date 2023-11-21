@@ -7,6 +7,18 @@ type SelectedTrack = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
 };
 
-export const selectedTracksAtom = atom<SelectedTrack[]>([]);
+export const selectedTracksBaseAtom = atom<SelectedTrack[]>([]);
+
+type SetterArg = SelectedTrack[] | ((arg: SelectedTrack[]) => SelectedTrack[]);
+export const selectedTracksAtom = atom<SelectedTrack[], [SetterArg], void>(
+    (get) => get(selectedTracksBaseAtom),
+    (get, set, setterParam) => {
+        // Allow to select only songs with ids.
+        const selection = typeof setterParam === "function" ? setterParam(get(selectedTracksBaseAtom)) : setterParam;
+        const onlySongsWithIds = selection.filter((item) => item.track.isSong && item.track.id);
+
+        set(selectedTracksBaseAtom, onlySongsWithIds);
+    },
+);
 
 export const likedSongIdByPlaybackIdAtom = atom<Record<string, string | null>>({});

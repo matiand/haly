@@ -1717,6 +1717,7 @@ components:
         - id
         - isExplicit
         - isPlayable
+        - isSong
         - name
         - playbackId
       type: object
@@ -1735,6 +1736,8 @@ components:
         isPlayable:
           type: boolean
         isExplicit:
+          type: boolean
+        isSong:
           type: boolean
         discNumber:
           type: integer

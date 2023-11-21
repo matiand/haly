@@ -41,6 +41,7 @@ function PlaylistTableRow({
 
     return (
         <TableRow
+            // onClick={track.isSong && !isLocal ? selectTrack : undefined}
             onClick={selectTrack}
             onDoubleClick={updatePlayback}
             onContextMenu={() => console.log("foo")}

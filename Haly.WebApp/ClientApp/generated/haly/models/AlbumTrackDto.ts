@@ -70,6 +70,12 @@ export interface AlbumTrackDto {
     isExplicit: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof AlbumTrackDto
+     */
+    isSong: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof AlbumTrackDto
      */
@@ -93,6 +99,7 @@ export function instanceOfAlbumTrackDto(value: object): boolean {
     isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "isPlayable" in value;
     isInstance = isInstance && "isExplicit" in value;
+    isInstance = isInstance && "isSong" in value;
     isInstance = isInstance && "discNumber" in value;
     isInstance = isInstance && "artists" in value;
 
@@ -116,6 +123,7 @@ export function AlbumTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: boole
         'uri': !exists(json, 'uri') ? undefined : json['uri'],
         'isPlayable': json['isPlayable'],
         'isExplicit': json['isExplicit'],
+        'isSong': json['isSong'],
         'discNumber': json['discNumber'],
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
@@ -137,6 +145,7 @@ export function AlbumTrackDtoToJSON(value?: AlbumTrackDto | null): any {
         'uri': value.uri,
         'isPlayable': value.isPlayable,
         'isExplicit': value.isExplicit,
+        'isSong': value.isSong,
         'discNumber': value.discNumber,
         'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };
