@@ -1,15 +1,14 @@
-import { DuplicateProblem, DuplicatesStrategy, DuplicateType } from "../../generated/haly";
-import { styled } from "../common/theme";
-import Modal from "../ui/Modal";
+import { DuplicateProblem, DuplicatesStrategy, DuplicateType } from "../../../generated/haly";
+import { styled } from "../../common/theme";
+import Modal from "./Modal";
 
-type DuplicateProblemModalProps = {
+type DuplicateTracksProblemModalProps = {
     problem: DuplicateProblem;
-    playlistName: string;
     onAccept: (strategy: DuplicatesStrategy) => void;
     onCancel: () => void;
 };
 
-function DuplicateProblemModal({ problem, playlistName, onAccept, onCancel }: DuplicateProblemModalProps) {
+function DuplicateTracksProblemModal({ problem, onAccept, onCancel }: DuplicateTracksProblemModalProps) {
     const title = problem.duplicateType === DuplicateType.All ? "Already added" : "Some already added";
     const descriptionPrefix = problem.duplicateType === DuplicateType.All ? `This is` : `Some of these are`;
 
@@ -19,7 +18,8 @@ function DuplicateProblemModal({ problem, playlistName, onAccept, onCancel }: Du
             onClose={onCancel}
             renderDescription={() => (
                 <p>
-                    {descriptionPrefix} already in your <b>{playlistName}</b> playlist.
+                    {/*// todo: playlistName*/}
+                    {descriptionPrefix} already in your <b>{""}</b> playlist.
                 </p>
             )}
         >
@@ -59,4 +59,4 @@ const ModalContents = styled("div", {
     },
 });
 
-export default DuplicateProblemModal;
+export default DuplicateTracksProblemModal;

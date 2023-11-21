@@ -9,6 +9,7 @@ import useMeQuery from "./common/useMeQuery";
 import { useMessageHub } from "./common/useMessageHub";
 import useSyncLikedSongs from "./common/useSyncLikedSongs";
 import Home from "./home/Home";
+import ModalProvider from "./menus/ModalProvider";
 import PlaybackWrapper from "./playback/PlaybackWrapper";
 import LikedSongs from "./playlist/LikedSongs";
 import PlaylistWrapper from "./playlist/PlaylistWrapper";
@@ -70,7 +71,9 @@ function App() {
             </Main>
 
             <PlaybackWrapper />
+
             <Toaster />
+            <ModalProvider />
         </Layout>
     );
 }

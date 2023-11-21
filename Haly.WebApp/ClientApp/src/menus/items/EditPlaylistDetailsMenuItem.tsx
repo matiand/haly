@@ -1,10 +1,9 @@
 import { MenuItem } from "@szhsin/react-menu";
-import { useState } from "react";
+import { useSetAtom } from "jotai";
 
-import EditPlaylistDetailsModal from "../../playlist/EditPlaylistDetailsModal";
+import modalAtom from "../modals/modalAtom";
 
 type EditPlaylistDetailsMenuItemProps = {
-    // todo: maybe PlaylistBriefDto
     id: string;
     name: string;
     description: string;
@@ -12,23 +11,21 @@ type EditPlaylistDetailsMenuItemProps = {
 
 // todo: how exactly will you get these props from the sidebar items?
 function EditPlaylistDetailsMenuItem({ id, name, description }: EditPlaylistDetailsMenuItemProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const setModal = useSetAtom(modalAtom);
     const title = "Edit details";
 
-    return (
-        <>
-            <MenuItem onClick={() => setIsModalOpen(true)}>{title}</MenuItem>
+    const onClick = () => {
+        setModal({
+            type: "editPlaylistDetails",
+            props: {
+                id,
+                name,
+                description,
+            },
+        });
+    };
 
-            {isModalOpen && (
-                <EditPlaylistDetailsModal
-                    id={id}
-                    onClose={() => setIsModalOpen(false)}
-                    name={name}
-                    description={description}
-                />
-            )}
-        </>
-    );
+    return <MenuItem onClick={onClick}>{title}</MenuItem>;
 }
 
 export default EditPlaylistDetailsMenuItem;

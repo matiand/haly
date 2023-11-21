@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
-import { keyframes, styled } from "../common/theme";
+import { keyframes, styled } from "../../common/theme";
 
 type ModalProps = {
     children: React.ReactNode;

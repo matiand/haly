@@ -1,12 +1,14 @@
 import { styled } from "@stitches/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
 import { LuAlertCircle } from "react-icons/lu";
 
-import { UpdatePlaylistDetailsRequestBody } from "../../generated/haly";
-import { GetMyPlaylistsQueryKey, GetPlaylistQueryKey } from "../common/queryKeys";
-import halyClient from "../halyClient";
-import Modal from "../ui/Modal";
+import modalAtom from "./modalAtom";
+import { UpdatePlaylistDetailsRequestBody } from "../../../generated/haly";
+import halyClient from "../../halyClient";
+import { GetMyPlaylistsQueryKey, GetPlaylistQueryKey } from "../../common/queryKeys";
+import Modal from "./Modal";
 
 type Inputs = {
     name: string;
@@ -15,15 +17,15 @@ type Inputs = {
 
 type EditPlaylistDetailsModalProps = {
     id: string;
-    onClose: () => void;
 } & Inputs;
 
-function EditPlaylistDetailsModal({ id, name, description, onClose }: EditPlaylistDetailsModalProps) {
+function EditPlaylistDetailsModal({ id, name, description }: EditPlaylistDetailsModalProps) {
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<Inputs>({ mode: "onChange" });
+    const setModal = useSetAtom(modalAtom);
 
     const queryClient = useQueryClient();
     const updatePlaylistDetails = useMutation(
@@ -46,15 +48,15 @@ function EditPlaylistDetailsModal({ id, name, description, onClose }: EditPlayli
     const errorMessage = errors.name?.message || errors.description?.message;
 
     const onSubmit = handleSubmit((data) => {
-        onClose();
         updatePlaylistDetails.mutate({
             name: data.name,
             description: data.description.replaceAll("\n", " "),
         });
+        setModal(null);
     });
 
     return (
-        <Modal title="Edit details" onClose={onClose}>
+        <Modal title="Edit details" onClose={() => setModal(null)}>
             <ModalForm onSubmit={onSubmit}>
                 {errorMessage && (
                     <Alert role="alert">

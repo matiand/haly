@@ -1,11 +1,11 @@
-import { useAtomValue } from "jotai";
-import React, { useState } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import React from "react";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import { playlistSliceDurationAtom, playlistSliceSongsTotalAtom } from "../common/atoms";
 import { pluralize } from "../common/pluralize";
+import modalAtom from "../menus/modals/modalAtom";
 import PageHeader from "../ui/PageHeader";
-import EditPlaylistDetailsModal from "./EditPlaylistDetailsModal";
 import PlaylistOwner from "./PlaylistOwner";
 
 type PlaylistHeaderProps = {
@@ -16,7 +16,7 @@ type PlaylistHeaderProps = {
 function PlaylistHeader({ playlist, onContextMenu }: PlaylistHeaderProps) {
     const { id, name, description, imageUrl, owner, likesTotal, totalDuration, isPersonalized } = playlist;
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const setModal = useSetAtom(modalAtom);
     const sliceSongsTotal = useAtomValue(playlistSliceSongsTotalAtom);
     const sliceDuration = useAtomValue(playlistSliceDurationAtom);
 
@@ -31,7 +31,16 @@ function PlaylistHeader({ playlist, onContextMenu }: PlaylistHeaderProps) {
                 description={description}
                 imageUrl={imageUrl}
                 onContextMenu={onContextMenu}
-                onTitleClick={() => setIsModalOpen(true)}
+                onTitleClick={() =>
+                    setModal({
+                        type: "editPlaylistDetails",
+                        props: {
+                            id,
+                            name,
+                            description: description ?? "",
+                        },
+                    })
+                }
             >
                 <PlaylistOwner owner={owner} isPersonalized={isPersonalized} />
 
@@ -43,15 +52,6 @@ function PlaylistHeader({ playlist, onContextMenu }: PlaylistHeaderProps) {
                     </span>
                 )}
             </PageHeader>
-
-            {isModalOpen && (
-                <EditPlaylistDetailsModal
-                    id={id}
-                    name={name}
-                    description={description ?? ""}
-                    onClose={() => setIsModalOpen(false)}
-                />
-            )}
         </>
     );
 }
