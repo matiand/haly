@@ -1,6 +1,6 @@
 import { styled } from "../common/theme";
 import HeartButton from "../ui/HeartButton";
-import useIsAlbumInLibrary from "../useIsAlbumInLibrary";
+import useIsAlbumInLibrary from "./useIsAlbumInLibrary";
 
 type AlbumHeartButtonProps = {
     albumId: string;

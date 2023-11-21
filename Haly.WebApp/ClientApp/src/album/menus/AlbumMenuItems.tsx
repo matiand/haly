@@ -6,7 +6,7 @@ import AddToPlaylistMenuItem from "../../menus/items/AddToPlaylistMenuItem";
 import AddToQueueMenuItem from "../../menus/items/AddToQueueMenuItem";
 import HeartMenuItem from "../../menus/items/HeartMenuItem";
 import ShareMenuItems from "../../menus/items/ShareMenuItems";
-import useIsAlbumInLibrary from "../../useIsAlbumInLibrary";
+import useIsAlbumInLibrary from "../useIsAlbumInLibrary";
 
 type AlbumMenuItemsProps = {
     album: AlbumBriefDto | AlbumDetailedDto;

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { IsCurrentUserFollowingAlbum } from "./common/queryKeys";
-import halyClient from "./halyClient";
+import { IsCurrentUserFollowingAlbum } from "../common/queryKeys";
+import halyClient from "../halyClient";
 
 function useIsAlbumInLibrary(albumId: string) {
     const query = useQuery(IsCurrentUserFollowingAlbum(albumId), () =>
