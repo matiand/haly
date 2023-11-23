@@ -19,7 +19,7 @@ function TrackButtonMenu({ track }: TrackButtonMenuProps) {
     const likedStates = tracks.map((t) => getLikedState(t.id, t.playbackId));
 
     return (
-        <ButtonMenu label={`More options for track ${track.name}`}>
+        <ButtonMenu size="small" label={`More options for track ${track.name}`}>
             <TrackMenuItems tracks={tracks} likedStates={likedStates} />
         </ButtonMenu>
     );

@@ -1,6 +1,6 @@
-import { MenuDivider } from "@szhsin/react-menu";
+import { MenuDivider, MenuItem } from "@szhsin/react-menu";
 
-import { AlbumBriefDto, AlbumDetailedDto } from "../../../generated/haly";
+import { AlbumBriefDto, AlbumDetailedDto, PlaylistTrackDtoAlbum } from "../../../generated/haly";
 import { HeartMutationParams } from "../../common/useHeartMutations";
 import AddToPlaylistMenuItem from "../../menus/items/AddToPlaylistMenuItem";
 import AddToQueueMenuItem from "../../menus/items/AddToQueueMenuItem";
@@ -9,7 +9,7 @@ import ShareMenuItems from "../../menus/items/ShareMenuItems";
 import useIsAlbumInLibrary from "../useIsAlbumInLibrary";
 
 type AlbumMenuItemsProps = {
-    album: AlbumBriefDto | AlbumDetailedDto;
+    album: AlbumBriefDto | AlbumDetailedDto | PlaylistTrackDtoAlbum;
 };
 
 function AlbumMenuItems({ album }: AlbumMenuItemsProps) {
@@ -23,7 +23,12 @@ function AlbumMenuItems({ album }: AlbumMenuItemsProps) {
 
     return (
         <>
-            {!isLibraryStatusLoading && <HeartMenuItem params={heartMutationParams} isInLibrary={isOn} />}
+            {isLibraryStatusLoading ? (
+                <MenuItem disabled>Add to Your Library</MenuItem>
+            ) : (
+                <HeartMenuItem params={heartMutationParams} isInLibrary={isOn} />
+            )}
+
             <AddToQueueMenuItem collectionUri={albumUri} />
             <MenuDivider />
             <AddToPlaylistMenuItem collectionUri={albumUri} />

@@ -7,10 +7,11 @@ import { StyledMenu } from "./MenuStyles";
 
 type ButtonMenuProps = {
     label: string;
+    size: "big" | "small";
     children: ReactNode;
 };
 
-function ButtonMenu({ label, children }: ButtonMenuProps) {
+function ButtonMenu({ label, size, children }: ButtonMenuProps) {
     const ref = useRef(null);
     const [isOpen, setOpen] = useState(false);
     const anchorProps = useClick(isOpen, setOpen);
@@ -19,7 +20,7 @@ function ButtonMenu({ label, children }: ButtonMenuProps) {
         <>
             <Button aria-label={label} title={label} ref={ref} {...anchorProps}>
                 <span aria-hidden>
-                    <Icon size="big" />
+                    <Icon size={size} />
                 </span>
             </Button>
 

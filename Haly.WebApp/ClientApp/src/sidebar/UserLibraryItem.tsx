@@ -2,12 +2,12 @@ import clsx from "clsx";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
 
+import { AlbumBriefDto, PlaylistBriefDto } from "../../generated/haly";
 import { styled } from "../common/theme";
+import useContextMenu from "../menus/useContextMenu";
 import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import PlaylistContextMenu from "../playlist/menus/PlaylistContextMenu";
-import useContextMenu from "../menus/useContextMenu";
-import { AlbumBriefDto, PlaylistBriefDto } from "../../generated/haly";
 
 type UserLibraryItemProps = {
     item:
@@ -45,11 +45,7 @@ function UserLibraryItem({ item, contextUri, href, playbackState }: UserLibraryI
             </li>
 
             {item.type === "playlist" && (
-                <PlaylistContextMenu
-                    playlist={item.dto}
-                    menuProps={menuProps}
-                    isLikedSongsCollection={false}
-                />
+                <PlaylistContextMenu playlist={item.dto} menuProps={menuProps} isLikedSongsCollection={false} />
             )}
         </>
     );

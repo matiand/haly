@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 
 import { PlaylistTrackDto, TrackDto } from "../../generated/haly";
+import AlbumContextMenu from "../album/menus/AlbumContextMenu";
 import { styled } from "../common/theme";
+import useContextMenu from "../menus/useContextMenu";
 import HighlightableText from "./HighlightableText";
 
 type TrackAlbumCellProps = {
@@ -10,13 +12,19 @@ type TrackAlbumCellProps = {
 };
 
 function TrackAlbumCell({ track, searchTerm }: TrackAlbumCellProps) {
+    const { onContextMenu: openAlbumCtxMenu, menuProps } = useContextMenu();
+
     const isLocal = !track.id;
 
     return (
         <Wrapper>
             {track.isSong && !isLocal ? (
                 <Link
-                    onContextMenu={() => console.log("bar")}
+                    onContextMenu={(e) => {
+                        e.stopPropagation();
+
+                        openAlbumCtxMenu(e);
+                    }}
                     className="line-clamp-ellipsis"
                     to={`/album/${track.album.id}`}
                 >
@@ -25,6 +33,8 @@ function TrackAlbumCell({ track, searchTerm }: TrackAlbumCellProps) {
             ) : (
                 <span className="line-clamp-ellipsis">{track.album.name}</span>
             )}
+
+            <AlbumContextMenu album={track.album} menuProps={menuProps} />
         </Wrapper>
     );
 }

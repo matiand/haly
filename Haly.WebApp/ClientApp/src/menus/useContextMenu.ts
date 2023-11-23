@@ -14,7 +14,6 @@ function useContextMenu() {
     });
 
     const onContextMenu = useCallback((e: MouseEvent) => {
-        console.log("context menu");
         if (typeof document.hasFocus === "function" && !document.hasFocus()) return;
 
         e.preventDefault();

@@ -18,7 +18,7 @@ function PlaylistButtonMenu({ playlist, isLikedSongsCollection }: PlaylistButton
         : `More options for playlist ${playlist.name}`;
 
     return (
-        <ButtonMenu label={btnLabel}>
+        <ButtonMenu label={btnLabel} size="big">
             <PlaylistMenuItems
                 playlist={playlist}
                 isInLibrary={isInLibrary}

@@ -10,7 +10,7 @@ function AlbumButtonMenu({ album }: AlbumButtonMenuProps) {
     const label = `More options for album ${album.name}`;
 
     return (
-        <ButtonMenu label={label}>
+        <ButtonMenu label={label} size="big">
             <AlbumMenuItems album={album} />
         </ButtonMenu>
     );
