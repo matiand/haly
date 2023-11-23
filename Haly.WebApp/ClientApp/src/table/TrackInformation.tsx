@@ -113,7 +113,10 @@ const Subtitle = styled("span", {
         },
 
         "&:not(:last-child):after": {
-            content: ", ",
+            content: ",",
+            // Inline-block removes the underline from this pseudo element.
+            display: "inline-block",
+            marginRight: "$100",
         },
     },
 });
