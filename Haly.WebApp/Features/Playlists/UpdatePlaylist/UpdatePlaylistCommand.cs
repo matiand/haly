@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.UpdatePlaylist;
 
-public record UpdatePlaylistCommand(string PlaylistId, string UserMarket) : IRequest<UpdatePlaylistCommandResponse?>;
+public record UpdatePlaylistCommand(string PlaylistId, string UserMarket, bool ForceUpdate)
+    : IRequest<UpdatePlaylistCommandResponse?>;
 
 public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, UpdatePlaylistCommandResponse?>
 {
@@ -39,7 +40,7 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
             return new UpdatePlaylistCommandResponse(Created: true, freshPlaylist.Id);
         }
 
-        if (cachedPlaylist.SnapshotId != freshPlaylist.SnapshotId)
+        if (request.ForceUpdate || cachedPlaylist.SnapshotId != freshPlaylist.SnapshotId)
         {
             cachedPlaylist.UpdateModel(freshPlaylist, includingTracks: true, includingLikes: true);
             await _db.SaveChangesAsync(cancellationToken);

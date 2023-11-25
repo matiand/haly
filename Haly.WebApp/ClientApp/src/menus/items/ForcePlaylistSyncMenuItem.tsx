@@ -12,7 +12,7 @@ type ForcePlaylistSyncMenuItemProps = {
 
 function ForcePlaylistSyncMenuItem({ id, isLikedSongsCollection }: ForcePlaylistSyncMenuItemProps) {
     const queryClient = useQueryClient();
-    const forcePlaylistSync = useMutation(() => halyClient.playlists.putPlaylist({ id }), {
+    const forcePlaylistSync = useMutation(() => halyClient.playlists.putPlaylist({ id, forceUpdate: true }), {
         onSuccess: () => {
             queryClient.invalidateQueries(GetPlaylistQueryKey(id));
             toast("Playlist synced.");

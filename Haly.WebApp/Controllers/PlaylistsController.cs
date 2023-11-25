@@ -37,9 +37,9 @@ public class PlaylistsController : ApiControllerBase
     [SwaggerResponse(statusCode: 204, "Playlist updated")]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
     [CallsSpotifyApi()]
-    public async Task<ActionResult> PutPlaylist(string id, [FromServices] CurrentUserStore currentUserStore)
+    public async Task<ActionResult> PutPlaylist(string id, CurrentUserStore currentUserStore, bool forceUpdate = false)
     {
-        var response = await Mediator.Send(new UpdatePlaylistCommand(id, currentUserStore.User!.Market));
+        var response = await Mediator.Send(new UpdatePlaylistCommand(id, currentUserStore.User!.Market, forceUpdate));
         if (response is null) return NotFound();
 
         if (response.Created)

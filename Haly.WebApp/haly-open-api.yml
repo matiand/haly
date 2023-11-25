@@ -1295,6 +1295,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: forceUpdate
+          in: query
+          schema:
+            type: boolean
+            default: false
       responses:
         '201':
           description: Playlist created

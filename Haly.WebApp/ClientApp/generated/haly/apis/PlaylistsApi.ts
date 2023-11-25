@@ -66,6 +66,7 @@ export interface GetTracksRequest {
 
 export interface PutPlaylistRequest {
     id: string;
+    forceUpdate?: boolean;
 }
 
 export interface RemoveTracksOperationRequest {
@@ -212,6 +213,10 @@ export class PlaylistsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.forceUpdate !== undefined) {
+            queryParameters['forceUpdate'] = requestParameters.forceUpdate;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
