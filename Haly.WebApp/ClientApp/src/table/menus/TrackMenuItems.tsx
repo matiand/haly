@@ -62,9 +62,10 @@ function TrackMenuItems({
                 )}
 
                 <MenuDivider />
-                {!disallowGoToArtist && <GoToMenuItem artistId={track.artists[0].id} />}
-                {"album" in track && <GoToMenuItem albumId={track.album.id} />}
+                {!disallowGoToArtist && <GoToMenuItem artists={track.artists} />}
+                {"album" in track && <GoToMenuItem album={track.album} />}
                 <MenuDivider />
+
                 <ShareMenuItems type="song" id={track.id!} name={track.name} path={`/track/${track.id}`} />
             </>
         );
