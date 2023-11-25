@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 
 import { playlistIdsWithOldTracksAtom } from "./atoms/playlistAtoms";
+import { GetPlaylistQueryKey } from "./queryKeys";
 
 // MessageHub is a SignalR hub used for minor communication with our backend. These messages improve
 // the user experience, but aren't necessary for enjoying this app
@@ -19,6 +20,11 @@ export const useMessageHub = () => {
     connection.on("PlaylistsWithOldTracks", (playlistIds: string[]) => {
         console.log("PlaylistsWithOldTracks", playlistIds);
         setPlaylistIdsWithOldTracks(playlistIds);
+    });
+
+    connection.on("PlaylistUpdated", (playlistId: string) => {
+        console.log("PlaylistUpdated", playlistId);
+        queryClient.invalidateQueries(GetPlaylistQueryKey(playlistId));
     });
 
     const query = useQuery(["hub"], () => connection.start().then(() => 1), { staleTime: Infinity });

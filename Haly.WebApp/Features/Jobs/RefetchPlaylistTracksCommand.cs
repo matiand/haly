@@ -41,6 +41,8 @@ public class RefetchPlaylistTracksHandler : IRequestHandler<RefetchPlaylistTrack
         for (var i = 0; i < jobs.Count; i++)
         {
             await HandleJob(jobs[i], cancellationToken);
+
+            await _messageHub.Clients.All.PlaylistUpdated(jobs[i].PlaylistId);
             await _messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Skip(i + 1).Select(j => j.PlaylistId));
         }
     }
