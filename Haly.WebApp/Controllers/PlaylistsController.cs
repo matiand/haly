@@ -99,13 +99,13 @@ public class PlaylistsController : ApiControllerBase
 
     [HttpDelete("{playlistId}/tracks")]
     [SwaggerOperation(Summary = "Remove tracks from a playlist")]
-    [SwaggerResponse(statusCode: 200, "Tracks removed", typeof(PlaylistBriefDto))]
+    [SwaggerResponse(statusCode: 204, "Tracks removed")]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
     public async Task<IActionResult> RemoveTracks(string playlistId, RemoveTracksRequestBody body)
     {
         await Mediator.Send(new RemoveTracksCommand(playlistId, body));
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpPut("{playlistId}/details")]

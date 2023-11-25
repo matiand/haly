@@ -13,7 +13,7 @@ import {
     UsersApi,
 } from "../generated/haly";
 
-// Somehow the generated client can't handle 204 responses. This is our workaround.
+// Somehow the generated client can't handle 204 GET responses. This is our workaround.
 class NoContentMiddleware implements Middleware {
     public post?(context: ResponseContext): Promise<Response | void> {
         if (context.response.status === 204 && context.init.method === "GET") {

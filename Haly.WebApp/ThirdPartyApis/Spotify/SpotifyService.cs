@@ -430,7 +430,7 @@ public sealed class SpotifyService : ISpotifyService
         {
             var batch = tracks.Skip(i)
                 .Take(limit)
-                .Select(dto => new Tracks2() { Uri = dto.Uri, Positions = dto.Positions })
+                .Select(dto => new Tracks2() { Uri = dto.Uri, Positions = !dto.Positions.Any() ? null : dto.Positions })
                 .ToList();
 
             await _spotifyClient.RemoveTracksPlaylistAsync(playlistId, body: new()

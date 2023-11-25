@@ -1472,12 +1472,8 @@ paths:
               allOf:
                 - $ref: '#/components/schemas/RemoveTracksRequestBody'
       responses:
-        '200':
+        '204':
           description: Tracks removed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaylistBriefDto'
         '400':
           description: Bad request
           content:
