@@ -3440,6 +3440,8 @@ paths:
           example: 0d1841b0976bae2a3a310dd74c0f3df354899bc8
           type: string
       responses:
+        "202":
+          description: Command accepted
         "204":
           description: Command received
         "401":

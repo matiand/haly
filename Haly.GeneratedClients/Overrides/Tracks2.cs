@@ -7,7 +7,7 @@ namespace Haly.GeneratedClients
     public partial class Tracks2
     {
         // Specifies the positions of the track in the playlist.
-        [Newtonsoft.Json.JsonProperty("positions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public IEnumerable<int> Positions { get; set; }
+        [Newtonsoft.Json.JsonProperty("positions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public IEnumerable<int>? Positions { get; set; }
     }
 }

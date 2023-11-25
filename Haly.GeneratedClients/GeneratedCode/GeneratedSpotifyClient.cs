@@ -9733,7 +9733,7 @@ namespace Haly.GeneratedClients
         /// <remarks>
         /// Add an item to the end of the user's current playback queue.
         /// </remarks>
-        /// <returns>Command received</returns>
+        /// <returns>Command accepted</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task AddToQueueAsync(string uri, string? device_id = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -9779,6 +9779,11 @@ namespace Haly.GeneratedClients
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
+                        if (status_ == 202)
+                        {
+                            return;
+                        }
+                        else
                         if (status_ == 204)
                         {
                             return;
