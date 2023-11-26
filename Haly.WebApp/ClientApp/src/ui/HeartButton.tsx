@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { keyframes, styled } from "../common/theme";
 import useHeartMutations, { HeartMutationParams } from "../common/useHeartMutations";
 
 type HeartButtonProps = {
     params: HeartMutationParams;
-    initialState: boolean;
+    state: boolean;
 };
 
-function HeartButton({ params, initialState }: HeartButtonProps) {
+function HeartButton({ params, state }: HeartButtonProps) {
     const [isAnimated, setIsAnimated] = useState(false);
-    const [isOn, setIsOn] = useState(initialState);
+    // We use a seperate state to track changes immediately, for better user feedback.
+    const [isOn, setIsOn] = useState(state);
     const { follow, unfollow } = useHeartMutations();
 
     const toggle = () => {
@@ -23,6 +24,10 @@ function HeartButton({ params, initialState }: HeartButtonProps) {
         setIsAnimated(true);
         setIsOn((prev) => !prev);
     };
+
+    useEffect(() => {
+        setIsOn(state);
+    }, [state]);
 
     const btnLabel = isOn ? "Remove from Your Library" : "Save to Your Library";
 

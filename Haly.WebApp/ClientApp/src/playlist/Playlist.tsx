@@ -87,7 +87,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                             type: "playlist",
                             id: playlist.id,
                         }}
-                        initialState={isInLibrary}
+                        state={isInLibrary}
                     />
                 )}
 

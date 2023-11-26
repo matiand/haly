@@ -72,7 +72,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                             },
                         ],
                     }}
-                    initialState={Boolean(likedSongId)}
+                    state={Boolean(likedSongId)}
                 />
             </div>
 

@@ -33,7 +33,7 @@ function TrackDurationCell({ track, noActions, likedState }: TrackDurationCellPr
 
     return (
         <Wrapper>
-            <HeartButton key={track.id!} params={heartBtnParams} initialState={likedState.isLiked} />
+            <HeartButton key={track.id!} params={heartBtnParams} state={likedState.isLiked} />
             <Duration>{track.duration}</Duration>
         </Wrapper>
     );
