@@ -41,7 +41,10 @@ function useAddToPlaylistMutation() {
                 );
             },
             onError: async (err, { collectionUri, trackUris }) => {
-                // todo: when testing error handling, check if 404 is caught automatically or do we need to catch it manually
+                if (err instanceof ResponseError && err.response.status === 404) {
+                    toast("No tracks to add.");
+                }
+
                 if (err instanceof ResponseError && err.response.status === 409) {
                     const problem: DuplicateProblem = await err.response.json();
 

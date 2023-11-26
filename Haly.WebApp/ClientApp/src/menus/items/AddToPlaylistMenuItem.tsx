@@ -31,7 +31,7 @@ function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuIt
     return (
         <SubMenu
             menuStyle={{ minWidth: "260px" }}
-            label="Add to playlist"
+            label={collectionUri?.includes("playlist") ? "Add to other playlist" : "Add to playlist"}
             onMenuChange={(e) => e.open && setFilter("")}
         >
             <FocusableItem>

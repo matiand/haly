@@ -9,7 +9,6 @@ type EditPlaylistDetailsMenuItemProps = {
     description: string;
 };
 
-// todo: how exactly will you get these props from the sidebar items?
 function EditPlaylistDetailsMenuItem({ id, name, description }: EditPlaylistDetailsMenuItemProps) {
     const setModal = useSetAtom(modalAtom);
     const title = "Edit details";

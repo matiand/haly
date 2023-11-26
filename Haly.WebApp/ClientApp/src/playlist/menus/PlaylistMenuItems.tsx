@@ -47,19 +47,21 @@ function PlaylistMenuItems({
             {/*// native apps to do it.*/}
             {/*<AddToQueueMenuItem/>*/}
 
-            <EditPlaylistDetailsMenuItem
-                id={playlist.id}
-                name={playlist.name}
-                description={playlist.description ?? ""}
-            />
+            {isOwnedByCurrentUser && (
+                <EditPlaylistDetailsMenuItem
+                    id={playlist.id}
+                    name={playlist.name}
+                    description={playlist.description ?? ""}
+                />
+            )}
             <HeartMenuItem
                 params={heartMutationParams}
                 isInLibrary={isInLibrary}
                 isOwnedByCurrentUser={isOwnedByCurrentUser}
                 entityName={playlist.name}
             />
-            <MenuDivider />
             <AddToPlaylistMenuItem collectionUri={playlistUri} />
+
             <MenuDivider />
             <ShareMenuItems type="playlist" id={playlist.id} name={playlist.name} path={`/playlist/${playlist.id}`} />
         </>
