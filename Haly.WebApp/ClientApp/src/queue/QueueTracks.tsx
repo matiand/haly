@@ -11,8 +11,6 @@ function QueueTracks() {
     const query = useQueueQuery();
     const playbackContextName = useAtomValue(playbackContextNameAtom);
 
-    console.log("why rerender", query.isRefetching);
-
     if (!query.data) return null;
 
     if (query.data.length === 0) {
@@ -35,14 +33,14 @@ function QueueTracks() {
             <SectionWrapper>
                 <h2>Now playing</h2>
 
-                <QueueTable tracks={query.data.slice(0, 1)} indexOffset={1} />
+                <QueueTable tracks={query.data.slice(0, 1)} positionOffset={1} />
             </SectionWrapper>
 
             {query.data.length > 1 && (
                 <SectionWrapper>
                     {playbackContextName ? <h2>Next from: {playbackContextName}</h2> : <h2>Next</h2>}
 
-                    <QueueTable tracks={query.data.slice(1)} indexOffset={2} />
+                    <QueueTable tracks={query.data.slice(1)} positionOffset={2} />
                 </SectionWrapper>
             )}
         </>

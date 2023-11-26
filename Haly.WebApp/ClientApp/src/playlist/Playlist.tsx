@@ -44,15 +44,18 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
     useEffect(() => {
         if (query.data) {
-            const { name, imageUrl } = query.data;
+            const { name, imageUrl, owner } = query.data;
             setPageContext({
                 id: contextId,
                 type: isLikedSongsCollection ? "user" : "playlist",
                 title: name,
                 imageUrl: imageUrl,
+                allow: {
+                    removeTrackFromPlaylist: owner.id === userId && !isLikedSongsCollection,
+                },
             });
         }
-    }, [query.data, contextId, isLikedSongsCollection, setPageContext]);
+    }, [query.data, contextId, isLikedSongsCollection, userId, setPageContext]);
 
     useEffect(() => {
         return () => {

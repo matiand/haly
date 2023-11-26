@@ -6,24 +6,23 @@ import { styled } from "../../common/theme";
 import * as Table from "../Table";
 import useTableRowLikedState from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
 import QueueTableRow from "./QueueTableRow";
 
 type QueueTableProps = {
     tracks: TrackDto[];
-    indexOffset: number;
+    positionOffset: number;
 };
 
-function QueueTable({ tracks, indexOffset }: QueueTableProps) {
+function QueueTable({ tracks, positionOffset }: QueueTableProps) {
     const getTableRowLikedState = useTableRowLikedState();
-    const { selectTableRow, isSelectedRow } = useTrackSelection(tracks);
     const streamedTrack = useAtomValue(streamedTrackAtom);
     const isTrackPaused = streamedTrack?.isPaused;
 
     let playbackState: TrackPlaybackState = "none";
-    if (indexOffset === 1 && isTrackPaused) {
+    // Only modify playbackState if it's the track from 'Now playing' section.
+    if (positionOffset === 1 && isTrackPaused) {
         playbackState = "paused";
-    } else if (indexOffset === 1) {
+    } else if (positionOffset === 1) {
         playbackState = "playing";
     }
 
@@ -34,12 +33,10 @@ function QueueTable({ tracks, indexOffset }: QueueTableProps) {
                     {tracks.map((track, idx) => (
                         <QueueTableRow
                             key={idx}
-                            position={indexOffset + idx}
+                            position={positionOffset + idx}
                             track={track}
                             playbackState={playbackState}
                             likedState={getTableRowLikedState(track.id, track.playbackId)}
-                            isSelected={isSelectedRow(idx)}
-                            selectTrack={selectTableRow(idx)}
                         />
                     ))}
                 </Table.Body>

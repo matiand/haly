@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useState } from "react";
 
 import { DuplicatesStrategy } from "../../../generated/haly";
-import { cachedPlaylists } from "../../common/atoms/playlistAtoms";
+import { cachedPlaylistsAtom } from "../../common/atoms/playlistAtoms";
 import { userIdAtom } from "../../common/atoms/userAtoms";
 import { styled } from "../../common/theme";
 import halyClient from "../../halyClient";
@@ -19,10 +19,10 @@ type AddToPlaylistMenuItemProps = {
 function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuItemProps) {
     const [filter, setFilter] = useState("");
     const userId = useAtomValue(userIdAtom);
-    const playlists = useAtomValue(cachedPlaylists);
+    const playlists = useAtomValue(cachedPlaylistsAtom);
 
     const { createPlaylist } = useCreatePlaylistMutation();
-    const { addToPlaylist } = useAddToPlaylistMutation();
+    const addToPlaylist = useAddToPlaylistMutation();
 
     const filteredPlaylists = playlists.filter(
         (p) => p.ownerId === userId && p.name.toLowerCase().includes(filter.toLowerCase()),

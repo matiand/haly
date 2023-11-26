@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
-import { cachedPlaylists } from "../common/atoms/playlistAtoms";
+import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
 import halyClient from "../halyClient";
 
 function useCreatePlaylistMutation(onSuccess?: () => void) {
     const userId = useAtomValue(userIdAtom);
-    const playlists = useAtomValue(cachedPlaylists);
+    const playlists = useAtomValue(cachedPlaylistsAtom);
 
     const mutation = useMutation((name: string) => halyClient.me.createPlaylist({ name }), { onSuccess });
     const newPlaylistName = preparePlaylistName(playlists.filter((p) => p.ownerId === userId).length);

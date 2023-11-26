@@ -4,6 +4,8 @@ import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/t
 import { playerSdkAtom, StreamedTrack } from "../common/atoms/playbackAtoms";
 import { likedSongIdByPlaybackIdAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
+import useContextMenu from "../menus/useContextMenu";
+import StreamedTrackContextMenu from "../table/menus/StreamedTrackContextMenu";
 import TrackInformation from "../table/TrackInformation";
 import HeartButton from "../ui/HeartButton";
 import DeviceDropdownMenu from "./DeviceDropdownMenu";
@@ -23,6 +25,8 @@ type PlaybackControlsProps = {
 function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     const player = useAtomValue(playerSdkAtom);
     const likedSongIdByPlaybackId = useAtomValue(likedSongIdByPlaybackIdAtom);
+
+    const { onContextMenu, menuProps } = useContextMenu();
 
     if (!player) return null;
 
@@ -60,7 +64,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     return (
         <Wrapper>
             <div>
-                <TrackInformation track={track} type="playback" />
+                <TrackInformation track={track} type="playback" onContextMenu={onContextMenu} />
                 <HeartButton
                     key={track.playbackId}
                     params={{
@@ -74,6 +78,8 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                     }}
                     state={Boolean(likedSongId)}
                 />
+
+                <StreamedTrackContextMenu track={track} menuProps={menuProps} />
             </div>
 
             <ControlsWrapper aria-label="Playback controls">

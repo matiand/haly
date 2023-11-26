@@ -13,12 +13,14 @@ export type PlaybackContext = {
 };
 
 export type StreamedTrack = {
-    // They don't give us the actual id of streamed track.
+    // They don't give us the actual id of a streamed track. It's always the playback id.
+    id: string;
     playbackId: string;
     name: string;
     durationInMs: number;
     positionInMs: number;
     isPaused: boolean;
+    uri: string;
 
     /* Last state update in milliseconds. */
     updatedAt: number;

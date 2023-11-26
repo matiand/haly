@@ -11,7 +11,7 @@ export const selectedTracksBaseAtom = atom<SelectedTrack[]>([]);
 
 type SetterArg = SelectedTrack[] | ((arg: SelectedTrack[]) => SelectedTrack[]);
 export const selectedTracksAtom = atom<SelectedTrack[], [SetterArg], void>(
-    (get) => get(selectedTracksBaseAtom),
+    (get) => get(selectedTracksBaseAtom).sort((a, b) => a.index - b.index),
     (get, set, setterParam) => {
         // Allow to select only songs with ids.
         const selection = typeof setterParam === "function" ? setterParam(get(selectedTracksBaseAtom)) : setterParam;

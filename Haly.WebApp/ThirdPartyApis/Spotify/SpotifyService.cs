@@ -364,11 +364,8 @@ public sealed class SpotifyService : ISpotifyService
         var limit = FollowingTracksLimit;
         for (var i = 0; i < ids.Count; i += limit)
         {
-            var idsBatch = ids.Skip(i).Take(limit).ToList();
-            await _spotifyClient.SaveTracksUserAsync(ids: null!, body: new()
-            {
-                Ids = idsBatch,
-            });
+            var idsBatch = string.Join(",", ids.Skip(i).Take(limit));
+            await _spotifyClient.SaveTracksUserAsync(idsBatch);
         }
     }
 
@@ -377,11 +374,8 @@ public sealed class SpotifyService : ISpotifyService
         var limit = FollowingTracksLimit;
         for (var i = 0; i < ids.Count; i += limit)
         {
-            var idsBatch = ids.Skip(i).Take(limit).ToList();
-            await _spotifyClient.RemoveTracksUserAsync(ids: null!, body: new()
-            {
-                Ids = idsBatch,
-            });
+            var idsBatch = string.Join(",", ids.Skip(i).Take(limit));
+            await _spotifyClient.RemoveTracksUserAsync(idsBatch);
         }
     }
 

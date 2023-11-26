@@ -4,7 +4,9 @@ import { LuDisc } from "react-icons/lu";
 
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import UseContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
+import TrackContextMenu from "../menus/TrackContextMenu";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformation from "../TrackInformation";
@@ -29,11 +31,16 @@ export function AlbumTableTrackRow({
     selectTrack,
 }: TrackRowProps) {
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
+    const { menuProps, onContextMenu } = UseContextMenu();
 
     return (
         <tr
             onClick={selectTrack}
             onDoubleClick={updatePlayback}
+            onContextMenu={(e) => {
+                !isSelected && selectTrack(e);
+                onContextMenu(e);
+            }}
             className={clsx({
                 disabled: !track.isPlayable,
                 isSelected,
@@ -60,6 +67,8 @@ export function AlbumTableTrackRow({
             <td>
                 <TrackDurationCell track={track} likedState={likedState} />
             </td>
+
+            <TrackContextMenu track={track} menuProps={menuProps} />
         </tr>
     );
 }

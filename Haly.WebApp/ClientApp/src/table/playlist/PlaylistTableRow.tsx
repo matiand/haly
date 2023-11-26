@@ -5,7 +5,9 @@ import React from "react";
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms/playlistAtoms";
 import { styled } from "../../common/theme";
+import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
+import TrackContextMenu from "../menus/TrackContextMenu";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";
@@ -35,16 +37,21 @@ function PlaylistTableRow({
 }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
+    const { onContextMenu, menuProps } = useContextMenu();
 
     const isListenedTo = playbackState !== "none";
     const isLocal = !track.id;
 
     return (
         <TableRow
-            // onClick={track.isSong && !isLocal ? selectTrack : undefined}
             onClick={selectTrack}
             onDoubleClick={updatePlayback}
-            onContextMenu={() => console.log("foo")}
+            onContextMenu={(e) => {
+                if (track.isSong && !isLocal) {
+                    !isSelected && selectTrack(e);
+                    onContextMenu(e);
+                }
+            }}
             style={{ transform: `translateY(${start}px` }}
             className={clsx({
                 disabled: !track.isPlayable,
@@ -82,6 +89,8 @@ function PlaylistTableRow({
             <td>
                 <TrackDurationCell track={track} noActions={isLocal || !track.isSong} likedState={likedState} />
             </td>
+
+            <TrackContextMenu track={track} menuProps={menuProps} />
         </TableRow>
     );
 }

@@ -44,7 +44,11 @@ function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }
 
     const name = getMenuItemName(params, isInLibrary, isOwnedByCurrentUser);
 
-    return <MenuItem onClick={onClick}>{name}</MenuItem>;
+    return (
+        <MenuItem style={{ minWidth: "max-content" }} onClick={onClick}>
+            {name}
+        </MenuItem>
+    );
 }
 
 function getMenuItemName(params: HeartMenuItemProps["params"], isInLibrary: boolean, isCurrentUserPlaylist?: boolean) {

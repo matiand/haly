@@ -31,14 +31,14 @@ function useAddToPlaylistMutation() {
             }),
         {
             onSuccess: (response) => {
+                // By invalidating this query, our backend will look for any changes in our playlists.
+                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+
                 toast(
                     <ToastWithImage imageUrl={response.imageUrl}>
                         Added to <b>{response.name}</b>
                     </ToastWithImage>,
                 );
-
-                // This will cause our playlist cache to be updated.
-                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
             },
             onError: async (err, { collectionUri, trackUris }) => {
                 // todo: when testing error handling, check if 404 is caught automatically or do we need to catch it manually
@@ -69,9 +69,7 @@ function useAddToPlaylistMutation() {
         },
     );
 
-    return {
-        addToPlaylist,
-    };
+    return addToPlaylist;
 }
 
 export default useAddToPlaylistMutation;

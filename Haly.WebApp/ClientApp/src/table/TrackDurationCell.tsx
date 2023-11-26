@@ -4,6 +4,7 @@ import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly"
 import { styled } from "../common/theme";
 import { HeartMutationParams } from "../common/useHeartMutations";
 import HeartButton from "../ui/HeartButton";
+import TrackButtonMenu from "./menus/TrackButtonMenu";
 import { TrackLikedState } from "./useTableRowLikedState";
 
 type TrackDurationCellProps = {
@@ -35,6 +36,7 @@ function TrackDurationCell({ track, noActions, likedState }: TrackDurationCellPr
         <Wrapper>
             <HeartButton key={track.id!} params={heartBtnParams} state={likedState.isLiked} />
             <Duration>{track.duration}</Duration>
+            <TrackButtonMenu track={track} />
         </Wrapper>
     );
 }

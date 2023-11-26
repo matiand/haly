@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 
 import halyClient from "../halyClient";
-import { likedSongIdByPlaybackIdAtom } from "./atoms/trackAtoms";
+import { isLikedSongsCollectionChangedAtom, likedSongIdByPlaybackIdAtom } from "./atoms/trackAtoms";
 import { GetMyPlaylistsQueryKey, IsCurrentUserFollowingAlbum } from "./queryKeys";
 
 export type HeartMutationParams =
@@ -30,6 +30,7 @@ export type HeartMutationParams =
 function useHeartMutations() {
     const queryClient = useQueryClient();
     const setLikedSongIdByPlaybackId = useSetAtom(likedSongIdByPlaybackIdAtom);
+    const setIsLikedSongsCollectionChanged = useSetAtom(isLikedSongsCollectionChangedAtom);
 
     const follow = useMutation<HeartMutationParams, unknown, HeartMutationParams>(
         async (params) => {
@@ -61,8 +62,8 @@ function useHeartMutations() {
                         {},
                     );
                     setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
+                    setIsLikedSongsCollectionChanged(true);
 
-                    halyClient.me.putMyLikedSongs();
                     toast("Added to Liked Songs.");
                 }
             },
@@ -99,8 +100,8 @@ function useHeartMutations() {
                         {},
                     );
                     setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
+                    setIsLikedSongsCollectionChanged(true);
 
-                    halyClient.me.putMyLikedSongs();
                     toast("Removed from Liked Songs.");
                 }
             },

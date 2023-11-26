@@ -9,6 +9,9 @@ export type PageContext = {
     type: "playlist" | "album" | "user" | "artist";
     // Needed for accessing its dominant color.
     imageUrl?: string | null;
+    allow?: {
+        removeTrackFromPlaylist?: boolean;
+    };
 };
 
 export const pageContextAtom = atom<PageContext | null>(null);

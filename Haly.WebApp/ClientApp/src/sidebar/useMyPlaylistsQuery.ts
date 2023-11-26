@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { cachedPlaylists } from "../common/atoms/playlistAtoms";
+import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyApi from "../halyClient";
 
 function useMyPlaylistsQuery() {
-    const setCachedPlaylistIds = useSetAtom(cachedPlaylists);
+    const setCachedPlaylistIds = useSetAtom(cachedPlaylistsAtom);
 
     // This is actually a PUT request, but we treat it as a query, because it's idempotent and this
     // way it's easier for us to have the playlists up to date.

@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
-import React from "react";
 
 import { TrackDto } from "../../../generated/haly";
 import { playbackContextUriAtom } from "../../common/atoms/playbackAtoms";
+import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
+import TrackContextMenu from "../menus/TrackContextMenu";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
@@ -17,21 +18,23 @@ type QueueTableRowProps = {
     track: TrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
-    isSelected: boolean;
-    selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
+    // We used to allow the selection feature, but QueueTable is implemented in such a way that it
+    // breaks often (e.g. selecting first track of each section, shift select).
+    // isSelected: boolean;
+    // selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
 };
 
-function QueueTableRow({ position, track, playbackState, likedState, isSelected, selectTrack }: QueueTableRowProps) {
+function QueueTableRow({ position, track, playbackState, likedState }: QueueTableRowProps) {
     const contextUri = useAtomValue(playbackContextUriAtom);
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track, contextUri);
+    const { onContextMenu, menuProps } = useContextMenu();
 
     return (
         <tr
-            onClick={selectTrack}
             onDoubleClick={updatePlayback}
+            onContextMenu={onContextMenu}
             className={clsx({
                 disabled: !track.isPlayable,
-                isSelected,
             })}
         >
             <td>
@@ -56,6 +59,8 @@ function QueueTableRow({ position, track, playbackState, likedState, isSelected,
             <td>
                 <TrackDurationCell track={track} likedState={likedState} />
             </td>
+
+            <TrackContextMenu track={track} menuProps={menuProps} />
         </tr>
     );
 }

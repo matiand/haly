@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
@@ -15,6 +16,7 @@ type TrackInformationProps = {
     showExplicitMark?: boolean;
     hideArtists?: boolean;
     searchTerm?: string | null;
+    onContextMenu?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 function TrackInformation({
@@ -24,6 +26,7 @@ function TrackInformation({
     showExplicitMark,
     hideArtists,
     searchTerm,
+    onContextMenu,
 }: TrackInformationProps) {
     const { name, artists } = track;
 
@@ -31,7 +34,7 @@ function TrackInformation({
     const shouldLinkToAlbum = hasAlbum && type === "playback";
 
     return (
-        <Wrapper>
+        <Wrapper onContextMenu={onContextMenu}>
             {hasAlbum &&
                 (type === "cell" ? (
                     <TrackCoverImage imageUrl={track.album.imageUrl} />
