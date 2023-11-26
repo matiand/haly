@@ -21,6 +21,12 @@ import { exists, mapValues } from '../runtime';
 export interface GetMyLikedSongsQueryResponse {
     /**
      * 
+     * @type {string}
+     * @memberof GetMyLikedSongsQueryResponse
+     */
+    collectionId: string;
+    /**
+     * 
      * @type {{ [key: string]: string; }}
      * @memberof GetMyLikedSongsQueryResponse
      */
@@ -32,6 +38,7 @@ export interface GetMyLikedSongsQueryResponse {
  */
 export function instanceOfGetMyLikedSongsQueryResponse(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "collectionId" in value;
     isInstance = isInstance && "likedSongIdByPlaybackId" in value;
 
     return isInstance;
@@ -47,6 +54,7 @@ export function GetMyLikedSongsQueryResponseFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
+        'collectionId': json['collectionId'],
         'likedSongIdByPlaybackId': json['likedSongIdByPlaybackId'],
     };
 }
@@ -60,6 +68,7 @@ export function GetMyLikedSongsQueryResponseToJSON(value?: GetMyLikedSongsQueryR
     }
     return {
         
+        'collectionId': value.collectionId,
         'likedSongIdByPlaybackId': value.likedSongIdByPlaybackId,
     };
 }

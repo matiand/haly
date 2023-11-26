@@ -22,3 +22,4 @@ export const selectedTracksAtom = atom<SelectedTrack[], [SetterArg], void>(
 );
 
 export const likedSongIdByPlaybackIdAtom = atom<Record<string, string | null>>({});
+export const isLikedSongsCollectionChangedAtom = atom(true);

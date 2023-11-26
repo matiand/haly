@@ -1922,9 +1922,12 @@ components:
       additionalProperties: false
     GetMyLikedSongsQueryResponse:
       required:
+        - collectionId
         - likedSongIdByPlaybackId
       type: object
       properties:
+        collectionId:
+          type: string
         likedSongIdByPlaybackId:
           type: object
           additionalProperties:

@@ -1,3 +1,3 @@
 namespace Haly.WebApp.Features.CurrentUser.GetLikedSongs;
 
-public record GetMyLikedSongsQueryResponse(IDictionary<string, string> LikedSongIdByPlaybackId);
+public record GetMyLikedSongsQueryResponse(string CollectionId, IDictionary<string, string> LikedSongIdByPlaybackId);

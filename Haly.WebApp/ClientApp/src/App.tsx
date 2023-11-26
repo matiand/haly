@@ -5,9 +5,9 @@ import AllAppearsOnCards from "./artist/AllAppearsOnCards";
 import AllDiscographyCards from "./artist/AllDiscographyCards";
 import Artist from "./artist/Artist";
 import { styled, theme } from "./common/theme";
+import useLikedSongsManagement from "./common/useLikedSongsManagement";
 import useMeQuery from "./common/useMeQuery";
 import { useMessageHub } from "./common/useMessageHub";
-import useSyncLikedSongs from "./common/useSyncLikedSongs";
 import Home from "./home/Home";
 import ModalProvider from "./menus/ModalProvider";
 import PlaybackWrapper from "./playback/PlaybackWrapper";
@@ -30,7 +30,7 @@ import UpperMenu from "./uppermenu/UpperMenu";
 function App() {
     useMessageHub();
     const query = useMeQuery();
-    useSyncLikedSongs({ enabled: query.isSuccess });
+    useLikedSongsManagement({ enabled: query.isSuccess });
 
     if (query.isLoading) return <LoadingIndicator />;
 
