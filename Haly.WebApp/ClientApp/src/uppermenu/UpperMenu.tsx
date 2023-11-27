@@ -1,6 +1,7 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 
 import { dominantColorsAtom, pageContextAtom } from "../common/atoms/pageAtoms";
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
 import UpperMenuControls from "./UpperMenuControls";
 import useDynamicBackground from "./useDynamicBackground";
@@ -9,6 +10,9 @@ import UserDropdownMenu from "./UserDropdownMenu";
 function UpperMenu() {
     const pageContext = useAtomValue(pageContextAtom);
     const dominantColors = useAtomValue(dominantColorsAtom);
+
+    const setSelectedTracks = useSetAtom(selectedTracksAtom);
+
     const { opacity, showDetails } = useDynamicBackground();
 
     if (!pageContext) {
@@ -22,7 +26,7 @@ function UpperMenu() {
     const color = dominantColors[pageContext.imageUrl ?? ""];
 
     return (
-        <Header aria-label="User menu">
+        <Header aria-label="User menu" onClick={() => setSelectedTracks([])}>
             <Background
                 css={{
                     $$color: color,

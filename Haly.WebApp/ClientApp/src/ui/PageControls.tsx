@@ -1,14 +1,18 @@
+import { useSetAtom } from "jotai/index";
 import React from "react";
 
-import { PlaybackToggleStyledClass } from "../playback/PlaybackToggle";
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
+import { PlaybackToggleStyledClass } from "../playback/PlaybackToggle";
 
 type PageControlsProps = {
     children?: React.ReactNode;
 };
 
 function PageControls(props: PageControlsProps) {
-    return <Wrapper>{props.children}</Wrapper>;
+    const setSelectedTracks = useSetAtom(selectedTracksAtom);
+
+    return <Wrapper onClick={(e) => e.currentTarget === e.target && setSelectedTracks([])}>{props.children}</Wrapper>;
 }
 
 const Wrapper = styled("div", {

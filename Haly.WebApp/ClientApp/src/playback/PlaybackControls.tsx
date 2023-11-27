@@ -1,8 +1,10 @@
 import { useAtomValue } from "jotai";
+import { useSetAtom } from "jotai/index";
+import { MouseEvent,useCallback } from "react";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { playerSdkAtom, StreamedTrack } from "../common/atoms/playbackAtoms";
-import { likedSongIdByPlaybackIdAtom } from "../common/atoms/trackAtoms";
+import { likedSongIdByPlaybackIdAtom, selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
 import useContextMenu from "../menus/useContextMenu";
 import StreamedTrackContextMenu from "../table/menus/StreamedTrackContextMenu";
@@ -25,6 +27,18 @@ type PlaybackControlsProps = {
 function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     const player = useAtomValue(playerSdkAtom);
     const likedSongIdByPlaybackId = useAtomValue(likedSongIdByPlaybackIdAtom);
+
+    const setSelectedTracks = useSetAtom(selectedTracksAtom);
+    const clearSelection = useCallback(
+        (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+
+            if (target.tagName === "DIV") {
+                setSelectedTracks([]);
+            }
+        },
+        [setSelectedTracks],
+    );
 
     const { onContextMenu, menuProps } = useContextMenu();
 
@@ -62,7 +76,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     const likedSongId = likedSongIdByPlaybackId[track.playbackId];
 
     return (
-        <Wrapper>
+        <Wrapper onClick={clearSelection}>
             <div>
                 <TrackInformation track={track} type="playback" onContextMenu={onContextMenu} />
                 <HeartButton
