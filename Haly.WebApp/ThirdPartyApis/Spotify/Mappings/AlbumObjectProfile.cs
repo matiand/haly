@@ -11,19 +11,17 @@ public class AlbumObjectProfile : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.ForType<AlbumObject, AlbumDetailed>()
-            .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl())
+            .Map(dest => dest.ImageUrl, src => src.Images.FindLargestImageUrl())
             .Map(dest => dest.Type, src => GetAlbumType(src.Album_type, src.Total_tracks))
             .Map(dest => dest.Copyrights, src => GetCopyrights(src.Copyrights))
             .Map(dest => dest.ReleaseDate, src => GetReleaseDate(src.Release_date));
 
         config.ForType<SimplifiedAlbumObject, AlbumBrief>()
-            // We want the smallest ones, because we only show those images as album covers of
+            // We want the smallest one, because we only show those images as album covers of
             // tracks inside playlist view.
-            .Map(dest => dest.ImageUrl, src => src.Images.FindSmallImageUrl());
+            .Map(dest => dest.ImageUrl, src => src.Images.FindSmallestImageUrl());
 
         config.ForType<SimplifiedAlbumObject, ReleaseItem>()
-            // We want the smallest ones, because we only show those images as album covers of
-            // tracks inside playlist view.
             .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl())
             .Map(dest => dest.Type, src => GetAlbumType(src.Album_type, src.Total_tracks))
             .Map(dest => dest.Artists, src => src.Artists)

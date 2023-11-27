@@ -6,28 +6,31 @@ import { keyframes, styled } from "../../common/theme";
 
 type ModalProps = {
     children: React.ReactNode;
-    title: string;
-    renderDescription?: () => React.ReactNode;
     onClose: () => void;
+    title?: string;
+    renderDescription?: () => React.ReactNode;
+    contentStyleOverride?: React.CSSProperties;
 };
 
-function Modal({ children, title, renderDescription, onClose }: ModalProps) {
+function Modal({ children, onClose, title, renderDescription, contentStyleOverride }: ModalProps) {
     return (
         <Dialog.Root defaultOpen onOpenChange={(open) => !open && onClose()}>
             <Dialog.Portal>
                 <Overlay />
 
-                <Box>
-                    <TitleWrapper>
-                        <Title>{title}</Title>
-                        {renderDescription && <Description asChild>{renderDescription()}</Description>}
+                <Box style={contentStyleOverride}>
+                    {title && (
+                        <TitleWrapper>
+                            <Title>{title}</Title>
+                            {renderDescription && <Description asChild>{renderDescription()}</Description>}
 
-                        <CloseButton aria-label="Close dialog" title="Close dialog">
-                            <span aria-hidden>
-                                <IoMdClose />
-                            </span>
-                        </CloseButton>
-                    </TitleWrapper>
+                            <CloseButton aria-label="Close dialog" title="Close dialog">
+                                <span aria-hidden>
+                                    <IoMdClose />
+                                </span>
+                            </CloseButton>
+                        </TitleWrapper>
+                    )}
 
                     {children}
                 </Box>

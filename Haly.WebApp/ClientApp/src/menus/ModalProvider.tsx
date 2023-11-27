@@ -1,6 +1,7 @@
 import { useAtomValue } from "jotai";
 
 import { modalAtom } from "../common/atoms/modalAtoms";
+import DisplayAlbumArtworkModal from "./modals/DisplayAlbumArtworkModal";
 import DuplicateTracksProblemModal from "./modals/DuplicateTracksProblemModal";
 import EditPlaylistDetailsModal from "./modals/EditPlaylistDetailsModal";
 import RemoveFromLibraryModal from "./modals/RemoveFromLibraryModal";
@@ -14,6 +15,8 @@ function ModalProvider() {
         return <EditPlaylistDetailsModal {...variant.props} />;
     } else if (variant?.type === "duplicateTracksProblem") {
         return <DuplicateTracksProblemModal {...variant.props} />;
+    } else if (variant?.type === "displayAlbumArtwork") {
+        return <DisplayAlbumArtworkModal {...variant.props} />;
     }
 
     return null;

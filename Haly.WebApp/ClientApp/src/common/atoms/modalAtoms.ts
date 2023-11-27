@@ -26,6 +26,12 @@ type ModalVariant =
               onAccept: (strategy: DuplicatesStrategy) => void;
               onCancel: () => void;
           };
+      }
+    | {
+          type: "displayAlbumArtwork";
+          props: {
+              imageUrl: string;
+          };
       };
 
 export const modalAtom = atom<ModalVariant | null>(null);

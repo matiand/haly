@@ -46,7 +46,14 @@ function PageHeader({
 
     return (
         <Wrapper ref={ref}>
-            <HeaderImage imageUrl={imageUrl} alt={altImageText} isRounded={hasRoundedImage} />
+            <HeaderImage
+                imageUrl={imageUrl}
+                alt={altImageText}
+                isRounded={hasRoundedImage}
+                isAlbumArtwork={type === "Album"}
+                onContextMenu={onContextMenu}
+            />
+
             <HeaderInfo>
                 <Subtitle>{subtitle ?? type}</Subtitle>
 
@@ -77,7 +84,8 @@ const Wrapper = styled("div", {
     position: "relative",
     userSelect: "none",
 
-    "& > img": {
+    "& > :first-child:not(div)": {
+        flex: "0 0 auto",
         marginRight: "$700",
     },
 });
