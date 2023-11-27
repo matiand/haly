@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { useAuth } from "react-oidc-context";
 
-import LoadingIndicator from "../ui/LoadingIndicator";
 import AuthenticationError from "./AuthenticationError";
+import AuthenticationLoading from "./AuthenticationLoading";
 import { Login } from "./Login";
 import useRefreshTokenMutation from "./useRefreshTokenMutation";
 
@@ -16,6 +16,7 @@ function Authentication(props: AuthenticationProps) {
     const refreshToken = useRefreshTokenMutation();
 
     console.log("debug auth user", auth.user?.expires_in);
+    console.log(auth);
 
     // Normally automatic token renewals in 'auth' are enabled by default.
     // I had to turn them off, cause the app would crash from React's StrictMode rerenders
@@ -55,7 +56,7 @@ function Authentication(props: AuthenticationProps) {
 
     // If user exists but we aren't authenticated, we wait for silent token refresh to complete
     if (auth.isLoading || auth.user) {
-        return <LoadingIndicator />;
+        return <AuthenticationLoading logout={auth.removeUser} />;
     }
 
     return <Login loginFn={auth.signinRedirect} />;

@@ -1,12 +1,11 @@
 import { styled } from "../common/theme";
+import Button from "../ui/Button";
 
 export function Login(props: { loginFn: () => unknown }) {
     return (
         <Main>
             <h1>HALY</h1>
-            <button type="button" onClick={props.loginFn}>
-                Log in
-            </button>
+            <Button label="Log in" onClick={props.loginFn} />
         </Main>
     );
 }
@@ -19,17 +18,5 @@ const Main = styled("main", {
 
     h1: {
         marginBottom: "$500",
-    },
-
-    button: {
-        background: "$white800",
-        borderRadius: "999px",
-        cursor: "pointer",
-        fontWeight: 700,
-        padding: "$400 $800",
-
-        "&:hover": {
-            transform: "scale(1.05)",
-        },
     },
 });

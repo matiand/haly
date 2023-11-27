@@ -20,6 +20,7 @@ const Wrapper = styled("div", {
     display: "flex",
     height: "100%",
     justifyContent: "center",
+    pointerEvents: "none",
     width: "100%",
 
     "&&&": {
