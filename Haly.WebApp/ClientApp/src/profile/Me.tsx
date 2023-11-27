@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
 import { dominantColorsAtom } from "../common/atoms/pageAtoms";
+import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
 import { capitalize } from "../common/capitalize";
 import { pluralize } from "../common/pluralize";
@@ -15,6 +16,7 @@ import PageHeader from "../ui/PageHeader";
 
 function Me() {
     const userId = useAtomValue(userIdAtom);
+    const cachedPlaylists = useAtomValue(cachedPlaylistsAtom);
 
     const profileQuery = useQuery(["users", userId], () => halyClient.users.getUser({ id: userId }));
     const topArtistsQuery = useQuery(["me", "top", "artists"], () => halyClient.me.getMyTopArtists());
@@ -25,6 +27,7 @@ function Me() {
 
     const { name, followersTotal, imageUrl } = profileQuery.data;
     const followsTotal = followedArtistsQuery.data?.length ?? 0;
+    const createdPlaylists = cachedPlaylists.filter((p) => p.ownerId === userId).length;
     const dominantColor = dominantColors[imageUrl ?? ""];
 
     const followsCards: CardProps[] = (followedArtistsQuery.data ?? []).map((f) => {
@@ -55,6 +58,7 @@ function Me() {
             <PageHeader title={name} type="Profile" imageUrl={imageUrl} description={null}>
                 {followersTotal > 0 && <span>{pluralize("Follower", followersTotal)}</span>}
                 {followsTotal > 0 && <span>{pluralize("Followed Artist", followsTotal)}</span>}
+                {createdPlaylists > 0 && <span>{pluralize("Owned Playlist", createdPlaylists)}</span>}
             </PageHeader>
 
             <PageControls />
