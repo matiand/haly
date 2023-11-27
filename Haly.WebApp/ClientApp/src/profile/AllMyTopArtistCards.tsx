@@ -14,11 +14,10 @@ function AllMyTopArtistCards() {
         return {
             id: a.id,
             name: a.name,
+            uri: `spotify:artist:${a.id}`,
+            href: `/artist/${a.id}`,
             subtitle: capitalize(a.genres[0] ?? ""),
             imageUrl: a.imageUrl,
-            href: `/artist/${a.id}`,
-            hasRoundedImage: true,
-            isPlayable: true,
         };
     });
 

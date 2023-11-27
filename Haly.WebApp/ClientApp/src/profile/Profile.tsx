@@ -30,10 +30,9 @@ function Profile() {
         return {
             id: p.id,
             name: p.name,
-            imageUrl: p.imageUrl,
+            uri: `spotify:playlist:${p.id}`,
             href: `/playlist/${p.id}`,
-            contextUri: `spotify:playlist:${p.id}`,
-            hasRoundedImage: false,
+            imageUrl: p.imageUrl,
         };
     });
 

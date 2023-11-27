@@ -15,10 +15,9 @@ function AllUserPlaylistCards() {
         return {
             id: p.id,
             name: p.name,
-            imageUrl: p.imageUrl,
+            uri: `spotify:playlist:${p.id}`,
             href: `/playlist/${p.id}`,
-            hasRoundedImage: false,
-            contextUri: `spotify:playlist:${p.id}`,
+            imageUrl: p.imageUrl,
         };
     });
 

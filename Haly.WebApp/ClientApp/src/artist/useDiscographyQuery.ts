@@ -33,11 +33,10 @@ function useDiscographyQuery(artistId: string, initialFilter: DiscographyFilter 
             .map<CardProps>((i) => ({
                 id: i.id,
                 name: i.name,
-                imageUrl: i.imageUrl,
+                uri: `spotify:album:${i.id}`,
                 href: `/album/${i.id}`,
-                hasRoundedImage: false,
-                contextUri: `spotify:album:${i.id}`,
                 subtitle: [i.releaseYear, capitalize(i.type)],
+                imageUrl: i.imageUrl,
             })),
         options,
         filter,

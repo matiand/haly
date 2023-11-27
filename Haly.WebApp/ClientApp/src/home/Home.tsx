@@ -20,11 +20,10 @@ function Home() {
         return {
             id: p.id,
             name: p.name,
+            uri: `spotify:playlist:${p.id}`,
             href: `/playlist/${p.id}`,
             imageUrl: p.imageUrl,
             subtitle: p.description ?? "",
-            contextUri: `spotify:playlist:${p.id}`,
-            hasRoundedImage: false,
         };
     });
 
@@ -42,11 +41,10 @@ function Home() {
                 const cards: CardProps[] = albums.map((a) => ({
                     id: a.id,
                     name: a.name,
+                    uri: `spotify:album:${a.id}`,
                     href: `/album/${a.id}`,
-                    imageUrl: a.imageUrl,
                     subtitle: a.artists.map((artist) => artist.name).join(", "),
-                    contextUri: `spotify:album:${a.id}`,
-                    hasRoundedImage: false,
+                    imageUrl: a.imageUrl,
                 }));
 
                 return <ResizableCardGroup key={category} title={category} items={cards} maxRows={1} />;

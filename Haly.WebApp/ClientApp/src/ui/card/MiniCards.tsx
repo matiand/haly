@@ -1,21 +1,16 @@
 import { KeyboardEventHandler } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { PlaylistCardDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import useContextMenu from "../../menus/useContextMenu";
+import { CardProps } from "./Card";
+import CardContextMenu from "./CardContextMenu";
 
-type CardProps = {
-    id: string;
-    name: string;
-    href: string;
-    subtitle?: string;
-    imageUrl: PlaylistCardDto["imageUrl"];
-    hasRoundedImage: boolean;
-};
 const imgSize = 80;
 
-function MiniCard({ name, href, subtitle, imageUrl, hasRoundedImage }: CardProps) {
+function MiniCard({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
     const navigate = useNavigate();
+    const { onContextMenu, menuProps } = useContextMenu();
 
     const navigateOnEnter: KeyboardEventHandler = (e) => {
         if (e.key === "Enter") {
@@ -24,8 +19,10 @@ function MiniCard({ name, href, subtitle, imageUrl, hasRoundedImage }: CardProps
         }
     };
 
+    const isAlbumOrPlaylist = /album|playlist/.test(uri);
+
     return (
-        <Wrapper>
+        <Wrapper onContextMenu={onContextMenu}>
             {imageUrl && (
                 <ImageWrapper tabIndex={0} role="button" onClick={() => navigate(href)} onKeyDown={navigateOnEnter}>
                     <img
@@ -34,7 +31,7 @@ function MiniCard({ name, href, subtitle, imageUrl, hasRoundedImage }: CardProps
                         alt=""
                         height={imgSize}
                         width={imgSize}
-                        data-is-rounded={hasRoundedImage}
+                        data-is-rounded={!isAlbumOrPlaylist}
                     />
                 </ImageWrapper>
             )}
@@ -45,6 +42,8 @@ function MiniCard({ name, href, subtitle, imageUrl, hasRoundedImage }: CardProps
                 </Link>
                 {subtitle && <Subtitle className="line-clamp-ellipsis">{subtitle}</Subtitle>}
             </ContentWrapper>
+
+            {isAlbumOrPlaylist && <CardContextMenu id={id} name={name} uri={uri} menuProps={menuProps} />}
         </Wrapper>
     );
 }

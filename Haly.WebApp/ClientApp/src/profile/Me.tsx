@@ -30,15 +30,14 @@ function Me() {
     const createdPlaylists = cachedPlaylists.filter((p) => p.ownerId === userId).length;
     const dominantColor = dominantColors[imageUrl ?? ""];
 
-    const followsCards: CardProps[] = (followedArtistsQuery.data ?? []).map((f) => {
+    const followedArtistsCards: CardProps[] = (followedArtistsQuery.data ?? []).map((f) => {
         return {
             id: f.id,
             name: f.name,
+            uri: `spotify:artist:${f.id}`,
+            href: `/artist/${f.id}`,
             subtitle: "Profile",
             imageUrl: f.imageUrl,
-            href: `/artist/${f.id}`,
-            contextUri: `spotify:artist:${f.id}`,
-            hasRoundedImage: true,
         };
     });
 
@@ -46,10 +45,10 @@ function Me() {
         return {
             id: a.id,
             name: a.name,
+            uri: `spotify:artist:${a.id}`,
+            href: `/artist/${a.id}`,
             subtitle: capitalize(a.genres[0] ?? ""),
             imageUrl: a.imageUrl,
-            href: `/artist/${a.id}`,
-            hasRoundedImage: true,
         };
     });
 
@@ -64,7 +63,7 @@ function Me() {
             <PageControls />
 
             <ResizableCardGroup title="Top artists this month" items={topArtistsCards} maxRows={2} href="top/artists" />
-            <ResizableCardGroup title="Followed Artists" items={followsCards} maxRows={1} href="following" />
+            <ResizableCardGroup title="Followed Artists" items={followedArtistsCards} maxRows={1} href="following" />
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />

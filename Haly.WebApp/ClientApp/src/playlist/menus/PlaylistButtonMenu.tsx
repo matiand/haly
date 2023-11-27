@@ -11,7 +11,7 @@ type PlaylistButtonMenuProps = {
 
 function PlaylistButtonMenu({ playlist, isLikedSongsCollection }: PlaylistButtonMenuProps) {
     const isInLibrary = useIsPlaylistInLibrary(playlist.id);
-    const isOwnedByCurrentUser = useIsPlaylistOwnedByCurrentUser(playlist.owner.id);
+    const isOwnedByCurrentUser = useIsPlaylistOwnedByCurrentUser(playlist.id);
 
     const btnLabel = isLikedSongsCollection
         ? "More options for 'Liked Songs' collection"

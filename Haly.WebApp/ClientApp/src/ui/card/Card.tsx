@@ -3,42 +3,49 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { PlaylistCardDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import useContextMenu from "../../menus/useContextMenu";
 import PlaybackToggle from "../../playback/PlaybackToggle";
 import UseContextPlaybackState from "../../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../../playback/usePlaybackActions";
 import EmptyCoverImage from "../EmptyCoverImage";
+import CardContextMenu from "./CardContextMenu";
 
 export type CardProps = {
     id: string;
     name: string;
+    uri: string;
     href: string;
+
     // A subtitle OR or a year + subtitle tuple
     subtitle?: string | [number, string];
     imageUrl?: PlaylistCardDto["imageUrl"];
-    contextUri?: string;
-    hasRoundedImage: boolean;
     isHighlighted?: boolean;
 };
 
-function Card({ id, name, href, subtitle, imageUrl, contextUri, hasRoundedImage, isHighlighted }: CardProps) {
+function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardProps) {
     const navigate = useNavigate();
+    const { menuProps, onContextMenu } = useContextMenu();
+
     const getPlaybackState = UseContextPlaybackState();
     const playbackState = getPlaybackState(id);
-    const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
+    const { playbackAction } = useContextPlaybackActions(playbackState, uri);
 
     const navigateOnClick: MouseEventHandler = (e) => {
         const target = e.target as HTMLElement;
-        if (target.tagName !== "A") {
+        // If it's not a link, navigate programmatically.
+        if (target.tagName !== "A" && menuProps.state === "closed") {
             navigate(href);
         }
     };
 
+    const isAlbumOrPlaylist = /album|playlist/.test(uri);
+
     return (
-        <Wrapper onClick={navigateOnClick} data-is-highlighted={isHighlighted}>
-            <ImageWrapper data-is-rounded={hasRoundedImage}>
+        <Wrapper onClick={navigateOnClick} onContextMenu={onContextMenu} data-is-highlighted={isHighlighted}>
+            <ImageWrapper data-is-rounded={!isAlbumOrPlaylist}>
                 {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 
-                {contextUri && (
+                {isAlbumOrPlaylist && (
                     <div id="card-playback-wrapper">
                         <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                     </div>
@@ -60,6 +67,8 @@ function Card({ id, name, href, subtitle, imageUrl, contextUri, hasRoundedImage,
                     </Subtitle>
                 )}
             </Contents>
+
+            {isAlbumOrPlaylist && <CardContextMenu id={id} name={name} uri={uri} menuProps={menuProps} />}
         </Wrapper>
     );
 }

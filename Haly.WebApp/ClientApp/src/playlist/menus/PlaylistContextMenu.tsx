@@ -13,9 +13,7 @@ type PlaylistContextMenuProps = {
 
 function PlaylistContextMenu({ playlist, menuProps, isLikedSongsCollection }: PlaylistContextMenuProps) {
     const isInLibrary = useIsPlaylistInLibrary(playlist.id);
-
-    const ownerId = "ownerId" in playlist ? playlist.ownerId : playlist.owner.id;
-    const isOwnedByCurrentUser = useIsPlaylistOwnedByCurrentUser(ownerId);
+    const isOwnedByCurrentUser = useIsPlaylistOwnedByCurrentUser(playlist.id);
 
     return (
         <ContextMenu menuProps={menuProps}>

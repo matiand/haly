@@ -13,10 +13,10 @@ function AllMyFollowedArtistCards() {
         return {
             id: f.id,
             name: f.name,
+            uri: `spotify:artist:${f.id}`,
+            href: `/artist/${f.id}`,
             subtitle: "Artist",
             imageUrl: f.imageUrl,
-            href: `/artist/${f.id}`,
-            hasRoundedImage: true,
         };
     });
 

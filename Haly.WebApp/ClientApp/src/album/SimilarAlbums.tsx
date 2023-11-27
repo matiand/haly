@@ -27,11 +27,10 @@ function SimilarAlbums({ albumId, trackIds }: SimilarAlbumsProps) {
         return {
             id: album.id,
             name: album.name,
+            uri: `spotify:album:${album.id}`,
             href: `/album/${album.id}`,
             subtitle: [album.releaseYear, artists],
             imageUrl: album.imageUrl,
-            contextUri: `spotify:album:${album.id}`,
-            hasRoundedImage: false,
         };
     });
 

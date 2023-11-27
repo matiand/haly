@@ -76,11 +76,10 @@ const mapToCards = (items: ReleaseItemDto[]) => {
     return items.map((i) => ({
         id: i.id,
         name: i.name,
+        uri: `spotify:album:${i.id}`,
+        href: `/album/${i.id}`,
         subtitle: i.type,
         imageUrl: i.imageUrl,
-        href: `/album/${i.id}`,
-        contextUri: `spotify:album:${i.id}`,
-        hasRoundedImage: false,
         isHighlighted: i.type === "Album",
     }));
 };

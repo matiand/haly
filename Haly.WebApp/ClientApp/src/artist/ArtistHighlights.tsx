@@ -23,10 +23,10 @@ function ArtistHighlights({ artistId, tracks, playlist }: ArtistHighlightsProps)
                     <MiniCard
                         id={playlist.id}
                         name={playlist.name}
-                        subtitle={`By ${playlist.ownerName}`}
+                        uri={`spotify:playlist:${playlist.id}`}
                         href={`/playlist/${playlist.id}`}
+                        subtitle={`By ${playlist.ownerName}`}
                         imageUrl={playlist.imageUrl}
-                        hasRoundedImage={false}
                     />
                 </div>
             )}
