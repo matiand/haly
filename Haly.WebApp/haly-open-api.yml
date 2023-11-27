@@ -2203,17 +2203,15 @@ components:
       additionalProperties: false
     RemoveTrackDto:
       required:
-        - positions
+        - position
         - uri
       type: object
       properties:
         uri:
           type: string
-        positions:
-          type: array
-          items:
-            type: integer
-            format: int32
+        position:
+          type: integer
+          format: int32
       additionalProperties: false
     RemoveTracksRequestBody:
       required:

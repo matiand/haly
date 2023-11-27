@@ -420,17 +420,24 @@ public sealed class SpotifyService : ISpotifyService
     public async Task RemoveTracks(string playlistId, IReadOnlyCollection<RemoveTrackDto> tracks)
     {
         var limit = RemovingTracksLimit;
-        for (var i = 0; i < tracks.Count; i += limit)
+
+        // We can only remove 100 tracks at a time. We need to adjust the position manually after
+        // each removal; otherwise this thing will not work after the first batch.
+        var orderedByPosition = tracks.OrderBy(t => t.Position).ToList();
+        for (var i = 0; i < orderedByPosition.Count; i += limit)
         {
-            var batch = tracks.Skip(i)
+            var batch = orderedByPosition.Skip(i)
                 .Take(limit)
-                .Select(dto => new Tracks2() { Uri = dto.Uri, Positions = !dto.Positions.Any() ? null : dto.Positions })
+                .Select(dto => new Tracks2()
+                {
+                    Uri = dto.Uri,
+                    // Don't worry about the possibility of null breaking this operation.
+                    // dto.Position can only be -1 for currently streamed track.
+                    Positions = dto.Position != -1 ? new[] { dto.Position - i } : null
+                })
                 .ToList();
 
-            await _spotifyClient.RemoveTracksPlaylistAsync(playlistId, body: new()
-            {
-                Tracks = batch,
-            });
+            await _spotifyClient.RemoveTracksPlaylistAsync(playlistId, body: new() { Tracks = batch });
         }
     }
 }

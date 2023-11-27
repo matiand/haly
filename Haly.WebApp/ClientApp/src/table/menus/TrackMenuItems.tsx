@@ -31,7 +31,7 @@ function TrackMenuItems({
     const trackUris = tracks.map((t) => t.uri).filter((uri): uri is string => Boolean(uri));
     const tracksWithPosition: RemoveTracksRequest["tracks"] = tracks.map((t) => ({
         uri: t.uri!,
-        positions: "positionInPlaylist" in t ? [t.positionInPlaylist] : [],
+        position: "positionInPlaylist" in t ? t.positionInPlaylist : -1,
     }));
 
     console.log("Menu will use these tracks:");

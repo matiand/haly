@@ -27,10 +27,10 @@ export interface RemoveTrackDto {
     uri: string;
     /**
      * 
-     * @type {Array<number>}
+     * @type {number}
      * @memberof RemoveTrackDto
      */
-    positions: Array<number>;
+    position: number;
 }
 
 /**
@@ -39,7 +39,7 @@ export interface RemoveTrackDto {
 export function instanceOfRemoveTrackDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "uri" in value;
-    isInstance = isInstance && "positions" in value;
+    isInstance = isInstance && "position" in value;
 
     return isInstance;
 }
@@ -55,7 +55,7 @@ export function RemoveTrackDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'uri': json['uri'],
-        'positions': json['positions'],
+        'position': json['position'],
     };
 }
 
@@ -69,7 +69,7 @@ export function RemoveTrackDtoToJSON(value?: RemoveTrackDto | null): any {
     return {
         
         'uri': value.uri,
-        'positions': value.positions,
+        'position': value.position,
     };
 }
 
