@@ -76,7 +76,11 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
     return (
         <div>
-            <PlaylistHeader playlist={playlist} onContextMenu={onContextMenu} />
+            <PlaylistHeader
+                playlist={playlist}
+                onContextMenu={onContextMenu}
+                isEditable={isOwnedByCurrentUser && !isLikedSongsCollection}
+            />
             <PageControls>
                 {hasTracks && (
                     <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />

@@ -11,9 +11,10 @@ import PlaylistOwner from "./PlaylistOwner";
 type PlaylistHeaderProps = {
     playlist: PlaylistWithTracksDto;
     onContextMenu: (e: React.MouseEvent) => void;
+    isEditable: boolean;
 };
 
-function PlaylistHeader({ playlist, onContextMenu }: PlaylistHeaderProps) {
+function PlaylistHeader({ playlist, onContextMenu, isEditable }: PlaylistHeaderProps) {
     const { id, name, description, imageUrl, owner, likesTotal, totalDuration, isPersonalized } = playlist;
 
     const setModal = useSetAtom(modalAtom);
@@ -23,6 +24,18 @@ function PlaylistHeader({ playlist, onContextMenu }: PlaylistHeaderProps) {
     const songsTotalValue = sliceSongsTotal === null ? playlist.tracks.total : sliceSongsTotal;
     const durationValue = sliceDuration || totalDuration;
 
+    const onTitleClick = isEditable
+        ? () =>
+              setModal({
+                  type: "editPlaylistDetails",
+                  props: {
+                      id,
+                      name,
+                      description: description ?? "",
+                  },
+              })
+        : undefined;
+
     return (
         <>
             <PageHeader
@@ -31,16 +44,7 @@ function PlaylistHeader({ playlist, onContextMenu }: PlaylistHeaderProps) {
                 description={description}
                 imageUrl={imageUrl}
                 onContextMenu={onContextMenu}
-                onTitleClick={() =>
-                    setModal({
-                        type: "editPlaylistDetails",
-                        props: {
-                            id,
-                            name,
-                            description: description ?? "",
-                        },
-                    })
-                }
+                onTitleClick={onTitleClick}
             >
                 <PlaylistOwner owner={owner} isPersonalized={isPersonalized} />
 
