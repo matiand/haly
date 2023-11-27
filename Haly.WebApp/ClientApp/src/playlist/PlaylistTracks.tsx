@@ -90,7 +90,6 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
     if (tracksQuery.isInitialLoading) {
         return (
             <PlaylistTable
-                playlistId={playlistId}
                 items={initialTracks.items}
                 total={initialTracks.total}
                 fetchMoreItems={fetchMore}
@@ -102,7 +101,6 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
 
     return (
         <PlaylistTable
-            playlistId={playlistId}
             items={items}
             total={total}
             fetchMoreItems={fetchMore}

@@ -7,6 +7,7 @@ import useMainScrollArea from "../../common/useMainScrollArea";
 import * as Table from "../Table";
 import TrackDurationIcon from "../TrackDurationIcon";
 import useScrollToTrack from "../useScrollToTrack";
+import useSelectionShortcuts from "../useSelectionShortcuts";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
@@ -21,8 +22,10 @@ type AlbumTableProps = {
 function AlbumTable({ items }: AlbumTableProps) {
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
-    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
     const { ref, isSticky } = useStickyTableHead();
+
+    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
+    useSelectionShortcuts(items);
 
     const mainScrollArea = useMainScrollArea();
     useScrollToTrack({

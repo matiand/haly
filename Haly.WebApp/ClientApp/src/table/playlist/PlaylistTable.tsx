@@ -8,6 +8,7 @@ import useMainScrollArea from "../../common/useMainScrollArea";
 import NoLikedSongs from "../../playlist/NoLikedSongs";
 import * as Table from "../Table";
 import useScrollToTrack from "../useScrollToTrack";
+import useSelectionShortcuts from "../useSelectionShortcuts";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
@@ -16,7 +17,6 @@ import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
 
 type PlaylistTableProps = {
-    playlistId: string;
     items: PlaylistTrackDto[];
     total: number;
     fetchMoreItems: () => void;
@@ -36,7 +36,9 @@ function PlaylistTable({
 }: PlaylistTableProps) {
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
+
     const { selectTableRow, isSelectedRow } = useTrackSelection(items);
+    useSelectionShortcuts(items);
 
     const { ref, isSticky } = useStickyTableHead();
     const mainScrollArea = useMainScrollArea();
