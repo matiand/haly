@@ -173,10 +173,10 @@ public sealed class SpotifyService : ISpotifyService
 
         while (response.Artists.Next is not null)
         {
-            follows.AddRange(response.Artists.Items);
-
             response = await _spotifyClient.GetFollowedAsync(Type.Artist, limit: UserFollowsLimit,
                 after: response.Artists.Cursors.After);
+
+            follows.AddRange(response.Artists.Items);
         }
 
         return follows.Adapt<List<FollowedArtist>>();
