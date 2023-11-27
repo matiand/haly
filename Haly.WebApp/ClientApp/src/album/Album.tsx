@@ -88,7 +88,7 @@ function Album() {
                         </span>
                     );
                 })}
-                <span>{releaseYear}</span>
+                <span title={formattedReleaseDate}>{releaseYear}</span>
                 <span>
                     {pluralize("song", tracks.length)}, <span>{totalDuration}</span>
                 </span>
