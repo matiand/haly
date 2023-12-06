@@ -1,22 +1,23 @@
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { HiPlus } from "react-icons/hi2";
 import { MdLibraryMusic } from "react-icons/md";
 
 import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import { styled } from "../common/theme";
 import useContextMenu from "../menus/useContextMenu";
 import useCreatePlaylistMutation from "../playlist/useCreatePlaylistMutation";
+import CreatePlaylistButton from "./CreatePlaylistButton";
 import UserLibraryContextMenu from "./UserLibraryContextMenu";
 
 function UserLibraryHeader() {
+    const { menuProps, onContextMenu } = useContextMenu();
+
     const queryClient = useQueryClient();
     const { createPlaylist } = useCreatePlaylistMutation(() => {
         queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
         // We show a toast instead of navigating to the new playlist.
         toast("Created new playlist");
     });
-    const { menuProps, onContextMenu } = useContextMenu();
 
     return (
         <>
@@ -28,19 +29,10 @@ function UserLibraryHeader() {
                     <h2>Your Library</h2>
                 </Title>
 
-                <AddButton
-                    onClick={() => createPlaylist()}
-                    type="button"
-                    aria-label="Create playlist"
-                    title="Create playlist"
-                >
-                    <span>
-                        <AddButtonIcon />
-                    </span>
-                </AddButton>
+                <CreatePlaylistButton createPlaylist={createPlaylist} />
             </Header>
 
-            <UserLibraryContextMenu menuProps={menuProps} createPlaylist={() => createPlaylist()} />
+            <UserLibraryContextMenu menuProps={menuProps} createPlaylist={createPlaylist} />
         </>
     );
 }
@@ -68,32 +60,6 @@ const Title = styled("div", {
 const TitleIcon = styled(MdLibraryMusic, {
     height: "24px",
     width: "24px",
-});
-
-const AddButton = styled("button", {
-    background: "inherit",
-    border: 0,
-    borderRadius: "50%",
-    color: "inherit",
-    cursor: "pointer",
-    display: "flex",
-    padding: "$200",
-    transition: "color 0.2s linear",
-
-    "&:hover": {
-        background: "$black400",
-        color: "$white800",
-    },
-
-    "&:active": {
-        background: "$black800",
-        color: "$white800",
-    },
-});
-
-const AddButtonIcon = styled(HiPlus, {
-    height: "$navIconSize",
-    width: "$navIconSize",
 });
 
 export default UserLibraryHeader;
