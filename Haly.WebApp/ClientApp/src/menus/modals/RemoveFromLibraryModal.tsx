@@ -1,24 +1,23 @@
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useNavigate } from "react-router-dom";
 
-import { modalAtom } from "../../common/atoms/modalAtoms";
+import { modalAtom, RemoveFromLibraryModalProps } from "../../common/atoms/modalAtoms";
+import { pageContextIdAtom } from "../../common/atoms/pageAtoms";
 import { styled } from "../../common/theme";
 import Modal from "./Modal";
 
-type RemoveFromLibraryModalProps = {
-    isOwnedByCurrentUser: boolean;
-    entityName: string;
-    onAccept: () => void;
-};
+function RemoveFromLibraryModal({ id, name, isOwnedByCurrentUser, onAccept }: RemoveFromLibraryModalProps) {
+    const navigate = useNavigate();
 
-function RemoveFromLibraryModal({ isOwnedByCurrentUser, entityName, onAccept }: RemoveFromLibraryModalProps) {
     const setModal = useSetAtom(modalAtom);
+    const contextId = useAtomValue(pageContextIdAtom);
 
     return (
         <Modal
             title={`${isOwnedByCurrentUser ? "Delete" : "Remove"} from Your Library?`}
             renderDescription={() => (
                 <p>
-                    This will {isOwnedByCurrentUser ? "delete" : "remove"} <b>{entityName}</b> from <b>Your Library.</b>
+                    This will {isOwnedByCurrentUser ? "delete" : "remove"} <b>{name}</b> from <b>Your Library.</b>
                 </p>
             )}
             onClose={() => setModal(null)}
@@ -32,6 +31,10 @@ function RemoveFromLibraryModal({ isOwnedByCurrentUser, entityName, onAccept }: 
                     onClick={() => {
                         onAccept();
                         setModal(null);
+
+                        if (isOwnedByCurrentUser && contextId === id) {
+                            navigate("/");
+                        }
                     }}
                 >
                     {isOwnedByCurrentUser ? "Delete" : "Remove"}

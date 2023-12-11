@@ -2,14 +2,17 @@ import { atom } from "jotai";
 
 import { DuplicateProblem, DuplicatesStrategy } from "../../../generated/haly";
 
+export type RemoveFromLibraryModalProps = {
+    id: string;
+    name: string;
+    isOwnedByCurrentUser: boolean;
+    onAccept: () => void;
+};
+
 type ModalVariant =
     | {
           type: "removeFromLibrary";
-          props: {
-              isOwnedByCurrentUser: boolean;
-              entityName: string;
-              onAccept: () => void;
-          };
+          props: RemoveFromLibraryModalProps;
       }
     | {
           type: "editPlaylistDetails";

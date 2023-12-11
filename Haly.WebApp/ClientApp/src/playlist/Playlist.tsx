@@ -2,11 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { dominantColorsAtom, pageContextAtom } from "../common/atoms/pageAtoms";
+import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { playlistSearchTermAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
 import { GetPlaylistQueryKey } from "../common/queryKeys";
-import { theme } from "../common/theme";
 import halyClient from "../halyClient";
 import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -31,31 +30,35 @@ type PlaylistProps = {
 
 function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: PlaylistProps) {
     const query = usePlaylistQuery(id, sortOrder);
-    const dominantColors = useAtomValue(dominantColorsAtom);
+
     const setPageContext = useSetAtom(pageContextAtom);
     const setPlaylistSearchTerm = useSetAtom(playlistSearchTermAtom);
     const userId = useAtomValue(userIdAtom);
+    const dominantColor = useAtomValue(pageDominantColorAtom);
+
     const { onContextMenu, menuProps } = useContextMenu();
 
-    const contextId = isLikedSongsCollection ? "collection" : id;
     const getPlaybackState = useContextPlaybackState();
-    const playbackState = getPlaybackState(contextId);
+    const playbackState = getPlaybackState(id, isLikedSongsCollection);
     const { playbackAction } = useContextPlaybackActions(playbackState);
 
     useEffect(() => {
         if (query.data) {
-            const { name, imageUrl, owner } = query.data;
-            setPageContext({
-                id: contextId,
-                type: isLikedSongsCollection ? "user" : "playlist",
-                title: name,
-                imageUrl: imageUrl,
-                allow: {
-                    removeTrackFromPlaylist: owner.id === userId && !isLikedSongsCollection,
-                },
-            });
+            const { owner } = query.data;
+            setPageContext(
+                isLikedSongsCollection
+                    ? {
+                          type: "collection",
+                          data: query.data,
+                      }
+                    : {
+                          type: "playlist",
+                          data: query.data,
+                          isEditable: owner.id === userId,
+                      },
+            );
         }
-    }, [query.data, contextId, isLikedSongsCollection, userId, setPageContext]);
+    }, [query.data, isLikedSongsCollection, userId, setPageContext]);
 
     useEffect(() => {
         return () => {
@@ -69,24 +72,18 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     const playlist = query.data;
 
     const hasTracks = query.data.tracks.total > 0;
-    const isOwnedByCurrentUser = playlist.owner.id === userId;
-    const dominantColor = isLikedSongsCollection
-        ? theme.colors.dominantLikedSongs
-        : dominantColors[playlist.imageUrl ?? ""];
+    const isEditable = playlist.owner.id === userId && !isLikedSongsCollection;
+    const isFollowable = playlist.owner.id !== userId;
 
     return (
         <div>
-            <PlaylistHeader
-                playlist={playlist}
-                onContextMenu={onContextMenu}
-                isEditable={isOwnedByCurrentUser && !isLikedSongsCollection}
-            />
+            <PlaylistHeader playlist={playlist} onContextMenu={onContextMenu} isEditable={isEditable} />
             <PageControls>
                 {hasTracks && (
                     <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
                 )}
 
-                {!isOwnedByCurrentUser && (
+                {isFollowable && (
                     <HeartButton
                         // Force rerender when the state was modified outside of the component (e.g. using a menu).
                         key={isInLibrary ? 1 : 0}

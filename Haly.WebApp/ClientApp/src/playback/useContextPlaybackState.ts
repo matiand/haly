@@ -10,7 +10,11 @@ function useContextPlaybackState() {
     const isPaused = useAtomValue(isTrackPausedAtom);
 
     return useCallback(
-        (contextId: string): ContextPlaybackState => {
+        (contextId: string, isLikedSongsCollection = false): ContextPlaybackState => {
+            if (isLikedSongsCollection && playbackContextId === "collection") {
+                return isPaused ? "paused" : "playing";
+            }
+
             if (playbackContextId !== contextId) return "none";
 
             return isPaused ? "paused" : "playing";

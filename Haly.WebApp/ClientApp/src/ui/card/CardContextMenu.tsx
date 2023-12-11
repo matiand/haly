@@ -51,8 +51,11 @@ function PlaylistHeartMenuItemWrapper({ id, name }: { id: string; name: string }
         <HeartMenuItem
             params={params}
             isInLibrary={isInLibrary}
-            isOwnedByCurrentUser={isOwnedByCurrentUser}
-            entityName={name}
+            confirmationModalProps={{
+                id,
+                name,
+                isOwnedByCurrentUser,
+            }}
         />
     );
 }

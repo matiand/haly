@@ -3,10 +3,10 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { dominantColorsAtom, pageContextAtom } from "../common/atoms/pageAtoms";
+import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
-import UseContextMenu from "../menus/useContextMenu";
+import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
@@ -24,9 +24,11 @@ import SimilarAlbums from "./SimilarAlbums";
 function Album() {
     const { id } = useParams();
     const query = useQuery(["albums", id], () => halyClient.albums.getAlbum({ id: id! }));
-    const dominantColors = useAtomValue(dominantColorsAtom);
+
     const setPageContext = useSetAtom(pageContextAtom);
-    const { onContextMenu, menuProps } = UseContextMenu();
+    const dominantColor = useAtomValue(pageDominantColorAtom);
+
+    const { onContextMenu, menuProps } = useContextMenu();
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(id!);
@@ -34,12 +36,9 @@ function Album() {
 
     useEffect(() => {
         if (query.data) {
-            const { id, name, imageUrl } = query.data;
             setPageContext({
-                id,
                 type: "album",
-                title: name,
-                imageUrl: imageUrl,
+                data: query.data,
             });
         }
 
@@ -61,7 +60,6 @@ function Album() {
         copyrights,
     } = query.data;
 
-    const dominantColor = dominantColors[imageUrl ?? ""];
     const isPlayable = tracks.some((t) => t.isPlayable);
 
     return (

@@ -1,40 +1,28 @@
 import { MenuItem } from "@szhsin/react-menu";
 import { useSetAtom } from "jotai";
-import { useNavigate, useParams } from "react-router-dom";
 
-import { modalAtom } from "../../common/atoms/modalAtoms";
+import { modalAtom, RemoveFromLibraryModalProps } from "../../common/atoms/modalAtoms";
 import useHeartMutations, { HeartMutationParams } from "../../common/useHeartMutations";
 
 type HeartMenuItemProps = {
     params: HeartMutationParams;
     isInLibrary: boolean;
-    isOwnedByCurrentUser?: boolean;
-    entityName?: string;
+    confirmationModalProps?: Omit<RemoveFromLibraryModalProps, "onAccept">;
 };
 
-function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }: HeartMenuItemProps) {
-    const { id: routeId } = useParams();
-    const navigate = useNavigate();
+function HeartMenuItem({ params, isInLibrary, confirmationModalProps }: HeartMenuItemProps) {
     const setModal = useSetAtom(modalAtom);
 
     const { follow, unfollow } = useHeartMutations();
 
     const action = isInLibrary ? () => unfollow.mutate(params) : () => follow.mutate(params);
     const onClick = () => {
-        const needsConfirmation = params.type === "playlist" && isInLibrary;
-        if (needsConfirmation) {
+        if (isInLibrary && confirmationModalProps) {
             setModal({
                 type: "removeFromLibrary",
                 props: {
-                    isOwnedByCurrentUser: isOwnedByCurrentUser ?? false,
-                    entityName: entityName ?? "",
-                    onAccept: () => {
-                        action();
-
-                        if (isOwnedByCurrentUser && params.type === "playlist" && params.id === routeId) {
-                            navigate("/");
-                        }
-                    },
+                    ...confirmationModalProps,
+                    onAccept: action,
                 },
             });
         } else {
@@ -42,7 +30,7 @@ function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }
         }
     };
 
-    const name = getMenuItemName(params, isInLibrary, isOwnedByCurrentUser);
+    const name = getMenuItemName(params, isInLibrary, confirmationModalProps?.isOwnedByCurrentUser);
 
     return (
         <MenuItem style={{ minWidth: "max-content" }} onClick={onClick}>
@@ -51,14 +39,15 @@ function HeartMenuItem({ params, isInLibrary, isOwnedByCurrentUser, entityName }
     );
 }
 
-function getMenuItemName(params: HeartMenuItemProps["params"], isInLibrary: boolean, isCurrentUserPlaylist?: boolean) {
-    if (isCurrentUserPlaylist) {
+function getMenuItemName(params: HeartMenuItemProps["params"], isInLibrary: boolean, isOwnedByCurrentUser?: boolean) {
+    if (isOwnedByCurrentUser) {
         return "Delete";
     }
 
     if (isInLibrary) {
         return params.type === "track" ? "Remove from your Liked Songs" : "Remove from Your Library";
     }
+
     return params.type === "track" ? "Save to your Liked Songs" : "Add to Your Library";
 }
 

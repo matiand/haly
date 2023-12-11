@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { artistNameAtom, dominantColorsAtom, pageContextAtom } from "../common/atoms/pageAtoms";
+import { lastArtistNameAtom, pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -21,9 +21,10 @@ import Discography from "./Discography";
 function Artist() {
     const { id } = useParams();
     const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
-    const dominantColors = useAtomValue(dominantColorsAtom);
+
     const setPageContext = useSetAtom(pageContextAtom);
-    const setArtistName = useSetAtom(artistNameAtom);
+    const setArtistName = useSetAtom(lastArtistNameAtom);
+    const dominantColor = useAtomValue(pageDominantColorAtom);
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(id!);
@@ -31,18 +32,16 @@ function Artist() {
 
     useEffect(() => {
         if (query.data) {
-            const { id, name, imageUrl } = query.data;
+            setArtistName(query.data.name);
+
             setPageContext({
-                id,
                 type: "artist",
-                title: name,
-                imageUrl: imageUrl,
+                data: query.data,
             });
-            setArtistName(name);
         }
 
         return () => setPageContext(null);
-    }, [query, setPageContext, setArtistName]);
+    }, [query, setArtistName, setPageContext]);
 
     if (!query.data) return <LoadingIndicator />;
 
@@ -56,7 +55,6 @@ function Artist() {
         topTracks,
         isFollowed,
     } = query.data;
-    const dominantColor = dominantColors[imageUrl ?? ""];
 
     return (
         <div>

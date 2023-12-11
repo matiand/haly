@@ -4,7 +4,7 @@ import React from "react";
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import { modalAtom } from "../common/atoms/modalAtoms";
 import { styled } from "../common/theme";
-import useDominantColorExtraction from "../playlist/useDominantColorExtraction";
+import useDominantColorExtraction from "../common/useDominantColorExtraction";
 
 type HeaderImageProps = {
     alt: string;

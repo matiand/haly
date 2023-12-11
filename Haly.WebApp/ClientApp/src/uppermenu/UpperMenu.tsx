@@ -1,15 +1,16 @@
 import { useAtomValue, useSetAtom } from "jotai";
 
-import { dominantColorsAtom, pageContextAtom } from "../common/atoms/pageAtoms";
+import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
+import UpperMenuBackground from "./UpperMenuBackground";
 import UpperMenuControls from "./UpperMenuControls";
 import useDynamicBackground from "./useDynamicBackground";
 import UserDropdownMenu from "./UserDropdownMenu";
 
 function UpperMenu() {
     const pageContext = useAtomValue(pageContextAtom);
-    const dominantColors = useAtomValue(dominantColorsAtom);
+    const color = useAtomValue(pageDominantColorAtom);
 
     const setSelectedTracks = useSetAtom(selectedTracksAtom);
 
@@ -23,18 +24,11 @@ function UpperMenu() {
         );
     }
 
-    const color = dominantColors[pageContext.imageUrl ?? ""];
+    const { id: contextId, name } = pageContext.data;
 
     return (
         <Header aria-label="User menu" onClick={() => setSelectedTracks([])}>
-            <Background
-                css={{
-                    $$color: color,
-                    opacity,
-                }}
-            >
-                <div />
-            </Background>
+            <UpperMenuBackground color={color} opacity={opacity} />
 
             <ContextDetails
                 css={
@@ -47,8 +41,8 @@ function UpperMenu() {
                         : {}
                 }
             >
-                {pageContext.id && <UpperMenuControls contextId={pageContext.id} />}
-                <span className="line-clamp-ellipsis">{pageContext.title}</span>
+                {contextId && <UpperMenuControls contextId={contextId} />}
+                <span className="line-clamp-ellipsis">{name}</span>
             </ContextDetails>
 
             <UserDropdownMenu />
@@ -68,21 +62,6 @@ const Header = styled("header", {
 
     "& > :not(div:first-child)": {
         zIndex: "$upperMenuContents",
-    },
-});
-
-const Background = styled("div", {
-    background: "$$color",
-    borderRadius: "8px 8px 0 0",
-    height: "100%",
-    position: "absolute",
-    left: 0,
-    right: 0,
-    zIndex: "$upperMenuBackground",
-
-    "& > div": {
-        background: "$upperMenuMask",
-        height: "100%",
     },
 });
 

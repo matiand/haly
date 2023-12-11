@@ -20,7 +20,7 @@ function TrackButtonMenu({ track }: TrackButtonMenuProps) {
     const tracks = selectedTracks.length > 1 ? selectedTracks.map((item) => item.track) : [track];
     const likedStates = tracks.map((t) => getLikedState(t.id, t.playbackId));
 
-    const playlistId = pageContext?.allow?.removeTrackFromPlaylist ? pageContext?.id : undefined;
+    const isEditable = pageContext?.type === "playlist" && pageContext.isEditable;
     const disallowAddToQueue = pageContext == null;
     const disallowGoToArtist = pageContext?.type === "artist";
 
@@ -29,7 +29,7 @@ function TrackButtonMenu({ track }: TrackButtonMenuProps) {
             <TrackMenuItems
                 tracks={tracks}
                 likedStates={likedStates}
-                playlistId={playlistId}
+                playlistIdForRemovals={isEditable ? pageContext.data.id : undefined}
                 disallowAddToQueue={disallowAddToQueue}
                 disallowGoToArtist={disallowGoToArtist}
             />

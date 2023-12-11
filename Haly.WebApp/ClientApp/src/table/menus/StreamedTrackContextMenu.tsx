@@ -23,7 +23,7 @@ function StreamedTrackContextMenu({ track, menuProps }: StreamedTrackContextMenu
     const cachedPlaylists = useAtomValue(cachedPlaylistsAtom);
     const cachedPlaylist = cachedPlaylists.find((p) => p.id === track.context?.id);
 
-    const playlistIdIfBelongsToCurrentUser = cachedPlaylist?.ownerId === userId ? cachedPlaylist.id : undefined;
+    const isContextEditable = cachedPlaylist?.ownerId === userId;
 
     useEffect(() => {
         if (menuProps.state === "open") {
@@ -36,7 +36,7 @@ function StreamedTrackContextMenu({ track, menuProps }: StreamedTrackContextMenu
             <TrackMenuItems
                 tracks={[track]}
                 likedStates={[getLikedState(track.id, track.playbackId)]}
-                playlistId={playlistIdIfBelongsToCurrentUser}
+                playlistIdForRemovals={isContextEditable ? cachedPlaylist.id : undefined}
             />
         </ContextMenu>
     );

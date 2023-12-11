@@ -57,8 +57,11 @@ function PlaylistMenuItems({
             <HeartMenuItem
                 params={heartMutationParams}
                 isInLibrary={isInLibrary}
-                isOwnedByCurrentUser={isOwnedByCurrentUser}
-                entityName={playlist.name}
+                confirmationModalProps={{
+                    id: playlist.id,
+                    name: playlist.name,
+                    isOwnedByCurrentUser,
+                }}
             />
             <AddToPlaylistMenuItem collectionUri={playlistUri} />
 

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { ReleaseItemDto } from "../../generated/haly";
-import { artistNameAtom } from "../common/atoms/pageAtoms";
+import { lastArtistNameAtom } from "../common/atoms/pageAtoms";
 import { styled } from "../common/theme";
 import Card from "../ui/card/Card";
 import * as CardGroup from "../ui/card/CardGroup";
@@ -14,9 +14,9 @@ import useDiscographyQuery, { DiscographyFilter } from "./useDiscographyQuery";
 function AllDiscographyCards() {
     const { id: artistId, filter: pathFilter } = useParams();
     const { originalData, items, options, filter } = useDiscographyQuery(artistId!, pathFilter as DiscographyFilter);
-    const artistName = useAtomValue(artistNameAtom);
 
-    const title = artistName ?? "Discography";
+    const lastArtistName = useAtomValue(lastArtistNameAtom);
+    const title = lastArtistName ?? "Discography";
 
     useEffect(() => {
         const currentHref = window.location.href;

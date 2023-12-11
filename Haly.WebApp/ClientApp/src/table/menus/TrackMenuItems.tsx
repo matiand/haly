@@ -16,7 +16,9 @@ type TrackMenuItemsProps = {
     tracks: (TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrack)[];
     likedStates: TrackLikedState[];
 
-    playlistId?: string;
+    // Id of playlist that owns these tracks. Used for move/remove actions. Playlist needs to be
+    // editable by current user, otherwise these actions are not allowed.
+    playlistIdForRemovals?: string;
     disallowAddToQueue?: boolean;
     disallowGoToArtist?: boolean;
 };
@@ -24,7 +26,7 @@ type TrackMenuItemsProps = {
 function TrackMenuItems({
     tracks,
     likedStates,
-    playlistId,
+    playlistIdForRemovals,
     disallowAddToQueue,
     disallowGoToArtist,
 }: TrackMenuItemsProps) {
@@ -52,18 +54,18 @@ function TrackMenuItems({
 
         return (
             <>
-                {playlistId && (
+                {playlistIdForRemovals && (
                     <>
-                        <MoveToPlaylistMenuItem fromPlaylistId={playlistId} tracks={tracksWithPosition} />
+                        <MoveToPlaylistMenuItem fromPlaylistId={playlistIdForRemovals} tracks={tracksWithPosition} />
                         <MenuDivider />
                     </>
                 )}
 
                 <AddToPlaylistMenuItem trackUris={trackUris} />
-                {playlistId && (
+                {playlistIdForRemovals && (
                     <RemoveFromPlaylistMenuItem
                         params={{
-                            playlistId,
+                            playlistId: playlistIdForRemovals,
                             tracks: tracksWithPosition,
                         }}
                     />
@@ -91,9 +93,9 @@ function TrackMenuItems({
 
     return (
         <>
-            {playlistId && (
+            {playlistIdForRemovals && (
                 <>
-                    <MoveToPlaylistMenuItem fromPlaylistId={playlistId} tracks={tracksWithPosition} />
+                    <MoveToPlaylistMenuItem fromPlaylistId={playlistIdForRemovals} tracks={tracksWithPosition} />
                     <MenuDivider />
                 </>
             )}
@@ -101,10 +103,10 @@ function TrackMenuItems({
             {!disallowAddToQueue && <AddToQueueMenuItem trackUris={trackUris} />}
             <HeartMenuItem params={heartParams} isInLibrary={likedStates.every((s) => s.isLiked)} />
 
-            {playlistId && (
+            {playlistIdForRemovals && (
                 <RemoveFromPlaylistMenuItem
                     params={{
-                        playlistId,
+                        playlistId: playlistIdForRemovals,
                         tracks: tracksWithPosition,
                     }}
                 />

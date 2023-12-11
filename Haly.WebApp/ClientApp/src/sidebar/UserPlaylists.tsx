@@ -20,7 +20,7 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
                 item={{ type: "collection" }}
                 contextUri={`spotify:user:${userId}:collection`}
                 href="/collection/tracks"
-                playbackState={getPlaybackState("collection")}
+                playbackState={getPlaybackState("collection", true)}
             />
 
             {playlists.map((p) => {

@@ -2,28 +2,28 @@ import { useAtomValue } from "jotai";
 import { useCallback } from "react";
 
 import { TrackDto } from "../../generated/haly";
-import { pageContextIdAtom } from "../common/atoms/pageAtoms";
-import { isTrackPausedAtom, playbackContextIdAtom, streamedTrackIdAtom } from "../common/atoms/playbackAtoms";
+import { pageContextUriAtom } from "../common/atoms/pageAtoms";
+import { isTrackPausedAtom, playbackContextUriAtom, streamedTrackIdAtom } from "../common/atoms/playbackAtoms";
 
 // You might notice that this type has the same values as ContextPlaybackState. This is just a
-// coincidence and they may change in future.
+// coincidence and it may change in future.
 export type TrackPlaybackState = "playing" | "paused" | "none";
 
 function useTableRowPlaybackState() {
-    const pageContextId = useAtomValue(pageContextIdAtom);
-    const playbackContextId = useAtomValue(playbackContextIdAtom);
+    const pageContextUri = useAtomValue(pageContextUriAtom);
+    const playbackContextUri = useAtomValue(playbackContextUriAtom);
     const streamedTrackId = useAtomValue(streamedTrackIdAtom);
     const isPaused = useAtomValue(isTrackPausedAtom);
 
     return useCallback(
         (trackId: TrackDto["id"]): TrackPlaybackState => {
-            if (pageContextId !== playbackContextId || !trackId) return "none";
+            if (pageContextUri !== playbackContextUri || !trackId) return "none";
 
             if (streamedTrackId === trackId) return isPaused ? "paused" : "playing";
 
             return "none";
         },
-        [playbackContextId, pageContextId, streamedTrackId, isPaused],
+        [pageContextUri, playbackContextUri, streamedTrackId, isPaused],
     );
 }
 

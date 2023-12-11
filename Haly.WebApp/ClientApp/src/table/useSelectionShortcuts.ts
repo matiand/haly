@@ -37,9 +37,9 @@ function useSelectionShortcuts(items: (AlbumTrackDto | PlaylistTrackDto)[]) {
             if (e.key === "Delete" || e.key === "Backspace") {
                 e.preventDefault();
 
-                if (pageContext?.allow?.removeTrackFromPlaylist && selectedTracks.length > 0) {
+                if (pageContext?.type === "playlist" && pageContext.isEditable && selectedTracks.length > 0) {
                     removeFromPlaylist.mutate({
-                        playlistId: pageContext.id,
+                        playlistId: pageContext.data.id,
                         tracks: selectedTracks.map((t) => ({
                             uri: t.track.uri!,
                             position: (t.track as PlaylistTrackDto).positionInPlaylist,

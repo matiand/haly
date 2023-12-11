@@ -1,30 +1,46 @@
 import { atom } from "jotai";
 
+import { AlbumDetailedDto, ArtistDetailedDto, PlaylistWithTracksDto, UserProfileDto } from "../../../generated/haly";
 import { theme } from "../theme";
 import { userIdAtom } from "./userAtoms";
 
-export type PageContext = {
-    id: string;
-    title: string;
-    type: "playlist" | "album" | "user" | "artist";
-    // Needed for accessing its dominant color.
-    imageUrl?: string | null;
-    allow?: {
-        removeTrackFromPlaylist?: boolean;
-    };
-};
+export type PageContext =
+    | {
+          type: "playlist";
+          data: PlaylistWithTracksDto;
+          // Is changing name, description or adding/removing tracks allowed.
+          isEditable: boolean;
+      }
+    | {
+          type: "collection";
+          data: PlaylistWithTracksDto;
+      }
+    | {
+          type: "album";
+          data: AlbumDetailedDto;
+      }
+    | {
+          type: "artist";
+          data: ArtistDetailedDto;
+      }
+    | {
+          type: "user";
+          data: UserProfileDto;
+      };
 
 export const pageContextAtom = atom<PageContext | null>(null);
-export const pageContextIdAtom = atom((get) => get(pageContextAtom)?.id);
+
+export const pageContextIdAtom = atom((get) => get(pageContextAtom)?.data.id);
 export const pageContextUriAtom = atom((get) => {
-    // I'm using PageContext, because it's always available on relevant pages, unlike PlaybackContext.
     const pageContext = get(pageContextAtom);
     if (!pageContext) return "";
 
-    const userId = get(userIdAtom);
-    if (pageContext.type === "user") return `spotify:user:${userId}:collection`;
+    if (pageContext.type === "collection") {
+        const userId = get(userIdAtom);
+        return `spotify:user:${userId}:collection`;
+    }
 
-    return `spotify:${pageContext.type}:${pageContext.id}`;
+    return `spotify:${pageContext.type}:${pageContext.data.id}`;
 });
 
 const sidebarWidthAtom = atom<number>(+localStorage.getItem("sidebarWidth")! || theme.sidebar.defaultWidth);
@@ -37,8 +53,18 @@ export const persistedSidebarWidthAtom = atom(
 );
 
 export const pageHeaderVisibilityAtom = atom<number>(1);
-export const dominantColorsAtom = atom<Record<string, string | undefined>>({
-    "": theme.colors.dominantDefault,
-});
+export const lastArtistNameAtom = atom<string | null>(null);
 
-export const artistNameAtom = atom<string | null>(null);
+export const dominantColorsAtom = atom<Record<string, string>>({});
+export const pageDominantColorAtom = atom((get) => {
+    const pageContext = get(pageContextAtom);
+    if (!pageContext) return null;
+
+    if (pageContext.type === "collection") return theme.colors.dominantLikedSongs;
+
+    const imageUrl = pageContext.data.imageUrl;
+    if (!imageUrl) return theme.colors.dominantDefault;
+
+    const dominantColors = get(dominantColorsAtom);
+    return dominantColors[imageUrl];
+});

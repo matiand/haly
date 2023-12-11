@@ -2,7 +2,7 @@ import { styled, theme } from "../common/theme";
 import rawNoise from "./noise.svg?raw";
 
 type PageGradientProps = {
-    color: string | undefined;
+    color: string | null;
     type: "major" | "minor" | "home";
 };
 
@@ -15,7 +15,7 @@ function PageGradient({ color, type }: PageGradientProps) {
     return <MajorGradient aria-hidden css={{ $$color: color }} />;
 }
 
-// We have to create the url manually because of a bug in vite
+// We have to create the url manually because of a bug in vite.
 // https://github.com/vitejs/vite/issues/1204
 const noiseUrl = `data:image/svg+xml;base64,${btoa(rawNoise)}`;
 
@@ -43,6 +43,6 @@ const MinorGradient = styled("div", {
 
 const HomeGradient = styled(MinorGradient, {
     top: 0,
-})
+});
 
 export default PageGradient;
