@@ -78,6 +78,7 @@ const Wrapper = styled("div", {
         "&:nth-of-type(3)": {
             animationDelay: "-0.5s",
         },
+
         "&:nth-of-type(4)": {
             animationDelay: "-0.15s",
         },

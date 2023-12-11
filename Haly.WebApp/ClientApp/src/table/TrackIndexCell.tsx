@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React from "react";
 import { HiPause, HiPlay } from "react-icons/hi2";
 import { MdPodcasts } from "react-icons/md";
 
@@ -35,7 +36,7 @@ function TrackIndexCell({ position, track, playbackState, playbackAction }: Trac
                     disabled
                     aria-disabled
                 >
-                    <span>
+                    <span aria-hidden>
                         <MdPodcasts />
                     </span>
                 </Button>
@@ -43,27 +44,18 @@ function TrackIndexCell({ position, track, playbackState, playbackAction }: Trac
         );
     }
 
-    const label = playbackState === "playing" ? `Pause ${track.name}` : `Play ${track.name}`;
-    if (playbackState === "playing") {
-        return (
-            <Wrapper>
-                <AnimatedMusicBars type="track" />
-                <Button type="button" onClick={playbackAction} aria-label={label} title={label}>
-                    <span>
-                        <HiPause />
-                    </span>
-                </Button>
-            </Wrapper>
-        );
-    }
+    const isPlaying = playbackState === "playing";
+    const label = isPlaying ? `Pause ${track.name}` : `Play ${track.name}`;
+    const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        playbackAction();
+    };
 
     return (
         <Wrapper>
-            <Index className={clsx({ isPaused: playbackState === "paused" })}>{position}</Index>
-            <Button type="button" onClick={playbackAction} aria-label={label} title={label}>
-                <span>
-                    <HiPlay />
-                </span>
+            {isPlaying ? <AnimatedMusicBars type="track" /> : <Index>{position}</Index>}
+            <Button type="button" onClick={onClick} aria-label={label} title={label}>
+                <span aria-hidden>{isPlaying ? <HiPause /> : <HiPlay />}</span>
             </Button>
         </Wrapper>
     );

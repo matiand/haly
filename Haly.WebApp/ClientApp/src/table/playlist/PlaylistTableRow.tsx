@@ -39,7 +39,6 @@ function PlaylistTableRow({
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
     const { onContextMenu, menuProps } = useContextMenu();
 
-    const isListenedTo = playbackState !== "none";
     const isLocal = !track.id;
 
     return (
@@ -54,7 +53,8 @@ function PlaylistTableRow({
             }}
             style={{ transform: `translateY(${start}px` }}
             className={clsx({
-                disabled: !track.isPlayable,
+                isDisabled: !track.isPlayable,
+                isListenedTo: playbackState !== "none",
                 isSelected,
             })}
         >
@@ -71,7 +71,6 @@ function PlaylistTableRow({
                 <TrackInformation
                     track={track}
                     type="cell"
-                    isListenedTo={isListenedTo}
                     showExplicitMark={track.isExplicit}
                     hideArtists={isLocal || !track.isSong}
                     searchTerm={searchTerm}

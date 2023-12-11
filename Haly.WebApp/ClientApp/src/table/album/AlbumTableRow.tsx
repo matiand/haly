@@ -42,7 +42,8 @@ export function AlbumTableTrackRow({
                 onContextMenu(e);
             }}
             className={clsx({
-                disabled: !track.isPlayable,
+                isDisabled: !track.isPlayable,
+                isListenedTo: playbackState !== "none",
                 isSelected,
             })}
         >
@@ -56,12 +57,7 @@ export function AlbumTableTrackRow({
             </td>
 
             <td>
-                <TrackInformation
-                    track={track}
-                    type="cell"
-                    isListenedTo={playbackState !== "none"}
-                    showExplicitMark={track.isExplicit}
-                />
+                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
             </td>
 
             <td>

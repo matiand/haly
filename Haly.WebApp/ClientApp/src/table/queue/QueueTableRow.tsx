@@ -34,7 +34,8 @@ function QueueTableRow({ position, track, playbackState, likedState }: QueueTabl
             onDoubleClick={updatePlayback}
             onContextMenu={onContextMenu}
             className={clsx({
-                disabled: !track.isPlayable,
+                isDisabled: !track.isPlayable,
+                isListenedTo: playbackState !== "none",
             })}
         >
             <td>
@@ -46,12 +47,7 @@ function QueueTableRow({ position, track, playbackState, likedState }: QueueTabl
                 />
             </td>
             <td>
-                <TrackInformation
-                    track={track}
-                    type="cell"
-                    isListenedTo={playbackState !== "none"}
-                    showExplicitMark={track.isExplicit}
-                />
+                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
             </td>
             <td>
                 <TrackAlbumCell track={track} />

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +11,6 @@ import TrackCoverImage from "./TrackCoverImage";
 type TrackInformationProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrack;
     type: "cell" | "playback";
-    isListenedTo?: boolean;
     showExplicitMark?: boolean;
     hideArtists?: boolean;
     searchTerm?: string | null;
@@ -22,7 +20,6 @@ type TrackInformationProps = {
 function TrackInformation({
     track,
     type,
-    isListenedTo,
     showExplicitMark,
     hideArtists,
     searchTerm,
@@ -31,7 +28,7 @@ function TrackInformation({
     const { name, artists } = track;
 
     const hasAlbum = "album" in track;
-    const shouldLinkToAlbum = hasAlbum && type === "playback";
+    const hasLinkToItsAlbum = hasAlbum && type === "playback";
 
     return (
         <Wrapper onContextMenu={onContextMenu}>
@@ -47,10 +44,10 @@ function TrackInformation({
                 ))}
 
             <Grid type={type}>
-                <Title className={clsx({ isListenedTo, "line-clamp-ellipsis": true })}>
-                    {shouldLinkToAlbum ? (
+                <Title className="track-title line-clamp-ellipsis">
+                    {hasLinkToItsAlbum ? (
+                        // Don't highlight track name when it has a link.
                         <Link to={`/album/${track.album.id}`}>
-                            {/*Don't try to highlight track name when it has a link*/}
                             <span className="line-clamp-ellipsis">{name}</span>
                         </Link>
                     ) : (
@@ -96,10 +93,6 @@ const Wrapper = styled("div", {
 const Title = styled("div", {
     fontSize: "$350",
     gridArea: "title",
-
-    "&.isListenedTo": {
-        color: "$primary400",
-    },
 });
 
 const Subtitle = styled("span", {

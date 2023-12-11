@@ -23,8 +23,6 @@ function TopTracksTableRow({ position, track, playbackState, likedState, isSelec
     const { onContextMenu, menuProps } = useContextMenu();
     // Playback of individual tracks is not allowed for this table. Their api doesn't allow it.
 
-    const isListenedTo = playbackState !== "none";
-
     return (
         <tr
             onClick={selectTrack}
@@ -33,7 +31,8 @@ function TopTracksTableRow({ position, track, playbackState, likedState, isSelec
                 onContextMenu(e);
             }}
             className={clsx({
-                disabled: !track.isPlayable,
+                isDisabled: !track.isPlayable,
+                isListenedTo: playbackState !== "none",
                 isSelected,
             })}
         >
@@ -42,13 +41,7 @@ function TopTracksTableRow({ position, track, playbackState, likedState, isSelec
             </td>
 
             <td>
-                <TrackInformation
-                    track={track}
-                    type="cell"
-                    showExplicitMark={track.isExplicit}
-                    hideArtists
-                    isListenedTo={isListenedTo}
-                />
+                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} hideArtists />
             </td>
 
             <td>

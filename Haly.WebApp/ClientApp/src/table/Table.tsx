@@ -67,8 +67,50 @@ export const Body = styled("tbody", {
         height: "$$rowHeight",
         padding: "0 $600",
 
-        "&.disabled > td": {
-            opacity: 0.4,
+        "& > td": {
+            alignItems: "center",
+            display: "flex",
+
+            "& button": {
+                opacity: 0,
+            },
+        },
+
+        "& > td:nth-of-type(1)": {
+            justifySelf: "center",
+        },
+
+        "&.isDisabled": {
+            td: {
+                opacity: 0.4,
+            },
+        },
+
+        "&.isListenedTo": {
+            "& td:nth-of-type(1) > div > :not(button)": {
+                color: "$primary400",
+            },
+
+            "& td:nth-of-type(2) .track-title": {
+                color: "$primary400",
+            },
+        },
+
+        "&:hover": {
+            background: "$trackHover",
+
+            "& button": {
+                opacity: 1,
+            },
+
+            "& a": {
+                color: "$white800",
+            },
+
+            // Hide position and AnimatedMusicBars of TrackIndexCell.
+            "& td:nth-of-type(1) > div > :not(button)": {
+                display: "none",
+            },
         },
 
         "&&.isSelected": {
@@ -93,35 +135,6 @@ export const Body = styled("tbody", {
                 borderBottomRightRadius: "4px",
                 borderBottomLeftRadius: "4px",
             },
-        },
-
-        "& > td": {
-            alignItems: "center",
-            display: "flex",
-
-            "& button": {
-                opacity: 0,
-            },
-        },
-
-        "&:hover": {
-            background: "$trackHover",
-            // Hide index and AnimatedMusicBars of TrackIndexCell when hovered.
-            "& td:nth-of-type(1) > div > span, & td:nth-of-type(1) > div > div": {
-                display: "none",
-            },
-
-            "& a": {
-                color: "$white800",
-            },
-
-            "& button": {
-                opacity: 1,
-            },
-        },
-
-        "& > td:nth-of-type(1)": {
-            justifySelf: "center",
         },
     },
 });

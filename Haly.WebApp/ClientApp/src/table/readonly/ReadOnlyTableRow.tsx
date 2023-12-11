@@ -11,7 +11,7 @@ type RecentlyPlayedTrackRowProps = {
 
 function ReadOnlyTableRow({ track }: RecentlyPlayedTrackRowProps) {
     return (
-        <tr className={clsx({ disabled: !track.isPlayable })}>
+        <tr className={clsx({ isDisabled: !track.isPlayable })}>
             <td>
                 <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
             </td>
