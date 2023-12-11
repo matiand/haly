@@ -5,7 +5,7 @@ import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
 import UpperMenuBackground from "./UpperMenuBackground";
 import UpperMenuControls from "./UpperMenuControls";
-import useDynamicBackground from "./useDynamicBackground";
+import useDynamicUpperMenuContent from "./useDynamicUpperMenuContent";
 import UserDropdownMenu from "./UserDropdownMenu";
 
 function UpperMenu() {
@@ -14,7 +14,7 @@ function UpperMenu() {
 
     const setSelectedTracks = useSetAtom(selectedTracksAtom);
 
-    const { opacity, showDetails } = useDynamicBackground();
+    const { opacity, isContentVisible } = useDynamicUpperMenuContent();
 
     if (!pageContext) {
         return (
@@ -30,9 +30,9 @@ function UpperMenu() {
         <Header aria-label="User menu" onClick={() => setSelectedTracks([])}>
             <UpperMenuBackground color={color} opacity={opacity} />
 
-            <ContextDetails
+            <Content
                 css={
-                    showDetails
+                    isContentVisible
                         ? {
                               opacity: 1,
                               visibility: "visible",
@@ -43,7 +43,7 @@ function UpperMenu() {
             >
                 {contextId && <UpperMenuControls contextId={contextId} />}
                 <span className="line-clamp-ellipsis">{name}</span>
-            </ContextDetails>
+            </Content>
 
             <UserDropdownMenu />
         </Header>
@@ -65,7 +65,7 @@ const Header = styled("header", {
     },
 });
 
-const ContextDetails = styled("div", {
+const Content = styled("div", {
     alignItems: "center",
     display: "flex",
     gap: "$600",

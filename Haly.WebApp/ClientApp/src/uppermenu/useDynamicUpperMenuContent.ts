@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 
 import { pageHeaderVisibilityAtom } from "../common/atoms/pageAtoms";
 
-function useDynamicBackground() {
+function useDynamicUpperMenuContent() {
     const pageHeaderVisibility = useAtomValue(pageHeaderVisibilityAtom);
 
     let opacity;
@@ -17,11 +17,10 @@ function useDynamicBackground() {
     } else if (pageHeaderVisibility > 0.3) {
         opacity = 0.9;
     } else {
-        // opacity = 1;
-        opacity = 0.99;
+        opacity = 1;
     }
 
-    return { opacity, showDetails: pageHeaderVisibility === 0 };
+    return { opacity, isContentVisible: pageHeaderVisibility === 0 };
 }
 
-export default useDynamicBackground;
+export default useDynamicUpperMenuContent;
