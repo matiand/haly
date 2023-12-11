@@ -16,6 +16,8 @@ function useSelectionShortcuts(items: (AlbumTrackDto | PlaylistTrackDto)[]) {
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
             if ((e.ctrlKey || e.metaKey) && e.key === "a") {
+                if (targetIsInputOrTextArea(e)) return;
+
                 e.preventDefault();
 
                 const wholeSelection = items.map((i, index: number) => ({
@@ -34,7 +36,25 @@ function useSelectionShortcuts(items: (AlbumTrackDto | PlaylistTrackDto)[]) {
 
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                if (targetIsInputOrTextArea(e)) return;
+
+                e.preventDefault();
+
+                setSelectedTracks([]);
+            }
+        };
+
+        window.addEventListener("keydown", keyHandler);
+
+        return () => window.removeEventListener("keydown", keyHandler);
+    }, [items, setSelectedTracks]);
+
+    useEffect(() => {
+        const keyHandler = (e: KeyboardEvent) => {
             if (e.key === "Delete" || e.key === "Backspace") {
+                if (targetIsInputOrTextArea(e)) return;
+
                 e.preventDefault();
 
                 if (pageContext?.type === "playlist" && pageContext.isEditable && selectedTracks.length > 0) {
@@ -55,6 +75,10 @@ function useSelectionShortcuts(items: (AlbumTrackDto | PlaylistTrackDto)[]) {
 
         return () => window.removeEventListener("keydown", keyHandler);
     }, [items, pageContext, removeFromPlaylist, selectedTracks, setSelectedTracks]);
+}
+
+function targetIsInputOrTextArea(e: KeyboardEvent) {
+    return e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement;
 }
 
 export default useSelectionShortcuts;
