@@ -10,6 +10,7 @@
         "lint": "eslint --fix --format=pretty --ext=js,jsx,ts,tsx src"
     },
     "dependencies": {
+        "@dnd-kit/core": "^6.1.0",
         "@fontsource/plus-jakarta-sans": "^5.0.3",
         "@microsoft/signalr": "^7.0.7",
         "@radix-ui/react-accessible-icon": "^1.0.0",

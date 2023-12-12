@@ -27,6 +27,7 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
                 const item = {
                     type: "playlist" as const,
                     dto: p,
+                    isEditable: p.ownerId === userId,
                 };
                 const href = `playlist/${p.id}`;
                 const contextUri = `spotify:playlist:${p.id}`;

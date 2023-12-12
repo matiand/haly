@@ -1,3 +1,5 @@
+import { useDroppable } from "@dnd-kit/core";
+import clsx from "clsx";
 import { HiPlus } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
@@ -7,8 +9,19 @@ type CreatePlaylistButtonProps = {
 };
 
 function CreatePlaylistButton({ createPlaylist }: CreatePlaylistButtonProps) {
+    const { isOver, setNodeRef } = useDroppable({
+        id: "create-playlist-area",
+    });
+
     return (
-        <AddButton onClick={() => createPlaylist()} type="button" aria-label="Create playlist" title="Create playlist">
+        <AddButton
+            className={clsx({ isOver })}
+            ref={setNodeRef}
+            onClick={() => createPlaylist()}
+            type="button"
+            aria-label="Create playlist"
+            title="Create playlist"
+        >
             <span>
                 <AddButtonIcon />
             </span>
@@ -34,6 +47,10 @@ const AddButton = styled("button", {
     "&:active": {
         background: "$black800",
         color: "$white800",
+    },
+
+    "&.isOver": {
+        outline: "2px solid $primary300",
     },
 });
 

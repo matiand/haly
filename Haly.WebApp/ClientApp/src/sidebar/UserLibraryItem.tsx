@@ -1,3 +1,4 @@
+import { useDroppable } from "@dnd-kit/core";
 import clsx from "clsx";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
@@ -14,6 +15,7 @@ type UserLibraryItemProps = {
         | {
               type: "playlist";
               dto: PlaylistBriefDto;
+              isEditable: boolean;
           }
         | {
               type: "album";
@@ -31,13 +33,31 @@ function UserLibraryItem({ item, contextUri, href, playbackState }: UserLibraryI
     const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
     const { onContextMenu, menuProps } = useContextMenu();
 
+    const { isOver, setNodeRef } = useDroppable({
+        id: `user-library-item-${contextUri}`,
+        data: {
+            type: item.type,
+            contextUri,
+        },
+        // Avoid disabling them, it breaks scrolling in dnd flow.
+        // disabled: false,
+    });
+
     const isListenedTo = playbackState !== "none";
+    const noDropping = item.type !== "playlist" || (item.type === "playlist" && !item.isEditable);
     const name = item.type === "collection" ? "Liked Songs" : item.dto.name;
 
     return (
         <>
-            <li onContextMenu={onContextMenu}>
-                <Link to={href} onDoubleClick={playbackAction}>
+            <li onContextMenu={onContextMenu} ref={setNodeRef}>
+                <Link
+                    className={clsx({
+                        isOver,
+                        noDropping,
+                    })}
+                    to={href}
+                    onDoubleClick={playbackAction}
+                >
                     <span className={clsx({ isListenedTo })}>{name}</span>
 
                     <span aria-hidden>{playbackState === "playing" && <Icon />}</span>
@@ -79,6 +99,14 @@ const Link = styled(NavLink, {
 
     "&:active": {
         background: "$black800",
+    },
+
+    "&.isOver:not(.noDropping)": {
+        outline: "1px solid $primary400",
+    },
+
+    ".dragging &.noDropping": {
+        opacity: 0.33,
     },
 
     "&.active": {
