@@ -1,9 +1,9 @@
-import React, { useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useResizeDetector } from "react-resize-detector";
 
 // Find the biggest font size that fits the contents of an element in a single line.
 function useResizableFont(fontSizesDescending: number[]) {
-    const resizableRef = useRef<HTMLHeadingElement>();
+    const resizableRef = useRef<HTMLHeadingElement>(null);
 
     const onResize = useCallback(() => {
         const node = resizableRef.current;
@@ -27,7 +27,7 @@ function useResizableFont(fontSizesDescending: number[]) {
     }, [fontSizesDescending]);
 
     useResizeDetector({
-        targetRef: resizableRef as React.MutableRefObject<HTMLHeadingElement>,
+        targetRef: resizableRef,
         onResize,
     });
 
