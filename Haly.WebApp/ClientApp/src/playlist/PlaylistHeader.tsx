@@ -10,11 +10,12 @@ import PlaylistOwner from "./PlaylistOwner";
 
 type PlaylistHeaderProps = {
     playlist: PlaylistWithTracksDto;
-    onContextMenu: (e: React.MouseEvent) => void;
     isEditable: boolean;
+    onContextMenu: (e: React.MouseEvent) => void;
+    draggableData: object;
 };
 
-function PlaylistHeader({ playlist, onContextMenu, isEditable }: PlaylistHeaderProps) {
+function PlaylistHeader({ playlist, isEditable, onContextMenu, draggableData }: PlaylistHeaderProps) {
     const { id, name, description, imageUrl, owner, likesTotal, totalDuration, isPersonalized } = playlist;
 
     const setModal = useSetAtom(modalAtom);
@@ -24,7 +25,7 @@ function PlaylistHeader({ playlist, onContextMenu, isEditable }: PlaylistHeaderP
     const songsTotalValue = sliceSongsTotal === null ? playlist.tracks.total : sliceSongsTotal;
     const durationValue = sliceDuration || totalDuration;
 
-    const onTitleClick = isEditable
+    const onEditDetails = isEditable
         ? () =>
               setModal({
                   type: "editPlaylistDetails",
@@ -44,7 +45,8 @@ function PlaylistHeader({ playlist, onContextMenu, isEditable }: PlaylistHeaderP
                 description={description}
                 imageUrl={imageUrl}
                 onContextMenu={onContextMenu}
-                onTitleClick={onTitleClick}
+                onEditDetails={onEditDetails}
+                draggableData={draggableData}
             >
                 <PlaylistOwner owner={owner} isPersonalized={isPersonalized} />
 

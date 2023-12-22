@@ -1,24 +1,24 @@
-import { useSetAtom } from "jotai";
 import React from "react";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { modalAtom } from "../common/atoms/modalAtoms";
 import { styled } from "../common/theme";
 import useDominantColorExtraction from "../common/useDominantColorExtraction";
+import Draggable from "../dnd/Draggable";
 
 type HeaderImageProps = {
     alt: string;
     imageUrl: PlaylistWithTracksDto["imageUrl"];
     isRounded?: boolean;
-    isAlbumArtwork?: boolean;
+
+    onViewArtwork?: (e: React.MouseEvent) => void;
     onContextMenu?: (e: React.MouseEvent) => void;
+    draggableData?: object;
 };
 
 const imageSize = "220";
 
-function HeaderImage({ alt, imageUrl, isRounded, isAlbumArtwork, onContextMenu }: HeaderImageProps) {
+function HeaderImage({ alt, imageUrl, isRounded, onViewArtwork, onContextMenu, draggableData }: HeaderImageProps) {
     const { imageRef, onImageLoad } = useDominantColorExtraction(imageUrl!);
-    const setModal = useSetAtom(modalAtom);
 
     if (!imageUrl) return null;
 
@@ -37,21 +37,20 @@ function HeaderImage({ alt, imageUrl, isRounded, isAlbumArtwork, onContextMenu }
         />
     );
 
-    return isAlbumArtwork ? (
-        <Button
-            type="button"
-            aria-label="View album artwork"
-            onClick={() =>
-                setModal({
-                    type: "displayAlbumArtwork",
-                    props: { imageUrl },
-                })
-            }
-        >
+    const draggableJsx = draggableData ? (
+        <Draggable id="header-image" data={draggableData}>
             {imageJsx}
-        </Button>
+        </Draggable>
     ) : (
         imageJsx
+    );
+
+    return onViewArtwork ? (
+        <Button type="button" aria-label="View artwork" onClick={onViewArtwork}>
+            {draggableJsx}
+        </Button>
+    ) : (
+        draggableJsx
     );
 }
 

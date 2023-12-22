@@ -77,7 +77,12 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
 
     return (
         <div>
-            <PlaylistHeader playlist={playlist} onContextMenu={onContextMenu} isEditable={isEditable} />
+            <PlaylistHeader
+                playlist={playlist}
+                isEditable={isEditable}
+                onContextMenu={onContextMenu}
+                draggableData={{ name: "foo" }}
+            />
             <PageControls>
                 {hasTracks && (
                     <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />

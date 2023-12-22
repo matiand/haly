@@ -14,8 +14,12 @@ type PageHeaderProps = {
     subtitle?: string;
     imageUrl?: PlaylistWithTracksDto["imageUrl"];
     description?: PlaylistWithTracksDto["description"];
+
     onContextMenu?: (e: React.MouseEvent) => void;
-    onTitleClick?: () => void;
+    onEditDetails?: () => void;
+    onViewArtwork?: () => void;
+    draggableData?: object;
+
     children?: React.ReactNode;
 };
 
@@ -26,7 +30,9 @@ function PageHeader({
     imageUrl,
     description,
     onContextMenu,
-    onTitleClick,
+    onEditDetails,
+    onViewArtwork,
+    draggableData,
     children,
 }: PageHeaderProps) {
     const setPageHeaderVisibility = useSetAtom(pageHeaderVisibilityAtom);
@@ -50,29 +56,36 @@ function PageHeader({
                 imageUrl={imageUrl}
                 alt={altImageText}
                 isRounded={hasRoundedImage}
-                isAlbumArtwork={type === "Album"}
+                onViewArtwork={onViewArtwork}
                 onContextMenu={onContextMenu}
+                draggableData={draggableData}
             />
 
-            <HeaderInfo>
+            <InformationSection>
                 <Subtitle>{subtitle ?? type}</Subtitle>
 
-                {onTitleClick ? (
-                    <Button type="button" onClick={onTitleClick}>
-                        <HeaderTitle name={title} onContextMenu={onContextMenu} />
-                    </Button>
-                ) : (
-                    <HeaderTitle name={title} onContextMenu={onContextMenu} />
-                )}
+                <HeaderTitle
+                    name={title}
+                    onEditDetails={onEditDetails}
+                    onContextMenu={onContextMenu}
+                    draggableData={draggableData}
+                />
 
                 {description && <Description>{description}</Description>}
                 <Details>{children}</Details>
-            </HeaderInfo>
+            </InformationSection>
 
             <div ref={ref} aria-hidden />
         </Wrapper>
     );
 }
+
+const InformationSection = styled("section", {
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "flex-end",
+    width: "100%",
+});
 
 const Wrapper = styled("div", {
     alignItems: "flex-end",
@@ -84,17 +97,10 @@ const Wrapper = styled("div", {
     position: "relative",
     userSelect: "none",
 
-    "& > :first-child:not(div)": {
+    [`& > :first-child:not(${InformationSection})`]: {
         flex: "0 0 auto",
         marginRight: "$700",
     },
-});
-
-const HeaderInfo = styled("div", {
-    display: "flex",
-    flexFlow: "column",
-    justifyContent: "flex-end",
-    width: "100%",
 });
 
 const Subtitle = styled("h2", {
@@ -143,12 +149,6 @@ const Details = styled("div", {
         display: "inline",
         marginLeft: "$100",
     },
-});
-
-const Button = styled("button", {
-    color: "inherit",
-    cursor: "pointer",
-    textAlign: "start",
 });
 
 export default PageHeader;

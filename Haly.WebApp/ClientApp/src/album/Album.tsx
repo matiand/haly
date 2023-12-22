@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
-import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -14,11 +13,11 @@ import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import PageControls from "../ui/PageControls";
-import PageHeader from "../ui/PageHeader";
 import AlbumHeartButton from "./AlbumHeartButton";
 import Copyrights from "./Copyrights";
 import AlbumButtonMenu from "./menus/AlbumButtonMenu";
 import AlbumContextMenu from "./menus/AlbumContextMenu";
+import AlbumHeader from "./menus/AlbumHeader";
 import SimilarAlbums from "./SimilarAlbums";
 
 function Album() {
@@ -47,50 +46,13 @@ function Album() {
 
     if (!query.data) return <LoadingIndicator />;
 
-    const {
-        id: albumId,
-        name,
-        type,
-        imageUrl,
-        totalDuration,
-        tracks,
-        artists,
-        releaseYear,
-        formattedReleaseDate,
-        copyrights,
-    } = query.data;
+    const { id: albumId, tracks, formattedReleaseDate, copyrights } = query.data;
 
     const isPlayable = tracks.some((t) => t.isPlayable);
 
     return (
         <div>
-            <PageHeader
-                title={name}
-                subtitle={type}
-                type="Album"
-                imageUrl={imageUrl}
-                description={null}
-                onContextMenu={onContextMenu}
-            >
-                {artists.map((a) => {
-                    const artistHref = `/artist/${a.id}`;
-                    if (a.name === "Various Artists") {
-                        return <span key={a.id}>{a.name}</span>;
-                    }
-
-                    return (
-                        <span key={a.id}>
-                            <Link to={artistHref}>
-                                <strong>{a.name}</strong>
-                            </Link>
-                        </span>
-                    );
-                })}
-                <span title={formattedReleaseDate}>{releaseYear}</span>
-                <span>
-                    {pluralize("song", tracks.length)}, <span>{totalDuration}</span>
-                </span>
-            </PageHeader>
+            <AlbumHeader album={query.data} onContextMenu={onContextMenu} draggableData={{ name: "blablabla" }} />
 
             <PageControls>
                 {isPlayable && (
