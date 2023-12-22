@@ -8,6 +8,7 @@ import { styled, theme } from "./common/theme";
 import useLikedSongsManagement from "./common/useLikedSongsManagement";
 import useMeQuery from "./common/useMeQuery";
 import { useMessageHub } from "./common/useMessageHub";
+import DndProvider from "./dnd/DndProvider";
 import Home from "./home/Home";
 import ModalProvider from "./menus/ModalProvider";
 import PlaybackWrapper from "./playback/PlaybackWrapper";
@@ -35,46 +36,48 @@ function App() {
     if (query.isLoading) return <LoadingIndicator />;
 
     return (
-        <Layout>
-            <UpperMenu />
-            <Sidebar />
+        <DndProvider>
+            <Layout>
+                <UpperMenu />
+                <Sidebar />
 
-            <Main>
-                <MainScrollArea>
-                    <MainLayout>
-                        <Routes>
-                            <Route index element={<Home />} />
+                <Main>
+                    <MainScrollArea>
+                        <MainLayout>
+                            <Routes>
+                                <Route index element={<Home />} />
 
-                            <Route path="/me" element={<Me />} />
-                            <Route path="/me/following/" element={<AllMyFollowedArtistCards />} />
-                            <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
+                                <Route path="/me" element={<Me />} />
+                                <Route path="/me/following/" element={<AllMyFollowedArtistCards />} />
+                                <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
 
-                            <Route path="/playlist/:id" element={<PlaylistWrapper />} />
+                                <Route path="/playlist/:id" element={<PlaylistWrapper />} />
 
-                            <Route path="/user/:id" element={<Profile />} />
-                            <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
+                                <Route path="/user/:id" element={<Profile />} />
+                                <Route path="/user/:id/playlists" element={<AllUserPlaylistCards />} />
 
-                            <Route path="/artist/:id" element={<Artist />} />
-                            <Route path="/artist/:id/appears-on/:filter" element={<AllAppearsOnCards />} />
-                            <Route path="/artist/:id/discography/:filter" element={<AllDiscographyCards />} />
+                                <Route path="/artist/:id" element={<Artist />} />
+                                <Route path="/artist/:id/appears-on/:filter" element={<AllAppearsOnCards />} />
+                                <Route path="/artist/:id/discography/:filter" element={<AllDiscographyCards />} />
 
-                            <Route path="/album/:id" element={<Album />} />
+                                <Route path="/album/:id" element={<Album />} />
 
-                            <Route path="/search" element={<Search />} />
+                                <Route path="/search" element={<Search />} />
 
-                            <Route path="/collection/tracks" element={<LikedSongs />} />
-                            <Route path="/preferences" element={<Preferences />} />
-                            <Route path="/queue" element={<Queue />} />
-                        </Routes>
-                    </MainLayout>
-                </MainScrollArea>
-            </Main>
+                                <Route path="/collection/tracks" element={<LikedSongs />} />
+                                <Route path="/preferences" element={<Preferences />} />
+                                <Route path="/queue" element={<Queue />} />
+                            </Routes>
+                        </MainLayout>
+                    </MainScrollArea>
+                </Main>
 
-            <PlaybackWrapper />
+                {/*<PlaybackWrapper />*/}
 
-            <Toaster />
-            <ModalProvider />
-        </Layout>
+                <Toaster />
+                <ModalProvider />
+            </Layout>
+        </DndProvider>
     );
 }
 
