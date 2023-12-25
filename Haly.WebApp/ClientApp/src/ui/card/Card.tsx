@@ -5,7 +5,7 @@ import { PlaylistCardDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import useContextMenu from "../../menus/useContextMenu";
 import PlaybackToggle from "../../playback/PlaybackToggle";
-import UseContextPlaybackState from "../../playback/useContextPlaybackState";
+import useContextPlaybackState from "../../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../../playback/usePlaybackActions";
 import EmptyCoverImage from "../EmptyCoverImage";
 import CardContextMenu from "./CardContextMenu";
@@ -26,7 +26,7 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
     const navigate = useNavigate();
     const { menuProps, onContextMenu } = useContextMenu();
 
-    const getPlaybackState = UseContextPlaybackState();
+    const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(id);
     const { playbackAction } = useContextPlaybackActions(playbackState, uri);
 
