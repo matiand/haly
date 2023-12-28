@@ -21,6 +21,7 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
                 contextUri={`spotify:user:${userId}:collection`}
                 href="/collection/tracks"
                 playbackState={getPlaybackState("collection", true)}
+                isPinned
             />
 
             {playlists.map((p) => {

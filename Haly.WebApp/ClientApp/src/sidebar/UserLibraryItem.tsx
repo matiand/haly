@@ -1,6 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import clsx from "clsx";
 import { HiSpeakerWave } from "react-icons/hi2";
+import { TbPinFilled } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 
 import { AlbumBriefDto, PlaylistBriefDto } from "../../generated/haly";
@@ -27,9 +28,10 @@ type UserLibraryItemProps = {
     contextUri: string;
     href: string;
     playbackState: ContextPlaybackState;
+    isPinned?: boolean;
 };
 
-function UserLibraryItem({ item, contextUri, href, playbackState }: UserLibraryItemProps) {
+function UserLibraryItem({ item, contextUri, href, playbackState, isPinned }: UserLibraryItemProps) {
     const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
     const { onContextMenu, menuProps } = useContextMenu();
 
@@ -50,18 +52,31 @@ function UserLibraryItem({ item, contextUri, href, playbackState }: UserLibraryI
     return (
         <>
             <li onContextMenu={onContextMenu} ref={setNodeRef}>
-                <Link
+                <Anchor
                     className={clsx({
+                        isListenedTo,
                         isOver,
                         noDropping,
                     })}
                     to={href}
                     onDoubleClick={playbackAction}
                 >
-                    <span className={clsx({ isListenedTo })}>{name}</span>
+                    {isPinned && (
+                        <span aria-hidden>
+                            <PinIcon />
+                        </span>
+                    )}
 
-                    <span aria-hidden>{playbackState === "playing" && <Icon />}</span>
-                </Link>
+                    <NameWrapper>
+                        <span>{name}</span>
+
+                        {playbackState === "playing" && (
+                            <span aria-hidden>
+                                <SpeakerIcon />
+                            </span>
+                        )}
+                    </NameWrapper>
+                </Anchor>
             </li>
 
             {item.type === "playlist" && (
@@ -71,27 +86,14 @@ function UserLibraryItem({ item, contextUri, href, playbackState }: UserLibraryI
     );
 }
 
-const Link = styled(NavLink, {
+const Anchor = styled(NavLink, {
     alignItems: "center",
     borderRadius: "4px",
     color: "$white800",
     display: "flex",
-    gap: "$600",
-    justifyContent: "space-between",
+    gap: "$400",
     padding: "$200 $400",
     textDecoration: "none",
-
-    "span:first-of-type": {
-        fontSize: "$300",
-        fontWeight: 500,
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-
-        "&.isListenedTo": {
-            color: "$primary400",
-        },
-    },
 
     "&:hover": {
         background: "$black500",
@@ -99,6 +101,10 @@ const Link = styled(NavLink, {
 
     "&:active": {
         background: "$black800",
+    },
+
+    "&.isListenedTo": {
+        color: "$primary400",
     },
 
     "&.isOver:not(.noDropping)": {
@@ -118,8 +124,30 @@ const Link = styled(NavLink, {
     },
 });
 
-const Icon = styled(HiSpeakerWave, {
+const NameWrapper = styled("div", {
+    alignItems: "center",
+    display: "flex",
+    flexGrow: 1,
+    gap: "$600",
+    justifyContent: "space-between",
+    overflow: "hidden",
+
+    "& > span:first-of-type": {
+        fontSize: "$300",
+        fontWeight: 500,
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+    },
+});
+
+const PinIcon = styled(TbPinFilled, {
     color: "$primary400",
+    height: "16px",
+    width: "16px",
+});
+
+const SpeakerIcon = styled(HiSpeakerWave, {
     height: "14px",
     width: "14px",
 });
