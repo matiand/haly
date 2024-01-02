@@ -1,4 +1,5 @@
 import { styled, theme } from "../common/theme";
+import { dndSelectors } from "../dnd/dndStyles";
 
 export const Root = styled("table", {
     display: "block",
@@ -113,13 +114,15 @@ export const Body = styled("tbody", {
             },
         },
 
-        "&&.isSelected": {
+        [`&&.isSelected, &&${dndSelectors.dragOrigin}`]: {
             background: "$trackSelected",
 
             "& a": {
                 color: "$white800",
             },
+        },
 
+        "&&.isSelected": {
             // First row in the selection range.
             "&:has(+ .isSelected)": {
                 borderRadius: "4px 4px 0 0",

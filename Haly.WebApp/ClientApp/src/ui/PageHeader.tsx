@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import { PlaylistWithTracksDto } from "../../generated/haly";
 import { pageHeaderVisibilityAtom } from "../common/atoms/pageAtoms";
 import { styled } from "../common/theme";
+import { DraggableData } from "../dnd/useDraggable";
 import HeaderImage from "./HeaderImage";
 import HeaderTitle from "./HeaderTitle";
 
@@ -18,7 +19,7 @@ type PageHeaderProps = {
     onContextMenu?: (e: React.MouseEvent) => void;
     onEditDetails?: () => void;
     onViewArtwork?: () => void;
-    draggableData?: object;
+    draggableData?: DraggableData;
 
     children?: React.ReactNode;
 };

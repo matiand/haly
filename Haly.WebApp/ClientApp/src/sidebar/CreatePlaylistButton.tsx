@@ -1,22 +1,23 @@
-import { useDroppable } from "@dnd-kit/core";
 import clsx from "clsx";
 import { HiPlus } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
+import useDroppable from "../dnd/useDroppable";
 
 type CreatePlaylistButtonProps = {
     createPlaylist: () => void;
 };
 
 function CreatePlaylistButton({ createPlaylist }: CreatePlaylistButtonProps) {
-    const { isOver, setNodeRef } = useDroppable({
+    const { droppableRef, classNames: dndClassNames } = useDroppable({
         id: "create-playlist-area",
+        data: {},
     });
 
     return (
         <AddButton
-            className={clsx({ isOver })}
-            ref={setNodeRef}
+            ref={droppableRef}
+            className={clsx({ ...dndClassNames })}
             onClick={() => createPlaylist()}
             type="button"
             aria-label="Create playlist"
@@ -47,10 +48,6 @@ const AddButton = styled("button", {
     "&:active": {
         background: "$black800",
         color: "$white800",
-    },
-
-    "&.isOver": {
-        outline: "2px solid $primary300",
     },
 });
 

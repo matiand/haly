@@ -52,7 +52,7 @@ function Album() {
 
     return (
         <div>
-            <AlbumHeader album={query.data} onContextMenu={onContextMenu} draggableData={{ name: "blablabla" }} />
+            <AlbumHeader album={query.data} onContextMenu={onContextMenu} />
 
             <PageControls>
                 {isPlayable && (

@@ -6,6 +6,7 @@ import "@fontsource/plus-jakarta-sans/500.css";
 import "@fontsource/plus-jakarta-sans/700.css";
 import "@fontsource/plus-jakarta-sans/800.css";
 
+import { dndStyles } from "../dnd/dndStyles";
 import { globalCss } from "./theme";
 
 const globalStyles = globalCss({
@@ -98,6 +99,8 @@ const globalStyles = globalCss({
     "a, button": {
         touchAction: "manipulation",
     },
+
+    ...dndStyles,
 });
 
 globalStyles();

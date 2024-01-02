@@ -1,6 +1,9 @@
 import { DndContext, PointerSensor, pointerWithin, useSensor, useSensors } from "@dnd-kit/core";
+import { useAtomValue } from "jotai/index";
 import React from "react";
 
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
+import { dndClassNames } from "./dndStyles";
 import DraggingOverlay from "./DraggingOverlay";
 
 type DndContextProps = {
@@ -12,6 +15,9 @@ function DndProvider({ children }: DndContextProps) {
     const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 2 } });
     // const pointerSensor = useSensor(PointerSensor);
     const sensors = useSensors(pointerSensor);
+    const selectedTracks = useAtomValue(selectedTracksAtom);
+
+    console.log("DndProvider rerender");
 
     return (
         <DndContext
@@ -22,13 +28,10 @@ function DndProvider({ children }: DndContextProps) {
             }}
             onDragStart={(e) => {
                 console.log("drag has started", e);
-                document.body.classList.add("dragging");
-            }}
-            onDragMove={(e) => {
-                // console.log("drag move", e);
+                document.body.classList.add(dndClassNames.draggingInProgress);
             }}
             onDragEnd={(e) => {
-                document.body.classList.remove("dragging");
+                document.body.classList.remove(dndClassNames.draggingInProgress);
 
                 if (e.over) {
                     console.log("Dropped at:", e);
@@ -42,7 +45,7 @@ function DndProvider({ children }: DndContextProps) {
                 }
             }}
             onDragCancel={(e) => {
-                document.body.classList.remove("dragging");
+                document.body.classList.remove(dndClassNames.draggingInProgress);
             }}
         >
             {children}

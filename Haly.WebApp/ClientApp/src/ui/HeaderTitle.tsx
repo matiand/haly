@@ -3,6 +3,7 @@ import React from "react";
 import { styled } from "../common/theme";
 import useResizableFont from "../common/useResizableFont";
 import Draggable from "../dnd/Draggable";
+import { DraggableData } from "../dnd/useDraggable";
 
 const titleSizeSteps = [90, 66, 42, 30];
 
@@ -10,7 +11,7 @@ type HeaderTitleProps = {
     name: string;
     onEditDetails?: (e: React.MouseEvent) => void;
     onContextMenu?: (e: React.MouseEvent) => void;
-    draggableData?: object;
+    draggableData?: DraggableData;
 };
 
 function HeaderTitle({ name, onEditDetails, onContextMenu, draggableData }: HeaderTitleProps) {

@@ -4,6 +4,7 @@ import { LuDisc } from "react-icons/lu";
 
 import { AlbumTrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import useDraggable from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackContextMenu from "../menus/TrackContextMenu";
@@ -33,8 +34,19 @@ export function AlbumTableTrackRow({
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
     const { menuProps, onContextMenu } = useContextMenu();
 
+    const { draggableRef, ...draggableProps } = useDraggable({
+        id: `album-row-${position}`,
+        data: {
+            id: track.id,
+            type: "table-row",
+            title: [track.name, track.artists[0].name],
+        },
+    });
+
     return (
         <tr
+            ref={draggableRef}
+            {...draggableProps}
             onClick={selectTrack}
             onDoubleClick={updatePlayback}
             onContextMenu={(e) => {

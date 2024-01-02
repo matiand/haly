@@ -1,10 +1,10 @@
 import React from "react";
 
-import useDraggable from "./useDraggable";
+import useDraggable, { DraggableData } from "./useDraggable";
 
 type DraggableProps = {
     id: string;
-    data: object;
+    data: DraggableData;
     children: React.ReactNode;
 };
 

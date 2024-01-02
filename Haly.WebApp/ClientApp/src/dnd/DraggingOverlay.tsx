@@ -1,29 +1,45 @@
 import { DragMoveEvent, DragOverlay, DragStartEvent, useDndMonitor } from "@dnd-kit/core";
-import { useState } from "react";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
+import { DraggableData } from "./useDraggable";
 
 type Point = {
     x: number;
     y: number;
 };
 
-type DraggedItemData = {
-    name: string;
-};
-
 function DraggingOverlay() {
     const [position, setPosition] = useState<Point | null>(null);
-    const [data, setData] = useState<DraggedItemData | null>(null);
+    const [data, setData] = useState<DraggableData | null>(null);
 
+    const [selectedTracks, setSelectedTracks] = useAtom(selectedTracksAtom);
+
+    useEffect(() => {
+        if (
+            data?.type === "table-row" &&
+            selectedTracks.length > 0 &&
+            selectedTracks.every((t) => t.track.id !== data?.id)
+        ) {
+            setSelectedTracks([]);
+        }
+    }, [data?.id, data?.type, selectedTracks, setSelectedTracks]);
+
+    // There is a bug in useDndMonitor that sometimes causes onDragMove to fire after onDragCancel/onDragEnd.
+    // This means that we always need to call setPosition(null) inside onDragStart, otherwise the
+    // previous drag position can flash when the user starts a new drag.
     useDndMonitor({
         onDragStart(event: DragStartEvent) {
-            const data = event.active.data.current as DraggedItemData;
-            // console.log("start");
-            // setName(data.name);
+            const data = event.active.data.current as DraggableData;
+
             setPosition(null);
             setData(data);
+
+            // if (data.type === "table-row") {
+            // }
         },
         onDragMove(event: DragMoveEvent) {
             if (event.activatorEvent instanceof PointerEvent) {
@@ -39,47 +55,20 @@ function DraggingOverlay() {
                     });
                 }
             }
-            // console.group("positions");
-            // console.log(event.activatorEvent instanceof PointerEvent);
-            // console.log("activator event", event.activatorEvent.x, event.activatorEvent.y);
-            // // console.log("delta", event.delta);
-            // // console.log("origins", originX, originY);
-            // // console.log("offsets", offsetX, offsetY);
-            // console.log("initial rect", event.active.rect.current.initial);
-            // console.log("active rect", event.active.rect.current.translated);
-            // console.groupEnd();
-
-            // setPosition({
-            //     x: (event.active.rect.current.translated?.left ?? 0) - originX + offsetX,
-            //     y: (event.active.rect.current.translated?.top ?? 0) - originY + offsetY,
-            // });
-
-            // const actualDeltaX = (event.active.rect.current.translated?.left ?? event.activatorEvent.x);
-            // const actualDeltaY = (event.active.rect.current.translated?.left ?? event.activatorEvent.x);
-
-            // setPosition({
-            //     x: (event.activatorEvent.x ?? 0),
-            //     y: (event.activatorEvent.y ?? 0),
-            // });
-
-            // setPosition({
-            //     x: event.active.rect.current.translated?.left,
-            //     y: event.active.rect.current.translated?.top + (data?.offsetY ?? 0),
-            // });
         },
-        // onDragCancel(event: DragCancelEvent) {
-        //     console.log("position is null");
-        //     // setPosition(null);
-        //     setData(null)
-        // },
-        // onDragEnd(event: DragEndEvent) {
-        //     console.log("position is null");
-        //     // setPosition(null);
-        //     setData(null)
-        // },
+        onDragCancel() {
+            setData(null);
+        },
+        onDragEnd() {
+            setData(null);
+        },
     });
 
     if (!position || !data) return null;
+
+    const isDraggingSelectedTracks =
+        data.type === "table-row" && selectedTracks.length > 1 && selectedTracks.some((t) => t.track.id === data.id);
+    const title = isDraggingSelectedTracks ? `${selectedTracks.length} tracks` : data.title;
 
     return createPortal(
         <Wrapper
@@ -90,7 +79,14 @@ function DraggingOverlay() {
                 top: position.y - 4,
             }}
         >
-            <span>{data.name}</span>
+            {typeof title === "string" ? (
+                <span>{title}</span>
+            ) : (
+                <>
+                    <span>{title[0]}</span>
+                    <span>{title[1]}</span>
+                </>
+            )}
         </Wrapper>,
         document.body,
     );
@@ -101,11 +97,18 @@ const Wrapper = styled(DragOverlay, {
     borderRadius: "4px",
     color: "$white800",
     cursor: "grabbing",
+    display: "flex",
     fontSize: "$300",
     fontWeight: 500,
     height: "auto !important",
     padding: "$300 $500",
     width: "auto !important",
+
+    "& > span:nth-of-type(2)::before": {
+        content: "•",
+        fontWeight: 300,
+        margin: "0 $300",
+    },
 });
 
 export default DraggingOverlay;

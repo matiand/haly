@@ -1,8 +1,14 @@
 import { useDraggable as useDraggableKit } from "@dnd-kit/core";
 
+export type DraggableData = {
+    type: "playlist" | "album" | "table-row" | "streamed-track";
+    id: string;
+    title: string | [string, string];
+};
+
 type DraggableHookParams = {
     id: string;
-    data: object;
+    data: DraggableData;
 };
 
 function useDraggable({ id, data }: DraggableHookParams) {

@@ -1,4 +1,3 @@
-import { useDroppable } from "@dnd-kit/core";
 import clsx from "clsx";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { TbPinFilled } from "react-icons/tb";
@@ -6,6 +5,7 @@ import { NavLink } from "react-router-dom";
 
 import { AlbumBriefDto, PlaylistBriefDto } from "../../generated/haly";
 import { styled } from "../common/theme";
+import useDroppable from "../dnd/useDroppable";
 import useContextMenu from "../menus/useContextMenu";
 import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
@@ -35,32 +35,24 @@ function UserLibraryItem({ item, contextUri, href, playbackState, isPinned }: Us
     const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
     const { onContextMenu, menuProps } = useContextMenu();
 
-    const { isOver, setNodeRef } = useDroppable({
+    const notDroppable = item.type !== "playlist" || (item.type === "playlist" && !item.isEditable);
+    const { droppableRef, classNames: dndClassNames } = useDroppable({
         id: `user-library-item-${contextUri}`,
         data: {
             type: item.type,
             contextUri,
         },
-        // Avoid disabling them, it breaks scrolling in dnd flow.
-        // disabled: false,
+        // Disabling them when dragging is in progress, makes scrolling near the edges of sidebar buggy.
+        disabled: notDroppable,
     });
 
     const isListenedTo = playbackState !== "none";
-    const noDropping = item.type !== "playlist" || (item.type === "playlist" && !item.isEditable);
     const name = item.type === "collection" ? "Liked Songs" : item.dto.name;
 
     return (
         <>
-            <li onContextMenu={onContextMenu} ref={setNodeRef}>
-                <Anchor
-                    className={clsx({
-                        isListenedTo,
-                        isOver,
-                        noDropping,
-                    })}
-                    to={href}
-                    onDoubleClick={playbackAction}
-                >
+            <li ref={droppableRef} onContextMenu={onContextMenu}>
+                <Anchor className={clsx({ isListenedTo, ...dndClassNames })} to={href} onDoubleClick={playbackAction}>
                     {isPinned && (
                         <span aria-hidden>
                             <PinIcon />
@@ -105,14 +97,6 @@ const Anchor = styled(NavLink, {
 
     "&.isListenedTo": {
         color: "$primary400",
-    },
-
-    "&.isOver:not(.noDropping)": {
-        outline: "1px solid $primary400",
-    },
-
-    ".dragging &.noDropping": {
-        opacity: 0.33,
     },
 
     "&.active": {

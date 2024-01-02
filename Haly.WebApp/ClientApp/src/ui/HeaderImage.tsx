@@ -4,6 +4,7 @@ import { PlaylistWithTracksDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import useDominantColorExtraction from "../common/useDominantColorExtraction";
 import Draggable from "../dnd/Draggable";
+import { DraggableData } from "../dnd/useDraggable";
 
 type HeaderImageProps = {
     alt: string;
@@ -12,7 +13,7 @@ type HeaderImageProps = {
 
     onViewArtwork?: (e: React.MouseEvent) => void;
     onContextMenu?: (e: React.MouseEvent) => void;
-    draggableData?: object;
+    draggableData?: DraggableData;
 };
 
 const imageSize = "220";

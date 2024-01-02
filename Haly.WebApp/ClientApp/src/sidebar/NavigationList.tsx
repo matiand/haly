@@ -2,7 +2,7 @@ import { HiSearch } from "react-icons/hi";
 import { HiDocument, HiFire, HiHome } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
-import NavigationLink from "./NavigationLink";
+import NavigationListItem from "./NavigationListItem";
 import SpotifyBanner from "./SpotifyBanner";
 
 function NavigationList() {
@@ -12,18 +12,10 @@ function NavigationList() {
                 <SpotifyBanner />
             </li>
 
-            <li>
-                <NavigationLink title="Home" href="/" icon={<HiHome />} />
-            </li>
-            <li>
-                <NavigationLink title="Search" href="/search" icon={<HiSearch />} />
-            </li>
-            <li>
-                <NavigationLink title="New Releases" href="/me" icon={<HiFire />} />
-            </li>
-            <li>
-                <NavigationLink title="Backlog" href="/bae" icon={<HiDocument />} />
-            </li>
+            <NavigationListItem title="Home" href="/" icon={<HiHome />} />
+            <NavigationListItem title="Search" href="/search" icon={<HiSearch />} />
+            <NavigationListItem title="New Releases" href="/me" icon={<HiFire />} />
+            <NavigationListItem title="Backlog" href="/bae" icon={<HiDocument />} droppableAreaId="user-backlog" />
         </List>
     );
 }
@@ -37,7 +29,7 @@ const List = styled("ul", {
         display: "flex",
         fontSize: "$300",
         minHeight: "40px",
-        padding: "0 $700",
+        padding: "0 $600",
         transition: "color 0.2s linear",
 
         "&:hover": {

@@ -10,10 +10,9 @@ import PageHeader from "../../ui/PageHeader";
 type AlbumHeaderProps = {
     album: AlbumDetailedDto;
     onContextMenu: (e: React.MouseEvent) => void;
-    draggableData: object;
 };
 
-function AlbumHeader({ album, onContextMenu, draggableData }: AlbumHeaderProps) {
+function AlbumHeader({ album, onContextMenu }: AlbumHeaderProps) {
     const setModal = useSetAtom(modalAtom);
 
     const onViewArtwork = () =>
@@ -30,7 +29,11 @@ function AlbumHeader({ album, onContextMenu, draggableData }: AlbumHeaderProps) 
             imageUrl={album.imageUrl}
             onContextMenu={onContextMenu}
             onViewArtwork={onViewArtwork}
-            draggableData={draggableData}
+            draggableData={{
+                type: "album",
+                id: album.id,
+                title: album.name,
+            }}
         >
             {album.artists.map((a) => {
                 const artistHref = `/artist/${a.id}`;

@@ -12,10 +12,9 @@ type PlaylistHeaderProps = {
     playlist: PlaylistWithTracksDto;
     isEditable: boolean;
     onContextMenu: (e: React.MouseEvent) => void;
-    draggableData: object;
 };
 
-function PlaylistHeader({ playlist, isEditable, onContextMenu, draggableData }: PlaylistHeaderProps) {
+function PlaylistHeader({ playlist, isEditable, onContextMenu }: PlaylistHeaderProps) {
     const { id, name, description, imageUrl, owner, likesTotal, totalDuration, isPersonalized } = playlist;
 
     const setModal = useSetAtom(modalAtom);
@@ -46,7 +45,11 @@ function PlaylistHeader({ playlist, isEditable, onContextMenu, draggableData }: 
                 imageUrl={imageUrl}
                 onContextMenu={onContextMenu}
                 onEditDetails={onEditDetails}
-                draggableData={draggableData}
+                draggableData={{
+                    type: "playlist",
+                    id: id,
+                    title: name,
+                }}
             >
                 <PlaylistOwner owner={owner} isPersonalized={isPersonalized} />
 
