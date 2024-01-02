@@ -23,7 +23,7 @@ type PlaylistTableRowProps = {
     likedState: TrackLikedState;
     isSelected: boolean;
     selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
-    start?: number;
+    offsetY: number;
 };
 
 function PlaylistTableRow({
@@ -33,25 +33,26 @@ function PlaylistTableRow({
     likedState,
     isSelected,
     selectTrack,
-    start,
+    // todo: rename to offsetY
+    offsetY,
 }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
     const { onContextMenu, menuProps } = useContextMenu();
 
-    const isLocal = !track.id;
+    const isSongWithId = track.isSong && track.id;
 
     return (
         <TableRow
             onClick={selectTrack}
             onDoubleClick={updatePlayback}
             onContextMenu={(e) => {
-                if (track.isSong && !isLocal) {
+                if (isSongWithId) {
                     !isSelected && selectTrack(e);
                     onContextMenu(e);
                 }
             }}
-            style={{ transform: `translateY(${start}px` }}
+            style={{ transform: `translateY(${offsetY}px` }}
             className={clsx({
                 isDisabled: !track.isPlayable,
                 isListenedTo: playbackState !== "none",
@@ -72,7 +73,7 @@ function PlaylistTableRow({
                     track={track}
                     type="cell"
                     showExplicitMark={track.isExplicit}
-                    hideArtists={isLocal || !track.isSong}
+                    hideArtists={!isSongWithId}
                     searchTerm={searchTerm}
                 />
             </td>
@@ -86,7 +87,7 @@ function PlaylistTableRow({
             </td>
 
             <td>
-                <TrackDurationCell track={track} noActions={isLocal || !track.isSong} likedState={likedState} />
+                <TrackDurationCell track={track} noActions={!isSongWithId} likedState={likedState} />
             </td>
 
             <TrackContextMenu track={track} menuProps={menuProps} />

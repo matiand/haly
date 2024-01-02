@@ -108,7 +108,7 @@ function PlaylistTable({
                                 likedState={getTableRowLikedState(track.id, track.playbackId)}
                                 isSelected={isSelectedRow(idx)}
                                 selectTrack={selectTableRow(idx)}
-                                start={virtualItem.start}
+                                offsetY={virtualItem.start}
                             />
                         );
                     })}
