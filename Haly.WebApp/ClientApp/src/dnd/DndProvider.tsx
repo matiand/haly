@@ -29,6 +29,7 @@ function DndProvider({ children }: DndContextProps) {
             onDragStart={(e) => {
                 console.log("drag has started", e);
                 document.body.classList.add(dndClassNames.draggingInProgress);
+                document.body.classList.remove(dndClassNames.draggingCancelled);
             }}
             onDragEnd={(e) => {
                 document.body.classList.remove(dndClassNames.draggingInProgress);
@@ -45,6 +46,8 @@ function DndProvider({ children }: DndContextProps) {
                 }
             }}
             onDragCancel={(e) => {
+                console.log("cancel");
+                document.body.classList.add(dndClassNames.draggingCancelled);
                 document.body.classList.remove(dndClassNames.draggingInProgress);
             }}
         >

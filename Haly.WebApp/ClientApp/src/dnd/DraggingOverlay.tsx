@@ -102,7 +102,12 @@ const Wrapper = styled(DragOverlay, {
     fontWeight: 500,
     height: "auto !important",
     padding: "$300 $500",
+    pointerEvents: "all",
     width: "auto !important",
+
+    "& > span": {
+        flexShrink: 0,
+    },
 
     "& > span:nth-of-type(2)::before": {
         content: "•",

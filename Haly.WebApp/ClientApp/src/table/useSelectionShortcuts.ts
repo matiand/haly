@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { AlbumTrackDto, PlaylistTrackDto } from "../../generated/haly";
 import { pageContextAtom } from "../common/atoms/pageAtoms";
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
+import { dndClassNames } from "../dnd/dndStyles";
 import useRemoveFromPlaylistMutation from "../playlist/useRemoveFromPlaylistMutation";
 
 function useSelectionShortcuts(items: (AlbumTrackDto | PlaylistTrackDto)[]) {
@@ -37,9 +38,11 @@ function useSelectionShortcuts(items: (AlbumTrackDto | PlaylistTrackDto)[]) {
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
-                if (targetIsInputOrTextArea(e)) return;
-
-                e.preventDefault();
+                // Don't reset selectedTracks when the handler was fired to cancel the dragging operation.
+                if (document.body.classList.contains(dndClassNames.draggingCancelled)) {
+                    document.body.classList.remove(dndClassNames.draggingCancelled);
+                    return;
+                }
 
                 setSelectedTracks([]);
             }
