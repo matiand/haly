@@ -2,7 +2,7 @@ import { useState } from "react";
 import { LuMonitorSpeaker } from "react-icons/lu";
 
 import { styled, theme } from "../common/theme";
-import * as DropdownMenu from "../ui/DropdownMenu";
+import * as DropdownMenu from "../menus/DropdownMenu";
 import DeviceDropdownMenuContent from "./DeviceDropdownMenuContent";
 
 function DeviceDropdownMenu() {
