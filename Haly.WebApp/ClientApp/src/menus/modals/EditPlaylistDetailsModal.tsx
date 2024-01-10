@@ -6,7 +6,7 @@ import { LuAlertCircle } from "react-icons/lu";
 
 import { UpdatePlaylistDetailsRequestBody } from "../../../generated/haly";
 import { modalAtom } from "../../common/atoms/modalAtoms";
-import { GetMyPlaylistsQueryKey, GetPlaylistQueryKey } from "../../common/queryKeys";
+import { GetPlaylistQueryKey } from "../../common/queryKeys";
 import halyClient from "../../halyClient";
 import Modal from "./Modal";
 
@@ -39,7 +39,6 @@ function EditPlaylistDetailsModal({ id, name, description }: EditPlaylistDetails
             }),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
                 queryClient.invalidateQueries(GetPlaylistQueryKey(id));
             },
         },
