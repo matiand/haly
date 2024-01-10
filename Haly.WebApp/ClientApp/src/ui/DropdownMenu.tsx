@@ -34,7 +34,6 @@ export const Content = styled(DropdownMenu.Content, {
     },
 
     "& > a[role='menuitem']": {
-        color: "unset",
         display: "flex",
         justifyContent: "space-between",
         textDecoration: "none",

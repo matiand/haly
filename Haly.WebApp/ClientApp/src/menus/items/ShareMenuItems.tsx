@@ -54,7 +54,7 @@ function copyToClipboard(text: string, toastMsg: string) {
 
 const MenuItemWithAnchor = styled(MenuItem, {
     a: {
-        color: "unset",
+        color: "inherit",
         cursor: "default",
         display: "flex",
         alignItems: "center",

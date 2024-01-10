@@ -30,7 +30,7 @@ const Wrapper = styled("div", {
 
     "& > form": {
         marginLeft: "auto",
-        marginRight: "unset",
+        marginRight: 0,
     },
 });
 

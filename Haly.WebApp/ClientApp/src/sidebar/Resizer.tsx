@@ -3,7 +3,7 @@ import { styled } from "../common/theme";
 function Resizer() {
     return (
         <ResizerWrapper>
-            <span className="hidden-visually">Resize main navigation</span>
+            <span className="hidden-visually">Resize library sidebar</span>
         </ResizerWrapper>
     );
 }

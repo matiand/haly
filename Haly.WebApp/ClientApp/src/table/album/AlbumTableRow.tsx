@@ -99,18 +99,21 @@ export function AlbumTableDiscRow({ discNumber }: DiscRowProps) {
 }
 
 const DiscRow = styled("tr", {
+    marginTop: "$400",
+
     "&& > td[colspan]": {
         color: "$white500",
         fontWeight: 700,
-        justifySelf: "initial",
+        justifySelf: "start",
         letterSpacing: "0.04em",
     },
 
     "&&:hover": {
-        background: "initial",
+        background: "transparent",
     },
 
     "& svg": {
+        color: "$white500",
         height: "18px",
         width: "18px",
     },

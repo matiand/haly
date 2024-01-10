@@ -81,7 +81,7 @@ const Wrapper = styled("div", {
     transition: "background-color 0.3s ease",
     userSelect: "none",
 
-    "&:hover, &:focus, &:focus-within": {
+    "&:hover, &:focus-within": {
         background: "$black200",
 
         "& #card-playback-wrapper": {
@@ -139,12 +139,7 @@ const Contents = styled("div", {
         fontSize: "$350",
         fontWeight: 700,
         letterSpacing: "0.02em",
-        paddingBottom: "$300",
         textDecoration: "none",
-
-        "&:focus-visible": {
-            outline: "1px solid $white800",
-        },
     },
 
     "& div": {
@@ -152,6 +147,10 @@ const Contents = styled("div", {
         display: "flex",
         fontSize: "$300",
         fontWeight: 500,
+
+        "&:first-of-type": {
+            marginBottom: "$300",
+        },
 
         "& > span::before": {
             content: "•",

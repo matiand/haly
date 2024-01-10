@@ -102,7 +102,7 @@ const Wrapper = styled("div", {
         },
 
         "&:active": {
-            textDecoration: "initial",
+            textDecoration: "none",
         },
     },
 });

@@ -103,7 +103,7 @@ const ChevronBtn = styled("button", {
     top: "8%",
     width: "$$size",
 
-    "&:hover, &:focus": {
+    "&:hover, &:focus-visible": {
         opacity: 0.9,
         transform: "scale(1.1)",
     },
