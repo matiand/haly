@@ -11,7 +11,7 @@ import useSelectionShortcuts from "../useSelectionShortcuts";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
+import useTableRowSelection from "../useTableRowSelection";
 import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
 
 type AlbumTableProps = {
@@ -24,7 +24,7 @@ function AlbumTable({ items }: AlbumTableProps) {
     const getTableRowLikedState = useTableRowLikedState();
     const { ref, isSticky } = useStickyTableHead();
 
-    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
+    const { selectTableRow, isSelectedRow } = useTableRowSelection(items);
     useSelectionShortcuts(items);
 
     const mainScrollArea = useMainScrollArea();
@@ -34,6 +34,7 @@ function AlbumTable({ items }: AlbumTableProps) {
         itemsTotal: items.length,
     });
 
+    console.log(items);
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
         .map((d) => Number.parseInt(d, 10))
@@ -56,23 +57,27 @@ function AlbumTable({ items }: AlbumTableProps) {
                 <Table.Body>
                     {disks.length > 1
                         ? disks.map((disc) => {
-                              const items = tracksByDisk[disc];
+                              const discItems = tracksByDisk[disc];
 
                               return (
                                   <Fragment key={disc}>
                                       <AlbumTableDiscRow discNumber={disc} />
 
-                                      {items.map((t, idx) => (
-                                          <AlbumTableTrackRow
-                                              key={t.id}
-                                              position={idx + 1}
-                                              track={t}
-                                              playbackState={getTableRowPlaybackState(t.playbackId)}
-                                              likedState={getTableRowLikedState(t.id, t.playbackId)}
-                                              isSelected={isSelectedRow(idx)}
-                                              selectTrack={selectTableRow(idx)}
-                                          />
-                                      ))}
+                                      {discItems.map((t, idx) => {
+                                          const globalIndex = items.findIndex((item) => item.id === t.id);
+
+                                          return (
+                                              <AlbumTableTrackRow
+                                                  key={t.id}
+                                                  position={idx + 1}
+                                                  track={t}
+                                                  playbackState={getTableRowPlaybackState(t.playbackId)}
+                                                  likedState={getTableRowLikedState(t.id, t.playbackId)}
+                                                  isSelected={isSelectedRow(globalIndex)}
+                                                  selectTrack={selectTableRow(globalIndex)}
+                                              />
+                                          );
+                                      })}
                                   </Fragment>
                               );
                           })

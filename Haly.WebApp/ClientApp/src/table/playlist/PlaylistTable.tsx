@@ -12,7 +12,7 @@ import useSelectionShortcuts from "../useSelectionShortcuts";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
+import useTableRowSelection from "../useTableRowSelection";
 import { PlaylistTableHead } from "./PlaylistTableHead";
 import PlaylistTableRow from "./PlaylistTableRow";
 
@@ -37,7 +37,7 @@ function PlaylistTable({
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
 
-    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
+    const { selectTableRow, isSelectedRow } = useTableRowSelection(items);
     useSelectionShortcuts(items);
 
     const { ref, isSticky } = useStickyTableHead();

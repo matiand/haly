@@ -2,13 +2,13 @@ import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/index";
 import { useEffect } from "react";
 
-import { AlbumTrackDto, PlaylistTrackDto } from "../../generated/haly";
+import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { pageContextAtom } from "../common/atoms/pageAtoms";
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { dndClassNames } from "../dnd/dndStyles";
 import useRemoveFromPlaylistMutation from "../playlist/useRemoveFromPlaylistMutation";
 
-function useSelectionShortcuts(items: (AlbumTrackDto | PlaylistTrackDto)[]) {
+function useSelectionShortcuts(items: (TrackDto | AlbumTrackDto | PlaylistTrackDto)[]) {
     const pageContext = useAtomValue(pageContextAtom);
     const [selectedTracks, setSelectedTracks] = useAtom(selectedTracksAtom);
 

@@ -6,7 +6,7 @@ import { pageContextIdAtom } from "../common/atoms/pageAtoms";
 import { playlistSearchTermAtom } from "../common/atoms/playlistAtoms";
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 
-function useTrackSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDto)[]) {
+function useTableRowSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDto)[]) {
     const [selectedTracks, setSelectedTracks] = useAtom(selectedTracksAtom);
 
     const pageContextId = useAtomValue(pageContextIdAtom);
@@ -90,4 +90,4 @@ function useTrackSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDto)[
     };
 }
 
-export default useTrackSelection;
+export default useTableRowSelection;

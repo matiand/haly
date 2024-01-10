@@ -3,9 +3,10 @@ import { useState } from "react";
 import { TrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
+import useSelectionShortcuts from "../useSelectionShortcuts";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
-import useTrackSelection from "../useTrackSelection";
+import useTableRowSelection from "../useTableRowSelection";
 import TopTracksTableRow from "./TopTracksTableRow";
 
 type TopTracksTableProps = {
@@ -17,7 +18,9 @@ function TopTracksTable({ items }: TopTracksTableProps) {
     const [showMore, setShowMore] = useState(false);
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
-    const { selectTableRow, isSelectedRow } = useTrackSelection(items);
+
+    const { selectTableRow, isSelectedRow } = useTableRowSelection(items);
+    useSelectionShortcuts(items);
 
     const showButton = items.length > 5;
     const btnLabel = showMore ? "Show less" : "See more";
