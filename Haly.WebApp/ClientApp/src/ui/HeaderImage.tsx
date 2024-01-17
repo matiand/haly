@@ -65,6 +65,7 @@ const Button = styled("button", {
 });
 
 const Image = styled("img", {
+    borderRadius: "4px",
     boxShadow: "0 4px 60px $collectionImage",
     color: "$black600",
     objectFit: "cover",

@@ -17,6 +17,7 @@ function TrackCoverImage({ imageUrl }: CoverImageProps) {
 }
 
 const Image = styled("img", {
+    borderRadius: "4px",
     flex: "0 0 auto",
 });
 
