@@ -21,7 +21,7 @@ function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuIt
     const userId = useAtomValue(userIdAtom);
     const playlists = useAtomValue(cachedPlaylistsAtom);
 
-    const { createPlaylist } = useCreatePlaylistMutation();
+    const createPlaylist = useCreatePlaylistMutation();
     const addToPlaylist = useAddToPlaylistMutation();
 
     const filteredPlaylists = playlists.filter(

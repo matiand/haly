@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
+import { useCallback } from "react";
 
 import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
@@ -12,9 +13,7 @@ function useCreatePlaylistMutation(onSuccess?: () => void) {
     const mutation = useMutation((name: string) => halyClient.me.createPlaylist({ name }), { onSuccess });
     const newPlaylistName = preparePlaylistName(playlists.filter((p) => p.ownerId === userId).length);
 
-    return {
-        createPlaylist: () => mutation.mutateAsync(newPlaylistName),
-    };
+    return useCallback(() => mutation.mutateAsync(newPlaylistName), [mutation, newPlaylistName]);
 }
 
 function preparePlaylistName(playlistCount: number) {
