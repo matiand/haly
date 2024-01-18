@@ -35,7 +35,7 @@ export function AlbumTableTrackRow({
     const { menuProps, onContextMenu } = useContextMenu();
 
     const { draggableRef, ...draggableProps } = useDraggable({
-        id: `album-row-${position}`,
+        id: `album-table-row:${track.id}`,
         data: {
             id: track.id,
             type: "table-row",

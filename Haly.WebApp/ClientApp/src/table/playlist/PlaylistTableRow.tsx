@@ -5,6 +5,7 @@ import React from "react";
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms/playlistAtoms";
 import { styled } from "../../common/theme";
+import useDraggable from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackContextMenu from "../menus/TrackContextMenu";
@@ -42,8 +43,23 @@ function PlaylistTableRow({
 
     const isSongWithId = track.isSong && track.id;
 
+    const { draggableRef, ...draggableProps } = useDraggable(
+        isSongWithId
+            ? {
+                  id: `playlist-table-row:${track.positionInPlaylist}`,
+                  data: {
+                      id: track.id!,
+                      type: "table-row",
+                      title: [track.name, track.artists[0].name],
+                  },
+              }
+            : undefined,
+    );
+
     return (
         <TableRow
+            ref={draggableRef}
+            {...draggableProps}
             onClick={selectTrack}
             onDoubleClick={updatePlayback}
             onContextMenu={(e) => {

@@ -1,8 +1,8 @@
 import { useDraggable as useDraggableKit } from "@dnd-kit/core";
 
 export type DraggableData = {
-    type: "playlist" | "album" | "table-row" | "streamed-track";
     id: string;
+    type: "playlist" | "album" | "table-row" | "streamed-track";
     title: string | [string, string];
 };
 
@@ -11,17 +11,20 @@ type DraggableHookParams = {
     data: DraggableData;
 };
 
-function useDraggable({ id, data }: DraggableHookParams) {
+function useDraggable(params: DraggableHookParams | undefined) {
     const { attributes, listeners, setNodeRef } = useDraggableKit({
-        id,
-        data,
+        id: params?.id ?? "n/a",
+        data: params?.data,
+        disabled: !params,
     });
 
-    return {
-        draggableRef: setNodeRef,
-        ...listeners,
-        ...attributes,
-    };
+    return params
+        ? {
+              draggableRef: setNodeRef,
+              ...listeners,
+              ...attributes,
+          }
+        : { draggableRef: undefined };
 }
 
 export default useDraggable;

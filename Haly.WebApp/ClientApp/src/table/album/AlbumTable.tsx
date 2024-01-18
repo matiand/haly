@@ -34,7 +34,6 @@ function AlbumTable({ items }: AlbumTableProps) {
         itemsTotal: items.length,
     });
 
-    console.log(items);
     const tracksByDisk = groupByDiscNumber(items);
     const disks = Object.keys(tracksByDisk)
         .map((d) => Number.parseInt(d, 10))

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { StreamedTrack } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
+import useDraggable from "../dnd/useDraggable";
 import PlaybackTrackCoverImage from "../playback/PlaybackTrackCoverImage";
 import HighlightableText from "./HighlightableText";
 import TrackCoverImage from "./TrackCoverImage";
@@ -30,8 +31,21 @@ function TrackInformation({
     const hasAlbum = "album" in track;
     const hasLinkToItsAlbum = hasAlbum && type === "playback";
 
+    const { draggableRef, ...draggableProps } = useDraggable(
+        type === "playback"
+            ? {
+                  id: `streamed-track:${track.id}`,
+                  data: {
+                      id: track.id!,
+                      type: "streamed-track",
+                      title: [track.name, track.artists[0].name],
+                  },
+              }
+            : undefined,
+    );
+
     return (
-        <Wrapper onContextMenu={onContextMenu}>
+        <Wrapper ref={draggableRef} {...draggableProps} onContextMenu={onContextMenu}>
             {hasAlbum &&
                 (type === "cell" ? (
                     <TrackCoverImage imageUrl={track.album.imageUrl} />

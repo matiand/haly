@@ -5,6 +5,7 @@ import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
 import UpperMenuBackground from "./UpperMenuBackground";
 import UpperMenuControls from "./UpperMenuControls";
+import UpperMenuTitle from "./UpperMenuTitle";
 import useDynamicUpperMenuContent from "./useDynamicUpperMenuContent";
 import UserDropdownMenu from "./UserDropdownMenu";
 
@@ -42,7 +43,7 @@ function UpperMenu() {
                 }
             >
                 {contextId && <UpperMenuControls contextId={contextId} />}
-                <span className="line-clamp-ellipsis">{name}</span>
+                <UpperMenuTitle name={name} contextId={contextId} contextType={pageContext.type} />
             </Content>
 
             <UserDropdownMenu />
@@ -76,13 +77,6 @@ const Content = styled("div", {
 
     "& > button": {
         flexShrink: 0,
-    },
-
-    "& > span": {
-        fontSize: "$500",
-        fontWeight: 800,
-        letterSpacing: "-0.004em",
-        userSelect: "none",
     },
 });
 
