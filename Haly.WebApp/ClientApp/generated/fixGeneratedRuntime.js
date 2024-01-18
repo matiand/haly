@@ -1,4 +1,4 @@
-// The generated runtime.ts file has ts errors. This script disabled them with the '@ts-nocheck'
+// The generated runtime.ts file has ts errors. This script disables them with the '@ts-nocheck'
 // directive.
 
 /* eslint-disable */
