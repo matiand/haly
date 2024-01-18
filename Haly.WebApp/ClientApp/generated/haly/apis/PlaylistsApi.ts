@@ -242,7 +242,7 @@ export class PlaylistsApi extends runtime.BaseAPI {
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
      * Remove tracks from a playlist
      */
-    async removeTracksRaw(requestParameters: RemoveTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async removeTracksRaw(requestParameters: RemoveTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlaylistBriefDto>> {
         if (requestParameters.playlistId === null || requestParameters.playlistId === undefined) {
             throw new runtime.RequiredError('playlistId','Required parameter requestParameters.playlistId was null or undefined when calling removeTracks.');
         }
@@ -261,15 +261,16 @@ export class PlaylistsApi extends runtime.BaseAPI {
             body: RemoveTracksRequestToJSON(requestParameters.removeTracksRequest),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlaylistBriefDtoFromJSON(jsonValue));
     }
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-modify-public, playlist-modify-private </b>
      * Remove tracks from a playlist
      */
-    async removeTracks(requestParameters: RemoveTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.removeTracksRaw(requestParameters, initOverrides);
+    async removeTracks(requestParameters: RemoveTracksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlaylistBriefDto> {
+        const response = await this.removeTracksRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
