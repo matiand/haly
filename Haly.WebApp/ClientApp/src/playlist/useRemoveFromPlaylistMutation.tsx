@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { RemoveTracksRequest } from "../../generated/haly";
 import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
+import ToastWithImage from "../ui/ToastWithImage";
 
 export type RemoveFromPlaylistMutationParams = {
     playlistId: string;
@@ -15,21 +16,23 @@ function useRemoveFromPlaylistMutation() {
 
     return useMutation(
         async (params: RemoveFromPlaylistMutationParams) => {
-            await halyClient.playlists.removeTracks({
+            return await halyClient.playlists.removeTracks({
                 playlistId: params.playlistId,
                 removeTracksRequest: {
                     tracks: params.tracks,
                 },
             });
-
-            return params;
         },
         {
-            onSuccess: (params) => {
+            onSuccess: ({ name, imageUrl }) => {
                 // By invalidating this query, our backend will look for any changes in our playlists.
                 queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
 
-                toast(`${params.tracks.length === 1 ? "Track" : "Tracks"} removed.`);
+                toast(
+                    <ToastWithImage imageUrl={imageUrl}>
+                        Removed from <b>{name}</b>
+                    </ToastWithImage>,
+                );
             },
         },
     );
