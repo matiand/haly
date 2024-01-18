@@ -11,7 +11,7 @@ type ToastWithImageProps = {
 function ToastWithImage({ imageUrl, children }: ToastWithImageProps) {
     return (
         <Wrapper>
-            {imageUrl && <img src={imageUrl} alt="" width={32} height={32} />}
+            {imageUrl && <img src={imageUrl} alt="" width={40} height={40} />}
             <div>{children}</div>
         </Wrapper>
     );
@@ -21,7 +21,7 @@ const Wrapper = styled("div", {
     alignItems: "center",
     borderRadius: "8px",
     display: "flex",
-    gap: "$400",
+    gap: "$500",
 
     img: {
         borderRadius: "4px",

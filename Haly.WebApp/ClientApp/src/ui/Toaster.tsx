@@ -16,8 +16,9 @@ const options: ToasterProps["toastOptions"] = {
         cursor: "default",
         fontWeight: 500,
         lineHeight: 1.5,
-        padding: `${theme.space["500"]}`,
         margin: 0,
+        padding: `${theme.space["500"]}`,
+        textAlign: "center",
         userSelect: "none",
 
         // Old colors
