@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
+import { LuMusic3 } from "react-icons/lu";
 
 import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { playlistSearchTermAtom } from "../common/atoms/playlistAtoms";
@@ -12,6 +13,7 @@ import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
 import SearchBar from "../search/SearchBar";
+import EmptyState from "../ui/EmptyState";
 import HeartButton from "../ui/HeartButton";
 import PageControls from "../ui/PageControls";
 import PlaylistButtonMenu from "./menus/PlaylistButtonMenu";
@@ -113,14 +115,20 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
                 )}
             </PageControls>
 
-            {hasTracks && (
+            {hasTracks ? (
                 <PlaylistTracks
                     playlistId={playlist.id}
                     sortOrder={sortOrder}
                     initialTracks={playlist.tracks}
                     isLikedSongsCollection={isLikedSongsCollection}
                 />
-            )}
+            ) : isLikedSongsCollection ? (
+                <EmptyState
+                    title="Songs you like will appear here"
+                    description="Save songs by tapping the heart icon."
+                    icon={<LuMusic3 />}
+                />
+            ) : null}
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />

@@ -5,12 +5,27 @@ import { styled } from "../../common/theme";
 import useContextMenu from "../../menus/useContextMenu";
 import { CardProps } from "./Card";
 import CardContextMenu from "./CardContextMenu";
+import useDraggable from "../../dnd/useDraggable";
 
 const imgSize = 80;
 
 function MiniCard({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
     const navigate = useNavigate();
     const { onContextMenu, menuProps } = useContextMenu();
+
+    const isAlbumOrPlaylist = /album|playlist/.test(uri);
+    const { draggableRef, ...draggableProps } = useDraggable(
+        isAlbumOrPlaylist
+            ? {
+                  id: `card:${id}`,
+                  data: {
+                      id,
+                      type: /album/.test(uri) ? "album" : "playlist",
+                      title: name,
+                  },
+              }
+            : undefined,
+    );
 
     const navigateOnEnter: KeyboardEventHandler = (e) => {
         if (e.key === "Enter") {
@@ -19,10 +34,8 @@ function MiniCard({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
         }
     };
 
-    const isAlbumOrPlaylist = /album|playlist/.test(uri);
-
     return (
-        <Wrapper onContextMenu={onContextMenu}>
+        <Wrapper ref={draggableRef} {...draggableProps} onContextMenu={onContextMenu}>
             {imageUrl && (
                 <ImageWrapper tabIndex={0} role="button" onClick={() => navigate(href)} onKeyDown={navigateOnEnter}>
                     <img

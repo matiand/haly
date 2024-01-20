@@ -2,7 +2,7 @@ import { LuHistory } from "react-icons/lu";
 
 import { styled } from "../common/theme";
 import ReadOnlyTable from "../table/readonly/ReadOnlyTable";
-import QueueEmptyState from "./QueueEmptyState";
+import EmptyState from "../ui/EmptyState";
 import useRecentlyPlayedQuery from "./useRecentlyPlayedQuery";
 
 function RecentlyPlayedTracks() {
@@ -11,15 +11,7 @@ function RecentlyPlayedTracks() {
     if (!query.data) return null;
 
     if (query.data.length === 0) {
-        return (
-            <QueueEmptyState>
-                <span aria-hidden>
-                    <LuHistory />
-                </span>
-
-                <h1>History is empty</h1>
-            </QueueEmptyState>
-        );
+        return <EmptyState title="History is empty" icon={<LuHistory />} />;
     }
 
     return (

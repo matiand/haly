@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
+import { LuMusic } from "react-icons/lu";
 import { useParams } from "react-router-dom";
 
 import { dominantColorsAtom } from "../common/atoms/pageAtoms";
@@ -8,6 +9,7 @@ import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
 import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
+import EmptyState from "../ui/EmptyState";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
@@ -47,7 +49,11 @@ function Profile() {
                 <FollowCreatorButton creatorId={userId} initialValue={isFollowed} type="User" />
             </PageControls>
 
-            <ResizableCardGroup title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />
+            {playlistTotal > 0 ? (
+                <ResizableCardGroup title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />
+            ) : (
+                <EmptyState title="User has no public playlists" icon={<LuMusic />} />
+            )}
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />

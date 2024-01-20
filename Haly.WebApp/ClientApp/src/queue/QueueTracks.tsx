@@ -4,7 +4,7 @@ import { LuMenu } from "react-icons/lu";
 import { playbackContextNameAtom } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import QueueTable from "../table/queue/QueueTable";
-import QueueEmptyState from "./QueueEmptyState";
+import EmptyState from "../ui/EmptyState";
 import useQueueQuery from "./useQueueQuery";
 
 function QueueTracks() {
@@ -15,14 +15,11 @@ function QueueTracks() {
 
     if (query.data.length === 0) {
         return (
-            <QueueEmptyState>
-                <span aria-hidden>
-                    <LuMenu />
-                </span>
-
-                <h1>Queue is empty</h1>
-                <p>Use the &quot;Add to queue&quot; action from the context menu to see them here.</p>
-            </QueueEmptyState>
+            <EmptyState
+                title="Queue is empty"
+                description='Use the "Add to queue" action from the context menu to see them here.'
+                icon={<LuMenu />}
+            />
         );
     }
 

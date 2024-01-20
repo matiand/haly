@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { styled, theme } from "../../common/theme";
 import useMainScrollArea from "../../common/useMainScrollArea";
-import NoLikedSongs from "../../playlist/NoLikedSongs";
 import * as Table from "../Table";
 import useScrollToTrack from "../useScrollToTrack";
 import useSelectionShortcuts from "../useSelectionShortcuts";
@@ -66,13 +65,6 @@ function PlaylistTable({
             fetchMoreItems();
         }
     }, [rowVirtualizer, rowVirtualizer.range, items, total, fetchMoreItems]);
-
-    if (items.length === 0) {
-        if (isLikedSongsCollection) {
-            return <NoLikedSongs />;
-        }
-        return null;
-    }
 
     // Occasionally for playlists with podcasts this value can be false, when the current items
     // slice is missing them. The likelihood of this happening is quite low.

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
+import { LuUsers } from "react-icons/lu";
 
 import { dominantColorsAtom } from "../common/atoms/pageAtoms";
 import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
@@ -10,6 +11,7 @@ import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
 import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
+import EmptyState from "../ui/EmptyState";
 import LoadingIndicator from "../ui/LoadingIndicator";
 import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
@@ -52,6 +54,8 @@ function Me() {
         };
     });
 
+    const hasNoCards = followedArtistsCards.length === 0 && topArtistsCards.length === 0;
+
     return (
         <div>
             <PageHeader title={name} type="Profile" imageUrl={imageUrl} description={null}>
@@ -62,6 +66,7 @@ function Me() {
 
             <PageControls />
 
+            {hasNoCards && <EmptyState title="Followed artists will appear here" icon={<LuUsers />} />}
             <ResizableCardGroup title="Top artists this month" items={topArtistsCards} maxRows={2} href="top/artists" />
             <ResizableCardGroup title="Followed Artists" items={followedArtistsCards} maxRows={1} href="following" />
 
