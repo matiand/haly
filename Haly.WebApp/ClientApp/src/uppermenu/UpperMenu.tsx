@@ -26,6 +26,7 @@ function UpperMenu() {
     }
 
     const { id: contextId, name } = pageContext.data;
+    const hasControls = pageContext.type !== "user";
 
     return (
         <Header aria-label="User menu" onClick={() => setSelectedTracks([])}>
@@ -42,7 +43,7 @@ function UpperMenu() {
                         : {}
                 }
             >
-                {contextId && <UpperMenuControls contextId={contextId} />}
+                {hasControls && <UpperMenuControls contextId={contextId} />}
                 <UpperMenuTitle name={name} contextId={contextId} contextType={pageContext.type} />
             </Content>
 

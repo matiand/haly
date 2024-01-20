@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
+import { useSetAtom } from "jotai/index";
+import { useEffect } from "react";
 import { LuUsers } from "react-icons/lu";
 
-import { dominantColorsAtom } from "../common/atoms/pageAtoms";
+import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
 import { capitalize } from "../common/capitalize";
@@ -17,20 +19,31 @@ import PageControls from "../ui/PageControls";
 import PageHeader from "../ui/PageHeader";
 
 function Me() {
+    const setPageContext = useSetAtom(pageContextAtom);
     const userId = useAtomValue(userIdAtom);
     const cachedPlaylists = useAtomValue(cachedPlaylistsAtom);
+    const dominantColor = useAtomValue(pageDominantColorAtom);
 
     const profileQuery = useQuery(["users", userId], () => halyClient.users.getUser({ id: userId }));
     const topArtistsQuery = useQuery(["me", "top", "artists"], () => halyClient.me.getMyTopArtists());
     const followedArtistsQuery = useQuery(["me", "following"], () => halyClient.me.getMyFollowedArtists());
-    const dominantColors = useAtomValue(dominantColorsAtom);
+
+    useEffect(() => {
+        if (profileQuery.data) {
+            setPageContext({
+                type: "user",
+                data: profileQuery.data,
+            });
+        }
+
+        return () => setPageContext(null);
+    }, [profileQuery, setPageContext]);
 
     if (!profileQuery.data) return <LoadingIndicator />;
 
     const { name, followersTotal, imageUrl } = profileQuery.data;
     const followsTotal = followedArtistsQuery.data?.length ?? 0;
     const createdPlaylists = cachedPlaylists.filter((p) => p.ownerId === userId).length;
-    const dominantColor = dominantColors[imageUrl ?? ""];
 
     const followedArtistsCards: CardProps[] = (followedArtistsQuery.data ?? []).map((f) => {
         return {

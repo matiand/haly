@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
+import { useSetAtom } from "jotai/index";
+import { useEffect } from "react";
 import { LuMusic } from "react-icons/lu";
 import { useParams } from "react-router-dom";
 
-import { dominantColorsAtom } from "../common/atoms/pageAtoms";
+import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
@@ -18,15 +20,27 @@ import FollowCreatorButton from "./FollowCreatorButton";
 function Profile() {
     const { id } = useParams();
 
+    const setPageContext = useSetAtom(pageContextAtom);
+    const dominantColor = useAtomValue(pageDominantColorAtom);
+
     const profileQuery = useQuery(["users", id], () => halyClient.users.getUser({ id: id! }));
     const playlistsQuery = useQuery(["users", id, "playlists"], () => halyClient.users.getPlaylists({ userId: id! }));
-    const dominantColors = useAtomValue(dominantColorsAtom);
+
+    useEffect(() => {
+        if (profileQuery.data) {
+            setPageContext({
+                type: "user",
+                data: profileQuery.data,
+            });
+        }
+
+        return () => setPageContext(null);
+    }, [profileQuery, setPageContext]);
 
     if (!profileQuery.data) return <LoadingIndicator />;
 
     const { id: userId, name, followersTotal, imageUrl, isFollowed } = profileQuery.data;
     const playlistTotal = playlistsQuery.data?.length ?? 0;
-    const dominantColor = dominantColors[imageUrl ?? ""];
 
     const playlistCards: CardProps[] = (playlistsQuery.data ?? []).map((p) => {
         return {
