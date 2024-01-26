@@ -1,6 +1,6 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { styled, theme } from "../../common/theme";
@@ -40,17 +40,17 @@ function PlaylistTable({
     useSelectionShortcuts(items);
 
     const { ref, isSticky } = useStickyTableHead();
-    const mainScrollArea = useMainScrollArea();
+    const getMainScrollArea = useMainScrollArea();
 
     const rowVirtualizer = useVirtualizer({
-        getScrollElement: () => mainScrollArea,
-        estimateSize: () => theme.tables.rowHeight,
+        getScrollElement: getMainScrollArea,
+        estimateSize: useCallback(() => theme.tables.rowHeight, []),
         count: total,
         overscan: 24,
     });
 
     useScrollToTrack({
-        mainScrollArea,
+        getScrollElement: getMainScrollArea,
         items,
         itemsTotal: total,
         fetchMoreItems,

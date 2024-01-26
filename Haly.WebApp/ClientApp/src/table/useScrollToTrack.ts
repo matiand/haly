@@ -5,13 +5,13 @@ import { AlbumTrackDto, TrackDto } from "../../generated/haly";
 import { theme } from "../common/theme";
 
 type HookParams = {
-    mainScrollArea: Element | null;
     items: TrackDto[] | AlbumTrackDto[];
     itemsTotal: number;
+    getScrollElement: () => Element | null;
     fetchMoreItems?: () => void;
 };
 
-function useScrollToTrack({ mainScrollArea, items, itemsTotal, fetchMoreItems }: HookParams) {
+function useScrollToTrack({ items, itemsTotal, getScrollElement, fetchMoreItems }: HookParams) {
     const [searchParams] = useSearchParams();
     const [isSettled, setIsSettled] = useState(false);
 
@@ -36,9 +36,9 @@ function useScrollToTrack({ mainScrollArea, items, itemsTotal, fetchMoreItems }:
             return;
         }
 
-        mainScrollArea?.scrollTo({ top: theme.tables.rowHeight * rowIdx });
+        getScrollElement()?.scrollTo({ top: theme.tables.rowHeight * rowIdx });
         setIsSettled(true);
-    }, [fetchMoreItems, items, itemsTotal, mainScrollArea, trackId, isSettled]);
+    }, [items, itemsTotal, trackId, isSettled, getScrollElement, fetchMoreItems]);
 
     return;
 }

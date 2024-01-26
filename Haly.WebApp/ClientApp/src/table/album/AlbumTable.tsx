@@ -27,9 +27,9 @@ function AlbumTable({ items }: AlbumTableProps) {
     const { selectTableRow, isSelectedRow } = useTableRowSelection(items);
     useSelectionShortcuts(items);
 
-    const mainScrollArea = useMainScrollArea();
+    const getMainScrollArea = useMainScrollArea();
     useScrollToTrack({
-        mainScrollArea,
+        getScrollElement: getMainScrollArea,
         items,
         itemsTotal: items.length,
     });
