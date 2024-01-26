@@ -31,5 +31,12 @@ export const dndStyles = {
         // https://docs.dndkit.com/api-documentation/sensors/pointer#touch-action
         touchAction: "none",
         userSelect: "none",
+
+        // If dragging is cancelled by pressing the Escape key, the browsers will show an outline on
+        // the dragged item. Since these elements are only controlled by the mouse, it's advisable
+        // to disable those styles.
+        "&:focus-visible": {
+            outline: "none",
+        },
     },
 };

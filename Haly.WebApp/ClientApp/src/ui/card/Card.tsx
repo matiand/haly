@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { PlaylistCardDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import useDraggable from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import PlaybackToggle from "../../playback/PlaybackToggle";
 import useContextPlaybackState from "../../playback/useContextPlaybackState";
@@ -30,6 +31,20 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
     const playbackState = getPlaybackState(id);
     const { playbackAction } = useContextPlaybackActions(playbackState, uri);
 
+    const isAlbumOrPlaylist = /album|playlist/.test(uri);
+    const { draggableRef, ...draggableProps } = useDraggable(
+        isAlbumOrPlaylist
+            ? {
+                  id: `card:${id}`,
+                  data: {
+                      id,
+                      type: /album/.test(uri) ? "album" : "playlist",
+                      title: name,
+                  },
+              }
+            : undefined,
+    );
+
     const navigateOnClick: MouseEventHandler = (e) => {
         const target = e.target as HTMLElement;
         // If it's not a link, navigate programmatically.
@@ -38,10 +53,14 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
         }
     };
 
-    const isAlbumOrPlaylist = /album|playlist/.test(uri);
-
     return (
-        <Wrapper onClick={navigateOnClick} onContextMenu={onContextMenu} data-is-highlighted={isHighlighted}>
+        <Wrapper
+            ref={draggableRef}
+            {...draggableProps}
+            onClick={navigateOnClick}
+            onContextMenu={onContextMenu}
+            data-is-highlighted={isHighlighted}
+        >
             <ImageWrapper data-is-rounded={!isAlbumOrPlaylist}>
                 {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 

@@ -2,16 +2,16 @@ import clsx from "clsx";
 import { HiPlus } from "react-icons/hi2";
 
 import { styled } from "../common/theme";
-import useDroppable from "../dnd/useDroppable";
+import useDroppableArea from "../dnd/useDroppableArea";
 
 type CreatePlaylistButtonProps = {
     createPlaylist: () => void;
 };
 
 function CreatePlaylistButton({ createPlaylist }: CreatePlaylistButtonProps) {
-    const { droppableRef, classNames: dndClassNames } = useDroppable({
-        id: "create-playlist-area",
-        data: {},
+    const { droppableRef, classNames: dndClassNames } = useDroppableArea({
+        id: "library-plus",
+        disabled: false,
     });
 
     return (

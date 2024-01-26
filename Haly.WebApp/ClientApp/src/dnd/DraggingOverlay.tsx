@@ -1,6 +1,6 @@
 import { DragMoveEvent, DragOverlay, DragStartEvent, useDndMonitor } from "@dnd-kit/core";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
@@ -18,6 +18,7 @@ function DraggingOverlay() {
 
     const [selectedTracks, setSelectedTracks] = useAtom(selectedTracksAtom);
 
+    // Cancel existing track selection when a different element is dragged.
     useEffect(() => {
         if (
             data?.type === "table-row" &&
@@ -28,40 +29,46 @@ function DraggingOverlay() {
         }
     }, [data?.id, data?.type, selectedTracks, setSelectedTracks]);
 
-    // There is a bug in useDndMonitor that sometimes causes onDragMove to fire after onDragCancel/onDragEnd.
+    const onDragStart = useCallback((event: DragStartEvent) => {
+        const data = event.active.data.current as DraggableData;
+
+        setPosition(null);
+        setData(data);
+    }, []);
+
+    const onDragMove = useCallback((event: DragMoveEvent) => {
+        if (event.activatorEvent instanceof PointerEvent) {
+            const { x, y } = event.activatorEvent;
+
+            if (event.active.rect.current.initial && event.active.rect.current.translated) {
+                const offsetX = event.active.rect.current.translated.left - event.active.rect.current.initial?.left;
+                const offsetY = event.active.rect.current.translated.top - event.active.rect.current.initial?.top;
+
+                // todo: add a comment here, if you still have the 'update depth' issue
+                setPosition({
+                    x: x + offsetX,
+                    y: y + offsetY,
+                });
+            }
+        }
+    }, []);
+
+    const onDragCancel = useCallback(() => {
+        setData(null);
+    }, []);
+
+    const onDragEnd = useCallback(() => {
+        setData(null);
+    }, []);
+
+    // There is an issue in useDndMonitor that sometimes causes onDragMove to fire after onDragCancel/onDragEnd.
     // This means that we always need to call setPosition(null) inside onDragStart, otherwise the
     // previous drag position can flash when the user starts a new drag.
     useDndMonitor({
-        onDragStart(event: DragStartEvent) {
-            const data = event.active.data.current as DraggableData;
-
-            setPosition(null);
-            setData(data);
-
-            // if (data.type === "table-row") {
-            // }
-        },
-        onDragMove(event: DragMoveEvent) {
-            if (event.activatorEvent instanceof PointerEvent) {
-                const { x, y } = event.activatorEvent;
-                // console.log("ORIGIN", x, y);
-                if (event.active.rect.current.initial && event.active.rect.current.translated) {
-                    const offsetX = event.active.rect.current.translated.left - event.active.rect.current.initial?.left;
-                    const offsetY = event.active.rect.current.translated.top - event.active.rect.current.initial?.top;
-                    // console.log("OFFSET", offsetX, offsetY);
-                    setPosition({
-                        x: x + offsetX,
-                        y: y + offsetY,
-                    });
-                }
-            }
-        },
-        onDragCancel() {
-            setData(null);
-        },
-        onDragEnd() {
-            setData(null);
-        },
+        onDragStart,
+        onDragMove,
+        onDragCancel,
+        onDragEnd,
     });
 
     if (!position || !data) return null;
@@ -80,7 +87,7 @@ function DraggingOverlay() {
             }}
         >
             {typeof title === "string" ? (
-                <span>{title}</span>
+                <span style={{ maxWidth: "350px" }}>{title}</span>
             ) : (
                 <>
                     <span>{title[0]}</span>

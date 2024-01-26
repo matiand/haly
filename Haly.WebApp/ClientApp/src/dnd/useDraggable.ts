@@ -23,6 +23,8 @@ function useDraggable(params: DraggableHookParams | undefined) {
               draggableRef: setNodeRef,
               ...listeners,
               ...attributes,
+              // We don't allow keyboard dragging, so there is no need for tabIndex.
+              tabIndex: -1,
           }
         : { draggableRef: undefined };
 }

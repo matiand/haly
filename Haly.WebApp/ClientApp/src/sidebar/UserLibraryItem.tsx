@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 import { AlbumBriefDto, PlaylistBriefDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import useDroppable from "../dnd/useDroppable";
+import useDroppableArea from "../dnd/useDroppableArea";
 import useContextMenu from "../menus/useContextMenu";
 import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
@@ -25,34 +25,44 @@ type UserLibraryItemProps = {
         | {
               type: "collection";
           };
-    contextUri: string;
+    uri: string;
     href: string;
     playbackState: ContextPlaybackState;
     isPinned?: boolean;
 };
 
-function UserLibraryItem({ item, contextUri, href, playbackState, isPinned }: UserLibraryItemProps) {
-    const { playbackAction } = useContextPlaybackActions(playbackState, contextUri);
+function UserLibraryItem({ item, uri, href, playbackState, isPinned }: UserLibraryItemProps) {
+    const { playbackAction } = useContextPlaybackActions(playbackState, uri);
     const { onContextMenu, menuProps } = useContextMenu();
 
     const notDroppable = item.type !== "playlist" || (item.type === "playlist" && !item.isEditable);
-    const { droppableRef, classNames: dndClassNames } = useDroppable({
-        id: `user-library-item-${contextUri}`,
-        data: {
-            type: item.type,
-            contextUri,
-        },
-        // Disabling them when dragging is in progress, makes scrolling near the edges of sidebar buggy.
-        disabled: notDroppable,
-    });
+    const { droppableRef, classNames: dndClassNames } = useDroppableArea(
+        notDroppable
+            ? undefined
+            : {
+                  id: `library:${uri}`,
+                  data: {
+                      id: item.dto.id,
+                      type: item.type,
+                  },
+                  disabled: notDroppable,
+              },
+    );
 
     const isListenedTo = playbackState !== "none";
     const name = item.type === "collection" ? "Liked Songs" : item.dto.name;
 
     return (
         <>
-            <li ref={droppableRef} onContextMenu={onContextMenu}>
-                <Anchor className={clsx({ isListenedTo, ...dndClassNames })} to={href} onDoubleClick={playbackAction}>
+            <li>
+                {/*We don't style the 'li', so it's better to give the 'dndClassNames' to Anchor instead.*/}
+                <Anchor
+                    ref={droppableRef}
+                    className={clsx({ isListenedTo, ...dndClassNames })}
+                    to={href}
+                    onDoubleClick={playbackAction}
+                    onContextMenu={onContextMenu}
+                >
                     {isPinned && (
                         <span aria-hidden>
                             <PinIcon />

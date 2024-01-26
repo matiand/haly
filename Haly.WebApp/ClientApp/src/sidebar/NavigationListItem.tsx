@@ -3,27 +3,26 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import { styled } from "../common/theme";
-import useDroppable from "../dnd/useDroppable";
+import useDroppableArea, { DroppableAreaId } from "../dnd/useDroppableArea";
 
 type NavigationListItemProps = {
     title: string;
     href: string;
     icon: React.ReactNode;
-    droppableAreaId?: string;
+    areaId?: Exclude<DroppableAreaId, `library:${string}`>;
 };
 
-function NavigationListItem({ title, href, icon, droppableAreaId }: NavigationListItemProps) {
-    const { droppableRef, classNames: dndClassNames } = useDroppable({
-        id: droppableAreaId ?? title,
-        data: {
-            type: "" as unknown,
+function NavigationListItem({ title, href, icon, areaId }: NavigationListItemProps) {
+    const { droppableRef, classNames: dndClassNames } = useDroppableArea(
+        areaId && {
+            id: areaId,
+            disabled: false,
         },
-        disabled: !droppableAreaId,
-    });
+    );
 
     return (
-        <li ref={droppableRef}>
-            <Anchor className={clsx({ ...dndClassNames })} to={href}>
+        <li>
+            <Anchor ref={droppableRef} className={clsx(dndClassNames)} to={href}>
                 <span aria-hidden>{icon}</span>
                 <span>{title}</span>
             </Anchor>

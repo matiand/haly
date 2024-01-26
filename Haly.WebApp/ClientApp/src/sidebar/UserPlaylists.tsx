@@ -18,7 +18,7 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
         <List>
             <UserLibraryItem
                 item={{ type: "collection" }}
-                contextUri={`spotify:user:${userId}:collection`}
+                uri={`spotify:user:${userId}:collection`}
                 href="/collection/tracks"
                 playbackState={getPlaybackState("collection", true)}
                 isPinned
@@ -31,13 +31,13 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
                     isEditable: p.ownerId === userId,
                 };
                 const href = `playlist/${p.id}`;
-                const contextUri = `spotify:playlist:${p.id}`;
+                const uri = `spotify:playlist:${p.id}`;
 
                 return (
                     <UserLibraryItem
                         key={p.id}
                         item={item}
-                        contextUri={contextUri}
+                        uri={uri}
                         href={href}
                         playbackState={getPlaybackState(p.id)}
                     />
