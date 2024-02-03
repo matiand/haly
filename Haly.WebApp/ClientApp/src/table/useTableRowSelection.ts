@@ -17,7 +17,7 @@ function useTableRowSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDt
     }, [pageContextId, searchTerm, setSelectedTracks]);
 
     const selectTrack = useCallback(
-        (index: number) => (event: React.MouseEvent<HTMLTableRowElement>) => {
+        (index: number, event: React.MouseEvent<HTMLTableRowElement>) => {
             if (event.ctrlKey || event.metaKey) {
                 // Add or remove from selection a single track when Ctrl (or Cmd on Mac) is pressed.
                 setSelectedTracks((prev) => {
@@ -33,38 +33,37 @@ function useTableRowSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDt
                         ];
                     }
                 });
-            } else if (event.shiftKey && selectedTracks.length === 0) {
-                // If Shift is pressed and no tracks are selected, select a range starting from the first track.
-                const selection = items
-                    .filter((_, idx) => idx <= index)
-                    .map((item, idx) => ({
+            } else if (event.shiftKey) {
+                setSelectedTracks((prev) => {
+                    // If Shift is pressed and no tracks are selected, select a range starting from the first track.
+                    if (prev.length === 0) {
+                        return items
+                            .filter((_, idx) => idx <= index)
+                            .map((item, idx) => ({
+                                index: idx,
+                                track: item,
+                            }));
+                    }
+
+                    // If Shift is pressed and some tracks are already selected, add a range from the last selected track.
+                    const lastIndex = prev.at(-1)!.index;
+                    const start = Math.min(lastIndex, index);
+                    const end = Math.max(lastIndex, index);
+
+                    const indexRange = new Array(end - start + 1).fill(0).map((_, idx) => idx + start);
+                    const remainingIndices = prev.filter((i) => !indexRange.includes(i.index)).map((i) => i.index);
+
+                    // We need to place the lastIndex at the end, for this to work properly.
+                    const finalIndices = indexRange
+                        .concat(remainingIndices)
+                        .filter((i) => i !== lastIndex)
+                        .concat([lastIndex]);
+
+                    return finalIndices.map((idx) => ({
                         index: idx,
-                        track: item,
+                        track: items[idx],
                     }));
-                setSelectedTracks(selection);
-            } else if (event.shiftKey && selectedTracks.length > 0) {
-                // If Shift is pressed and some tracks are already selected, add a range from the last selected track.
-                const lastIndex = selectedTracks.at(-1)!.index;
-                const start = Math.min(lastIndex, index);
-                const end = Math.max(lastIndex, index);
-
-                const indexRange = new Array(end - start + 1).fill(0).map((_, idx) => idx + start);
-                const remainingIndices = selectedTracks
-                    .filter((i) => !indexRange.includes(i.index))
-                    .map((i) => i.index);
-
-                // We need to place the lastIndex at the end, for this to work properly.
-                const finalIndices = indexRange
-                    .concat(remainingIndices)
-                    .filter((i) => i !== lastIndex)
-                    .concat([lastIndex]);
-
-                const selection = finalIndices.map((idx) => ({
-                    index: idx,
-                    track: items[idx],
-                }));
-
-                setSelectedTracks(selection);
+                });
             } else {
                 // If no modifiers are pressed, create a new selection with only the clicked track.
                 setSelectedTracks((prev) => {
@@ -81,12 +80,12 @@ function useTableRowSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDt
                 });
             }
         },
-        [items, selectedTracks, setSelectedTracks],
+        [items, setSelectedTracks],
     );
 
     return {
         isSelectedRow: (index: number) => selectedTracks.some((i) => i.index === index),
-        selectTableRow: (index: number) => selectTrack(index),
+        selectTableRow: selectTrack,
     };
 }
 

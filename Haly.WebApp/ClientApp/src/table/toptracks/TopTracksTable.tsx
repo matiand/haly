@@ -32,12 +32,12 @@ function TopTracksTable({ items }: TopTracksTableProps) {
                     {items.slice(0, showMore ? 10 : 5).map((t, idx) => (
                         <TopTracksTableRow
                             key={t.id}
-                            position={idx + 1}
+                            index={idx}
                             track={t}
                             playbackState={getTableRowPlaybackState(t.playbackId)}
                             likedState={getTableRowLikedState(t.id, t.playbackId)}
                             isSelected={isSelectedRow(idx)}
-                            selectTrack={selectTableRow(idx)}
+                            selectTrack={selectTableRow}
                         />
                     ))}
                 </Table.Body>

@@ -6,11 +6,13 @@ export type DraggableData = {
     title: string | [string, string];
 };
 
-type DraggableHookParams = {
+export type DraggableHookParams = {
     id: string;
     data: DraggableData;
 };
 
+// The 'dnd-kit' library is not the most performant one. Prefer using the 'Draggable' components to
+// reduce unnecessary rerenders.
 function useDraggable(params: DraggableHookParams | undefined) {
     const { attributes, listeners, setNodeRef } = useDraggableKit({
         id: params?.id ?? "n/a",

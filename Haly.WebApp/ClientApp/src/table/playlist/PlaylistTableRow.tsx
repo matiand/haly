@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
 import React from "react";
+import isDeepEqual from "react-fast-compare";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { playlistSearchTermAtom } from "../../common/atoms/playlistAtoms";
-import { styled } from "../../common/theme";
-import useDraggable from "../../dnd/useDraggable";
+import DraggableTableRow from "../../dnd/DraggableTableRow";
+import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackContextMenu from "../menus/TrackContextMenu";
@@ -18,23 +19,24 @@ import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
 type PlaylistTableRowProps = {
+    index: number;
     position: number;
     track: PlaylistTrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
     isSelected: boolean;
-    selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
+    selectTrack: (index: number, e: React.MouseEvent<HTMLTableRowElement>) => void;
     offsetY: number;
 };
 
 function PlaylistTableRow({
+    index,
     position,
     track,
     playbackState,
     likedState,
     isSelected,
     selectTrack,
-    // todo: rename to offsetY
     offsetY,
 }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
@@ -43,32 +45,35 @@ function PlaylistTableRow({
 
     const isSongWithId = track.isSong && track.id;
 
-    const { draggableRef, ...draggableProps } = useDraggable(
-        isSongWithId
-            ? {
-                  id: `playlist-table-row:${track.positionInPlaylist}`,
-                  data: {
-                      id: track.id!,
-                      type: "table-row",
-                      title: [track.name, track.artists[0].name],
-                  },
-              }
-            : undefined,
-    );
+    const draggableParams: DraggableHookParams | undefined = isSongWithId
+        ? {
+              id: `playlist-table-row:${track.positionInPlaylist}`,
+              data: {
+                  id: track.id!,
+                  type: "table-row",
+                  title: [track.name, track.artists[0].name],
+              },
+          }
+        : undefined;
 
     return (
-        <TableRow
-            ref={draggableRef}
-            {...draggableProps}
-            onClick={selectTrack}
+        <DraggableTableRow
+            draggableParams={draggableParams}
+            onClick={(e) => selectTrack(index, e)}
             onDoubleClick={updatePlayback}
             onContextMenu={(e) => {
                 if (isSongWithId) {
-                    !isSelected && selectTrack(e);
+                    !isSelected && selectTrack(index, e);
                     onContextMenu(e);
                 }
             }}
-            style={{ transform: `translateY(${offsetY}px` }}
+            style={{
+                position: "absolute",
+                top: 0,
+                transform: `translateY(${offsetY}px`,
+                left: 0,
+                width: "100%",
+            }}
             className={clsx({
                 isDisabled: !track.isPlayable,
                 isListenedTo: playbackState !== "none",
@@ -107,17 +112,8 @@ function PlaylistTableRow({
             </td>
 
             <TrackContextMenu track={track} menuProps={menuProps} />
-        </TableRow>
+        </DraggableTableRow>
     );
 }
 
-const TableRow = styled("tr", {
-    "&&&": {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-    },
-});
-
-export default PlaylistTableRow;
+export default React.memo(PlaylistTableRow, isDeepEqual);

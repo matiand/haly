@@ -12,7 +12,8 @@ import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import useTableRowSelection from "../useTableRowSelection";
-import { AlbumTableDiscRow, AlbumTableTrackRow } from "./AlbumTableRow";
+import AlbumTableDiscRow from "./AlbumTableDiscRow";
+import AlbumTableRow from "./AlbumTableRow";
 
 type AlbumTableProps = {
     albumId: string;
@@ -66,14 +67,14 @@ function AlbumTable({ items }: AlbumTableProps) {
                                           const globalIndex = items.findIndex((item) => item.id === t.id);
 
                                           return (
-                                              <AlbumTableTrackRow
+                                              <AlbumTableRow
                                                   key={t.id}
-                                                  position={idx + 1}
+                                                  index={idx}
                                                   track={t}
                                                   playbackState={getTableRowPlaybackState(t.playbackId)}
                                                   likedState={getTableRowLikedState(t.id, t.playbackId)}
                                                   isSelected={isSelectedRow(globalIndex)}
-                                                  selectTrack={selectTableRow(globalIndex)}
+                                                  selectTrack={selectTableRow}
                                               />
                                           );
                                       })}
@@ -81,14 +82,14 @@ function AlbumTable({ items }: AlbumTableProps) {
                               );
                           })
                         : items.map((t, idx) => (
-                              <AlbumTableTrackRow
+                              <AlbumTableRow
                                   key={t.id}
-                                  position={idx + 1}
+                                  index={idx}
                                   track={t}
                                   playbackState={getTableRowPlaybackState(t.playbackId)}
                                   likedState={getTableRowLikedState(t.id, t.playbackId)}
                                   isSelected={isSelectedRow(idx)}
-                                  selectTrack={selectTableRow(idx)}
+                                  selectTrack={selectTableRow}
                               />
                           ))}
                 </Table.Body>

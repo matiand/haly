@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import React from "react";
-import { LuDisc } from "react-icons/lu";
+import isDeepEqual from "react-fast-compare";
 
 import { AlbumTrackDto } from "../../../generated/haly";
-import { styled } from "../../common/theme";
-import useDraggable from "../../dnd/useDraggable";
+import DraggableTableRow from "../../dnd/DraggableTableRow";
+import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackContextMenu from "../menus/TrackContextMenu";
@@ -14,43 +14,37 @@ import TrackInformation from "../TrackInformation";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
-type TrackRowProps = {
-    position: number;
+type AlbumTableRowProps = {
+    index: number;
     track: AlbumTrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
     isSelected: boolean;
-    selectTrack: (e: React.MouseEvent<HTMLTableRowElement>) => void;
+    selectTrack: (index: number, e: React.MouseEvent<HTMLTableRowElement>) => void;
 };
 
-export function AlbumTableTrackRow({
-    position,
-    track,
-    playbackState,
-    likedState,
-    isSelected,
-    selectTrack,
-}: TrackRowProps) {
+function AlbumTableRow({ index, track, playbackState, likedState, isSelected, selectTrack }: AlbumTableRowProps) {
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
     const { menuProps, onContextMenu } = useContextMenu();
 
-    const { draggableRef, ...draggableProps } = useDraggable({
+    const draggableParams: DraggableHookParams = {
         id: `album-table-row:${track.id}`,
         data: {
             id: track.id,
             type: "table-row",
             title: [track.name, track.artists[0].name],
         },
-    });
+    };
+
+    const position = index + 1;
 
     return (
-        <tr
-            ref={draggableRef}
-            {...draggableProps}
-            onClick={selectTrack}
+        <DraggableTableRow
+            draggableParams={draggableParams}
+            onClick={(e) => selectTrack(index, e)}
             onDoubleClick={updatePlayback}
             onContextMenu={(e) => {
-                !isSelected && selectTrack(e);
+                !isSelected && selectTrack(index, e);
                 onContextMenu(e);
             }}
             className={clsx({
@@ -77,44 +71,8 @@ export function AlbumTableTrackRow({
             </td>
 
             <TrackContextMenu track={track} menuProps={menuProps} />
-        </tr>
+        </DraggableTableRow>
     );
 }
 
-type DiscRowProps = {
-    discNumber: number;
-};
-
-export function AlbumTableDiscRow({ discNumber }: DiscRowProps) {
-    return (
-        <DiscRow>
-            <td>
-                <span aria-hidden>
-                    <LuDisc />
-                </span>
-            </td>
-            <td colSpan={2}>Disc {discNumber}</td>
-        </DiscRow>
-    );
-}
-
-const DiscRow = styled("tr", {
-    marginTop: "$400",
-
-    "&& > td[colspan]": {
-        color: "$white500",
-        fontWeight: 700,
-        justifySelf: "start",
-        letterSpacing: "0.04em",
-    },
-
-    "&&:hover": {
-        background: "transparent",
-    },
-
-    "& svg": {
-        color: "$white500",
-        height: "18px",
-        width: "18px",
-    },
-});
+export default React.memo(AlbumTableRow, isDeepEqual);

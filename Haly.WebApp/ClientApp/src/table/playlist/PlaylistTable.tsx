@@ -1,6 +1,7 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
-import { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
+import isDeepEqual from "react-fast-compare";
 
 import { PlaylistTrackDto } from "../../../generated/haly";
 import { styled, theme } from "../../common/theme";
@@ -94,12 +95,13 @@ function PlaylistTable({
                         return (
                             <PlaylistTableRow
                                 key={idx}
+                                index={idx}
                                 position={position}
                                 track={track}
                                 playbackState={getTableRowPlaybackState(track.playbackId)}
                                 likedState={getTableRowLikedState(track.id, track.playbackId)}
                                 isSelected={isSelectedRow(idx)}
-                                selectTrack={selectTableRow(idx)}
+                                selectTrack={selectTableRow}
                                 offsetY={virtualItem.start}
                             />
                         );
@@ -146,4 +148,4 @@ const TableRoot = styled(Table.Root, {
     },
 });
 
-export default PlaylistTable;
+export default React.memo(PlaylistTable, isDeepEqual);
