@@ -81,18 +81,21 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
     const total = tracksQuery.data?.pages[0].total || 0;
     const keepInitialPosition = Boolean(searchTerm) && !sortOrder;
 
-    const fetchMore = useCallback(() => {
+    const fetchMoreItems = useCallback(() => {
         if (!tracksQuery.isFetchingNextPage) {
             tracksQuery.fetchNextPage({ cancelRefetch: false });
         }
-    }, [tracksQuery]);
+        // We need to override the dependecies of 'fetchMoreItems' prop, otherwise the PlaylistTable
+        // component will rerender all the time.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tracksQuery.isFetchingNextPage, tracksQuery.data?.pages.length]);
 
     if (tracksQuery.isInitialLoading) {
         return (
             <PlaylistTable
                 items={initialTracks.items}
                 total={initialTracks.total}
-                fetchMoreItems={fetchMore}
+                fetchMoreItems={fetchMoreItems}
                 keepInitialPosition={keepInitialPosition}
                 isLikedSongsCollection={isLikedSongsCollection}
             />
@@ -103,7 +106,7 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
         <PlaylistTable
             items={items}
             total={total}
-            fetchMoreItems={fetchMore}
+            fetchMoreItems={fetchMoreItems}
             keepInitialPosition={keepInitialPosition}
             isLikedSongsCollection={isLikedSongsCollection}
         />
