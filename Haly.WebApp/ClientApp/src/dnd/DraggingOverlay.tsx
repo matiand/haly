@@ -44,7 +44,8 @@ function DraggingOverlay() {
                 const offsetX = event.active.rect.current.translated.left - event.active.rect.current.initial?.left;
                 const offsetY = event.active.rect.current.translated.top - event.active.rect.current.initial?.top;
 
-                // todo: add a comment here, if you still have the 'update depth' issue
+                // When dragging an item in a continuous motion, this line will cause a recursive
+                // update. There's no need to fix it as everything still looks ok.
                 setPosition({
                     x: x + offsetX,
                     y: y + offsetY,

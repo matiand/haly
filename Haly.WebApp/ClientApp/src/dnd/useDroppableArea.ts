@@ -20,6 +20,8 @@ export type LibraryItemArea = {
 export type DroppableArea = EmptyArea | LibraryItemArea;
 export type DroppableAreaId = DroppableArea["id"];
 
+// The 'dnd-kit' library is not the most performant one. Prefer using the 'Droppable' components to
+// reduce unnecessary rerenders.
 function useDroppableArea(area: DroppableArea | undefined) {
     const disabled = area?.disabled ?? true;
 

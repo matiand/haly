@@ -1,4 +1,6 @@
 import { useAtomValue } from "jotai";
+import React from "react";
+import isDeepEqual from "react-fast-compare";
 
 import { PlaylistBriefDto } from "../../generated/haly";
 import { userIdAtom } from "../common/atoms/userAtoms";
@@ -56,4 +58,4 @@ const List = styled("ul", {
     },
 });
 
-export default UserPlaylists;
+export default React.memo(UserPlaylists, isDeepEqual);

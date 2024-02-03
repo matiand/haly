@@ -1,11 +1,13 @@
 import clsx from "clsx";
+import React from "react";
+import isDeepEqual from "react-fast-compare";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { TbPinFilled } from "react-icons/tb";
-import { NavLink } from "react-router-dom";
 
 import { AlbumBriefDto, PlaylistBriefDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import useDroppableArea from "../dnd/useDroppableArea";
+import DroppableLibraryItem from "../dnd/DroppableLibraryItem";
+import { LibraryItemArea } from "../dnd/useDroppableArea";
 import useContextMenu from "../menus/useContextMenu";
 import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 import { useContextPlaybackActions } from "../playback/usePlaybackActions";
@@ -35,34 +37,25 @@ function UserLibraryItem({ item, uri, href, playbackState, isPinned }: UserLibra
     const { playbackAction } = useContextPlaybackActions(playbackState, uri);
     const { onContextMenu, menuProps } = useContextMenu();
 
-    const notDroppable = item.type !== "playlist" || (item.type === "playlist" && !item.isEditable);
-    const { droppableRef, classNames: dndClassNames } = useDroppableArea(
-        notDroppable
-            ? undefined
-            : {
-                  id: `library:${uri}`,
-                  data: {
-                      id: item.dto.id,
-                      type: item.type,
-                  },
-                  disabled: notDroppable,
-              },
-    );
-
     const isListenedTo = playbackState !== "none";
     const name = item.type === "collection" ? "Liked Songs" : item.dto.name;
 
+    const notDroppable = item.type !== "playlist" || (item.type === "playlist" && !item.isEditable);
+    const area: LibraryItemArea | undefined = notDroppable
+        ? undefined
+        : {
+              id: `library:${uri}`,
+              data: {
+                  id: item.dto.id,
+                  type: item.type,
+              },
+              disabled: notDroppable,
+          };
+
     return (
         <>
-            <li>
-                {/*We don't style the 'li', so it's better to give the 'dndClassNames' to Anchor instead.*/}
-                <Anchor
-                    ref={droppableRef}
-                    className={clsx({ isListenedTo, ...dndClassNames })}
-                    to={href}
-                    onDoubleClick={playbackAction}
-                    onContextMenu={onContextMenu}
-                >
+            <ListItem onDoubleClick={playbackAction} onContextMenu={onContextMenu} className={clsx({ isListenedTo })}>
+                <DroppableLibraryItem href={href} area={area}>
                     {isPinned && (
                         <span aria-hidden>
                             <PinIcon />
@@ -78,8 +71,8 @@ function UserLibraryItem({ item, uri, href, playbackState, isPinned }: UserLibra
                             </span>
                         )}
                     </NameWrapper>
-                </Anchor>
-            </li>
+                </DroppableLibraryItem>
+            </ListItem>
 
             {item.type === "playlist" && (
                 <PlaylistContextMenu playlist={item.dto} menuProps={menuProps} isLikedSongsCollection={false} />
@@ -88,33 +81,35 @@ function UserLibraryItem({ item, uri, href, playbackState, isPinned }: UserLibra
     );
 }
 
-const Anchor = styled(NavLink, {
-    alignItems: "center",
-    borderRadius: "4px",
-    color: "$white800",
-    display: "flex",
-    gap: "$400",
-    padding: "$200 $400",
-    textDecoration: "none",
-
-    "&:hover": {
-        background: "$black500",
-    },
-
-    "&:active": {
-        background: "$black800",
-    },
-
-    "&.isListenedTo": {
-        color: "$primary400",
-    },
-
-    "&.active": {
-        background: "$black300",
+const ListItem = styled("li", {
+    a: {
+        alignItems: "center",
+        borderRadius: "4px",
+        color: "$white800",
+        display: "flex",
+        gap: "$400",
+        padding: "$200 $400",
+        textDecoration: "none",
 
         "&:hover": {
-            background: "$black100",
+            background: "$black500",
         },
+
+        "&:active": {
+            background: "$black800",
+        },
+
+        "&.active": {
+            background: "$black300",
+
+            "&:hover": {
+                background: "$black100",
+            },
+        },
+    },
+
+    "&.isListenedTo > a": {
+        color: "$primary400",
     },
 });
 
@@ -146,4 +141,4 @@ const SpeakerIcon = styled(HiSpeakerWave, {
     width: "14px",
 });
 
-export default UserLibraryItem;
+export default React.memo(UserLibraryItem, isDeepEqual);
