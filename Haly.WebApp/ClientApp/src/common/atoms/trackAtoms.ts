@@ -5,6 +5,8 @@ import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../../generated/ha
 type SelectedTrack = {
     index: number;
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
+    // Is this the last track that was selected by the user? Required for range selections.
+    isLast?: boolean;
 };
 
 const emptySelection: SelectedTrack[] = [];

@@ -21,14 +21,21 @@ function useTableRowSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDt
             if (event.ctrlKey || event.metaKey) {
                 // Add or remove from selection a single track when Ctrl (or Cmd on Mac) is pressed.
                 setSelectedTracks((prev) => {
-                    if (prev.some((i) => i.index === index)) {
-                        return prev.filter((i) => i.index !== index);
+                    const updatedPrev = prev.map((p) => ({
+                        index: p.index,
+                        track: p.track,
+                        isLast: false,
+                    }));
+
+                    if (updatedPrev.some((i) => i.index === index)) {
+                        return updatedPrev.filter((i) => i.index !== index);
                     } else {
                         return [
-                            ...prev,
+                            ...updatedPrev,
                             {
                                 index,
                                 track: items[index],
+                                isLast: true,
                             },
                         ];
                     }
@@ -46,22 +53,17 @@ function useTableRowSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDt
                     }
 
                     // If Shift is pressed and some tracks are already selected, add a range from the last selected track.
-                    const lastIndex = prev.at(-1)!.index;
+                    const lastIndex = prev.find((p) => p.isLast)?.index ?? 0;
                     const start = Math.min(lastIndex, index);
                     const end = Math.max(lastIndex, index);
 
                     const indexRange = new Array(end - start + 1).fill(0).map((_, idx) => idx + start);
-                    const remainingIndices = prev.filter((i) => !indexRange.includes(i.index)).map((i) => i.index);
+                    const remainingIndices = prev.filter((p) => !indexRange.includes(p.index)).map((i) => i.index);
 
-                    // We need to place the lastIndex at the end, for this to work properly.
-                    const finalIndices = indexRange
-                        .concat(remainingIndices)
-                        .filter((i) => i !== lastIndex)
-                        .concat([lastIndex]);
-
-                    return finalIndices.map((idx) => ({
+                    return indexRange.concat(remainingIndices).map((idx) => ({
                         index: idx,
                         track: items[idx],
+                        isLast: idx === index,
                     }));
                 });
             } else {
@@ -74,6 +76,7 @@ function useTableRowSelection(items: (TrackDto | AlbumTrackDto | PlaylistTrackDt
                             {
                                 index,
                                 track: items[index],
+                                isLast: true,
                             },
                         ];
                     }

@@ -69,7 +69,8 @@ function AlbumTable({ items }: AlbumTableProps) {
                                           return (
                                               <AlbumTableRow
                                                   key={t.id}
-                                                  index={idx}
+                                                  index={globalIndex}
+                                                  position={idx + 1}
                                                   track={t}
                                                   playbackState={getTableRowPlaybackState(t.playbackId)}
                                                   likedState={getTableRowLikedState(t.id, t.playbackId)}
@@ -85,6 +86,7 @@ function AlbumTable({ items }: AlbumTableProps) {
                               <AlbumTableRow
                                   key={t.id}
                                   index={idx}
+                                  position={idx + 1}
                                   track={t}
                                   playbackState={getTableRowPlaybackState(t.playbackId)}
                                   likedState={getTableRowLikedState(t.id, t.playbackId)}

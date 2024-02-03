@@ -16,6 +16,7 @@ import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
 type AlbumTableRowProps = {
     index: number;
+    position: number;
     track: AlbumTrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
@@ -23,7 +24,15 @@ type AlbumTableRowProps = {
     selectTrack: (index: number, e: React.MouseEvent<HTMLTableRowElement>) => void;
 };
 
-function AlbumTableRow({ index, track, playbackState, likedState, isSelected, selectTrack }: AlbumTableRowProps) {
+function AlbumTableRow({
+    index,
+    position,
+    track,
+    playbackState,
+    likedState,
+    isSelected,
+    selectTrack,
+}: AlbumTableRowProps) {
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
     const { menuProps, onContextMenu } = useContextMenu();
 
@@ -35,8 +44,6 @@ function AlbumTableRow({ index, track, playbackState, likedState, isSelected, se
             title: [track.name, track.artists[0].name],
         },
     };
-
-    const position = index + 1;
 
     return (
         <DraggableTableRow
