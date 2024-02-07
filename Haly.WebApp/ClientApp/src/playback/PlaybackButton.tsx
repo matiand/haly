@@ -85,6 +85,10 @@ const Button = styled("button", {
             color: "$primary600",
         },
 
+        "&:hover": {
+            color: "$primary300",
+        },
+
         "&::after": {
             background: "currentColor",
             borderRadius: "50%",
