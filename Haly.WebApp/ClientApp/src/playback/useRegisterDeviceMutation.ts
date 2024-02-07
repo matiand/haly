@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 
-import { PlaybackContext, playerSdkAtom, StreamedTrack, streamedTrackAtom } from "../common/atoms/playbackAtoms";
+import { PlaybackContext, playerSdkAtom, streamedTrackAtom,StreamedTrackDto } from "../common/atoms/playbackAtoms";
 
 function useRegisterDeviceMutation() {
     const setStreamedTrack = useSetAtom(streamedTrackAtom);
@@ -109,7 +109,7 @@ async function registerDeviceForPlayback(setDeviceId: (deviceId: string) => void
     return player;
 }
 
-function mapStreamedTrackFromPlaybackState(state: Spotify.PlaybackState): StreamedTrack | null {
+function mapStreamedTrackFromPlaybackState(state: Spotify.PlaybackState): StreamedTrackDto | null {
     const currentTrack = state.track_window.current_track;
 
     // Cannot map tracks without an id.

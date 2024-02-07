@@ -1,7 +1,7 @@
 import { MenuDivider } from "@szhsin/react-menu";
 
 import { AlbumTrackDto, PlaylistTrackDto, RemoveTracksRequest, TrackDto } from "../../../generated/haly";
-import { StreamedTrack } from "../../common/atoms/playbackAtoms";
+import { StreamedTrackDto } from "../../common/atoms/playbackAtoms";
 import { HeartMutationParams } from "../../common/useHeartMutations";
 import AddToPlaylistMenuItem from "../../menus/items/AddToPlaylistMenuItem";
 import AddToQueueMenuItem from "../../menus/items/AddToQueueMenuItem";
@@ -13,7 +13,7 @@ import ShareMenuItems from "../../menus/items/ShareMenuItems";
 import { TrackLikedState } from "../useTableRowLikedState";
 
 type TrackMenuItemsProps = {
-    tracks: (TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrack)[];
+    tracks: (TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrackDto)[];
     likedStates: TrackLikedState[];
 
     // Id of playlist that owns these tracks. Used for move/remove actions. Playlist needs to be

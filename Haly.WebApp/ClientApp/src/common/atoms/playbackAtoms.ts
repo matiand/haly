@@ -12,7 +12,7 @@ export type PlaybackContext = {
     repeatMode: "off" | "track" | "context";
 };
 
-export type StreamedTrack = {
+export type StreamedTrackDto = {
     // They don't give us the actual id of a streamed track. It's always the playback id.
     id: string;
     playbackId: string;
@@ -33,7 +33,7 @@ export type StreamedTrack = {
 
 export const playerSdkAtom = atom<Spotify.Player | null>(null);
 
-export const streamedTrackAtom = atom<StreamedTrack | null>(null);
+export const streamedTrackAtom = atom<StreamedTrackDto | null>(null);
 export const isTrackPausedAtom = atom((get) => get(streamedTrackAtom)?.isPaused ?? false);
 export const streamedTrackIdAtom = atom((get) => get(streamedTrackAtom)?.playbackId ?? "");
 export const isPlaybackShuffledAtom = atom((get) => get(streamedTrackAtom)?.context?.isShuffled ?? false);

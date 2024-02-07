@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { StreamedTrack } from "../../common/atoms/playbackAtoms";
+import { StreamedTrackDto } from "../../common/atoms/playbackAtoms";
 import { cachedPlaylistsAtom } from "../../common/atoms/playlistAtoms";
 import { selectedTracksAtom } from "../../common/atoms/trackAtoms";
 import { userIdAtom } from "../../common/atoms/userAtoms";
@@ -11,7 +11,7 @@ import useTableRowLikedState from "../useTableRowLikedState";
 import TrackMenuItems from "./TrackMenuItems";
 
 type StreamedTrackContextMenuProps = {
-    track: StreamedTrack;
+    track: StreamedTrackDto;
     menuProps: AnchorPointMenuProps;
 };
 

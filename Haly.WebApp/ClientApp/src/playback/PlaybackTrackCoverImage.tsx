@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 
 import { AlbumBriefDto } from "../../generated/haly";
 import { persistedSidebarWidthAtom } from "../common/atoms/pageAtoms";
-import { StreamedTrack, streamedTrackAtom } from "../common/atoms/playbackAtoms";
+import { streamedTrackAtom,StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import ExpandableImageWithLink from "../ui/ExpandableImageWithLink";
 
 type PlaybackTrackCoverImageProps = {
@@ -55,7 +55,7 @@ function PlaybackTrackCoverImage({ imageUrl, trackName, artistName }: PlaybackTr
     );
 }
 
-function getScrollToHref(streamedTrack: StreamedTrack | null) {
+function getScrollToHref(streamedTrack: StreamedTrackDto | null) {
     if (!streamedTrack || !streamedTrack.context) return null;
 
     const { type, id } = streamedTrack.context;

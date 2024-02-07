@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
-import { StreamedTrack } from "../common/atoms/playbackAtoms";
+import { StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import useDraggable from "../dnd/useDraggable";
 import PlaybackTrackCoverImage from "../playback/PlaybackTrackCoverImage";
@@ -10,7 +10,7 @@ import HighlightableText from "./HighlightableText";
 import TrackCoverImage from "./TrackCoverImage";
 
 type TrackInformationProps = {
-    track: TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrack;
+    track: TrackDto | PlaylistTrackDto | AlbumTrackDto | StreamedTrackDto;
     type: "cell" | "playback";
     showExplicitMark?: boolean;
     hideArtists?: boolean;

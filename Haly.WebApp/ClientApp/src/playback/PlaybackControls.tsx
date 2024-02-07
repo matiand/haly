@@ -1,9 +1,9 @@
 import { useAtomValue } from "jotai";
 import { useSetAtom } from "jotai/index";
-import { MouseEvent,useCallback } from "react";
+import { MouseEvent, useCallback } from "react";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
-import { playerSdkAtom, StreamedTrack } from "../common/atoms/playbackAtoms";
+import { playerSdkAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import { likedSongIdByPlaybackIdAtom, selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
 import useContextMenu from "../menus/useContextMenu";
@@ -20,7 +20,7 @@ import TrackProgress, { EmptyTrackProgress } from "./TrackProgress";
 import VolumeControl from "./VolumeControl";
 
 type PlaybackControlsProps = {
-    track: StreamedTrack | null;
+    track: StreamedTrackDto | null;
     initialVolume: number;
 };
 

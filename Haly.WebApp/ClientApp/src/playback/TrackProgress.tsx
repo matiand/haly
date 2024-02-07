@@ -1,12 +1,12 @@
 import format from "date-fns/format";
 import { useEffect, useRef, useState } from "react";
 
-import { StreamedTrack } from "../common/atoms/playbackAtoms";
+import { StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import ProgressBar from "./ProgressBar";
 
 type TrackProgressProps = {
-    track: StreamedTrack;
+    track: StreamedTrackDto;
     seek: (positionInMs: number) => void;
 };
 
