@@ -146,6 +146,5 @@ export const { styled, globalCss, keyframes } = createStitches({
 });
 
 export const classNames = {
-    // todo: change the className to clamp-ellipsis
-    clampEllipsis: "line-clamp-ellipsis",
+    clampEllipsis: "clampEllipsis",
 };

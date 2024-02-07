@@ -5,7 +5,7 @@ import { useState } from "react";
 import { RemoveTracksRequest } from "../../../generated/haly";
 import { cachedPlaylistsAtom } from "../../common/atoms/playlistAtoms";
 import { userIdAtom } from "../../common/atoms/userAtoms";
-import { styled } from "../../common/theme";
+import { classNames, styled } from "../../common/theme";
 import useMoveToPlaylistMutation from "../../playlist/useMoveToPlaylistMutation";
 import { ScrollArea } from "../../ui/ScrollArea";
 
@@ -56,7 +56,7 @@ function MoveToPlaylistMenuItem({ fromPlaylistId, tracks }: MoveToPlaylistMenuIt
                                 })
                             }
                         >
-                            <div className="line-clamp-ellipsis">{p.name}</div>
+                            <div className={classNames.clampEllipsis}>{p.name}</div>
                         </MenuItem>
                     ))}
                 </ScrollArea>

@@ -1,11 +1,11 @@
 import { KeyboardEventHandler } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { styled } from "../../common/theme";
+import { classNames, styled } from "../../common/theme";
+import useDraggable from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import { CardProps } from "./Card";
 import CardContextMenu from "./CardContextMenu";
-import useDraggable from "../../dnd/useDraggable";
 
 const imgSize = 80;
 
@@ -50,10 +50,10 @@ function MiniCard({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
             )}
 
             <ContentWrapper>
-                <Link className="line-clamp-ellipsis" to={href} title={name}>
+                <Link className={classNames.clampEllipsis} to={href} title={name}>
                     {name}
                 </Link>
-                {subtitle && <Subtitle className="line-clamp-ellipsis">{subtitle}</Subtitle>}
+                {subtitle && <Subtitle className={classNames.clampEllipsis}>{subtitle}</Subtitle>}
             </ContentWrapper>
 
             {isAlbumOrPlaylist && <CardContextMenu id={id} name={name} uri={uri} menuProps={menuProps} />}

@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 
 import { PrivateUserDto } from "../../generated/haly";
 import { playlistIdsWithOldTracksAtom } from "../common/atoms/playlistAtoms";
-import { styled, theme } from "../common/theme";
+import { classNames, styled, theme } from "../common/theme";
 
 type UserDropdownMenuHeaderProps = {
     user: PrivateUserDto;
@@ -17,8 +17,8 @@ function UserDropdownMenuHeader({ user: { name, imageUrl } }: UserDropdownMenuHe
         <HeaderWrapper title={title} css={{ columnGap: imageUrl ? theme.space[600] : 0 }}>
             {imageUrl && <img alt="" src={imageUrl} />}
 
-            <div className="line-clamp-ellipsis">{name}</div>
-            <span className="line-clamp-ellipsis">{badge}</span>
+            <div className={classNames.clampEllipsis}>{name}</div>
+            <span className={classNames.clampEllipsis}>{badge}</span>
         </HeaderWrapper>
     );
 }

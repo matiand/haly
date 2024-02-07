@@ -1,5 +1,5 @@
 import { PageContext } from "../common/atoms/pageAtoms";
-import { styled } from "../common/theme";
+import { classNames, styled } from "../common/theme";
 import useDraggable from "../dnd/useDraggable";
 
 type UpperMenuTitleProps = {
@@ -24,7 +24,7 @@ function UpperMenuTitle({ name, contextId, contextType }: UpperMenuTitleProps) {
     );
 
     return (
-        <Wrapper ref={draggableRef} {...draggableProps} className="line-clamp-ellipsis">
+        <Wrapper ref={draggableRef} {...draggableProps} className={classNames.clampEllipsis}>
             {name}
         </Wrapper>
     );

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { DuplicatesStrategy } from "../../../generated/haly";
 import { cachedPlaylistsAtom } from "../../common/atoms/playlistAtoms";
 import { userIdAtom } from "../../common/atoms/userAtoms";
-import { styled } from "../../common/theme";
+import { classNames, styled } from "../../common/theme";
 import halyClient from "../../halyClient";
 import useAddToPlaylistMutation from "../../playlist/useAddToPlaylistMutation";
 import useCreatePlaylistMutation from "../../playlist/useCreatePlaylistMutation";
@@ -80,7 +80,7 @@ function AddToPlaylistMenuItem({ collectionUri, trackUris }: AddToPlaylistMenuIt
                                 });
                             }}
                         >
-                            <div className="line-clamp-ellipsis">{p.name}</div>
+                            <div className={classNames.clampEllipsis}>{p.name}</div>
                         </MenuItem>
                     ))}
                 </ScrollArea>

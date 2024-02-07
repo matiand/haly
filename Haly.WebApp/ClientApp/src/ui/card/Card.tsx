@@ -2,7 +2,7 @@ import { MouseEventHandler } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { PlaylistCardDto } from "../../../generated/haly";
-import { styled } from "../../common/theme";
+import { classNames, styled } from "../../common/theme";
 import useDraggable from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import PlaybackToggle from "../../playback/PlaybackToggle";
@@ -78,7 +78,7 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
                     </Link>
                 </div>
 
-                {typeof subtitle === "string" && <Subtitle className="line-clamp-ellipsis">{subtitle}</Subtitle>}
+                {typeof subtitle === "string" && <Subtitle className={classNames.clampEllipsis}>{subtitle}</Subtitle>}
                 {typeof subtitle === "object" && (
                     <Subtitle>
                         <time dateTime={subtitle[0].toString()}>{subtitle[0]}</time>
@@ -180,7 +180,7 @@ const Contents = styled("div", {
 });
 
 const Subtitle = styled("div", {
-    "&.line-clamp-ellipsis": {
+    [`&.${classNames.clampEllipsis}`]: {
         display: "-webkit-box",
         "-webkit-line-clamp": 2,
         wordBreak: "break-word",
