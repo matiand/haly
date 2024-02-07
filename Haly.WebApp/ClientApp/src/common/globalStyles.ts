@@ -63,7 +63,7 @@ const globalStyles = globalCss({
         color: "$white800",
     },
 
-    ".hidden-visually": {
+    [`.${classNames.hiddenVisually}`]: {
         clip: "rect(0 0 0 0)",
         clipPath: "inset(50%)",
         height: "1px",
@@ -73,7 +73,7 @@ const globalStyles = globalCss({
         whiteSpace: "nowrap",
     },
 
-    ".ellipsis": {
+    [`.${classNames.ellipsis}`]: {
         textOverflow: "ellipsis",
         overflow: "hidden",
         whiteSpace: "nowrap",

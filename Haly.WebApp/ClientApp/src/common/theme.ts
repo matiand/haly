@@ -146,5 +146,7 @@ export const { styled, globalCss, keyframes } = createStitches({
 });
 
 export const classNames = {
+    hiddenVisually: "hiddenVisually",
+    ellipsis: "ellipsis",
     clampEllipsis: "clampEllipsis",
 };

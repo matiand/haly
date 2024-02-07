@@ -1,9 +1,9 @@
-import { styled } from "../common/theme";
+import { classNames, styled } from "../common/theme";
 
 function Resizer() {
     return (
         <ResizerWrapper>
-            <span className="hidden-visually">Resize library sidebar</span>
+            <span className={classNames.hiddenVisually}>Resize library sidebar</span>
         </ResizerWrapper>
     );
 }

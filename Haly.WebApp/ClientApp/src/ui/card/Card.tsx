@@ -73,7 +73,7 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
 
             <Contents>
                 <div>
-                    <Link className="ellipsis" to={href} title={name}>
+                    <Link className={classNames.ellipsis} to={href} title={name}>
                         {name}
                     </Link>
                 </div>
@@ -82,7 +82,7 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
                 {typeof subtitle === "object" && (
                     <Subtitle>
                         <time dateTime={subtitle[0].toString()}>{subtitle[0]}</time>
-                        <span className="ellipsis">{subtitle[1]}</span>
+                        <span className={classNames.ellipsis}>{subtitle[1]}</span>
                     </Subtitle>
                 )}
             </Contents>
