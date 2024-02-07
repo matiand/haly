@@ -9,7 +9,7 @@ import TrackContextMenu from "../menus/TrackContextMenu";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
-import TrackInformation from "../TrackInformation";
+import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
@@ -47,7 +47,7 @@ function QueueTableRow({ position, track, playbackState, likedState }: QueueTabl
                 />
             </td>
             <td>
-                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
+                <TrackInformationCell track={track} showExplicitMark={track.isExplicit} showArtists />
             </td>
             <td>
                 <TrackAlbumCell track={track} />

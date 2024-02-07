@@ -1,5 +1,6 @@
 import { styled, theme } from "../common/theme";
 import { dndSelectors } from "../dnd/dndStyles";
+import { StyledTitle } from "../ui/track/TrackTitle";
 
 export const Root = styled("table", {
     display: "block",
@@ -92,7 +93,7 @@ export const Body = styled("tbody", {
                 color: "$primary400",
             },
 
-            "& td:nth-of-type(2) .track-title": {
+            [` & td:nth-of-type(2) ${StyledTitle}`]: {
                 color: "$primary400",
             },
         },

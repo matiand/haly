@@ -6,9 +6,6 @@ import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/t
 import { playerSdkAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import { likedSongIdByPlaybackIdAtom, selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
-import useContextMenu from "../menus/useContextMenu";
-import StreamedTrackContextMenu from "../table/menus/StreamedTrackContextMenu";
-import TrackInformation from "../table/TrackInformation";
 import HeartButton from "../ui/HeartButton";
 import DeviceDropdownMenu from "./DeviceDropdownMenu";
 import PlaybackButton from "./PlaybackButton";
@@ -16,6 +13,7 @@ import PlaybackToggle from "./PlaybackToggle";
 import QueueButton from "./QueueButton";
 import RepeatButton from "./RepeatButton";
 import ShuffleButton from "./ShuffleButton";
+import StreamedTrack from "./StreamedTrack";
 import TrackProgress, { EmptyTrackProgress } from "./TrackProgress";
 import VolumeControl from "./VolumeControl";
 
@@ -39,8 +37,6 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
         },
         [setSelectedTracks],
     );
-
-    const { onContextMenu, menuProps } = useContextMenu();
 
     if (!player) return null;
 
@@ -78,7 +74,8 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     return (
         <Wrapper onClick={clearSelection}>
             <div>
-                <TrackInformation track={track} type="playback" onContextMenu={onContextMenu} />
+                <StreamedTrack track={track} />
+
                 <HeartButton
                     key={track.playbackId}
                     params={{
@@ -92,8 +89,6 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
                     }}
                     state={Boolean(likedSongId)}
                 />
-
-                <StreamedTrackContextMenu track={track} menuProps={menuProps} />
             </div>
 
             <ControlsWrapper aria-label="Playback controls">

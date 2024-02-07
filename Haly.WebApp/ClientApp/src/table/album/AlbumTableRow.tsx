@@ -10,7 +10,7 @@ import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackContextMenu from "../menus/TrackContextMenu";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
-import TrackInformation from "../TrackInformation";
+import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
@@ -70,7 +70,7 @@ function AlbumTableRow({
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} />
+                <TrackInformationCell track={track} showExplicitMark={track.isExplicit} showArtists />
             </td>
 
             <td>

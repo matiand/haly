@@ -14,7 +14,7 @@ import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
-import TrackInformation from "../TrackInformation";
+import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
@@ -43,7 +43,7 @@ function PlaylistTableRow({
     const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
     const { onContextMenu, menuProps } = useContextMenu();
 
-    const isSongWithId = track.isSong && track.id;
+    const isSongWithId = Boolean(track.isSong && track.id);
 
     const draggableParams: DraggableHookParams | undefined = isSongWithId
         ? {
@@ -90,11 +90,10 @@ function PlaylistTableRow({
             </td>
 
             <td>
-                <TrackInformation
+                <TrackInformationCell
                     track={track}
-                    type="cell"
                     showExplicitMark={track.isExplicit}
-                    hideArtists={!isSongWithId}
+                    showArtists={isSongWithId}
                     searchTerm={searchTerm}
                 />
             </td>

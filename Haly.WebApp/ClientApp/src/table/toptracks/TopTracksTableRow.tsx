@@ -9,7 +9,7 @@ import useContextMenu from "../../menus/useContextMenu";
 import TrackContextMenu from "../menus/TrackContextMenu";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
-import TrackInformation from "../TrackInformation";
+import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
@@ -56,7 +56,7 @@ function TopTracksTableRow({ index, track, playbackState, likedState, isSelected
             </td>
 
             <td>
-                <TrackInformation track={track} type="cell" showExplicitMark={track.isExplicit} hideArtists />
+                <TrackInformationCell track={track} showExplicitMark={track.isExplicit} />
             </td>
 
             <td>

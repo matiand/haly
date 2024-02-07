@@ -7,7 +7,7 @@ import "@fontsource/plus-jakarta-sans/700.css";
 import "@fontsource/plus-jakarta-sans/800.css";
 
 import { dndStyles } from "../dnd/dndStyles";
-import { globalCss } from "./theme";
+import { classNames, globalCss } from "./theme";
 
 const globalStyles = globalCss({
     "html, body, #root": {
@@ -43,6 +43,10 @@ const globalStyles = globalCss({
         fontWeight: 500,
     },
 
+    "a, button": {
+        touchAction: "manipulation",
+    },
+
     button: {
         background: "transparent",
         border: 0,
@@ -75,7 +79,7 @@ const globalStyles = globalCss({
         whiteSpace: "nowrap",
     },
 
-    ".line-clamp-ellipsis": {
+    [`.${classNames.clampEllipsis}`]: {
         // This property specifies how many lines of text will be shown before ellipsis is applied.
         "-webkit-line-clamp": 1,
         "-webkit-box-orient": "vertical",
@@ -94,10 +98,6 @@ const globalStyles = globalCss({
         "div[role='status']": {
             margin: 0,
         },
-    },
-
-    "a, button": {
-        touchAction: "manipulation",
     },
 
     ...dndStyles,

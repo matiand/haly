@@ -14,9 +14,19 @@ type Props = {
     size: number;
     linkLabel: string;
     chevronLabel: string;
+    onContextMenu: (e: React.MouseEvent) => void;
 };
 
-function ExpandableImageWithLink({ imageUrl, linkUrl, isExpanded, toggle, size, linkLabel, chevronLabel }: Props) {
+function ExpandableImageWithLink({
+    imageUrl,
+    linkUrl,
+    isExpanded,
+    toggle,
+    size,
+    linkLabel,
+    chevronLabel,
+    onContextMenu,
+}: Props) {
     const navigate = useNavigate();
 
     const toggleImage = (e: React.MouseEvent) => {
@@ -38,6 +48,7 @@ function ExpandableImageWithLink({ imageUrl, linkUrl, isExpanded, toggle, size, 
             aria-label={linkLabel}
             title={linkLabel}
             className={clsx({ isExpanded })}
+            onContextMenu={onContextMenu}
         >
             <Image src={imageUrl} loading="eager" />
             <ChevronBtn onClick={toggleImage} type="button" aria-label={chevronLabel} title={chevronLabel}>

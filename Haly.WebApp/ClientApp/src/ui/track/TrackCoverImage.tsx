@@ -1,6 +1,6 @@
-import { AlbumBriefDto } from "../../generated/haly";
-import { styled } from "../common/theme";
-import EmptyCoverImage from "../ui/EmptyCoverImage";
+import { AlbumBriefDto } from "../../../generated/haly";
+import { styled } from "../../common/theme";
+import EmptyCoverImage from "../EmptyCoverImage";
 
 type CoverImageProps = {
     imageUrl: AlbumBriefDto["imageUrl"];
@@ -12,7 +12,7 @@ function TrackCoverImage({ imageUrl }: CoverImageProps) {
     return imageUrl ? (
         <Image alt="" src={imageUrl} loading="eager" width={size} height={size} />
     ) : (
-        <EmptyCoverImage type="cell" />
+        <EmptyCoverImage type="track" />
     );
 }
 

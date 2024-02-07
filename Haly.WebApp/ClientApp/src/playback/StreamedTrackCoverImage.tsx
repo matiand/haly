@@ -1,19 +1,20 @@
 import { useAtomValue } from "jotai";
-import { useState } from "react";
+import React, { useState } from "react";
 import { createPortal } from "react-dom";
 
 import { AlbumBriefDto } from "../../generated/haly";
 import { persistedSidebarWidthAtom } from "../common/atoms/pageAtoms";
-import { streamedTrackAtom,StreamedTrackDto } from "../common/atoms/playbackAtoms";
+import { streamedTrackAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import ExpandableImageWithLink from "../ui/ExpandableImageWithLink";
 
-type PlaybackTrackCoverImageProps = {
+type StreamedTrackCoverImageProps = {
     imageUrl: AlbumBriefDto["imageUrl"];
     trackName: string;
     artistName: string;
+    onContextMenu: (e: React.MouseEvent) => void;
 };
 
-function PlaybackTrackCoverImage({ imageUrl, trackName, artistName }: PlaybackTrackCoverImageProps) {
+function StreamedTrackCoverImage({ imageUrl, trackName, artistName, onContextMenu }: StreamedTrackCoverImageProps) {
     const streamedTrack = useAtomValue(streamedTrackAtom);
     const [isExpanded, setIsExpanded] = useState(false);
     const sidebarWidth = useAtomValue(persistedSidebarWidthAtom);
@@ -37,6 +38,7 @@ function PlaybackTrackCoverImage({ imageUrl, trackName, artistName }: PlaybackTr
                         size={sidebarWidth}
                         linkLabel={linkLabel}
                         chevronLabel={chevronLabel}
+                        onContextMenu={onContextMenu}
                     />,
                     document.body,
                 )
@@ -49,6 +51,7 @@ function PlaybackTrackCoverImage({ imageUrl, trackName, artistName }: PlaybackTr
                     size={60}
                     linkLabel={linkLabel}
                     chevronLabel={chevronLabel}
+                    onContextMenu={onContextMenu}
                 />
             )}
         </>
@@ -72,4 +75,4 @@ function getScrollToHref(streamedTrack: StreamedTrackDto | null) {
     }
 }
 
-export default PlaybackTrackCoverImage;
+export default StreamedTrackCoverImage;

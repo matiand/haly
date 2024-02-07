@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 
-import { PlaybackContext, playerSdkAtom, streamedTrackAtom,StreamedTrackDto } from "../common/atoms/playbackAtoms";
+import { PlaybackContext, playerSdkAtom, streamedTrackAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
 
 function useRegisterDeviceMutation() {
     const setStreamedTrack = useSetAtom(streamedTrackAtom);

@@ -1,14 +1,14 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { StreamedTrackDto } from "../../common/atoms/playbackAtoms";
-import { cachedPlaylistsAtom } from "../../common/atoms/playlistAtoms";
-import { selectedTracksAtom } from "../../common/atoms/trackAtoms";
-import { userIdAtom } from "../../common/atoms/userAtoms";
-import ContextMenu from "../../menus/ContextMenu";
-import { AnchorPointMenuProps } from "../../menus/useContextMenu";
-import useTableRowLikedState from "../useTableRowLikedState";
-import TrackMenuItems from "./TrackMenuItems";
+import { StreamedTrackDto } from "../common/atoms/playbackAtoms";
+import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
+import { userIdAtom } from "../common/atoms/userAtoms";
+import ContextMenu from "../menus/ContextMenu";
+import { AnchorPointMenuProps } from "../menus/useContextMenu";
+import TrackMenuItems from "../table/menus/TrackMenuItems";
+import useTableRowLikedState from "../table/useTableRowLikedState";
 
 type StreamedTrackContextMenuProps = {
     track: StreamedTrackDto;
