@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PlaylistBriefDto } from "../../generated/haly";
-import { styled } from "../common/theme";
+import { classNames, styled } from "../common/theme";
 
 type ToastWithImageProps = {
     imageUrl: PlaylistBriefDto["imageUrl"];
@@ -11,8 +11,8 @@ type ToastWithImageProps = {
 function ToastWithImage({ imageUrl, children }: ToastWithImageProps) {
     return (
         <Wrapper>
-            {imageUrl && <img src={imageUrl} alt="" width={40} height={40} />}
-            <div>{children}</div>
+            {imageUrl && <img src={imageUrl} alt="" width={36} height={36} />}
+            <div className={classNames.clampEllipsis}>{children}</div>
         </Wrapper>
     );
 }
@@ -24,7 +24,12 @@ const Wrapper = styled("div", {
     gap: "$500",
 
     img: {
+        border: "1px solid $black800",
         borderRadius: "4px",
+    },
+
+    b: {
+        marginInlineStart: "1px",
     },
 });
 

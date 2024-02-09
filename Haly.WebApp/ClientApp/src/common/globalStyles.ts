@@ -88,19 +88,24 @@ const globalStyles = globalCss({
         wordBreak: "break-all",
     },
 
-    // Used to position react query devtools toggle btn
-    ".rq-toggle": {
-        left: "210px !important",
-    },
-
     // Some styles of react-hot-toast Toaster have to be customized this way.
-    ".toaster": {
+    [`.${classNames.toaster}`]: {
         "div[role='status']": {
             margin: 0,
+            marginInlineStart: "$400",
+
+            "&:first-child": {
+                marginInlineStart: 0,
+            },
         },
     },
 
     ...dndStyles,
+
+    // Used to position react query devtools toggle btn
+    ".rq-toggle": {
+        left: "210px !important",
+    },
 });
 
 globalStyles();

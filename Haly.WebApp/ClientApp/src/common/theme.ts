@@ -149,4 +149,5 @@ export const classNames = {
     hiddenVisually: "hiddenVisually",
     ellipsis: "ellipsis",
     clampEllipsis: "clampEllipsis",
+    toaster: "toaster",
 };

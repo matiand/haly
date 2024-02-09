@@ -1,13 +1,13 @@
 import { Toaster as ToasterInner, ToasterProps } from "react-hot-toast";
 
-import { theme } from "../common/theme";
+import { classNames, theme } from "../common/theme";
 
 const containerStyle = {
     bottom: theme.sizes.toasterBottom,
 };
 
 const options: ToasterProps["toastOptions"] = {
-    className: "toaster",
+    className: classNames.toaster,
     style: {
         animation: "none",
         background: theme.colors.white800,
