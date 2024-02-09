@@ -13,6 +13,7 @@ public class PlaylistObjectProfile : IRegister
         config.ForType<SimplifiedPlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
             .Map(dest => dest.ImageUrl, src => src.Images != null ? src.Images.FindMediumImageUrl() : null)
+            .Map(dest => dest.ThumbnailUrl, src => src.Images != null ? src.Images.FindSmallestImageUrl() : null)
             .Map(dest => dest.Description, src => TrimAndDecodePlaylistDescription(src.Description))
             .Map(dest => dest.Owner.Id, src => src.Owner.Id)
             .Map(dest => dest.Owner.Name, src => src.Owner.Display_name);
@@ -20,6 +21,7 @@ public class PlaylistObjectProfile : IRegister
         config.ForType<PlaylistObject, Playlist>()
             .Map(dest => dest.SnapshotId, src => src.Snapshot_id)
             .Map(dest => dest.ImageUrl, src => src.Images != null ? src.Images.FindMediumImageUrl() : null)
+            .Map(dest => dest.ThumbnailUrl, src => src.Images != null ? src.Images.FindSmallestImageUrl() : null)
             .Map(dest => dest.Description, src => TrimAndDecodePlaylistDescription(src.Description))
             .Map(dest => dest.Owner.Id, src => src.Owner.Id)
             .Map(dest => dest.Owner.Name, src => src.Owner.Display_name)

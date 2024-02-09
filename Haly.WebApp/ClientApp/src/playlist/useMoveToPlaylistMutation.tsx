@@ -41,7 +41,7 @@ function useMoveToPlaylistMutation() {
                 queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
 
                 toast(
-                    <ToastWithImage imageUrl={response.imageUrl}>
+                    <ToastWithImage imageUrl={response.thumbnailUrl}>
                         Moved to <b>{response.name}</b>
                     </ToastWithImage>,
                 );

@@ -24,12 +24,12 @@ function useRemoveFromPlaylistMutation() {
             });
         },
         {
-            onSuccess: ({ name, imageUrl }) => {
+            onSuccess: ({ name, thumbnailUrl }) => {
                 // By invalidating this query, our backend will look for any changes in our playlists.
                 queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
 
                 toast(
-                    <ToastWithImage imageUrl={imageUrl}>
+                    <ToastWithImage imageUrl={thumbnailUrl}>
                         Removed from <b>{name}</b>
                     </ToastWithImage>,
                 );

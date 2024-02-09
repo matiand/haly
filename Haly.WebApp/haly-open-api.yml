@@ -2020,6 +2020,9 @@ components:
         imageUrl:
           type: string
           nullable: true
+        thumbnailUrl:
+          type: string
+          nullable: true
       additionalProperties: false
     PlaylistCardDto:
       required:

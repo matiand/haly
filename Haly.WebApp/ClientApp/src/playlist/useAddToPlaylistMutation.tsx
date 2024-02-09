@@ -35,7 +35,7 @@ function useAddToPlaylistMutation() {
                 queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
 
                 toast(
-                    <ToastWithImage imageUrl={response.imageUrl}>
+                    <ToastWithImage imageUrl={response.thumbnailUrl}>
                         Added to <b>{response.name}</b>
                     </ToastWithImage>,
                 );

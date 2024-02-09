@@ -12,6 +12,7 @@ public class Playlist
     public int LikesTotal { get; set; }
     public string? Description { get; set; }
     public string? ImageUrl { get; set; }
+    public string? ThumbnailUrl { get; set; }
     public DateOnly? UpdatedAt { get; set; }
 
     [Column(TypeName = "jsonb")]
@@ -28,6 +29,7 @@ public class Playlist
         SnapshotId = other.SnapshotId;
         Description = other.Description;
         ImageUrl = other.ImageUrl;
+        ThumbnailUrl = other.ThumbnailUrl;
         Owner = other.Owner;
         UpdatedAt = DateOnly.FromDateTime(DateTime.Now);
 
