@@ -6,6 +6,7 @@ apis/MeApi.ts
 apis/MeFollowingApi.ts
 apis/PlayerApi.ts
 apis/PlaylistsApi.ts
+apis/SearchApi.ts
 apis/UsersApi.ts
 apis/index.ts
 index.ts
@@ -52,6 +53,8 @@ models/RemoveTracksRequest.ts
 models/RemoveTracksRequestBody.ts
 models/TopArtistDto.ts
 models/TrackDto.ts
+models/TrackSearchResultDto.ts
+models/TrackSearchResultDtoTrack.ts
 models/UpdatePlaybackCommand.ts
 models/UpdatePlaylistDetailsRequest.ts
 models/UpdatePlaylistDetailsRequestBody.ts

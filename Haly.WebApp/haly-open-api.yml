@@ -1544,6 +1544,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /Search/playback:
+    get:
+      tags:
+        - Search
+      summary: Find track in the cache
+      description: Find a track in the cache using playback data
+      operationId: SearchCacheUsingPlaybackData
+      parameters:
+        - name: playlistId
+          in: query
+          schema:
+            type: string
+        - name: trackPlaybackId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Track search result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackSearchResultDto'
   '/Users/{id}':
     get:
       tags:
@@ -2287,6 +2310,14 @@ components:
           items:
             $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
+    TrackSearchResultDto:
+      type: object
+      properties:
+        track:
+          allOf:
+            - $ref: '#/components/schemas/TrackDto'
+          nullable: true
+      additionalProperties: false
     UpdatePlaybackCommand:
       required:
         - contextUri
@@ -2378,4 +2409,5 @@ tags:
   - name: Jobs
   - name: Player
   - name: Playlists
+  - name: Search
   - name: Users

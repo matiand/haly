@@ -43,6 +43,8 @@ export * from './RemoveTracksRequest';
 export * from './RemoveTracksRequestBody';
 export * from './TopArtistDto';
 export * from './TrackDto';
+export * from './TrackSearchResultDto';
+export * from './TrackSearchResultDtoTrack';
 export * from './UpdatePlaybackCommand';
 export * from './UpdatePlaylistDetailsRequest';
 export * from './UpdatePlaylistDetailsRequestBody';
