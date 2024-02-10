@@ -116,13 +116,11 @@ function mapStreamedTrackFromPlaybackState(state: Spotify.PlaybackState): Stream
     if (!currentTrack?.id) return null;
 
     return {
-        id: currentTrack.id,
         playbackId: currentTrack.id,
         name: currentTrack.name,
         durationInMs: currentTrack.duration_ms,
         positionInMs: state.position,
         isPaused: state.paused,
-        uri: currentTrack.uri,
         updatedAt: state.timestamp,
         context: mapPlaybackContextFromPlaybackState(state),
         album: {

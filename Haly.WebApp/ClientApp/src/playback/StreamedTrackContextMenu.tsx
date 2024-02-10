@@ -1,42 +1,44 @@
-import { useAtomValue, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-import { StreamedTrackDto } from "../common/atoms/playbackAtoms";
-import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
+import { TrackDto } from "../../generated/haly";
+import { StreamedTrackDto, StreamedTrackWithIdDto } from "../common/atoms/playbackAtoms";
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
-import { userIdAtom } from "../common/atoms/userAtoms";
 import ContextMenu from "../menus/ContextMenu";
 import { AnchorPointMenuProps } from "../menus/useContextMenu";
 import TrackMenuItems from "../table/menus/TrackMenuItems";
-import useTableRowLikedState from "../table/useTableRowLikedState";
+import { TrackLikedState } from "../table/useTableRowLikedState";
 
 type StreamedTrackContextMenuProps = {
     track: StreamedTrackDto;
+    trackId: NonNullable<TrackDto["id"]>;
+    likedState: TrackLikedState;
     menuProps: AnchorPointMenuProps;
+    isTrackMovable: boolean;
 };
 
-function StreamedTrackContextMenu({ track, menuProps }: StreamedTrackContextMenuProps) {
-    const getLikedState = useTableRowLikedState();
+function StreamedTrackContextMenu({
+    track,
+    trackId,
+    likedState,
+    menuProps,
+    isTrackMovable,
+}: StreamedTrackContextMenuProps) {
     const setSelectedTracks = useSetAtom(selectedTracksAtom);
-
-    const userId = useAtomValue(userIdAtom);
-    const cachedPlaylists = useAtomValue(cachedPlaylistsAtom);
-    const cachedPlaylist = cachedPlaylists.find((p) => p.id === track.context?.id);
-
-    const isContextEditable = cachedPlaylist?.ownerId === userId;
-
     useEffect(() => {
         if (menuProps.state === "open") {
             setSelectedTracks([]);
         }
     }, [menuProps, setSelectedTracks]);
 
+    const trackWithId: StreamedTrackWithIdDto = { ...track, id: trackId, uri: `spotify:track:${trackId}` };
+
     return (
         <ContextMenu menuProps={menuProps}>
             <TrackMenuItems
-                tracks={[track]}
-                likedStates={[getLikedState(track.id, track.playbackId)]}
-                playlistIdForRemovals={isContextEditable ? cachedPlaylist.id : undefined}
+                tracks={[trackWithId]}
+                likedStates={[likedState]}
+                playlistIdForRemovals={isTrackMovable ? trackWithId.context?.id : undefined}
             />
         </ContextMenu>
     );

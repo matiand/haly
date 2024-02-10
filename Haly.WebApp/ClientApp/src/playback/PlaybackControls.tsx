@@ -4,16 +4,15 @@ import { MouseEvent, useCallback } from "react";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { playerSdkAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
-import { likedSongIdByPlaybackIdAtom, selectedTracksAtom } from "../common/atoms/trackAtoms";
+import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
-import HeartButton from "../ui/HeartButton";
 import DeviceDropdownMenu from "./DeviceDropdownMenu";
 import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
 import QueueButton from "./QueueButton";
 import RepeatButton from "./RepeatButton";
 import ShuffleButton from "./ShuffleButton";
-import StreamedTrack from "./StreamedTrack";
+import StreamedTrackBlock from "./StreamedTrackBlock";
 import TrackProgress, { EmptyTrackProgress } from "./TrackProgress";
 import VolumeControl from "./VolumeControl";
 
@@ -24,7 +23,6 @@ type PlaybackControlsProps = {
 
 function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     const player = useAtomValue(playerSdkAtom);
-    const likedSongIdByPlaybackId = useAtomValue(likedSongIdByPlaybackIdAtom);
 
     const setSelectedTracks = useSetAtom(selectedTracksAtom);
     const clearSelection = useCallback(
@@ -69,27 +67,9 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
         );
     }
 
-    const likedSongId = likedSongIdByPlaybackId[track.playbackId];
-
     return (
         <Wrapper onClick={clearSelection}>
-            <div>
-                <StreamedTrack track={track} />
-
-                <HeartButton
-                    key={track.playbackId}
-                    params={{
-                        type: "track",
-                        ids: [
-                            {
-                                likedId: likedSongId ?? track.playbackId,
-                                playbackId: track.playbackId,
-                            },
-                        ],
-                    }}
-                    state={Boolean(likedSongId)}
-                />
-            </div>
+            <StreamedTrackBlock streamedTrack={track} />
 
             <ControlsWrapper aria-label="Playback controls">
                 <div>

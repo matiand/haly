@@ -10,6 +10,7 @@ import {
     PlaylistsApi,
     Problem,
     ResponseContext,
+    SearchApi,
     UsersApi,
 } from "../generated/haly";
 
@@ -40,6 +41,7 @@ export default {
     artists: new ArtistsApi(config),
     albums: new AlbumsApi(config),
     jobs: new JobsApi(config),
+    search: new SearchApi(config),
     isProblem: (obj: unknown): obj is Problem => {
         return typeof obj == "object" && obj !== null && "type" in obj && "status" in obj && "title" in obj;
     },

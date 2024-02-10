@@ -13,14 +13,13 @@ export type PlaybackContext = {
 };
 
 export type StreamedTrackDto = {
-    // They don't give us the actual id of a streamed track. It's always the playback id.
-    id: string;
+    // The player sdk only returns the playback id of a streamed track. To avoid any confusion, we
+    // don't assign the id key.
     playbackId: string;
     name: string;
     durationInMs: number;
     positionInMs: number;
     isPaused: boolean;
-    uri: string;
 
     /* Last state update in milliseconds. */
     updatedAt: number;
@@ -30,6 +29,8 @@ export type StreamedTrackDto = {
     album: AlbumBriefDto;
     artists: ArtistBriefDto[];
 };
+
+export type StreamedTrackWithIdDto = StreamedTrackDto & { id: string; uri: string };
 
 export const playerSdkAtom = atom<Spotify.Player | null>(null);
 
