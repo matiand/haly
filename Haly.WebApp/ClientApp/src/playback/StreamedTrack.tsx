@@ -58,8 +58,8 @@ function StreamedTrack({ track, likedState, foundTrackId }: StreamedTrackProps) 
                 />
 
                 <Track.Grid type="playback">
-                    <TrackTitle name={track.name} href={albumHref} onContextMenu={onContextMenu} />
-                    <TrackSubtitle artists={track.artists} />
+                    <TrackTitle name={track.name} href={albumHref} onContextMenu={onContextMenu} useNavigateHook />
+                    <TrackSubtitle artists={track.artists} useNavigateHook />
                 </Track.Grid>
             </Track.Root>
 

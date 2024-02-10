@@ -21,7 +21,7 @@ export const Grid = styled("div", {
             playback: {
                 lineHeight: 1.4,
 
-                [`& ${StyledTitle} > a`]: {
+                [`& ${StyledTitle} > a, & ${StyledTitle} > div[role=button]`]: {
                     color: "inherit",
                     fontSize: "$300",
                     textDecoration: "none",
@@ -31,7 +31,7 @@ export const Grid = styled("div", {
                     },
                 },
 
-                [`& ${StyledSubtitle} > a`]: {
+                [`& ${StyledSubtitle} > a, & ${StyledSubtitle} > div[role=button]`]: {
                     fontSize: "$100",
                 },
             },

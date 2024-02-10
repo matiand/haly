@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { classNames, styled } from "../../common/theme";
 import HighlightableText from "../../table/HighlightableText";
@@ -9,14 +9,33 @@ type TrackTitleProps = {
     href?: string;
     searchTerm?: string | null;
     onContextMenu?: (e: React.MouseEvent) => void;
+    useNavigateHook?: boolean;
 };
 
-function TrackTitle({ name, href, searchTerm, onContextMenu }: TrackTitleProps) {
+function TrackTitle({ name, href, searchTerm, onContextMenu, useNavigateHook }: TrackTitleProps) {
+    const navigate = useNavigate();
+
+    if (href && useNavigateHook) {
+        return (
+            <StyledTitle className={classNames.clampEllipsis} onContextMenu={onContextMenu}>
+                <div
+                    role="button"
+                    onClick={() => navigate(href)}
+                    onKeyDown={(e) => e.key === "Enter" && navigate(href)}
+                    tabIndex={0}
+                >
+                    {/*// Don't use the HighlightableText component when it is a link.*/}
+                    <span className={classNames.clampEllipsis}>{name}</span>
+                </div>
+            </StyledTitle>
+        );
+    }
+
     if (href) {
         return (
             <StyledTitle className={classNames.clampEllipsis} onContextMenu={onContextMenu}>
                 <Link to={href}>
-                    {/*// Don't highlight track name when it has a link.*/}
+                    {/*// Don't use the HighlightableText component when it is a link.*/}
                     <span className={classNames.clampEllipsis}>{name}</span>
                 </Link>
             </StyledTitle>
@@ -33,6 +52,11 @@ function TrackTitle({ name, href, searchTerm, onContextMenu }: TrackTitleProps) 
 export const StyledTitle = styled("div", {
     fontSize: "$350",
     gridArea: "title",
+
+    "& > div[role=button]": {
+        cursor: "pointer",
+        display: "inline",
+    },
 });
 
 export default TrackTitle;

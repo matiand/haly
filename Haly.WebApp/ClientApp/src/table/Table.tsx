@@ -93,7 +93,7 @@ export const Body = styled("tbody", {
                 color: "$primary400",
             },
 
-            [` & td:nth-of-type(2) ${StyledTitle}`]: {
+            [`& td:nth-of-type(2) ${StyledTitle}`]: {
                 color: "$primary400",
             },
         },
