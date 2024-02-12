@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { ArtistDiscographyDto, ReleaseItemDto } from "../../generated/haly";
 import { capitalize } from "../common/capitalize";
+import { GetArtistDiscographyQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import { CardProps } from "../ui/card/Card";
 import { Option } from "../ui/RadioGroup";
@@ -10,7 +11,7 @@ import { Option } from "../ui/RadioGroup";
 export type DiscographyFilter = "all" | "album" | "single" | "compilation";
 
 function useDiscographyQuery(artistId: string, initialFilter: DiscographyFilter = "all") {
-    const query = useQuery(["artist", artistId, "discography"], () =>
+    const query = useQuery(GetArtistDiscographyQueryKey(artistId), () =>
         halyClient.artists.getArtistDiscography({ id: artistId! }),
     );
     const { filter, options } = useDiscographyFilter(initialFilter, query.data);

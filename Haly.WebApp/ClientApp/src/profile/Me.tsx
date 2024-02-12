@@ -68,6 +68,7 @@ function Me() {
     });
 
     const hasNoCards = followedArtistsCards.length === 0 && topArtistsCards.length === 0;
+    const isArtistQueryFetched = topArtistsQuery.isFetched;
 
     return (
         <div>
@@ -76,12 +77,19 @@ function Me() {
                 {followsTotal > 0 && <span>{pluralize("Followed Artist", followsTotal)}</span>}
                 {createdPlaylists > 0 && <span>{pluralize("Owned Playlist", createdPlaylists)}</span>}
             </PageHeader>
-
             <PageControls />
 
             {hasNoCards && <EmptyState title="Followed artists will appear here" icon={<LuUsers />} />}
             <ResizableCardGroup title="Top artists this month" items={topArtistsCards} maxRows={2} href="top/artists" />
-            <ResizableCardGroup title="Followed Artists" items={followedArtistsCards} maxRows={1} href="following" />
+            {/* Wait for top artists to be fetched before showing followed artists. */}
+            {isArtistQueryFetched && (
+                <ResizableCardGroup
+                    title="Followed Artists"
+                    items={followedArtistsCards}
+                    maxRows={1}
+                    href="following"
+                />
+            )}
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />
