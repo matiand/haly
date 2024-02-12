@@ -5,6 +5,7 @@ export const dndClassNames = {
     draggingCancelled: "draggingCancelled",
     notDroppable: "notDroppable",
     isOverDroppableArea: "isOverDroppableArea",
+    droppingWillMoveItem: "droppingWillMoveItem",
 };
 
 export const dndSelectors = {
@@ -20,6 +21,10 @@ export const dndStyles = {
 
         [`.${dndClassNames.isOverDroppableArea}`]: {
             outline: "2px solid $primary300",
+
+            [`&.${dndClassNames.droppingWillMoveItem}`]: {
+                outline: "2px solid $secondary500",
+            },
         },
 
         main: {

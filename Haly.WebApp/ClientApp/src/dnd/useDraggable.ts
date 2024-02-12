@@ -4,6 +4,9 @@ export type DraggableData = {
     id: string;
     type: "playlist" | "album" | "table-row" | "streamed-track";
     title: string | [string, string];
+    moveParams?: {
+        fromPlaylistId: string;
+    };
 };
 
 export type DraggableHookParams = {

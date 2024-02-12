@@ -1,6 +1,7 @@
 import { useDroppable as useDroppableKit } from "@dnd-kit/core";
 
 import { dndClassNames } from "./dndStyles";
+import { DraggableData } from "./useDraggable";
 
 export type EmptyArea = {
     id: "library" | "backlog" | "library-plus";
@@ -25,17 +26,20 @@ export type DroppableAreaId = DroppableArea["id"];
 function useDroppableArea(area: DroppableArea | undefined) {
     const disabled = area?.disabled ?? true;
 
-    const { setNodeRef, isOver } = useDroppableKit({
+    const { setNodeRef, isOver, active } = useDroppableKit({
         id: area?.id ?? "n/a",
         data: area?.data,
         disabled,
     });
+
+    const item = active?.data.current as DraggableData | undefined;
 
     return {
         droppableRef: setNodeRef,
         classNames: {
             [`${dndClassNames.isOverDroppableArea}`]: isOver && !disabled,
             [`${dndClassNames.notDroppable}`]: disabled,
+            [`${dndClassNames.droppingWillMoveItem}`]: isOver && item?.moveParams && area?.id.startsWith("library:"),
         },
     };
 }

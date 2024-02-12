@@ -17,6 +17,7 @@ const options: ToasterProps["toastOptions"] = {
         fontWeight: 500,
         lineHeight: 1.5,
         margin: 0,
+        maxWidth: "450px",
         padding: `${theme.space["500"]}`,
         textAlign: "center",
         userSelect: "none",
