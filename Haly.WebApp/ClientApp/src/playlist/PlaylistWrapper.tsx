@@ -14,7 +14,10 @@ function PlaylistWrapper() {
     const { id } = useParams();
     const { sortOrder } = usePlaylistSortOrder(id!, false);
     const isInLibrary = useIsPlaylistInLibrary(id!);
-    const syncPlaylist = useMutation(["syncPlaylist", id!], () => halyClient.playlists.putPlaylist({ id: id! }));
+    const syncPlaylist = useMutation(["syncPlaylist", id!], () => halyClient.playlists.putPlaylist({ id: id! }), {
+        retry: 1,
+        retryDelay: 1000,
+    });
 
     // Playlists that belong to the current user's library (i.e. those in the sidebar) are synced
     // automatically. For those that are not, we sync them manually.
