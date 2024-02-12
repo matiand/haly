@@ -9,7 +9,6 @@ export const theme = {
         primary600: "#cfba01",
         primary700: "#baa701",
 
-        // todo: is this even used?
         secondary300: "#6AA9F6",
         secondary400: "#509BF5",
         secondary500: "#3B8EF4",

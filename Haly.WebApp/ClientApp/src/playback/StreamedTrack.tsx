@@ -4,6 +4,7 @@ import { TrackDto } from "../../generated/haly";
 import { StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
+import { theme } from "../common/theme";
 import useDraggable from "../dnd/useDraggable";
 import useContextMenu from "../menus/useContextMenu";
 import { TrackLikedState } from "../table/useTableRowLikedState";
@@ -49,7 +50,7 @@ function StreamedTrack({ track, likedState, foundTrackId }: StreamedTrackProps) 
 
     return (
         <>
-            <Track.Root ref={draggableRef} {...draggableProps}>
+            <Track.Root ref={draggableRef} {...draggableProps} style={{ gap: theme.space["600"] }}>
                 <StreamedTrackCoverImage
                     imageUrl={track.album.imageUrl}
                     trackName={track.name}

@@ -73,13 +73,22 @@ export const Body = styled("tbody", {
             alignItems: "center",
             display: "flex",
 
-            "& button": {
+            button: {
                 opacity: 0,
+
+                "&:focus-visible": {
+                    opacity: 1,
+                },
             },
         },
 
         "& > td:nth-of-type(1)": {
             justifySelf: "center",
+
+            // Hide position and AnimatedMusicBars of TrackIndexCell when the play button is focused.
+            "&:has(button:focus-visible) > div > :not(button)": {
+                display: "none",
+            },
         },
 
         "&.isDisabled": {

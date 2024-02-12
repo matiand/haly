@@ -39,7 +39,7 @@ function MiniCard({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
             {imageUrl && (
                 <ImageWrapper tabIndex={0} role="button" onClick={() => navigate(href)} onKeyDown={navigateOnEnter}>
                     <img
-                        loading="lazy"
+                        loading="eager"
                         src={imageUrl}
                         alt=""
                         height={imgSize}

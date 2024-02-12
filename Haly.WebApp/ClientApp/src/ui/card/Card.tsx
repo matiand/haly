@@ -62,7 +62,7 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
             data-is-highlighted={isHighlighted}
         >
             <ImageWrapper data-is-rounded={!isAlbumOrPlaylist}>
-                {imageUrl ? <img loading="lazy" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
+                {imageUrl ? <img loading="eager" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 
                 {isAlbumOrPlaylist && (
                     <div id="card-playback-wrapper">
@@ -110,18 +110,18 @@ const Wrapper = styled("div", {
     },
 
     "&[data-is-highlighted=true]": {
-        border: "1px solid $white600",
+        border: "2px solid $secondary700",
     },
 });
 
 const ImageWrapper = styled("div", {
-    background: "$black200",
+    background: "$black400",
     marginBottom: "$600",
     paddingBottom: "100%",
     position: "relative",
 
     "& > img": {
-        background: "$black100",
+        background: "$black400",
         borderRadius: "4px",
         boxShadow: "0 4px 24px $cardImage",
         height: "100%",

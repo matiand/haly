@@ -63,6 +63,12 @@ const globalStyles = globalCss({
         color: "$white800",
     },
 
+    [`.${classNames.clampEllipsis} *:focus-visible`]: {
+        outline: "none",
+        borderBottom: "2px solid $secondary500",
+        marginBottom: "-2px",
+    },
+
     [`.${classNames.hiddenVisually}`]: {
         clip: "rect(0 0 0 0)",
         clipPath: "inset(50%)",

@@ -15,7 +15,7 @@ function UserDropdownMenuHeader({ user: { name, imageUrl } }: UserDropdownMenuHe
 
     return (
         <HeaderWrapper title={title} css={{ columnGap: imageUrl ? theme.space[600] : 0 }}>
-            {imageUrl && <img alt="" src={imageUrl} />}
+            {imageUrl && <img alt="" src={imageUrl} loading="eager" />}
 
             <div className={classNames.clampEllipsis}>{name}</div>
             <span className={classNames.clampEllipsis}>{badge}</span>

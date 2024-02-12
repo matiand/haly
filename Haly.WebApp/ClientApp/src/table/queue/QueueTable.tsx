@@ -54,12 +54,10 @@ const TableRoot = styled(Table.Root, {
     },
 
     "& td:nth-of-type(3)": {
-        // color: "$white400",
         justifySelf: "start",
     },
 
     "&& td:nth-of-type(4)": {
-        // color: "$white400",
         justifySelf: "end",
     },
 });

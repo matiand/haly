@@ -42,6 +42,7 @@ function PlaybackButton({
 
     return (
         <Button
+            type="button"
             aria-label={label}
             title={label}
             onClick={onClick}

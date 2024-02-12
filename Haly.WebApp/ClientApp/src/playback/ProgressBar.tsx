@@ -31,7 +31,7 @@ function ProgressBar({ value, onChange, max, step, label, isHighlighted, onCommi
             <Track>
                 <Range className="slider-range" />
             </Track>
-            <Thumb />
+            <Thumb title={label} />
         </Root>
     );
 }

@@ -5,10 +5,7 @@ import { StyledTitle } from "./TrackTitle";
 export const Root = styled("div", {
     alignItems: "center",
     display: "flex",
-
-    "& > *:first-child": {
-        marginRight: "$600",
-    },
+    gap: "$500",
 
     [`& .${classNames.clampEllipsis} span`]: {
         display: "inline",

@@ -54,7 +54,7 @@ const TableRoot = styled(Table.Root, {
     },
 
     // Fix first cell being hidden on hover.
-    "&& tr:hover > td:nth-of-type(1) > div > div": {
+    "&& tr:hover > td:nth-of-type(1) > div > :not(button)": {
         display: "grid",
     },
 });
