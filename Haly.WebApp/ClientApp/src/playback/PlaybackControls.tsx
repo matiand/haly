@@ -7,6 +7,7 @@ import { playerSdkAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import { selectedTracksAtom } from "../common/atoms/trackAtoms";
 import { styled } from "../common/theme";
 import DeviceDropdownMenu from "./DeviceDropdownMenu";
+import LyricsAnchor from "./LyricsAnchor";
 import PlaybackButton from "./PlaybackButton";
 import PlaybackToggle from "./PlaybackToggle";
 import QueueButton from "./QueueButton";
@@ -100,6 +101,7 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
             </ControlsWrapper>
 
             <div>
+                <LyricsAnchor track={track} />
                 <QueueButton />
                 <DeviceDropdownMenu />
                 <VolumeControl
