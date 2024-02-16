@@ -7,10 +7,12 @@ using Haly.WebApp.Features.Playlists.TotalDuration;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.Validation;
 using Haly.WebApp.Hubs;
+using Haly.WebApp.ThirdPartyApis.Genius;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Refit;
 
 // CA1852 Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
 #pragma warning disable CA1852
@@ -25,6 +27,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ISpotifyEndpointCollector, SpotifyEndpointCollector>();
 builder.Services.AddHttpClient<ISpotifyService, SpotifyService>().AddExponentialRetryPolicy();
 builder.Services.AddHttpClient<ISpotifyPlaybackService, SpotifyPlaybackService>().AddExponentialRetryPolicy();
+
+builder.Services.AddRefitClient<IGeniusApi>()
+    .ConfigureHttpClient(c =>
+    {
+        var options = builder.Configuration.GetSection(GeniusOptions.Key).Get<GeniusOptions>()!;
+        c.BaseAddress = new Uri(options.BaseUri);
+    });
 
 builder.Services.AddSingleton<CurrentUserStore>();
 builder.Services.AddSingleton<ValidateAccessTokenFilterService>();
