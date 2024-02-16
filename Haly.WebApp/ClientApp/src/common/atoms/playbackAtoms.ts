@@ -51,3 +51,21 @@ export const persistedWithImprovedShuffleAtom = atom(
         localStorage.setItem("withImprovedShuffle", newValue.toString());
     },
 );
+
+const withGeniusIntegrationAtom = atom<boolean>(localStorage.getItem("withGeniusIntegration") === "true");
+export const persistedWithGeniusIntegrationAtom = atom(
+    (get) => get(withGeniusIntegrationAtom),
+    (_, set, newValue: boolean) => {
+        set(withGeniusIntegrationAtom, newValue);
+        localStorage.setItem("withGeniusIntegration", newValue.toString());
+    },
+);
+
+const geniusTokenAtom = atom<string>(localStorage.getItem("geniusToken") ?? "");
+export const persistedGeniusTokenAtom = atom(
+    (get) => get(geniusTokenAtom),
+    (_, set, newValue: string) => {
+        set(geniusTokenAtom, newValue);
+        localStorage.setItem("geniusToken", newValue);
+    },
+);

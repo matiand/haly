@@ -5,6 +5,7 @@ import { persistedWithImprovedShuffleAtom } from "../common/atoms/playbackAtoms"
 import { styled } from "../common/theme";
 import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/usePlaylistSortOrder";
 import Checkbox from "./Checkbox";
+import GeniusConfiguration from "./GeniusConfiguration";
 import Select from "./Select";
 
 function Preferences() {
@@ -59,6 +60,11 @@ function Preferences() {
                     onChange={() => setWithImprovedShuffle(!withImprovedShuffle)}
                     defaultValue={withImprovedShuffle}
                 />
+            </div>
+
+            <div>
+                <h2>Genius</h2>
+                <GeniusConfiguration />
             </div>
         </Section>
     );
