@@ -35,75 +35,75 @@ import {
 /**
  * 
  * @export
- * @interface TrackSearchResultDtoTrack
+ * @interface FindTrackQueryResponseTrack
  */
-export interface TrackSearchResultDtoTrack {
+export interface FindTrackQueryResponseTrack {
     /**
      * 
      * @type {string}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     id?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     playbackId?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     duration: string;
     /**
      * 
      * @type {string}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     uri?: string | null;
     /**
      * 
      * @type {boolean}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     isPlayable: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     isExplicit: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     isSong: boolean;
     /**
      * 
      * @type {PlaylistTrackDtoAlbum}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     album: PlaylistTrackDtoAlbum;
     /**
      * 
      * @type {Array<ArtistBriefDto>}
-     * @memberof TrackSearchResultDtoTrack
+     * @memberof FindTrackQueryResponseTrack
      */
     artists: Array<ArtistBriefDto>;
 }
 
 /**
- * Check if a given object implements the TrackSearchResultDtoTrack interface.
+ * Check if a given object implements the FindTrackQueryResponseTrack interface.
  */
-export function instanceOfTrackSearchResultDtoTrack(value: object): boolean {
+export function instanceOfFindTrackQueryResponseTrack(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "duration" in value;
@@ -116,11 +116,11 @@ export function instanceOfTrackSearchResultDtoTrack(value: object): boolean {
     return isInstance;
 }
 
-export function TrackSearchResultDtoTrackFromJSON(json: any): TrackSearchResultDtoTrack {
-    return TrackSearchResultDtoTrackFromJSONTyped(json, false);
+export function FindTrackQueryResponseTrackFromJSON(json: any): FindTrackQueryResponseTrack {
+    return FindTrackQueryResponseTrackFromJSONTyped(json, false);
 }
 
-export function TrackSearchResultDtoTrackFromJSONTyped(json: any, ignoreDiscriminator: boolean): TrackSearchResultDtoTrack {
+export function FindTrackQueryResponseTrackFromJSONTyped(json: any, ignoreDiscriminator: boolean): FindTrackQueryResponseTrack {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -139,7 +139,7 @@ export function TrackSearchResultDtoTrackFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function TrackSearchResultDtoTrackToJSON(value?: TrackSearchResultDtoTrack | null): any {
+export function FindTrackQueryResponseTrackToJSON(value?: FindTrackQueryResponseTrack | null): any {
     if (value === undefined) {
         return undefined;
     }

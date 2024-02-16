@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Search.FindTrackQuery;
 
-public record FindTrackQuery(string PlaylistId, string TrackPlaybackId) : IRequest<TrackSearchResultDto>;
+public record FindTrackQuery(string PlaylistId, string TrackPlaybackId) : IRequest<FindTrackQueryResponse>;
 
-public class FindTrackQueryHandler : IRequestHandler<FindTrackQuery, TrackSearchResultDto>
+public class FindTrackQueryHandler : IRequestHandler<FindTrackQuery, FindTrackQueryResponse>
 {
     private readonly LibraryContext _db;
 
@@ -17,12 +17,12 @@ public class FindTrackQueryHandler : IRequestHandler<FindTrackQuery, TrackSearch
         _db = db;
     }
 
-    public async Task<TrackSearchResultDto> Handle(FindTrackQuery request, CancellationToken cancellationToken)
+    public async Task<FindTrackQueryResponse> Handle(FindTrackQuery request, CancellationToken cancellationToken)
     {
         var track = await _db.PlaylistTracks.FirstOrDefaultAsync(
             track => track.PlaylistId == request.PlaylistId && track.PlaybackId == request.TrackPlaybackId,
             cancellationToken);
 
-        return new TrackSearchResultDto(track?.Adapt<TrackDto>());
+        return new FindTrackQueryResponse(track?.Adapt<TrackDto>());
     }
 }

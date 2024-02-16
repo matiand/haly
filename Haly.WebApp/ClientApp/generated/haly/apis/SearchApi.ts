@@ -15,11 +15,11 @@
 
 import * as runtime from '../runtime';
 import type {
-  TrackSearchResultDto,
+  FindTrackQueryResponse,
 } from '../models';
 import {
-    TrackSearchResultDtoFromJSON,
-    TrackSearchResultDtoToJSON,
+    FindTrackQueryResponseFromJSON,
+    FindTrackQueryResponseToJSON,
 } from '../models';
 
 export interface SearchCacheUsingPlaybackDataRequest {
@@ -33,10 +33,10 @@ export interface SearchCacheUsingPlaybackDataRequest {
 export class SearchApi extends runtime.BaseAPI {
 
     /**
-     * Find a track in the cache using playback data
-     * Find track in the cache
+     * Find a track in our cache using playback data
+     * Find track in our cache
      */
-    async searchCacheUsingPlaybackDataRaw(requestParameters: SearchCacheUsingPlaybackDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TrackSearchResultDto>> {
+    async searchCacheUsingPlaybackDataRaw(requestParameters: SearchCacheUsingPlaybackDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FindTrackQueryResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters.playlistId !== undefined) {
@@ -56,14 +56,14 @@ export class SearchApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TrackSearchResultDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FindTrackQueryResponseFromJSON(jsonValue));
     }
 
     /**
-     * Find a track in the cache using playback data
-     * Find track in the cache
+     * Find a track in our cache using playback data
+     * Find track in our cache
      */
-    async searchCacheUsingPlaybackData(requestParameters: SearchCacheUsingPlaybackDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TrackSearchResultDto> {
+    async searchCacheUsingPlaybackData(requestParameters: SearchCacheUsingPlaybackDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FindTrackQueryResponse> {
         const response = await this.searchCacheUsingPlaybackDataRaw(requestParameters, initOverrides);
         return await response.value();
     }

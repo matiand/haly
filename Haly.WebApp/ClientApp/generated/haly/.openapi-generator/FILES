@@ -27,6 +27,8 @@ models/DeviceDto.ts
 models/DuplicateProblem.ts
 models/DuplicateType.ts
 models/DuplicatesStrategy.ts
+models/FindTrackQueryResponse.ts
+models/FindTrackQueryResponseTrack.ts
 models/FollowedArtistDto.ts
 models/GetMyLikedSongsQueryResponse.ts
 models/HighlightedPlaylistDto.ts
@@ -53,8 +55,6 @@ models/RemoveTracksRequest.ts
 models/RemoveTracksRequestBody.ts
 models/TopArtistDto.ts
 models/TrackDto.ts
-models/TrackSearchResultDto.ts
-models/TrackSearchResultDtoTrack.ts
 models/UpdatePlaybackCommand.ts
 models/UpdatePlaylistDetailsRequest.ts
 models/UpdatePlaylistDetailsRequestBody.ts

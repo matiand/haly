@@ -1548,8 +1548,8 @@ paths:
     get:
       tags:
         - Search
-      summary: Find track in the cache
-      description: Find a track in the cache using playback data
+      summary: Find track in our cache
+      description: Find a track in our cache using playback data
       operationId: SearchCacheUsingPlaybackData
       parameters:
         - name: playlistId
@@ -1566,7 +1566,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackSearchResultDto'
+                $ref: '#/components/schemas/FindTrackQueryResponse'
   '/Users/{id}':
     get:
       tags:
@@ -1929,6 +1929,14 @@ components:
         - AddNewOnes
         - AddAll
       type: string
+    FindTrackQueryResponse:
+      type: object
+      properties:
+        track:
+          allOf:
+            - $ref: '#/components/schemas/TrackDto'
+          nullable: true
+      additionalProperties: false
     FollowedArtistDto:
       required:
         - followersTotal
@@ -2309,14 +2317,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ArtistBriefDto'
-      additionalProperties: false
-    TrackSearchResultDto:
-      type: object
-      properties:
-        track:
-          allOf:
-            - $ref: '#/components/schemas/TrackDto'
-          nullable: true
       additionalProperties: false
     UpdatePlaybackCommand:
       required:
