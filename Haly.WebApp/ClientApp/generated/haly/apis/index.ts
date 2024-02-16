@@ -3,6 +3,7 @@
 export * from './AlbumsApi';
 export * from './ArtistsApi';
 export * from './JobsApi';
+export * from './LyricsApi';
 export * from './MeApi';
 export * from './MeFollowingApi';
 export * from './PlayerApi';

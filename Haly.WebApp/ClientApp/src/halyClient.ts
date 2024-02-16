@@ -3,6 +3,7 @@ import {
     ArtistsApi,
     Configuration,
     JobsApi,
+    LyricsApi,
     MeApi,
     MeFollowingApi,
     Middleware,
@@ -42,6 +43,7 @@ export default {
     albums: new AlbumsApi(config),
     jobs: new JobsApi(config),
     search: new SearchApi(config),
+    lyrics: new LyricsApi(config),
     isProblem: (obj: unknown): obj is Problem => {
         return typeof obj == "object" && obj !== null && "type" in obj && "status" in obj && "title" in obj;
     },

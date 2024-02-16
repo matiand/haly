@@ -2,6 +2,7 @@
 apis/AlbumsApi.ts
 apis/ArtistsApi.ts
 apis/JobsApi.ts
+apis/LyricsApi.ts
 apis/MeApi.ts
 apis/MeFollowingApi.ts
 apis/PlayerApi.ts
@@ -30,8 +31,10 @@ models/DuplicatesStrategy.ts
 models/FindTrackQueryResponse.ts
 models/FindTrackQueryResponseTrack.ts
 models/FollowedArtistDto.ts
+models/GeniusQueryBody.ts
 models/GetMyLikedSongsQueryResponse.ts
 models/HighlightedPlaylistDto.ts
+models/LyricsDto.ts
 models/OwnerBriefDto.ts
 models/PaginatedTracksDto.ts
 models/PaginatedTracksDtoPage.ts
@@ -48,6 +51,7 @@ models/PlaylistWithTracksDto.ts
 models/PlaylistWithTracksDtoOwner.ts
 models/PrivateUserDto.ts
 models/Problem.ts
+models/PutLyricsRequest.ts
 models/PutPlaybackRequest.ts
 models/ReleaseItemDto.ts
 models/RemoveTrackDto.ts

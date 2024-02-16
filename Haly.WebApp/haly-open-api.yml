@@ -228,6 +228,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  '/Lyrics/{id}':
+    get:
+      tags:
+        - Lyrics
+      summary: Find lyrics in our cache
+      operationId: GetLyrics
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lyrics result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LyricsDto'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      tags:
+        - Lyrics
+      summary: Update lyrics
+      description: Fetch lyrics from GENIUS and update our cache
+      operationId: PutLyrics
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/GeniusQueryBody'
+          text/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/GeniusQueryBody'
+          application/*+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/GeniusQueryBody'
+      responses:
+        '201':
+          description: Lyrics created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LyricsDto'
+        '204':
+          description: Lyrics updated
   /Me:
     put:
       tags:
@@ -1955,6 +2015,20 @@ components:
           type: integer
           format: int32
       additionalProperties: false
+    GeniusQueryBody:
+      required:
+        - artistName
+        - geniusToken
+        - trackName
+      type: object
+      properties:
+        trackName:
+          type: string
+        artistName:
+          type: string
+        geniusToken:
+          type: string
+      additionalProperties: false
     GetMyLikedSongsQueryResponse:
       required:
         - collectionId
@@ -1984,6 +2058,17 @@ components:
           nullable: true
         ownerName:
           type: string
+      additionalProperties: false
+    LyricsDto:
+      required:
+        - playbackId
+      type: object
+      properties:
+        playbackId:
+          type: string
+        geniusUrl:
+          type: string
+          nullable: true
       additionalProperties: false
     OwnerBriefDto:
       required:
@@ -2407,6 +2492,7 @@ tags:
   - name: Albums
   - name: Artists
   - name: Jobs
+  - name: Lyrics
   - name: Player
   - name: Playlists
   - name: Search
