@@ -13,8 +13,6 @@ function Search() {
             isDefault: true,
             onSelected: () => {
                 setShouldSearchLibrary(false);
-
-                return 1;
             },
         },
 
@@ -23,8 +21,6 @@ function Search() {
             isDefault: false,
             onSelected: () => {
                 setShouldSearchLibrary(false);
-
-                return 1;
             },
         },
         {
@@ -32,8 +28,6 @@ function Search() {
             isDefault: false,
             onSelected: () => {
                 setShouldSearchLibrary(false);
-
-                return 1;
             },
         },
 
@@ -42,8 +36,6 @@ function Search() {
             isDefault: false,
             onSelected: () => {
                 setShouldSearchLibrary(false);
-
-                return 1;
             },
         },
 
@@ -52,12 +44,11 @@ function Search() {
             isDefault: false,
             onSelected: () => {
                 setShouldSearchLibrary(true);
-                return 1;
             },
         },
     ];
 
-    const searchVariant: SearchBarProps["variant"] = shouldSearchLibrary ? "library" : "spotifyApi";
+    const searchVariant: SearchBarProps["variant"] = shouldSearchLibrary ? "library" : "spotify";
 
     return (
         <Wrapper>

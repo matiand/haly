@@ -1,29 +1,31 @@
-import { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
 import { HiOutlineSearch } from "react-icons/hi";
 import { useDebounce } from "usehooks-ts";
 
 import { styled } from "../common/theme";
 
 export type SearchBarProps = {
-    variant: "spotifyApi" | "library" | "playlist";
+    variant: "spotify" | "library" | "playlist";
     onChange?: (text: string) => void;
 };
 
-function SearchBar({ variant, onChange }: SearchBarProps) {
-    const [search, setSearch] = useState("");
-    const debouncedValue = useDebounce(search, 175);
-    const inputRef = useRef<HTMLInputElement>(null);
+type Inputs = {
+    search: string;
+};
 
-    const onInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-        const text = e.target.value;
-        setSearch(text);
-    };
+function SearchBar({ variant, onChange }: SearchBarProps) {
+    const { register, watch } = useForm<Inputs>();
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const search = watch("search");
+    const debounceSearch = useDebounce(search, 175);
 
     useEffect(() => {
         if (onChange) {
-            onChange(debouncedValue);
+            onChange(debounceSearch);
         }
-    }, [debouncedValue, onChange]);
+    }, [debounceSearch, onChange]);
 
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
@@ -38,17 +40,27 @@ function SearchBar({ variant, onChange }: SearchBarProps) {
         return () => window.removeEventListener("keydown", keyHandler);
     }, [variant]);
 
+    const { ref: reactHookFormRef, ...rest } = register("search");
+
     return (
-        <Form variant={variant} role="search" onSubmit={(e) => e.preventDefault()}>
+        <Form
+            variant={variant}
+            role="search"
+            autoComplete="off"
+            autoCapitalize="off"
+            autoCorrect="off"
+            spellCheck="false"
+            onSubmit={(e) => e.preventDefault()}
+        >
             <Input
+                {...rest}
                 {...inputPropsByVariant[variant]}
-                ref={inputRef}
+                ref={(node) => {
+                    reactHookFormRef(node);
+                    inputRef.current = node;
+                }}
                 type="search"
-                autoCapitalize="false"
-                autoCorrect="false"
-                spellCheck={false}
                 value={search}
-                onChange={onInputChange}
             />
 
             <div>
@@ -61,19 +73,19 @@ function SearchBar({ variant, onChange }: SearchBarProps) {
 }
 
 const inputPropsByVariant: Record<SearchBarProps["variant"], Record<string, string>> = {
-    spotifyApi: {
-        placeholder: "What do you want to listen to?",
-        "aria-label": "Search Haly",
-        variant: "spotifyApi",
+    spotify: {
+        placeholder: "What do you want to play?",
+        "aria-label": "Search",
+        variant: "spotify",
     },
     library: {
         placeholder: "Search your library",
-        "aria-label": "Search Your Library",
+        "aria-label": "Library search",
         variant: "library",
     },
     playlist: {
         placeholder: "Search in playlist",
-        "aria-label": "Search in playlist",
+        "aria-label": "Playlist search",
         variant: "playlist",
     },
 };
@@ -81,7 +93,7 @@ const inputPropsByVariant: Record<SearchBarProps["variant"], Record<string, stri
 const Form = styled("form", {
     variants: {
         variant: {
-            spotifyApi: {
+            spotify: {
                 $$iconWidth: "24px",
 
                 "& > input": {
