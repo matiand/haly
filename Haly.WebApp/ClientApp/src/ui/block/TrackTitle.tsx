@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import * as Block from "./Block";
 
 import { classNames, styled } from "../../common/theme";
 import HighlightableText from "../../table/HighlightableText";
@@ -49,10 +50,7 @@ function TrackTitle({ name, href, searchTerm, onContextMenu, useNavigateHook }: 
     );
 }
 
-export const StyledTitle = styled("div", {
-    fontSize: "$350",
-    gridArea: "title",
-
+const StyledTitle = styled(Block.Title, {
     "& > div[role=button]": {
         cursor: "pointer",
         display: "inline",

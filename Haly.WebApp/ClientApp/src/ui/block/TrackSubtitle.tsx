@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { TrackDto } from "../../../generated/haly";
 import { classNames, styled } from "../../common/theme";
 import HighlightableText from "../../table/HighlightableText";
+import * as Block from "./Block";
 
 type TrackSubtitleProps = {
     artists: TrackDto["artists"];
@@ -43,9 +44,7 @@ function TrackSubtitle({ artists, searchTerm, useNavigateHook }: TrackSubtitlePr
     );
 }
 
-export const StyledSubtitle = styled("span", {
-    gridArea: "subtitle",
-
+export const StyledSubtitle = styled(Block.Subtitle, {
     "& > a, & > div[role=button]": {
         color: "$white500",
         cursor: "pointer",

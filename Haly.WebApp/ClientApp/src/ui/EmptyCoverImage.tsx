@@ -4,13 +4,13 @@ import { MdOutlineMusicNote } from "react-icons/md";
 import { styled } from "../common/theme";
 
 type EmptyCoverImageProps = {
-    type: "track" | "card";
+    type: "block" | "card";
 };
 
 function EmptyCoverImage({ type }: EmptyCoverImageProps) {
     return (
         <Wrapper aria-hidden type={type}>
-            {type === "track" ? <MdOutlineMusicNote /> : <LuMusic />}
+            {type === "block" ? <MdOutlineMusicNote /> : <LuMusic />}
         </Wrapper>
     );
 }
@@ -35,7 +35,7 @@ const Wrapper = styled("div", {
                     strokeWidth: "1px",
                 },
             },
-            track: {
+            block: {
                 $$size: "40px",
 
                 minHeight: "$$size",

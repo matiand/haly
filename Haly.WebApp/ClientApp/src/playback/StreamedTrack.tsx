@@ -8,9 +8,9 @@ import { theme } from "../common/theme";
 import useDraggable from "../dnd/useDraggable";
 import useContextMenu from "../menus/useContextMenu";
 import { TrackLikedState } from "../table/useTableRowLikedState";
-import * as Track from "../ui/track/Track";
-import TrackSubtitle from "../ui/track/TrackSubtitle";
-import TrackTitle from "../ui/track/TrackTitle";
+import * as Block from "../ui/block/Block";
+import TrackSubtitle from "../ui/block/TrackSubtitle";
+import TrackTitle from "../ui/block/TrackTitle";
 import StreamedTrackContextMenu from "./StreamedTrackContextMenu";
 import StreamedTrackCoverImage from "./StreamedTrackCoverImage";
 
@@ -50,7 +50,7 @@ function StreamedTrack({ track, likedState, foundTrackId }: StreamedTrackProps) 
 
     return (
         <>
-            <Track.Root ref={draggableRef} {...draggableProps} style={{ gap: theme.space["600"] }}>
+            <Block.Root ref={draggableRef} {...draggableProps} style={{ gap: theme.space["600"] }}>
                 <StreamedTrackCoverImage
                     imageUrl={track.album.imageUrl}
                     trackName={track.name}
@@ -58,11 +58,11 @@ function StreamedTrack({ track, likedState, foundTrackId }: StreamedTrackProps) 
                     onContextMenu={onContextMenu}
                 />
 
-                <Track.Grid type="playback">
+                <Block.Grid type="playback">
                     <TrackTitle name={track.name} href={albumHref} onContextMenu={onContextMenu} useNavigateHook />
                     <TrackSubtitle artists={track.artists} useNavigateHook />
-                </Track.Grid>
-            </Track.Root>
+                </Block.Grid>
+            </Block.Root>
 
             <StreamedTrackContextMenu
                 track={track}

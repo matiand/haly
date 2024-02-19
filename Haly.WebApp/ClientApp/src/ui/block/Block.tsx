@@ -1,6 +1,4 @@
 import { classNames, styled } from "../../common/theme";
-import { StyledSubtitle } from "./TrackSubtitle";
-import { StyledTitle } from "./TrackTitle";
 
 export const Root = styled("div", {
     alignItems: "center",
@@ -12,13 +10,22 @@ export const Root = styled("div", {
     },
 });
 
+export const Title = styled("div", {
+    fontSize: "$350",
+    gridArea: "title",
+});
+
+export const Subtitle = styled("span", {
+    gridArea: "subtitle",
+})
+
 export const Grid = styled("div", {
     variants: {
         type: {
             playback: {
                 lineHeight: 1.4,
 
-                [`& ${StyledTitle} > a, & ${StyledTitle} > div[role=button]`]: {
+                    [`& ${Title} > a, & ${Title} > div[role=button]`]: {
                     color: "inherit",
                     fontSize: "$300",
                     textDecoration: "none",
@@ -28,11 +35,11 @@ export const Grid = styled("div", {
                     },
                 },
 
-                [`& ${StyledSubtitle} > a, & ${StyledSubtitle} > div[role=button]`]: {
+                    [`& ${Subtitle} > a, & ${Subtitle} > div[role=button]`]: {
                     fontSize: "$100",
                 },
             },
-            cell: {
+            default: {
                 fontSize: "$300",
                 paddingRight: "$400",
             },
@@ -44,26 +51,19 @@ export const Grid = styled("div", {
     display: "grid",
     fontWeight: "500",
     gridTemplateAreas: `"title title"
-                        "explicit subtitle"`,
+                        "mark subtitle"`,
     gridTemplateColumns: "auto 1fr",
     userSelect: "none",
 });
 
-export function ExplicitMark() {
-    return (
-        <ExplicitMarkWrapper aria-label="Explicit" title="Explicit">
-            E
-        </ExplicitMarkWrapper>
-    );
-}
+export const Mark = styled("span", {
+    gridArea: "mark",
 
-export const ExplicitMarkWrapper = styled("span", {
-    background: "$explicitMarkBg",
+    background: "$blockMarkBg",
     borderRadius: "2px",
     color: "$black600",
     fontSize: "8px",
     fontWeight: 800,
-    gridArea: "explicit",
     lineHeight: 1,
     marginRight: "$400",
     marginTop: "$100",

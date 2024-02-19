@@ -8,11 +8,11 @@ type CoverImageProps = {
 
 const size = 40;
 
-function TrackCoverImage({ imageUrl }: CoverImageProps) {
+function BlockImage({ imageUrl }: CoverImageProps) {
     return imageUrl ? (
         <Image alt="" src={imageUrl} loading="eager" width={size} height={size} />
     ) : (
-        <EmptyCoverImage type="track" />
+        <EmptyCoverImage type="block" />
     );
 }
 
@@ -21,4 +21,4 @@ const Image = styled("img", {
     flex: "0 0 auto",
 });
 
-export default TrackCoverImage;
+export default BlockImage;

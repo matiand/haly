@@ -43,7 +43,7 @@ export const theme = {
         userDropdownBtnHover: "rgba(0, 0, 0, 0.8)",
         menuItemText: "rgba(255, 255, 255, 0.9)",
         modalOverlayBg: "rgba(0, 0, 0, 0.6)",
-        explicitMarkBg: "rgba(255, 255, 255, 0.6)",
+        blockMarkBg: "rgba(255, 255, 255, 0.6)",
         radioBtnBg: "rgba(255, 255, 255, 0.08)",
         radioBtnBgHover: "rgba(255, 255, 255, 0.12)",
         radioBtnBgPress: "rgba(255, 255, 255, 0.04)",

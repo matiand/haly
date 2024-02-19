@@ -1,8 +1,9 @@
 import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
-import * as Track from "../ui/track/Track";
-import TrackCoverImage from "../ui/track/TrackCoverImage";
-import TrackSubtitle from "../ui/track/TrackSubtitle";
-import TrackTitle from "../ui/track/TrackTitle";
+import * as Block from "../ui/block/Block";
+import BlockImage from "../ui/block/BlockImage";
+import ExplicitMark from "../ui/block/ExplicitMark";
+import TrackSubtitle from "../ui/block/TrackSubtitle";
+import TrackTitle from "../ui/block/TrackTitle";
 
 type TrackInformationCellProps = {
     track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
@@ -15,15 +16,15 @@ function TrackInformationCell({ track, showExplicitMark, showArtists, searchTerm
     const showCoverImage = "album" in track;
 
     return (
-        <Track.Root>
-            {showCoverImage && <TrackCoverImage imageUrl={track.album.imageUrl} />}
+        <Block.Root>
+            {showCoverImage && <BlockImage imageUrl={track.album.imageUrl} />}
 
-            <Track.Grid type="cell">
+            <Block.Grid type="default">
                 <TrackTitle name={track.name} searchTerm={searchTerm} />
-                {showExplicitMark && <Track.ExplicitMark />}
+                {showExplicitMark && <ExplicitMark />}
                 {showArtists && <TrackSubtitle artists={track.artists} searchTerm={searchTerm} />}
-            </Track.Grid>
-        </Track.Root>
+            </Block.Grid>
+        </Block.Root>
     );
 }
 
