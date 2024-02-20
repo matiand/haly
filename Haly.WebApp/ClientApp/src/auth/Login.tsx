@@ -5,7 +5,9 @@ export function Login(props: { loginFn: () => unknown }) {
     return (
         <Main>
             <h1>HALY</h1>
-            <Button label="Log in" onClick={props.loginFn} />
+            <Button variant="round" type="button" onClick={props.loginFn}>
+                Log in
+            </Button>
         </Main>
     );
 }

@@ -1,29 +1,42 @@
 import { styled } from "../common/theme";
 
-type ButtonProps = {
-    label: string;
-    onClick: () => void;
-};
-
-function Button({ label, onClick }: ButtonProps) {
-    return (
-        <StyledButton type="button" onClick={onClick}>
-            {label}
-        </StyledButton>
-    );
-}
-
 const StyledButton = styled("button", {
-    background: "$white800",
-    borderRadius: "999px",
-    color: "$black800",
-    cursor: "pointer",
-    fontWeight: 700,
-    padding: "$400 $800",
+    variants: {
+        variant: {
+            round: {
+                background: "$white800",
+                borderRadius: "999px",
+                color: "$black800",
+                cursor: "pointer",
+                fontWeight: 700,
+                padding: "$400 $800",
 
-    "&:hover": {
-        transform: "scale(1.05)",
+                "&:hover": {
+                    transform: "scale(1.05)",
+                },
+            },
+            square: {
+                $$borderColor: "rgba(255, 255, 255, 0.3)",
+
+                background: "transparent",
+                border: "1px solid $$borderColor",
+                borderRadius: "4px",
+                color: "$white800",
+                fontSize: "$100",
+                fontWeight: "700",
+                letterSpacing: "0.1em",
+                lineHeight: 1.25,
+                padding: "$400 $600",
+                textTransform: "uppercase",
+                userSelect: "none",
+
+                "&:hover": {
+                    borderColor: "$white800",
+                    cursor: "pointer",
+                },
+            },
+        },
     },
 });
 
-export default Button;
+export default StyledButton;

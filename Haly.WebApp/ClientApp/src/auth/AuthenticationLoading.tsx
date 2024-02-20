@@ -13,9 +13,13 @@ function AuthenticationLoading({ logout }: AuthenticationLoadingProps) {
     return (
         <div>
             <ButtonWrapper>
-                {/*// Wait for 2 seconds before showing this button to avoid flashing it when we*/}
-                {/*// wait for token renewal.*/}
-                {isReady && <Button label="Log out" onClick={logout} />}
+                {/* Wait for 2 seconds before showing this button to avoid flashing it when we */}
+                {/* wait for token renewal. */}
+                {isReady && (
+                    <Button variant="round" type="button" onClick={logout}>
+                        Log out
+                    </Button>
+                )}
             </ButtonWrapper>
 
             <LoadingIndicator />
