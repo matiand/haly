@@ -60,7 +60,6 @@ function SearchBar({ variant, onChange }: SearchBarProps) {
                     inputRef.current = node;
                 }}
                 type="search"
-                value={search}
             />
 
             <div>
