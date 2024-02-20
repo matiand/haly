@@ -19,12 +19,12 @@ import {
     PaginatedTracksDtoPageFromJSONTyped,
     PaginatedTracksDtoPageToJSON,
 } from './PaginatedTracksDtoPage';
-import type { PlaylistWithTracksDtoOwner } from './PlaylistWithTracksDtoOwner';
+import type { PlaylistCardDtoOwner } from './PlaylistCardDtoOwner';
 import {
-    PlaylistWithTracksDtoOwnerFromJSON,
-    PlaylistWithTracksDtoOwnerFromJSONTyped,
-    PlaylistWithTracksDtoOwnerToJSON,
-} from './PlaylistWithTracksDtoOwner';
+    PlaylistCardDtoOwnerFromJSON,
+    PlaylistCardDtoOwnerFromJSONTyped,
+    PlaylistCardDtoOwnerToJSON,
+} from './PlaylistCardDtoOwner';
 
 /**
  * 
@@ -64,10 +64,10 @@ export interface PlaylistWithTracksDto {
     likesTotal: number;
     /**
      * 
-     * @type {PlaylistWithTracksDtoOwner}
+     * @type {PlaylistCardDtoOwner}
      * @memberof PlaylistWithTracksDto
      */
-    owner: PlaylistWithTracksDtoOwner;
+    owner: PlaylistCardDtoOwner;
     /**
      * 
      * @type {boolean}
@@ -119,7 +119,7 @@ export function PlaylistWithTracksDtoFromJSONTyped(json: any, ignoreDiscriminato
         'description': !exists(json, 'description') ? undefined : json['description'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'likesTotal': json['likesTotal'],
-        'owner': PlaylistWithTracksDtoOwnerFromJSON(json['owner']),
+        'owner': PlaylistCardDtoOwnerFromJSON(json['owner']),
         'isPersonalized': json['isPersonalized'],
         'tracks': PaginatedTracksDtoPageFromJSON(json['tracks']),
         'totalDuration': json['totalDuration'],
@@ -140,7 +140,7 @@ export function PlaylistWithTracksDtoToJSON(value?: PlaylistWithTracksDto | null
         'description': value.description,
         'imageUrl': value.imageUrl,
         'likesTotal': value.likesTotal,
-        'owner': PlaylistWithTracksDtoOwnerToJSON(value.owner),
+        'owner': PlaylistCardDtoOwnerToJSON(value.owner),
         'isPersonalized': value.isPersonalized,
         'tracks': PaginatedTracksDtoPageToJSON(value.tracks),
         'totalDuration': value.totalDuration,

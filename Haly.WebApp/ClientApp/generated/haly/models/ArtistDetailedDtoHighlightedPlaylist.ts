@@ -13,12 +13,18 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { HighlightedPlaylistDto } from './HighlightedPlaylistDto';
+import type { PlaylistCardDto } from './PlaylistCardDto';
 import {
-    HighlightedPlaylistDtoFromJSON,
-    HighlightedPlaylistDtoFromJSONTyped,
-    HighlightedPlaylistDtoToJSON,
-} from './HighlightedPlaylistDto';
+    PlaylistCardDtoFromJSON,
+    PlaylistCardDtoFromJSONTyped,
+    PlaylistCardDtoToJSON,
+} from './PlaylistCardDto';
+import type { PlaylistCardDtoOwner } from './PlaylistCardDtoOwner';
+import {
+    PlaylistCardDtoOwnerFromJSON,
+    PlaylistCardDtoOwnerFromJSONTyped,
+    PlaylistCardDtoOwnerToJSON,
+} from './PlaylistCardDtoOwner';
 
 /**
  * 
@@ -49,7 +55,13 @@ export interface ArtistDetailedDtoHighlightedPlaylist {
      * @type {string}
      * @memberof ArtistDetailedDtoHighlightedPlaylist
      */
-    ownerName: string;
+    description?: string | null;
+    /**
+     * 
+     * @type {PlaylistCardDtoOwner}
+     * @memberof ArtistDetailedDtoHighlightedPlaylist
+     */
+    owner: PlaylistCardDtoOwner;
 }
 
 /**
@@ -59,7 +71,7 @@ export function instanceOfArtistDetailedDtoHighlightedPlaylist(value: object): b
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "ownerName" in value;
+    isInstance = isInstance && "owner" in value;
 
     return isInstance;
 }
@@ -77,7 +89,8 @@ export function ArtistDetailedDtoHighlightedPlaylistFromJSONTyped(json: any, ign
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'ownerName': json['ownerName'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
+        'owner': PlaylistCardDtoOwnerFromJSON(json['owner']),
     };
 }
 
@@ -93,7 +106,8 @@ export function ArtistDetailedDtoHighlightedPlaylistToJSON(value?: ArtistDetaile
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
-        'ownerName': value.ownerName,
+        'description': value.description,
+        'owner': PlaylistCardDtoOwnerToJSON(value.owner),
     };
 }
 

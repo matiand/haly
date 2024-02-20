@@ -15,15 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
+  ArtistCardDto,
   FollowedArtistDto,
   GetMyLikedSongsQueryResponse,
   PlaylistBriefDto,
   PrivateUserDto,
   Problem,
-  TopArtistDto,
   UserFeedDto,
 } from '../models';
 import {
+    ArtistCardDtoFromJSON,
+    ArtistCardDtoToJSON,
     FollowedArtistDtoFromJSON,
     FollowedArtistDtoToJSON,
     GetMyLikedSongsQueryResponseFromJSON,
@@ -34,8 +36,6 @@ import {
     PrivateUserDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
-    TopArtistDtoFromJSON,
-    TopArtistDtoToJSON,
     UserFeedDtoFromJSON,
     UserFeedDtoToJSON,
 } from '../models';
@@ -171,7 +171,7 @@ export class MeApi extends runtime.BaseAPI {
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read </b>
      * Fetch current user\'s top artists from Spotify
      */
-    async getMyTopArtistsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TopArtistDto>>> {
+    async getMyTopArtistsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtistCardDto>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -183,14 +183,14 @@ export class MeApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TopArtistDtoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ArtistCardDtoFromJSON));
     }
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read </b>
      * Fetch current user\'s top artists from Spotify
      */
-    async getMyTopArtists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TopArtistDto>> {
+    async getMyTopArtists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ArtistCardDto>> {
         const response = await this.getMyTopArtistsRaw(initOverrides);
         return await response.value();
     }

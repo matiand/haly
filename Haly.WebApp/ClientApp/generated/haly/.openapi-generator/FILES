@@ -20,6 +20,7 @@ models/AlbumDetailedDto.ts
 models/AlbumTrackDto.ts
 models/ArtistAppearancesDto.ts
 models/ArtistBriefDto.ts
+models/ArtistCardDto.ts
 models/ArtistDetailedDto.ts
 models/ArtistDetailedDtoHighlightedPlaylist.ts
 models/ArtistDiscographyDto.ts
@@ -33,7 +34,6 @@ models/FindTrackQueryResponseTrack.ts
 models/FollowedArtistDto.ts
 models/GeniusQueryBody.ts
 models/GetMyLikedSongsQueryResponse.ts
-models/HighlightedPlaylistDto.ts
 models/LyricsDto.ts
 models/OwnerBriefDto.ts
 models/PaginatedTracksDto.ts
@@ -44,11 +44,11 @@ models/PlaybackStateDtoContext.ts
 models/PlaybackStateDtoDevice.ts
 models/PlaylistBriefDto.ts
 models/PlaylistCardDto.ts
+models/PlaylistCardDtoOwner.ts
 models/PlaylistTrackDto.ts
 models/PlaylistTrackDtoAlbum.ts
 models/PlaylistTrackDtoPaginatedList.ts
 models/PlaylistWithTracksDto.ts
-models/PlaylistWithTracksDtoOwner.ts
 models/PrivateUserDto.ts
 models/Problem.ts
 models/PutLyricsRequest.ts
@@ -57,7 +57,8 @@ models/ReleaseItemDto.ts
 models/RemoveTrackDto.ts
 models/RemoveTracksRequest.ts
 models/RemoveTracksRequestBody.ts
-models/TopArtistDto.ts
+models/SearchType.ts
+models/SpotifySearchResultsDto.ts
 models/TrackDto.ts
 models/UpdatePlaybackCommand.ts
 models/UpdatePlaylistDetailsRequest.ts

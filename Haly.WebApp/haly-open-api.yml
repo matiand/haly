@@ -535,7 +535,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TopArtistDto'
+                  $ref: '#/components/schemas/ArtistCardDto'
         '400':
           description: Bad request
           content:
@@ -1627,6 +1627,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FindTrackQueryResponse'
+  /Search/spotify:
+    get:
+      tags:
+        - Search
+      summary: Search Spotify API
+      description: This endpoint calls Spotify API.
+      operationId: SearchSpotify
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+        - name: queryType
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/SearchType'
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpotifySearchResultsDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Users/{id}':
     get:
       tags:
@@ -1866,6 +1908,29 @@ components:
         name:
           type: string
       additionalProperties: false
+    ArtistCardDto:
+      required:
+        - followersTotal
+        - genres
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        followersTotal:
+          type: integer
+          format: int32
+        genres:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
     ArtistDetailedDto:
       required:
         - followersTotal
@@ -1894,7 +1959,7 @@ components:
           type: boolean
         highlightedPlaylist:
           allOf:
-            - $ref: '#/components/schemas/HighlightedPlaylistDto'
+            - $ref: '#/components/schemas/PlaylistCardDto'
           nullable: true
         topTracks:
           type: array
@@ -2042,23 +2107,6 @@ components:
           additionalProperties:
             type: string
       additionalProperties: false
-    HighlightedPlaylistDto:
-      required:
-        - id
-        - name
-        - ownerName
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
-        ownerName:
-          type: string
-      additionalProperties: false
     LyricsDto:
       required:
         - playbackId
@@ -2144,6 +2192,7 @@ components:
       required:
         - id
         - name
+        - owner
       type: object
       properties:
         id:
@@ -2156,6 +2205,9 @@ components:
         description:
           type: string
           nullable: true
+        owner:
+          allOf:
+            - $ref: '#/components/schemas/OwnerBriefDto'
       additionalProperties: false
     PlaylistTrackDto:
       required:
@@ -2346,24 +2398,37 @@ components:
           items:
             $ref: '#/components/schemas/RemoveTrackDto'
       additionalProperties: false
-    TopArtistDto:
-      required:
-        - genres
-        - id
-        - name
+    SearchType:
+      enum:
+        - All
+        - Album
+        - Artist
+        - Playlist
+        - Track
+      type: string
+    SpotifySearchResultsDto:
       type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
-        genres:
+        artists:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/ArtistCardDto'
+          nullable: true
+        albums:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+          nullable: true
+        playlists:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaylistCardDto'
+          nullable: true
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackDto'
+          nullable: true
       additionalProperties: false
     TrackDto:
       required:

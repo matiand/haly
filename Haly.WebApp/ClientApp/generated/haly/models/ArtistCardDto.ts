@@ -16,52 +16,59 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface HighlightedPlaylistDto
+ * @interface ArtistCardDto
  */
-export interface HighlightedPlaylistDto {
+export interface ArtistCardDto {
     /**
      * 
      * @type {string}
-     * @memberof HighlightedPlaylistDto
+     * @memberof ArtistCardDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof HighlightedPlaylistDto
+     * @memberof ArtistCardDto
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof HighlightedPlaylistDto
+     * @memberof ArtistCardDto
      */
     imageUrl?: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof HighlightedPlaylistDto
+     * @type {number}
+     * @memberof ArtistCardDto
      */
-    ownerName: string;
+    followersTotal: number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ArtistCardDto
+     */
+    genres: Array<string>;
 }
 
 /**
- * Check if a given object implements the HighlightedPlaylistDto interface.
+ * Check if a given object implements the ArtistCardDto interface.
  */
-export function instanceOfHighlightedPlaylistDto(value: object): boolean {
+export function instanceOfArtistCardDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "ownerName" in value;
+    isInstance = isInstance && "followersTotal" in value;
+    isInstance = isInstance && "genres" in value;
 
     return isInstance;
 }
 
-export function HighlightedPlaylistDtoFromJSON(json: any): HighlightedPlaylistDto {
-    return HighlightedPlaylistDtoFromJSONTyped(json, false);
+export function ArtistCardDtoFromJSON(json: any): ArtistCardDto {
+    return ArtistCardDtoFromJSONTyped(json, false);
 }
 
-export function HighlightedPlaylistDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): HighlightedPlaylistDto {
+export function ArtistCardDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArtistCardDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,11 +77,12 @@ export function HighlightedPlaylistDtoFromJSONTyped(json: any, ignoreDiscriminat
         'id': json['id'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'ownerName': json['ownerName'],
+        'followersTotal': json['followersTotal'],
+        'genres': json['genres'],
     };
 }
 
-export function HighlightedPlaylistDtoToJSON(value?: HighlightedPlaylistDto | null): any {
+export function ArtistCardDtoToJSON(value?: ArtistCardDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -86,7 +94,8 @@ export function HighlightedPlaylistDtoToJSON(value?: HighlightedPlaylistDto | nu
         'id': value.id,
         'name': value.name,
         'imageUrl': value.imageUrl,
-        'ownerName': value.ownerName,
+        'followersTotal': value.followersTotal,
+        'genres': value.genres,
     };
 }
 

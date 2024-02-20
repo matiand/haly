@@ -25,7 +25,7 @@ function ArtistHighlights({ artistId, tracks, playlist }: ArtistHighlightsProps)
                         name={playlist.name}
                         uri={`spotify:playlist:${playlist.id}`}
                         href={`/playlist/${playlist.id}`}
-                        subtitle={`By ${playlist.ownerName}`}
+                        subtitle={`By ${playlist.owner.name}`}
                         imageUrl={playlist.imageUrl}
                     />
                 </div>

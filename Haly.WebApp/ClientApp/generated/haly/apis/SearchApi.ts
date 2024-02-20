@@ -16,15 +16,29 @@
 import * as runtime from '../runtime';
 import type {
   FindTrackQueryResponse,
+  Problem,
+  SearchType,
+  SpotifySearchResultsDto,
 } from '../models';
 import {
     FindTrackQueryResponseFromJSON,
     FindTrackQueryResponseToJSON,
+    ProblemFromJSON,
+    ProblemToJSON,
+    SearchTypeFromJSON,
+    SearchTypeToJSON,
+    SpotifySearchResultsDtoFromJSON,
+    SpotifySearchResultsDtoToJSON,
 } from '../models';
 
 export interface SearchCacheUsingPlaybackDataRequest {
     playlistId?: string;
     trackPlaybackId?: string;
+}
+
+export interface SearchSpotifyRequest {
+    query?: string;
+    queryType?: SearchType;
 }
 
 /**
@@ -65,6 +79,42 @@ export class SearchApi extends runtime.BaseAPI {
      */
     async searchCacheUsingPlaybackData(requestParameters: SearchCacheUsingPlaybackDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FindTrackQueryResponse> {
         const response = await this.searchCacheUsingPlaybackDataRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * This endpoint calls Spotify API.
+     * Search Spotify API
+     */
+    async searchSpotifyRaw(requestParameters: SearchSpotifyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SpotifySearchResultsDto>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.query !== undefined) {
+            queryParameters['query'] = requestParameters.query;
+        }
+
+        if (requestParameters.queryType !== undefined) {
+            queryParameters['queryType'] = requestParameters.queryType;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Search/spotify`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SpotifySearchResultsDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint calls Spotify API.
+     * Search Spotify API
+     */
+    async searchSpotify(requestParameters: SearchSpotifyRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SpotifySearchResultsDto> {
+        const response = await this.searchSpotifyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

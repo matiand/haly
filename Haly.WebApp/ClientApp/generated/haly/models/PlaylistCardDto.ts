@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { PlaylistCardDtoOwner } from './PlaylistCardDtoOwner';
+import {
+    PlaylistCardDtoOwnerFromJSON,
+    PlaylistCardDtoOwnerFromJSONTyped,
+    PlaylistCardDtoOwnerToJSON,
+} from './PlaylistCardDtoOwner';
+
 /**
  * 
  * @export
@@ -43,6 +50,12 @@ export interface PlaylistCardDto {
      * @memberof PlaylistCardDto
      */
     description?: string | null;
+    /**
+     * 
+     * @type {PlaylistCardDtoOwner}
+     * @memberof PlaylistCardDto
+     */
+    owner: PlaylistCardDtoOwner;
 }
 
 /**
@@ -52,6 +65,7 @@ export function instanceOfPlaylistCardDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "owner" in value;
 
     return isInstance;
 }
@@ -70,6 +84,7 @@ export function PlaylistCardDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'description': !exists(json, 'description') ? undefined : json['description'],
+        'owner': PlaylistCardDtoOwnerFromJSON(json['owner']),
     };
 }
 
@@ -86,6 +101,7 @@ export function PlaylistCardDtoToJSON(value?: PlaylistCardDto | null): any {
         'name': value.name,
         'imageUrl': value.imageUrl,
         'description': value.description,
+        'owner': PlaylistCardDtoOwnerToJSON(value.owner),
     };
 }
 

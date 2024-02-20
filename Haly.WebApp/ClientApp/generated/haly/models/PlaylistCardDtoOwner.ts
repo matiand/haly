@@ -23,27 +23,27 @@ import {
 /**
  * 
  * @export
- * @interface PlaylistWithTracksDtoOwner
+ * @interface PlaylistCardDtoOwner
  */
-export interface PlaylistWithTracksDtoOwner {
+export interface PlaylistCardDtoOwner {
     /**
      * 
      * @type {string}
-     * @memberof PlaylistWithTracksDtoOwner
+     * @memberof PlaylistCardDtoOwner
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof PlaylistWithTracksDtoOwner
+     * @memberof PlaylistCardDtoOwner
      */
     name: string;
 }
 
 /**
- * Check if a given object implements the PlaylistWithTracksDtoOwner interface.
+ * Check if a given object implements the PlaylistCardDtoOwner interface.
  */
-export function instanceOfPlaylistWithTracksDtoOwner(value: object): boolean {
+export function instanceOfPlaylistCardDtoOwner(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -51,11 +51,11 @@ export function instanceOfPlaylistWithTracksDtoOwner(value: object): boolean {
     return isInstance;
 }
 
-export function PlaylistWithTracksDtoOwnerFromJSON(json: any): PlaylistWithTracksDtoOwner {
-    return PlaylistWithTracksDtoOwnerFromJSONTyped(json, false);
+export function PlaylistCardDtoOwnerFromJSON(json: any): PlaylistCardDtoOwner {
+    return PlaylistCardDtoOwnerFromJSONTyped(json, false);
 }
 
-export function PlaylistWithTracksDtoOwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistWithTracksDtoOwner {
+export function PlaylistCardDtoOwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlaylistCardDtoOwner {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -66,7 +66,7 @@ export function PlaylistWithTracksDtoOwnerFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function PlaylistWithTracksDtoOwnerToJSON(value?: PlaylistWithTracksDtoOwner | null): any {
+export function PlaylistCardDtoOwnerToJSON(value?: PlaylistCardDtoOwner | null): any {
     if (value === undefined) {
         return undefined;
     }
