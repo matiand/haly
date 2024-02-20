@@ -80,7 +80,9 @@ const Wrapper = styled("div", {
     },
 
     h3: {
+        color: "$black800",
         fontSize: "$400",
+        fontWeight: 700,
         marginBlockEnd: "$200",
     },
 });
@@ -101,8 +103,7 @@ const OptionEntry = styled("div", {
     gap: "$800",
 
     code: {
-        color: "$black800",
-        fontWeight: 700,
+        fontWeight: 500,
     },
 
     "&:not(:last-of-type)": {

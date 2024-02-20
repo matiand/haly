@@ -4,18 +4,21 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { useDebounce } from "usehooks-ts";
 
 import { styled } from "../common/theme";
+import Button from "../ui/Button";
 
-export type SearchBarProps = {
+type SearchBarProps = {
     variant: "spotify" | "library" | "playlist";
     onChange?: (text: string) => void;
+    onSubmit?: (text: string) => void;
+    initialValue?: string;
 };
 
 type Inputs = {
     search: string;
 };
 
-function SearchBar({ variant, onChange }: SearchBarProps) {
-    const { register, watch } = useForm<Inputs>();
+function SearchBar({ variant, onChange, onSubmit, initialValue }: SearchBarProps) {
+    const { register, watch, handleSubmit } = useForm<Inputs>({ defaultValues: { search: initialValue } });
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const search = watch("search");
@@ -44,36 +47,43 @@ function SearchBar({ variant, onChange }: SearchBarProps) {
 
     return (
         <Form
-            variant={variant}
             role="search"
             autoComplete="off"
             autoCapitalize="off"
             autoCorrect="off"
             spellCheck="false"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit((data) => onSubmit && onSubmit(data.search))}
         >
-            <Input
-                {...rest}
-                {...inputPropsByVariant[variant]}
-                ref={(node) => {
-                    reactHookFormRef(node);
-                    inputRef.current = node;
-                }}
-                type="search"
-            />
+            <InputWrapper variant={variant}>
+                <Input
+                    {...rest}
+                    {...inputPropsByVariant[variant]}
+                    ref={(node) => {
+                        reactHookFormRef(node);
+                        inputRef.current = node;
+                    }}
+                    type="search"
+                />
 
-            <div>
-                <span aria-hidden>
-                    <SearchIcon />
-                </span>
-            </div>
+                <div>
+                    <span aria-hidden>
+                        <SearchIcon />
+                    </span>
+                </div>
+            </InputWrapper>
+
+            {variant === "library" && (
+                <Button variant="square" type="submit">
+                    Submit
+                </Button>
+            )}
         </Form>
     );
 }
 
 const inputPropsByVariant: Record<SearchBarProps["variant"], Record<string, string>> = {
     spotify: {
-        placeholder: "What do you want to play?",
+        placeholder: "Search Spotify's catalog",
         "aria-label": "Search",
         variant: "spotify",
     },
@@ -90,12 +100,41 @@ const inputPropsByVariant: Record<SearchBarProps["variant"], Record<string, stri
 };
 
 const Form = styled("form", {
+    display: "flex",
+    flexFlow: "row wrap",
+    gap: "$800",
+});
+
+const Input = styled("input", {
+    background: "$black300",
+    border: "none",
+    borderRadius: "4px",
+    color: "$white800",
+    fontSize: "$300",
+    fontWeight: 500,
+    height: "inherit",
+    textOverflow: "ellipsis",
+
+    "&:hover": {
+        background: "$black200",
+    },
+
+    "&:focus": {
+        outline: "1px solid $white800",
+    },
+
+    "&::placeholder": {
+        color: "$white600",
+    },
+});
+
+const InputWrapper = styled("div", {
     variants: {
         variant: {
             spotify: {
                 $$iconWidth: "24px",
 
-                "& > input": {
+                [`& ${Input}`]: {
                     padding: "$300 $600 $300 calc($$iconWidth * 2)",
                     width: "360px",
                 },
@@ -103,15 +142,15 @@ const Form = styled("form", {
             library: {
                 $$iconWidth: "24px",
 
-                "& > input": {
+                [`& ${Input}`]: {
                     padding: "$300 $600 $300 calc($$iconWidth * 2)",
-                    width: "500px",
+                    width: "580px",
                 },
             },
             playlist: {
                 $$iconWidth: "18px",
 
-                "& > input": {
+                [`& ${Input}`]: {
                     background: "$playlistSearchBg",
                     fontSize: "$200",
                     padding: "$200 $500 $200 calc($$iconWidth * 2)",
@@ -150,29 +189,6 @@ const Form = styled("form", {
 const SearchIcon = styled(HiOutlineSearch, {
     color: "$white600",
     pointerEvents: "none",
-});
-
-const Input = styled("input", {
-    background: "$black300",
-    border: "none",
-    borderRadius: "4px",
-    color: "$white800",
-    fontSize: "$300",
-    fontWeight: 500,
-    height: "inherit",
-    textOverflow: "ellipsis",
-
-    "&:hover": {
-        background: "$black200",
-    },
-
-    "&:focus": {
-        outline: "1px solid $white800",
-    },
-
-    "&::placeholder": {
-        color: "$white600",
-    },
 });
 
 export default SearchBar;

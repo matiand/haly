@@ -1,15 +1,15 @@
 import { useCallback, useRef, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 
+import { theme } from "../../common/theme";
+import RadioGroup, { Option } from "../RadioGroup";
 import Card, { CardProps } from "./Card";
 import * as CardGroup from "./CardGroup";
-import RadioGroup, { Option } from "../RadioGroup";
-import { theme } from "../../common/theme";
 
 type ResizableCardGroupProps = {
-    title: string;
     items: CardProps[];
     maxRows: number;
+    title?: string;
     href?: string;
     options?: Option[];
 };
@@ -39,7 +39,7 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
 
     return (
         <CardGroup.Root ref={sectionRef}>
-            <CardGroup.Title title={title} href={hasMore ? href : null} />
+            {title && <CardGroup.Title title={title} href={hasMore ? href : null} />}
 
             {hasOptions && <RadioGroup options={options} />}
 

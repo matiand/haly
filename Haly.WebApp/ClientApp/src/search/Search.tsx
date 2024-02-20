@@ -1,68 +1,99 @@
-import { useState } from "react";
+import { useAtom } from "jotai";
+import { useSetAtom } from "jotai/index";
 
+import { modalAtom } from "../common/atoms/modalAtoms";
+import { searchOptionAtom, searchQueryAtom } from "../common/atoms/searchAtoms";
 import { styled } from "../common/theme";
+import Button from "../ui/Button";
 import RadioGroup, { Item as RadioGroupItem, Option } from "../ui/RadioGroup";
-import SearchBar, { SearchBarProps } from "./SearchBar";
+import LibrarySearchResults from "./LibrarySearchResults";
+import SearchBar from "./SearchBar";
+import SearchResults from "./SearchResults";
 
 function Search() {
-    const [shouldSearchLibrary, setShouldSearchLibrary] = useState(false);
+    const [query, setQuery] = useAtom(searchQueryAtom);
+    const [option, setOption] = useAtom(searchOptionAtom);
+    const setModal = useSetAtom(modalAtom);
 
     const searchOptions: Option[] = [
         {
-            name: "Artists",
-            isDefault: true,
+            name: "All",
+            isDefault: option === "all",
             onSelected: () => {
-                setShouldSearchLibrary(false);
+                setOption("all");
             },
         },
-
         {
             name: "Albums",
-            isDefault: false,
+            isDefault: option === "albums",
             onSelected: () => {
-                setShouldSearchLibrary(false);
+                setOption("albums");
+            },
+        },
+        {
+            name: "Artists",
+            isDefault: option === "artists",
+            onSelected: () => {
+                setOption("artists");
             },
         },
         {
             name: "Playlists",
-            isDefault: false,
+            isDefault: option === "playlists",
             onSelected: () => {
-                setShouldSearchLibrary(false);
+                setOption("playlists");
             },
         },
 
         {
             name: "Songs",
-            isDefault: false,
+            isDefault: option === "songs",
             onSelected: () => {
-                setShouldSearchLibrary(false);
+                setOption("songs");
             },
         },
 
         {
             name: "Your Library",
-            isDefault: false,
+            isDefault: option === "library",
             onSelected: () => {
-                setShouldSearchLibrary(true);
+                setOption("library");
+                setQuery("");
             },
         },
     ];
 
-    const searchVariant: SearchBarProps["variant"] = shouldSearchLibrary ? "library" : "spotify";
+    console.log(query);
+
+    const isLibrarySearch = option === "library";
+    const onSubmit = isLibrarySearch ? (text: string) => setQuery(text) : undefined;
+    const onChange = isLibrarySearch ? undefined : (text: string) => setQuery(text);
+
+    const onHelpBtnClick = () =>
+        setModal({
+            type: "displaySearchHelp",
+            props: { type: isLibrarySearch ? "library" : "spotify" },
+        });
 
     return (
         <Wrapper>
             <h2>Search</h2>
-            <SearchBar variant={searchVariant} />
+
+            <FormWrapper>
+                <SearchBar
+                    variant={isLibrarySearch ? "library" : "spotify"}
+                    onSubmit={onSubmit}
+                    onChange={onChange}
+                    initialValue={query}
+                />
+                <button type="button" onClick={onHelpBtnClick}>
+                    Show help
+                </button>
+            </FormWrapper>
+
             <RadioGroup options={searchOptions} />
 
-            {/*<div>*/}
-            {/*    <pre>Bla bla bla</pre>*/}
-            {/*    <pre>Usage: foo bar baz</pre>*/}
-            {/*    <pre>Bla bla bla</pre>*/}
-            {/*    <pre>Usage: foo bar baz</pre>*/}
-            {/*    <pre>Bla bla bla</pre>*/}
-            {/*</div>*/}
+            {isLibrarySearch ? <LibrarySearchResults q={query} /> : <SearchResults q={query} option={option} />}
         </Wrapper>
     );
 }
@@ -73,7 +104,16 @@ const Wrapper = styled("div", {
     },
 
     "& > * + *": {
-        padding: "$500 0",
+        padding: "$500 0 $400",
+    },
+
+    [`& ${Button}`]: {
+        fontSize: "$200",
+        lineHeight: 2,
+    },
+
+    [`& ${RadioGroupItem}:first-child`]: {
+        padding: "$200 $600",
     },
 
     [`& ${RadioGroupItem}:last-child`]: {
@@ -90,6 +130,30 @@ const Wrapper = styled("div", {
 
         "&:active": {
             background: "$secondary500",
+        },
+    },
+});
+
+const FormWrapper = styled("div", {
+    display: "flex",
+    flexFlow: "column",
+    gap: "$400",
+
+    "& > button": {
+        alignSelf: "flex-start",
+        border: "none",
+        color: "$white600",
+        fontSize: "$200",
+        fontWeight: 500,
+
+        "&:hover": {
+            color: "$white800",
+            cursor: "pointer",
+            textDecoration: "underline",
+        },
+
+        "&:active": {
+            textDecoration: "none",
         },
     },
 });
