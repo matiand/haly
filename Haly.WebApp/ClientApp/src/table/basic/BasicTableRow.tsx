@@ -7,22 +7,34 @@ import DraggableTableRow from "../../dnd/DraggableTableRow";
 import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import TrackContextMenu from "../menus/TrackContextMenu";
+import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
 
-type TrackRowProps = {
+type BasicTableRowProps = {
     index: number;
     track: TrackDto;
     playbackState: TrackPlaybackState;
     likedState: TrackLikedState;
     isSelected: boolean;
     selectTrack: (index: number, e: React.MouseEvent<HTMLTableRowElement>) => void;
+    withAlbumCell?: boolean;
+    showArtists?: boolean;
 };
 
-function TopTracksTableRow({ index, track, playbackState, likedState, isSelected, selectTrack }: TrackRowProps) {
+function BasicTableRow({
+    index,
+    track,
+    playbackState,
+    likedState,
+    isSelected,
+    selectTrack,
+    withAlbumCell,
+    showArtists,
+}: BasicTableRowProps) {
     const { onContextMenu, menuProps } = useContextMenu();
     // Playback of individual tracks is not allowed for this table. Their api doesn't allow it.
 
@@ -56,8 +68,14 @@ function TopTracksTableRow({ index, track, playbackState, likedState, isSelected
             </td>
 
             <td>
-                <TrackInformationCell track={track} showExplicitMark={track.isExplicit} />
+                <TrackInformationCell track={track} showExplicitMark={track.isExplicit} showArtists={showArtists} />
             </td>
+
+            {withAlbumCell && (
+                <td>
+                    <TrackAlbumCell track={track} />
+                </td>
+            )}
 
             <td>
                 <TrackDurationCell track={track} likedState={likedState} />
@@ -68,4 +86,4 @@ function TopTracksTableRow({ index, track, playbackState, likedState, isSelected
     );
 }
 
-export default React.memo(TopTracksTableRow, isDeepEqual);
+export default React.memo(BasicTableRow, isDeepEqual);

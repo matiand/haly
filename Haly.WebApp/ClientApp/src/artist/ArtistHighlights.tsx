@@ -1,6 +1,8 @@
+import { useState } from "react";
+
 import { ArtistDetailedDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
-import TopTracksTable from "../table/toptracks/TopTracksTable";
+import BasicTable from "../table/basic/BasicTable";
 import MiniCard from "../ui/card/MiniCard";
 
 type ArtistHighlightsProps = {
@@ -9,12 +11,24 @@ type ArtistHighlightsProps = {
     playlist?: ArtistDetailedDto["highlightedPlaylist"];
 };
 
-function ArtistHighlights({ artistId, tracks, playlist }: ArtistHighlightsProps) {
+function ArtistHighlights({ tracks, playlist }: ArtistHighlightsProps) {
+    const [showMore, setShowMore] = useState(false);
+
+    const showButton = tracks.length > 5;
+    const btnLabel = showMore ? "Show less" : "See more";
+
     return (
         <Wrapper>
             <div>
                 <h2>Popular</h2>
-                <TopTracksTable artistId={artistId} items={tracks} />
+                <div>
+                    <BasicTable items={tracks.slice(0, showMore ? 10 : 5)} />
+                    {showButton && (
+                        <Button type="button" onClick={() => setShowMore((prev) => !prev)}>
+                            {btnLabel}
+                        </Button>
+                    )}
+                </div>
             </div>
 
             {playlist && (
@@ -48,6 +62,19 @@ const Wrapper = styled("div", {
 
     "@bp2": {
         gridTemplateColumns: "2fr 1fr",
+    },
+});
+
+const Button = styled("button", {
+    background: "transparent",
+    border: "none",
+    color: "$white500",
+    fontSize: "$200",
+    fontWeight: 700,
+    padding: "$600",
+
+    "&:hover": {
+        color: "$white800",
     },
 });
 

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { TrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
@@ -7,30 +5,48 @@ import useSelectionShortcuts from "../useSelectionShortcuts";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import useTableRowSelection from "../useTableRowSelection";
-import TopTracksTableRow from "./TopTracksTableRow";
+import BasicTableRow from "./BasicTableRow";
+import TrackDurationIcon from "../TrackDurationIcon";
+import useStickyTableHead from "../useStickyTableHead";
+import clsx from "clsx";
 
-type TopTracksTableProps = {
-    artistId: string;
+type BasicTableProps = {
     items: TrackDto[];
+    withHeader?: boolean;
+    withAlbumCell?: boolean;
+    showArtists?: boolean;
 };
 
-function TopTracksTable({ items }: TopTracksTableProps) {
-    const [showMore, setShowMore] = useState(false);
+function BasicTable({ items, withHeader, withAlbumCell, showArtists }: BasicTableProps) {
     const getTableRowPlaybackState = useTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
+    const { ref, isSticky } = useStickyTableHead();
 
     const { selectTableRow, isSelectedRow } = useTableRowSelection(items);
     useSelectionShortcuts(items);
 
-    const showButton = items.length > 5;
-    const btnLabel = showMore ? "Show less" : "See more";
-
     return (
         <div>
-            <TableRoot>
+            <div ref={ref} aria-hidden />
+            <TableRoot className={clsx({ isSticky, withAlbumCell })}>
+                {withHeader && (
+                    <Table.Head>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+
+                            {withAlbumCell && <th>Album</th>}
+
+                            <th>
+                                <TrackDurationIcon />
+                            </th>
+                        </tr>
+                    </Table.Head>
+                )}
+
                 <Table.Body>
-                    {items.slice(0, showMore ? 10 : 5).map((t, idx) => (
-                        <TopTracksTableRow
+                    {items.map((t, idx) => (
+                        <BasicTableRow
                             key={t.id}
                             index={idx}
                             track={t}
@@ -38,35 +54,26 @@ function TopTracksTable({ items }: TopTracksTableProps) {
                             likedState={getTableRowLikedState(t.id, t.playbackId)}
                             isSelected={isSelectedRow(idx)}
                             selectTrack={selectTableRow}
+                            withAlbumCell={withAlbumCell}
+                            showArtists={showArtists}
                         />
                     ))}
                 </Table.Body>
             </TableRoot>
-
-            {showButton && <Button onClick={() => setShowMore((prev) => !prev)}>{btnLabel}</Button>}
         </div>
     );
 }
 
-const Button = styled("button", {
-    background: "transparent",
-    border: "none",
-    color: "$white500",
-    fontSize: "$200",
-    fontWeight: 700,
-    padding: "$600",
-
-    "&:hover": {
-        color: "$white800",
-    },
-});
-
 const TableRoot = styled(Table.Root, {
-    "& > tbody": {
+    "& > tbody, & > thead": {
         tr: {
             gridGap: "$600",
             gridTemplateColumns: "16px 4fr minmax(120px, 1fr)",
         },
+    },
+    
+    "&.withAlbumCell tr": {
+        gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
     },
 
     "& td:last-of-type": {
@@ -74,4 +81,4 @@ const TableRoot = styled(Table.Root, {
     },
 });
 
-export default TopTracksTable;
+export default BasicTable;
