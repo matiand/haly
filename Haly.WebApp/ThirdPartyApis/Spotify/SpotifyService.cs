@@ -33,6 +33,7 @@ public sealed class SpotifyService : ISpotifyService
     private const int FollowingTracksLimit = 50;
     private const int AddingTracksLimit = 100;
     private const int RemovingTracksLimit = 100;
+    private const int SearchResultsLimit = 50;
 
     public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
         ISpotifyEndpointCollector endpointCollector)
@@ -266,13 +267,14 @@ public sealed class SpotifyService : ISpotifyService
     {
         var queryType = type switch
         {
-            SearchType.Album => Anonymous.Album,
-            SearchType.Artist => Anonymous.Artist,
-            SearchType.Playlist => Anonymous.Playlist,
-            SearchType.Track => Anonymous.Track,
+            SearchType.Album => SpotifySearchQueryType.Album,
+            SearchType.Artist => SpotifySearchQueryType.Artist,
+            SearchType.Playlist => SpotifySearchQueryType.Playlist,
+            SearchType.Track => SpotifySearchQueryType.Track,
+            SearchType.All => SpotifySearchQueryType.All,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Wrong search type"),
         };
-        var results = await _spotifyClient.SearchAsync(query, new List<Anonymous> { queryType }, userMarket);
+        var results = await _spotifyClient.SearchAsyncOverride(query, queryType, userMarket, limit: SearchResultsLimit);
 
         return results.Adapt<SpotifySearchResult>();
     }
