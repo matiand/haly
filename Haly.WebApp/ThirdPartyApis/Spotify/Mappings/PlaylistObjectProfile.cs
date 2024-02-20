@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Haly.GeneratedClients;
 using Haly.WebApp.Models;
+using Haly.WebApp.Models.Cards;
 using Mapster;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify.Mappings;
@@ -27,6 +28,12 @@ public class PlaylistObjectProfile : IRegister
             .Map(dest => dest.Owner.Name, src => src.Owner.Display_name)
             .Map(dest => dest.LikesTotal, src => src.Followers.Total)
             .Map(dest => dest.Tracks, src => src.Tracks.Items.ToList());
+
+        config.ForType<SimplifiedPlaylistObject, PlaylistCard>()
+            .Map(dest => dest.ImageUrl, src => src.Images != null ? src.Images.FindMediumImageUrl() : null)
+            .Map(dest => dest.Description, src => TrimAndDecodePlaylistDescription(src.Description))
+            .Map(dest => dest.Owner.Id, src => src.Owner.Id)
+            .Map(dest => dest.Owner.Name, src => src.Owner.Display_name);
     }
 
     // Trims descriptions from anchor tags, because we can't render them correctly and their hrefs

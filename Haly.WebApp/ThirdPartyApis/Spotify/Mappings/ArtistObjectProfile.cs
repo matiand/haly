@@ -12,10 +12,7 @@ public class ArtistObjectProfile : IRegister
         config.ForType<ArtistObject, ArtistDetailed>()
             .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl());
 
-        config.ForType<ArtistObject, FollowedArtist>()
-            .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl());
-
-        config.ForType<ArtistObject, TopArtist>()
+        config.ForType<ArtistObject, ArtistCard>()
             .Map(dest => dest.ImageUrl, src => src.Images.FindMediumImageUrl());
     }
 }

@@ -1,9 +1,12 @@
+using Haly.WebApp.Models.Cards;
+using Haly.WebApp.Models.Tracks;
+
 namespace Haly.WebApp.Models.Search;
 
 public record SpotifySearchResult
 {
-    public List<object> Artists { get; init; }
-    public List<object> Albums { get; init; }
-    public List<Playlist> Playlists { get; init; }
-    public List<object> Tracks { get; init; }
+    public List<ArtistCard>? Artists { get; init; }
+    public List<ReleaseItem>? Albums { get; init; }
+    public List<PlaylistCard>? Playlists { get; init; }
+    public List<Track>? Tracks { get; init; }
 }

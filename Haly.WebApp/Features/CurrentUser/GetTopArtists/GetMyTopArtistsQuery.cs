@@ -1,12 +1,13 @@
+using Haly.WebApp.Features.Artists;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
 
 namespace Haly.WebApp.Features.CurrentUser.GetTopArtists;
 
-public record GetMyTopArtistsQuery : IRequest<IEnumerable<TopArtistDto>>;
+public record GetMyTopArtistsQuery : IRequest<IEnumerable<ArtistCardDto>>;
 
-public class GetMyTopArtistsHandler : IRequestHandler<GetMyTopArtistsQuery, IEnumerable<TopArtistDto>>
+public class GetMyTopArtistsHandler : IRequestHandler<GetMyTopArtistsQuery, IEnumerable<ArtistCardDto>>
 {
     private readonly ISpotifyService _spotify;
 
@@ -15,10 +16,10 @@ public class GetMyTopArtistsHandler : IRequestHandler<GetMyTopArtistsQuery, IEnu
         _spotify = spotify;
     }
 
-    public async Task<IEnumerable<TopArtistDto>> Handle(GetMyTopArtistsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ArtistCardDto>> Handle(GetMyTopArtistsQuery request, CancellationToken cancellationToken)
     {
         var artists = await _spotify.GetCurrentUserTopArtists();
 
-        return artists.Adapt<IEnumerable<TopArtistDto>>();
+        return artists.Adapt<IEnumerable<ArtistCardDto>>();
     }
 }

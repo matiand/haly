@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.Users.GetUserPlaylists;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Search;
 using Haly.WebApp.ThirdPartyApis.Spotify;
@@ -32,17 +33,17 @@ public class GetArtistHandler : IRequestHandler<GetArtistQuery, ArtistDetailedDt
         return dto;
     }
 
-    private async Task<HighlightedPlaylistDto?> GetHighlightedPlaylist(string artistName, string userMarket)
+    private async Task<PlaylistCardDto?> GetHighlightedPlaylist(string artistName, string userMarket)
     {
         var searchResult = await _spotify.Search(artistName, SearchType.Playlist, userMarket);
 
-        var playlistsWithPrettyCovers = searchResult.Playlists
+        var playlistsWithPrettyCovers = searchResult.Playlists!
             .Where(p => p.ImageUrl is not null && !p.ImageUrl.Contains("//mosaic"))
             .ToList();
 
         var nonSpotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Owner.Id != SpotifyUserId);
         var spotifyPlaylist = playlistsWithPrettyCovers.FirstOrDefault(p => p.Owner.Id == SpotifyUserId);
 
-        return nonSpotifyPlaylist?.Adapt<HighlightedPlaylistDto>() ?? spotifyPlaylist?.Adapt<HighlightedPlaylistDto>();
+        return nonSpotifyPlaylist?.Adapt<PlaylistCardDto>() ?? spotifyPlaylist?.Adapt<PlaylistCardDto>();
     }
 }

@@ -167,7 +167,7 @@ public sealed class SpotifyService : ISpotifyService
         return response.First();
     }
 
-    public async Task<List<FollowedArtist>> GetCurrentUserFollows()
+    public async Task<List<ArtistCard>> GetCurrentUserFollows()
     {
         var response = await _spotifyClient.GetFollowedAsync(Type.Artist, limit: UserFollowsLimit);
         var follows = new List<ArtistObject>(response.Artists.Items);
@@ -180,14 +180,14 @@ public sealed class SpotifyService : ISpotifyService
             follows.AddRange(response.Artists.Items);
         }
 
-        return follows.Adapt<List<FollowedArtist>>();
+        return follows.Adapt<List<ArtistCard>>();
     }
 
-    public async Task<List<TopArtist>> GetCurrentUserTopArtists()
+    public async Task<List<ArtistCard>> GetCurrentUserTopArtists()
     {
         var artists = await _spotifyClient.GetUsersTopArtistsAsync("short_term", limit: UserTopItemsLimit);
 
-        return artists.Items.Adapt<List<TopArtist>>();
+        return artists.Items.Adapt<List<ArtistCard>>();
     }
 
     public async Task<List<TrackBase>> GetCurrentUserTopTracks()

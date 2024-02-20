@@ -18,8 +18,8 @@ public interface ISpotifyService
     Task<List<Device>> GetAvailableDevices();
     Task<bool> IsCurrentUserFollowingCreator(CreatorType creatorType, string creatorId);
     Task<bool> IsCurrentUserFollowingAnAlbum(string albumId);
-    Task<List<FollowedArtist>> GetCurrentUserFollows();
-    Task<List<TopArtist>> GetCurrentUserTopArtists();
+    Task<List<ArtistCard>> GetCurrentUserFollows();
+    Task<List<ArtistCard>> GetCurrentUserTopArtists();
     Task<List<TrackBase>> GetCurrentUserTopTracks();
     Task<ArtistDetailed> GetArtist(string artistId, string userMarket);
     Task<List<ReleaseItem>> GetArtistReleases(string artistId, ArtistRelease type, string userMarket);

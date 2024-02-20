@@ -1,4 +1,5 @@
 using Haly.WebApp.Features.Player;
+using Haly.WebApp.Features.Users.GetUserPlaylists;
 
 namespace Haly.WebApp.Features.Artists.GetArtist;
 
@@ -11,7 +12,7 @@ public record ArtistDetailedDto
     public int FollowersTotal { get; init; }
     public bool IsFollowed { get; set; }
 
-    public HighlightedPlaylistDto? HighlightedPlaylist { get; set; }
+    public PlaylistCardDto? HighlightedPlaylist { get; set; }
 
     public IEnumerable<TrackDto> TopTracks { get; init; }
 }

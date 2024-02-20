@@ -39,16 +39,16 @@ public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto
         var dailyMixResultsTask = _spotify.Search("daily mix", SearchType.Playlist, request.UserMarket);
         var radarResultsTask = _spotify.Search("radar", SearchType.Playlist, request.UserMarket);
 
-        var playlists = (await dailyMixResultsTask).Playlists
+        var playlists = (await dailyMixResultsTask).Playlists!
             .Where(p => p.Name.StartsWith("Daily Mix", StringComparison.InvariantCulture) &&
                         p.Owner.Id == "spotify")
             .OrderBy(p => p.Name)
             .ToList();
 
         var releaseRadar =
-            (await radarResultsTask).Playlists.FirstOrDefault(p => p is { Name: "Release Radar", Owner.Id: "spotify" });
+            (await radarResultsTask).Playlists!.FirstOrDefault(p => p is { Name: "Release Radar", Owner.Id: "spotify" });
         var discoverWeekly =
-            (await radarResultsTask).Playlists.FirstOrDefault(
+            (await radarResultsTask).Playlists!.FirstOrDefault(
                 p => p is { Name: "Discover Weekly", Owner.Id: "spotify" });
 
         if (releaseRadar is not null)

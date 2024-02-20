@@ -4,7 +4,7 @@ using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Haly.WebApp.Features.Search.FindTrackQuery;
+namespace Haly.WebApp.Features.Search.FindTrack;
 
 public record FindTrackQuery(string PlaylistId, string TrackPlaybackId) : IRequest<FindTrackQueryResponse>;
 
