@@ -35,6 +35,12 @@ type ModalVariant =
           props: {
               imageUrl: string;
           };
+      }
+    | {
+          type: "displaySearchHelp";
+          props: {
+              type: "spotify" | "library";
+          };
       };
 
 export const modalAtom = atom<ModalVariant | null>(null);
