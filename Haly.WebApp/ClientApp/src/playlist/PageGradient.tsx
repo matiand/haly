@@ -3,14 +3,15 @@ import rawNoise from "./noise.svg?raw";
 
 type PageGradientProps = {
     color: string | null;
-    type: "major" | "minor" | "home";
+    type: "major" | "minor" | "mini";
 };
 
 function PageGradient({ color, type }: PageGradientProps) {
     if (!color) return null;
 
+    // Mini should be used on its own. Major and minor should be used together.
+    if (type === "mini") return <MiniGradient aria-hidden css={{ $$color: color }} />;
     if (type === "minor") return <MinorGradient aria-hidden css={{ $$color: color }} />;
-    if (type === "home") return <HomeGradient aria-hidden css={{ $$color: color }} />;
 
     return <MajorGradient aria-hidden css={{ $$color: color }} />;
 }
@@ -41,7 +42,8 @@ const MinorGradient = styled("div", {
     zIndex: "$collectionBackground",
 });
 
-const HomeGradient = styled(MinorGradient, {
+const MiniGradient = styled(MinorGradient, {
+    height: "140px",
     top: 0,
 });
 

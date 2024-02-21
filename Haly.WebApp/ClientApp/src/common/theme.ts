@@ -51,8 +51,7 @@ export const theme = {
 
         dominantDefault: "#535353",
         // 'Liked Songs' purple
-        dominantLikedSongs: "#5038a0",
-        dominantNewReleases: "#cf4611",
+        dominantPurple: "#5038a0",
     },
     shadows: {
         collectionImage: "rgba(0, 0, 0, 0.5)",

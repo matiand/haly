@@ -1,10 +1,8 @@
-import { useSetAtom } from "jotai";
-import React, { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import React from "react";
 
 import { PlaylistWithTracksDto } from "../../generated/haly";
-import { pageHeaderVisibilityAtom } from "../common/atoms/pageAtoms";
 import { styled } from "../common/theme";
+import usePageHeaderVisibility from "../common/usePageHeaderVisibility";
 import { DraggableData } from "../dnd/useDraggable";
 import HeaderImage from "./HeaderImage";
 import HeaderTitle from "./HeaderTitle";
@@ -36,17 +34,7 @@ function PageHeader({
     draggableData,
     children,
 }: PageHeaderProps) {
-    const setPageHeaderVisibility = useSetAtom(pageHeaderVisibilityAtom);
-    const { ref } = useInView({
-        threshold: [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0],
-        onChange: (_, entry) => {
-            setPageHeaderVisibility(entry.intersectionRatio);
-        },
-    });
-
-    useEffect(() => {
-        return () => setPageHeaderVisibility(1);
-    }, [setPageHeaderVisibility]);
+    const { ref } = usePageHeaderVisibility();
 
     const hasRoundedImage = type === "Profile" || type === "Artist";
     const altImageText = `${title} ${type.toLocaleLowerCase()} image`;
@@ -76,6 +64,7 @@ function PageHeader({
                 <Details>{children}</Details>
             </InformationSection>
 
+            {/*// todo: which ref is needed*/}
             <div ref={ref} aria-hidden />
         </Wrapper>
     );

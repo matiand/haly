@@ -26,6 +26,13 @@ export type PageContext =
     | {
           type: "user";
           data: UserProfileDto;
+      }
+    | {
+          type: "basic";
+          data: {
+              id: string;
+              name: string;
+          };
       };
 
 export const pageContextAtom = atom<PageContext | null>(null);
@@ -60,7 +67,7 @@ export const pageDominantColorAtom = atom((get) => {
     const pageContext = get(pageContextAtom);
     if (!pageContext) return null;
 
-    if (pageContext.type === "collection") return theme.colors.dominantLikedSongs;
+    if (pageContext.type === "collection" || pageContext.type === "basic") return theme.colors.dominantPurple;
 
     const imageUrl = pageContext.data.imageUrl;
     if (!imageUrl) return theme.colors.dominantDefault;

@@ -26,7 +26,7 @@ function UpperMenu() {
     }
 
     const { id: contextId, name } = pageContext.data;
-    const hasControls = pageContext.type !== "user";
+    const hasControls = pageContext.type !== "user" && pageContext.type !== "basic";
 
     return (
         <Header aria-label="User menu" onClick={() => setSelectedTracks([])}>
