@@ -4,9 +4,11 @@ import { SearchType } from "../../generated/haly";
 import { SearchOption } from "../common/atoms/searchAtoms";
 import { styled } from "../common/theme";
 import halyClient from "../halyClient";
+import BasicTable from "../table/basic/BasicTable";
 import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import EmptyState from "../ui/EmptyState";
+import TopSearchPicks from "./TopSearchPicks";
 
 type SearchResultsProps = {
     q: string;
@@ -74,18 +76,29 @@ function SearchResults({ q, option }: SearchResultsProps) {
     if (option === "all") {
         return (
             <Wrapper>
-                {artists.length > 0 && <ResizableCardGroup title="Artists" items={artists} maxRows={1} />}
-                {albums.length > 0 && <ResizableCardGroup title="Albums" items={albums} maxRows={1} />}
-                {playlists.length > 0 && <ResizableCardGroup title="Playlists" items={playlists} maxRows={1} />}
+                <TopSearchPicks
+                    artist={data.artists?.at(0)}
+                    album={data.albums?.at(0)}
+                    playlist={data.playlists?.at(0)}
+                    songs={(data.tracks ?? []).slice(0, 5)}
+                />
+
+                <ResizableCardGroup title="Artists" items={artists} maxRows={1} />
+                <ResizableCardGroup title="Albums" items={albums} maxRows={1} />
+                <ResizableCardGroup title="Playlists" items={playlists} maxRows={1} />
             </Wrapper>
         );
     }
 
+    if (option === "songs") {
+        return <BasicTable items={data.tracks ?? []} withHeader withAlbumCell showArtists />;
+    }
+
     return (
         <Wrapper>
-            {albums.length > 0 && <ResizableCardGroup items={albums} maxRows={Infinity} />}
-            {artists.length > 0 && <ResizableCardGroup items={artists} maxRows={Infinity} />}
-            {playlists.length > 0 && <ResizableCardGroup items={playlists} maxRows={Infinity} />}
+            <ResizableCardGroup items={albums} maxRows={Infinity} />
+            <ResizableCardGroup items={artists} maxRows={Infinity} />
+            <ResizableCardGroup items={playlists} maxRows={Infinity} />
         </Wrapper>
     );
 }

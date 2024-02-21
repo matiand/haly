@@ -5,11 +5,12 @@ import { styled } from "../common/theme";
 
 type EmptyCoverImageProps = {
     type: "block" | "card";
+    size?: number;
 };
 
-function EmptyCoverImage({ type }: EmptyCoverImageProps) {
+function EmptyCoverImage({ type, size }: EmptyCoverImageProps) {
     return (
-        <Wrapper aria-hidden type={type}>
+        <Wrapper css={{ $$size: `${size ?? 40}px` }} aria-hidden type={type}>
             {type === "block" ? <MdOutlineMusicNote /> : <LuMusic />}
         </Wrapper>
     );
@@ -17,7 +18,8 @@ function EmptyCoverImage({ type }: EmptyCoverImageProps) {
 
 const Wrapper = styled("div", {
     alignItems: "center",
-    background: "$black200",
+    background: "$black300",
+    borderRadius: "4px",
     display: "flex",
     justifyContent: "center",
 
@@ -36,8 +38,6 @@ const Wrapper = styled("div", {
                 },
             },
             block: {
-                $$size: "40px",
-
                 minHeight: "$$size",
                 height: "$$size",
                 minWidth: "$$size",

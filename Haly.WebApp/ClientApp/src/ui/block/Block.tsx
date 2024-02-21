@@ -16,8 +16,9 @@ export const Title = styled("div", {
 });
 
 export const Subtitle = styled("span", {
+    fontSize: "$200",
     gridArea: "subtitle",
-})
+});
 
 export const Grid = styled("div", {
     variants: {
@@ -25,7 +26,7 @@ export const Grid = styled("div", {
             playback: {
                 lineHeight: 1.4,
 
-                    [`& ${Title} > a, & ${Title} > div[role=button]`]: {
+                [`& ${Title} > a, & ${Title} > div[role=button]`]: {
                     color: "inherit",
                     fontSize: "$300",
                     textDecoration: "none",
@@ -35,7 +36,7 @@ export const Grid = styled("div", {
                     },
                 },
 
-                    [`& ${Subtitle} > a, & ${Subtitle} > div[role=button]`]: {
+                [`& ${Subtitle} > a, & ${Subtitle} > div[role=button]`]: {
                     fontSize: "$100",
                 },
             },

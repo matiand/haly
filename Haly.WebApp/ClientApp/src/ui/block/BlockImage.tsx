@@ -2,17 +2,21 @@ import { AlbumBriefDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import EmptyCoverImage from "../EmptyCoverImage";
 
-type CoverImageProps = {
+type BlockImageProps = {
     imageUrl: AlbumBriefDto["imageUrl"];
+    size?: number;
 };
 
-const size = 40;
+const defaultSize = 40;
 
-function BlockImage({ imageUrl }: CoverImageProps) {
+function BlockImage({ imageUrl, size }: BlockImageProps) {
+    const width = size ?? defaultSize;
+    const height = size ?? defaultSize;
+
     return imageUrl ? (
-        <Image alt="" src={imageUrl} loading="eager" width={size} height={size} />
+        <Image alt="" src={imageUrl} loading="eager" width={width} height={height} />
     ) : (
-        <EmptyCoverImage type="block" />
+        <EmptyCoverImage type="block" size={size} />
     );
 }
 

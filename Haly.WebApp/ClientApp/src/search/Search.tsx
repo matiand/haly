@@ -1,10 +1,13 @@
 import { useAtom } from "jotai";
 import { useSetAtom } from "jotai/index";
+import { useEffect } from "react";
 
 import { modalAtom } from "../common/atoms/modalAtoms";
+import { pageContextAtom } from "../common/atoms/pageAtoms";
 import { searchOptionAtom, searchQueryAtom } from "../common/atoms/searchAtoms";
 import { styled } from "../common/theme";
 import Button from "../ui/Button";
+import MiniPageHeader from "../ui/MiniPageHeader";
 import RadioGroup, { Item as RadioGroupItem, Option } from "../ui/RadioGroup";
 import LibrarySearchResults from "./LibrarySearchResults";
 import SearchBar from "./SearchBar";
@@ -14,6 +17,7 @@ function Search() {
     const [query, setQuery] = useAtom(searchQueryAtom);
     const [option, setOption] = useAtom(searchOptionAtom);
     const setModal = useSetAtom(modalAtom);
+    const setPageContext = useSetAtom(pageContextAtom);
 
     const searchOptions: Option[] = [
         {
@@ -63,7 +67,17 @@ function Search() {
         },
     ];
 
-    console.log(query);
+    useEffect(() => {
+        setPageContext({
+            type: "basic",
+            data: {
+                id: "search",
+                name: "Search",
+            },
+        });
+
+        return () => setPageContext(null);
+    }, [setPageContext]);
 
     const isLibrarySearch = option === "library";
     const onSubmit = isLibrarySearch ? (text: string) => setQuery(text) : undefined;
@@ -75,23 +89,27 @@ function Search() {
             props: { type: isLibrarySearch ? "library" : "spotify" },
         });
 
+    console.log("q", query);
+
     return (
         <Wrapper>
-            <h2>Search</h2>
+            <MiniPageHeader title="Search" />
 
-            <FormWrapper>
-                <SearchBar
-                    variant={isLibrarySearch ? "library" : "spotify"}
-                    onSubmit={onSubmit}
-                    onChange={onChange}
-                    initialValue={query}
-                />
-                <button type="button" onClick={onHelpBtnClick}>
-                    Show help
-                </button>
-            </FormWrapper>
+            <Controls>
+                <FormWrapper>
+                    <SearchBar
+                        variant={isLibrarySearch ? "library" : "spotify"}
+                        onSubmit={onSubmit}
+                        onChange={onChange}
+                        initialValue={query}
+                    />
+                    <button type="button" onClick={onHelpBtnClick}>
+                        Show help
+                    </button>
+                </FormWrapper>
 
-            <RadioGroup options={searchOptions} />
+                <RadioGroup options={searchOptions} />
+            </Controls>
 
             {isLibrarySearch ? <LibrarySearchResults q={query} /> : <SearchResults q={query} option={option} />}
         </Wrapper>
@@ -99,15 +117,12 @@ function Search() {
 }
 
 const Wrapper = styled("div", {
-    "& > :first-child": {
-        marginBottom: "$600",
+    // Target MiniPageHeader and Controls
+    "& > div:nth-child(-n + 2)": {
+        marginBottom: "$700",
     },
 
-    "& > * + *": {
-        padding: "$500 0 $400",
-    },
-
-    [`& ${Button}`]: {
+    [`& form ${Button}`]: {
         fontSize: "$200",
         lineHeight: 2,
     },
@@ -131,6 +146,12 @@ const Wrapper = styled("div", {
         "&:active": {
             background: "$secondary500",
         },
+    },
+});
+
+const Controls = styled("div", {
+    "& > *": {
+        padding: "$500 0 $400",
     },
 });
 

@@ -167,6 +167,10 @@ const Contents = styled("div", {
         fontSize: "$300",
         fontWeight: 500,
 
+        "&:first-of-type": {
+            marginBottom: "$300",
+        },
+
         "& > span::before": {
             content: "•",
             fontWeight: 100,
