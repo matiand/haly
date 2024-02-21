@@ -9,10 +9,11 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     public override void OnException(ExceptionContext context)
     {
         // For validation use fluent validator
-        // Make sure this does not interfere with Polly
+        // todo: Make sure this does not interfere with Polly
         var ex = context.Exception;
 
         Console.WriteLine($"Inside filter, exception happened:\n{ex.Message}");
+        Console.WriteLine(ex);
         Console.WriteLine(ex.InnerException);
 
         switch (ex)
@@ -24,22 +25,29 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
                 }
             case GeneratedClient.ApiException apiException:
                 {
-                    var isDeserializationError = apiException.Message.Contains("Could not deserialize");
+                    var isDeserializationError = apiException.StatusCode == 200 ||
+                                                 apiException.Message.Contains("Could not deserialize");
                     if (isDeserializationError)
                     {
                         context.Result =
-                            ProblemResponses.InternalServerProblem("Failed to deserialize response from Spotify API");
+                            ProblemResponses.InternalServerProblem("Failed to deserialize the response from Spotify API");
                         break;
                     }
 
                     context.Result = apiException.StatusCode switch
                     {
-                        400 => ProblemResponses.BadRequestProblem("Bad request"),
-                        401 => ProblemResponses.UnauthorizedProblem("Bad or expired access token for using Spotify API"),
+                        // 400 => ProblemResponses.BadRequestProblem("Bad request"),
+                        400 => ProblemResponses.BadRequestProblem(apiException.Message),
+                        401 => ProblemResponses.UnauthorizedProblem("Bad or expired Spotify API access token"),
                         404 => ProblemResponses.NotFound("Resource not found"),
                         429 => ProblemResponses.TooManyRequestsProblem("You have exceeded Spotify API rate limits"),
-                        _ => throw apiException,
+                        _ => ProblemResponses.BadGatewayProblem("Spotify API is unavailable"),
                     };
+                    break;
+                }
+            default:
+                {
+                    context.Result = ProblemResponses.InternalServerProblem("Internal server error");
                     break;
                 }
         }

@@ -1,3 +1,4 @@
+using Haly.WebApp.Features.Artists;
 using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Features.CurrentUser.GetFeed;
 using Haly.WebApp.Features.CurrentUser.GetFollowedArtists;
@@ -117,9 +118,9 @@ public class MeController : ApiControllerBase
 
     [HttpGet("feed/artists")]
     [SwaggerOperation(Summary = "Fetch current user's top artists from Spotify")]
-    [SwaggerResponse(statusCode: 200, "A list of top artists", typeof(IEnumerable<TopArtistDto>))]
+    [SwaggerResponse(statusCode: 200, "A list of top artists", typeof(IEnumerable<ArtistCardDto>))]
     [CallsSpotifyApi(SpotifyScopes.UserTopRead)]
-    public async Task<IEnumerable<TopArtistDto>> GetMyTopArtists()
+    public async Task<IEnumerable<ArtistCardDto>> GetMyTopArtists()
     {
         var response = await Mediator.Send(new GetMyTopArtistsQuery());
 

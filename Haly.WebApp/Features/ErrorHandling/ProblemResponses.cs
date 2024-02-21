@@ -45,7 +45,7 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 401 };
     }
 
-    public static IActionResult NotFound(string title)
+    public static ActionResult NotFound(string title)
     {
         var problem = new Problem
         {
@@ -90,6 +90,18 @@ public class ProblemResponses
         {
             Type = "https://httpstatuses.io/500",
             Status = 500,
+            Title = title,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 500 };
+    }
+
+    public static IActionResult BadGatewayProblem(string title)
+    {
+        var problem = new Problem()
+        {
+            Type = "https://httpstatuses.io/502",
+            Status = 502,
             Title = title,
         };
 
