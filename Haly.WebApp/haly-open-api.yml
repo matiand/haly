@@ -208,7 +208,7 @@ paths:
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>'
       operationId: RefetchCurrentUserPlaylistTracks
       responses:
-        '200':
+        '204':
           description: Playlist tracks refetched
         '400':
           description: Bad request
@@ -497,7 +497,7 @@ paths:
       operationId: GetMyFeed
       responses:
         '200':
-          description: Success
+          description: Current user's feed
           content:
             application/json:
               schema:
@@ -2314,8 +2314,8 @@ components:
       additionalProperties: false
     PrivateUserDto:
       required:
-        - canStreamTracks
         - id
+        - isPlaybackAllowed
         - likedSongsCollectionId
         - market
         - name
@@ -2330,7 +2330,7 @@ components:
         imageUrl:
           type: string
           nullable: true
-        canStreamTracks:
+        isPlaybackAllowed:
           type: boolean
         likedSongsCollectionId:
           type: string

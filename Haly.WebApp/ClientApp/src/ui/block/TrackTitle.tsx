@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import * as Block from "./Block";
 
 import { classNames, styled } from "../../common/theme";
 import HighlightableText from "../../table/HighlightableText";
+import * as Block from "./Block";
 
 type TrackTitleProps = {
     name: string;

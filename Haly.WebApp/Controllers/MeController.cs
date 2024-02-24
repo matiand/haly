@@ -108,7 +108,7 @@ public class MeController : ApiControllerBase
 
     [HttpGet("feed")]
     [SwaggerOperation(Summary = "Fetch current user's feed")]
-    [SwaggerResponse(statusCode: 200, "Current user's feed", typeof(IEnumerable<UserFeedDto>))]
+    [SwaggerResponse(statusCode: 200, "Current user's feed", typeof(UserFeedDto))]
     [CallsSpotifyApi(SpotifyScopes.UserTopRead, SpotifyScopes.UserReadRecentlyPlayed)]
     public async Task<UserFeedDto> GetMyFeed([FromServices] CurrentUserStore currentUserStore)
     {

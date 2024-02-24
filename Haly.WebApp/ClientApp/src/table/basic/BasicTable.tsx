@@ -1,14 +1,15 @@
+import clsx from "clsx";
+
 import { TrackDto } from "../../../generated/haly";
 import { styled } from "../../common/theme";
 import * as Table from "../Table";
+import TrackDurationIcon from "../TrackDurationIcon";
 import useSelectionShortcuts from "../useSelectionShortcuts";
+import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
 import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import useTableRowSelection from "../useTableRowSelection";
 import BasicTableRow from "./BasicTableRow";
-import TrackDurationIcon from "../TrackDurationIcon";
-import useStickyTableHead from "../useStickyTableHead";
-import clsx from "clsx";
 
 type BasicTableProps = {
     items: TrackDto[];
@@ -71,7 +72,7 @@ const TableRoot = styled(Table.Root, {
             gridTemplateColumns: "16px 4fr minmax(120px, 1fr)",
         },
     },
-    
+
     "&.withAlbumCell tr": {
         gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
     },

@@ -3,14 +3,14 @@ import clsx from "clsx";
 import { styled } from "../common/theme";
 
 type ConnectBarProps = {
-    type: "denied" | "failure" | "connecting" | "available";
+    type: "forbidden" | "failure" | "connecting" | "available";
     onAction?: () => void;
     activeDeviceName?: string;
     errorMessage?: string;
 };
 
 function ConnectBar({ type, onAction, activeDeviceName, errorMessage }: ConnectBarProps) {
-    if (type === "denied") {
+    if (type === "forbidden") {
         return (
             <Wrapper>
                 <span>Playback not allowed</span>

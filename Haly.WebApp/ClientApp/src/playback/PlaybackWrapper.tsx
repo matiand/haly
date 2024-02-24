@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
-import { userCanStreamTracksAtom } from "../common/atoms/userAtoms";
+import { userIsAllowedPlaybackAtom } from "../common/atoms/userAtoms";
 import { styled } from "../common/theme";
 import ConnectBar from "./ConnectBar";
 import Playback from "./Playback";
@@ -9,8 +9,8 @@ import useRegisterDeviceMutation from "./useRegisterDeviceMutation";
 import useSpotifyPlaybackSdk from "./useSpotifyPlaybackSdk";
 
 function PlaybackWrapper() {
-    const userCanStreamTracks = useAtomValue(userCanStreamTracksAtom);
-    const { isSdkReady } = useSpotifyPlaybackSdk(userCanStreamTracks);
+    const isPlaybackAllowed = useAtomValue(userIsAllowedPlaybackAtom);
+    const { isSdkReady } = useSpotifyPlaybackSdk(isPlaybackAllowed);
     const { deviceId, errorMessage, registerDevice, reset } = useRegisterDeviceMutation();
 
     useEffect(() => {
@@ -19,10 +19,10 @@ function PlaybackWrapper() {
         }
     }, [isSdkReady, registerDevice]);
 
-    if (!userCanStreamTracks)
+    if (!isPlaybackAllowed)
         return (
             <Footer>
-                <ConnectBar type="denied" />
+                <ConnectBar type="forbidden" />
             </Footer>
         );
 
