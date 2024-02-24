@@ -122,7 +122,7 @@ public class PlayerController : ApiControllerBase
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [SwaggerResponse(statusCode: 404, "Content is not available", typeof(Problem))]
     [CallsSpotifyApi(SpotifyScopes.UserReadPlaybackState, SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<IActionResult> PutPlayback(UpdatePlaybackCommand command)
+    public async Task<ActionResult> PutPlayback(UpdatePlaybackCommand command)
     {
         var response = await Mediator.Send(command);
         if (!response.IsAvailable) return ProblemResponses.NotFound("Content is not available.");
@@ -134,7 +134,7 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Add to playback queue")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<IActionResult> AddToQueue(AddToQueueRequestBody body,
+    public async Task<ActionResult> AddToQueue(AddToQueueRequestBody body,
         [FromServices] CurrentUserStore currentUserStore)
     {
         var command = new AddToQueueCommand()

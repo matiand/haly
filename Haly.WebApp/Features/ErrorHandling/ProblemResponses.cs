@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Haly.WebApp.Features.ErrorHandling;
 
-public class ProblemResponses
+public static class ProblemResponses
 {
-    public static IActionResult BadRequestProblem(ValidationException exception)
+    public static ActionResult BadRequest(ValidationException exception)
     {
         var errors = exception.Errors.Select(failure => failure.ErrorMessage);
         var problem = new ValidationProblem()
@@ -21,7 +21,7 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 400 };
     }
 
-    public static IActionResult BadRequestProblem(string title)
+    public static ActionResult BadRequest(string title)
     {
         var problem = new Problem
         {
@@ -33,7 +33,7 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 400 };
     }
 
-    public static IActionResult UnauthorizedProblem(string title)
+    public static ActionResult Unauthorized(string title)
     {
         var problem = new Problem
         {
@@ -43,6 +43,18 @@ public class ProblemResponses
         };
 
         return new ObjectResult(problem) { StatusCode = 401 };
+    }
+
+    public static ActionResult Forbidden(string title)
+    {
+        var problem = new Problem
+        {
+            Type = "https://httpstatuses.io/403",
+            Status = 403,
+            Title = title,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 404 };
     }
 
     public static ActionResult NotFound(string title)
@@ -57,7 +69,7 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 404 };
     }
 
-    public static IActionResult DuplicateConflict(PlaylistBriefDto playlist, DuplicateType duplicateType)
+    public static ActionResult DuplicateConflict(PlaylistBriefDto playlist, DuplicateType duplicateType)
     {
         var problem = new DuplicateProblem
         {
@@ -72,7 +84,7 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 409 };
     }
 
-    public static IActionResult TooManyRequestsProblem(string title)
+    public static ActionResult TooManyRequests(string title)
     {
         var problem = new Problem
         {
@@ -84,7 +96,7 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 429 };
     }
 
-    public static IActionResult InternalServerProblem(string title)
+    public static ActionResult InternalServerProblem(string title)
     {
         var problem = new Problem()
         {
@@ -96,7 +108,7 @@ public class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 500 };
     }
 
-    public static IActionResult BadGatewayProblem(string title)
+    public static ActionResult BadGateway(string title)
     {
         var problem = new Problem()
         {

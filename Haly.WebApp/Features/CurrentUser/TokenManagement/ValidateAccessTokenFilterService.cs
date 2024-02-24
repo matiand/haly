@@ -26,7 +26,7 @@ public class ValidateAccessTokenFilterService : IActionFilter
         var callsSpotifyApiAttribute = actionAttributes.OfType<CallsSpotifyApiAttribute>().SingleOrDefault();
         if (callsSpotifyApiAttribute is not null && _currentUserStore.IsEmpty)
         {
-            context.Result = ProblemResponses.BadRequestProblem("Missing or invalid token. Did you forgot to authenticate with Spotify API and send the token to our API?.");
+            context.Result = ProblemResponses.BadRequest("Missing or invalid token. Did you forget to authenticate with Spotify API and send the token to our API?.");
         }
     }
 

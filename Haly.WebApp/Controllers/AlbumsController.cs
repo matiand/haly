@@ -14,7 +14,7 @@ public class AlbumsController : ApiControllerBase
     [SwaggerOperation(Summary = "Get album", Description = "Fetch album from Spotify")]
     [SwaggerResponse(statusCode: 200, "An album", typeof(AlbumDetailedDto))]
     [CallsSpotifyApi()]
-    public async Task<AlbumDetailedDto> GetAlbum(string id, [FromServices] CurrentUserStore currentUserStore)
+    public async Task<ActionResult<AlbumDetailedDto>> GetAlbum(string id, [FromServices] CurrentUserStore currentUserStore)
     {
         var currentUser = currentUserStore.User!;
 

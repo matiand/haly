@@ -17,7 +17,7 @@ public class UsersController : ApiControllerBase
     public async Task<ActionResult<UserProfileDto>> GetUser(string id)
     {
         var response = await Mediator.Send(new GetUserQuery(id));
-        if (response is null) return NotFound();
+        if (response is null) return ProblemResponses.NotFound("User not found");
 
         return Ok(response);
     }

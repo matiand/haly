@@ -25,7 +25,7 @@ public class PlaylistsController : ApiControllerBase
         string? sortOrder)
     {
         var response = await Mediator.Send(new GetPlaylistQuery(id, sortOrder));
-        if (response is null) return NotFound();
+        if (response is null) return ProblemResponses.NotFound("Playlist not found");
 
         return response;
     }
@@ -40,7 +40,8 @@ public class PlaylistsController : ApiControllerBase
     public async Task<ActionResult> PutPlaylist(string id, CurrentUserStore currentUserStore, bool forceUpdate = false)
     {
         var response = await Mediator.Send(new UpdatePlaylistCommand(id, currentUserStore.User!.Market, forceUpdate));
-        if (response is null) return NotFound();
+
+        if (response is null) return ProblemResponses.NotFound("Playlist not found");
 
         if (response.Created)
         {
@@ -67,7 +68,7 @@ public class PlaylistsController : ApiControllerBase
     {
         var response =
             await Mediator.Send(new GetPlaylistTracksQuery(playlistId, limit, offset, sortOrder, searchTerm));
-        if (response is null) return NotFound();
+        if (response is null) return ProblemResponses.NotFound("Playlist not found");
 
         return Ok(response);
     }
@@ -78,7 +79,7 @@ public class PlaylistsController : ApiControllerBase
     [SwaggerResponse(statusCode: 404, "Playlist or tracks were not found", typeof(Problem))]
     [SwaggerResponse(statusCode: 409, "Duplicate tracks were found", typeof(DuplicateProblem))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
-    public async Task<IActionResult> AddTracks(string playlistId, AddTracksRequestBody body,
+    public async Task<ActionResult<PlaylistBriefDto>> AddTracks(string playlistId, AddTracksRequestBody body,
         [FromServices] CurrentUserStore currentUserStore)
     {
         var command = new AddTracksCommand()

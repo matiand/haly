@@ -20,7 +20,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         {
             case ValidationException validationException:
                 {
-                    context.Result = ProblemResponses.BadRequestProblem(validationException);
+                    context.Result = ProblemResponses.BadRequest(validationException);
                     break;
                 }
             case GeneratedClient.ApiException apiException:
@@ -36,12 +36,12 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
                     context.Result = apiException.StatusCode switch
                     {
-                        // 400 => ProblemResponses.BadRequestProblem("Bad request"),
-                        400 => ProblemResponses.BadRequestProblem(apiException.Message),
-                        401 => ProblemResponses.UnauthorizedProblem("Bad or expired Spotify API access token"),
+                        400 => ProblemResponses.BadRequest(apiException.Message),
+                        401 => ProblemResponses.Unauthorized("Bad or expired Spotify API token"),
+                        403 => ProblemResponses.Forbidden("Missing scopes for Spotify API token"),
                         404 => ProblemResponses.NotFound("Resource not found"),
-                        429 => ProblemResponses.TooManyRequestsProblem("You have exceeded Spotify API rate limits"),
-                        _ => ProblemResponses.BadGatewayProblem("Spotify API is unavailable"),
+                        429 => ProblemResponses.TooManyRequests("You have exceeded Spotify API rate limits"),
+                        _ => ProblemResponses.BadGateway("Spotify API is unavailable"),
                     };
                     break;
                 }

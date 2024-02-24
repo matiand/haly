@@ -33,7 +33,7 @@ public class MeController : ApiControllerBase
         var response = await Mediator.Send(new UpdateCurrentUserCommand(user));
         if (response.Created)
         {
-            // This is the only endpoint that returns a 'User', so it's not even possible to provide
+            // This is the only endpoint in our API that returns a 'User', so it's not possible to provide
             // a valid 'Location' header with CreatedAtAction method. That's why we return a
             // bare 201 response with the 'User' in its body.
             return StatusCode(StatusCodes.Status201Created, response.User);
@@ -52,7 +52,7 @@ public class MeController : ApiControllerBase
         var userId = currentUserStore.User!.Id;
         var response = await Mediator.Send(new CreatePlaylistCommand(userId, name));
 
-        return response;
+        return CreatedAtRoute(routeName: "GetPlaylist", new { id = response.Id }, response);
     }
 
     [HttpPut("playlists")]
@@ -65,7 +65,8 @@ public class MeController : ApiControllerBase
     {
         var currentUserId = currentUserStore.User!.Id;
         var response = await Mediator.Send(new UpdateMyPlaylistsCommand(currentUserId));
-        if (response is null) return NotFound();
+
+        if (response is null) return ProblemResponses.NotFound("User not found");
 
         return Ok(response);
     }
@@ -107,6 +108,7 @@ public class MeController : ApiControllerBase
 
     [HttpGet("feed")]
     [SwaggerOperation(Summary = "Fetch current user's feed")]
+    [SwaggerResponse(statusCode: 200, "Current user's feed", typeof(IEnumerable<UserFeedDto>))]
     [CallsSpotifyApi(SpotifyScopes.UserTopRead, SpotifyScopes.UserReadRecentlyPlayed)]
     public async Task<UserFeedDto> GetMyFeed([FromServices] CurrentUserStore currentUserStore)
     {
