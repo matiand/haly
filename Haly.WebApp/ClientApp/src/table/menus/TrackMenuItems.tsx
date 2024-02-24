@@ -36,9 +36,6 @@ function TrackMenuItems({
         position: "positionInPlaylist" in t ? t.positionInPlaylist : -1,
     }));
 
-    console.log("Menu will use these tracks:");
-    console.table(tracks.map((t) => t.name));
-
     if (tracks.length === 1) {
         const track = tracks[0];
 

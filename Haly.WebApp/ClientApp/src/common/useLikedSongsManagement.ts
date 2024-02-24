@@ -31,7 +31,6 @@ function useLikedSongsManagement({ enabled }: { enabled: boolean }) {
     );
 
     useEffect(() => {
-        console.log(syncLikedSongs.status);
         if (enabled && isLikedSongsCollectionChanged && !syncLikedSongs.isLoading) {
             setIsLikedSongsCollectionChanged(false);
             syncLikedSongs.mutate();

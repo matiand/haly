@@ -23,7 +23,6 @@ function Playback({ deviceId }: PlaybackProps) {
         if (streamedTrack?.playbackId) {
             // We need to delay this, otherwise those endpoints won't notice the change.
             delay(800).then(() => {
-                console.log("invalidation");
                 queryClient.invalidateQueries(GetQueueQueryKey);
                 queryClient.invalidateQueries(GetRecentlyPlayedQueryKey);
             });

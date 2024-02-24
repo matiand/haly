@@ -15,9 +15,6 @@ function Authentication(props: AuthenticationProps) {
     const isTokenExpirationHandlerRegistered = useRef(false);
     const refreshToken = useRefreshTokenMutation();
 
-    console.log("debug auth user", auth.user?.expires_in);
-    console.log(auth);
-
     // Normally automatic token renewals in 'auth' are enabled by default.
     // I had to turn them off, cause the app would crash from React's StrictMode rerenders
     // This effect makes sure that when a token is expiring, its renewal is attempted only once

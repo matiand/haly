@@ -11,8 +11,6 @@ function AlbumHeartButton({ albumId }: AlbumHeartButtonProps) {
 
     if (isLoading) return <EmptySpace />;
 
-    console.log("isOn", isOn);
-
     return (
         <HeartButton
             // Force rerender when the state was modified outside of the component (e.g. using a menu).

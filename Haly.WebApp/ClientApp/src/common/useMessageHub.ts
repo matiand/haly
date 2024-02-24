@@ -23,7 +23,6 @@ export const useMessageHub = () => {
     });
 
     connection.on("PlaylistUpdated", (playlistId: string) => {
-        console.log("PlaylistUpdated", playlistId);
         queryClient.invalidateQueries(GetPlaylistQueryKey(playlistId));
     });
 

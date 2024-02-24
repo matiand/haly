@@ -89,8 +89,6 @@ function Search() {
             props: { type: isLibrarySearch ? "library" : "spotify" },
         });
 
-    console.log("q", query);
-
     return (
         <Wrapper>
             <MiniPageHeader title="Search" />
