@@ -8,6 +8,7 @@ import { likedSongIdByPlaybackIdAtom } from "../common/atoms/trackAtoms";
 import halyClient from "../halyClient";
 import { TrackLikedState } from "../table/useTableRowLikedState";
 import HeartButton from "../ui/HeartButton";
+import NowPlayingAnnouncement from "./NowPlayingAnnouncement";
 import StreamedTrack from "./StreamedTrack";
 
 type StreamedTrackBlockProps = {
@@ -60,6 +61,8 @@ function StreamedTrackBlock({ streamedTrack }: StreamedTrackBlockProps) {
                 }}
                 state={likedState.isLiked}
             />
+
+            <NowPlayingAnnouncement title={streamedTrack.name} artists={streamedTrack.artists} />
         </div>
     );
 }
