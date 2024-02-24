@@ -24,6 +24,7 @@ import Queue from "./queue/Queue";
 import Search from "./search/Search";
 import Sidebar from "./sidebar/Sidebar";
 import LoadingIndicator from "./ui/LoadingIndicator";
+import NotFound from "./ui/NotFound";
 import { MainScrollArea } from "./ui/ScrollArea";
 import SkipToMainContent, { mainContentId } from "./ui/SkipToMainContent";
 import Toaster from "./ui/Toaster";
@@ -70,6 +71,8 @@ function App() {
                                 <Route path="/collection/tracks" element={<LikedSongs />} />
                                 <Route path="/preferences" element={<Preferences />} />
                                 <Route path="/queue" element={<Queue />} />
+
+                                <Route path="/*" element={<NotFound />} />
                             </Routes>
                         </MainLayout>
                     </MainScrollArea>

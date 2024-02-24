@@ -34,9 +34,14 @@ const Wrapper = styled("div", {
         border: "1px solid $black200",
         borderRadius: "48px",
         color: "$black800",
+        display: "inline-block",
         fontWeight: "700",
         padding: "$500 $800",
         textDecoration: "none",
+
+        "&:hover": {
+            transform: "scale(1.05)",
+        },
     },
 });
 
