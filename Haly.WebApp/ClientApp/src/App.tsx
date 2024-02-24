@@ -25,6 +25,7 @@ import Search from "./search/Search";
 import Sidebar from "./sidebar/Sidebar";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import { MainScrollArea } from "./ui/ScrollArea";
+import SkipToMainContent, { mainContentId } from "./ui/SkipToMainContent";
 import Toaster from "./ui/Toaster";
 import UpperMenu from "./uppermenu/UpperMenu";
 
@@ -38,10 +39,12 @@ function App() {
     return (
         <DndProvider>
             <Layout>
+                <SkipToMainContent />
+
                 <UpperMenu />
                 <Sidebar />
 
-                <Main>
+                <Main id={mainContentId}>
                     <MainScrollArea>
                         <MainLayout>
                             <Routes>
