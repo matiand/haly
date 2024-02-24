@@ -4,7 +4,7 @@ using Haly.WebApp.Models.Tracks;
 
 namespace Haly.WebApp.Models;
 
-public class Playlist
+public class Playlist : TrackableEntity
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -13,7 +13,6 @@ public class Playlist
     public string? Description { get; set; }
     public string? ImageUrl { get; set; }
     public string? ThumbnailUrl { get; set; }
-    public DateOnly? UpdatedAt { get; set; }
 
     [Column(TypeName = "jsonb")]
     public Owner Owner { get; set; }
