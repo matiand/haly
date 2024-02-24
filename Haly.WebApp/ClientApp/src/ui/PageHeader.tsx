@@ -64,7 +64,7 @@ function PageHeader({
                 <Details>{children}</Details>
             </InformationSection>
 
-            {/*// todo: which ref is needed*/}
+            {/* This ref needs to be placed here and in the Wrapper. I don't know why. */}
             <div ref={ref} aria-hidden />
         </Wrapper>
     );

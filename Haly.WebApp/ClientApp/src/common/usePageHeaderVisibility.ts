@@ -4,7 +4,8 @@ import { useInView } from "react-intersection-observer";
 
 import { pageHeaderVisibilityAtom } from "./atoms/pageAtoms";
 
-// todo: A hook that manages (what?)
+// This hook observes how much of the page header is visible. We use it to show the contents of
+// UpperMenu when the user scrolls down the page.
 function usePageHeaderVisibility() {
     const setPageHeaderVisibility = useSetAtom(pageHeaderVisibilityAtom);
     const { ref } = useInView({
