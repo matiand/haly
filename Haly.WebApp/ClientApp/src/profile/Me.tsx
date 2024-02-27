@@ -3,6 +3,7 @@ import { useAtomValue } from "jotai";
 import { useSetAtom } from "jotai/index";
 import { useEffect } from "react";
 import { LuUsers } from "react-icons/lu";
+import { Link } from "react-router-dom";
 
 import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
@@ -74,7 +75,11 @@ function Me() {
         <div>
             <PageHeader title={name} type="Profile" imageUrl={imageUrl} description={null}>
                 {followersTotal > 0 && <span>{pluralize("Follower", followersTotal)}</span>}
-                {followsTotal > 0 && <span>{pluralize("Followed Artist", followsTotal)}</span>}
+                {followsTotal > 0 && (
+                    <span>
+                        <Link to="/me/following">{pluralize("Followed Artist", followsTotal)}</Link>
+                    </span>
+                )}
                 {createdPlaylists > 0 && <span>{pluralize("Owned Playlist", createdPlaylists)}</span>}
             </PageHeader>
             <PageControls />
