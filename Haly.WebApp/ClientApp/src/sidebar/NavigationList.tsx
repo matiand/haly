@@ -15,7 +15,7 @@ function NavigationList() {
 
             <NavigationListItem title="Home" href="/" icon={<HiHome />} />
             <NavigationListItem title="Search" href="/search" icon={<HiSearch />} />
-            <NavigationListItem title="New Releases" href="/me" icon={<HiFire />} />
+            <NavigationListItem title="New Releases" href="/me/new-releases" icon={<HiFire />} />
             <NavigationListItem title="Backlog" href="/bae" icon={<HiDocument />} areaId="backlog" />
         </List>
     );
