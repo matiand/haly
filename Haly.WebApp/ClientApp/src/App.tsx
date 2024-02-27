@@ -28,7 +28,7 @@ import NotFound from "./ui/NotFound";
 import { MainScrollArea } from "./ui/ScrollArea";
 import SkipToMainContent, { mainContentId } from "./ui/SkipToMainContent";
 import Toaster from "./ui/Toaster";
-import UpperMenu from "./uppermenu/UpperMenu";
+import UpperMenu from "./upper-menu/UpperMenu";
 
 function App() {
     useMessageHub();
