@@ -1,4 +1,5 @@
 using Haly.WebApp.Features.Artists;
+using Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
 using Haly.WebApp.Features.Users.GetUserPlaylists;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Search;
@@ -13,11 +14,13 @@ public record GetMyFeedQuery(string UserMarket) : IRequest<UserFeedDto>;
 public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto>
 {
     private readonly ISpotifyService _spotify;
+    private readonly IDateOnlyService _dateOnlyService;
     private readonly Random _random = new();
 
-    public GetMyFeedQueryHandler(ISpotifyService spotify)
+    public GetMyFeedQueryHandler(ISpotifyService spotify, IDateOnlyService dateOnlyService)
     {
         _spotify = spotify;
+        _dateOnlyService = dateOnlyService;
     }
 
     public async Task<UserFeedDto> Handle(GetMyFeedQuery request, CancellationToken cancellationToken)
@@ -46,19 +49,34 @@ public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto
             .ToList();
 
         var releaseRadar =
-            (await radarResultsTask).Playlists!.FirstOrDefault(p => p is { Name: "Release Radar", Owner.Id: "spotify" });
+            (await radarResultsTask).Playlists!.FirstOrDefault(p => p is
+            { Name: "Release Radar", Owner.Id: "spotify" });
         var discoverWeekly =
             (await radarResultsTask).Playlists!.FirstOrDefault(
                 p => p is { Name: "Discover Weekly", Owner.Id: "spotify" });
 
         if (releaseRadar is not null)
         {
-            playlists.Add(releaseRadar);
+            if (_dateOnlyService.IsFriday())
+            {
+                playlists.Insert(index: 0, releaseRadar);
+            }
+            else
+            {
+                playlists.Add(releaseRadar);
+            }
         }
 
         if (discoverWeekly is not null)
         {
-            playlists.Add(discoverWeekly);
+            if (_dateOnlyService.IsMonday())
+            {
+                playlists.Insert(index: 0, discoverWeekly);
+            }
+            else
+            {
+                playlists.Add(discoverWeekly);
+            }
         }
 
         return playlists.Adapt<IEnumerable<PlaylistCardDto>>();

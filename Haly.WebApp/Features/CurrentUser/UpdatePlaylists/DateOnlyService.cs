@@ -9,4 +9,14 @@ public class DateOnlyService : IDateOnlyService
         var monthAgo = DateOnly.FromDateTime(DateTime.Now.AddMonths(months: -1));
         return dateOnly < monthAgo;
     }
+
+    public bool IsMonday()
+    {
+        return DateTime.Now.DayOfWeek == DayOfWeek.Monday;
+    }
+
+    public bool IsFriday()
+    {
+        return DateTime.Now.DayOfWeek == DayOfWeek.Friday;
+    }
 }
