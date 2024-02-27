@@ -20,4 +20,17 @@ public class JobsController : ApiControllerBase
 
         return NoContent();
     }
+
+    [HttpPost("new-releases")]
+    [SwaggerOperation(Summary = "Collect new releases from current user's followed artists")]
+    [SwaggerResponse(statusCode: 204, "New releases collected")]
+    [CallsSpotifyApi()]
+    public async Task<ActionResult<object>> Get([FromServices] CurrentUserStore currentUserStore)
+    {
+        var currentUser = currentUserStore.User!;
+
+        await Mediator.Send(new CollectNewReleasesCommand(currentUser.Id));
+
+        return NoContent();
+    }
 }

@@ -1,6 +1,6 @@
 namespace Haly.WebApp.Models.Jobs;
 
-public class RefetchPlaylistTracksJob : BackgroundJob
+public class RefetchPlaylistTracksJob : Job
 {
     public string UserId { get; set; }
     public string PlaylistId { get; set; }
