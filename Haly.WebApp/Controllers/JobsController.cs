@@ -1,5 +1,8 @@
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
-using Haly.WebApp.Features.Jobs;
+using Haly.WebApp.Features.ErrorHandling;
+using Haly.WebApp.Features.Jobs.CollectNewReleases;
+using Haly.WebApp.Features.Jobs.GetNewReleasesJob;
+using Haly.WebApp.Features.Jobs.RefetchPlaylistTracks;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -20,6 +23,22 @@ public class JobsController : ApiControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("new-releases/completed/latest")]
+    [SwaggerOperation(Summary = "Get latest completed 'Collect new releases' job")]
+    [SwaggerResponse(statusCode: 200, "A job", typeof(NewReleasesJobDto))]
+    public async Task<ActionResult<NewReleasesJobDto>> GetLatestCompletedNewReleasesJob(
+        [FromServices] CurrentUserStore currentUserStore)
+    {
+        var currentUser = currentUserStore.User!;
+
+        var job = await Mediator.Send(new GetLatestNewReleasesJobQuery(currentUser.Id));
+
+        if (job is null) return ProblemResponses.NotFound("No completed 'Collect new releases' job found");
+
+        return job;
+    }
+
 
     [HttpPost("new-releases")]
     [SwaggerOperation(Summary = "Collect new releases from current user's followed artists")]

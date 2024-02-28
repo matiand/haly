@@ -6,7 +6,7 @@ using Haly.WebApp.Models.Jobs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using MediatR;
 
-namespace Haly.WebApp.Features.Jobs;
+namespace Haly.WebApp.Features.Jobs.CollectNewReleases;
 
 public record CollectNewReleasesCommand(string UserId, string UserMarket) : IRequest;
 

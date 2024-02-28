@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Haly.WebApp.Features.Jobs;
+namespace Haly.WebApp.Features.Jobs.RefetchPlaylistTracks;
 
 public record RefetchPlaylistTracksCommand(string UserId) : IRequest;
 
