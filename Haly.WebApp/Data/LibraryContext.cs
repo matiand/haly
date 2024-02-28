@@ -22,6 +22,7 @@ public class LibraryContext : DbContext
     public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
     public DbSet<Lyrics> LyricsSet { get; set; }
     public DbSet<RefetchPlaylistTracksJob> RefetchPlaylistTracksJobs { get; set; }
+    public DbSet<CollectNewReleasesJob> CollectNewReleasesJobs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

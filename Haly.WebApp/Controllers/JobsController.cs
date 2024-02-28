@@ -29,7 +29,7 @@ public class JobsController : ApiControllerBase
     {
         var currentUser = currentUserStore.User!;
 
-        await Mediator.Send(new CollectNewReleasesCommand(currentUser.Id));
+        await Mediator.Send(new CollectNewReleasesCommand(currentUser.Id, currentUser.Market));
 
         return NoContent();
     }

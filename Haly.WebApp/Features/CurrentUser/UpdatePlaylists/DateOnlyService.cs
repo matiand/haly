@@ -10,6 +10,14 @@ public class DateOnlyService : IDateOnlyService
         return dateOnly < monthAgo;
     }
 
+    public bool IsOlderThanSixMonths(DateOnly? dateOnly)
+    {
+        if (dateOnly is null) return true;
+
+        var sixMonthsAgo = DateOnly.FromDateTime(DateTime.Now.AddMonths(months: -6));
+        return dateOnly < sixMonthsAgo;
+    }
+
     public bool IsMonday()
     {
         return DateTime.Now.DayOfWeek == DayOfWeek.Monday;

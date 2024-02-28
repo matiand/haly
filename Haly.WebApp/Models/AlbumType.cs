@@ -14,6 +14,8 @@ public sealed class AlbumType
     public static readonly AlbumType Ep = new("EP");
     public static readonly AlbumType Compilation = new("Compilation");
 
+    public static implicit operator string(AlbumType type) => type.ToString();
+
     public override string ToString()
     {
         return Name;
