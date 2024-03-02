@@ -56,7 +56,7 @@ function EditPlaylistDetailsModal({ id, name, description }: EditPlaylistDetails
 
     return (
         <Modal title="Edit details" onClose={() => setModal(null)}>
-            <ModalForm onSubmit={onSubmit}>
+            <ModalForm autoComplete="off" autoCapitalize="off" autoCorrect="off" spellCheck="false" onSubmit={onSubmit}>
                 {errorMessage && (
                     <Alert role="alert">
                         <span aria-hidden>
