@@ -12,6 +12,7 @@ import DndProvider from "./dnd/DndProvider";
 import Home from "./home/Home";
 import ModalProvider from "./menus/ModalProvider";
 import NewReleasesWrapper from "./new-releases/NewReleasesWrapper";
+import useNewReleasesJobScheduler from "./new-releases/useNewReleasesJobScheduler";
 import PlaybackWrapper from "./playback/PlaybackWrapper";
 import LikedSongs from "./playlist/LikedSongs";
 import PlaylistWrapper from "./playlist/PlaylistWrapper";
@@ -35,6 +36,7 @@ function App() {
     useMessageHub();
     const query = useMeQuery();
     useLikedSongsManagement({ enabled: query.isSuccess });
+    useNewReleasesJobScheduler({ enabled: query.isSuccess });
 
     if (query.isLoading) return <LoadingIndicator />;
 
