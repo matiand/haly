@@ -9,9 +9,9 @@ import DraggableTableRow from "../../dnd/DraggableTableRow";
 import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
+import DateCell from "../DateCell";
 import TrackContextMenu from "../menus/TrackContextMenu";
 import TrackAlbumCell from "../TrackAlbumCell";
-import TrackDateAddedCell from "../TrackDateAddedCell";
 import TrackDurationCell from "../TrackDurationCell";
 import TrackIndexCell from "../TrackIndexCell";
 import TrackInformationCell from "../TrackInformationCell";
@@ -103,7 +103,7 @@ function PlaylistTableRow({
             </td>
 
             <td>
-                <TrackDateAddedCell track={track} />
+                <DateCell date={track.addedAt} />
             </td>
 
             <td>
