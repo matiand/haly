@@ -6,6 +6,7 @@ import { pageContextAtom } from "../common/atoms/pageAtoms";
 import EmptyState from "../ui/EmptyState";
 import MiniPageHeader from "../ui/MiniPageHeader";
 import NewReleases from "./NewReleases";
+import NewReleasesDescription from "./NewReleasesDescription";
 import useLatestNewReleasesJobQuery from "./useLatestNewReleasesJobQuery";
 
 const title = "New Releases";
@@ -34,6 +35,7 @@ function NewReleasesWrapper() {
     return (
         <div>
             <MiniPageHeader title={title} />
+            <NewReleasesDescription key={Date.now()} jobFinishedAt={job.finishedAt} />
 
             <NewReleases job={job} />
         </div>
