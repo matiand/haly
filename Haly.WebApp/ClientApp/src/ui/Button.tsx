@@ -30,7 +30,7 @@ const StyledButton = styled("button", {
                 textTransform: "uppercase",
                 userSelect: "none",
 
-                "&:hover": {
+                "&:hover:not([disabled])": {
                     borderColor: "$white800",
                     cursor: "pointer",
                 },

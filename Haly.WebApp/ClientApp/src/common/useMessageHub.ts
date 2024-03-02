@@ -2,6 +2,7 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 
+import { artistsLeftAtom } from "./atoms/newReleasesAtom";
 import { playlistIdsWithOldTracksAtom } from "./atoms/playlistAtoms";
 import { GetPlaylistQueryKey } from "./queryKeys";
 
@@ -10,6 +11,7 @@ import { GetPlaylistQueryKey } from "./queryKeys";
 export const useMessageHub = () => {
     const queryClient = useQueryClient();
     const setPlaylistIdsWithOldTracks = useSetAtom(playlistIdsWithOldTracksAtom);
+    const setArtistsLeft = useSetAtom(artistsLeftAtom);
 
     const connection = new HubConnectionBuilder()
         .withUrl(`${import.meta.env.VITE_API_ORIGIN}/hub`)
@@ -24,6 +26,10 @@ export const useMessageHub = () => {
 
     connection.on("PlaylistUpdated", (playlistId: string) => {
         queryClient.invalidateQueries(GetPlaylistQueryKey(playlistId));
+    });
+
+    connection.on("CollectingNewReleases", (artistsLeft: number) => {
+        setArtistsLeft(artistsLeft);
     });
 
     const query = useQuery(["hub"], () => connection.start().then(() => 1), { staleTime: Infinity });

@@ -1,10 +1,12 @@
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
+using Haly.WebApp.Hubs;
 using Haly.WebApp.Models;
 using Haly.WebApp.Models.Cards;
 using Haly.WebApp.Models.Jobs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Haly.WebApp.Features.Jobs.CollectNewReleases;
 
@@ -15,12 +17,15 @@ public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesComma
     private readonly ISpotifyService _spotify;
     private readonly LibraryContext _db;
     private readonly IDateOnlyService _dateOnlyService;
+    private readonly IHubContext<MessageHub, IMessageHubClient> _messageHub;
 
-    public CollectNewReleasesHandler(ISpotifyService spotify, LibraryContext db, IDateOnlyService dateOnlyService)
+    public CollectNewReleasesHandler(ISpotifyService spotify, LibraryContext db, IDateOnlyService dateOnlyService,
+        IHubContext<MessageHub, IMessageHubClient> messageHub)
     {
         _spotify = spotify;
         _db = db;
         _dateOnlyService = dateOnlyService;
+        _messageHub = messageHub;
     }
 
     public async Task Handle(CollectNewReleasesCommand request, CancellationToken cancellationToken)
@@ -53,9 +58,10 @@ public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesComma
         var followedArtists = await _spotify.GetCurrentUserFollows();
         var allReleases = new List<ReleaseItem>();
 
-        // foreach (var artist in followedArtists.Take(5))
-        foreach (var artist in followedArtists)
+        await _messageHub.Clients.All.CollectingNewReleases(followedArtists.Count);
+        for (var i = 0; i < followedArtists.Count; i++)
         {
+            var artist = followedArtists[i];
             var albumsTask = _spotify.GetArtistReleases(artist.Id, ArtistRelease.Album, request.UserMarket);
             var singlesTask = _spotify.GetArtistReleases(artist.Id, ArtistRelease.Singles, request.UserMarket);
 
@@ -66,10 +72,14 @@ public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesComma
 
             allReleases.AddRange(await albumsTask);
             allReleases.AddRange(await singlesTask);
+
+            await _messageHub.Clients.All.CollectingNewReleases(followedArtists.Count - i - 1);
         }
 
         var releasesFromLastSixMonths =
-            allReleases.Where(r => !_dateOnlyService.IsOlderThanSixMonths(r.ReleaseDate)).ToList();
+            allReleases.Where(r => !_dateOnlyService.IsOlderThanSixMonths(r.ReleaseDate))
+                .OrderByDescending(r => r.ReleaseDate)
+                .ToList();
 
         return releasesFromLastSixMonths;
     }

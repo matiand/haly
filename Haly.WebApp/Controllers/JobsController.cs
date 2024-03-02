@@ -44,7 +44,7 @@ public class JobsController : ApiControllerBase
     [SwaggerOperation(Summary = "Collect new releases from current user's followed artists")]
     [SwaggerResponse(statusCode: 204, "New releases collected")]
     [CallsSpotifyApi()]
-    public async Task<ActionResult<object>> Get([FromServices] CurrentUserStore currentUserStore)
+    public async Task<NoContentResult> CollectNewReleases([FromServices] CurrentUserStore currentUserStore)
     {
         var currentUser = currentUserStore.User!;
 

@@ -7,5 +7,8 @@ public record NewReleasesJobDto
     public int Id { get; init; }
     public DateTime FinishedAt { get; init; }
 
-    public IEnumerable<ReleaseItemDto> NewReleases { get; init; }
+    public IEnumerable<ReleaseItemDto> All { get; init; }
+    public IEnumerable<ReleaseItemDto> Albums { get; init; }
+    public IEnumerable<ReleaseItemDto> SinglesAndEps { get; init; }
+
 }

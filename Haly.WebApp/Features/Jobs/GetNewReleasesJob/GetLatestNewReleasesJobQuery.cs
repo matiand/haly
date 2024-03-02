@@ -1,4 +1,6 @@
 using Haly.WebApp.Data;
+using Haly.WebApp.Features.Artists;
+using Haly.WebApp.Models;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +25,22 @@ public class GetLatestNewReleasesJobHandler : IRequestHandler<GetLatestNewReleas
             .OrderByDescending(j => j.FinishedAt)
             .FirstOrDefaultAsync(j => j.UserId == request.UserId && j.FinishedAt.HasValue, cancellationToken);
 
-        var dto = latestCompletedJob?.Adapt<NewReleasesJobDto>();
+        if (latestCompletedJob is null) return null;
+
+        var dto = new NewReleasesJobDto()
+        {
+            Id = latestCompletedJob.Id,
+            FinishedAt = latestCompletedJob.FinishedAt!.Value,
+
+            All = latestCompletedJob.NewReleases.Adapt<IEnumerable<ReleaseItemDto>>(),
+            Albums = latestCompletedJob.NewReleases.Where(r => r.Type == AlbumType.Album)
+                .Adapt<IEnumerable<ReleaseItemDto>>(),
+
+            SinglesAndEps = latestCompletedJob.NewReleases
+                .Where(r => r.Type == AlbumType.OneSong || r.Type == AlbumType.Ep)
+                .Adapt<IEnumerable<ReleaseItemDto>>(),
+        };
+
 
         return dto;
     }

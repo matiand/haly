@@ -21,3 +21,5 @@ export const GetPlaylistTracksQueryKey = (playlistId: string, sortOrder: Playlis
 ];
 
 export const GetArtistDiscographyQueryKey = (artistId: string) => ["artist", artistId, "discography"];
+
+export const GetLatestNewReleasesJobQueryKey = ["jobs", "new-releases", "completed", "latest"];

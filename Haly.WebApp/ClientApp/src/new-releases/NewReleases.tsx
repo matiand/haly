@@ -1,41 +1,85 @@
-import { useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { useAtomValue } from "jotai/index";
+import { useState } from "react";
 
-import { pageContextAtom } from "../common/atoms/pageAtoms";
+import { NewReleasesJobDto } from "../../generated/haly";
+import { artistsLeftAtom, NewReleasesFilter } from "../common/atoms/newReleasesAtom";
 import { styled } from "../common/theme";
-import MiniPageHeader from "../ui/MiniPageHeader";
+import Button from "../ui/Button";
+import RadioGroup, { Option } from "../ui/RadioGroup";
+import NewReleaseItems from "./NewReleaseItems";
 
-const title = "New Releases";
+type NewReleasesProps = {
+    job: NewReleasesJobDto;
+};
 
-function NewReleases() {
-    const setPageContext = useSetAtom(pageContextAtom);
+function NewReleases({ job }: NewReleasesProps) {
+    const artistsLeft = useAtomValue(artistsLeftAtom);
+    const [filter, setFilter] = useState<NewReleasesFilter>("all");
 
-    useEffect(() => {
-        setPageContext({
-            type: "basic",
-            data: {
-                id: "new-releases",
-                name: title,
+    const options: Option[] = [
+        {
+            name: "All",
+            isDefault: true,
+            onSelected: () => {
+                setFilter("all");
             },
-        });
+        },
+        {
+            name: "Albums",
+            isDefault: false,
+            onSelected: () => {
+                setFilter("albums");
+            },
+        },
+        {
+            name: "Singles and EPs",
+            isDefault: false,
+            onSelected: () => {
+                setFilter("singles");
+            },
+        },
+    ];
 
-        return () => setPageContext(null);
-    }, [setPageContext]);
+    const filteredItems = filter === "all" ? job.all : filter === "albums" ? job.albums : job.singlesAndEps;
 
     return (
         <Wrapper>
-            <MiniPageHeader title={title} />
-            <p>The latest songs from artists that you follow.</p>
+            <Controls>
+                {job && <RadioGroup options={options} />}
+
+                <Button
+                    variant="square"
+                    type="button"
+                    disabled={artistsLeft > 0}
+                    onClick={() => console.log("not click")}
+                >
+                    Check What&#39;s New
+                </Button>
+            </Controls>
+
+            <NewReleaseItems items={filteredItems} artistsLeft={artistsLeft} />
         </Wrapper>
     );
 }
 
 const Wrapper = styled("div", {
-    p: {
-        color: "$white400",
-        fontSize: "$100",
-        fontWeight: 500,
-        userSelect: "none",
+    padding: "$800 0",
+});
+
+const Controls = styled("div", {
+    display: "flex",
+    marginBottom: "$800",
+
+    "& > [role=group]": {
+        marginBottom: "initial",
+    },
+
+    "& > button": {
+        marginInlineStart: "auto",
+
+        "&[disabled]": {
+            opacity: 0.66,
+        },
     },
 });
 

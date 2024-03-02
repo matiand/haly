@@ -11,7 +11,7 @@ import { useMessageHub } from "./common/useMessageHub";
 import DndProvider from "./dnd/DndProvider";
 import Home from "./home/Home";
 import ModalProvider from "./menus/ModalProvider";
-import NewReleases from "./new-releases/NewReleases";
+import NewReleasesWrapper from "./new-releases/NewReleasesWrapper";
 import PlaybackWrapper from "./playback/PlaybackWrapper";
 import LikedSongs from "./playlist/LikedSongs";
 import PlaylistWrapper from "./playlist/PlaylistWrapper";
@@ -53,7 +53,7 @@ function App() {
                                 <Route index element={<Home />} />
 
                                 <Route path="/me" element={<Me />} />
-                                <Route path="/me/new-releases" element={<NewReleases />} />
+                                <Route path="/me/new-releases" element={<NewReleasesWrapper />} />
                                 <Route path="/me/following" element={<AllMyFollowedArtistCards />} />
                                 <Route path="/me/top/artists" element={<AllMyTopArtistCards />} />
 

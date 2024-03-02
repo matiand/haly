@@ -15,9 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
+  NewReleasesJobDto,
   Problem,
 } from '../models';
 import {
+    NewReleasesJobDtoFromJSON,
+    NewReleasesJobDtoToJSON,
     ProblemFromJSON,
     ProblemToJSON,
 } from '../models';
@@ -26,6 +29,59 @@ import {
  * 
  */
 export class JobsApi extends runtime.BaseAPI {
+
+    /**
+     * This endpoint calls Spotify API.
+     * Collect new releases from current user\'s followed artists
+     */
+    async collectNewReleasesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Jobs/new-releases`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * This endpoint calls Spotify API.
+     * Collect new releases from current user\'s followed artists
+     */
+    async collectNewReleases(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.collectNewReleasesRaw(initOverrides);
+    }
+
+    /**
+     * Get latest completed \'Collect new releases\' job
+     */
+    async getLatestCompletedNewReleasesJobRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NewReleasesJobDto>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/Jobs/new-releases/completed/latest`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => NewReleasesJobDtoFromJSON(jsonValue));
+    }
+
+    /**
+     * Get latest completed \'Collect new releases\' job
+     */
+    async getLatestCompletedNewReleasesJob(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NewReleasesJobDto> {
+        const response = await this.getLatestCompletedNewReleasesJobRaw(initOverrides);
+        return await response.value();
+    }
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>

@@ -228,6 +228,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /Jobs/new-releases/completed/latest:
+    get:
+      tags:
+        - Jobs
+      summary: Get latest completed 'Collect new releases' job
+      operationId: GetLatestCompletedNewReleasesJob
+      responses:
+        '200':
+          description: A job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewReleasesJobDto'
+  /Jobs/new-releases:
+    post:
+      tags:
+        - Jobs
+      summary: Collect new releases from current user's followed artists
+      description: This endpoint calls Spotify API.
+      operationId: CollectNewReleases
+      responses:
+        '204':
+          description: New releases collected
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   '/Lyrics/{id}':
     get:
       tags:
@@ -2118,6 +2159,34 @@ components:
           type: string
           nullable: true
       additionalProperties: false
+    NewReleasesJobDto:
+      required:
+        - albums
+        - all
+        - finishedAt
+        - id
+        - singlesAndEps
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        finishedAt:
+          type: string
+          format: date-time
+        all:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+        albums:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+        singlesAndEps:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseItemDto'
+      additionalProperties: false
     OwnerBriefDto:
       required:
         - id
@@ -2355,6 +2424,7 @@ components:
         - artists
         - id
         - name
+        - releaseDate
         - releaseYear
         - type
       type: object
@@ -2368,6 +2438,9 @@ components:
           nullable: true
         type:
           type: string
+        releaseDate:
+          type: string
+          format: date
         releaseYear:
           type: integer
           format: int32

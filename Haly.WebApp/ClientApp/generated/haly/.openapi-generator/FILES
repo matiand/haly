@@ -35,6 +35,7 @@ models/FollowedArtistDto.ts
 models/GeniusQueryBody.ts
 models/GetMyLikedSongsQueryResponse.ts
 models/LyricsDto.ts
+models/NewReleasesJobDto.ts
 models/OwnerBriefDto.ts
 models/PaginatedTracksDto.ts
 models/PaginatedTracksDtoPage.ts

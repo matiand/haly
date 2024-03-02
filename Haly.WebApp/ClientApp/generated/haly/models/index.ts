@@ -24,6 +24,7 @@ export * from './FollowedArtistDto';
 export * from './GeniusQueryBody';
 export * from './GetMyLikedSongsQueryResponse';
 export * from './LyricsDto';
+export * from './NewReleasesJobDto';
 export * from './OwnerBriefDto';
 export * from './PaginatedTracksDto';
 export * from './PaginatedTracksDtoPage';

@@ -52,6 +52,12 @@ export interface ReleaseItemDto {
     type: string;
     /**
      * 
+     * @type {Date}
+     * @memberof ReleaseItemDto
+     */
+    releaseDate: Date;
+    /**
+     * 
      * @type {number}
      * @memberof ReleaseItemDto
      */
@@ -72,6 +78,7 @@ export function instanceOfReleaseItemDto(value: object): boolean {
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "type" in value;
+    isInstance = isInstance && "releaseDate" in value;
     isInstance = isInstance && "releaseYear" in value;
     isInstance = isInstance && "artists" in value;
 
@@ -92,6 +99,7 @@ export function ReleaseItemDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'type': json['type'],
+        'releaseDate': (new Date(json['releaseDate'])),
         'releaseYear': json['releaseYear'],
         'artists': ((json['artists'] as Array<any>).map(ArtistBriefDtoFromJSON)),
     };
@@ -110,6 +118,7 @@ export function ReleaseItemDtoToJSON(value?: ReleaseItemDto | null): any {
         'name': value.name,
         'imageUrl': value.imageUrl,
         'type': value.type,
+        'releaseDate': (value.releaseDate.toISOString().substr(0,10)),
         'releaseYear': value.releaseYear,
         'artists': ((value.artists as Array<any>).map(ArtistBriefDtoToJSON)),
     };
