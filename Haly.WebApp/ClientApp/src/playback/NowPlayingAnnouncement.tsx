@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 
 import { StreamedTrackDto } from "../common/atoms/playbackAtoms";
-import { styled } from "../common/theme";
+import VisuallyHidden from "../ui/VisuallyHidden";
 
 type NowPlayingAnnouncement = {
     title: string;
@@ -19,15 +19,5 @@ function NowPlayingAnnouncement({ title, artists }: NowPlayingAnnouncement) {
         document.body,
     );
 }
-
-const VisuallyHidden = styled("span", {
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: "1px",
-    overflow: "hidden",
-    position: "absolute",
-    whiteSpace: "nowrap",
-    width: "1px",
-});
 
 export default NowPlayingAnnouncement;
