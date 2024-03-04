@@ -79,6 +79,12 @@ function Search() {
         return () => setPageContext(null);
     }, [setPageContext]);
 
+    // Focus the search input on mount.
+    useEffect(() => {
+        const element = document.querySelector("input[name='search']") as HTMLInputElement | null;
+        element?.focus();
+    }, []);
+
     const isLibrarySearch = option === "library";
     const onSubmit = isLibrarySearch ? (text: string) => setQuery(text) : undefined;
     const onChange = isLibrarySearch ? undefined : (text: string) => setQuery(text);
