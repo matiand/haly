@@ -13,7 +13,7 @@ import PlaybackToggle from "./PlaybackToggle";
 import QueueButton from "./QueueButton";
 import RepeatButton from "./RepeatButton";
 import ShuffleButton from "./ShuffleButton";
-import StreamedTrackBlock from "./StreamedTrackBlock";
+import StreamedTrackBlock from "./StreamedTrackRegion";
 import TrackProgress, { EmptyTrackProgress } from "./TrackProgress";
 import VolumeControl from "./VolumeControl";
 
