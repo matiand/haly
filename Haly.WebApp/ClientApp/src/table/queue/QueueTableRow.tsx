@@ -6,9 +6,9 @@ import { playbackContextUriAtom } from "../../common/atoms/playbackAtoms";
 import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackContextMenu from "../menus/TrackContextMenu";
+import PlaybackCell from "../PlaybackCell";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
-import TrackIndexCell from "../TrackIndexCell";
 import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
@@ -39,9 +39,9 @@ function QueueTableRow({ position, track, playbackState, likedState }: QueueTabl
             })}
         >
             <td>
-                <TrackIndexCell
+                <PlaybackCell
                     position={position}
-                    track={track}
+                    name={track.name}
                     playbackState={playbackState}
                     playbackAction={togglePlayback}
                 />

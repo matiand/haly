@@ -3,6 +3,7 @@ import isDeepEqual from "react-fast-compare";
 import { SiTask } from "react-icons/si";
 
 import { ReleaseItemDto } from "../../generated/haly";
+import ReleasesTable from "../table/releases/ReleasesTable";
 import EmptyState from "../ui/EmptyState";
 
 type NewReleaseItemsProps = {
@@ -31,13 +32,7 @@ function NewReleaseItems({ items, artistsLeft }: NewReleaseItemsProps) {
         );
     }
 
-    return (
-        <ul>
-            {items.map((i) => (
-                <li key={i.id}>{i.name}</li>
-            ))}
-        </ul>
-    );
+    return <ReleasesTable items={items} />;
 }
 
 export default React.memo(NewReleaseItems, isDeepEqual);

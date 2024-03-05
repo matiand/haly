@@ -118,7 +118,7 @@ const TableRoot = styled(Table.Root, {
             gridGap: "$600",
             gridTemplateColumns: "16px 4fr 2fr minmax(120px, 1fr)",
 
-            "td::nth-of-type(5)": {
+            "td:nth-of-type(5)": {
                 justifySelf: "end",
             },
         },
@@ -139,12 +139,7 @@ const TableRoot = styled(Table.Root, {
     },
 
     "& th:nth-of-type(5)": {
-        justifySelf: "end",
         flexFlow: "row-reverse",
-    },
-
-    "& td:nth-of-type(5)": {
-        justifySelf: "end",
     },
 });
 

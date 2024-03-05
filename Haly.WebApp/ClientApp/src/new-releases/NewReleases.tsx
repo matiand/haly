@@ -7,13 +7,16 @@ import { styled } from "../common/theme";
 import Button from "../ui/Button";
 import RadioGroup, { Option } from "../ui/RadioGroup";
 import NewReleaseItems from "./NewReleaseItems";
+import useCollectNewReleasesMutation from "./useCollectNewReleasesMutation";
 
 type NewReleasesProps = {
     job: NewReleasesJobDto;
 };
 
 function NewReleases({ job }: NewReleasesProps) {
+    const collectNewReleases = useCollectNewReleasesMutation();
     const artistsLeft = useAtomValue(artistsLeftAtom);
+
     const [filter, setFilter] = useState<NewReleasesFilter>("all");
 
     const options: Option[] = [
@@ -51,7 +54,7 @@ function NewReleases({ job }: NewReleasesProps) {
                     variant="square"
                     type="button"
                     disabled={artistsLeft > 0}
-                    onClick={() => console.log("not click")}
+                    onClick={() => collectNewReleases.mutate()}
                 >
                     Check What&#39;s New
                 </Button>

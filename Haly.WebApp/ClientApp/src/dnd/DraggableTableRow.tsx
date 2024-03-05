@@ -3,8 +3,8 @@ import React from "react";
 import useDraggable, { DraggableHookParams } from "./useDraggable";
 
 type DraggableTableRowProps = {
-    onClick: (e: React.MouseEvent<HTMLTableRowElement>) => void;
-    onContextMenu: (e: React.MouseEvent<HTMLTableRowElement>) => void;
+    onClick?: (e: React.MouseEvent<HTMLTableRowElement>) => void;
+    onContextMenu?: (e: React.MouseEvent<HTMLTableRowElement>) => void;
     onDoubleClick?: (e: React.MouseEvent<HTMLTableRowElement>) => void;
     children: React.ReactNode;
     draggableParams?: DraggableHookParams;

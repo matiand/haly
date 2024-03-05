@@ -11,9 +11,9 @@ import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import DateCell from "../DateCell";
 import TrackContextMenu from "../menus/TrackContextMenu";
+import PlaybackCell from "../PlaybackCell";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
-import TrackIndexCell from "../TrackIndexCell";
 import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
@@ -81,11 +81,12 @@ function PlaylistTableRow({
             })}
         >
             <td>
-                <TrackIndexCell
+                <PlaybackCell
                     position={position}
-                    track={track}
+                    name={track.name}
                     playbackState={playbackState}
                     playbackAction={togglePlayback}
+                    isPodcast={!track.isSong}
                 />
             </td>
 

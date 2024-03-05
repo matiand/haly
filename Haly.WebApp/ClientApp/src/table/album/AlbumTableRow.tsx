@@ -8,8 +8,8 @@ import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
 import TrackContextMenu from "../menus/TrackContextMenu";
+import PlaybackCell from "../PlaybackCell";
 import TrackDurationCell from "../TrackDurationCell";
-import TrackIndexCell from "../TrackIndexCell";
 import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
@@ -61,9 +61,9 @@ function AlbumTableRow({
             })}
         >
             <td>
-                <TrackIndexCell
+                <PlaybackCell
                     position={position}
-                    track={track}
+                    name={track.name}
                     playbackState={playbackState}
                     playbackAction={togglePlayback}
                 />

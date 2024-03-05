@@ -3,19 +3,20 @@ import React from "react";
 import { HiPause, HiPlay } from "react-icons/hi2";
 import { MdPodcasts } from "react-icons/md";
 
-import { AlbumTrackDto, PlaylistTrackDto, TrackDto } from "../../generated/haly";
 import { styled } from "../common/theme";
 import AnimatedMusicBars from "../ui/AnimatedMusicBars";
 import { TrackPlaybackState } from "./useTableRowPlaybackState";
+import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 
-type TrackIndexCellProps = {
+type PlaybackCellProps = {
     position: number;
-    track: TrackDto | PlaylistTrackDto | AlbumTrackDto;
-    playbackState: TrackPlaybackState;
+    name: string;
+    playbackState: TrackPlaybackState | ContextPlaybackState;
     playbackAction?: () => void;
+    isPodcast?: boolean;
 };
 
-function TrackIndexCell({ position, track, playbackState, playbackAction }: TrackIndexCellProps) {
+function PlaybackCell({ position, name, playbackState, playbackAction, isPodcast }: PlaybackCellProps) {
     if (!playbackAction) {
         return (
             <Wrapper className={clsx({ alwaysIndex: true })}>
@@ -24,7 +25,6 @@ function TrackIndexCell({ position, track, playbackState, playbackAction }: Trac
         );
     }
 
-    const isPodcast = "isSong" in track && !track.isSong;
     if (isPodcast) {
         return (
             <Wrapper>
@@ -45,7 +45,7 @@ function TrackIndexCell({ position, track, playbackState, playbackAction }: Trac
     }
 
     const isPlaying = playbackState === "playing";
-    const label = isPlaying ? `Pause ${track.name}` : `Play ${track.name}`;
+    const label = isPlaying ? `Pause ${name}` : `Play ${name}`;
     const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         playbackAction();
@@ -53,7 +53,8 @@ function TrackIndexCell({ position, track, playbackState, playbackAction }: Trac
 
     return (
         <Wrapper>
-            {isPlaying ? <AnimatedMusicBars type="track" /> : <Index>{position}</Index>}
+            {isPlaying ? <AnimatedMusicBars type="cell" /> : <Index>{position}</Index>}
+
             <Button type="button" onClick={onClick} aria-label={label} title={label}>
                 <span aria-hidden>{isPlaying ? <HiPause /> : <HiPlay />}</span>
             </Button>
@@ -81,10 +82,6 @@ const Index = styled("span", {
     fontVariant: "tabular-nums",
     position: "absolute",
     right: ".2em",
-
-    "&.isPaused": {
-        color: "$primary400",
-    },
 });
 
 const Button = styled("button", {
@@ -102,4 +99,4 @@ const Button = styled("button", {
     },
 });
 
-export default TrackIndexCell;
+export default PlaybackCell;

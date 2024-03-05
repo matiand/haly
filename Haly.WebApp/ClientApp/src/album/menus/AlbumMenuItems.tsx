@@ -1,6 +1,6 @@
 import { MenuDivider, MenuItem } from "@szhsin/react-menu";
 
-import { AlbumBriefDto, AlbumDetailedDto, PlaylistTrackDtoAlbum } from "../../../generated/haly";
+import { AlbumBriefDto, AlbumDetailedDto, PlaylistTrackDtoAlbum, ReleaseItemDto } from "../../../generated/haly";
 import { HeartMutationParams } from "../../common/useHeartMutations";
 import AddToPlaylistMenuItem from "../../menus/items/AddToPlaylistMenuItem";
 import AddToQueueMenuItem from "../../menus/items/AddToQueueMenuItem";
@@ -9,7 +9,7 @@ import ShareMenuItems from "../../menus/items/ShareMenuItems";
 import useIsAlbumInLibrary from "../useIsAlbumInLibrary";
 
 type AlbumMenuItemsProps = {
-    album: AlbumBriefDto | AlbumDetailedDto | PlaylistTrackDtoAlbum;
+    album: AlbumBriefDto | AlbumDetailedDto | PlaylistTrackDtoAlbum | ReleaseItemDto;
 };
 
 function AlbumMenuItems({ album }: AlbumMenuItemsProps) {

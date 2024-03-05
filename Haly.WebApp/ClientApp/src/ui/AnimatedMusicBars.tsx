@@ -1,7 +1,7 @@
 import { keyframes, styled } from "../common/theme";
 
 type AnimatedMusicBarsProps = {
-    type: "track" | "device";
+    type: "cell" | "device";
 };
 
 function AnimatedMusicBars({ type }: AnimatedMusicBarsProps) {
@@ -45,7 +45,7 @@ const bounce = keyframes({
 const Wrapper = styled("div", {
     variants: {
         type: {
-            track: {
+            cell: {
                 height: "16px",
                 width: "16px",
 

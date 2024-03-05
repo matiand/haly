@@ -7,9 +7,9 @@ import DraggableTableRow from "../../dnd/DraggableTableRow";
 import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import TrackContextMenu from "../menus/TrackContextMenu";
+import PlaybackCell from "../PlaybackCell";
 import TrackAlbumCell from "../TrackAlbumCell";
 import TrackDurationCell from "../TrackDurationCell";
-import TrackIndexCell from "../TrackIndexCell";
 import TrackInformationCell from "../TrackInformationCell";
 import { TrackLikedState } from "../useTableRowLikedState";
 import { TrackPlaybackState } from "../useTableRowPlaybackState";
@@ -64,7 +64,7 @@ function BasicTableRow({
             })}
         >
             <td>
-                <TrackIndexCell position={position} track={track} playbackState={playbackState} />
+                <PlaybackCell position={position} name={track.name} playbackState={playbackState} />
             </td>
 
             <td>

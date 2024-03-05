@@ -1,12 +1,12 @@
-import { HiOutlineClock } from "react-icons/hi2";
+import { HiOutlineMenu } from "react-icons/hi";
 
 import { styled } from "../common/theme";
 
-function TrackDurationIcon() {
+function MoreIcon() {
     return (
-        <Wrapper aria-label="duration" title="duration">
+        <Wrapper aria-label="More" title="More">
             <span aria-hidden>
-                <HiOutlineClock
+                <HiOutlineMenu
                     style={{
                         height: "18px",
                         width: "18px",
@@ -17,8 +17,6 @@ function TrackDurationIcon() {
     );
 }
 
-const Wrapper = styled("div", {
-    marginRight: "$800",
-});
+const Wrapper = styled("div", {});
 
-export default TrackDurationIcon;
+export default MoreIcon;

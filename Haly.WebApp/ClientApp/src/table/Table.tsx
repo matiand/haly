@@ -52,7 +52,6 @@ export const Head = styled("thead", {
 
         "& > th:last-of-type": {
             justifySelf: "end",
-            marginRight: "$800",
         },
     },
 });
