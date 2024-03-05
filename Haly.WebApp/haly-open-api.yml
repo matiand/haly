@@ -2427,9 +2427,12 @@ components:
         - releaseDate
         - releaseYear
         - type
+        - uri
       type: object
       properties:
         id:
+          type: string
+        uri:
           type: string
         name:
           type: string

@@ -13,4 +13,6 @@ public record ReleaseItem : Card
     public List<ArtistBrief> Artists { get; init; }
 
     public int ReleaseYear => ReleaseDate.Year;
+
+    public string Uri => $"spotify:album:{Id}";
 }

@@ -37,6 +37,12 @@ export interface ReleaseItemDto {
      * @type {string}
      * @memberof ReleaseItemDto
      */
+    uri: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReleaseItemDto
+     */
     name: string;
     /**
      * 
@@ -76,6 +82,7 @@ export interface ReleaseItemDto {
 export function instanceOfReleaseItemDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "uri" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "type" in value;
     isInstance = isInstance && "releaseDate" in value;
@@ -96,6 +103,7 @@ export function ReleaseItemDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'id': json['id'],
+        'uri': json['uri'],
         'name': json['name'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'type': json['type'],
@@ -115,6 +123,7 @@ export function ReleaseItemDtoToJSON(value?: ReleaseItemDto | null): any {
     return {
         
         'id': value.id,
+        'uri': value.uri,
         'name': value.name,
         'imageUrl': value.imageUrl,
         'type': value.type,
