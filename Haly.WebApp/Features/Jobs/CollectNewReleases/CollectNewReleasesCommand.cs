@@ -78,6 +78,7 @@ public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesComma
 
         var releasesFromLastSixMonths =
             allReleases.Where(r => !_dateOnlyService.IsOlderThanSixMonths(r.ReleaseDate))
+                .DistinctBy(r => r.Id)
                 .OrderByDescending(r => r.ReleaseDate)
                 .ToList();
 
