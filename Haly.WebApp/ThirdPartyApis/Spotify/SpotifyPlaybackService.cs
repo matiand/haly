@@ -80,11 +80,11 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
         return _spotifyClient.StartAUsersPlaybackAsync(device_id: null, body);
     }
 
-    public Task UpdatePlayback(IEnumerable<string> trackUri)
+    public Task UpdatePlayback(string trackUri)
     {
         var body = new Body18()
         {
-            Offset = new { uri = trackUri.ToArray() },
+            Uris = new[] { trackUri },
             Position_ms = 0,
         };
 

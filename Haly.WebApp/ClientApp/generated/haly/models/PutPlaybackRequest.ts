@@ -31,7 +31,7 @@ export interface PutPlaybackRequest {
      * @type {string}
      * @memberof PutPlaybackRequest
      */
-    contextUri: string;
+    contextUri?: string | null;
     /**
      * 
      * @type {string}
@@ -51,7 +51,6 @@ export interface PutPlaybackRequest {
  */
 export function instanceOfPutPlaybackRequest(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "contextUri" in value;
     isInstance = isInstance && "withImprovedShuffle" in value;
 
     return isInstance;
@@ -67,7 +66,7 @@ export function PutPlaybackRequestFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'contextUri': json['contextUri'],
+        'contextUri': !exists(json, 'contextUri') ? undefined : json['contextUri'],
         'trackUri': !exists(json, 'trackUri') ? undefined : json['trackUri'],
         'withImprovedShuffle': json['withImprovedShuffle'],
     };

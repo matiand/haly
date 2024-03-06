@@ -24,7 +24,7 @@ export interface UpdatePlaybackCommand {
      * @type {string}
      * @memberof UpdatePlaybackCommand
      */
-    contextUri: string;
+    contextUri?: string | null;
     /**
      * 
      * @type {string}
@@ -44,7 +44,6 @@ export interface UpdatePlaybackCommand {
  */
 export function instanceOfUpdatePlaybackCommand(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "contextUri" in value;
     isInstance = isInstance && "withImprovedShuffle" in value;
 
     return isInstance;
@@ -60,7 +59,7 @@ export function UpdatePlaybackCommandFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'contextUri': json['contextUri'],
+        'contextUri': !exists(json, 'contextUri') ? undefined : json['contextUri'],
         'trackUri': !exists(json, 'trackUri') ? undefined : json['trackUri'],
         'withImprovedShuffle': json['withImprovedShuffle'],
     };

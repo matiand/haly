@@ -2546,12 +2546,12 @@ components:
       additionalProperties: false
     UpdatePlaybackCommand:
       required:
-        - contextUri
         - withImprovedShuffle
       type: object
       properties:
         contextUri:
           type: string
+          nullable: true
         trackUri:
           type: string
           nullable: true
