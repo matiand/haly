@@ -12,7 +12,15 @@ function LikedSongs() {
     // This should never happen. We don't start rendering our app until we have a user.
     if (!collectionId) return null;
 
-    return <Playlist id={collectionId} sortOrder={sortOrder} isInLibrary isLikedSongsCollection />;
+    return (
+        <Playlist
+            id={collectionId}
+            uri={`spotify:user:${user!.id}:collection`}
+            sortOrder={sortOrder}
+            isInLibrary
+            isLikedSongsCollection
+        />
+    );
 }
 
 export default LikedSongs;

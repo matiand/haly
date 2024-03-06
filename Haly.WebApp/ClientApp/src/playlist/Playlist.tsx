@@ -11,7 +11,7 @@ import halyClient from "../halyClient";
 import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
-import { useContextPlaybackActions } from "../playback/usePlaybackActions";
+import { useContextPlayback } from "../playback/usePlaybackMutations";
 import SearchBar from "../search/SearchBar";
 import EmptyState from "../ui/EmptyState";
 import HeartButton from "../ui/HeartButton";
@@ -25,12 +25,13 @@ import { PlaylistSortOrder } from "./usePlaylistSortOrder";
 
 type PlaylistProps = {
     id: string;
+    uri: string;
     sortOrder: PlaylistSortOrder;
     isInLibrary: boolean;
     isLikedSongsCollection: boolean;
 };
 
-function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: PlaylistProps) {
+function Playlist({ id, uri, sortOrder, isInLibrary, isLikedSongsCollection }: PlaylistProps) {
     const query = usePlaylistQuery(id, sortOrder);
 
     const setPageContext = useSetAtom(pageContextAtom);
@@ -41,8 +42,8 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
     const { onContextMenu, menuProps } = useContextMenu();
 
     const getPlaybackState = useContextPlaybackState();
-    const playbackState = getPlaybackState(id, isLikedSongsCollection);
-    const { playbackAction } = useContextPlaybackActions(playbackState);
+    const playbackState = getPlaybackState(uri);
+    const { togglePlayback } = useContextPlayback({ contextUri: uri, playbackState });
 
     useEffect(() => {
         if (query.data) {
@@ -82,7 +83,7 @@ function Playlist({ id, sortOrder, isInLibrary, isLikedSongsCollection }: Playli
             <PlaylistHeader playlist={playlist} isEditable={isEditable} onContextMenu={onContextMenu} />
             <PageControls>
                 {hasTracks && (
-                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
+                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
                 )}
 
                 {isFollowable && (

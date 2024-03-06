@@ -7,7 +7,7 @@ import useDraggable from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
 import PlaybackToggle from "../../playback/PlaybackToggle";
 import useContextPlaybackState from "../../playback/useContextPlaybackState";
-import { useContextPlaybackActions } from "../../playback/usePlaybackActions";
+import { useContextPlayback } from "../../playback/usePlaybackMutations";
 import EmptyCoverImage from "../EmptyCoverImage";
 import CardContextMenu from "./CardContextMenu";
 
@@ -28,8 +28,8 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
     const { menuProps, onContextMenu } = useContextMenu();
 
     const getPlaybackState = useContextPlaybackState();
-    const playbackState = getPlaybackState(id);
-    const { playbackAction } = useContextPlaybackActions(playbackState, uri);
+    const playbackState = getPlaybackState(uri);
+    const { togglePlayback } = useContextPlayback({ contextUri: uri, playbackState });
 
     const isAlbumOrPlaylist = /album|playlist/.test(uri);
     const { draggableRef, ...draggableProps } = useDraggable(
@@ -66,7 +66,7 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
 
                 {isAlbumOrPlaylist && (
                     <div id="card-playback-wrapper">
-                        <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
+                        <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
                     </div>
                 )}
             </ImageWrapper>

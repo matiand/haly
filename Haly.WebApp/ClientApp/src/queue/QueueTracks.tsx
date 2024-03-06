@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { LuMenu } from "react-icons/lu";
 
-import { playbackContextNameAtom } from "../common/atoms/playbackAtoms";
+import { playbackNameAtom } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import QueueTable from "../table/queue/QueueTable";
 import EmptyState from "../ui/EmptyState";
@@ -9,7 +9,7 @@ import useQueueQuery from "./useQueueQuery";
 
 function QueueTracks() {
     const query = useQueueQuery();
-    const playbackContextName = useAtomValue(playbackContextNameAtom);
+    const playbackName = useAtomValue(playbackNameAtom);
 
     if (!query.data) return null;
 
@@ -35,7 +35,7 @@ function QueueTracks() {
 
             {query.data.length > 1 && (
                 <SectionWrapper>
-                    {playbackContextName ? <h2>Next from: {playbackContextName}</h2> : <h2>Next</h2>}
+                    {playbackName ? <h2>Next from: {playbackName}</h2> : <h2>Next</h2>}
 
                     <QueueTable tracks={query.data.slice(1)} positionOffset={2} />
                 </SectionWrapper>

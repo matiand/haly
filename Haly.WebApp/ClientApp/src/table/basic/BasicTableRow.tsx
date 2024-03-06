@@ -6,6 +6,7 @@ import { TrackDto } from "../../../generated/haly";
 import DraggableTableRow from "../../dnd/DraggableTableRow";
 import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
+import { useSingleTrackPlayback } from "../../playback/usePlaybackMutations";
 import TrackContextMenu from "../menus/TrackContextMenu";
 import PlaybackCell from "../PlaybackCell";
 import TrackAlbumCell from "../TrackAlbumCell";
@@ -35,8 +36,12 @@ function BasicTableRow({
     withAlbumCell,
     showArtists,
 }: BasicTableRowProps) {
+    const { togglePlayback, updatePlayback } = useSingleTrackPlayback({
+        track,
+        trackPlaybackState: playbackState,
+    });
+
     const { onContextMenu, menuProps } = useContextMenu();
-    // Playback of individual tracks is not allowed for this table. Their api doesn't allow it.
 
     const draggableParams: DraggableHookParams = {
         id: `top-tracks-table-row:${track.id}`,
@@ -53,6 +58,7 @@ function BasicTableRow({
         <DraggableTableRow
             draggableParams={draggableParams}
             onClick={(e) => selectTrack(index, e)}
+            onDoubleClick={updatePlayback}
             onContextMenu={(e) => {
                 !isSelected && selectTrack(index, e);
                 onContextMenu(e);
@@ -64,7 +70,12 @@ function BasicTableRow({
             })}
         >
             <td>
-                <PlaybackCell position={position} name={track.name} playbackState={playbackState} />
+                <PlaybackCell
+                    position={position}
+                    name={track.name}
+                    playbackState={playbackState}
+                    playbackAction={togglePlayback}
+                />
             </td>
 
             <td>

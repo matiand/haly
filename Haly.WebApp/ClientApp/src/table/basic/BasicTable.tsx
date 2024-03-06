@@ -7,9 +7,9 @@ import TrackDurationIcon from "../TrackDurationIcon";
 import useSelectionShortcuts from "../useSelectionShortcuts";
 import useStickyTableHead from "../useStickyTableHead";
 import useTableRowLikedState from "../useTableRowLikedState";
-import useTableRowPlaybackState from "../useTableRowPlaybackState";
 import useTableRowSelection from "../useTableRowSelection";
 import BasicTableRow from "./BasicTableRow";
+import useBasicTableRowPlaybackState from "./useBasicTableRowPlaybackState";
 
 type BasicTableProps = {
     items: TrackDto[];
@@ -19,7 +19,7 @@ type BasicTableProps = {
 };
 
 function BasicTable({ items, withHeader, withAlbumCell, showArtists }: BasicTableProps) {
-    const getTableRowPlaybackState = useTableRowPlaybackState();
+    const getTableRowPlaybackState = useBasicTableRowPlaybackState();
     const getTableRowLikedState = useTableRowLikedState();
     const { ref, isSticky } = useStickyTableHead();
 

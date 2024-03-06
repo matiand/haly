@@ -8,7 +8,7 @@ import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
-import { useContextPlaybackActions } from "../playback/usePlaybackActions";
+import { useContextPlayback } from "../playback/usePlaybackMutations";
 import PageGradient from "../playlist/PageGradient";
 import FollowCreatorButton from "../profile/FollowCreatorButton";
 import LoadingIndicator from "../ui/LoadingIndicator";
@@ -20,6 +20,8 @@ import Discography from "./Discography";
 
 function Artist() {
     const { id } = useParams();
+    const uri = `spotify:artist:${id}`;
+
     const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
 
     const setPageContext = useSetAtom(pageContextAtom);
@@ -27,8 +29,8 @@ function Artist() {
     const dominantColor = useAtomValue(pageDominantColorAtom);
 
     const getPlaybackState = useContextPlaybackState();
-    const playbackState = getPlaybackState(id!);
-    const { playbackAction } = useContextPlaybackActions(playbackState);
+    const playbackState = getPlaybackState(uri);
+    const { togglePlayback } = useContextPlayback({ contextUri: uri, playbackState });
 
     useEffect(() => {
         if (query.data) {
@@ -72,7 +74,7 @@ function Artist() {
             </PageHeader>
 
             <PageControls>
-                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
+                <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
                 <FollowCreatorButton creatorId={artistId} initialValue={isFollowed} type="Artist" />
             </PageControls>
 

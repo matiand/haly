@@ -39,6 +39,7 @@ function PlaylistWrapper() {
             <Playlist
                 key={id}
                 id={id!}
+                uri={`spotify:playlist:${id}`}
                 sortOrder={sortOrder}
                 isInLibrary={isInLibrary}
                 isLikedSongsCollection={false}

@@ -8,7 +8,7 @@ import { playlistSearchTermAtom } from "../../common/atoms/playlistAtoms";
 import DraggableTableRow from "../../dnd/DraggableTableRow";
 import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
-import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
+import { useTrackPlayback } from "../../playback/usePlaybackMutations";
 import DateCell from "../DateCell";
 import TrackContextMenu from "../menus/TrackContextMenu";
 import PlaybackCell from "../PlaybackCell";
@@ -40,11 +40,15 @@ function PlaylistTableRow({
     offsetY,
 }: PlaylistTableRowProps) {
     const searchTerm = useAtomValue(playlistSearchTermAtom);
-    const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
+
+    const { togglePlayback, updatePlayback } = useTrackPlayback({
+        track,
+        trackPlaybackState: playbackState,
+    });
+
     const { onContextMenu, menuProps } = useContextMenu();
 
     const isSongWithId = Boolean(track.isSong && track.id);
-
     const draggableParams: DraggableHookParams | undefined = isSongWithId
         ? {
               id: `playlist-table-row:${track.positionInPlaylist}`,

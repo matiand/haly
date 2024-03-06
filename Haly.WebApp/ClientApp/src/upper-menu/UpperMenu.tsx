@@ -43,7 +43,7 @@ function UpperMenu() {
                         : {}
                 }
             >
-                {hasControls && <UpperMenuControls contextId={contextId} />}
+                {hasControls && <UpperMenuControls />}
                 <UpperMenuTitle name={name} contextId={contextId} contextType={pageContext.type} />
             </Content>
 

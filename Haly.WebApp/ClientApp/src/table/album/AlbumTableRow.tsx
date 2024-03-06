@@ -6,7 +6,7 @@ import { AlbumTrackDto } from "../../../generated/haly";
 import DraggableTableRow from "../../dnd/DraggableTableRow";
 import { DraggableHookParams } from "../../dnd/useDraggable";
 import useContextMenu from "../../menus/useContextMenu";
-import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
+import { useTrackPlayback } from "../../playback/usePlaybackMutations";
 import TrackContextMenu from "../menus/TrackContextMenu";
 import PlaybackCell from "../PlaybackCell";
 import TrackDurationCell from "../TrackDurationCell";
@@ -33,7 +33,11 @@ function AlbumTableRow({
     isSelected,
     selectTrack,
 }: AlbumTableRowProps) {
-    const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track);
+    const { togglePlayback, updatePlayback } = useTrackPlayback({
+        track,
+        trackPlaybackState: playbackState,
+    });
+
     const { menuProps, onContextMenu } = useContextMenu();
 
     const draggableParams: DraggableHookParams = {

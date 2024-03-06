@@ -16,13 +16,15 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
     const userId = useAtomValue(userIdAtom);
     const getPlaybackState = useContextPlaybackState();
 
+    const likedSongsUri = `spotify:user:${userId}:collection`;
+
     return (
         <List>
             <UserLibraryItem
                 item={{ type: "collection" }}
-                uri={`spotify:user:${userId}:collection`}
+                uri={likedSongsUri}
                 href="/collection/tracks"
-                playbackState={getPlaybackState("collection", true)}
+                playbackState={getPlaybackState(likedSongsUri)}
                 isPinned
             />
 
@@ -41,7 +43,7 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
                         item={item}
                         uri={uri}
                         href={href}
-                        playbackState={getPlaybackState(p.id)}
+                        playbackState={getPlaybackState(uri)}
                     />
                 );
             })}

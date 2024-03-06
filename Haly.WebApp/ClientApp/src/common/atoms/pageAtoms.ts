@@ -40,7 +40,7 @@ export const pageContextAtom = atom<PageContext | null>(null);
 export const pageContextIdAtom = atom((get) => get(pageContextAtom)?.data.id);
 export const pageContextUriAtom = atom((get) => {
     const pageContext = get(pageContextAtom);
-    if (!pageContext) return "";
+    if (!pageContext || pageContext.type === "basic") return "";
 
     if (pageContext.type === "collection") {
         const userId = get(userIdAtom);

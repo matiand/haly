@@ -2,9 +2,9 @@ import clsx from "clsx";
 import { useAtomValue } from "jotai";
 
 import { TrackDto } from "../../../generated/haly";
-import { playbackContextUriAtom } from "../../common/atoms/playbackAtoms";
+import { playbackUriAtom } from "../../common/atoms/playbackAtoms";
 import useContextMenu from "../../menus/useContextMenu";
-import { useTrackPlaybackActions } from "../../playback/usePlaybackActions";
+import { useTrackPlayback } from "../../playback/usePlaybackMutations";
 import TrackContextMenu from "../menus/TrackContextMenu";
 import PlaybackCell from "../PlaybackCell";
 import TrackAlbumCell from "../TrackAlbumCell";
@@ -25,8 +25,13 @@ type QueueTableRowProps = {
 };
 
 function QueueTableRow({ position, track, playbackState, likedState }: QueueTableRowProps) {
-    const contextUri = useAtomValue(playbackContextUriAtom);
-    const { togglePlayback, updatePlayback } = useTrackPlaybackActions(playbackState, track, contextUri);
+    const playbackUri = useAtomValue(playbackUriAtom);
+    const { togglePlayback, updatePlayback } = useTrackPlayback({
+        track,
+        trackPlaybackState: playbackState,
+        contextUriOverride: playbackUri,
+    });
+
     const { onContextMenu, menuProps } = useContextMenu();
 
     return (

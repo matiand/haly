@@ -1,20 +1,23 @@
+import { useAtomValue } from "jotai";
+
+import { pageContextUriAtom } from "../common/atoms/pageAtoms";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
-import { useContextPlaybackActions } from "../playback/usePlaybackActions";
+import { useContextPlayback } from "../playback/usePlaybackMutations";
 
-type UpperMenuControlsProps = {
-    contextId: string;
-};
+function UpperMenuControls() {
+    const uri = useAtomValue(pageContextUriAtom);
 
-function UpperMenuControls({ contextId }: UpperMenuControlsProps) {
     const getPlaybackState = useContextPlaybackState();
-    const playbackState = getPlaybackState(contextId);
-
-    const { playbackAction } = useContextPlaybackActions(playbackState);
+    const playbackState = getPlaybackState(uri);
+    const { togglePlayback } = useContextPlayback({
+        contextUri: uri,
+        playbackState,
+    });
 
     const isPaused = playbackState !== "playing";
 
-    return <PlaybackToggle size="medium" isPaused={isPaused} toggle={playbackAction} />;
+    return <PlaybackToggle size="medium" isPaused={isPaused} toggle={togglePlayback} />;
 }
 
 export default UpperMenuControls;

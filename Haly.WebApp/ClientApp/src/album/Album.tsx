@@ -8,7 +8,7 @@ import halyClient from "../halyClient";
 import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
 import useContextPlaybackState from "../playback/useContextPlaybackState";
-import { useContextPlaybackActions } from "../playback/usePlaybackActions";
+import { useContextPlayback } from "../playback/usePlaybackMutations";
 import PageGradient from "../playlist/PageGradient";
 import AlbumTable from "../table/album/AlbumTable";
 import LoadingIndicator from "../ui/LoadingIndicator";
@@ -22,6 +22,8 @@ import SimilarAlbums from "./SimilarAlbums";
 
 function Album() {
     const { id } = useParams();
+    const uri = `spotify:album:${id}`;
+
     const query = useQuery(["albums", id], () => halyClient.albums.getAlbum({ id: id! }));
 
     const setPageContext = useSetAtom(pageContextAtom);
@@ -30,8 +32,8 @@ function Album() {
     const { onContextMenu, menuProps } = useContextMenu();
 
     const getPlaybackState = useContextPlaybackState();
-    const playbackState = getPlaybackState(id!);
-    const { playbackAction } = useContextPlaybackActions(playbackState);
+    const playbackState = getPlaybackState(uri);
+    const { togglePlayback } = useContextPlayback({ contextUri: uri, playbackState });
 
     useEffect(() => {
         if (query.data) {
@@ -56,7 +58,7 @@ function Album() {
 
             <PageControls>
                 {isPlayable && (
-                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={playbackAction} />
+                    <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
                 )}
                 <AlbumHeartButton albumId={albumId} />
                 <AlbumButtonMenu album={query.data} />

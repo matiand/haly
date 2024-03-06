@@ -10,7 +10,7 @@ import DroppableLibraryItem from "../dnd/DroppableLibraryItem";
 import { LibraryItemArea } from "../dnd/useDroppableArea";
 import useContextMenu from "../menus/useContextMenu";
 import { ContextPlaybackState } from "../playback/useContextPlaybackState";
-import { useContextPlaybackActions } from "../playback/usePlaybackActions";
+import { useContextPlayback } from "../playback/usePlaybackMutations";
 import PlaylistContextMenu from "../playlist/menus/PlaylistContextMenu";
 
 type UserLibraryItemProps = {
@@ -34,7 +34,10 @@ type UserLibraryItemProps = {
 };
 
 function UserLibraryItem({ item, uri, href, playbackState, isPinned }: UserLibraryItemProps) {
-    const { playbackAction } = useContextPlaybackActions(playbackState, uri);
+    const { togglePlayback } = useContextPlayback({
+        contextUri: uri,
+        playbackState,
+    });
     const { onContextMenu, menuProps } = useContextMenu();
 
     const isListenedTo = playbackState !== "none";
@@ -54,7 +57,7 @@ function UserLibraryItem({ item, uri, href, playbackState, isPinned }: UserLibra
 
     return (
         <>
-            <ListItem onDoubleClick={playbackAction} onContextMenu={onContextMenu} className={clsx({ isListenedTo })}>
+            <ListItem onDoubleClick={togglePlayback} onContextMenu={onContextMenu} className={clsx({ isListenedTo })}>
                 <DroppableLibraryItem href={href} area={area}>
                     {isPinned && (
                         <span aria-hidden>
