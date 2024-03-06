@@ -7,6 +7,7 @@ type PlaybackButtonProps = {
     label: string;
     icon: React.ReactNode;
     checked?: "true" | "false" | "mixed";
+    disabled?: boolean;
     onClick?: () => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
@@ -17,6 +18,7 @@ function PlaybackButton({
     label,
     icon,
     checked,
+    disabled,
     onClick,
     onMouseEnter,
     onMouseLeave,
@@ -30,6 +32,7 @@ function PlaybackButton({
                 role="checkbox"
                 aria-checked={checked}
                 aria-label={label}
+                disabled={disabled}
                 title={label}
                 onClick={onClick}
                 onMouseEnter={onMouseEnter}
@@ -44,6 +47,7 @@ function PlaybackButton({
         <Button
             type="button"
             aria-label={label}
+            disabled={disabled}
             title={label}
             onClick={onClick}
             onMouseEnter={onMouseEnter}
@@ -66,7 +70,11 @@ const Button = styled("button", {
     padding: "0 $400",
     position: "relative",
 
-    "&:hover": {
+    "&[disabled]": {
+        opacity: 0.4,
+    },
+
+    "&:hover:not([disabled])": {
         color: "$white800",
     },
 

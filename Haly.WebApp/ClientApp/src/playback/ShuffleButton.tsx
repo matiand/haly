@@ -3,13 +3,14 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { TbArrowsShuffle } from "react-icons/tb";
 
-import { isPlaybackShuffledAtom } from "../common/atoms/playbackAtoms";
+import { isPlaybackShuffledAtom, playbackUriAtom } from "../common/atoms/playbackAtoms";
 import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import PlaybackButton from "./PlaybackButton";
 
 function ShuffleButton() {
     const isShuffled = useAtomValue(isPlaybackShuffledAtom);
+    const playbackUri = useAtomValue(playbackUriAtom);
 
     const queryClient = useQueryClient();
     const shuffle = useMutation(["me", "player", "shuffle"], (state: boolean) => halyClient.player.shuffle({ state }), {
@@ -37,6 +38,7 @@ function ShuffleButton() {
         <PlaybackButton
             onClick={() => shuffle.mutate(!isShuffled)}
             checked={checkedState}
+            disabled={!playbackUri}
             label={label}
             icon={<TbArrowsShuffle />}
             highlightedWhenActive

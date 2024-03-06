@@ -39,6 +39,7 @@ function StreamedTrackRegion({ streamedTrack }: StreamedTrackRegionProps) {
                 trackPlaybackId: streamedTrack.playbackId,
             }),
         {
+            enabled: Boolean(contextId),
             retry: false,
         },
     );

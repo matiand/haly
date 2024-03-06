@@ -7,7 +7,7 @@ import { styled, theme } from "../common/theme";
 
 type Props = {
     imageUrl: string;
-    linkUrl: string;
+    scrollToHref: string | null;
     isExpanded: boolean;
     toggle: () => void;
     onWrapperClick?: () => void;
@@ -19,7 +19,7 @@ type Props = {
 
 function ExpandableImageWithLink({
     imageUrl,
-    linkUrl,
+    scrollToHref,
     isExpanded,
     toggle,
     size,
@@ -36,14 +36,14 @@ function ExpandableImageWithLink({
     };
 
     const navigateToTrack = () => {
-        if (!window.location.href.includes(linkUrl)) {
-            navigate(linkUrl);
+        if (scrollToHref && !window.location.href.includes(scrollToHref)) {
+            navigate(scrollToHref);
         }
     };
 
     return (
         <Wrapper
-            css={{ $$size: `${size}px` }}
+            css={{ $$size: `${size}px`, cursor: scrollToHref ? "pointer" : "default" }}
             onClick={navigateToTrack}
             aria-label={linkLabel}
             title={linkLabel}
@@ -59,7 +59,6 @@ function ExpandableImageWithLink({
 }
 
 const Wrapper = styled("div", {
-    cursor: "pointer",
     display: "flex",
     flex: "0 0 auto",
     height: "$$size",

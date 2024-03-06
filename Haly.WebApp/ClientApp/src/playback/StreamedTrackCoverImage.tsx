@@ -18,7 +18,7 @@ function StreamedTrackCoverImage({ imageUrl, trackName, artistName, onContextMen
     const streamedTrack = useAtomValue(streamedTrackAtom);
     const [isExpanded, setIsExpanded] = useState(false);
     const sidebarWidth = useAtomValue(persistedSidebarWidthAtom);
-    const contextHref = getScrollToHref(streamedTrack) ?? "#";
+    const scrollToHref = getScrollToHref(streamedTrack);
 
     if (!imageUrl) return null;
 
@@ -32,7 +32,7 @@ function StreamedTrackCoverImage({ imageUrl, trackName, artistName, onContextMen
                 createPortal(
                     <ExpandableImageWithLink
                         imageUrl={imageUrl}
-                        linkUrl={contextHref}
+                        scrollToHref={scrollToHref}
                         isExpanded
                         toggle={toggle}
                         size={sidebarWidth}
@@ -45,7 +45,7 @@ function StreamedTrackCoverImage({ imageUrl, trackName, artistName, onContextMen
             ) : (
                 <ExpandableImageWithLink
                     imageUrl={imageUrl}
-                    linkUrl={contextHref}
+                    scrollToHref={scrollToHref}
                     isExpanded={false}
                     toggle={toggle}
                     size={60}

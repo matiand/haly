@@ -25,7 +25,7 @@ function useLyricsQuery(track: StreamedTrackDto) {
             }),
         {
             enabled: withGeniusIntegration && Boolean(geniusToken),
-            retry: 0,
+            retry: false,
         },
     );
 }

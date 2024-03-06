@@ -42,6 +42,7 @@ const Root = styled(ToggleGroup.Root, {
     display: "flex",
     gap: "$400",
     marginBottom: "$800",
+    userSelect: "none",
 });
 
 export const Item = styled(ToggleGroup.Item, {

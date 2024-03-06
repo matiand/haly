@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { TbRepeat, TbRepeatOnce } from "react-icons/tb";
 
-import { PlaybackContext, playbackRepeatModeAtom } from "../common/atoms/playbackAtoms";
+import { PlaybackContext, playbackRepeatModeAtom, playbackUriAtom } from "../common/atoms/playbackAtoms";
 import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import PlaybackButton from "./PlaybackButton";
@@ -12,6 +12,8 @@ type RepeatMode = PlaybackContext["repeatMode"];
 
 function RepeatButton() {
     const repeatMode = useAtomValue(playbackRepeatModeAtom);
+    const playbackUri = useAtomValue(playbackUriAtom);
+    console.log(playbackUri);
 
     const queryClient = useQueryClient();
     const setRepeatMode = useMutation(
@@ -46,6 +48,7 @@ function RepeatButton() {
         <PlaybackButton
             onClick={() => setRepeatMode.mutate(nextRepeatMode)}
             checked={checkedState}
+            disabled={!playbackUri}
             label={label}
             icon={repeatMode === "track" ? <TbRepeatOnce /> : <TbRepeat />}
             highlightedWhenActive

@@ -36,7 +36,7 @@ function ReleaseInformationCell({ release }: ReleaseInformationCellProps) {
 
 const Title = styled(Block.Title, {
     "& > a": {
-        color: "$white800",
+        color: "inherit",
         display: "inline",
         textDecoration: "none",
 
