@@ -430,7 +430,7 @@ public sealed class SpotifyService : ISpotifyService
         {
             var batch = orderedByPosition.Skip(i)
                 .Take(limit)
-                .Select(dto => new Tracks2()
+                .Select(dto => new tracks()
                 {
                     Uri = dto.Uri,
                     // Don't worry about the possibility of null breaking this operation.

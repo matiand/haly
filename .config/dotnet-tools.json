@@ -3,11 +3,11 @@
     "isRoot": true,
     "tools": {
         "husky": {
-            "version": "0.5.4",
+            "version": "0.6.4",
             "commands": ["husky"]
         },
         "dotnet-ef": {
-            "version": "7.0.3",
+            "version": "8.0.2",
             "commands": ["dotnet-ef"]
         },
         "swashbuckle.aspnetcore.cli": {

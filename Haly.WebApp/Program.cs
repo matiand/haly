@@ -10,12 +10,8 @@ using Haly.WebApp.Hubs;
 using Haly.WebApp.ThirdPartyApis.Genius;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Refit;
-
-// CA1852 Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
-#pragma warning disable CA1852
 
 // Configure Mapster and validate that our mappings are correct
 TypeAdapterConfig.GlobalSettings.Scan(typeof(Program).Assembly);
@@ -82,16 +78,7 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
         .AllowCredentials();
 }));
 
-builder.Services.AddDbContext<LibraryContext>(opts =>
-{
-    opts.UseNpgsql(builder.Configuration.GetConnectionString("LibraryConnection")!,
-        connectionOpts => connectionOpts.EnableRetryOnFailure());
-
-    if (builder.Environment.IsDevelopment())
-    {
-        opts.EnableSensitiveDataLogging();
-    }
-});
+builder.AddLibraryContext();
 
 // Configure App
 var app = builder.Build();

@@ -10,6 +10,7 @@ namespace Haly.GeneratedClients
     {
         public GeneratedSpotifyClient(HttpClient httpClient, bool throwDeserializationErrors)
         {
+            BaseUrl = "https://api.spotify.com/v1";
             _httpClient = httpClient;
 
             var settings = new JsonSerializerSettings();
@@ -37,7 +38,7 @@ namespace Haly.GeneratedClients
         /// <returns>Search response</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract")]
-        public async System.Threading.Tasks.Task<Response13> SearchAsyncOverride(string q, SpotifySearchQueryType qType, string? market = null, int? limit = null, int? offset = null, Include_external? includeExternal = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Response13> SearchAsyncOverride(string q, SpotifySearchQueryType qType, string? market = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (q == null)
                 throw new ArgumentNullException(nameof(q));
@@ -57,10 +58,6 @@ namespace Haly.GeneratedClients
             if (offset != null)
             {
                 urlBuilder.Append(Uri.EscapeDataString("offset") + "=").Append(Uri.EscapeDataString(ConvertToString(offset, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (includeExternal != null)
-            {
-                urlBuilder.Append(Uri.EscapeDataString("include_external") + "=").Append(Uri.EscapeDataString(ConvertToString(includeExternal, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder.Length--;
 

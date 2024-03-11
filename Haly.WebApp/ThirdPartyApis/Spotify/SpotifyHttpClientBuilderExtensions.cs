@@ -1,5 +1,6 @@
 using System.Net;
 using Polly;
+using Polly.Retry;
 
 namespace Haly.WebApp.ThirdPartyApis.Spotify;
 
@@ -13,7 +14,7 @@ public static class SpotifyHttpClientBuilderExtensions
             .AddPolicyHandler(GetRetryPolicy());
     }
 
-    private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+    private static AsyncRetryPolicy<HttpResponseMessage> GetRetryPolicy()
     {
         return Policy<HttpResponseMessage>.Handle<HttpRequestException>()
             .OrResult(response =>
