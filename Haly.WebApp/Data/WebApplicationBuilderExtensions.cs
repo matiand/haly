@@ -9,22 +9,29 @@ public static class WebApplicationBuilderExtensions
 {
     public static void AddLibraryContext(this WebApplicationBuilder builder)
     {
+        var connectionString = builder.Configuration.GetConnectionString("LibraryConnection")!;
+        var dataSource = BuildDataSource(builder, connectionString);
+
         builder.Services.AddDbContext<LibraryContext>(opts =>
         {
-            var connectionString = builder.Configuration.GetConnectionString("LibraryConnection")!;
-            var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString)
-                // Required for 'jsonb' columns to work.
-                .EnableDynamicJson();
-
-            dataSourceBuilder.MapEnum<Plan>();
-            dataSourceBuilder.MapEnum<TrackType>();
-
-            opts.UseNpgsql(dataSourceBuilder.Build(), connectionOpts => connectionOpts.EnableRetryOnFailure());
-
-            if (builder.Environment.IsDevelopment())
-            {
-                opts.EnableSensitiveDataLogging();
-            }
+            opts.UseNpgsql(dataSource, connectionOpts => connectionOpts.EnableRetryOnFailure());
         });
+    }
+
+    private static NpgsqlDataSource BuildDataSource(WebApplicationBuilder builder, string connectionString)
+    {
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString)
+            // Required for 'jsonb' columns to work.
+            .EnableDynamicJson();
+
+        dataSourceBuilder.MapEnum<Plan>();
+        dataSourceBuilder.MapEnum<TrackType>();
+
+        if (builder.Environment.IsDevelopment())
+        {
+            dataSourceBuilder.EnableParameterLogging();
+        }
+
+        return dataSourceBuilder.Build();
     }
 }
