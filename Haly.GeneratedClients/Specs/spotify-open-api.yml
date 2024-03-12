@@ -6318,8 +6318,6 @@ components:
       type: object
       required:
         - album_type
-        - total_tracks
-        - available_markets
         - external_urls
         - href
         - id

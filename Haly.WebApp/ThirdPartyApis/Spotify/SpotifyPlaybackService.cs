@@ -15,7 +15,8 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
 
-        _spotifyClient = new GeneratedSpotifyClient(httpClient, throwDeserializationErrors: false);
+        _spotifyClient = new GeneratedSpotifyClient(httpClient);
+        _spotifyClient.DisableSerializationErrors();
     }
 
     public async Task<PlaybackState?> GetPlaybackState()

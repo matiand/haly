@@ -41,7 +41,9 @@ public sealed class SpotifyService : ISpotifyService
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
 
-        _spotifyClient = new GeneratedSpotifyClient(httpClient, throwDeserializationErrors: false);
+        _spotifyClient = new GeneratedSpotifyClient(httpClient);
+        _spotifyClient.DisableSerializationErrors();
+
         _endpointCollector = endpointCollector;
     }
 
