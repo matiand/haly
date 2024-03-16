@@ -39,7 +39,7 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
 
     public Task TransferPlayback(string deviceId)
     {
-        var body = new Body17()
+        var body = new Body16()
         {
             Device_ids = new List<string> { deviceId },
             Play = true,
@@ -71,7 +71,7 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
     public Task UpdatePlayback(string contextUri, string? trackUri)
     {
         var offset = trackUri is not null ? new { uri = trackUri } : null;
-        var body = new Body18()
+        var body = new Body17()
         {
             Context_uri = contextUri,
             Offset = offset!,
@@ -83,7 +83,7 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
 
     public Task UpdatePlayback(string trackUri)
     {
-        var body = new Body18()
+        var body = new Body17()
         {
             Uris = new[] { trackUri },
             Position_ms = 0,

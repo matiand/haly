@@ -437,7 +437,7 @@ public sealed class SpotifyService : ISpotifyService
                     Uri = dto.Uri,
                     // Don't worry about the possibility of null breaking this operation.
                     // dto.Position can only be -1 for currently streamed track.
-                    Positions = dto.Position != -1 ? new[] { dto.Position - i } : null
+                    Positions = dto.Position != -1 ? new[] { dto.Position - i } : null,
                 })
                 .ToList();
 

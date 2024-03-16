@@ -35,3 +35,4 @@ Whenever a new spec version is published, carefully update it, so that our fixes
 -   `add-to-queue` - add _202_ response (same as _204_)
 -   `QueueObject` - set as nullable: **currently_playing**
 -   `PlayHistoryObject` - set as nullable: **context**
+-   `remove-tracks-playlist` - use a custom **RemovePlaylistTracksBody** request body schema
