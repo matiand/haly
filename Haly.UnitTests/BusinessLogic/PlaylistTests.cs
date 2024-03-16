@@ -1,5 +1,4 @@
 using AutoFixture;
-using AutoFixture.Xunit2;
 using FluentAssertions;
 using Haly.WebApp.Models;
 
@@ -20,14 +19,18 @@ public class PlaylistTests
     public void IsPersonalized_ReturnsTrue_WhenPlaylistWasMadeForUs(string name, string ownerId)
     {
         var fixture = new Fixture();
-        var playlist = fixture.Create<Playlist>();
+        var playlist = fixture.Build<Playlist>()
+            .Without(p => p.UpdatedAt)
+            .Create();
+
         playlist.Name = name;
         playlist.Owner.Id = ownerId;
+        playlist.UpdatedAt = null;
 
         playlist.IsPersonalized.Should().Be(expected: true);
     }
 
-    [Theory, AutoData]
+    [Theory]
     [InlineData("Release Radar", "foo")]
     [InlineData("Discover Weekly", "bar")]
     [InlineData("Daily Mix 1", "spotifyy")]
@@ -38,9 +41,13 @@ public class PlaylistTests
     public void IsPersonalized_ReturnsFalse_ForRegularPlaylists(string name, string ownerId)
     {
         var fixture = new Fixture();
-        var playlist = fixture.Create<Playlist>();
+        var playlist = fixture.Build<Playlist>()
+            .Without(p => p.UpdatedAt)
+            .Create();
+
         playlist.Name = name;
         playlist.Owner.Id = ownerId;
+        playlist.UpdatedAt = null;
 
         playlist.IsPersonalized.Should().Be(expected: false);
     }
