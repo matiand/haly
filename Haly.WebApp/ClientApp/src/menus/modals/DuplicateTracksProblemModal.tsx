@@ -1,5 +1,6 @@
 import { DuplicateProblem, DuplicatesStrategy, DuplicateType } from "../../../generated/haly";
 import { styled } from "../../common/theme";
+import Button from "../../ui/Button";
 import Modal from "./Modal";
 
 type DuplicateTracksProblemModalProps = {
@@ -28,18 +29,18 @@ function DuplicateTracksProblemModal({ problem, onAccept, onCancel }: DuplicateT
                         <button type="button" onClick={() => onAccept(DuplicatesStrategy.AddAll)}>
                             Add anyway
                         </button>
-                        <button type="button" onClick={onCancel}>
+                        <Button variant="round" type="button" onClick={onCancel}>
                             Don&apos;t add
-                        </button>
+                        </Button>
                     </>
                 ) : (
                     <>
                         <button type="button" onClick={() => onAccept(DuplicatesStrategy.AddAll)}>
                             Add all
                         </button>
-                        <button type="button" onClick={() => onAccept(DuplicatesStrategy.AddNewOnes)}>
+                        <Button variant="round" type="button" onClick={() => onAccept(DuplicatesStrategy.AddNewOnes)}>
                             Add new ones
-                        </button>
+                        </Button>
                     </>
                 )}
             </ModalContents>
@@ -49,12 +50,22 @@ function DuplicateTracksProblemModal({ problem, onAccept, onCancel }: DuplicateT
 
 const ModalContents = styled("div", {
     display: "flex",
+    gap: "$800",
     justifyContent: "flex-end",
-    marginTop: "$700",
+    marginTop: "$800",
+
+    "& > button:first-child": {
+        fontWeight: 500,
+
+        "&:hover": {
+            fontWeight: 700,
+        },
+    },
 
     "& > button:last-child": {
         background: "$primary400",
-        borderRadius: "9999px",
+        border: "2px solid $black800",
+        padding: "$400 $700",
     },
 });
 

@@ -36,6 +36,7 @@ const Wrapper = styled("div", {
     gap: "$400",
     position: "absolute",
     top: "-48px",
+    userSelect: "none",
 
     "& > button": {
         color: "$white",

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { modalAtom, RemoveFromLibraryModalProps } from "../../common/atoms/modalAtoms";
 import { pageContextIdAtom } from "../../common/atoms/pageAtoms";
 import { styled } from "../../common/theme";
+import Button from "../../ui/Button";
 import Modal from "./Modal";
 
 function RemoveFromLibraryModal({ id, name, isOwnedByCurrentUser, onAccept }: RemoveFromLibraryModalProps) {
@@ -26,7 +27,8 @@ function RemoveFromLibraryModal({ id, name, isOwnedByCurrentUser, onAccept }: Re
                 <button type="button" onClick={() => setModal(null)}>
                     Cancel
                 </button>
-                <button
+                <Button
+                    variant="round"
                     type="button"
                     onClick={() => {
                         onAccept();
@@ -38,7 +40,7 @@ function RemoveFromLibraryModal({ id, name, isOwnedByCurrentUser, onAccept }: Re
                     }}
                 >
                     {isOwnedByCurrentUser ? "Delete" : "Remove"}
-                </button>
+                </Button>
             </ModalContents>
         </Modal>
     );
@@ -46,13 +48,21 @@ function RemoveFromLibraryModal({ id, name, isOwnedByCurrentUser, onAccept }: Re
 
 const ModalContents = styled("div", {
     display: "flex",
+    gap: "$800",
     justifyContent: "flex-end",
-    marginTop: "$700",
+    marginTop: "$800",
+
+    "& > button:first-child": {
+        fontWeight: 500,
+
+        "&:hover": {
+            fontWeight: 700,
+        },
+    },
 
     "& > button:last-child": {
         background: "$primary400",
         border: "2px solid $black800",
-        borderRadius: "9999px",
     },
 });
 

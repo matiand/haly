@@ -8,6 +8,7 @@ import { UpdatePlaylistDetailsRequestBody } from "../../../generated/haly";
 import { modalAtom } from "../../common/atoms/modalAtoms";
 import { GetPlaylistQueryKey } from "../../common/queryKeys";
 import halyClient from "../../halyClient";
+import Button from "../../ui/Button";
 import Modal from "./Modal";
 
 type Inputs = {
@@ -101,7 +102,9 @@ function EditPlaylistDetailsModal({ id, name, description }: EditPlaylistDetails
                 </InputGroup>
 
                 <div>
-                    <SubmitButton type="submit">Save</SubmitButton>
+                    <Button variant="round" type="submit">
+                        Save
+                    </Button>
                 </div>
             </ModalForm>
         </Modal>
@@ -114,6 +117,11 @@ const ModalForm = styled("form", {
     gap: "$600",
     justifyContent: "center",
     marginTop: "$700",
+
+    button: {
+        background: "$black800",
+        color: "$white800",
+    },
 
     "& > :last-child": {
         marginLeft: "auto",
@@ -177,15 +185,6 @@ const InputGroup = styled("div", {
         padding: "$500",
         resize: "none",
     },
-});
-
-const SubmitButton = styled("button", {
-    background: "$black800",
-    border: "none",
-    borderRadius: "9999px",
-    color: "$white800",
-    marginTop: "$400",
-    padding: "$400 $600",
 });
 
 export default EditPlaylistDetailsModal;

@@ -71,11 +71,7 @@ const Box = styled(Dialog.Content, {
         cursor: "pointer",
         fontWeight: 700,
         height: "$modalBtnHeight",
-        padding: "$400 $800",
-
-        "&:hover": {
-            transform: "scale(1.05)",
-        },
+        userSelect: "none",
     },
 });
 
@@ -88,13 +84,11 @@ const TitleWrapper = styled("div", {
 const Title = styled(Dialog.Title, {
     fontSize: "$500",
     fontWeight: 800,
-    userSelect: "none",
 });
 
 const Description = styled(Dialog.Description, {
     fontSize: "$300",
     fontWeight: 500,
-    userSelect: "none",
 
     b: {
         margin: "0 $100",

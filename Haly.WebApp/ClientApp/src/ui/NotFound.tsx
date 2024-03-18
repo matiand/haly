@@ -1,14 +1,19 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { styled } from "../common/theme";
+import Button from "./Button";
 
 function NotFound() {
+    const navigate = useNavigate();
+
     return (
         <main>
             <Wrapper>
                 <h1>Page not found</h1>
                 <p>We can&apos;t seem to find the page you are looking for.</p>
-                <Link to="/">Home</Link>
+                <Button variant="round" type="button" onClick={() => navigate("/")}>
+                    Home
+                </Button>
             </Wrapper>
         </main>
     );
@@ -29,21 +34,6 @@ const Wrapper = styled("div", {
 
     "& > p": {
         marginBottom: "$900",
-    },
-
-    "& > a": {
-        background: "$white800",
-        border: "1px solid $black200",
-        borderRadius: "48px",
-        color: "$black800",
-        display: "inline-block",
-        fontWeight: "700",
-        padding: "$500 $800",
-        textDecoration: "none",
-
-        "&:hover": {
-            transform: "scale(1.05)",
-        },
     },
 });
 

@@ -8,7 +8,6 @@ const StyledButton = styled("button", {
                 borderRadius: "999px",
                 color: "$black800",
                 cursor: "pointer",
-                fontWeight: 700,
                 padding: "$400 $800",
 
                 "&:hover": {
@@ -23,12 +22,10 @@ const StyledButton = styled("button", {
                 borderRadius: "4px",
                 color: "$white800",
                 fontSize: "$100",
-                fontWeight: "700",
                 letterSpacing: "0.1em",
                 lineHeight: 1.25,
                 padding: "$400 $600",
                 textTransform: "uppercase",
-                userSelect: "none",
 
                 "&:hover:not([disabled])": {
                     borderColor: "$white800",
@@ -37,6 +34,9 @@ const StyledButton = styled("button", {
             },
         },
     },
+
+    fontWeight: 700,
+    userSelect: "none",
 });
 
 export default StyledButton;

@@ -170,6 +170,7 @@ const FormWrapper = styled("div", {
         color: "$white600",
         fontSize: "$200",
         fontWeight: 500,
+        userSelect: "none",
 
         "&:hover": {
             color: "$white800",

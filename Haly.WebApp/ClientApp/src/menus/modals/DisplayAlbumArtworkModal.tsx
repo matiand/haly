@@ -44,6 +44,7 @@ const Image = styled("img", {
     flex: "0 0 auto",
     objectFit: "cover",
     objectPosition: "center center",
+    userSelect: "none",
 });
 
 const Button = styled("button", {
