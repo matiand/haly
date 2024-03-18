@@ -33,6 +33,8 @@ function UpperMenu() {
             <UpperMenuBackground color={color} opacity={opacity} />
 
             <Content
+                // We remount this part on context change to avoid unnecessary transition of opacity.
+                key={contextId}
                 css={
                     isContentVisible
                         ? {

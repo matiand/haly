@@ -1,28 +1,69 @@
-import { PartialOptions } from "overlayscrollbars";
+import { useSetAtom } from "jotai/index";
+import { OverlayScrollbars, PartialOptions } from "overlayscrollbars";
 import { OverlayScrollbarsComponent, OverlayScrollbarsComponentRef } from "overlayscrollbars-react";
-import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useLayoutEffect, useRef } from "react";
+import { useLocation, useNavigationType } from "react-router-dom";
 
+import { pageHeaderVisibilityAtom } from "../common/atoms/pageAtoms";
 import { styled, theme } from "../common/theme";
 
 type ScrollAreaProps = {
     children: React.ReactNode;
 };
 
+// Tell the browser to not do any scroll restoration.
+history.scrollRestoration = "manual";
+
 export function MainScrollArea({ children }: ScrollAreaProps) {
+    const setPageHeaderVisibility = useSetAtom(pageHeaderVisibilityAtom);
+
     const { pathname } = useLocation();
+    const navigationType = useNavigationType();
+
     const ref = useRef<OverlayScrollbarsComponentRef>(null);
+    const scrollYByPathname = useRef<Record<string, number | undefined>>({});
 
-    useEffect(() => {
+    // Save scrollY of each page, so that we can restore it when navigating back or forward.
+    useLayoutEffect(() => {
+        const listener = (event: OverlayScrollbars) => {
+            const viewport = event.elements().viewport;
+            const child = viewport.children[0];
+
+            scrollYByPathname.current[pathname] = Math.abs(
+                child.getBoundingClientRect().top - viewport.getBoundingClientRect().top,
+            );
+        };
+
         const instance = ref.current?.osInstance();
-        const scrollToTop = () => instance?.elements().viewport.scrollTo(0, 0);
+        instance?.on("scroll", listener);
 
-        // We cannot use window.scrollTo fn, because it doesn't work with this library
-        // todo: yuck!
-        if (/\/(appears-on|discography|playlists|following)/.test(pathname)) {
-            scrollToTop();
+        return () => instance?.off("scroll", listener);
+    }, [pathname]);
+
+    // We use the overlayscrollbars library for custom scrollbars. Unforunately, this means that we
+    // need to manage the scroll restoration manually.
+    useLayoutEffect(() => {
+        const viewport = ref.current?.osInstance()?.elements().viewport;
+        const scrollY = scrollYByPathname.current[pathname] ?? 0;
+
+        // Link navigation
+        if (navigationType === "PUSH") {
+            // Sometimes the call to scrollTo() will be ignored and I don't know why.
+            // requestAnimationFrame improves the odds of it working.
+            requestAnimationFrame(() => {
+                viewport?.scrollTo(0, 0);
+                setPageHeaderVisibility(1);
+            });
         }
-    }, [pathname, ref]);
+
+        // Back or forward navigation
+        if (navigationType === "POP") {
+            requestAnimationFrame(() => {
+                viewport?.scrollTo(0, scrollY);
+                setPageHeaderVisibility(scrollY === 0 ? 1 : 0);
+            });
+        }
+    }, [navigationType, pathname, setPageHeaderVisibility]);
 
     return (
         <Overlay options={options} ref={ref} defer>

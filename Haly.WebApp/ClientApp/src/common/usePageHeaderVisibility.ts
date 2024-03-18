@@ -1,5 +1,4 @@
 import { useSetAtom } from "jotai/index";
-import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { pageHeaderVisibilityAtom } from "./atoms/pageAtoms";
@@ -14,10 +13,6 @@ function usePageHeaderVisibility() {
             setPageHeaderVisibility(entry.intersectionRatio);
         },
     });
-
-    useEffect(() => {
-        return () => setPageHeaderVisibility(1);
-    }, [setPageHeaderVisibility]);
 
     return { ref };
 }
