@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 import { useState } from "react";
 
+import Logo from "../auth/Logo";
 import { persistedWithImprovedShuffleAtom } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
 import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/usePlaylistSortOrder";
@@ -29,7 +30,10 @@ function Preferences() {
 
     return (
         <Section>
-            <h1>Settings</h1>
+            <TitleWrapper>
+                <Logo aria-hidden />
+                <h1>Haly Settings</h1>
+            </TitleWrapper>
 
             <div>
                 <h2>Playlists</h2>
@@ -70,6 +74,24 @@ function Preferences() {
     );
 }
 
+const TitleWrapper = styled("div", {
+    alignItems: "center",
+    display: "flex",
+    gap: "$600",
+    margin: "$800 0",
+    width: "100%",
+
+    h1: {
+        fontSize: "$550",
+        fontWeight: 800,
+    },
+
+    svg: {
+        height: "32px",
+        width: "32px",
+    },
+});
+
 const Section = styled("section", {
     display: "flex",
     flexDirection: "column",
@@ -83,11 +105,6 @@ const Section = styled("section", {
 
     "&&&": {
         paddingTop: "$700",
-    },
-
-    "& > h1": {
-        fontWeight: 800,
-        paddingBottom: "$600",
     },
 
     "& > div": {
