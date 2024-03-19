@@ -68,8 +68,12 @@ function Me() {
         };
     });
 
-    const hasNoCards = followedArtistsCards.length === 0 && topArtistsCards.length === 0;
-    const isArtistQueryFetched = topArtistsQuery.isFetched;
+    const hasNoCards =
+        followedArtistsQuery.isFetched &&
+        followedArtistsCards.length === 0 &&
+        topArtistsQuery.isFetched &&
+        topArtistsCards.length === 0;
+    const isTopArtistsQueryFetched = topArtistsQuery.isFetched;
 
     return (
         <div>
@@ -86,8 +90,8 @@ function Me() {
 
             {hasNoCards && <EmptyState title="Followed artists will appear here" icon={<LuUsers />} />}
             <ResizableCardGroup title="Top artists this month" items={topArtistsCards} maxRows={2} href="top/artists" />
-            {/* Wait for top artists to be fetched before showing followed artists. */}
-            {isArtistQueryFetched && (
+            {/* Wait for the top artists to be fetched before showing followed artists. */}
+            {isTopArtistsQueryFetched && (
                 <ResizableCardGroup
                     title="Followed Artists"
                     items={followedArtistsCards}

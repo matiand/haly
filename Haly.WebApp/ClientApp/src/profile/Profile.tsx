@@ -63,11 +63,10 @@ function Profile() {
                 <FollowCreatorButton creatorId={userId} initialValue={isFollowed} type="User" />
             </PageControls>
 
-            {playlistTotal > 0 ? (
-                <ResizableCardGroup title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />
-            ) : (
+            {playlistsQuery.isFetched && playlistTotal === 0 && (
                 <EmptyState title="User has no public playlists" icon={<LuMusic />} />
             )}
+            <ResizableCardGroup title="Public Playlists" items={playlistCards} maxRows={2} href="playlists" />
 
             <PageGradient color={dominantColor} type="major" />
             <PageGradient color={dominantColor} type="minor" />

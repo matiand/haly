@@ -1,9 +1,7 @@
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
-import { SiTask } from "react-icons/si";
 
 import { pageContextAtom } from "../common/atoms/pageAtoms";
-import EmptyState from "../ui/EmptyState";
 import MiniPageHeader from "../ui/MiniPageHeader";
 import NewReleases from "./NewReleases";
 import NewReleasesDescription from "./NewReleasesDescription";
@@ -27,10 +25,9 @@ function NewReleasesWrapper() {
         return () => setPageContext(null);
     }, [setPageContext]);
 
-    if (query.isLoading) return null;
+    if (!query.data) return null;
 
     const job = query.data;
-    if (!job) return <EmptyState title="Something went wrong" icon={<SiTask />} />;
 
     return (
         <div>
