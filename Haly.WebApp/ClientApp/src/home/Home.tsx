@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom } from "../common/atoms/pageAtoms";
 import { userNameAtom } from "../common/atoms/userAtoms";
@@ -11,6 +12,8 @@ import LoadingIndicator from "../ui/LoadingIndicator";
 import Greeting from "./Greeting";
 
 function Home() {
+    useDocumentTitle("Home");
+
     const query = useQuery(["me", "feed"], () => halyClient.me.getMyFeed(), { staleTime: 1000 * 60 * 30 });
     const userName = useAtomValue(userNameAtom);
     const setPageContext = useSetAtom(pageContextAtom);

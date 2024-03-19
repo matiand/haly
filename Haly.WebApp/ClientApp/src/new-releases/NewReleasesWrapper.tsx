@@ -1,5 +1,6 @@
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom } from "../common/atoms/pageAtoms";
 import MiniPageHeader from "../ui/MiniPageHeader";
@@ -10,6 +11,8 @@ import useLatestNewReleasesJobQuery from "./useLatestNewReleasesJobQuery";
 const title = "New Releases";
 
 function NewReleasesWrapper() {
+    useDocumentTitle("New Releases");
+
     const query = useLatestNewReleasesJobQuery();
 
     const setPageContext = useSetAtom(pageContextAtom);

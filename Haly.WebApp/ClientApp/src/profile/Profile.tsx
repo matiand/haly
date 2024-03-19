@@ -4,8 +4,9 @@ import { useSetAtom } from "jotai/index";
 import { useEffect } from "react";
 import { LuMusic } from "react-icons/lu";
 import { useParams } from "react-router-dom";
+import { useDocumentTitle } from "usehooks-ts";
 
-import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
+import { lastVisitedProfileNameAtom, pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
@@ -21,6 +22,7 @@ function Profile() {
     const { id } = useParams();
 
     const setPageContext = useSetAtom(pageContextAtom);
+    const setLastVisitedProfileName = useSetAtom(lastVisitedProfileNameAtom);
     const dominantColor = useAtomValue(pageDominantColorAtom);
 
     const profileQuery = useQuery(["users", id], () => halyClient.users.getUser({ id: id! }));
@@ -32,10 +34,14 @@ function Profile() {
                 type: "user",
                 data: profileQuery.data,
             });
+
+            setLastVisitedProfileName(profileQuery.data.name);
         }
 
         return () => setPageContext(null);
-    }, [profileQuery, setPageContext]);
+    }, [profileQuery, setLastVisitedProfileName, setPageContext]);
+
+    useDocumentTitle(profileQuery.data ? `${profileQuery.data.name}` : "Profile");
 
     if (!profileQuery.data) return <LoadingIndicator />;
 

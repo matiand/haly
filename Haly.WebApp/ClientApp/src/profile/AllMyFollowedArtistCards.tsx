@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
+import { useDocumentTitle } from "usehooks-ts";
 
 import halyClient from "../halyClient";
 import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 
 function AllMyFollowedArtistCards() {
+    useDocumentTitle("Me - Following");
+
     const query = useQuery(["me", "following"], () => halyClient.me.getMyFollowedArtists());
 
     if (!query.data) return null;

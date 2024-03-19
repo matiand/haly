@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 import { useSetAtom } from "jotai/index";
 import { useEffect } from "react";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { modalAtom } from "../common/atoms/modalAtoms";
 import { pageContextAtom } from "../common/atoms/pageAtoms";
@@ -14,6 +15,8 @@ import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 
 function Search() {
+    useDocumentTitle("Search");
+
     const [query, setQuery] = useAtom(searchQueryAtom);
     const [option, setOption] = useAtom(searchOptionAtom);
     const setModal = useSetAtom(modalAtom);

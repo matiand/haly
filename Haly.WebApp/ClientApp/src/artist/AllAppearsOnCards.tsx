@@ -1,12 +1,18 @@
+import { useAtomValue } from "jotai/index";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDocumentTitle } from "usehooks-ts";
 
+import { lastVisitedArtistNameAtom } from "../common/atoms/pageAtoms";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import useAppearsOnQuery, { AppearsOnFilter } from "./useAppearsOnQuery";
 
 function AllAppearsOnCards() {
     const { id: artistId, filter: pathFilter } = useParams();
     const { items, options, filter } = useAppearsOnQuery(artistId!, pathFilter as AppearsOnFilter);
+
+    const lastVisitedArtistName = useAtomValue(lastVisitedArtistNameAtom);
+    useDocumentTitle(lastVisitedArtistName ? `${lastVisitedArtistName} - Appears On` : "Appears On");
 
     useEffect(() => {
         const currentHref = window.location.href;

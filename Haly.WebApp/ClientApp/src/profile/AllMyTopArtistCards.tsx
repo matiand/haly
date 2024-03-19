@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { capitalize } from "../common/capitalize";
 import halyClient from "../halyClient";
@@ -6,6 +7,8 @@ import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 
 function AllMyTopArtistCards() {
+    useDocumentTitle("Me - Top Artists");
+
     const query = useQuery(["me", "topArtists"], () => halyClient.me.getMyTopArtists());
 
     if (!query.data) return null;

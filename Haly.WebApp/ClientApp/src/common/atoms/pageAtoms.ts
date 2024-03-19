@@ -60,7 +60,9 @@ export const persistedSidebarWidthAtom = atom(
 );
 
 export const pageHeaderVisibilityAtom = atom<number>(1);
-export const lastArtistNameAtom = atom<string | null>(null);
+
+export const lastVisitedArtistNameAtom = atom<string | null>(null);
+export const lastVisitedProfileNameAtom = atom<string | null>(null);
 
 export const dominantColorsAtom = atom<Record<string, string>>({});
 export const pageDominantColorAtom = atom((get) => {

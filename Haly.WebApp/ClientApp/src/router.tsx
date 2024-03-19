@@ -10,7 +10,7 @@ import LikedSongs from "./playlist/LikedSongs";
 import PlaylistWrapper from "./playlist/PlaylistWrapper";
 import AllMyFollowedArtistCards from "./profile/AllMyFollowedArtistCards";
 import AllMyTopArtistCards from "./profile/AllMyTopArtistCards";
-import AllUserPlaylistCards from "./profile/AllUserPlaylistCards";
+import AllProfilePlaylistCards from "./profile/AllProfilePlaylistCards";
 import Me from "./profile/Me";
 import Preferences from "./profile/Preferences";
 import Profile from "./profile/Profile";
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/user/:id/playlists",
-                element: <AllUserPlaylistCards />,
+                element: <AllProfilePlaylistCards />,
             },
             {
                 path: "/album/:id",

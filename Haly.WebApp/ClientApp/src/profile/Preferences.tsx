@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import { useState } from "react";
+import { useDocumentTitle } from "usehooks-ts";
 
 import Logo from "../auth/Logo";
 import { persistedWithImprovedShuffleAtom } from "../common/atoms/playbackAtoms";
@@ -10,6 +11,8 @@ import GeniusConfiguration from "./GeniusConfiguration";
 import Select from "./Select";
 
 function Preferences() {
+    useDocumentTitle("Settings");
+
     const [hasAccurateColors, setHasAccurateColors] = useState(true);
     const [withImprovedShuffle, setWithImprovedShuffle] = useAtom(persistedWithImprovedShuffleAtom);
     const { globalSortOrder, setGlobalSortOrder } = useGlobalSortOrder();

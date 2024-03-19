@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { styled } from "../common/theme";
 import Button from "./Button";
 
 function NotFound() {
+    useDocumentTitle("Page not found");
+
     const navigate = useNavigate();
 
     return (

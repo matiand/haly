@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { styled, theme } from "../common/theme";
 import QueueTabs, { QueueTabsValues } from "./QueueTabs";
@@ -6,6 +7,8 @@ import QueueTracks from "./QueueTracks";
 import RecentlyPlayedTracks from "./RecentlyPlayedTracks";
 
 function Queue() {
+    useDocumentTitle("Queue");
+
     const [activeTab, setActiveTab] = useState<QueueTabsValues>("queue");
 
     const toggleTab = () => setActiveTab((prev) => (prev === "queue" ? "recent" : "queue"));

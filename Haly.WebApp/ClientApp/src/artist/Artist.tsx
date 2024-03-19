@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDocumentTitle } from "usehooks-ts";
 
-import { lastArtistNameAtom, pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
+import { lastVisitedArtistNameAtom, pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { pluralize } from "../common/pluralize";
 import halyClient from "../halyClient";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -25,7 +26,7 @@ function Artist() {
     const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
 
     const setPageContext = useSetAtom(pageContextAtom);
-    const setArtistName = useSetAtom(lastArtistNameAtom);
+    const setArtistName = useSetAtom(lastVisitedArtistNameAtom);
     const dominantColor = useAtomValue(pageDominantColorAtom);
 
     const getPlaybackState = useContextPlaybackState();
@@ -44,6 +45,8 @@ function Artist() {
 
         return () => setPageContext(null);
     }, [query, setArtistName, setPageContext]);
+
+    useDocumentTitle(query.data ? `${query.data.name}` : "Artist");
 
     if (!query.data) return <LoadingIndicator />;
 

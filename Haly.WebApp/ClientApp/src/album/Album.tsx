@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import halyClient from "../halyClient";
@@ -45,6 +46,8 @@ function Album() {
 
         return () => setPageContext(null);
     }, [query, setPageContext]);
+
+    useDocumentTitle(query.data ? `${query.data.name} by ${query.data.artists[0].name}` : "Album");
 
     if (!query.data) return <LoadingIndicator />;
 

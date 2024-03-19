@@ -1,9 +1,10 @@
 import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDocumentTitle } from "usehooks-ts";
 
 import { ReleaseItemDto } from "../../generated/haly";
-import { lastArtistNameAtom } from "../common/atoms/pageAtoms";
+import { lastVisitedArtistNameAtom } from "../common/atoms/pageAtoms";
 import { styled } from "../common/theme";
 import Card from "../ui/card/Card";
 import * as CardGroup from "../ui/card/CardGroup";
@@ -15,8 +16,10 @@ function AllDiscographyCards() {
     const { id: artistId, filter: pathFilter } = useParams();
     const { originalData, items, options, filter } = useDiscographyQuery(artistId!, pathFilter as DiscographyFilter);
 
-    const lastArtistName = useAtomValue(lastArtistNameAtom);
-    const title = lastArtistName ?? "Discography";
+    const lastVisitedArtistName = useAtomValue(lastVisitedArtistNameAtom);
+    const title = lastVisitedArtistName ?? "Discography";
+
+    useDocumentTitle(lastVisitedArtistName ? `${lastVisitedArtistName} - Discography` : "Discography");
 
     useEffect(() => {
         const currentHref = window.location.href;
