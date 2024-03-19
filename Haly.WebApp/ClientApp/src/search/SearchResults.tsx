@@ -32,7 +32,6 @@ function SearchResults({ q, option }: SearchResultsProps) {
             }),
         {
             enabled: Boolean(q),
-            keepPreviousData: option === "albums" || option === "artists" || option === "playlists",
         },
     );
 
