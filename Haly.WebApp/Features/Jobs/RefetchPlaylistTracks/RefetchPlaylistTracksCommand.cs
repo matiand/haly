@@ -11,24 +11,16 @@ namespace Haly.WebApp.Features.Jobs.RefetchPlaylistTracks;
 
 public record RefetchPlaylistTracksCommand(string UserId) : IRequest;
 
-public class RefetchPlaylistTracksHandler : IRequestHandler<RefetchPlaylistTracksCommand>
+public class RefetchPlaylistTracksHandler(
+    ISpotifyService spotify,
+    LibraryContext db,
+    IHubContext<MessageHub, IMessageHubClient> messageHub)
+    : IRequestHandler<RefetchPlaylistTracksCommand>
 {
-    private readonly LibraryContext _db;
-    private readonly ISpotifyService _spotify;
-    private readonly IHubContext<MessageHub, IMessageHubClient> _messageHub;
-
-    public RefetchPlaylistTracksHandler(ISpotifyService spotify, LibraryContext db,
-        IHubContext<MessageHub, IMessageHubClient> messageHub)
-    {
-        _spotify = spotify;
-        _db = db;
-        _messageHub = messageHub;
-    }
-
     public async Task Handle(RefetchPlaylistTracksCommand request, CancellationToken cancellationToken)
     {
         var currentUserId = request.UserId;
-        var user = await _db.Users
+        var user = await db.Users
             .Include(user => user.RefetchPlaylistTracksJobs)
             .AsNoTracking()
             .FirstOrDefaultAsync(user => user.Id == currentUserId, cancellationToken);
@@ -36,20 +28,20 @@ public class RefetchPlaylistTracksHandler : IRequestHandler<RefetchPlaylistTrack
         if (user is null || user.RefetchPlaylistTracksJobs.Count == 0) return;
 
         var jobs = user.RefetchPlaylistTracksJobs.ToList();
-        await _messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Select(j => j.PlaylistId));
+        await messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Select(j => j.PlaylistId));
 
         for (var i = 0; i < jobs.Count; i++)
         {
             await HandleJob(jobs[i], cancellationToken);
 
-            await _messageHub.Clients.All.PlaylistUpdated(jobs[i].PlaylistId);
-            await _messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Skip(i + 1).Select(j => j.PlaylistId));
+            await messageHub.Clients.All.PlaylistUpdated(jobs[i].PlaylistId);
+            await messageHub.Clients.All.PlaylistsWithOldTracks(jobs.Skip(i + 1).Select(j => j.PlaylistId));
         }
     }
 
     private async Task HandleJob(RefetchPlaylistTracksJob job, CancellationToken cancellationToken)
     {
-        var playlist = await _db.Playlists
+        var playlist = await db.Playlists
             .Include(p => p.Tracks)
             .FirstOrDefaultAsync(p => p.Id == job.PlaylistId, cancellationToken);
 
@@ -57,7 +49,7 @@ public class RefetchPlaylistTracksHandler : IRequestHandler<RefetchPlaylistTrack
         {
             try
             {
-                var freshPlaylist = await _spotify.GetPlaylistWithTracks(job.PlaylistId, job.User.Market);
+                var freshPlaylist = await spotify.GetPlaylistWithTracks(job.PlaylistId, job.User.Market);
                 playlist.UpdateTracks(freshPlaylist!.Tracks);
 
                 // We also update LikesTotal here, because the CurrentUserPlaylists endpoint doesn't have them.
@@ -75,9 +67,9 @@ public class RefetchPlaylistTracksHandler : IRequestHandler<RefetchPlaylistTrack
             }
         }
 
-        _db.Remove(job);
+        db.Remove(job);
 
         // Treat each job as a transaction
-        await _db.SaveChangesAsync(cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
     }
 }

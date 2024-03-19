@@ -8,25 +8,19 @@ namespace Haly.WebApp.Features.CurrentUser.UpdateCurrentUser;
 
 public record UpdateCurrentUserCommand(PrivateUser User) : IRequest<UpdateCurrentUserCommandResponse>;
 
-public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserCommandResponse?>
+public class UpdateCurrentUserHandler(LibraryContext db)
+    : IRequestHandler<UpdateCurrentUserCommand, UpdateCurrentUserCommandResponse?>
 {
-    private readonly LibraryContext _db;
-
-    public UpdateCurrentUserHandler(LibraryContext db)
-    {
-        _db = db;
-    }
-
     public async Task<UpdateCurrentUserCommandResponse?> Handle(UpdateCurrentUserCommand request,
         CancellationToken cancellationToken)
     {
         var freshUser = request.User;
-        var cachedUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == request.User.Id, cancellationToken);
+        var cachedUser = await db.Users.FirstOrDefaultAsync(u => u.Id == request.User.Id, cancellationToken);
 
         if (cachedUser is null)
         {
-            _db.Users.Add(freshUser);
-            await _db.SaveChangesAsync(cancellationToken);
+            db.Users.Add(freshUser);
+            await db.SaveChangesAsync(cancellationToken);
             return new UpdateCurrentUserCommandResponse(Created: true, freshUser.Adapt<PrivateUserDto>());
         }
 
@@ -34,7 +28,7 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserCommand
         cachedUser.Market = freshUser.Market;
         cachedUser.Plan = freshUser.Plan;
         cachedUser.ImageUrl = freshUser.ImageUrl;
-        await _db.SaveChangesAsync(cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
 
         return new UpdateCurrentUserCommandResponse(Created: false, cachedUser.Adapt<PrivateUserDto>());
     }

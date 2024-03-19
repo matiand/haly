@@ -10,23 +10,15 @@ namespace Haly.WebApp.Features.Lyrics.UpdateGeniusLyrics;
 
 public record UpdateGeniusLyricsCommand(string Id, GeniusQueryBody Query) : IRequest<LyricsDto?>;
 
-public class UpdateGeniusLyricsCommandHandler : IRequestHandler<UpdateGeniusLyricsCommand, LyricsDto?>
+public class UpdateGeniusLyricsCommandHandler(LibraryContext db, IGeniusApi genius)
+    : IRequestHandler<UpdateGeniusLyricsCommand, LyricsDto?>
 {
-    private readonly LibraryContext _db;
-    private readonly IGeniusApi _genius;
-
-    public UpdateGeniusLyricsCommandHandler(LibraryContext db, IGeniusApi genius)
-    {
-        _db = db;
-        _genius = genius;
-    }
-
     public async Task<LyricsDto?> Handle(UpdateGeniusLyricsCommand request, CancellationToken cancellationToken)
     {
-        var lyricsTask = _db.LyricsSet.FirstOrDefaultAsync(l => l.Id == request.Id, cancellationToken);
+        var lyricsTask = db.LyricsSet.FirstOrDefaultAsync(l => l.Id == request.Id, cancellationToken);
 
         var searchQuery = $"{request.Query.TrackName} by {request.Query.ArtistName}";
-        var searchResultTask = _genius.Search(searchQuery, request.Query.GeniusToken);
+        var searchResultTask = genius.Search(searchQuery, request.Query.GeniusToken);
 
         var (lyrics, searchResult) = (await lyricsTask, await searchResultTask);
 
@@ -36,14 +28,14 @@ public class UpdateGeniusLyricsCommandHandler : IRequestHandler<UpdateGeniusLyri
         {
             var newLyrics = new Models.Lyrics(request.Id, lyricsUrl);
 
-            _db.LyricsSet.Add(newLyrics);
-            await _db.SaveChangesAsync(cancellationToken);
+            db.LyricsSet.Add(newLyrics);
+            await db.SaveChangesAsync(cancellationToken);
 
             return newLyrics.Adapt<LyricsDto>();
         }
 
         lyrics.GeniusUrl = lyricsUrl;
-        await _db.SaveChangesAsync(cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
 
         return null;
     }

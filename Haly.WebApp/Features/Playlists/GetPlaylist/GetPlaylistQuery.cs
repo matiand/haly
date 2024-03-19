@@ -13,20 +13,12 @@ public record GetPlaylistQuery(string Id, string? SortOrder) : IRequest<Playlist
     public int TracksLimit { get; } = 25;
 }
 
-public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWithTracksDto?>
+public class GetPlaylistHandler(LibraryContext db, ITotalDurationService totalDurationService)
+    : IRequestHandler<GetPlaylistQuery, PlaylistWithTracksDto?>
 {
-    private readonly LibraryContext _db;
-    private readonly ITotalDurationService _totalDurationService;
-
-    public GetPlaylistHandler(LibraryContext db, ITotalDurationService totalDurationService)
-    {
-        _db = db;
-        _totalDurationService = totalDurationService;
-    }
-
     public async Task<PlaylistWithTracksDto?> Handle(GetPlaylistQuery request, CancellationToken cancellationToken)
     {
-        var playlist = await _db.Playlists
+        var playlist = await db.Playlists
             .Where(p => p.Id == request.Id)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -36,12 +28,12 @@ public class GetPlaylistHandler : IRequestHandler<GetPlaylistQuery, PlaylistWith
         playlist.Tracks = new List<PlaylistTrack>();
         var dto = playlist.Adapt<PlaylistWithTracksDto>();
 
-        var tracks = _db.PlaylistTracks
+        var tracks = db.PlaylistTracks
             .Where(t => t.PlaylistId == request.Id)
             .OrderBy(request.SortOrder);
 
         var page = await tracks.ToPaginatedListAsync(offset: 0, request.TracksLimit, cancellationToken);
-        var totalDuration = await _totalDurationService.FromQueryable(tracks);
+        var totalDuration = await totalDurationService.FromQueryable(tracks);
 
         dto.Tracks = page.Adapt<PaginatedList<PlaylistTrackDto>>();
         dto.TotalDuration = totalDuration.Format();

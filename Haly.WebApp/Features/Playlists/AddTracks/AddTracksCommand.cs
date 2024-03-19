@@ -13,20 +13,12 @@ public record AddTracksCommand : IRequest<AddTracksCommandResponse>
     public AddTracksRequestBody Body { get; init; }
 }
 
-public class AddTracksCommandHandler : IRequestHandler<AddTracksCommand, AddTracksCommandResponse>
+public class AddTracksCommandHandler(LibraryContext db, ISpotifyService spotify)
+    : IRequestHandler<AddTracksCommand, AddTracksCommandResponse>
 {
-    private readonly LibraryContext _db;
-    private readonly ISpotifyService _spotify;
-
-    public AddTracksCommandHandler(LibraryContext db, ISpotifyService spotify)
-    {
-        _db = db;
-        _spotify = spotify;
-    }
-
     public async Task<AddTracksCommandResponse> Handle(AddTracksCommand request, CancellationToken cancellationToken)
     {
-        var cachedPlaylistTask = _db.Playlists
+        var cachedPlaylistTask = db.Playlists
             .Include(p => p.Tracks)
             .FirstOrDefaultAsync(p => p.Id == request.PlaylistId, cancellationToken);
         var trackUrisTask = CollectTrackUris(request);
@@ -49,11 +41,11 @@ public class AddTracksCommandHandler : IRequestHandler<AddTracksCommand, AddTrac
         }
         else if (hasDuplicates && request.Body.DuplicatesStrategy == DuplicatesStrategy.AddNewOnes)
         {
-            await _spotify.AddTracks(request.PlaylistId, newTrackUris);
+            await spotify.AddTracks(request.PlaylistId, newTrackUris);
         }
         else
         {
-            await _spotify.AddTracks(request.PlaylistId, trackUris);
+            await spotify.AddTracks(request.PlaylistId, trackUris);
         }
 
         return new AddTracksCommandResponse(cachedPlaylist.Adapt<PlaylistBriefDto>());
@@ -69,12 +61,12 @@ public class AddTracksCommandHandler : IRequestHandler<AddTracksCommand, AddTrac
         var collectionId = GetCollectionIdFromUri(request.Body.CollectionUri!);
         if (request.Body.CollectionUri!.Contains("album"))
         {
-            var album = await _spotify.GetAlbum(collectionId, request.UserMarket);
+            var album = await spotify.GetAlbum(collectionId, request.UserMarket);
             return album.Tracks.Select(t => t.Uri!).ToList();
         }
         else
         {
-            var tracks = await _spotify.GetPlaylistTracks(collectionId, request.UserMarket);
+            var tracks = await spotify.GetPlaylistTracks(collectionId, request.UserMarket);
             return tracks.Where(t => !string.IsNullOrEmpty(t.Uri)).Select(t => t.Uri!).ToList();
         }
     }

@@ -11,17 +11,10 @@ namespace Haly.WebApp.Features.CurrentUser.GetFeed;
 
 public record GetMyFeedQuery(string UserMarket) : IRequest<UserFeedDto>;
 
-public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto>
+public class GetMyFeedQueryHandler(ISpotifyService spotify, IDateOnlyService dateOnlyService)
+    : IRequestHandler<GetMyFeedQuery, UserFeedDto>
 {
-    private readonly ISpotifyService _spotify;
-    private readonly IDateOnlyService _dateOnlyService;
     private readonly Random _random = new();
-
-    public GetMyFeedQueryHandler(ISpotifyService spotify, IDateOnlyService dateOnlyService)
-    {
-        _spotify = spotify;
-        _dateOnlyService = dateOnlyService;
-    }
 
     public async Task<UserFeedDto> Handle(GetMyFeedQuery request, CancellationToken cancellationToken)
     {
@@ -39,8 +32,8 @@ public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto
 
     private async Task<IEnumerable<PlaylistCardDto>> GetFeedPlaylists(GetMyFeedQuery request)
     {
-        var dailyMixResultsTask = _spotify.Search("daily mix", SearchType.Playlist, request.UserMarket);
-        var radarResultsTask = _spotify.Search("radar", SearchType.Playlist, request.UserMarket);
+        var dailyMixResultsTask = spotify.Search("daily mix", SearchType.Playlist, request.UserMarket);
+        var radarResultsTask = spotify.Search("radar", SearchType.Playlist, request.UserMarket);
 
         var playlists = (await dailyMixResultsTask).Playlists!
             .Where(p => p.Name.StartsWith("Daily Mix", StringComparison.InvariantCulture) &&
@@ -57,7 +50,7 @@ public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto
 
         if (releaseRadar is not null)
         {
-            if (_dateOnlyService.IsFriday())
+            if (dateOnlyService.IsFriday())
             {
                 playlists.Insert(index: 0, releaseRadar);
             }
@@ -69,7 +62,7 @@ public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto
 
         if (discoverWeekly is not null)
         {
-            if (_dateOnlyService.IsMonday())
+            if (dateOnlyService.IsMonday())
             {
                 playlists.Insert(index: 0, discoverWeekly);
             }
@@ -85,11 +78,11 @@ public class GetMyFeedQueryHandler : IRequestHandler<GetMyFeedQuery, UserFeedDto
     private async Task<Dictionary<string, IEnumerable<ReleaseItemDto>>> AddCategoriesBasedOnTopArtists(
         GetMyFeedQuery request)
     {
-        var topArtists = await _spotify.GetCurrentUserTopArtists();
+        var topArtists = await spotify.GetCurrentUserTopArtists();
 
         var seeds = topArtists.OrderBy(_ => _random.Next()).Take(count: 4).ToList();
         var recommendationTasks = seeds.Select(artist =>
-                _spotify.GetRecommendations(request.UserMarket, trackIds: null, artistIds: artist.Id))
+                spotify.GetRecommendations(request.UserMarket, trackIds: null, artistIds: artist.Id))
             .ToList();
 
         var dict = new Dictionary<string, IEnumerable<ReleaseItemDto>>();

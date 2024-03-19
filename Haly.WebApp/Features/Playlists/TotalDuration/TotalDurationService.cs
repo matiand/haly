@@ -4,18 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Playlists.TotalDuration;
 
-public class TotalDurationService : ITotalDurationService
+public class TotalDurationService(LibraryContext db) : ITotalDurationService
 {
-    private readonly LibraryContext _db;
-
-    public TotalDurationService(LibraryContext db)
-    {
-        _db = db;
-    }
-
     public async Task<TotalDurationValue> FromPlaylistStore(string playlistId)
     {
-        var duration = await _db.PlaylistTracks.Where(t => t.PlaylistId == playlistId).SumAsync(t => t.DurationInMs);
+        var duration = await db.PlaylistTracks.Where(t => t.PlaylistId == playlistId).SumAsync(t => t.DurationInMs);
 
         return new TotalDurationValue(duration);
     }

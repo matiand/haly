@@ -10,17 +10,9 @@ public record AddToQueueCommand : IRequest<Unit>
     public AddToQueueRequestBody Body { get; init; }
 };
 
-public class AddToQueueCommandHandler : IRequestHandler<AddToQueueCommand, Unit>
+public class AddToQueueCommandHandler(ISpotifyService spotify, ISpotifyPlaybackService playback)
+    : IRequestHandler<AddToQueueCommand, Unit>
 {
-    private readonly ISpotifyService _spotify;
-    private readonly ISpotifyPlaybackService _playback;
-
-    public AddToQueueCommandHandler(ISpotifyService spotify, ISpotifyPlaybackService playback)
-    {
-        _spotify = spotify;
-        _playback = playback;
-    }
-
     public async Task<Unit> Handle(AddToQueueCommand request, CancellationToken cancellationToken)
     {
         var trackUris = request.Body.TrackUris;
@@ -30,11 +22,11 @@ public class AddToQueueCommandHandler : IRequestHandler<AddToQueueCommand, Unit>
             var collectionId = GetCollectionIdFromUri(request.Body.CollectionUri);
 
             // Right now, we only allow albums.
-            var album = await _spotify.GetAlbum(collectionId, request.UserMarket);
+            var album = await spotify.GetAlbum(collectionId, request.UserMarket);
             trackUris = album.Tracks.Select(t => t.Uri!);
         }
 
-        await _playback.AddToQueue(trackUris!);
+        await playback.AddToQueue(trackUris!);
 
         return Unit.Value;
     }

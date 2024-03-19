@@ -12,22 +12,13 @@ namespace Haly.WebApp.Features.Jobs.CollectNewReleases;
 
 public record CollectNewReleasesCommand(string UserId, string UserMarket) : IRequest;
 
-public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesCommand>
+public class CollectNewReleasesHandler(
+    ISpotifyService spotify,
+    LibraryContext db,
+    IDateOnlyService dateOnlyService,
+    IHubContext<MessageHub, IMessageHubClient> messageHub)
+    : IRequestHandler<CollectNewReleasesCommand>
 {
-    private readonly ISpotifyService _spotify;
-    private readonly LibraryContext _db;
-    private readonly IDateOnlyService _dateOnlyService;
-    private readonly IHubContext<MessageHub, IMessageHubClient> _messageHub;
-
-    public CollectNewReleasesHandler(ISpotifyService spotify, LibraryContext db, IDateOnlyService dateOnlyService,
-        IHubContext<MessageHub, IMessageHubClient> messageHub)
-    {
-        _spotify = spotify;
-        _db = db;
-        _dateOnlyService = dateOnlyService;
-        _messageHub = messageHub;
-    }
-
     public async Task Handle(CollectNewReleasesCommand request, CancellationToken cancellationToken)
     {
         var job = await AddJob(request, cancellationToken);
@@ -35,7 +26,7 @@ public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesComma
         job.NewReleases = await CollectNewReleases(request);
         job.FinishedAt = DateTime.UtcNow;
 
-        await _db.SaveChangesAsync(cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
     }
 
     private async Task<CollectNewReleasesJob> AddJob(CollectNewReleasesCommand request,
@@ -46,24 +37,24 @@ public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesComma
             UserId = request.UserId,
             NewReleases = new List<ReleaseItem>(),
         };
-        _db.CollectNewReleasesJobs.Add(job);
+        db.CollectNewReleasesJobs.Add(job);
 
-        await _db.SaveChangesAsync(cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
 
         return job;
     }
 
     private async Task<List<ReleaseItem>> CollectNewReleases(CollectNewReleasesCommand request)
     {
-        var followedArtists = await _spotify.GetCurrentUserFollows();
+        var followedArtists = await spotify.GetCurrentUserFollows();
         var allReleases = new List<ReleaseItem>();
 
-        await _messageHub.Clients.All.CollectingNewReleases(followedArtists.Count);
+        await messageHub.Clients.All.CollectingNewReleases(followedArtists.Count);
         for (var i = 0; i < followedArtists.Count; i++)
         {
             var artist = followedArtists[i];
-            var albumsTask = _spotify.GetArtistReleases(artist.Id, ArtistRelease.Album, request.UserMarket);
-            var singlesTask = _spotify.GetArtistReleases(artist.Id, ArtistRelease.Singles, request.UserMarket);
+            var albumsTask = spotify.GetArtistReleases(artist.Id, ArtistRelease.Album, request.UserMarket);
+            var singlesTask = spotify.GetArtistReleases(artist.Id, ArtistRelease.Singles, request.UserMarket);
 
             // To reduce the amount of API calls, we don't fetch compilations. Ideally, we would use
             // ArtistRelease.Discography to get them in a single call, but it's currently broken.
@@ -73,11 +64,11 @@ public class CollectNewReleasesHandler : IRequestHandler<CollectNewReleasesComma
             allReleases.AddRange(await albumsTask);
             allReleases.AddRange(await singlesTask);
 
-            await _messageHub.Clients.All.CollectingNewReleases(followedArtists.Count - i - 1);
+            await messageHub.Clients.All.CollectingNewReleases(followedArtists.Count - i - 1);
         }
 
         var releasesFromLastSixMonths =
-            allReleases.Where(r => !_dateOnlyService.IsOlderThanSixMonths(r.ReleaseDate))
+            allReleases.Where(r => !dateOnlyService.IsOlderThanSixMonths(r.ReleaseDate))
                 .DistinctBy(r => r.Id)
                 .OrderByDescending(r => r.ReleaseDate)
                 .ToList();

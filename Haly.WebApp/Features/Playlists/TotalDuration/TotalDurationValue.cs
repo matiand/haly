@@ -1,17 +1,10 @@
 namespace Haly.WebApp.Features.Playlists.TotalDuration;
 
-public class TotalDurationValue
+public class TotalDurationValue(int valueInMs)
 {
-    private readonly int _valueInMs;
-
-    public TotalDurationValue(int valueInMs)
-    {
-        _valueInMs = valueInMs;
-    }
-
     public string Format()
     {
-        var timespan = TimeSpan.FromMilliseconds(_valueInMs);
+        var timespan = TimeSpan.FromMilliseconds(valueInMs);
 
         if ((int)timespan.TotalHours > 0)
         {

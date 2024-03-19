@@ -8,25 +8,17 @@ namespace Haly.WebApp.Features.Playlists.UpdatePlaylist;
 public record UpdatePlaylistCommand(string PlaylistId, string UserMarket, bool ForceUpdate)
     : IRequest<UpdatePlaylistCommandResponse?>;
 
-public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, UpdatePlaylistCommandResponse?>
+public class UpdatePlaylistHandler(LibraryContext db, ISpotifyService spotifyService)
+    : IRequestHandler<UpdatePlaylistCommand, UpdatePlaylistCommandResponse?>
 {
-    private readonly LibraryContext _db;
-    private readonly ISpotifyService _spotifyService;
-
-    public UpdatePlaylistHandler(LibraryContext db, ISpotifyService spotifyService)
-    {
-        _db = db;
-        _spotifyService = spotifyService;
-    }
-
     public async Task<UpdatePlaylistCommandResponse?> Handle(UpdatePlaylistCommand request,
         CancellationToken cancellationToken)
     {
-        var cachedPlaylistTask = _db.Playlists
+        var cachedPlaylistTask = db.Playlists
             .Include(p => p.Tracks.OrderBy(t => t.PositionInPlaylist))
             .Where(p => p.Id == request.PlaylistId)
             .SingleOrDefaultAsync(cancellationToken);
-        var freshPlaylistTask = _spotifyService.GetPlaylistWithTracks(request.PlaylistId, request.UserMarket);
+        var freshPlaylistTask = spotifyService.GetPlaylistWithTracks(request.PlaylistId, request.UserMarket);
 
         var (cachedPlaylist, freshPlaylist) = (await cachedPlaylistTask, await freshPlaylistTask);
 
@@ -34,8 +26,8 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
 
         if (cachedPlaylist is null)
         {
-            _db.Playlists.Add(freshPlaylist);
-            await _db.SaveChangesAsync(cancellationToken);
+            db.Playlists.Add(freshPlaylist);
+            await db.SaveChangesAsync(cancellationToken);
 
             return new UpdatePlaylistCommandResponse(Created: true, freshPlaylist.Id);
         }
@@ -43,7 +35,7 @@ public class UpdatePlaylistHandler : IRequestHandler<UpdatePlaylistCommand, Upda
         if (request.ForceUpdate || cachedPlaylist.SnapshotId != freshPlaylist.SnapshotId)
         {
             cachedPlaylist.UpdateModel(freshPlaylist, includingTracks: true, includingLikes: true);
-            await _db.SaveChangesAsync(cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
         }
 
         return new UpdatePlaylistCommandResponse(Created: false, freshPlaylist.Id);

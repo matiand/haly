@@ -9,15 +9,9 @@ namespace Haly.WebApp.Features.Player.UpdatePlayback;
 public record UpdatePlaybackCommand(string? ContextUri, string? TrackUri, bool WithImprovedShuffle)
     : IRequest<UpdatePlaybackCommandResponse>;
 
-public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackCommand, UpdatePlaybackCommandResponse>
+public class UpdatePlaybackCommandHandler(ISpotifyPlaybackService spotify)
+    : IRequestHandler<UpdatePlaybackCommand, UpdatePlaybackCommandResponse>
 {
-    private readonly ISpotifyPlaybackService _spotify;
-
-    public UpdatePlaybackCommandHandler(ISpotifyPlaybackService spotify)
-    {
-        _spotify = spotify;
-    }
-
     public async Task<UpdatePlaybackCommandResponse> Handle(UpdatePlaybackCommand request,
         CancellationToken cancellationToken)
     {
@@ -25,11 +19,11 @@ public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackComman
         {
             if (request.ContextUri is not null)
             {
-                await _spotify.UpdatePlayback(request.ContextUri, request.TrackUri);
+                await spotify.UpdatePlayback(request.ContextUri, request.TrackUri);
             }
             else
             {
-                await _spotify.UpdatePlayback(request.TrackUri!);
+                await spotify.UpdatePlayback(request.TrackUri!);
             }
         }
         catch (ApiException e)
@@ -52,10 +46,10 @@ public class UpdatePlaybackCommandHandler : IRequestHandler<UpdatePlaybackComman
     {
         if (request is { WithImprovedShuffle: true, ContextUri: not null })
         {
-            var playbackState = await _spotify.GetPlaybackState();
+            var playbackState = await spotify.GetPlaybackState();
             if (playbackState?.IsShuffled ?? false)
             {
-                await _spotify.ShufflePlayback(state: true);
+                await spotify.ShufflePlayback(state: true);
             }
         }
     }

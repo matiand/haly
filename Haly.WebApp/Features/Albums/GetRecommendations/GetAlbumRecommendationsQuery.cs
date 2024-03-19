@@ -8,19 +8,13 @@ namespace Haly.WebApp.Features.Albums.GetRecommendations;
 public record GetAlbumRecommendationsQuery(string AlbumId, string UserMarket, string TrackIds)
     : IRequest<IEnumerable<ReleaseItemDto>>;
 
-public class GetAlbumRecommendationsHandler : IRequestHandler<GetAlbumRecommendationsQuery, IEnumerable<ReleaseItemDto>>
+public class GetAlbumRecommendationsHandler(ISpotifyService spotify)
+    : IRequestHandler<GetAlbumRecommendationsQuery, IEnumerable<ReleaseItemDto>>
 {
-    private readonly ISpotifyService _spotify;
-
-    public GetAlbumRecommendationsHandler(ISpotifyService spotify)
-    {
-        _spotify = spotify;
-    }
-
     public async Task<IEnumerable<ReleaseItemDto>> Handle(GetAlbumRecommendationsQuery request,
         CancellationToken cancellationToken)
     {
-        var tracks = await _spotify.GetRecommendations(request.UserMarket, request.TrackIds, artistIds: null);
+        var tracks = await spotify.GetRecommendations(request.UserMarket, request.TrackIds, artistIds: null);
 
         var albums = tracks.Where(t => t.Album.Id != request.AlbumId)
             .GroupBy(t => t.Album.Name)
