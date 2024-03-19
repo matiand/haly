@@ -49,6 +49,7 @@ function Profile() {
             uri: `spotify:playlist:${p.id}`,
             href: `/playlist/${p.id}`,
             imageUrl: p.imageUrl,
+            subtitle: p.description ?? "",
         };
     });
 

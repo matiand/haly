@@ -18,6 +18,7 @@ function AllUserPlaylistCards() {
             uri: `spotify:playlist:${p.id}`,
             href: `/playlist/${p.id}`,
             imageUrl: p.imageUrl,
+            description: p.description ?? "",
         };
     });
 
