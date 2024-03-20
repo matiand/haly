@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { useSetAtom } from "jotai/index";
-import { MouseEvent, useCallback } from "react";
+import { MouseEvent, useCallback, useEffect } from "react";
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { playerSdkAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
@@ -37,11 +37,23 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
         [setSelectedTracks],
     );
 
+    useEffect(() => {
+        const keyHandler = (e: KeyboardEvent) => {
+            if (e.code === "Space" && !e.repeat) {
+                e.preventDefault();
+                player?.togglePlay();
+            }
+        };
+
+        window.addEventListener("keydown", keyHandler);
+        return () => window.removeEventListener("keydown", keyHandler);
+    }, [player]);
+
     if (!player) return null;
 
     if (!track) {
         return (
-            <Wrapper>
+            <Wrapper onClick={clearSelection}>
                 <div />
 
                 <ControlsWrapper>
