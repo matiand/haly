@@ -4,9 +4,9 @@ import { HiPause, HiPlay } from "react-icons/hi2";
 import { MdPodcasts } from "react-icons/md";
 
 import { styled } from "../common/theme";
+import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 import AnimatedMusicBars from "../ui/AnimatedMusicBars";
 import { TrackPlaybackState } from "./useTableRowPlaybackState";
-import { ContextPlaybackState } from "../playback/useContextPlaybackState";
 
 type PlaybackCellProps = {
     position: number;

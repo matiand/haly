@@ -8,6 +8,8 @@ type DisplaySearchHelpProps = {
     type: "spotify" | "library";
 };
 
+// todo: add type prop and show different help for 'your library' mode
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function DisplaySearchHelp({ type }: DisplaySearchHelpProps) {
     const setModal = useSetAtom(modalAtom);
     const onClose = () => setModal(null);
