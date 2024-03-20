@@ -1,10 +1,10 @@
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { useDocumentTitle } from "usehooks-ts";
 
 import Logo from "../auth/Logo";
 import { persistedWithImprovedShuffleAtom } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
+import useDocumentTitle from "../common/useDocumentTitle";
 import { PlaylistSortOrder, useGlobalSortOrder } from "../playlist/usePlaylistSortOrder";
 import Checkbox from "./Checkbox";
 import GeniusConfiguration from "./GeniusConfiguration";

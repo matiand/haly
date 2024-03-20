@@ -1,8 +1,8 @@
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom } from "../common/atoms/pageAtoms";
+import useDocumentTitle from "../common/useDocumentTitle";
 import MiniPageHeader from "../ui/MiniPageHeader";
 import NewReleases from "./NewReleases";
 import NewReleasesDescription from "./NewReleasesDescription";

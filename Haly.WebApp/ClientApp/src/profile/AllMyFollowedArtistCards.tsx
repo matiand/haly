@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useDocumentTitle } from "usehooks-ts";
 
+import useDocumentTitle from "../common/useDocumentTitle";
 import halyClient from "../halyClient";
 import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";

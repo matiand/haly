@@ -4,10 +4,10 @@ import { useSetAtom } from "jotai/index";
 import { useEffect } from "react";
 import { LuMusic } from "react-icons/lu";
 import { useParams } from "react-router-dom";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { lastVisitedProfileNameAtom, pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { pluralize } from "../common/pluralize";
+import useDocumentTitle from "../common/useDocumentTitle";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
 import { CardProps } from "../ui/card/Card";

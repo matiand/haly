@@ -5,7 +5,7 @@ import React, { useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigationType } from "react-router-dom";
 
 import { pageHeaderVisibilityAtom } from "../common/atoms/pageAtoms";
-import { styled, theme } from "../common/theme";
+import { theme } from "../common/theme";
 
 type ScrollAreaProps = {
     children: React.ReactNode;
@@ -66,17 +66,17 @@ export function MainScrollArea({ children }: ScrollAreaProps) {
     }, [navigationType, pathname, setPageHeaderVisibility]);
 
     return (
-        <Overlay options={options} ref={ref} defer>
+        <OverlayScrollbarsComponent options={options} ref={ref} defer>
             {children}
-        </Overlay>
+        </OverlayScrollbarsComponent>
     );
 }
 
 export function ScrollArea({ children }: ScrollAreaProps) {
     return (
-        <Overlay options={options} defer>
+        <OverlayScrollbarsComponent options={options} defer>
             {children}
-        </Overlay>
+        </OverlayScrollbarsComponent>
     );
 }
 
@@ -88,8 +88,10 @@ const options: PartialOptions = {
     },
 };
 
-const Overlay = styled(OverlayScrollbarsComponent, {
-    width: "100%",
+export const scrollAreaStyles = {
+    "main > [data-overlayscrollbars-initialize]": {
+        width: "100%",
+    },
 
     "& .os-theme-light": {
         "$os-size": "16px",
@@ -106,4 +108,4 @@ const Overlay = styled(OverlayScrollbarsComponent, {
     "& [data-overlayscrollbars-viewport]": {
         borderRadius: "8px",
     },
-});
+};

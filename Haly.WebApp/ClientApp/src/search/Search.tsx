@@ -1,12 +1,12 @@
 import { useAtom } from "jotai";
 import { useSetAtom } from "jotai/index";
 import { useEffect } from "react";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { modalAtom } from "../common/atoms/modalAtoms";
 import { pageContextAtom } from "../common/atoms/pageAtoms";
 import { searchOptionAtom, searchQueryAtom } from "../common/atoms/searchAtoms";
 import { styled } from "../common/theme";
+import useDocumentTitle from "../common/useDocumentTitle";
 import Button from "../ui/Button";
 import MiniPageHeader from "../ui/MiniPageHeader";
 import RadioGroup, { Item as RadioGroupItem, Option } from "../ui/RadioGroup";

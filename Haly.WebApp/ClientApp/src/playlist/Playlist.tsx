@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { LuMusic3 } from "react-icons/lu";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { playlistSearchTermAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
 import { GetPlaylistQueryKey } from "../common/queryKeys";
+import useDocumentTitle from "../common/useDocumentTitle";
 import halyClient from "../halyClient";
 import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";
@@ -77,8 +77,8 @@ function Playlist({ id, uri, sortOrder, isInLibrary, isLikedSongsCollection }: P
     const documentTitle = isLikedSongsCollection
         ? "Liked Songs"
         : query.data
-        ? `${query.data.name} by ${query.data.owner.name}`
-        : "Playlist";
+          ? `${query.data.name} by ${query.data.owner.name}`
+          : "Playlist";
     useDocumentTitle(documentTitle);
 
     if (!query.data) return null;

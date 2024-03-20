@@ -8,6 +8,7 @@ import "@fontsource/plus-jakarta-sans/800.css";
 import "@fontsource/heebo/700.css";
 
 import { dndStyles } from "../dnd/dndStyles";
+import { scrollAreaStyles } from "../ui/ScrollArea";
 import { classNames, globalCss } from "./theme";
 
 const globalStyles = globalCss({
@@ -107,6 +108,7 @@ const globalStyles = globalCss({
         },
     },
 
+    ...scrollAreaStyles,
     ...dndStyles,
 
     // Used to position react query devtools toggle btn

@@ -1,9 +1,9 @@
 import { useAtomValue } from "jotai/index";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { lastVisitedArtistNameAtom } from "../common/atoms/pageAtoms";
+import useDocumentTitle from "../common/useDocumentTitle";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import useAppearsOnQuery, { AppearsOnFilter } from "./useAppearsOnQuery";
 

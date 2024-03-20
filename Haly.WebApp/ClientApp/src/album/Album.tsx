@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
+import useDocumentTitle from "../common/useDocumentTitle";
 import halyClient from "../halyClient";
 import useContextMenu from "../menus/useContextMenu";
 import PlaybackToggle from "../playback/PlaybackToggle";

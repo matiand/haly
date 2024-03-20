@@ -4,13 +4,13 @@ import { useSetAtom } from "jotai/index";
 import { useEffect } from "react";
 import { LuUsers } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom, pageDominantColorAtom } from "../common/atoms/pageAtoms";
 import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
 import { capitalize } from "../common/capitalize";
 import { pluralize } from "../common/pluralize";
+import useDocumentTitle from "../common/useDocumentTitle";
 import halyClient from "../halyClient";
 import PageGradient from "../playlist/PageGradient";
 import { CardProps } from "../ui/card/Card";

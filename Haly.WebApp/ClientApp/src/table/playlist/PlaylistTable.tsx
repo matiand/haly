@@ -59,7 +59,7 @@ function PlaylistTable({
 
     useEffect(() => {
         const currentTotal = items.length;
-        const virtualEnd = rowVirtualizer.range.endIndex + 1;
+        const virtualEnd = (rowVirtualizer.calculateRange()?.endIndex ?? 0) + 1;
         const itemsLeft = currentTotal - virtualEnd;
 
         if (itemsLeft <= FETCH_MORE_THRESHOLD && total != currentTotal) {

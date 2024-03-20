@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { styled, theme } from "../common/theme";
+import useDocumentTitle from "../common/useDocumentTitle";
 import QueueTabs, { QueueTabsValues } from "./QueueTabs";
 import QueueTracks from "./QueueTracks";
 import RecentlyPlayedTracks from "./RecentlyPlayedTracks";

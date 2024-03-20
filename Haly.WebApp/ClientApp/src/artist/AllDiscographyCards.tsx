@@ -1,11 +1,11 @@
 import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { ReleaseItemDto } from "../../generated/haly";
 import { lastVisitedArtistNameAtom } from "../common/atoms/pageAtoms";
 import { styled } from "../common/theme";
+import useDocumentTitle from "../common/useDocumentTitle";
 import Card from "../ui/card/Card";
 import * as CardGroup from "../ui/card/CardGroup";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
-import { useDocumentTitle } from "usehooks-ts";
 
 import { pageContextAtom } from "../common/atoms/pageAtoms";
 import { userNameAtom } from "../common/atoms/userAtoms";
+import useDocumentTitle from "../common/useDocumentTitle";
 import halyClient from "../halyClient";
 import { CardProps } from "../ui/card/Card";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";

@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineSearch } from "react-icons/hi";
-import { useDebounce } from "usehooks-ts";
 
 import { styled } from "../common/theme";
+import useDebounce from "../common/useDebounce";
 import Button from "../ui/Button";
 
 type SearchBarProps = {

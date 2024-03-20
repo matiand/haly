@@ -1,4 +1,4 @@
-import { Waveform } from "@uiball/loaders";
+import "ldrs/waveform";
 
 import { styled, theme } from "../common/theme";
 import { useDelayedRender } from "../common/useDelayedRender";
@@ -10,7 +10,9 @@ function LoadingIndicator() {
 
     return (
         <Wrapper>
-            <Waveform color={theme.colors.white800} />
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/*// @ts-ignore*/}
+            <l-waveform color={theme.colors.white800} />
         </Wrapper>
     );
 }
