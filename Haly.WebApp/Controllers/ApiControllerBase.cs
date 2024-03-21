@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Haly.WebApp.Controllers;
 
 [ApiController]
-[ApiExceptionFilter]
+[ServiceFilter(typeof(ApiExceptionFilter))]
 [ServiceFilter(typeof(ValidateAccessTokenFilterService))]
 [Route("[controller]")]
 [Produces("application/json")]

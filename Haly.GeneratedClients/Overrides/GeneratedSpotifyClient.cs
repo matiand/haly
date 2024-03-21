@@ -11,14 +11,15 @@ namespace Haly.GeneratedClients
         /// <summary>
         /// Disable errors caused by serialization.
         /// </summary>
-        public void DisableSerializationErrors()
+        public void DisableSerializationErrors(Action<string, string>? logMessage = null)
         {
+            // It's better to ignore those errors than to fail. Our app can often work with invalid data.
             var settings = new JsonSerializerSettings();
             settings.Error += (_, args) =>
             {
-                Console.WriteLine(
-                    $"Failed Deserialization of type: {args.CurrentObject}; property: {args.ErrorContext.Member}");
-                Console.WriteLine($"{args.ErrorContext.Error.Message}\n");
+                var type = args.CurrentObject?.ToString() ?? "";
+                logMessage?.Invoke(type, args.ErrorContext.Error.Message);
+
                 args.ErrorContext.Handled = true;
             };
 

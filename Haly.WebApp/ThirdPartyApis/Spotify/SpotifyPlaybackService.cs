@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
+using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Models;
 using Mapster;
 
@@ -10,13 +11,18 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
 {
     private readonly GeneratedSpotifyClient _spotifyClient;
 
-    public SpotifyPlaybackService(HttpClient httpClient, CurrentUserStore currentUserStore)
+    public SpotifyPlaybackService(HttpClient httpClient, CurrentUserStore currentUserStore,
+        ILogger<SpotifyService> logger)
     {
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
 
         _spotifyClient = new GeneratedSpotifyClient(httpClient);
-        _spotifyClient.DisableSerializationErrors();
+
+        void LogSerializationMessage(string type, string details) =>
+            LogMessages.LogSerializationMessage(logger, type, details);
+
+        _spotifyClient.DisableSerializationErrors(LogSerializationMessage);
     }
 
     public async Task<PlaybackState?> GetPlaybackState()

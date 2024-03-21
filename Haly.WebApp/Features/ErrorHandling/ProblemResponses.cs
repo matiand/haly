@@ -119,4 +119,16 @@ public static class ProblemResponses
 
         return new ObjectResult(problem) { StatusCode = 500 };
     }
+
+    public static ActionResult ServiceUnavailable(string title)
+    {
+        var problem = new Problem()
+        {
+            Type = "https://httpstatuses.io/503",
+            Status = 503,
+            Title = title,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 503 };
+    }
 }

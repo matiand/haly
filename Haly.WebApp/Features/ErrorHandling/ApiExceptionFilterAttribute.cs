@@ -4,19 +4,15 @@ using GeneratedClient = Haly.GeneratedClients;
 
 namespace Haly.WebApp.Features.ErrorHandling;
 
-public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+public class ApiExceptionFilter(ILogger<ApiExceptionFilter> logger) : IExceptionFilter
 {
-    public override void OnException(ExceptionContext context)
+    public void OnException(ExceptionContext context)
     {
-        // For validation use fluent validator
-        // todo: Make sure this does not interfere with Polly
-        var ex = context.Exception;
+        var exception = context.Exception;
 
-        Console.WriteLine($"Inside filter, exception happened:\n{ex.Message}");
-        Console.WriteLine(ex);
-        Console.WriteLine(ex.InnerException);
+        LogMessages.LogApiException(logger, exception.Message);
 
-        switch (ex)
+        switch (exception)
         {
             case ValidationException validationException:
                 {
@@ -25,23 +21,23 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
                 }
             case GeneratedClient.ApiException apiException:
                 {
-                    var isDeserializationError = apiException.StatusCode == 200 ||
-                                                 apiException.Message.Contains("Could not deserialize");
+                    var isDeserializationError = apiException.StatusCode is >= 200 and < 300;
                     if (isDeserializationError)
                     {
                         context.Result =
-                            ProblemResponses.InternalServerProblem("Failed to deserialize the response from Spotify API");
+                            ProblemResponses.InternalServerProblem("Failed to deserialize Spotify API response");
                         break;
                     }
 
                     context.Result = apiException.StatusCode switch
                     {
                         400 => ProblemResponses.BadRequest(apiException.Message),
-                        401 => ProblemResponses.Unauthorized("Bad or expired Spotify API token"),
-                        403 => ProblemResponses.Forbidden("Missing scopes for Spotify API token"),
+                        401 => ProblemResponses.Unauthorized("Bad or expired Spotify OAuth token"),
+                        403 => ProblemResponses.Forbidden("Missing scopes for Spotify OAuth token"),
                         404 => ProblemResponses.NotFound("Resource not found"),
                         429 => ProblemResponses.TooManyRequests("You have exceeded Spotify API rate limits"),
-                        _ => ProblemResponses.BadGateway("Spotify API is unavailable"),
+                        503 => ProblemResponses.ServiceUnavailable("Spotify API is unavailable"),
+                        _ => ProblemResponses.BadGateway("Spotify API failure"),
                     };
                     break;
                 }
@@ -52,4 +48,5 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
                 }
         }
     }
+
 }

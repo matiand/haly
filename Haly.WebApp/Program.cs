@@ -3,6 +3,7 @@ using FluentValidation;
 using Haly.WebApp.Data;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
+using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Playlists.TotalDuration;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.Features.Validation;
@@ -31,21 +32,20 @@ builder.Services.AddRefitClient<IGeniusApi>()
         c.BaseAddress = new Uri(options.BaseUri);
     });
 
-builder.Services.AddSingleton<CurrentUserStore>();
-builder.Services.AddSingleton<ValidateAccessTokenFilterService>();
-
 builder.Services.AddTransient<ITotalDurationService, TotalDurationService>();
 builder.Services.AddTransient<IDateOnlyService, DateOnlyService>();
 
+builder.Services.AddSingleton<CurrentUserStore>();
+builder.Services.AddSingleton<ApiExceptionFilter>();
+builder.Services.AddSingleton<ValidateAccessTokenFilterService>();
+
 builder.Services.AddSignalR();
 
-// Configure MediatR
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblyContaining<Program>();
     cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
-// Configure FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddControllers()
@@ -79,6 +79,7 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 }));
 
 builder.AddLibraryContext();
+builder.AddErrorCapturingIfAvailable();
 
 // Configure App
 var app = builder.Build();

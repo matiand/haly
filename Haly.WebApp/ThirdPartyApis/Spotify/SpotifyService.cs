@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using Haly.GeneratedClients;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
+using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Pagination;
 using Haly.WebApp.Features.Playlists.RemoveTracks;
 using Haly.WebApp.Models;
@@ -35,14 +36,21 @@ public sealed class SpotifyService : ISpotifyService
     private const int RemovingTracksLimit = 100;
     private const int SearchResultsLimit = 50;
 
-    public SpotifyService(HttpClient httpClient, CurrentUserStore currentUserStore,
-        ISpotifyEndpointCollector endpointCollector)
+    public SpotifyService(
+        HttpClient httpClient,
+        CurrentUserStore currentUserStore,
+        ISpotifyEndpointCollector endpointCollector,
+        ILogger<SpotifyService> logger)
     {
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
 
         _spotifyClient = new GeneratedSpotifyClient(httpClient);
-        _spotifyClient.DisableSerializationErrors();
+
+        void LogSerializationMessage(string type, string details) =>
+            LogMessages.LogSerializationMessage(logger, type, details);
+
+        _spotifyClient.DisableSerializationErrors(LogSerializationMessage);
 
         _endpointCollector = endpointCollector;
     }
