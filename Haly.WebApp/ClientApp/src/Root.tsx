@@ -16,6 +16,7 @@ import UpperMenu from "./upper-menu/UpperMenu";
 
 function Root() {
     useMessageHub();
+
     const query = useMeQuery();
     useLikedSongsManagement({ enabled: query.isSuccess });
     useNewReleasesJobScheduler({ enabled: query.isSuccess });
