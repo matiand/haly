@@ -18,7 +18,7 @@ type Inputs = {
 };
 
 function SearchBar({ variant, onChange, onSubmit, initialValue }: SearchBarProps) {
-    const { register, watch, handleSubmit } = useForm<Inputs>({ defaultValues: { search: initialValue } });
+    const { register, watch, handleSubmit } = useForm<Inputs>({ defaultValues: { search: initialValue ?? "" } });
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const search = watch("search");

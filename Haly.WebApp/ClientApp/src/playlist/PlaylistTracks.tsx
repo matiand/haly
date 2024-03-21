@@ -37,8 +37,8 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
                     playlistId: playlistId,
                     limit: MaxTrackQueryLimit,
                     offset,
-                    sortOrder: sortOrder!,
-                    searchTerm: searchTerm!,
+                    sortOrder: sortOrder,
+                    searchTerm: searchTerm,
                 })
                 .then((data) => ({
                     ...data.page,
