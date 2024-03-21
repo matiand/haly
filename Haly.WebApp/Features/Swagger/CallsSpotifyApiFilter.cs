@@ -1,7 +1,7 @@
+using DotSwashbuckle.AspNetCore.SwaggerGen;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Haly.WebApp.Features.Swagger;
 

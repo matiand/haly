@@ -1,3 +1,4 @@
+using DotSwashbuckle.AspNetCore.Annotations;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Jobs.CollectNewReleases;
@@ -5,7 +6,6 @@ using Haly.WebApp.Features.Jobs.GetNewReleasesJob;
 using Haly.WebApp.Features.Jobs.RefetchPlaylistTracks;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 

@@ -10,8 +10,8 @@
             "version": "8.0.2",
             "commands": ["dotnet-ef"]
         },
-        "swashbuckle.aspnetcore.cli": {
-            "version": "6.5.0",
+        "dotswashbuckle.aspnetcore.cli": {
+            "version": "3.0.8",
             "commands": ["swagger"]
         }
     }

@@ -1,7 +1,7 @@
+using DotSwashbuckle.AspNetCore.Annotations;
 using Haly.WebApp.Models;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 

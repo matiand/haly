@@ -1,3 +1,4 @@
+using DotSwashbuckle.AspNetCore.Annotations;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Playlists;
@@ -9,7 +10,6 @@ using Haly.WebApp.Features.Playlists.UpdatePlaylist;
 using Haly.WebApp.Features.Playlists.UpdatePlaylistDetails;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 

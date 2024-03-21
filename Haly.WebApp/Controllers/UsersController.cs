@@ -1,9 +1,9 @@
+using DotSwashbuckle.AspNetCore.Annotations;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Users.GetUser;
 using Haly.WebApp.Features.Users.GetUserPlaylists;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 

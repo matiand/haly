@@ -1,10 +1,10 @@
+using DotSwashbuckle.AspNetCore.Annotations;
 using Haly.WebApp.Features.Albums.GetAlbum;
 using Haly.WebApp.Features.Albums.GetRecommendations;
 using Haly.WebApp.Features.Artists;
 using Haly.WebApp.Features.CurrentUser.TokenManagement;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 

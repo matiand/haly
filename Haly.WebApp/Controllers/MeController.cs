@@ -1,3 +1,4 @@
+using DotSwashbuckle.AspNetCore.Annotations;
 using Haly.WebApp.Features.Artists;
 using Haly.WebApp.Features.CurrentUser;
 using Haly.WebApp.Features.CurrentUser.GetFeed;
@@ -14,7 +15,6 @@ using Haly.WebApp.Features.Playlists.CreatePlaylist;
 using Haly.WebApp.Features.Swagger;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 

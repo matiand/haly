@@ -1,8 +1,8 @@
+using DotSwashbuckle.AspNetCore.Annotations;
 using Haly.WebApp.Features.ErrorHandling;
 using Haly.WebApp.Features.Lyrics.FindLyrics;
 using Haly.WebApp.Features.Lyrics.UpdateGeniusLyrics;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Haly.WebApp.Controllers;
 
