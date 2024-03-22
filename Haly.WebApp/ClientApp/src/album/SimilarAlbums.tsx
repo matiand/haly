@@ -10,15 +10,15 @@ type SimilarAlbumsProps = {
 };
 
 function SimilarAlbums({ albumId, trackIds }: SimilarAlbumsProps) {
-    const query = useQuery(
-        ["recommendations", albumId],
-        () =>
+    const query = useQuery({
+        queryKey: ["recommendations", albumId],
+        queryFn: () =>
             halyClient.albums.getAlbumRecomendations({
                 id: albumId,
                 trackIds: trackIds.slice(0, 5).join(","),
             }),
-        { staleTime: Infinity },
-    );
+        staleTime: Infinity,
+    });
 
     if (!query.data) return null;
 

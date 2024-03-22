@@ -10,7 +10,8 @@ function useRegisterDeviceMutation() {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [player, setPlayer] = useAtom(playerSdkAtom);
 
-    const registerDevice = useMutation(() => registerDeviceForPlayback(setDeviceId, setErrorMessage), {
+    const registerDevice = useMutation({
+        mutationFn: () => registerDeviceForPlayback(setDeviceId, setErrorMessage),
         onSuccess: (player) => {
             setPlayer(player);
         },

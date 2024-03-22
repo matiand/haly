@@ -24,8 +24,8 @@ function StreamedTrackRegion({ streamedTrack }: StreamedTrackRegionProps) {
     };
 
     const contextId = streamedTrack.context?.id ?? "";
-    const query = useQuery(
-        [
+    const query = useQuery({
+        queryKey: [
             "search",
             "playback",
             {
@@ -33,16 +33,15 @@ function StreamedTrackRegion({ streamedTrack }: StreamedTrackRegionProps) {
                 playbackId: streamedTrack.playbackId,
             },
         ],
-        () =>
+        queryFn: () =>
             halyClient.search.searchCacheUsingPlaybackData({
                 playlistId: contextId,
                 trackPlaybackId: streamedTrack.playbackId,
             }),
-        {
-            enabled: Boolean(contextId),
-            retry: false,
-        },
-    );
+        enabled: Boolean(contextId),
+        retry: false,
+    });
+
     const foundId = query.data?.track?.id;
 
     return (

@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <AuthProvider {...OAuthConfig}>
             <QueryClientProvider client={queryClient}>
-                <ReactQueryDevtools position="top-right" toggleButtonProps={{ className: "rq-toggle" }} />
+                <ReactQueryDevtools position="top" buttonPosition="top-left" />
                 <Authentication>
                     <RouterProvider router={router} />
                 </Authentication>

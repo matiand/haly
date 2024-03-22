@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { LuMusic3 } from "react-icons/lu";
@@ -155,15 +155,15 @@ function Playlist({ id, uri, sortOrder, isInLibrary, isLikedSongsCollection }: P
 }
 
 function usePlaylistQuery(playlistId: string, sortOrder: PlaylistSortOrder) {
-    return useQuery(
-        GetPlaylistQueryKey(playlistId, sortOrder),
-        () =>
+    return useQuery({
+        queryKey: GetPlaylistQueryKey(playlistId, sortOrder),
+        queryFn: () =>
             halyClient.playlists.getPlaylist({
                 id: playlistId,
                 sortOrder: sortOrder,
             }),
-        { keepPreviousData: true },
-    );
+        placeholderData: keepPreviousData,
+    });
 }
 
 export default Playlist;

@@ -29,8 +29,8 @@ function EditPlaylistDetailsModal({ id, name, description }: EditPlaylistDetails
     const setModal = useSetAtom(modalAtom);
 
     const queryClient = useQueryClient();
-    const updatePlaylistDetails = useMutation(
-        (body: UpdatePlaylistDetailsRequestBody) =>
+    const updatePlaylistDetails = useMutation({
+        mutationFn: (body: UpdatePlaylistDetailsRequestBody) =>
             halyClient.playlists.updatePlaylistDetails({
                 playlistId: id,
                 updatePlaylistDetailsRequest: {
@@ -38,13 +38,11 @@ function EditPlaylistDetailsModal({ id, name, description }: EditPlaylistDetails
                     description: body.description,
                 },
             }),
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries(GetPlaylistQueryKey(id));
-                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
-            },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: GetPlaylistQueryKey(id) });
+            queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
         },
-    );
+    });
 
     const errorMessage = errors.name?.message || errors.description?.message;
 

@@ -14,7 +14,9 @@ function PlaylistWrapper() {
     const { id } = useParams();
     const { sortOrder } = usePlaylistSortOrder(id!, false);
     const isInLibrary = useIsPlaylistInLibrary(id!);
-    const syncPlaylist = useMutation(["syncPlaylist", id!], () => halyClient.playlists.putPlaylist({ id: id! }), {
+    const syncPlaylist = useMutation({
+        mutationKey: ["syncPlaylist", id!],
+        mutationFn: () => halyClient.playlists.putPlaylist({ id: id! }),
         retry: 1,
         retryDelay: 1000,
     });

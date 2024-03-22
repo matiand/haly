@@ -12,7 +12,10 @@ function AllProfilePlaylistCards() {
     const { id } = useParams();
 
     const lastVisitedProfileName = useAtomValue(lastVisitedProfileNameAtom);
-    const query = useQuery(["user", id!, "playlists"], () => halyClient.users.getPlaylists({ userId: id! }));
+    const query = useQuery({
+        queryKey: ["user", id!, "playlists"],
+        queryFn: () => halyClient.users.getPlaylists({ userId: id! }),
+    });
 
     const documentTitle = lastVisitedProfileName ? `${lastVisitedProfileName} - Playlists` : "User Playlists";
     useDocumentTitle(documentTitle);

@@ -10,7 +10,10 @@ function useCreatePlaylistMutation(onSuccess?: () => void) {
     const userId = useAtomValue(userIdAtom);
     const playlists = useAtomValue(cachedPlaylistsAtom);
 
-    const mutation = useMutation((name: string) => halyClient.me.createPlaylist({ name }), { onSuccess });
+    const mutation = useMutation({
+        mutationFn: (name: string) => halyClient.me.createPlaylist({ name }),
+        onSuccess,
+    });
     const suggestedName = preparePlaylistName(playlists.filter((p) => p.ownerId === userId).length);
 
     return useCallback((name?: string) => mutation.mutateAsync(name ?? suggestedName), [mutation, suggestedName]);

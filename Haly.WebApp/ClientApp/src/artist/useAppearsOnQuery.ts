@@ -10,9 +10,10 @@ import { Option } from "../ui/RadioGroup";
 export type AppearsOnFilter = "album" | "single" | "compilation";
 
 function useAppearsOnQuery(artistId: string, initialFilter: AppearsOnFilter = "album") {
-    const query = useQuery(["artist", artistId, "appearances"], () =>
-        halyClient.artists.getArtistAppearances({ id: artistId! }),
-    );
+    const query = useQuery({
+        queryKey: ["artist", artistId, "appearances"],
+        queryFn: () => halyClient.artists.getArtistAppearances({ id: artistId! }),
+    });
     const { filter, options } = useAppearsOnFilter(initialFilter, query.data);
 
     let items: ReleaseItemDto[];

@@ -11,15 +11,17 @@ function useMyPlaylistsQuery() {
 
     // This is actually a PUT request, but we treat it as a query, because it's idempotent and this
     // way it's easier for us to have the playlists up to date.
-    const query = useQuery(GetMyPlaylistsQueryKey, () =>
-        halyApi.me.putMyPlaylists().then((playlists) => {
-            /* refetchOnWindowFocus is set to true, i.e. this query will run often, so we don't
-             * care if this job fails sometimes. */
-            halyApi.jobs.refetchCurrentUserPlaylistTracks().catch(/* ignore */);
+    const query = useQuery({
+        queryKey: GetMyPlaylistsQueryKey,
+        queryFn: () =>
+            halyApi.me.putMyPlaylists().then((playlists) => {
+                /* refetchOnWindowFocus is set to true, i.e. this query will run often, so we don't
+                 * care if this job fails sometimes. */
+                halyApi.jobs.refetchCurrentUserPlaylistTracks().catch(/* ignore */);
 
-            return playlists;
-        }),
-    );
+                return playlists;
+            }),
+    });
 
     useEffect(() => {
         if (query.data) {

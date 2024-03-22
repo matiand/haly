@@ -23,7 +23,10 @@ function Artist() {
     const { id } = useParams();
     const uri = `spotify:artist:${id}`;
 
-    const query = useQuery(["artist", id], () => halyClient.artists.getArtist({ id: id! }));
+    const query = useQuery({
+        queryKey: ["artist", id],
+        queryFn: () => halyClient.artists.getArtist({ id: id! }),
+    });
 
     const setPageContext = useSetAtom(pageContextAtom);
     const setArtistName = useSetAtom(lastVisitedArtistNameAtom);
@@ -31,7 +34,10 @@ function Artist() {
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(uri);
-    const { togglePlayback } = useContextPlayback({ contextUri: uri, playbackState });
+    const { togglePlayback } = useContextPlayback({
+        contextUri: uri,
+        playbackState,
+    });
 
     useEffect(() => {
         if (query.data) {

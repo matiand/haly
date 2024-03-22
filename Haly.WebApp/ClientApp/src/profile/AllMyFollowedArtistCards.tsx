@@ -8,7 +8,10 @@ import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 function AllMyFollowedArtistCards() {
     useDocumentTitle("Me - Following");
 
-    const query = useQuery(["me", "following"], () => halyClient.me.getMyFollowedArtists());
+    const query = useQuery({
+        queryKey: ["me", "following"],
+        queryFn: () => halyClient.me.getMyFollowedArtists(),
+    });
 
     if (!query.data) return null;
 

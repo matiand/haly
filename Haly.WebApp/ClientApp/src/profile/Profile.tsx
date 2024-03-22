@@ -25,8 +25,14 @@ function Profile() {
     const setLastVisitedProfileName = useSetAtom(lastVisitedProfileNameAtom);
     const dominantColor = useAtomValue(pageDominantColorAtom);
 
-    const profileQuery = useQuery(["users", id], () => halyClient.users.getUser({ id: id! }));
-    const playlistsQuery = useQuery(["users", id, "playlists"], () => halyClient.users.getPlaylists({ userId: id! }));
+    const profileQuery = useQuery({
+        queryKey: ["users", id],
+        queryFn: () => halyClient.users.getUser({ id: id! }),
+    });
+    const playlistsQuery = useQuery({
+        queryKey: ["users", id, "playlists"],
+        queryFn: () => halyClient.users.getPlaylists({ userId: id! }),
+    });
 
     useEffect(() => {
         if (profileQuery.data) {

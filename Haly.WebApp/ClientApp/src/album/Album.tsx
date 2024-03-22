@@ -25,7 +25,10 @@ function Album() {
     const { id } = useParams();
     const uri = `spotify:album:${id}`;
 
-    const query = useQuery(["albums", id], () => halyClient.albums.getAlbum({ id: id! }));
+    const query = useQuery({
+        queryKey: ["albums", id],
+        queryFn: () => halyClient.albums.getAlbum({ id: id! }),
+    });
 
     const setPageContext = useSetAtom(pageContextAtom);
     const dominantColor = useAtomValue(pageDominantColorAtom);
@@ -34,7 +37,10 @@ function Album() {
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(uri);
-    const { togglePlayback } = useContextPlayback({ contextUri: uri, playbackState });
+    const { togglePlayback } = useContextPlayback({
+        contextUri: uri,
+        playbackState,
+    });
 
     useEffect(() => {
         if (query.data) {

@@ -14,7 +14,11 @@ import Greeting from "./Greeting";
 function Home() {
     useDocumentTitle("Home");
 
-    const query = useQuery(["me", "feed"], () => halyClient.me.getMyFeed(), { staleTime: 1000 * 60 * 30 });
+    const query = useQuery({
+        queryKey: ["me", "feed"],
+        queryFn: () => halyClient.me.getMyFeed(),
+        staleTime: 1000 * 60 * 30,
+    });
     const userName = useAtomValue(userNameAtom);
     const setPageContext = useSetAtom(pageContextAtom);
 

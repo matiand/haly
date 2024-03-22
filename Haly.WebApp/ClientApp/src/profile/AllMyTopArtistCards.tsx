@@ -9,7 +9,10 @@ import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 function AllMyTopArtistCards() {
     useDocumentTitle("Me - Top Artists");
 
-    const query = useQuery(["me", "topArtists"], () => halyClient.me.getMyTopArtists());
+    const query = useQuery({
+        queryKey: ["me", "topArtists"],
+        queryFn: () => halyClient.me.getMyTopArtists(),
+    });
 
     if (!query.data) return null;
 

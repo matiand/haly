@@ -10,14 +10,12 @@ type AddToQueueMenuItemProps = {
 };
 
 function AddToQueueMenuItem({ collectionUri, trackUris }: AddToQueueMenuItemProps) {
-    const addToQueue = useMutation(
-        (params: AddToQueueMenuItemProps) => halyClient.player.addToQueue({ addToQueueRequest: params }),
-        {
-            onSuccess: () => {
-                toast("Added to queue.");
-            },
+    const addToQueue = useMutation({
+        mutationFn: (params: AddToQueueMenuItemProps) => halyClient.player.addToQueue({ addToQueueRequest: params }),
+        onSuccess: () => {
+            toast("Added to queue.");
         },
-    );
+    });
 
     const onClick = () =>
         addToQueue.mutate({

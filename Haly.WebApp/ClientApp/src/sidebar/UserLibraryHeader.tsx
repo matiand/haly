@@ -14,7 +14,7 @@ function UserLibraryHeader() {
 
     const queryClient = useQueryClient();
     const createPlaylist = useCreatePlaylistMutation(() => {
-        queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+        queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
         // We show a toast instead of navigating to the new playlist.
         toast("Created new playlist");
     });

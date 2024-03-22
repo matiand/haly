@@ -15,23 +15,21 @@ function useLikedSongsManagement({ enabled }: { enabled: boolean }) {
     const setLikedSongIdByPlaybackId = useSetAtom(likedSongIdByPlaybackIdAtom);
     const queryClient = useQueryClient();
 
-    const syncLikedSongs = useMutation(
-        async () => {
+    const syncLikedSongs = useMutation({
+        mutationFn: async () => {
             await halyClient.me.putMyLikedSongs();
             return halyClient.me.getMyLikedSongs();
         },
-        {
-            onSuccess: (response) => {
-                const data = response.likedSongIdByPlaybackId;
-                setLikedSongIdByPlaybackId(data);
+        onSuccess: (response) => {
+            const data = response.likedSongIdByPlaybackId;
+            setLikedSongIdByPlaybackId(data);
 
-                queryClient.invalidateQueries(GetPlaylistQueryKey(response.collectionId));
-            },
+            queryClient.invalidateQueries({ queryKey: GetPlaylistQueryKey(response.collectionId) });
         },
-    );
+    });
 
     useEffect(() => {
-        if (enabled && isLikedSongsCollectionChanged && !syncLikedSongs.isLoading) {
+        if (enabled && isLikedSongsCollectionChanged && !syncLikedSongs.isPending) {
             setIsLikedSongsCollectionChanged(false);
             syncLikedSongs.mutate();
         }

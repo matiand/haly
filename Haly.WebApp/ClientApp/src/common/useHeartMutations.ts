@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 import halyClient from "../halyClient";
 import { isLikedSongsCollectionChangedAtom, likedSongIdByPlaybackIdAtom } from "./atoms/trackAtoms";
-import { GetMyPlaylistsQueryKey, IsCurrentUserFollowingAlbum } from "./queryKeys";
+import { GetMyPlaylistsQueryKey, IsCurrentUserFollowingAlbumQueryKey } from "./queryKeys";
 
 export type HeartMutationParams =
     | {
@@ -32,8 +32,8 @@ function useHeartMutations() {
     const setLikedSongIdByPlaybackId = useSetAtom(likedSongIdByPlaybackIdAtom);
     const setIsLikedSongsCollectionChanged = useSetAtom(isLikedSongsCollectionChangedAtom);
 
-    const follow = useMutation<HeartMutationParams, unknown, HeartMutationParams>(
-        async (params) => {
+    const follow = useMutation<HeartMutationParams, unknown, HeartMutationParams>({
+        mutationFn: async (params) => {
             if (params.type === "playlist") {
                 await halyClient.meFollowing.followPlaylist({ id: params.id });
                 return params;
@@ -45,33 +45,31 @@ function useHeartMutations() {
                 return params;
             }
         },
-        {
-            onSuccess: (params) => {
-                if (params.type === "playlist") {
-                    queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
-                    toast("Added to Your Library.");
-                } else if (params.type === "album") {
-                    queryClient.invalidateQueries(IsCurrentUserFollowingAlbum(params.id));
-                    toast("Added to Your Library.");
-                } else {
-                    const next = params.ids.reduce(
-                        (acc, item) => ({
-                            ...acc,
-                            [item.playbackId]: item.likedId,
-                        }),
-                        {},
-                    );
-                    setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
-                    setIsLikedSongsCollectionChanged(true);
+        onSuccess: (params) => {
+            if (params.type === "playlist") {
+                queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
+                toast("Added to Your Library.");
+            } else if (params.type === "album") {
+                queryClient.invalidateQueries({ queryKey: IsCurrentUserFollowingAlbumQueryKey(params.id) });
+                toast("Added to Your Library.");
+            } else {
+                const next = params.ids.reduce(
+                    (acc, item) => ({
+                        ...acc,
+                        [item.playbackId]: item.likedId,
+                    }),
+                    {},
+                );
+                setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
+                setIsLikedSongsCollectionChanged(true);
 
-                    toast("Added to Liked Songs.");
-                }
-            },
+                toast("Added to Liked Songs.");
+            }
         },
-    );
+    });
 
-    const unfollow = useMutation<HeartMutationParams, unknown, HeartMutationParams>(
-        async function (params) {
+    const unfollow = useMutation<HeartMutationParams, unknown, HeartMutationParams>({
+        mutationFn: async function (params) {
             if (params.type === "playlist") {
                 await halyClient.meFollowing.unfollowPlaylist({ id: params.id });
                 return params;
@@ -83,30 +81,28 @@ function useHeartMutations() {
                 return params;
             }
         },
-        {
-            onSuccess: (params) => {
-                if (params.type === "playlist") {
-                    queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
-                    toast("Removed from Your Library.");
-                } else if (params.type === "album") {
-                    queryClient.invalidateQueries(IsCurrentUserFollowingAlbum(params.id));
-                    toast("Removed from Your Library.");
-                } else {
-                    const next = params.ids.reduce(
-                        (acc, item) => ({
-                            ...acc,
-                            [item.playbackId]: null,
-                        }),
-                        {},
-                    );
-                    setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
-                    setIsLikedSongsCollectionChanged(true);
+        onSuccess: (params) => {
+            if (params.type === "playlist") {
+                queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
+                toast("Removed from Your Library.");
+            } else if (params.type === "album") {
+                queryClient.invalidateQueries({ queryKey: IsCurrentUserFollowingAlbumQueryKey(params.id) });
+                toast("Removed from Your Library.");
+            } else {
+                const next = params.ids.reduce(
+                    (acc, item) => ({
+                        ...acc,
+                        [item.playbackId]: null,
+                    }),
+                    {},
+                );
+                setLikedSongIdByPlaybackId((prev) => ({ ...prev, ...next }));
+                setIsLikedSongsCollectionChanged(true);
 
-                    toast("Removed from Liked Songs.");
-                }
-            },
+                toast("Removed from Liked Songs.");
+            }
         },
-    );
+    });
 
     return {
         follow,

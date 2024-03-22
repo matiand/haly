@@ -15,8 +15,8 @@ export type MoveToPlaylistMenuItemParams = {
 function useMoveToPlaylistMutation() {
     const queryClient = useQueryClient();
 
-    return useMutation(
-        async (params: MoveToPlaylistMenuItemParams) => {
+    return useMutation({
+        mutationFn: async (params: MoveToPlaylistMenuItemParams) => {
             const removeTask = halyClient.playlists.removeTracks({
                 playlistId: params.fromPlaylistId,
                 removeTracksRequest: {
@@ -35,19 +35,17 @@ function useMoveToPlaylistMutation() {
 
             return addResponse;
         },
-        {
-            onSuccess: (response) => {
-                // By invalidating this query, our backend will look for any changes in our playlists.
-                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+        onSuccess: (response) => {
+            // By invalidating this query, our backend will look for any changes in our playlists.
+            queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
 
-                toast(
-                    <ToastWithImage imageUrl={response.thumbnailUrl}>
-                        Moved to <b>{response.name}</b>
-                    </ToastWithImage>,
-                );
-            },
+            toast(
+                <ToastWithImage imageUrl={response.thumbnailUrl}>
+                    Moved to <b>{response.name}</b>
+                </ToastWithImage>,
+            );
         },
-    );
+    });
 }
 
 export default useMoveToPlaylistMutation;

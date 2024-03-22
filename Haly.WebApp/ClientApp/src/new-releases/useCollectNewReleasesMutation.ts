@@ -6,9 +6,10 @@ import halyClient from "../halyClient";
 function useCollectNewReleasesMutation() {
     const queryClient = useQueryClient();
 
-    return useMutation(() => halyClient.jobs.collectNewReleases(), {
+    return useMutation({
+        mutationFn: () => halyClient.jobs.collectNewReleases(),
         onSuccess: () => {
-            queryClient.invalidateQueries(GetLatestNewReleasesJobQueryKey);
+            queryClient.invalidateQueries({ queryKey: GetLatestNewReleasesJobQueryKey });
         },
     });
 }

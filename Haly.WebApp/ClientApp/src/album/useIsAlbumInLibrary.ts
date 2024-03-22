@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { IsCurrentUserFollowingAlbum } from "../common/queryKeys";
+import { IsCurrentUserFollowingAlbumQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 
 function useIsAlbumInLibrary(albumId: string) {
-    const query = useQuery(IsCurrentUserFollowingAlbum(albumId), () =>
-        halyClient.meFollowing.checkIfCurrentUserFollowsAnAlbum({ albumId }),
-    );
+    const query = useQuery({
+        queryKey: IsCurrentUserFollowingAlbumQueryKey(albumId),
+        queryFn: () => halyClient.meFollowing.checkIfCurrentUserFollowsAnAlbum({ albumId }),
+    });
 
     // The halyClient runtime returns a string, not a boolean.
     const isOn = (query.data as unknown as string) === "true";

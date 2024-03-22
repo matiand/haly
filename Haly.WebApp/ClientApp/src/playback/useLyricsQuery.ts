@@ -15,19 +15,17 @@ function useLyricsQuery(track: StreamedTrackDto) {
 
     const { playbackId, name, artists } = track;
 
-    return useQuery(
-        ["lyrics", playbackId],
-        () =>
+    return useQuery({
+        queryKey: ["lyrics", playbackId],
+        queryFn: () =>
             lyricsFlow(playbackId, {
                 trackName: name,
                 artistName: artists[0].name,
                 geniusToken,
             }),
-        {
-            enabled: withGeniusIntegration && Boolean(geniusToken),
-            retry: false,
-        },
-    );
+        enabled: withGeniusIntegration && Boolean(geniusToken),
+        retry: false,
+    });
 }
 
 async function lyricsFlow(id: string, putLyricsRequest: PutLyricsRequest) {

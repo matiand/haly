@@ -16,8 +16,8 @@ function ForcePlaylistSyncMenuItem({ id, isLikedSongsCollection = false }: Force
     const setIsLikedSongsCollectionChanged = useSetAtom(isLikedSongsCollectionChangedAtom);
     const queryClient = useQueryClient();
 
-    const forcePlaylistSync = useMutation(
-        async (isLikedSongs: boolean) => {
+    const forcePlaylistSync = useMutation({
+        mutationFn: async (isLikedSongs: boolean) => {
             if (isLikedSongs) {
                 setIsLikedSongsCollectionChanged(true);
             } else {
@@ -29,17 +29,15 @@ function ForcePlaylistSyncMenuItem({ id, isLikedSongsCollection = false }: Force
 
             return isLikedSongs;
         },
-        {
-            onSuccess: (isLikedSongs) => {
-                // Liked songs are managed by useLikedSongsManagement hook.
-                if (!isLikedSongs) {
-                    queryClient.invalidateQueries(GetPlaylistQueryKey(id));
-                }
+        onSuccess: (isLikedSongs) => {
+            // Liked songs are managed by useLikedSongsManagement hook.
+            if (!isLikedSongs) {
+                queryClient.invalidateQueries({ queryKey: GetPlaylistQueryKey(id) });
+            }
 
-                toast("Playlist synced.");
-            },
+            toast("Playlist synced.");
         },
-    );
+    });
 
     return <MenuItem onClick={() => forcePlaylistSync.mutate(isLikedSongsCollection)}>Force playlist sync</MenuItem>;
 }

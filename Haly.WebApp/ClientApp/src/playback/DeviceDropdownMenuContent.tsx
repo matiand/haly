@@ -8,7 +8,9 @@ import * as DropdownMenu from "../menus/DropdownMenu";
 import ActiveDevice from "./ActiveDevice";
 
 function DeviceDropdownMenuContent() {
-    const query = useQuery(["me", "player", "devices"], () => halyClient.player.getAvailableDevices(), {
+    const query = useQuery({
+        queryKey: ["me", "player", "devices"],
+        queryFn: () => halyClient.player.getAvailableDevices(),
         refetchOnWindowFocus: "always",
     });
 

@@ -14,8 +14,8 @@ export type RemoveFromPlaylistMutationParams = {
 function useRemoveFromPlaylistMutation() {
     const queryClient = useQueryClient();
 
-    return useMutation(
-        async (params: RemoveFromPlaylistMutationParams) => {
+    return useMutation({
+        mutationFn: async (params: RemoveFromPlaylistMutationParams) => {
             return await halyClient.playlists.removeTracks({
                 playlistId: params.playlistId,
                 removeTracksRequest: {
@@ -23,19 +23,17 @@ function useRemoveFromPlaylistMutation() {
                 },
             });
         },
-        {
-            onSuccess: ({ name, thumbnailUrl }) => {
-                // By invalidating this query, our backend will look for any changes in our playlists.
-                queryClient.invalidateQueries(GetMyPlaylistsQueryKey);
+        onSuccess: ({ name, thumbnailUrl }) => {
+            // By invalidating this query, our backend will look for any changes in our playlists.
+            queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
 
-                toast(
-                    <ToastWithImage imageUrl={thumbnailUrl}>
-                        Removed from <b>{name}</b>
-                    </ToastWithImage>,
-                );
-            },
+            toast(
+                <ToastWithImage imageUrl={thumbnailUrl}>
+                    Removed from <b>{name}</b>
+                </ToastWithImage>,
+            );
         },
-    );
+    });
 }
 
 export default useRemoveFromPlaylistMutation;

@@ -4,7 +4,10 @@ import { GetQueueQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 
 function useQueueQuery() {
-    return useQuery(GetQueueQueryKey, () => halyClient.player.getQueue());
+    return useQuery({
+        queryKey: GetQueueQueryKey,
+        queryFn: () => halyClient.player.getQueue(),
+    });
 }
 
 export default useQueueQuery;

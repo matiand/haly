@@ -16,8 +16,8 @@ type SearchResultsProps = {
 };
 
 function SearchResults({ q, option }: SearchResultsProps) {
-    const { data } = useQuery(
-        [
+    const { data } = useQuery({
+        queryKey: [
             "search",
             "spotify",
             {
@@ -25,15 +25,13 @@ function SearchResults({ q, option }: SearchResultsProps) {
                 option,
             },
         ],
-        () =>
+        queryFn: () =>
             halyClient.search.searchSpotify({
                 query: q,
                 queryType: optionToQueryType(option),
             }),
-        {
-            enabled: Boolean(q),
-        },
-    );
+        enabled: Boolean(q),
+    });
 
     if (!q) return <EmptyState title="Start typing to see results" />;
 

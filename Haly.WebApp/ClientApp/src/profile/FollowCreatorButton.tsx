@@ -16,22 +16,22 @@ type FollowButtonProps = {
 function FollowCreatorButton({ creatorId, initialValue, type }: FollowButtonProps) {
     const [isFollowing, setIsFollowing] = useState(initialValue);
 
-    const follow = useMutation(
-        (creatorId: string) =>
+    const follow = useMutation({
+        mutationFn: (creatorId: string) =>
             halyClient.meFollowing.followCreator({
                 id: creatorId,
                 type,
             }),
-        { onSuccess: () => toast("Added to Your Library.") },
-    );
-    const unfollow = useMutation(
-        (creatorId: string) =>
+        onSuccess: () => toast("Added to Your Library."),
+    });
+    const unfollow = useMutation({
+        mutationFn: (creatorId: string) =>
             halyClient.meFollowing.followCreator({
                 id: creatorId,
                 type,
             }),
-        { onSuccess: () => toast("Removed from Your Library.") },
-    );
+        onSuccess: () => toast("Removed from Your Library."),
+    });
 
     const onClick = () => {
         if (isFollowing) {

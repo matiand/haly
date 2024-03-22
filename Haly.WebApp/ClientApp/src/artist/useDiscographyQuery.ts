@@ -11,9 +11,10 @@ import { Option } from "../ui/RadioGroup";
 export type DiscographyFilter = "all" | "album" | "single" | "compilation";
 
 function useDiscographyQuery(artistId: string, initialFilter: DiscographyFilter = "all") {
-    const query = useQuery(GetArtistDiscographyQueryKey(artistId), () =>
-        halyClient.artists.getArtistDiscography({ id: artistId! }),
-    );
+    const query = useQuery({
+        queryKey: GetArtistDiscographyQueryKey(artistId),
+        queryFn: () => halyClient.artists.getArtistDiscography({ id: artistId! }),
+    });
     const { filter, options } = useDiscographyFilter(initialFilter, query.data);
 
     let items: ReleaseItemDto[];

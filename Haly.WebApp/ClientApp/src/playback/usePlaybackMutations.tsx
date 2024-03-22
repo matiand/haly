@@ -92,12 +92,13 @@ export function useSingleTrackPlayback({ track, trackPlaybackState }: UseSingleT
 function useBaseMutations({ playbackState, contextUri, trackUri }: UseBaseMutationsParams) {
     const withImprovedShuffle = useAtomValue(persistedWithImprovedShuffleAtom);
 
-    const togglePlaybackMutation = useMutation(async ({ playbackState }: TogglePlaybackParams) =>
-        playbackState === "playing" ? await halyClient.player.pause() : await halyClient.player.play(),
-    );
+    const togglePlaybackMutation = useMutation({
+        mutationFn: async ({ playbackState }: TogglePlaybackParams) =>
+            playbackState === "playing" ? await halyClient.player.pause() : await halyClient.player.play(),
+    });
 
-    const updatePlaybackMutation = useMutation(
-        async ({ contextUri, trackUri, withImprovedShuffle }: UpdatePlaybackParams) => {
+    const updatePlaybackMutation = useMutation({
+        mutationFn: async ({ contextUri, trackUri, withImprovedShuffle }: UpdatePlaybackParams) => {
             try {
                 await halyClient.player.putPlayback({
                     putPlaybackRequest: {
@@ -116,7 +117,7 @@ function useBaseMutations({ playbackState, contextUri, trackUri }: UseBaseMutati
                 throw e;
             }
         },
-    );
+    });
 
     return {
         togglePlayback: useCallback(

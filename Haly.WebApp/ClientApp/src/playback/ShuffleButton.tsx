@@ -13,8 +13,10 @@ function ShuffleButton() {
     const playbackUri = useAtomValue(playbackUriAtom);
 
     const queryClient = useQueryClient();
-    const shuffle = useMutation(["me", "player", "shuffle"], (state: boolean) => halyClient.player.shuffle({ state }), {
-        onSuccess: () => queryClient.invalidateQueries(GetQueueQueryKey),
+    const shuffle = useMutation({
+        mutationKey: ["me", "player", "shuffle"],
+        mutationFn: (state: boolean) => halyClient.player.shuffle({ state }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: GetQueueQueryKey }),
     });
 
     useEffect(() => {

@@ -20,25 +20,25 @@ function usePlaybackTransferFlow(deviceId: string) {
     const [transferState, setTransferState] = useState<PlaybackTransferState>("initial");
     const [volume, setVolume] = useState(0.5);
 
-    const query = useQuery(["me", "player"], () => getPlaybackState(), {
+    const query = useQuery({
+        queryKey: ["me", "player"],
+        queryFn: () => getPlaybackState(),
         refetchOnWindowFocus: "always",
         enabled: transferState === "initial" || transferState === "query-failure" || transferState === "available",
     });
 
-    const transferPlayback = useMutation(
-        (ourDeviceId: string) => {
+    const transferPlayback = useMutation({
+        mutationFn: (ourDeviceId: string) => {
             setTransferState("connecting");
             return halyClient.player.transferPlayback({ deviceId: ourDeviceId });
         },
-        {
-            onSuccess: () => {
-                setTransferState("accepted");
-            },
-            onError: () => {
-                setTransferState("transfer-failure");
-            },
+        onSuccess: () => {
+            setTransferState("accepted");
         },
-    );
+        onError: () => {
+            setTransferState("transfer-failure");
+        },
+    });
 
     console.log("transfer: (query success)", transferState, query.isSuccess);
 

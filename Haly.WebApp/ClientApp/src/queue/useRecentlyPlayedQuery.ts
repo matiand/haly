@@ -4,7 +4,10 @@ import { GetRecentlyPlayedQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 
 function useRecentlyPlayedQuery() {
-    return useQuery(GetRecentlyPlayedQueryKey, () => halyClient.player.getRecentlyPlayed());
+    return useQuery({
+        queryKey: GetRecentlyPlayedQueryKey,
+        queryFn: () => halyClient.player.getRecentlyPlayed(),
+    });
 }
 
 export default useRecentlyPlayedQuery;

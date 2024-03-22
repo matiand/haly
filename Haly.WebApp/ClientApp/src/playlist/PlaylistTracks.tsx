@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
@@ -29,9 +29,10 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
     const setSliceDuration = useSetAtom(playlistSliceDurationAtom);
     const setSliceSongsTotal = useSetAtom(playlistSliceSongsTotalAtom);
 
-    const tracksQuery = useInfiniteQuery(
-        GetPlaylistTracksQueryKey(playlistId, sortOrder, searchTerm),
-        async ({ pageParam: offset }) => {
+    const tracksQuery = useInfiniteQuery({
+        queryKey: GetPlaylistTracksQueryKey(playlistId, sortOrder, searchTerm),
+        initialPageParam: 0,
+        queryFn: async ({ pageParam: offset }) => {
             return halyClient.playlists
                 .getTracks({
                     playlistId: playlistId,
@@ -45,18 +46,16 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
                     totalDuration: data.totalDuration,
                 }));
         },
-        {
-            keepPreviousData: true,
-            getPreviousPageParam: (firstPage) => {
-                const nextOffset = firstPage.offset - firstPage.limit;
-                return nextOffset > MinTrackQueryOffset ? nextOffset : undefined;
-            },
-            getNextPageParam: (lastPage) => {
-                const nextOffset = lastPage.offset + lastPage.limit;
-                return lastPage.total > nextOffset ? nextOffset : undefined;
-            },
+        placeholderData: keepPreviousData,
+        getPreviousPageParam: (firstPage) => {
+            const nextOffset = firstPage.offset - firstPage.limit;
+            return nextOffset > MinTrackQueryOffset ? nextOffset : undefined;
         },
-    );
+        getNextPageParam: (lastPage) => {
+            const nextOffset = lastPage.offset + lastPage.limit;
+            return lastPage.total > nextOffset ? nextOffset : undefined;
+        },
+    });
 
     useEffect(() => {
         return () => {

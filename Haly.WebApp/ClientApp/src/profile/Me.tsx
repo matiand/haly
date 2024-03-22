@@ -28,9 +28,18 @@ function Me() {
     const cachedPlaylists = useAtomValue(cachedPlaylistsAtom);
     const dominantColor = useAtomValue(pageDominantColorAtom);
 
-    const profileQuery = useQuery(["users", userId], () => halyClient.users.getUser({ id: userId }));
-    const topArtistsQuery = useQuery(["me", "top", "artists"], () => halyClient.me.getMyTopArtists());
-    const followedArtistsQuery = useQuery(["me", "following"], () => halyClient.me.getMyFollowedArtists());
+    const profileQuery = useQuery({
+        queryKey: ["users", userId],
+        queryFn: () => halyClient.users.getUser({ id: userId }),
+    });
+    const topArtistsQuery = useQuery({
+        queryKey: ["me", "top", "artists"],
+        queryFn: () => halyClient.me.getMyTopArtists(),
+    });
+    const followedArtistsQuery = useQuery({
+        queryKey: ["me", "following"],
+        queryFn: () => halyClient.me.getMyFollowedArtists(),
+    });
 
     useEffect(() => {
         if (profileQuery.data) {

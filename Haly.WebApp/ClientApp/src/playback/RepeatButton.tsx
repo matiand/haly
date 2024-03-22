@@ -16,13 +16,11 @@ function RepeatButton() {
     console.log(playbackUri);
 
     const queryClient = useQueryClient();
-    const setRepeatMode = useMutation(
-        ["me", "player", "repeat-mode"],
-        (repeatMode: RepeatMode) => halyClient.player.setRepeatMode({ repeatMode }),
-        {
-            onSuccess: () => queryClient.invalidateQueries(GetQueueQueryKey),
-        },
-    );
+    const setRepeatMode = useMutation({
+        mutationKey: ["me", "player", "repeat-mode"],
+        mutationFn: (repeatMode: RepeatMode) => halyClient.player.setRepeatMode({ repeatMode }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: GetQueueQueryKey }),
+    });
 
     const nextRepeatMode = getNextRepeatMode(repeatMode);
 

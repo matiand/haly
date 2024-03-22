@@ -33,7 +33,11 @@ function useMeQuery() {
 
     // This is actually a PUT request, but we treat it as a query, because it's idempotent and it's
     // easier to manage it that way.
-    const meQuery = useQuery(["me"], queryFn, { refetchOnWindowFocus: "always" });
+    const meQuery = useQuery({
+        queryKey: ["me"],
+        queryFn,
+        refetchOnWindowFocus: "always",
+    });
 
     useEffect(() => {
         if (meQuery.isFetched) {
