@@ -48,18 +48,6 @@ public class GetMyFeedQueryHandler(ISpotifyService spotify, IDateOnlyService dat
             (await radarResultsTask).Playlists!.FirstOrDefault(
                 p => p is { Name: "Discover Weekly", Owner.Id: "spotify" });
 
-        if (releaseRadar is not null)
-        {
-            if (dateOnlyService.IsFriday())
-            {
-                playlists.Insert(index: 0, releaseRadar);
-            }
-            else
-            {
-                playlists.Add(releaseRadar);
-            }
-        }
-
         if (discoverWeekly is not null)
         {
             if (dateOnlyService.IsMonday())
@@ -69,6 +57,18 @@ public class GetMyFeedQueryHandler(ISpotifyService spotify, IDateOnlyService dat
             else
             {
                 playlists.Add(discoverWeekly);
+            }
+        }
+
+        if (releaseRadar is not null)
+        {
+            if (dateOnlyService.IsFriday())
+            {
+                playlists.Insert(index: 0, releaseRadar);
+            }
+            else
+            {
+                playlists.Add(releaseRadar);
             }
         }
 
