@@ -25,7 +25,6 @@ function UserPlaylists({ playlists }: UserPlaylistsProps) {
                 uri={likedSongsUri}
                 href="/collection/tracks"
                 playbackState={getPlaybackState(likedSongsUri)}
-                isPinned
             />
 
             {playlists.map((p) => {
