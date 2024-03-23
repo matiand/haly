@@ -36,11 +36,11 @@ const Wrapper = styled("section", {
     display: "grid",
     gap: "$600",
     gridTemplateColumns: "1fr",
-    padding: "0 0 $500",
+    padding: "0 0 $600",
 
     "& h2": {
         fontSize: "$500",
-        marginBottom: "$500",
+        marginBlockEnd: "$400",
         userSelect: "none",
     },
 

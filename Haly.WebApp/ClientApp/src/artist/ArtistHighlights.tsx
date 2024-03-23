@@ -56,7 +56,7 @@ const Wrapper = styled("div", {
 
     "& h2": {
         fontSize: "$500",
-        marginBottom: "$500",
+        marginBlockEnd: "$400",
         userSelect: "none",
     },
 
