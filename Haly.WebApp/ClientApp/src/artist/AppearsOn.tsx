@@ -1,7 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-import { ArtistDiscographyDto } from "../../generated/haly";
 import { GetArtistDiscographyQueryKey } from "../common/queryKeys";
+import halyClient from "../halyClient";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import useAppearsOnQuery from "./useAppearsOnQuery";
 
@@ -10,11 +10,12 @@ type AppearsOnProps = {
 };
 
 function AppearsOn({ artistId }: AppearsOnProps) {
-    const queryClient = useQueryClient();
     const { items, options, filter } = useAppearsOnQuery(artistId);
 
-    const discographyQuery = queryClient.getQueryState(GetArtistDiscographyQueryKey(artistId));
-    const discography = discographyQuery?.data as ArtistDiscographyDto | undefined;
+    const { data: discography } = useQuery({
+        queryKey: GetArtistDiscographyQueryKey(artistId),
+        queryFn: () => halyClient.artists.getArtistDiscography({ id: artistId! }),
+    });
 
     // Don't render anything if there is no discography.
     if (!discography) return null;
