@@ -41,7 +41,7 @@ function RadioGroup({ options }: RadioGroupProps) {
 const Root = styled(ToggleGroup.Root, {
     display: "flex",
     gap: "$400",
-    marginBottom: "$800",
+    marginBlockEnd: "$800",
     userSelect: "none",
 });
 

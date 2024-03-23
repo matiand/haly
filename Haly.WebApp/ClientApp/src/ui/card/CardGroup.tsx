@@ -1,9 +1,15 @@
+import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 import { styled, theme } from "../../common/theme";
 
 export const Root = styled("section", {
-    padding: "$700 0",
+    padding: "$600 0",
+
+    // CardGroup without RadioGroup
+    "& > div + div:not([role=group])": {
+        marginBlockStart: "-$400",
+    },
 });
 
 type TitleProps = {
@@ -33,7 +39,7 @@ export function Title({ title, href }: TitleProps) {
 const TitleWrapper = styled("div", {
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: "$700",
+    marginBlockEnd: "$600",
     userSelect: "none",
 
     "& > h2": {
@@ -41,7 +47,7 @@ const TitleWrapper = styled("div", {
             color: "inherit",
             fontSize: "inherit",
             fontWeight: "inherit",
-            marginLeft: 0,
+            marginInlineStart: 0,
         },
     },
 
@@ -52,7 +58,7 @@ const TitleWrapper = styled("div", {
         cursor: "pointer",
         fontSize: "$300",
         fontWeight: 700,
-        marginLeft: "$400",
+        marginInlineStart: "$400",
         textDecoration: "none",
 
         "&:hover": {
@@ -61,11 +67,24 @@ const TitleWrapper = styled("div", {
     },
 });
 
-export const Items = styled("div", {
+type ItemsProps = {
+    cardsPerRow: number;
+    children: ReactNode;
+};
+
+export function Items({ cardsPerRow, children }: ItemsProps) {
+    return <ItemsWrapper css={{ $$cardsPerRow: cardsPerRow }}>{children}</ItemsWrapper>;
+}
+
+const ItemsWrapper = styled("div", {
     $$gap: `${theme.cards.gap}px`,
     $$cardWidth: `${theme.cards.minWidth}px`,
+    $$marginInlineStart: `${theme.cards.groupMarginInlineStart}px`,
+    $$marginInlineEnd: `${theme.cards.groupMarginInlineEnd}px`,
 
     display: "grid",
     gridGap: "$$gap",
-    gridTemplateColumns: `repeat(auto-fill, minmax($$cardWidth, 1fr))`,
+    gridTemplateColumns: "repeat($$cardsPerRow, minmax(0, 1fr))",
+    marginInlineStart: "$$marginInlineStart",
+    marginInlineEnd: "$$marginInlineEnd",
 });

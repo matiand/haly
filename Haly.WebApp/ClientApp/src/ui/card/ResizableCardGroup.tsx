@@ -21,9 +21,11 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
     const onResize = useCallback((width?: number) => {
         if (!width) return;
 
-        const { gap: cardGap, minWidth: cardMinWidth } = theme.cards;
+        const { gap: cardGap, minWidth: cardMinWidth, groupMarginInlineStart, groupMarginInlineEnd } = theme.cards;
 
-        const cardsPerRow = Math.floor((width + cardGap) / (cardMinWidth + cardGap));
+        const availableWidth = width - groupMarginInlineStart - groupMarginInlineEnd;
+        const cardsPerRow = Math.floor((availableWidth + cardGap) / (cardMinWidth + cardGap));
+
         setCardsPerRow(cardsPerRow);
     }, []);
 
@@ -43,7 +45,7 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
 
             {hasOptions && <RadioGroup options={options} />}
 
-            <CardGroup.Items>
+            <CardGroup.Items cardsPerRow={cardsPerRow}>
                 {items.slice(0, cardsPerRow * maxRows).map((card) => (
                     <Card key={card.id} {...card} />
                 ))}

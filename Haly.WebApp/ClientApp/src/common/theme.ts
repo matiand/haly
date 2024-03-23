@@ -56,6 +56,7 @@ export const theme = {
     shadows: {
         collectionImage: "rgba(0, 0, 0, 0.5)",
         cardImage: "rgba(0, 0, 0, 0.5)",
+        cardPlaybackWrapper: "rgba(0, 0, 0, 0.3)",
         collectionTableStickyHead: "rgba(0, 0, 0, 0.5)",
         moreOptionsMenuMajor: "rgba(0, 0, 0, 0.3)",
         moreOptionsMenuMinor: "rgba(0, 0, 0, 0.2)",
@@ -111,14 +112,16 @@ export const theme = {
         stickyHeadMargin: 72,
     },
     cards: {
-        gap: 24,
-        minWidth: 196,
+        gap: 0,
+        minWidth: 172,
+        groupMarginInlineStart: -12,
+        groupMarginInlineEnd: -12,
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {
         minWidth: 280,
         defaultWidth: 360,
-        maxWidth: 440,
+        maxWidth: 420,
     },
     zIndices: {
         menu: 11,
@@ -134,7 +137,7 @@ export const theme = {
 
 const media = {
     bp1: "(min-width: 750px)",
-    bp2: "(min-width: 960px)",
+    bp2: "(min-width: 1025px)",
     bp3: "(min-width: 1200px)",
 };
 

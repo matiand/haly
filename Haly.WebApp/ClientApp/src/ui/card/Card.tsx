@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { MouseEventHandler } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -20,16 +21,18 @@ export type CardProps = {
     // A subtitle OR or a year + subtitle tuple
     subtitle?: string | [number, string];
     imageUrl?: PlaylistCardDto["imageUrl"];
-    isHighlighted?: boolean;
 };
 
-function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardProps) {
+function Card({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
     const navigate = useNavigate();
     const { menuProps, onContextMenu } = useContextMenu();
 
     const getPlaybackState = useContextPlaybackState();
     const playbackState = getPlaybackState(uri);
-    const { togglePlayback } = useContextPlayback({ contextUri: uri, playbackState });
+    const { togglePlayback } = useContextPlayback({
+        contextUri: uri,
+        playbackState,
+    });
 
     const isAlbumOrPlaylist = /album|playlist/.test(uri);
     const { draggableRef, ...draggableProps } = useDraggable(
@@ -59,14 +62,14 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
             {...draggableProps}
             onClick={navigateOnClick}
             onContextMenu={onContextMenu}
-            data-is-highlighted={isHighlighted}
+            className={clsx({ isCurrentlyPlaying: playbackState === "playing" })}
         >
-            <ImageWrapper data-is-rounded={!isAlbumOrPlaylist}>
+            <ImageWrapper className={clsx({ isRounded: !isAlbumOrPlaylist })}>
                 {imageUrl ? <img loading="eager" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
 
-                {isAlbumOrPlaylist && (
-                    <div id="card-playback-wrapper">
-                        <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
+                {uri && (
+                    <div className="cardPlaybackWrapper">
+                        <PlaybackToggle size="medium" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
                     </div>
                 )}
             </ImageWrapper>
@@ -93,36 +96,35 @@ function Card({ id, name, uri, href, subtitle, imageUrl, isHighlighted }: CardPr
 }
 
 const Wrapper = styled("div", {
-    background: "$black400",
-    borderRadius: "8px",
+    $$borderRadius: "6px",
+
+    background: "transparent",
+    borderRadius: "$$borderRadius",
     cursor: "pointer",
-    padding: "$600",
+    padding: "$500",
     transition: "background-color 0.3s ease",
     userSelect: "none",
 
-    "&:hover, &:focus-within": {
-        background: "$black200",
+    "&:hover, &:focus-within, &.isCurrentlyPlaying": {
+        background: "$black400",
 
-        "& #card-playback-wrapper": {
+        "& .cardPlaybackWrapper": {
             opacity: 1,
             transform: "translateY(0)",
         },
     },
-
-    "&[data-is-highlighted=true]": {
-        border: "2px solid $secondary700",
-    },
 });
 
 const ImageWrapper = styled("div", {
-    background: "$black400",
+    background: "$black200",
+    borderRadius: "$$borderRadius",
     marginBottom: "$600",
     paddingBottom: "100%",
     position: "relative",
 
     "& > img": {
-        background: "$black400",
-        borderRadius: "4px",
+        background: "$black200",
+        borderRadius: "$$borderRadius",
         boxShadow: "0 4px 24px $cardImage",
         height: "100%",
         left: 0,
@@ -132,15 +134,17 @@ const ImageWrapper = styled("div", {
         width: "100%",
     },
 
-    "&[data-is-rounded=true]": {
+    "&.isRounded": {
         borderRadius: "50%",
         "& > img": {
             borderRadius: "50%",
         },
     },
 
-    "& #card-playback-wrapper": {
+    "& .cardPlaybackWrapper": {
         bottom: "8px",
+        borderRadius: "50%",
+        boxShadow: "0 8px 8px $cardPlaybackWrapper",
         opacity: 0,
         position: "absolute",
         right: "8px",
@@ -156,7 +160,7 @@ const Contents = styled("div", {
         color: "$white800",
         display: "block",
         fontSize: "$350",
-        fontWeight: 700,
+        fontWeight: 500,
         letterSpacing: "0.02em",
         textDecoration: "none",
     },

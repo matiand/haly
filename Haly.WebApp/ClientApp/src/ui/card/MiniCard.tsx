@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { KeyboardEventHandler } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -39,12 +40,12 @@ function MiniCard({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
             {imageUrl && (
                 <ImageWrapper tabIndex={0} role="button" onClick={() => navigate(href)} onKeyDown={navigateOnEnter}>
                     <img
+                        className={clsx({ isRounded: !isAlbumOrPlaylist })}
                         loading="eager"
                         src={imageUrl}
                         alt=""
                         height={imgSize}
                         width={imgSize}
-                        data-is-rounded={!isAlbumOrPlaylist}
                     />
                 </ImageWrapper>
             )}
@@ -78,7 +79,7 @@ const ImageWrapper = styled("div", {
         objectFit: "cover",
         objectPosition: "center center",
 
-        "&[data-is-rounded=true]": {
+        "&.isRounded": {
             borderRadius: "50%",
         },
     },
@@ -90,7 +91,7 @@ const ContentWrapper = styled("div", {
     "& > a": {
         color: "$white800",
         fontSize: "$300",
-        fontWeight: 700,
+        fontWeight: 500,
         gridArea: "title",
         letterSpacing: "0.04em",
         textDecoration: "none",

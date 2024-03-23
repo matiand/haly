@@ -4,9 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { ReleaseItemDto } from "../../generated/haly";
 import { lastVisitedArtistNameAtom } from "../common/atoms/pageAtoms";
-import { styled } from "../common/theme";
 import useDocumentTitle from "../common/useDocumentTitle";
-import Card from "../ui/card/Card";
 import * as CardGroup from "../ui/card/CardGroup";
 import ResizableCardGroup from "../ui/card/ResizableCardGroup";
 import RadioGroup from "../ui/RadioGroup";
@@ -44,16 +42,7 @@ function AllDiscographyCards() {
                     .map(([year, items]) => {
                         const cards = mapToCards(items);
 
-                        return (
-                            <YearGroup key={year}>
-                                <h3>{year}</h3>
-                                <CardGroup.Items>
-                                    {cards.map((c) => (
-                                        <Card key={c.id} {...c} />
-                                    ))}
-                                </CardGroup.Items>
-                            </YearGroup>
-                        );
+                        return <ResizableCardGroup key={year} items={cards} maxRows={Infinity} title={year} />;
                     })}
             </CardGroup.Root>
         );
@@ -83,16 +72,7 @@ const mapToCards = (items: ReleaseItemDto[]) => {
         href: `/album/${i.id}`,
         subtitle: i.type,
         imageUrl: i.imageUrl,
-        isHighlighted: i.type === "Album",
     }));
 };
-
-const YearGroup = styled("div", {
-    marginBottom: "$800",
-
-    "& > h3": {
-        padding: "$600 0",
-    },
-});
 
 export default AllDiscographyCards;
