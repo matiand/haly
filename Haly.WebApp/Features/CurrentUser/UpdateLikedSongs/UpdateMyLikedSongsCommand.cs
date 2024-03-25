@@ -68,7 +68,7 @@ public record UpdateMyLikedSongsHandler : IRequestHandler<UpdateMyLikedSongsComm
         cachedPlaylist.SnapshotId = apiResponse.SnapshotId;
 
         await _db.Entry(cachedPlaylist).Collection(p => p.Tracks).LoadAsync(cancellationToken);
-        cachedPlaylist.Tracks = apiResponse.Tracks;
+        cachedPlaylist.UpdateTracks(apiResponse.Tracks);
 
         await _db.SaveChangesAsync(cancellationToken);
     }
