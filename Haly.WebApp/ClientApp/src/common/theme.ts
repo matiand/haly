@@ -15,6 +15,7 @@ export const theme = {
         secondary600: "#2582F2",
         secondary700: "#0F75F1",
 
+        white300: "#9d9d9d",
         white400: "#a7a7a7",
         white500: "#b3b3b3",
         white600: "#bababa",

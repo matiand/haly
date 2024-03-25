@@ -105,9 +105,11 @@ const Wrapper = styled("div", {
     transition: "background-color 0.3s ease",
     userSelect: "none",
 
-    "&:hover, &:focus-within, &.isCurrentlyPlaying": {
+    "&:hover": {
         background: "$black400",
+    },
 
+    "&:hover, &:focus-within, &.isCurrentlyPlaying": {
         "& .cardPlaybackWrapper": {
             opacity: 1,
             transform: "translateY(0)",
@@ -118,7 +120,7 @@ const Wrapper = styled("div", {
 const ImageWrapper = styled("div", {
     background: "$black200",
     borderRadius: "$$borderRadius",
-    marginBottom: "$600",
+    marginBottom: "$400",
     paddingBottom: "100%",
     position: "relative",
 
@@ -154,7 +156,11 @@ const ImageWrapper = styled("div", {
 });
 
 const Contents = styled("div", {
-    minHeight: "60px",
+    display: "flex",
+    flexFlow: "column nowrap",
+    gap: "$200",
+    justifyContent: "flex-start",
+    minHeight: "56px",
 
     "& a": {
         color: "$white800",
@@ -166,14 +172,10 @@ const Contents = styled("div", {
     },
 
     "& div": {
-        color: "$white400",
+        color: "$white300",
         display: "flex",
         fontSize: "$300",
         fontWeight: 500,
-
-        "&:first-of-type": {
-            marginBottom: "$300",
-        },
 
         "& > span::before": {
             content: "•",
