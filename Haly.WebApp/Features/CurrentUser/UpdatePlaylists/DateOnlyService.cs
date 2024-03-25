@@ -2,12 +2,12 @@ namespace Haly.WebApp.Features.CurrentUser.UpdatePlaylists;
 
 public class DateOnlyService : IDateOnlyService
 {
-    public bool IsOlderThanAMonth(DateOnly? dateOnly)
+    public bool IsOlderOrEqualTenDays(DateOnly? dateOnly)
     {
         if (dateOnly is null) return true;
 
-        var monthAgo = DateOnly.FromDateTime(DateTime.Now.AddMonths(months: -1));
-        return dateOnly < monthAgo;
+        var tenDaysAgo = DateOnly.FromDateTime(DateTime.Now.AddDays(value: -10));
+        return dateOnly <= tenDaysAgo;
     }
 
     public bool IsOlderThanSixMonths(DateOnly? dateOnly)

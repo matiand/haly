@@ -48,7 +48,7 @@ public class UpdateMyPlaylistsHandler(LibraryContext db, ISpotifyService spotify
             var cachedPlaylist = cachedPlaylists.FirstOrDefault(cp => cp.Id == freshPlaylist.Id);
             if (cachedPlaylist is not null)
             {
-                if (dateOnlyService.IsOlderThanAMonth(cachedPlaylist.UpdatedAt))
+                if (dateOnlyService.IsOlderOrEqualTenDays(cachedPlaylist.UpdatedAt))
                 {
                     _oldPlaylists.Add(cachedPlaylist);
                 }
