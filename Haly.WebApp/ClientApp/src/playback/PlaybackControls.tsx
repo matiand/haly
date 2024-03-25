@@ -40,6 +40,8 @@ function PlaybackControls({ track, initialVolume }: PlaybackControlsProps) {
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
             if (e.code === "Space" && !e.repeat) {
+                if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
                 e.preventDefault();
                 player?.togglePlay();
             }
