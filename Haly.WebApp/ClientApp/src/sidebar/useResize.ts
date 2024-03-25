@@ -1,17 +1,19 @@
 // Taken from https://stackoverflow.com/a/68742668
-import { MouseEventHandler, useCallback, useEffect, useState } from "react";
+import { useAtom } from "jotai/index";
+import { PointerEventHandler, useCallback, useEffect, useState } from "react";
+
+import { persistedSidebarWidthAtom } from "../common/atoms/pageAtoms";
 
 type UseResizeProps = {
-    initialWidth: number;
     minWidth: number;
     maxWidth: number;
 };
 
-const useResize = ({ minWidth, maxWidth, initialWidth }: UseResizeProps) => {
+const useSidebarResize = ({ minWidth, maxWidth }: UseResizeProps) => {
     const [isResizing, setIsResizing] = useState(false);
-    const [width, setWidth] = useState(initialWidth);
+    const [width, setSidebarWidth] = useAtom(persistedSidebarWidthAtom);
 
-    const enableResize = useCallback<MouseEventHandler<HTMLElement>>(
+    const enableResize = useCallback<PointerEventHandler<HTMLElement>>(
         (e) => {
             const isCloseToResizer = e.clientX - width <= 15 && e.clientX - width >= 3;
             if (isCloseToResizer) {
@@ -26,25 +28,25 @@ const useResize = ({ minWidth, maxWidth, initialWidth }: UseResizeProps) => {
     }, [setIsResizing]);
 
     const resize = useCallback(
-        (e: MouseEvent) => {
+        (e: PointerEvent) => {
             if (isResizing) {
                 const newWidth = e.clientX;
                 if (newWidth >= minWidth && newWidth <= maxWidth) {
-                    setWidth(newWidth);
+                    setSidebarWidth(newWidth);
                 }
             }
         },
-        [minWidth, maxWidth, isResizing, setWidth],
+        [minWidth, maxWidth, isResizing, setSidebarWidth],
     );
 
     useEffect(() => {
         if (isResizing) {
-            document.addEventListener("mousemove", resize);
-            document.addEventListener("mouseup", disableResize);
+            document.addEventListener("pointermove", resize);
+            document.addEventListener("pointerup", disableResize);
 
             return () => {
-                document.removeEventListener("mousemove", resize);
-                document.removeEventListener("mouseup", disableResize);
+                document.removeEventListener("pointermove", resize);
+                document.removeEventListener("pointerup", disableResize);
             };
         }
     }, [disableResize, isResizing, resize]);
@@ -55,4 +57,4 @@ const useResize = ({ minWidth, maxWidth, initialWidth }: UseResizeProps) => {
     };
 };
 
-export default useResize;
+export default useSidebarResize;

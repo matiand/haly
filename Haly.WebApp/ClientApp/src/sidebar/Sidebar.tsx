@@ -1,30 +1,19 @@
-import { useAtom } from "jotai";
-import { useEffect } from "react";
-
-import { persistedSidebarWidthAtom } from "../common/atoms/pageAtoms";
 import { styled, theme } from "../common/theme";
 import NavigationList from "./NavigationList";
 import Resizer from "./Resizer";
-import useResize from "./useResize";
+import useSidebarResize from "./useResize";
 import UserLibrary from "./UserLibrary";
 
 const { minWidth, maxWidth } = theme.sidebar;
 
 function Sidebar() {
-    const [sidebarWidth, setSidebarWidth] = useAtom(persistedSidebarWidthAtom);
-
-    const { width, enableResize } = useResize({
-        initialWidth: sidebarWidth,
+    const { width, enableResize } = useSidebarResize({
         minWidth,
         maxWidth,
     });
 
-    useEffect(() => {
-        setSidebarWidth(width);
-    }, [width, setSidebarWidth]);
-
     return (
-        <Nav style={{ width }} onMouseDown={enableResize}>
+        <Nav style={{ width }} onPointerDown={enableResize}>
             <NavigationList />
             <UserLibrary />
 

@@ -106,7 +106,7 @@ export const Body = styled("tbody", {
             },
         },
 
-        "&:hover": {
+        [`&:hover, &&.isSelected, &&${dndSelectors.dragOrigin}`]: {
             background: "$trackHover",
 
             "& button": {
@@ -125,10 +125,6 @@ export const Body = styled("tbody", {
 
         [`&&.isSelected, &&${dndSelectors.dragOrigin}`]: {
             background: "$trackSelected",
-
-            "& a": {
-                color: "$white800",
-            },
         },
 
         "&&.isSelected": {
@@ -136,12 +132,10 @@ export const Body = styled("tbody", {
             "&:has(+ .isSelected)": {
                 borderRadius: "4px 4px 0 0",
             },
-
             // Middle rows of the selection range.
             "& + .isSelected": {
                 borderRadius: 0,
             },
-
             // Last row of the selection range.
             "&:has(+ :not(.isSelected)), &:last-of-type": {
                 borderBottomRightRadius: "4px",

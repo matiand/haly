@@ -15,16 +15,16 @@ type ResizableCardGroupProps = {
 };
 
 function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableCardGroupProps) {
-    const [cardsPerRow, setCardsPerRow] = useState(8);
+    const [cardsPerRow, setCardsPerRow] = useState(0);
     const sectionRef = useRef<HTMLDivElement>(null);
 
     const onResize = useCallback((width?: number) => {
         if (!width) return;
 
-        const { gap: cardGap, minWidth: cardMinWidth, groupMarginInlineStart, groupMarginInlineEnd } = theme.cards;
+        const { minWidth: cardMinWidth, groupMarginInlineStart, groupMarginInlineEnd } = theme.cards;
 
         const availableWidth = width - groupMarginInlineStart - groupMarginInlineEnd;
-        const cardsPerRow = Math.floor((availableWidth + cardGap) / (cardMinWidth + cardGap));
+        const cardsPerRow = Math.floor(availableWidth / cardMinWidth);
 
         setCardsPerRow(cardsPerRow);
     }, []);
@@ -38,6 +38,7 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
     const hasOptions = options && options.length > 0;
 
     if (items.length === 0) return null;
+    if (cardsPerRow === 0) return <CardGroup.Root ref={sectionRef} />;
 
     return (
         <CardGroup.Root ref={sectionRef}>

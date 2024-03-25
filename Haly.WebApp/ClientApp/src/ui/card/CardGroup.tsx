@@ -77,13 +77,12 @@ export function Items({ cardsPerRow, children }: ItemsProps) {
 }
 
 const ItemsWrapper = styled("div", {
-    $$gap: `${theme.cards.gap}px`,
     $$cardWidth: `${theme.cards.minWidth}px`,
     $$marginInlineStart: `${theme.cards.groupMarginInlineStart}px`,
     $$marginInlineEnd: `${theme.cards.groupMarginInlineEnd}px`,
 
     display: "grid",
-    gridGap: "$$gap",
+    gridRowGap: "$200",
     gridTemplateColumns: "repeat($$cardsPerRow, minmax(0, 1fr))",
     marginInlineStart: "$$marginInlineStart",
     marginInlineEnd: "$$marginInlineEnd",

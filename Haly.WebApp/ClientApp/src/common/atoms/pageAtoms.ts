@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 
 import { AlbumDetailedDto, ArtistDetailedDto, PlaylistWithTracksDto, UserProfileDto } from "../../../generated/haly";
+import isPageUsingMouseDevice from "../isPageUsingMouseDevice";
 import { theme } from "../theme";
 import { userIdAtom } from "./userAtoms";
 
@@ -50,7 +51,8 @@ export const pageContextUriAtom = atom((get) => {
     return `spotify:${pageContext.type}:${pageContext.data.id}`;
 });
 
-const sidebarWidthAtom = atom<number>(+localStorage.getItem("sidebarWidth")! || theme.sidebar.defaultWidth);
+const defaultSidebarWidthToUse = isPageUsingMouseDevice() ? theme.sidebar.defaultWidth : theme.sidebar.minWidth;
+const sidebarWidthAtom = atom<number>(+localStorage.getItem("sidebarWidth")! || defaultSidebarWidthToUse);
 export const persistedSidebarWidthAtom = atom(
     (get) => get(sidebarWidthAtom),
     (_, set, newValue: number) => {

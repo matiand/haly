@@ -113,14 +113,13 @@ export const theme = {
         stickyHeadMargin: 72,
     },
     cards: {
-        gap: 0,
         minWidth: 172,
         groupMarginInlineStart: -12,
         groupMarginInlineEnd: -12,
     },
     // These values are used by useResize hook so they need to be bare numbers
     sidebar: {
-        minWidth: 280,
+        minWidth: 250,
         defaultWidth: 360,
         maxWidth: 420,
     },

@@ -1,5 +1,7 @@
 import { useDraggable as useDraggableKit } from "@dnd-kit/core";
 
+import isPageUsingMouseDevice from "../common/isPageUsingMouseDevice";
+
 export type DraggableData = {
     id: string;
     type: "playlist" | "album" | "table-row" | "streamed-track";
@@ -23,7 +25,8 @@ function useDraggable(params: DraggableHookParams | undefined) {
         disabled: !params,
     });
 
-    return params
+    // Only allow dragging with mouse pointer; touch devices should only be used for scrolling.
+    return params && isPageUsingMouseDevice()
         ? {
               draggableRef: setNodeRef,
               ...listeners,

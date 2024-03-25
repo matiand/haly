@@ -160,7 +160,6 @@ const Contents = styled("div", {
     flexFlow: "column nowrap",
     gap: "$200",
     justifyContent: "flex-start",
-    minHeight: "56px",
 
     "& a": {
         color: "$white800",
