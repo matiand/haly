@@ -11,7 +11,6 @@ using Haly.WebApp.Hubs;
 using Haly.WebApp.ThirdPartyApis.Genius;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
-using Microsoft.OpenApi.Models;
 using Refit;
 
 // Configure Mapster and validate that our mappings are correct
@@ -51,24 +50,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddControllers()
     .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "Haly API",
-        Description =
-            "An ASP.NET Core Web API that adds quality of life improvements to Spotify and helps with music exploration",
-    });
-    options.CustomOperationIds(description => description.ActionDescriptor.RouteValues["action"]);
-    options.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
-    options.EnableAnnotations();
-    options.SupportNonNullableReferenceTypes();
-    options.UseAllOfToExtendReferenceSchemas();
-
-    options.DocumentFilter<TagOrderFilter>();
-    options.OperationFilter<CallsSpotifyApiFilter>();
-});
+builder.Services.AddSwagger();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 {
@@ -88,14 +70,11 @@ app.UseCors();
 app.MapControllers();
 app.MapHub<MessageHub>("/hub");
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options => { options.EnableTryItOutByDefault(); });
-}
+app.UseSwaggerIfDevelopment();
 
 if (app.Environment.IsProduction())
 {
+    Console.WriteLine("is production");
     app.UseDefaultFiles();
     app.UseStaticFiles();
 }
