@@ -61,7 +61,7 @@ models/RemoveTracksRequestBody.ts
 models/SearchType.ts
 models/SpotifySearchResultsDto.ts
 models/TrackDto.ts
-models/UpdatePlaybackCommand.ts
+models/UpdatePlaybackRequestBody.ts
 models/UpdatePlaylistDetailsRequest.ts
 models/UpdatePlaylistDetailsRequestBody.ts
 models/UserFeedDto.ts

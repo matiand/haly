@@ -205,7 +205,7 @@ paths:
       tags:
         - Jobs
       summary: Refetch current user's playlist tracks
-      description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>'
+      description: 'Update tracks in playlists that have been marked as stale.<br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>'
       operationId: RefetchCurrentUserPlaylistTracks
       responses:
         '204':
@@ -273,7 +273,7 @@ paths:
     get:
       tags:
         - Lyrics
-      summary: Find lyrics in our cache
+      summary: Get lyrics from our cache
       operationId: GetLyrics
       parameters:
         - name: id
@@ -283,7 +283,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Lyrics result
+          description: A Lyrics object
           content:
             application/json:
               schema:
@@ -298,7 +298,7 @@ paths:
       tags:
         - Lyrics
       summary: Update lyrics
-      description: Fetch lyrics from GENIUS and update our cache
+      description: Fetch lyrics from GENIUS and update our cache.
       operationId: PutLyrics
       parameters:
         - name: id
@@ -459,7 +459,7 @@ paths:
     get:
       tags:
         - Me
-      summary: Fetch current user's 'Liked Songs' collection from our cache
+      summary: Get current user's 'Liked Songs' collection from our cache
       operationId: GetMyLikedSongs
       responses:
         '200':
@@ -499,7 +499,7 @@ paths:
     get:
       tags:
         - Me
-      summary: Fetch current user's followed artists from Spotify
+      summary: Get current user's followed artists from Spotify
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>'
       operationId: GetMyFollowedArtists
       responses:
@@ -533,7 +533,7 @@ paths:
     get:
       tags:
         - Me
-      summary: Fetch current user's feed
+      summary: Get current user's feed
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>'
       operationId: GetMyFeed
       responses:
@@ -565,7 +565,7 @@ paths:
     get:
       tags:
         - Me
-      summary: Fetch current user's top artists from Spotify
+      summary: Get current user's top artists from Spotify
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read </b>'
       operationId: GetMyTopArtists
       responses:
@@ -610,6 +610,7 @@ paths:
               - $ref: '#/components/schemas/CreatorType'
         - name: creatorId
           in: query
+          description: Artist or user id.
           schema:
             type: string
       responses:
@@ -647,6 +648,7 @@ paths:
       parameters:
         - name: id
           in: path
+          description: Artist or user id.
           required: true
           schema:
             type: string
@@ -685,6 +687,7 @@ paths:
       parameters:
         - name: id
           in: path
+          description: Artist or user id.
           required: true
           schema:
             type: string
@@ -1120,14 +1123,17 @@ paths:
             schema:
               allOf:
                 - $ref: '#/components/schemas/AddToQueueRequestBody'
+              description: One of CollectionUri or TrackUris must be provided.
           text/json:
             schema:
               allOf:
                 - $ref: '#/components/schemas/AddToQueueRequestBody'
+              description: One of CollectionUri or TrackUris must be provided.
           application/*+json:
             schema:
               allOf:
                 - $ref: '#/components/schemas/AddToQueueRequestBody'
+              description: One of CollectionUri or TrackUris must be provided.
       responses:
         '202':
           description: Accepted
@@ -1153,7 +1159,7 @@ paths:
     get:
       tags:
         - Player
-      summary: Get current user's track history
+      summary: Get current user's recently played tracks
       description: 'This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-recently-played </b>'
       operationId: GetRecentlyPlayed
       responses:
@@ -1226,6 +1232,7 @@ paths:
       parameters:
         - name: repeatMode
           in: query
+          description: 'One of ''off'', ''context'', or ''track'''
           schema:
             type: string
       responses:
@@ -1317,15 +1324,18 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/UpdatePlaybackCommand'
+                - $ref: '#/components/schemas/UpdatePlaybackRequestBody'
+              description: One of ContextUri or TrackUri must be provided.
           text/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/UpdatePlaybackCommand'
+                - $ref: '#/components/schemas/UpdatePlaybackRequestBody'
+              description: One of ContextUri or TrackUri must be provided.
           application/*+json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/UpdatePlaybackCommand'
+                - $ref: '#/components/schemas/UpdatePlaybackRequestBody'
+              description: One of ContextUri or TrackUri must be provided.
       responses:
         '202':
           description: Accepted
@@ -1378,6 +1388,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlaylistWithTracksDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '404':
           description: Playlist not found
           content:
@@ -1492,6 +1508,7 @@ paths:
       parameters:
         - name: playlistId
           in: path
+          description: The id of the playlist to add tracks to.
           required: true
           schema:
             type: string
@@ -1501,14 +1518,17 @@ paths:
             schema:
               allOf:
                 - $ref: '#/components/schemas/AddTracksRequestBody'
+              description: One of CollectionUri or TrackUris must be provided.
           text/json:
             schema:
               allOf:
                 - $ref: '#/components/schemas/AddTracksRequestBody'
+              description: One of CollectionUri or TrackUris must be provided.
           application/*+json:
             schema:
               allOf:
                 - $ref: '#/components/schemas/AddTracksRequestBody'
+              description: One of CollectionUri or TrackUris must be provided.
       responses:
         '200':
           description: Tracks added
@@ -1559,6 +1579,7 @@ paths:
           schema:
             type: string
       requestBody:
+        description: Array of **RemoveTrackDto** objects.
         content:
           application/json:
             schema:
@@ -1655,10 +1676,12 @@ paths:
       parameters:
         - name: playlistId
           in: query
+          description: The id of the playlist that you want to search.
           schema:
             type: string
         - name: trackPlaybackId
           in: query
+          description: Current playback id of the track you want to find.
           schema:
             type: string
       responses:
@@ -1801,13 +1824,16 @@ components:
       properties:
         collectionUri:
           type: string
+          description: URI of a playlist or album that you want to get tracks from.
           nullable: true
         trackUris:
           type: array
           items:
             type: string
+          description: Array of track URIs that you want to add.
           nullable: true
       additionalProperties: false
+      description: One of CollectionUri or TrackUris must be provided.
     AddTracksRequestBody:
       required:
         - duplicatesStrategy
@@ -1815,16 +1841,20 @@ components:
       properties:
         collectionUri:
           type: string
+          description: URI of a playlist or album that you want to get tracks from.
           nullable: true
         trackUris:
           type: array
           items:
             type: string
+          description: Array of track URIs that you want to add.
           nullable: true
         duplicatesStrategy:
           allOf:
             - $ref: '#/components/schemas/DuplicatesStrategy'
+          description: Enum specifying how duplicates should be handled.
       additionalProperties: false
+      description: One of CollectionUri or TrackUris must be provided.
     AlbumBriefDto:
       required:
         - id
@@ -2460,8 +2490,10 @@ components:
       properties:
         uri:
           type: string
+          description: 'Track URI. Example: spotify:track:4OMJGnvZfDvsePyCwRGO7X'
         position:
           type: integer
+          description: Track position in playlist. Use -1 if you want to remove the first track with that URI in playlist.
           format: int32
       additionalProperties: false
     RemoveTracksRequestBody:
@@ -2544,20 +2576,24 @@ components:
           items:
             $ref: '#/components/schemas/ArtistBriefDto'
       additionalProperties: false
-    UpdatePlaybackCommand:
+    UpdatePlaybackRequestBody:
       required:
         - withImprovedShuffle
       type: object
       properties:
         contextUri:
           type: string
+          description: 'The uri of a playlist, album or artist.'
           nullable: true
         trackUri:
           type: string
+          description: 'The track uri. Can be provided to instruct the API which track to begin playing in the newly established context. If no ContextUri is provided, only the specified track will be played.'
           nullable: true
         withImprovedShuffle:
           type: boolean
+          description: Flag telling our API to shuffle the newly established context. Only valid when ContextUri is provided and shuffle is enabled.
       additionalProperties: false
+      description: One of ContextUri or TrackUri must be provided.
     UpdatePlaylistDetailsRequestBody:
       required:
         - description

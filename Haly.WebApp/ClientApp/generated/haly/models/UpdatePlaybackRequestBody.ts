@@ -14,46 +14,46 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * One of ContextUri or TrackUri must be provided.
  * @export
- * @interface UpdatePlaybackCommand
+ * @interface UpdatePlaybackRequestBody
  */
-export interface UpdatePlaybackCommand {
+export interface UpdatePlaybackRequestBody {
     /**
-     * 
+     * The uri of a playlist, album or artist.
      * @type {string}
-     * @memberof UpdatePlaybackCommand
+     * @memberof UpdatePlaybackRequestBody
      */
     contextUri?: string | null;
     /**
-     * 
+     * The track uri. Can be provided to instruct the API which track to begin playing in the newly established context. If no ContextUri is provided, only the specified track will be played.
      * @type {string}
-     * @memberof UpdatePlaybackCommand
+     * @memberof UpdatePlaybackRequestBody
      */
     trackUri?: string | null;
     /**
-     * 
+     * Flag telling our API to shuffle the newly established context. Only valid when ContextUri is provided and shuffle is enabled.
      * @type {boolean}
-     * @memberof UpdatePlaybackCommand
+     * @memberof UpdatePlaybackRequestBody
      */
     withImprovedShuffle: boolean;
 }
 
 /**
- * Check if a given object implements the UpdatePlaybackCommand interface.
+ * Check if a given object implements the UpdatePlaybackRequestBody interface.
  */
-export function instanceOfUpdatePlaybackCommand(value: object): boolean {
+export function instanceOfUpdatePlaybackRequestBody(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "withImprovedShuffle" in value;
 
     return isInstance;
 }
 
-export function UpdatePlaybackCommandFromJSON(json: any): UpdatePlaybackCommand {
-    return UpdatePlaybackCommandFromJSONTyped(json, false);
+export function UpdatePlaybackRequestBodyFromJSON(json: any): UpdatePlaybackRequestBody {
+    return UpdatePlaybackRequestBodyFromJSONTyped(json, false);
 }
 
-export function UpdatePlaybackCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdatePlaybackCommand {
+export function UpdatePlaybackRequestBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdatePlaybackRequestBody {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function UpdatePlaybackCommandFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function UpdatePlaybackCommandToJSON(value?: UpdatePlaybackCommand | null): any {
+export function UpdatePlaybackRequestBodyToJSON(value?: UpdatePlaybackRequestBody | null): any {
     if (value === undefined) {
         return undefined;
     }

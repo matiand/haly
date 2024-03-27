@@ -9,12 +9,12 @@ namespace Haly.WebApp.Controllers;
 public class LyricsController : ApiControllerBase
 {
     [HttpGet("{id}", Name = nameof(GetLyrics))]
-    [SwaggerOperation(Summary = "Find lyrics in our cache")]
-    [SwaggerResponse(statusCode: 200, "Lyrics result", typeof(LyricsDto))]
+    [SwaggerOperation(Summary = "Get lyrics from our cache")]
+    [SwaggerResponse(statusCode: 200, "A Lyrics object", typeof(LyricsDto))]
     [SwaggerResponse(statusCode: 404, Type = typeof(Problem))]
     public async Task<ActionResult<LyricsDto>> GetLyrics(string id)
     {
-        var response = await Mediator.Send(new FindLyricsQuery(id));
+        var response = await Mediator.Send(new GetLyricsQuery(id));
 
         if (response is null) return ProblemResponses.NotFound("Lyrics not found");
 
@@ -22,7 +22,7 @@ public class LyricsController : ApiControllerBase
     }
 
     [HttpPut("{id}")]
-    [SwaggerOperation(Summary = "Update lyrics", Description = "Fetch lyrics from GENIUS and update our cache")]
+    [SwaggerOperation(Summary = "Update lyrics", Description = "Fetch lyrics from GENIUS and update our cache.")]
     [SwaggerResponse(statusCode: 201, "Lyrics created", typeof(LyricsDto))]
     [SwaggerResponse(statusCode: 204, "Lyrics updated")]
     public async Task<ActionResult<LyricsDto>> PutLyrics(string id, GeniusQueryBody geniusQuery)

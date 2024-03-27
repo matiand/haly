@@ -13,33 +13,33 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { UpdatePlaybackCommand } from './UpdatePlaybackCommand';
+import type { UpdatePlaybackRequestBody } from './UpdatePlaybackRequestBody';
 import {
-    UpdatePlaybackCommandFromJSON,
-    UpdatePlaybackCommandFromJSONTyped,
-    UpdatePlaybackCommandToJSON,
-} from './UpdatePlaybackCommand';
+    UpdatePlaybackRequestBodyFromJSON,
+    UpdatePlaybackRequestBodyFromJSONTyped,
+    UpdatePlaybackRequestBodyToJSON,
+} from './UpdatePlaybackRequestBody';
 
 /**
- * 
+ * One of ContextUri or TrackUri must be provided.
  * @export
  * @interface PutPlaybackRequest
  */
 export interface PutPlaybackRequest {
     /**
-     * 
+     * The uri of a playlist, album or artist.
      * @type {string}
      * @memberof PutPlaybackRequest
      */
     contextUri?: string | null;
     /**
-     * 
+     * The track uri. Can be provided to instruct the API which track to begin playing in the newly established context. If no ContextUri is provided, only the specified track will be played.
      * @type {string}
      * @memberof PutPlaybackRequest
      */
     trackUri?: string | null;
     /**
-     * 
+     * Flag telling our API to shuffle the newly established context. Only valid when ContextUri is provided and shuffle is enabled.
      * @type {boolean}
      * @memberof PutPlaybackRequest
      */

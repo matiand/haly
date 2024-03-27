@@ -84,7 +84,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>
+     * Update tracks in playlists that have been marked as stale.<br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>
      * Refetch current user\'s playlist tracks
      */
     async refetchCurrentUserPlaylistTracksRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -103,7 +103,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>
+     * Update tracks in playlists that have been marked as stale.<br/>This endpoint calls Spotify API.<br/>Scopes needed: <b> playlist-read-private </b>
      * Refetch current user\'s playlist tracks
      */
     async refetchCurrentUserPlaylistTracks(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {

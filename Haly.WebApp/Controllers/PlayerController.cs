@@ -64,7 +64,7 @@ public class PlayerController : ApiControllerBase
     }
 
     [HttpGet("recently-played")]
-    [SwaggerOperation(Summary = "Get current user's track history")]
+    [SwaggerOperation(Summary = "Get current user's recently played tracks")]
     [CallsSpotifyApi(SpotifyScopes.UserReadRecentlyPlayed)]
     public async Task<IEnumerable<TrackDto>> GetRecentlyPlayed()
     {
@@ -88,7 +88,8 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Set the repeat mode for the user's playback")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> SetRepeatMode(string repeatMode)
+    public async Task<ActionResult> SetRepeatMode(
+        [SwaggerParameter("One of 'off', 'context', or 'track'")] string repeatMode)
     {
         await Mediator.Send(new SetRepeatModeCommand(repeatMode));
 
@@ -122,9 +123,9 @@ public class PlayerController : ApiControllerBase
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [SwaggerResponse(statusCode: 404, "Content is not available", typeof(Problem))]
     [CallsSpotifyApi(SpotifyScopes.UserReadPlaybackState, SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> PutPlayback(UpdatePlaybackCommand command)
+    public async Task<ActionResult> PutPlayback(UpdatePlaybackRequestBody body)
     {
-        var response = await Mediator.Send(command);
+        var response = await Mediator.Send(new UpdatePlaybackCommand(body));
         if (!response.IsAvailable) return ProblemResponses.NotFound("Content is not available.");
 
         return Accepted();

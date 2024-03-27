@@ -6,14 +6,14 @@ public class UpdatePlaybackCommandValidator : AbstractValidator<UpdatePlaybackCo
 {
     public UpdatePlaybackCommandValidator()
     {
-        RuleFor(command => command.ContextUri)
+        RuleFor(command => command.Body.ContextUri)
             .Must(uri => !string.IsNullOrWhiteSpace(uri))
-            .When(command => string.IsNullOrWhiteSpace(command.TrackUri))
+            .When(command => string.IsNullOrWhiteSpace(command.Body.TrackUri))
             .WithMessage("Either ContextUri or TrackUri must be provided.");
 
-        RuleFor(command => command.TrackUri)
+        RuleFor(command => command.Body.TrackUri)
             .Must(uri => !string.IsNullOrWhiteSpace(uri))
-            .When(command => string.IsNullOrWhiteSpace(command.ContextUri))
+            .When(command => string.IsNullOrWhiteSpace(command.Body.ContextUri))
             .WithMessage("Either ContextUri or TrackUri must be provided.");
     }
 }

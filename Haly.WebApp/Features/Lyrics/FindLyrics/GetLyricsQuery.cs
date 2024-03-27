@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Haly.WebApp.Features.Lyrics.FindLyrics;
 
-public record FindLyricsQuery(string Id) : IRequest<LyricsDto?>;
+public record GetLyricsQuery(string Id) : IRequest<LyricsDto?>;
 
-public class FindGeniusLyricsQueryHandler(LibraryContext db) : IRequestHandler<FindLyricsQuery, LyricsDto?>
+public class GetLyricsQueryHandler(LibraryContext db) : IRequestHandler<GetLyricsQuery, LyricsDto?>
 {
-    public async Task<LyricsDto?> Handle(FindLyricsQuery request, CancellationToken cancellationToken)
+    public async Task<LyricsDto?> Handle(GetLyricsQuery request, CancellationToken cancellationToken)
     {
         var lyrics = await db.LyricsSet
             .FirstOrDefaultAsync(l => l.Id == request.Id, cancellationToken);

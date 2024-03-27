@@ -1,8 +1,7 @@
 // The generated runtime.ts file has ts errors. This script disables them with the '@ts-nocheck'
 // directive.
 
-/* eslint-disable */
-const fs = require("fs");
+import fs from 'fs'
 
 const prependToFile = (filePath, lineNum, strToInsert) => {
     fs.readFile(filePath, 'utf8', (err, data) => {

@@ -6842,7 +6842,7 @@ components:
               positions:
                 type: array
                 nullable: true
-                description: The positions of the tracks in the playlist
+                description: The positions of the track in the playlist
                 items:
                   type: integer
         snapshot_id:

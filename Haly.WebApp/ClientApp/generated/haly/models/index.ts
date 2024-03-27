@@ -50,7 +50,7 @@ export * from './RemoveTracksRequestBody';
 export * from './SearchType';
 export * from './SpotifySearchResultsDto';
 export * from './TrackDto';
-export * from './UpdatePlaybackCommand';
+export * from './UpdatePlaybackRequestBody';
 export * from './UpdatePlaylistDetailsRequest';
 export * from './UpdatePlaylistDetailsRequestBody';
 export * from './UserFeedDto';

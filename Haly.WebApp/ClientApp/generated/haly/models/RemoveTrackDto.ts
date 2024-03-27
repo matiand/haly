@@ -20,13 +20,13 @@ import { exists, mapValues } from '../runtime';
  */
 export interface RemoveTrackDto {
     /**
-     * 
+     * Track URI. Example: spotify:track:4OMJGnvZfDvsePyCwRGO7X
      * @type {string}
      * @memberof RemoveTrackDto
      */
     uri: string;
     /**
-     * 
+     * Track position in playlist. Use -1 if you want to remove the first track with that URI in playlist.
      * @type {number}
      * @memberof RemoveTrackDto
      */

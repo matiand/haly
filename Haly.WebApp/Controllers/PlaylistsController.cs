@@ -18,6 +18,7 @@ public class PlaylistsController : ApiControllerBase
     [HttpGet("{id}", Name = nameof(GetPlaylist))]
     [SwaggerOperation(Summary = "Get playlist", Description = "Get playlist from our cache")]
     [SwaggerResponse(statusCode: 200, "Playlist found", typeof(PlaylistWithTracksDto))]
+    [SwaggerResponse(statusCode: 400, "Bad request", typeof(Problem))]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
     public async Task<ActionResult<PlaylistWithTracksDto>> GetPlaylist(string id,
         [SwaggerParameter(Description =
@@ -79,7 +80,10 @@ public class PlaylistsController : ApiControllerBase
     [SwaggerResponse(statusCode: 404, "Playlist or tracks were not found", typeof(Problem))]
     [SwaggerResponse(statusCode: 409, "Duplicate tracks were found", typeof(DuplicateProblem))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
-    public async Task<ActionResult<PlaylistBriefDto>> AddTracks(string playlistId, AddTracksRequestBody body,
+    public async Task<ActionResult<PlaylistBriefDto>> AddTracks(
+        [SwaggerParameter("The id of the playlist to add tracks to.")]
+        string playlistId,
+        AddTracksRequestBody body,
         [FromServices] CurrentUserStore currentUserStore)
     {
         var command = new AddTracksCommand()
@@ -102,7 +106,9 @@ public class PlaylistsController : ApiControllerBase
     [SwaggerOperation(Summary = "Remove tracks from a playlist")]
     [SwaggerResponse(statusCode: 200, "Tracks removed", typeof(PlaylistBriefDto))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
-    public async Task<PlaylistBriefDto> RemoveTracks(string playlistId, RemoveTracksRequestBody body)
+    public async Task<PlaylistBriefDto> RemoveTracks(string playlistId,
+        [SwaggerRequestBody($"Array of **{nameof(RemoveTrackDto)}** objects.")]
+        RemoveTracksRequestBody body)
     {
         var response = await Mediator.Send(new RemoveTracksCommand(playlistId, body));
 

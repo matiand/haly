@@ -43,7 +43,7 @@ export interface PutLyricsOperationRequest {
 export class LyricsApi extends runtime.BaseAPI {
 
     /**
-     * Find lyrics in our cache
+     * Get lyrics from our cache
      */
     async getLyricsRaw(requestParameters: GetLyricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LyricsDto>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
@@ -65,7 +65,7 @@ export class LyricsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Find lyrics in our cache
+     * Get lyrics from our cache
      */
     async getLyrics(requestParameters: GetLyricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LyricsDto> {
         const response = await this.getLyricsRaw(requestParameters, initOverrides);
@@ -73,7 +73,7 @@ export class LyricsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch lyrics from GENIUS and update our cache
+     * Fetch lyrics from GENIUS and update our cache.
      * Update lyrics
      */
     async putLyricsRaw(requestParameters: PutLyricsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LyricsDto>> {
@@ -99,7 +99,7 @@ export class LyricsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch lyrics from GENIUS and update our cache
+     * Fetch lyrics from GENIUS and update our cache.
      * Update lyrics
      */
     async putLyrics(requestParameters: PutLyricsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LyricsDto> {

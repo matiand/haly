@@ -27,25 +27,25 @@ import {
 } from './DuplicatesStrategy';
 
 /**
- * 
+ * One of CollectionUri or TrackUris must be provided.
  * @export
  * @interface AddTracksRequest
  */
 export interface AddTracksRequest {
     /**
-     * 
+     * URI of a playlist or album that you want to get tracks from.
      * @type {string}
      * @memberof AddTracksRequest
      */
     collectionUri?: string | null;
     /**
-     * 
+     * Array of track URIs that you want to add.
      * @type {Array<string>}
      * @memberof AddTracksRequest
      */
     trackUris?: Array<string> | null;
     /**
-     * 
+     * Enum specifying how duplicates should be handled.
      * @type {DuplicatesStrategy}
      * @memberof AddTracksRequest
      */

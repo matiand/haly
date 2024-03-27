@@ -5,9 +5,7 @@ using MediatR;
 
 namespace Haly.WebApp.Features.Player.UpdatePlayback;
 
-// todo: explain all the combinations in swagger (only context, context + track, only track)
-public record UpdatePlaybackCommand(string? ContextUri, string? TrackUri, bool WithImprovedShuffle)
-    : IRequest<UpdatePlaybackCommandResponse>;
+public record UpdatePlaybackCommand(UpdatePlaybackRequestBody Body) : IRequest<UpdatePlaybackCommandResponse>;
 
 public class UpdatePlaybackCommandHandler(ISpotifyPlaybackService spotify)
     : IRequestHandler<UpdatePlaybackCommand, UpdatePlaybackCommandResponse>
@@ -17,13 +15,13 @@ public class UpdatePlaybackCommandHandler(ISpotifyPlaybackService spotify)
     {
         try
         {
-            if (request.ContextUri is not null)
+            if (request.Body.ContextUri is not null)
             {
-                await spotify.UpdatePlayback(request.ContextUri, request.TrackUri);
+                await spotify.UpdatePlayback(request.Body.ContextUri, request.Body.TrackUri);
             }
             else
             {
-                await spotify.UpdatePlayback(request.TrackUri!);
+                await spotify.UpdatePlayback(request.Body.TrackUri!);
             }
         }
         catch (ApiException e)
@@ -44,7 +42,7 @@ public class UpdatePlaybackCommandHandler(ISpotifyPlaybackService spotify)
 
     private async Task HandleShuffleFlag(UpdatePlaybackCommand request)
     {
-        if (request is { WithImprovedShuffle: true, ContextUri: not null })
+        if (request.Body is { WithImprovedShuffle: true, ContextUri: not null })
         {
             var playbackState = await spotify.GetPlaybackState();
             if (playbackState?.IsShuffled ?? false)

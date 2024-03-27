@@ -178,7 +178,7 @@ export class PlayerApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-recently-played </b>
-     * Get current user\'s track history
+     * Get current user\'s recently played tracks
      */
     async getRecentlyPlayedRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TrackDto>>> {
         const queryParameters: any = {};
@@ -197,7 +197,7 @@ export class PlayerApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-read-recently-played </b>
-     * Get current user\'s track history
+     * Get current user\'s recently played tracks
      */
     async getRecentlyPlayed(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TrackDto>> {
         const response = await this.getRecentlyPlayedRaw(initOverrides);

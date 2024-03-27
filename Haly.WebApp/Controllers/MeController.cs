@@ -72,7 +72,7 @@ public class MeController : ApiControllerBase
     }
 
     [HttpGet("tracks")]
-    [SwaggerOperation(Summary = "Fetch current user's 'Liked Songs' collection from our cache")]
+    [SwaggerOperation(Summary = "Get current user's 'Liked Songs' collection from our cache")]
     [SwaggerResponse(statusCode: 200, "'Liked Songs' collection", typeof(GetMyLikedSongsQueryResponse))]
     public async Task<GetMyLikedSongsQueryResponse> GetMyLikedSongs(
         [FromServices] CurrentUserStore currentUserStore)
@@ -96,7 +96,7 @@ public class MeController : ApiControllerBase
     }
 
     [HttpGet("artists")]
-    [SwaggerOperation(Summary = "Fetch current user's followed artists from Spotify")]
+    [SwaggerOperation(Summary = "Get current user's followed artists from Spotify")]
     [SwaggerResponse(statusCode: 200, "A list of artists", typeof(IEnumerable<FollowedArtistDto>))]
     [CallsSpotifyApi(SpotifyScopes.UserFollowRead)]
     public async Task<IEnumerable<FollowedArtistDto>> GetMyFollowedArtists()
@@ -107,7 +107,7 @@ public class MeController : ApiControllerBase
     }
 
     [HttpGet("feed")]
-    [SwaggerOperation(Summary = "Fetch current user's feed")]
+    [SwaggerOperation(Summary = "Get current user's feed")]
     [SwaggerResponse(statusCode: 200, "Current user's feed", typeof(UserFeedDto))]
     [CallsSpotifyApi(SpotifyScopes.UserTopRead, SpotifyScopes.UserReadRecentlyPlayed)]
     public async Task<UserFeedDto> GetMyFeed([FromServices] CurrentUserStore currentUserStore)
@@ -119,7 +119,7 @@ public class MeController : ApiControllerBase
     }
 
     [HttpGet("feed/artists")]
-    [SwaggerOperation(Summary = "Fetch current user's top artists from Spotify")]
+    [SwaggerOperation(Summary = "Get current user's top artists from Spotify")]
     [SwaggerResponse(statusCode: 200, "A list of top artists", typeof(IEnumerable<ArtistCardDto>))]
     [CallsSpotifyApi(SpotifyScopes.UserTopRead)]
     public async Task<IEnumerable<ArtistCardDto>> GetMyTopArtists()

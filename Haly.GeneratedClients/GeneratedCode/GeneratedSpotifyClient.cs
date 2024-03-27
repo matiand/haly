@@ -15780,7 +15780,7 @@ namespace Haly.GeneratedClients
         public string Uri { get; set; } = default!;
 
         /// <summary>
-        /// The positions of the tracks in the playlist
+        /// The positions of the track in the playlist
         /// </summary>
         [Newtonsoft.Json.JsonProperty("positions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<int>? Positions { get; set; } = default!;

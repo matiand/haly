@@ -87,7 +87,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>
-     * Fetch current user\'s feed
+     * Get current user\'s feed
      */
     async getMyFeedRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserFeedDto>> {
         const queryParameters: any = {};
@@ -106,7 +106,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read, user-read-recently-played </b>
-     * Fetch current user\'s feed
+     * Get current user\'s feed
      */
     async getMyFeed(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserFeedDto> {
         const response = await this.getMyFeedRaw(initOverrides);
@@ -115,7 +115,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>
-     * Fetch current user\'s followed artists from Spotify
+     * Get current user\'s followed artists from Spotify
      */
     async getMyFollowedArtistsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<FollowedArtistDto>>> {
         const queryParameters: any = {};
@@ -134,7 +134,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-follow-read </b>
-     * Fetch current user\'s followed artists from Spotify
+     * Get current user\'s followed artists from Spotify
      */
     async getMyFollowedArtists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<FollowedArtistDto>> {
         const response = await this.getMyFollowedArtistsRaw(initOverrides);
@@ -142,7 +142,7 @@ export class MeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch current user\'s \'Liked Songs\' collection from our cache
+     * Get current user\'s \'Liked Songs\' collection from our cache
      */
     async getMyLikedSongsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMyLikedSongsQueryResponse>> {
         const queryParameters: any = {};
@@ -160,7 +160,7 @@ export class MeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch current user\'s \'Liked Songs\' collection from our cache
+     * Get current user\'s \'Liked Songs\' collection from our cache
      */
     async getMyLikedSongs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMyLikedSongsQueryResponse> {
         const response = await this.getMyLikedSongsRaw(initOverrides);
@@ -169,7 +169,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read </b>
-     * Fetch current user\'s top artists from Spotify
+     * Get current user\'s top artists from Spotify
      */
     async getMyTopArtistsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtistCardDto>>> {
         const queryParameters: any = {};
@@ -188,7 +188,7 @@ export class MeApi extends runtime.BaseAPI {
 
     /**
      * This endpoint calls Spotify API.<br/>Scopes needed: <b> user-top-read </b>
-     * Fetch current user\'s top artists from Spotify
+     * Get current user\'s top artists from Spotify
      */
     async getMyTopArtists(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ArtistCardDto>> {
         const response = await this.getMyTopArtistsRaw(initOverrides);

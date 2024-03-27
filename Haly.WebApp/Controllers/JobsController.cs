@@ -12,7 +12,8 @@ namespace Haly.WebApp.Controllers;
 public class JobsController : ApiControllerBase
 {
     [HttpPost("playlist-tracks")]
-    [SwaggerOperation(Summary = "Refetch current user's playlist tracks")]
+    [SwaggerOperation(Summary = "Refetch current user's playlist tracks",
+        Description = "Update tracks in playlists that have been marked as stale.")]
     [SwaggerResponse(statusCode: 204, "Playlist tracks refetched")]
     [CallsSpotifyApi(SpotifyScopes.PlaylistReadPrivate)]
     public async Task<ActionResult> RefetchCurrentUserPlaylistTracks([FromServices] CurrentUserStore currentUserStore)

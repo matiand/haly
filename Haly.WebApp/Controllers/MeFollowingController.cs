@@ -12,7 +12,9 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Check if current user follows a creator")]
     [SwaggerResponse(statusCode: 200, "", typeof(bool))]
     [CallsSpotifyApi(SpotifyScopes.UserFollowRead)]
-    public async Task<ActionResult<bool>> CheckIfCurrentUserFollowsCreator(CreatorType type, string creatorId,
+    public async Task<ActionResult<bool>> CheckIfCurrentUserFollowsCreator(CreatorType type,
+        [SwaggerParameter("Artist or user id.")]
+        string creatorId,
         [FromServices] ISpotifyService spotifyService)
     {
         var response = await spotifyService.IsCurrentUserFollowingCreator(type, creatorId);
@@ -24,7 +26,10 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Make current user follow a creator")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
-    public async Task<ActionResult> FollowCreator(string id, CreatorType type,
+    public async Task<ActionResult> FollowCreator(
+        [SwaggerParameter("Artist or user id.")]
+        string id,
+        CreatorType type,
         [FromServices] ISpotifyService spotifyService)
     {
         await spotifyService.FollowCreator(type, id);
@@ -36,7 +41,10 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Make current user unfollow a creator")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
-    public async Task<ActionResult> UnfollowCreator(string id, CreatorType type,
+    public async Task<ActionResult> UnfollowCreator(
+        [SwaggerParameter("Artist or user id.")]
+        string id,
+        CreatorType type,
         [FromServices] ISpotifyService spotifyService)
     {
         await spotifyService.UnfollowCreator(type, id);
