@@ -8,22 +8,26 @@ const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             refetchOnWindowFocus: import.meta.env.PROD,
+            retry: 2,
+            retryDelay: (retryAttempt) => Math.pow(3, retryAttempt + 1) * 1000,
         },
     },
     queryCache: new QueryCache({
-        async onError(error) {
-            if (error instanceof ResponseError) {
-                const responseBody = await error.response.json();
-                if (halyClient.isProblem(responseBody)) {
-                    toast.error(responseBody.title!);
-
-                    return;
-                }
-            }
-
-            console.error("Unknown error", (error as Error).message);
-        },
+        onError: showToastOnProblem,
     }),
 });
+
+export async function showToastOnProblem(error: unknown) {
+    if (error instanceof ResponseError) {
+        const problem = await error.response.json();
+
+        if (halyClient.isProblem(problem)) {
+            toast.error(problem.title);
+            return;
+        }
+    }
+
+    throw error;
+}
 
 export default queryClient;

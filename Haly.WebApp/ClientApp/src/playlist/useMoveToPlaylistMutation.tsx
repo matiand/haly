@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { RemoveTracksRequest } from "../../generated/haly";
 import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
+import { showToastOnProblem } from "../queryClient";
 import ToastWithImage from "../ui/ToastWithImage";
 
 export type MoveToPlaylistMenuItemParams = {
@@ -45,6 +46,7 @@ function useMoveToPlaylistMutation() {
                 </ToastWithImage>,
             );
         },
+        onError: showToastOnProblem,
     });
 }
 

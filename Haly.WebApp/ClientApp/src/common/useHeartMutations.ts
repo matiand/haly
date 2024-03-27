@@ -3,6 +3,7 @@ import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 
 import halyClient from "../halyClient";
+import { showToastOnProblem } from "../queryClient";
 import { isLikedSongsCollectionChangedAtom, likedSongIdByPlaybackIdAtom } from "./atoms/trackAtoms";
 import { GetMyPlaylistsQueryKey, IsCurrentUserFollowingAlbumQueryKey } from "./queryKeys";
 
@@ -66,6 +67,7 @@ function useHeartMutations() {
                 toast("Added to Liked Songs.");
             }
         },
+        onError: showToastOnProblem,
     });
 
     const unfollow = useMutation<HeartMutationParams, unknown, HeartMutationParams>({

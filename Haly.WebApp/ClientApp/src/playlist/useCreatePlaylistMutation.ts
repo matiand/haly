@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import { cachedPlaylistsAtom } from "../common/atoms/playlistAtoms";
 import { userIdAtom } from "../common/atoms/userAtoms";
 import halyClient from "../halyClient";
+import { showToastOnProblem } from "../queryClient";
 
 function useCreatePlaylistMutation(onSuccess?: () => void) {
     const userId = useAtomValue(userIdAtom);
@@ -13,6 +14,7 @@ function useCreatePlaylistMutation(onSuccess?: () => void) {
     const mutation = useMutation({
         mutationFn: (name: string) => halyClient.me.createPlaylist({ name }),
         onSuccess,
+        onError: showToastOnProblem,
     });
     const suggestedName = preparePlaylistName(playlists.filter((p) => p.ownerId === userId).length);
 

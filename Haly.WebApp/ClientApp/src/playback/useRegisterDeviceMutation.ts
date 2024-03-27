@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import { PlaybackContext, playerSdkAtom, streamedTrackAtom, StreamedTrackDto } from "../common/atoms/playbackAtoms";
 
@@ -15,6 +16,7 @@ function useRegisterDeviceMutation() {
         onSuccess: (player) => {
             setPlayer(player);
         },
+        onError: (error) => toast.error(error.message),
     });
 
     const onPlayerStateChange = useCallback<Spotify.PlaybackStateListener>(
@@ -74,7 +76,6 @@ async function registerDeviceForPlayback(setDeviceId: (deviceId: string) => void
     });
 
     player.addListener("ready", ({ device_id }) => {
-        console.log("Ready with Device ID", device_id);
         setDeviceId(device_id);
     });
 

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 
-import { DuplicateProblem, DuplicatesStrategy, ResponseError } from "../../generated/haly";
+import { DuplicateProblem, DuplicatesStrategy, Problem, ResponseError } from "../../generated/haly";
 import { modalAtom } from "../common/atoms/modalAtoms";
 import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
@@ -66,6 +66,11 @@ function useAddToPlaylistMutation() {
                         },
                     },
                 });
+            }
+
+            if (err instanceof ResponseError) {
+                const problem: Problem = await err.response.json();
+                toast.error(problem.title);
             }
         },
     });
