@@ -7,7 +7,7 @@ import { playlistIdsWithOldTracksAtom } from "./atoms/playlistAtoms";
 import { GetMessageHubQueryKey, GetPlaylistQueryKey } from "./queryKeys";
 
 // MessageHub is a SignalR hub used for minor communication with our backend. These messages improve
-// the user experience, but aren't necessary for enjoying this app
+// the user experience, but aren't necessary for enjoying this app.
 export const useMessageHub = () => {
     const queryClient = useQueryClient();
     const setPlaylistIdsWithOldTracks = useSetAtom(playlistIdsWithOldTracksAtom);
@@ -15,7 +15,6 @@ export const useMessageHub = () => {
 
     const connection = new HubConnectionBuilder()
         .withUrl(`${import.meta.env.VITE_API_ORIGIN}/hub`)
-        .withAutomaticReconnect()
         .configureLogging(import.meta.env.DEV ? LogLevel.Information : LogLevel.Error)
         .build();
 
@@ -32,18 +31,22 @@ export const useMessageHub = () => {
         setArtistsLeft(artistsLeft);
     });
 
-    const query = useQuery({
-        queryKey: ["hub"],
-        queryFn: () => connection.start().then(() => 1),
-        staleTime: Infinity,
-    });
-
     connection.onclose(() => {
-        // The connection is usually closed by having no internet access. By invalidating this query
-        // we make sure we'll get automatically reconnected when internet is back.
         console.log("MessageHub is offline");
+        // The connection can be closed by having no internet access or tab inactivity. By
+        // invalidating this query we should be automatically reconnected when it's possible to do so.
         queryClient.invalidateQueries({ queryKey: GetMessageHubQueryKey });
     });
 
-    return { isMessageHubReady: query.isSuccess };
+    // Technically, this should not be a query, but it's the easiest way I found to manage the connection.
+    return useQuery({
+        queryKey: GetMessageHubQueryKey,
+        queryFn: () =>
+            connection.start().then(() => {
+                console.log("MessageHub is online");
+                return connection;
+            }),
+        staleTime: Infinity,
+        refetchOnWindowFocus: true,
+    });
 };
