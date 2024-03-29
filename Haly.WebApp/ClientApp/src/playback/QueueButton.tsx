@@ -1,4 +1,4 @@
-import { RiMenuFill } from "react-icons/ri";
+import { LuListMusic } from "react-icons/lu";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import PlaybackButton from "./PlaybackButton";
@@ -30,7 +30,7 @@ function QueueButton() {
             onClick={onClick}
             label="Queue"
             checked={isInQueue ? "true" : "false"}
-            icon={<RiMenuFill />}
+            icon={<LuListMusic />}
             highlightedWhenActive
         />
     );

@@ -84,9 +84,10 @@ async function registerDeviceForPlayback(setDeviceId: (deviceId: string) => void
         console.warn("Device is offline", device_id);
     });
 
+    // todo: do something with these errors
     player.on("playback_error", ({ message }) => {
         console.error("playback_error", message);
-        // These errors are temporary, so we don't inform the user.
+        // So far these errors show up in dev, so we don't inform the user.
         // setErrorMsg(message);
     });
 
@@ -105,7 +106,6 @@ async function registerDeviceForPlayback(setDeviceId: (deviceId: string) => void
         setErrorMsg(message);
     });
 
-    // todo: do I need this?
     await player.connect();
 
     return player;

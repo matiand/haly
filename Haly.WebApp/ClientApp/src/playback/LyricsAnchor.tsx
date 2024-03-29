@@ -1,4 +1,4 @@
-import { SiGenius } from "react-icons/si";
+import { LuMic2 } from "react-icons/lu";
 
 import { StreamedTrackDto } from "../common/atoms/playbackAtoms";
 import { styled } from "../common/theme";
@@ -16,9 +16,9 @@ function LyricsAnchor({ track }: LyricsLinkProps) {
 
     return (
         <Wrapper>
-            <a target="_blank" href={href} rel="noreferrer">
+            <a target="_blank" href={href} rel="noreferrer" title="Open GENIUS lyrics">
                 <span aria-hidden>
-                    <SiGenius />
+                    <LuMic2 />
                 </span>
             </a>
         </Wrapper>
@@ -41,8 +41,8 @@ const Wrapper = styled("div", {
         },
 
         "& span, & svg": {
-            height: "18px",
-            width: "18px",
+            height: "22px",
+            width: "20px",
         },
     },
 });

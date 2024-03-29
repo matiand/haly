@@ -156,6 +156,7 @@ const Wrapper = styled("div", {
     },
 
     "& > div:last-child": {
+        gap: "$200",
         justifyContent: "flex-end",
         width: "30%",
     },
