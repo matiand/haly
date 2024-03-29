@@ -40,8 +40,6 @@ function usePlaybackTransferFlow(deviceId: string) {
         },
     });
 
-    console.log("transfer: (query success)", transferState, query.isSuccess);
-
     useEffect(() => {
         if (query.isError && transferState === "initial") {
             setTransferState("query-failure");

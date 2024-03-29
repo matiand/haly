@@ -21,7 +21,8 @@ function useRegisterDeviceMutation() {
 
     const onPlayerStateChange = useCallback<Spotify.PlaybackStateListener>(
         (state) => {
-            console.log("new player state", state);
+            // todo: remove this log
+            // console.log("new player state", state);
 
             if (!state) return;
 

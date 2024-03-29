@@ -13,7 +13,6 @@ type RepeatMode = PlaybackContext["repeatMode"];
 function RepeatButton() {
     const repeatMode = useAtomValue(playbackRepeatModeAtom);
     const playbackUri = useAtomValue(playbackUriAtom);
-    console.log(playbackUri);
 
     const queryClient = useQueryClient();
     const setRepeatMode = useMutation({
