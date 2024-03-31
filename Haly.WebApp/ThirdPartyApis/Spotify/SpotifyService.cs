@@ -90,10 +90,6 @@ public sealed class SpotifyService : ISpotifyService
         return new CurrentUserPlaylistsDto(playlistsDto, orderDto);
     }
 
-    // Spotify documentation states that when you omit 'userMarket', the market
-    // associated with user account that requests the data will be used (based on
-    // access token). From testing this seems not true, so when you need data
-    // for your market, set 'userMarket' explicitly.
     public async Task<Playlist?> GetPlaylistWithTracks(string playlistId, string userMarket)
     {
         // GetPlaylistAsync returns playlist with its first 100 tracks
@@ -443,13 +439,12 @@ public sealed class SpotifyService : ISpotifyService
                 .Select(dto => new tracks()
                 {
                     Uri = dto.Uri,
-                    // Don't worry about the possibility of null breaking this operation.
-                    // dto.Position can only be -1 for currently streamed track.
                     Positions = dto.Position != -1 ? new[] { dto.Position - i } : null,
                 })
                 .ToList();
 
-            await _spotifyClient.RemoveTracksPlaylistAsync(playlistId, body: new() { Tracks = batch });
+            var body = new RemovePlaylistTracksBody { Tracks = batch };
+            await _spotifyClient.RemoveTracksPlaylistAsync(playlistId, body);
         }
     }
 }

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import { RemoveTracksRequest } from "../../generated/haly";
-import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
+import { GetPlaylistQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import { showToastOnProblem } from "../queryClient";
 import ToastWithImage from "../ui/ToastWithImage";
@@ -32,17 +32,15 @@ function useMoveToPlaylistMutation() {
                 },
             });
 
-            const [, addResponse] = await Promise.all([removeTask, addTask]);
-
-            return addResponse;
+            return await Promise.all([removeTask, addTask]);
         },
-        onSuccess: (response) => {
-            // By invalidating this query, our backend will look for any changes in our playlists.
-            queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
+        onSuccess: ([removed, added]) => {
+            queryClient.invalidateQueries({ queryKey: GetPlaylistQueryKey(removed.id) });
+            halyClient.jobs.refetchCurrentUserPlaylistTracks();
 
             toast(
-                <ToastWithImage imageUrl={response.thumbnailUrl}>
-                    Moved to <b>{response.name}</b>
+                <ToastWithImage imageUrl={added.thumbnailUrl}>
+                    Moved to <b>{added.name}</b>
                 </ToastWithImage>,
             );
         },

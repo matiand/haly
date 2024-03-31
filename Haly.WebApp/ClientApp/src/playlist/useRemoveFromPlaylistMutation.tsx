@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import { RemoveTracksRequest } from "../../generated/haly";
-import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
+import { GetPlaylistQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import { showToastOnProblem } from "../queryClient";
 import ToastWithImage from "../ui/ToastWithImage";
@@ -24,9 +24,9 @@ function useRemoveFromPlaylistMutation() {
                 },
             });
         },
-        onSuccess: ({ name, thumbnailUrl }) => {
-            // By invalidating this query, our backend will look for any changes in our playlists.
-            queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
+        onSuccess: ({ id, name, thumbnailUrl }) => {
+            queryClient.invalidateQueries({ queryKey: GetPlaylistQueryKey(id) });
+            halyClient.jobs.refetchCurrentUserPlaylistTracks();
 
             toast(
                 <ToastWithImage imageUrl={thumbnailUrl}>

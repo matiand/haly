@@ -1,4 +1,5 @@
 using Haly.WebApp.Data;
+using Haly.WebApp.Models.Jobs;
 using Haly.WebApp.ThirdPartyApis.Spotify;
 using Mapster;
 using MediatR;
@@ -9,6 +10,7 @@ namespace Haly.WebApp.Features.Playlists.AddTracks;
 public record AddTracksCommand : IRequest<AddTracksCommandResponse>
 {
     public string PlaylistId { get; init; }
+    public string UserId { get; init; }
     public string UserMarket { get; init; }
     public AddTracksRequestBody Body { get; init; }
 }
@@ -48,6 +50,8 @@ public class AddTracksCommandHandler(LibraryContext db, ISpotifyService spotify)
             await spotify.AddTracks(request.PlaylistId, trackUris);
         }
 
+        await ScheduleBackgroundJobs(request, cancellationToken);
+
         return new AddTracksCommandResponse(cachedPlaylist.Adapt<PlaylistBriefDto>());
     }
 
@@ -74,5 +78,17 @@ public class AddTracksCommandHandler(LibraryContext db, ISpotifyService spotify)
     private static string GetCollectionIdFromUri(string collectionUri)
     {
         return collectionUri.Split(":").Last();
+    }
+
+    private async Task ScheduleBackgroundJobs(AddTracksCommand request, CancellationToken cancellationToken)
+    {
+        var job = new RefetchPlaylistTracksJob()
+        {
+            UserId = request.UserId,
+            PlaylistId = request.PlaylistId,
+        };
+
+        db.RefetchPlaylistTracksJobs.Add(job);
+        await db.SaveChangesAsync(cancellationToken);
     }
 }

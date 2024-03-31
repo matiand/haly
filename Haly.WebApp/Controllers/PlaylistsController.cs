@@ -84,14 +84,17 @@ public class PlaylistsController : ApiControllerBase
         [SwaggerParameter("The id of the playlist to add tracks to.")]
         string playlistId,
         AddTracksRequestBody body,
-        [FromServices] CurrentUserStore currentUserStore)
+        CurrentUserStore currentUserStore)
     {
+        var user = currentUserStore.User!;
         var command = new AddTracksCommand()
         {
             PlaylistId = playlistId,
-            UserMarket = currentUserStore.User!.Market,
+            UserId = user.Id,
+            UserMarket = user.Market,
             Body = body,
         };
+
         var response = await Mediator.Send(command);
 
         if (response.Playlist is null) return ProblemResponses.NotFound("Playlist or tracks were not found.");
@@ -108,9 +111,11 @@ public class PlaylistsController : ApiControllerBase
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
     public async Task<PlaylistBriefDto> RemoveTracks(string playlistId,
         [SwaggerRequestBody($"Array of **{nameof(RemoveTrackDto)}** objects.")]
-        RemoveTracksRequestBody body)
+        RemoveTracksRequestBody body,
+        CurrentUserStore currentUserStore)
     {
-        var response = await Mediator.Send(new RemoveTracksCommand(playlistId, body));
+        var user = currentUserStore.User!;
+        var response = await Mediator.Send(new RemoveTracksCommand(playlistId, user.Id, body));
 
         return response;
     }

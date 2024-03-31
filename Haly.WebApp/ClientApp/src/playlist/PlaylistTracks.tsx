@@ -78,7 +78,7 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
 
     const items = tracksQuery.data?.pages.flatMap((p) => p.items) ?? [];
     const total = tracksQuery.data?.pages[0].total || 0;
-    const keepInitialPosition = Boolean(searchTerm) && !sortOrder;
+    const keepInitialPosition = Boolean(searchTerm) || !sortOrder;
 
     const fetchMoreItems = useCallback(() => {
         if (!tracksQuery.isFetchingNextPage) {
@@ -89,7 +89,7 @@ function PlaylistTracks({ playlistId, sortOrder, initialTracks, isLikedSongsColl
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tracksQuery.isFetchingNextPage, tracksQuery.data?.pages.length]);
 
-    if (tracksQuery.isInitialLoading) {
+    if (tracksQuery.isLoading) {
         return (
             <PlaylistTable
                 items={initialTracks.items}

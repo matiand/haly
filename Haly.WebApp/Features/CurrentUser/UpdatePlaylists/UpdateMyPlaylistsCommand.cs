@@ -68,9 +68,9 @@ public class UpdateMyPlaylistsHandler(LibraryContext db, ISpotifyService spotify
 
     private void ScheduleBackgroundJobs(PrivateUser user)
     {
-        // We want playlists that are older than a month but still have the same SnapshotId to
-        // update their tracks, because those tracks might have new PlaybackId (happens when the
-        // license expires) and we prefer to have those up to date.
+        // We want playlists that are old but still have the same SnapshotId to update their tracks,
+        // because those tracks might have new PlaybackId (happens when the license expires) and we
+        // prefer to have those up to date.
 
         var refetchTracksJobs = _oldPlaylists.Concat(_changedPlaylists)
             .DistinctBy(p => p.Id)

@@ -94,7 +94,7 @@ function PlaylistTable({
 
                         return (
                             <PlaylistTableRow
-                                key={idx}
+                                key={track.positionInPlaylist}
                                 index={idx}
                                 position={position}
                                 track={track}

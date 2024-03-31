@@ -50,13 +50,7 @@ public class RefetchPlaylistTracksHandler(
             try
             {
                 var freshPlaylist = await spotify.GetPlaylistWithTracks(job.PlaylistId, job.User.Market);
-                playlist.UpdateTracks(freshPlaylist!.Tracks);
-
-                // We also update LikesTotal here, because the CurrentUserPlaylists endpoint doesn't have them.
-                playlist.LikesTotal = freshPlaylist.LikesTotal;
-
-                // For some playlists owned by the 'spotify' user, the SnapshotId changes every time.
-                // We don't update it to avoid infinite jobs.
+                playlist.UpdateModel(freshPlaylist!, includingTracks: true, includingLikes: true);
             }
             catch (ApiException)
             {

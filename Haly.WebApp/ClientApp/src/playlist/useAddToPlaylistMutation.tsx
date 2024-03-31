@@ -1,10 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 
 import { DuplicateProblem, DuplicatesStrategy, Problem, ResponseError } from "../../generated/haly";
 import { modalAtom } from "../common/atoms/modalAtoms";
-import { GetMyPlaylistsQueryKey } from "../common/queryKeys";
 import halyClient from "../halyClient";
 import ToastWithImage from "../ui/ToastWithImage";
 
@@ -16,7 +15,6 @@ type AddToPlaylistMutationParams = {
 };
 
 function useAddToPlaylistMutation() {
-    const queryClient = useQueryClient();
     const setModal = useSetAtom(modalAtom);
 
     const addToPlaylist = useMutation({
@@ -30,8 +28,7 @@ function useAddToPlaylistMutation() {
                 },
             }),
         onSuccess: (response) => {
-            // By invalidating this query, our backend will look for any changes in our playlists.
-            queryClient.invalidateQueries({ queryKey: GetMyPlaylistsQueryKey });
+            halyClient.jobs.refetchCurrentUserPlaylistTracks();
 
             toast(
                 <ToastWithImage imageUrl={response.thumbnailUrl}>
@@ -42,6 +39,7 @@ function useAddToPlaylistMutation() {
         onError: async (err, { collectionUri, trackUris }) => {
             if (err instanceof ResponseError && err.response.status === 404) {
                 toast("No tracks to add.");
+                return;
             }
 
             if (err instanceof ResponseError && err.response.status === 409) {
@@ -66,6 +64,7 @@ function useAddToPlaylistMutation() {
                         },
                     },
                 });
+                return;
             }
 
             if (err instanceof ResponseError) {
