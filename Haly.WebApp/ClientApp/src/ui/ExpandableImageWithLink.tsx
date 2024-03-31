@@ -71,9 +71,10 @@ const Wrapper = styled("div", {
     },
 
     "&.isExpanded": {
-        bottom: `calc(${theme.sizes.playbackControlsHeight} + $$size + 2 * $400)`,
+        bottom: `calc(${theme.sizes.playbackControlsHeight} + 2 * $400)`,
         display: "block",
         marginLeft: "$400",
+        position: "absolute",
 
         img: {
             border: "1px solid $black200",
