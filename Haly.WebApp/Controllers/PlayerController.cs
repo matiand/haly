@@ -35,7 +35,7 @@ public class PlayerController : ApiControllerBase
     [SwaggerResponse(statusCode: 204, "Playback transferred")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
     public async Task<ActionResult> TransferPlayback(string deviceId,
-        [FromServices] ISpotifyPlaybackService playbackService)
+        ISpotifyPlaybackService playbackService)
     {
         await playbackService.TransferPlayback(deviceId);
 
@@ -77,7 +77,7 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Toggle shuffle on or off")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> Shuffle(bool state, [FromServices] ISpotifyPlaybackService playbackService)
+    public async Task<ActionResult> Shuffle(bool state, ISpotifyPlaybackService playbackService)
     {
         await playbackService.ShufflePlayback(state);
 
@@ -89,7 +89,8 @@ public class PlayerController : ApiControllerBase
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
     public async Task<ActionResult> SetRepeatMode(
-        [SwaggerParameter("One of 'off', 'context', or 'track'")] string repeatMode)
+        [SwaggerParameter("One of 'off', 'context', or 'track'")]
+        string repeatMode)
     {
         await Mediator.Send(new SetRepeatModeCommand(repeatMode));
 
@@ -100,7 +101,7 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Resume playback of current context")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> Play([FromServices] ISpotifyPlaybackService playbackService)
+    public async Task<ActionResult> Play(ISpotifyPlaybackService playbackService)
     {
         await playbackService.Play();
 
@@ -111,7 +112,7 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Pause playback of current context")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> Pause([FromServices] ISpotifyPlaybackService playbackService)
+    public async Task<ActionResult> Pause(ISpotifyPlaybackService playbackService)
     {
         await playbackService.Pause();
 
@@ -135,12 +136,11 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Add to playback queue")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> AddToQueue(AddToQueueRequestBody body,
-        [FromServices] CurrentUserStore currentUserStore)
+    public async Task<ActionResult> AddToQueue(AddToQueueRequestBody body, CurrentUserStore meStore)
     {
         var command = new AddToQueueCommand()
         {
-            UserMarket = currentUserStore.User!.Market,
+            UserMarket = meStore.User!.Market,
             Body = body,
         };
         await Mediator.Send(command);

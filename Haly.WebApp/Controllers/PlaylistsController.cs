@@ -38,9 +38,10 @@ public class PlaylistsController : ApiControllerBase
     [SwaggerResponse(statusCode: 204, "Playlist updated")]
     [SwaggerResponse(statusCode: 404, "Playlist not found", typeof(Problem))]
     [CallsSpotifyApi()]
-    public async Task<ActionResult> PutPlaylist(string id, CurrentUserStore currentUserStore, bool forceUpdate = false)
+    public async Task<ActionResult> PutPlaylist(string id, CurrentUserStore meStore, bool forceUpdate = false)
     {
-        var response = await Mediator.Send(new UpdatePlaylistCommand(id, currentUserStore.User!.Market, forceUpdate));
+        var user = meStore.User!;
+        var response = await Mediator.Send(new UpdatePlaylistCommand(id, user.Market, forceUpdate));
 
         if (response is null) return ProblemResponses.NotFound("Playlist not found");
 
@@ -84,9 +85,9 @@ public class PlaylistsController : ApiControllerBase
         [SwaggerParameter("The id of the playlist to add tracks to.")]
         string playlistId,
         AddTracksRequestBody body,
-        CurrentUserStore currentUserStore)
+        CurrentUserStore meStore)
     {
-        var user = currentUserStore.User!;
+        var user = meStore.User!;
         var command = new AddTracksCommand()
         {
             PlaylistId = playlistId,
@@ -112,9 +113,9 @@ public class PlaylistsController : ApiControllerBase
     public async Task<PlaylistBriefDto> RemoveTracks(string playlistId,
         [SwaggerRequestBody($"Array of **{nameof(RemoveTrackDto)}** objects.")]
         RemoveTracksRequestBody body,
-        CurrentUserStore currentUserStore)
+        CurrentUserStore meStore)
     {
-        var user = currentUserStore.User!;
+        var user = meStore.User!;
         var response = await Mediator.Send(new RemoveTracksCommand(playlistId, user.Id, body));
 
         return response;

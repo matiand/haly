@@ -46,11 +46,10 @@ public class MeController : ApiControllerBase
     [SwaggerOperation(Summary = "Create new playlist")]
     [SwaggerResponse(statusCode: 201, "", typeof(PlaylistBriefDto))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic)]
-    public async Task<ActionResult<PlaylistBriefDto>> CreatePlaylist(string name,
-        [FromServices] CurrentUserStore currentUserStore)
+    public async Task<ActionResult<PlaylistBriefDto>> CreatePlaylist(string name, CurrentUserStore meStore)
     {
-        var userId = currentUserStore.User!.Id;
-        var response = await Mediator.Send(new CreatePlaylistCommand(userId, name));
+        var user = meStore.User!;
+        var response = await Mediator.Send(new CreatePlaylistCommand(user.Id, name));
 
         return CreatedAtRoute(routeName: "GetPlaylist", new { id = response.Id }, response);
     }
@@ -60,11 +59,10 @@ public class MeController : ApiControllerBase
     [SwaggerResponse(statusCode: 200, "User playlists updated", typeof(IEnumerable<PlaylistBriefDto>))]
     [SwaggerResponse(statusCode: 404, "User not found", typeof(Problem))]
     [CallsSpotifyApi(SpotifyScopes.PlaylistReadPrivate, SpotifyScopes.PlaylistReadCollaborative)]
-    public async Task<ActionResult<IEnumerable<PlaylistBriefDto>>> PutMyPlaylists(
-        [FromServices] CurrentUserStore currentUserStore)
+    public async Task<ActionResult<IEnumerable<PlaylistBriefDto>>> PutMyPlaylists(CurrentUserStore meStore)
     {
-        var currentUserId = currentUserStore.User!.Id;
-        var response = await Mediator.Send(new UpdateMyPlaylistsCommand(currentUserId));
+        var currentUser = meStore.User!;
+        var response = await Mediator.Send(new UpdateMyPlaylistsCommand(currentUser.Id));
 
         if (response is null) return ProblemResponses.NotFound("User not found");
 
@@ -74,10 +72,9 @@ public class MeController : ApiControllerBase
     [HttpGet("tracks")]
     [SwaggerOperation(Summary = "Get current user's 'Liked Songs' collection from our cache")]
     [SwaggerResponse(statusCode: 200, "'Liked Songs' collection", typeof(GetMyLikedSongsQueryResponse))]
-    public async Task<GetMyLikedSongsQueryResponse> GetMyLikedSongs(
-        [FromServices] CurrentUserStore currentUserStore)
+    public async Task<GetMyLikedSongsQueryResponse> GetMyLikedSongs(CurrentUserStore meStore)
     {
-        var response = await Mediator.Send(new GetMyLikedSongsQuery(currentUserStore.User!));
+        var response = await Mediator.Send(new GetMyLikedSongsQuery(meStore.User!));
 
         return response;
     }
@@ -87,10 +84,9 @@ public class MeController : ApiControllerBase
         "Fetch current user's 'Liked Songs' collection from Spotify and update our cache if it's changed")]
     [SwaggerResponse(statusCode: 204, "'Liked Songs' collection updated")]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
-    public async Task<ActionResult<PlaylistBriefDto>> PutMyLikedSongs(
-        [FromServices] CurrentUserStore currentUserStore)
+    public async Task<ActionResult<PlaylistBriefDto>> PutMyLikedSongs(CurrentUserStore meStore)
     {
-        await Mediator.Send(new UpdateMyLikedSongsCommand(currentUserStore.User!));
+        await Mediator.Send(new UpdateMyLikedSongsCommand(meStore.User!));
 
         return NoContent();
     }
@@ -110,10 +106,10 @@ public class MeController : ApiControllerBase
     [SwaggerOperation(Summary = "Get current user's feed")]
     [SwaggerResponse(statusCode: 200, "Current user's feed", typeof(UserFeedDto))]
     [CallsSpotifyApi(SpotifyScopes.UserTopRead, SpotifyScopes.UserReadRecentlyPlayed)]
-    public async Task<UserFeedDto> GetMyFeed([FromServices] CurrentUserStore currentUserStore)
+    public async Task<UserFeedDto> GetMyFeed(CurrentUserStore meStore)
     {
-        var currentUser = currentUserStore.User!;
-        var response = await Mediator.Send(new GetMyFeedQuery(currentUser.Market));
+        var user = meStore.User!;
+        var response = await Mediator.Send(new GetMyFeedQuery(user.Market));
 
         return response;
     }

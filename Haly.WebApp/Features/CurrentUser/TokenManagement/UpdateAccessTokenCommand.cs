@@ -8,7 +8,7 @@ namespace Haly.WebApp.Features.CurrentUser.TokenManagement;
 
 public record UpdateAccessTokenCommand(string Token) : IRequest<PrivateUser>;
 
-public class UpdateAccessTokenHandler(CurrentUserStore currentUserStore, IHttpClientFactory httpClientFactory)
+public class UpdateAccessTokenHandler(CurrentUserStore meStore, IHttpClientFactory httpClientFactory)
     : IRequestHandler<UpdateAccessTokenCommand, PrivateUser>
 {
     public async Task<PrivateUser> Handle(UpdateAccessTokenCommand request, CancellationToken cancellationToken)
@@ -18,7 +18,7 @@ public class UpdateAccessTokenHandler(CurrentUserStore currentUserStore, IHttpCl
         var spotifyClient = new GeneratedSpotifyClient(innerClient);
 
         var user = await spotifyClient.GetCurrentUsersProfileAsync(cancellationToken);
-        currentUserStore.Update(request.Token, user.Adapt<PrivateUser>());
+        meStore.Update(request.Token, user.Adapt<PrivateUser>());
 
         return user.Adapt<PrivateUser>();
     }

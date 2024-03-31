@@ -15,7 +15,7 @@ public class MeFollowingController : ApiControllerBase
     public async Task<ActionResult<bool>> CheckIfCurrentUserFollowsCreator(CreatorType type,
         [SwaggerParameter("Artist or user id.")]
         string creatorId,
-        [FromServices] ISpotifyService spotifyService)
+        ISpotifyService spotifyService)
     {
         var response = await spotifyService.IsCurrentUserFollowingCreator(type, creatorId);
 
@@ -30,7 +30,7 @@ public class MeFollowingController : ApiControllerBase
         [SwaggerParameter("Artist or user id.")]
         string id,
         CreatorType type,
-        [FromServices] ISpotifyService spotifyService)
+        ISpotifyService spotifyService)
     {
         await spotifyService.FollowCreator(type, id);
 
@@ -45,7 +45,7 @@ public class MeFollowingController : ApiControllerBase
         [SwaggerParameter("Artist or user id.")]
         string id,
         CreatorType type,
-        [FromServices] ISpotifyService spotifyService)
+        ISpotifyService spotifyService)
     {
         await spotifyService.UnfollowCreator(type, id);
 
@@ -57,7 +57,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerResponse(statusCode: 200, "", typeof(bool))]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryRead)]
     public async Task<ActionResult<bool>> CheckIfCurrentUserFollowsAnAlbum(string albumId,
-        [FromServices] ISpotifyService spotifyService)
+        ISpotifyService spotifyService)
     {
         var response = await spotifyService.IsCurrentUserFollowingAnAlbum(albumId);
 
@@ -68,7 +68,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Save an album to your library")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
-    public async Task<ActionResult> FollowAlbum(string id, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> FollowAlbum(string id, ISpotifyService spotifyService)
     {
         await spotifyService.FollowAlbum(id);
 
@@ -79,7 +79,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Remove an album from your library")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserFollowModify)]
-    public async Task<ActionResult> UnfollowAlbum(string id, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> UnfollowAlbum(string id, ISpotifyService spotifyService)
     {
         await spotifyService.UnfollowAlbum(id);
 
@@ -90,7 +90,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Save a playlist to your library")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
-    public async Task<ActionResult> FollowPlaylist(string id, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> FollowPlaylist(string id, ISpotifyService spotifyService)
     {
         await spotifyService.FollowPlaylist(id);
 
@@ -101,7 +101,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Remove a playlist from your library")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.PlaylistModifyPublic, SpotifyScopes.PlaylistModifyPrivate)]
-    public async Task<ActionResult> UnfollowPlaylist(string id, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> UnfollowPlaylist(string id, ISpotifyService spotifyService)
     {
         await spotifyService.UnfollowPlaylist(id);
 
@@ -112,7 +112,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Save tracks to your 'Liked Songs' collection")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryModify)]
-    public async Task<ActionResult> FollowTracks(List<string> ids, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> FollowTracks(List<string> ids, ISpotifyService spotifyService)
     {
         await spotifyService.FollowTracks(ids);
 
@@ -123,7 +123,7 @@ public class MeFollowingController : ApiControllerBase
     [SwaggerOperation(Summary = "Remove tracks from your 'Liked Songs' collection")]
     [SwaggerResponse(statusCode: 204)]
     [CallsSpotifyApi(SpotifyScopes.UserLibraryModify)]
-    public async Task<ActionResult> UnfollowTracks(List<string> ids, [FromServices] ISpotifyService spotifyService)
+    public async Task<ActionResult> UnfollowTracks(List<string> ids, ISpotifyService spotifyService)
     {
         await spotifyService.UnfollowTracks(ids);
 

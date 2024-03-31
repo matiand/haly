@@ -10,27 +10,16 @@ namespace Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 
 public record UpdateMyLikedSongsCommand(PrivateUserDto User) : IRequest;
 
-public record UpdateMyLikedSongsHandler : IRequestHandler<UpdateMyLikedSongsCommand>
+public class UpdateMyLikedSongsHandler(ISpotifyService spotifyService, CurrentUserStore meStore, LibraryContext db)
+    : IRequestHandler<UpdateMyLikedSongsCommand>
 {
-    private readonly ISpotifyService _spotifyService;
-    private readonly CurrentUserStore _currentUserStore;
-    private readonly LibraryContext _db;
-
-    public UpdateMyLikedSongsHandler(ISpotifyService spotifyService, CurrentUserStore currentUserStore,
-        LibraryContext db)
-    {
-        _spotifyService = spotifyService;
-        _currentUserStore = currentUserStore;
-        _db = db;
-    }
-
     public async Task Handle(UpdateMyLikedSongsCommand request, CancellationToken cancellationToken)
     {
         var playlistId = request.User.LikedSongsCollectionId;
         var cachedPlaylist =
-            await _db.Playlists
+            await db.Playlists
                 .FirstOrDefaultAsync(p => p.Id == playlistId, cancellationToken);
-        var likedSongs = await _spotifyService.GetLikedSongsIfChanged(request.User.Market, cachedPlaylist?.SnapshotId);
+        var likedSongs = await spotifyService.GetLikedSongsIfChanged(request.User.Market, cachedPlaylist?.SnapshotId);
 
         if (likedSongs is not null && cachedPlaylist is null)
         {
@@ -54,12 +43,12 @@ public record UpdateMyLikedSongsHandler : IRequestHandler<UpdateMyLikedSongsComm
             Name = "Liked Songs",
             SnapshotId = apiResponse.SnapshotId,
             Tracks = apiResponse.Tracks,
-            Owner = _currentUserStore.User!.Adapt<Owner>(),
+            Owner = meStore.User!.Adapt<Owner>(),
             Description = "",
         };
 
-        _db.Playlists.Add(newPlaylist);
-        await _db.SaveChangesAsync(cancellationToken);
+        db.Playlists.Add(newPlaylist);
+        await db.SaveChangesAsync(cancellationToken);
     }
 
     private async Task UpdatePlaylist(Playlist cachedPlaylist, LikedSongsDto apiResponse,
@@ -67,9 +56,9 @@ public record UpdateMyLikedSongsHandler : IRequestHandler<UpdateMyLikedSongsComm
     {
         cachedPlaylist.SnapshotId = apiResponse.SnapshotId;
 
-        await _db.Entry(cachedPlaylist).Collection(p => p.Tracks).LoadAsync(cancellationToken);
+        await db.Entry(cachedPlaylist).Collection(p => p.Tracks).LoadAsync(cancellationToken);
         cachedPlaylist.UpdateTracks(apiResponse.Tracks);
 
-        await _db.SaveChangesAsync(cancellationToken);
+        await db.SaveChangesAsync(cancellationToken);
     }
 }

@@ -38,12 +38,12 @@ public sealed class SpotifyService : ISpotifyService
 
     public SpotifyService(
         HttpClient httpClient,
-        CurrentUserStore currentUserStore,
+        CurrentUserStore meStore,
         ISpotifyEndpointCollector endpointCollector,
         ILogger<SpotifyService> logger)
     {
         httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
+            new AuthenticationHeaderValue("Bearer", meStore.Token);
 
         _spotifyClient = new GeneratedSpotifyClient(httpClient);
 

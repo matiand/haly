@@ -11,11 +11,11 @@ public sealed class SpotifyPlaybackService : ISpotifyPlaybackService
 {
     private readonly GeneratedSpotifyClient _spotifyClient;
 
-    public SpotifyPlaybackService(HttpClient httpClient, CurrentUserStore currentUserStore,
+    public SpotifyPlaybackService(HttpClient httpClient, CurrentUserStore meStore,
         ILogger<SpotifyService> logger)
     {
         httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", currentUserStore.Token);
+            new AuthenticationHeaderValue("Bearer", meStore.Token);
 
         _spotifyClient = new GeneratedSpotifyClient(httpClient);
 

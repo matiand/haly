@@ -17,7 +17,8 @@ public class SearchController : ApiControllerBase
     public async Task<FindTrackQueryResponse> SearchCacheUsingPlaybackData(
         [SwaggerParameter("The id of the playlist that you want to search.")]
         string playlistId,
-        [SwaggerParameter("Current playback id of the track you want to find.")] string trackPlaybackId)
+        [SwaggerParameter("Current playback id of the track you want to find.")]
+        string trackPlaybackId)
     {
         var request = new FindTrackQuery(playlistId, trackPlaybackId);
         var response = await Mediator.Send(request);
@@ -30,9 +31,9 @@ public class SearchController : ApiControllerBase
     [SwaggerResponse(statusCode: 200, "Search results", typeof(SpotifySearchResultsDto))]
     [CallsSpotifyApi]
     public async Task<SpotifySearchResultsDto> SearchSpotify(string query, SearchType queryType,
-        CurrentUserStore currentUserStore)
+        CurrentUserStore meStore)
     {
-        var request = new SearchSpotifyQuery(query, queryType, currentUserStore.User!.Market);
+        var request = new SearchSpotifyQuery(query, queryType, meStore.User!.Market);
         var response = await Mediator.Send(request);
 
         return response;
