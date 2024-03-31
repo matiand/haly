@@ -106,7 +106,7 @@ export const Body = styled("tbody", {
             },
         },
 
-        [`&:hover, &&.isSelected, &&${dndSelectors.dragOrigin}`]: {
+        [`&:hover, &&${dndSelectors.dragOrigin}`]: {
             background: "$trackHover",
 
             "& button": {
@@ -123,11 +123,18 @@ export const Body = styled("tbody", {
             },
         },
 
-        [`&&.isSelected, &&${dndSelectors.dragOrigin}`]: {
-            background: "$trackSelected",
-        },
-
         "&&.isSelected": {
+            background: "$trackSelected",
+
+            "& a": {
+                color: "$white800",
+            },
+
+            // Show the heart button.
+            "& button[role=switch]": {
+                opacity: 1,
+            },
+
             // First row in the selection range.
             "&:has(+ .isSelected)": {
                 borderRadius: "4px 4px 0 0",
