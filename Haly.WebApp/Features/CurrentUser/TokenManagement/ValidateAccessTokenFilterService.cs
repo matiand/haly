@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Haly.WebApp.Features.CurrentUser.TokenManagement;
 
-// A filter for returning 400 Bad Request when an action needs to call Spotify
+// A filter for returning a '401 Unauthorized' when an action needs to call Spotify
 // API, but the token is missing or invalid.
 public class ValidateAccessTokenFilterService(CurrentUserStore currentUserStore) : IActionFilter
 {
@@ -19,7 +19,7 @@ public class ValidateAccessTokenFilterService(CurrentUserStore currentUserStore)
         var callsSpotifyApiAttribute = actionAttributes.OfType<CallsSpotifyApiAttribute>().SingleOrDefault();
         if (callsSpotifyApiAttribute is not null && currentUserStore.IsEmpty)
         {
-            context.Result = ProblemResponses.BadRequest("Missing or invalid token. Did you forget to authenticate with Spotify API and send the token to our API?.");
+            context.Result = ProblemResponses.Unauthorized("Missing Spotify OAuth token");
         }
     }
 

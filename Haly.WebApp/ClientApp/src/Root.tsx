@@ -1,3 +1,4 @@
+import { LuAlertCircle } from "react-icons/lu";
 import { Outlet } from "react-router-dom";
 
 import { styled, theme } from "./common/theme";
@@ -8,6 +9,7 @@ import DndProvider from "./dnd/DndProvider";
 import ModalProvider from "./menus/ModalProvider";
 import useNewReleasesJobScheduler from "./new-releases/useNewReleasesJobScheduler";
 import Sidebar from "./sidebar/Sidebar";
+import EmptyState from "./ui/EmptyState";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import { MainScrollArea } from "./ui/ScrollArea";
 import SkipToMainContent, { mainContentId } from "./ui/SkipToMainContent";
@@ -22,6 +24,14 @@ function Root() {
     useNewReleasesJobScheduler({ enabled: query.isSuccess });
 
     if (query.isLoading) return <LoadingIndicator />;
+
+    if (query.isError)
+        return (
+            <ErrorWrapper>
+                <EmptyState title="Something went wrong" icon={<LuAlertCircle />} />;
+                <Toaster />
+            </ErrorWrapper>
+        );
 
     return (
         <DndProvider>
@@ -80,6 +90,13 @@ const MainLayout = styled("div", {
 
         marginTop: "$$topMargin",
         padding: "0 $700 $800",
+    },
+});
+
+const ErrorWrapper = styled(Layout, {
+    "& > :first-child": {
+        gridArea: "main",
+        marginTop: "40vh",
     },
 });
 

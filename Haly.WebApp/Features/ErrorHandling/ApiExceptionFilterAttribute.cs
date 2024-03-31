@@ -43,7 +43,7 @@ public class ApiExceptionFilter(ILogger<ApiExceptionFilter> logger) : IException
                 }
             default:
                 {
-                    context.Result = ProblemResponses.InternalServerProblem("Internal server error");
+                    context.Result = ProblemResponses.InternalServerProblem("Internal server failure");
                     break;
                 }
         }
