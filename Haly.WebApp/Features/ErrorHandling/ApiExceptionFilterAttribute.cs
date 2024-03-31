@@ -1,5 +1,8 @@
+using System.Data;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using GeneratedClient = Haly.GeneratedClients;
 
 namespace Haly.WebApp.Features.ErrorHandling;
@@ -29,9 +32,14 @@ public class ApiExceptionFilter(ILogger<ApiExceptionFilter> logger) : IException
                         break;
                     }
 
+                    if (apiException.StatusCode == 400)
+                    {
+                        HandleBadRequestApiException(context, apiException);
+                        break;
+                    }
+
                     context.Result = apiException.StatusCode switch
                     {
-                        400 => ProblemResponses.BadRequest(apiException.Message),
                         401 => ProblemResponses.Unauthorized("Bad or expired Spotify OAuth token"),
                         403 => ProblemResponses.Forbidden("Missing scopes for Spotify OAuth token"),
                         404 => ProblemResponses.NotFound("Resource not found"),
@@ -39,6 +47,16 @@ public class ApiExceptionFilter(ILogger<ApiExceptionFilter> logger) : IException
                         503 => ProblemResponses.ServiceUnavailable("Spotify API is unavailable"),
                         _ => ProblemResponses.BadGateway("Spotify API failure"),
                     };
+                    break;
+                }
+            case DbUpdateException:
+                {
+                    context.Result = ProblemResponses.DatabaseConflict("Failure when saving to the database");
+                    break;
+                }
+            case DBConcurrencyException:
+                {
+                    context.Result = ProblemResponses.DatabaseConflict("Failure when saving to the database");
                     break;
                 }
             default:
@@ -49,4 +67,18 @@ public class ApiExceptionFilter(ILogger<ApiExceptionFilter> logger) : IException
         }
     }
 
+    private static void HandleBadRequestApiException(ExceptionContext context,
+        GeneratedClient.ApiException apiException)
+    {
+        try
+        {
+            var errorObject =
+                JsonConvert.DeserializeObject<GeneratedClient.Response>(apiException.Response!);
+            context.Result = ProblemResponses.BadRequest(errorObject?.Error.Message ?? "Bad request");
+        }
+        catch (Exception)
+        {
+            context.Result = ProblemResponses.BadGateway("Spotify API failure");
+        }
+    }
 }

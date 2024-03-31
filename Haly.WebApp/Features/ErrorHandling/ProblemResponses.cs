@@ -69,6 +69,18 @@ public static class ProblemResponses
         return new ObjectResult(problem) { StatusCode = 404 };
     }
 
+    public static ActionResult DatabaseConflict(string title)
+    {
+        var problem = new Problem
+        {
+            Type = "https://httpstatuses.io/409",
+            Status = 409,
+            Title = title,
+        };
+
+        return new ObjectResult(problem) { StatusCode = 409 };
+    }
+
     public static ActionResult DuplicateConflict(PlaylistBriefDto playlist, DuplicateType duplicateType)
     {
         var problem = new DuplicateProblem
