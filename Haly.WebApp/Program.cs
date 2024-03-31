@@ -74,7 +74,6 @@ app.UseSwaggerIfDevelopment();
 
 if (app.Environment.IsProduction())
 {
-    Console.WriteLine("is production");
     app.UseDefaultFiles();
     app.UseStaticFiles();
 }
