@@ -8,6 +8,7 @@ import { useMessageHub } from "./common/useMessageHub";
 import DndProvider from "./dnd/DndProvider";
 import ModalProvider from "./menus/ModalProvider";
 import useNewReleasesJobScheduler from "./new-releases/useNewReleasesJobScheduler";
+import PlaybackWrapper from "./playback/PlaybackWrapper";
 import Sidebar from "./sidebar/Sidebar";
 import EmptyState from "./ui/EmptyState";
 import LoadingIndicator from "./ui/LoadingIndicator";
@@ -49,7 +50,7 @@ function Root() {
                     </MainScrollArea>
                 </Main>
 
-                {/*<PlaybackWrapper />*/}
+                <PlaybackWrapper />
 
                 <Toaster />
                 <ModalProvider />

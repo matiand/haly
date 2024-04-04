@@ -7,7 +7,6 @@ import halyClient from "./halyClient";
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            refetchOnWindowFocus: import.meta.env.PROD,
             retry: 2,
             retryDelay: (retryAttempt) => Math.pow(3, retryAttempt + 1) * 1000,
         },
