@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect } from "react";
+import { MouseEventHandler } from "react";
 import { HiPause, HiPlay } from "react-icons/hi2";
 
 import { styled, theme } from "../common/theme";
@@ -12,9 +12,6 @@ type PlaybackToggleProps = {
 };
 
 function PlaybackToggle({ size, isPaused, toggle, disabled }: PlaybackToggleProps) {
-    // This won't work (I think) in browsers. If some other button is focused, spacebar will activate them both.
-    // useSpacebarShortcut(toggle, { enabled: !!handlesSpacebar && !disabled });
-
     const label = isPaused ? "Play" : "Pause";
     const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
         e.stopPropagation();
@@ -35,28 +32,6 @@ function PlaybackToggle({ size, isPaused, toggle, disabled }: PlaybackToggleProp
             <span aria-hidden>{isPaused ? <HiPlay /> : <HiPause className="pause-icon" />}</span>
         </Button>
     );
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function useSpacebarShortcut(
-    cb: () => void,
-    options: {
-        enabled: boolean;
-    },
-) {
-    return useEffect(() => {
-        if (!options.enabled) return;
-
-        const keyHandler = (e: KeyboardEvent) => {
-            if (e.code === "Space" && !e.repeat) {
-                cb();
-            }
-        };
-
-        document.addEventListener("keydown", keyHandler);
-
-        return () => document.removeEventListener("keydown", keyHandler);
-    }, [options.enabled, cb]);
 }
 
 const Button = styled("button", {
