@@ -17,6 +17,9 @@ export default defineConfig({
         port: 3000,
     },
     test: {
+        // @testing-library expects afterEach to be globally defined to run the cleanup after each
+        // test, which is not the case with vitest by default.
+        globals: true,
         setupFiles: ["./tests/setup.ts"],
     }
 });
