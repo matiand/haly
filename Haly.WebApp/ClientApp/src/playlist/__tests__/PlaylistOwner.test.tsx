@@ -25,7 +25,7 @@ describe("owner is the current user", () => {
     });
 });
 
-describe.only("owner is not the current user", () => {
+describe("owner is not the current user", () => {
     test("anchor links to the 'user' page", () => {
         const owner = createRandomOwner();
         const user = createRandomUser();
