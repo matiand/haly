@@ -22,7 +22,7 @@ function AppearsOn({ artistId }: AppearsOnProps) {
 
     const href = `appears-on/${filter}`;
 
-    return <ResizableCardGroup title="Appears On" items={items} options={options} maxRows={1} href={href} />;
+    return <ResizableCardGroup title="Appears On" items={items} options={options} maxRows={1} href={href} showEmpty />;
 }
 
 export default AppearsOn;

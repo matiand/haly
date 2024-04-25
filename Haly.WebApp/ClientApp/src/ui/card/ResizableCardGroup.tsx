@@ -12,9 +12,10 @@ type ResizableCardGroupProps = {
     title?: string;
     href?: string;
     options?: Option[];
+    showEmpty?: boolean;
 };
 
-function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableCardGroupProps) {
+function ResizableCardGroup({ title, items, maxRows, href, options, showEmpty }: ResizableCardGroupProps) {
     const [cardsPerRow, setCardsPerRow] = useState(0);
     const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +38,7 @@ function ResizableCardGroup({ title, items, maxRows, href, options }: ResizableC
     const hasMore = items.length > cardsPerRow * maxRows && href;
     const hasOptions = options && options.length > 0;
 
-    if (items.length === 0) return null;
+    if (items.length === 0 && !showEmpty) return null;
     if (cardsPerRow === 0) return <CardGroup.Root ref={sectionRef} />;
 
     return (

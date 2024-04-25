@@ -48,19 +48,18 @@ function useAppearsOnFilter(initialFilter: AppearsOnFilter, data?: ArtistAppeara
             options: [],
         };
 
-    const hasAlbums = data.albums.length > 0;
     const hasSinglesOrEps = data.singlesAndEps.length > 0;
     const hasCompilations = data.compilations.length > 0;
 
-    const options: Option[] = [];
-    if (hasAlbums)
-        options.push({
+    const options: Option[] = [
+        {
             name: "Albums",
             onSelected: () => {
                 setFilter("album");
             },
             isDefault: filter === "album",
-        });
+        },
+    ];
 
     if (hasSinglesOrEps)
         options.push({
