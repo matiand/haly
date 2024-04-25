@@ -4,8 +4,7 @@ import { renderHook } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
 import { AlbumDetailedDto } from "../../../generated/haly";
-import createRandomStreamedTrack from "../../../tests/utils/createRandomStreamedTrack";
-import createRandomUri from "../../../tests/utils/createRandomUri";
+import { createRandomStreamedTrack,createRandomUri } from "../../../tests/utils/createRandomData";
 import StoreProvider, { makeAtomTuple } from "../../../tests/utils/StoreProvider";
 import { PageContext, pageContextAtom } from "../../common/atoms/pageAtoms";
 import { streamedTrackAtom } from "../../common/atoms/playbackAtoms";

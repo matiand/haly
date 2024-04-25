@@ -6,7 +6,7 @@ type AnimatedMusicBarsProps = {
 
 function AnimatedMusicBars({ type }: AnimatedMusicBarsProps) {
     return (
-        <Wrapper type={type} aria-hidden>
+        <Wrapper type={type} aria-hidden data-testid="animated-music-bars">
             <span />
             <span />
             <span />

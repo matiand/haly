@@ -17,14 +17,6 @@ type PlaybackCellProps = {
 };
 
 function PlaybackCell({ position, name, playbackState, playbackAction, isPodcast }: PlaybackCellProps) {
-    if (!playbackAction) {
-        return (
-            <Wrapper className={clsx({ alwaysIndex: true })}>
-                <Index>{position}</Index>
-            </Wrapper>
-        );
-    }
-
     if (isPodcast) {
         return (
             <Wrapper>
@@ -40,6 +32,14 @@ function PlaybackCell({ position, name, playbackState, playbackAction, isPodcast
                         <MdPodcasts />
                     </span>
                 </Button>
+            </Wrapper>
+        );
+    }
+
+    if (!playbackAction) {
+        return (
+            <Wrapper className={clsx({ alwaysIndex: true })}>
+                <Index>{position}</Index>
             </Wrapper>
         );
     }
