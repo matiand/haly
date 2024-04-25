@@ -84,7 +84,13 @@ function Artist() {
 
             <PageControls>
                 <PlaybackToggle size="large" isPaused={playbackState !== "playing"} toggle={togglePlayback} />
-                <FollowCreatorButton creatorId={artistId} initialValue={isFollowed} type="Artist" />
+                <FollowCreatorButton
+                    // Force a rerender when the state was modified outside of the component.
+                    key={isFollowed ? 1 : 0}
+                    creatorId={artistId}
+                    initialValue={isFollowed}
+                    type="Artist"
+                />
             </PageControls>
 
             <ArtistHighlights artistId={artistId} tracks={topTracks} playlist={highlightedPlaylist} />
