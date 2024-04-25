@@ -8,7 +8,6 @@ type PlaybackToggleProps = {
     isPaused: boolean;
     toggle: () => void;
     disabled?: boolean;
-    handlesSpacebar?: boolean;
 };
 
 function PlaybackToggle({ size, isPaused, toggle, disabled }: PlaybackToggleProps) {

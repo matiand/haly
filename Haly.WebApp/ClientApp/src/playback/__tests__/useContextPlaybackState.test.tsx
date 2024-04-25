@@ -2,8 +2,7 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import createRandomStreamedTrack from "../../../tests/utils/createRandomStreamedTrack";
-import createRandomUri from "../../../tests/utils/createRandomUri";
+import { createRandomStreamedTrack,createRandomUri } from "../../../tests/utils/createRandomData";
 import StoreProvider, { makeAtomTuple } from "../../../tests/utils/StoreProvider";
 import { streamedTrackAtom } from "../../common/atoms/playbackAtoms";
 import useContextPlaybackState from "../useContextPlaybackState";

@@ -26,7 +26,7 @@ function FollowCreatorButton({ creatorId, initialValue, type }: FollowButtonProp
     });
     const unfollow = useMutation({
         mutationFn: (creatorId: string) =>
-            halyClient.meFollowing.followCreator({
+            halyClient.meFollowing.unfollowCreator({
                 id: creatorId,
                 type,
             }),
