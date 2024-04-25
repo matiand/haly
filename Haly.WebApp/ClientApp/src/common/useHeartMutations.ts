@@ -104,6 +104,7 @@ function useHeartMutations() {
                 toast("Removed from Liked Songs.");
             }
         },
+        onError: showToastOnProblem,
     });
 
     return {

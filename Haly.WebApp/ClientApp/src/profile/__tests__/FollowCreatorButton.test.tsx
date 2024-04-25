@@ -13,13 +13,13 @@ import FollowCreatorButton from "../FollowCreatorButton";
 vi.mock("../../halyClient");
 vi.mock("react-hot-toast");
 
+afterEach(() => {
+    vi.clearAllMocks();
+});
+
 describe("'follow' flow", () => {
     const creatorId = simpleFaker.string.numeric(12);
     const creatorType = simpleFaker.helpers.arrayElement<CreatorType>(["Artist", "User"]);
-
-    afterEach(() => {
-        vi.resetAllMocks();
-    });
 
     test("renders a button with 'Following' text on a successful follow", () => {
         render(<FollowCreatorButton creatorId={creatorId} initialValue={false} type={creatorType} />, {
@@ -64,10 +64,6 @@ describe("'follow' flow", () => {
 describe("'unfollow' flow", () => {
     const creatorId = simpleFaker.string.numeric(12);
     const creatorType = simpleFaker.helpers.arrayElement<CreatorType>(["Artist", "User"]);
-
-    afterEach(() => {
-        vi.resetAllMocks();
-    });
 
     test("renders a button with 'Follow' text on a successful unfollow", () => {
         render(<FollowCreatorButton creatorId={creatorId} initialValue={true} type={creatorType} />, {
