@@ -24,7 +24,7 @@ public static class SpotifyHttpClientBuilderExtensions
                 // and typically indicates an error in our request rather than a transient issue.
                 if (code == HttpStatusCode.BadGateway) return false;
 
-                return code >= HttpStatusCode.InternalServerError;
+                return code >= HttpStatusCode.InternalServerError || code == HttpStatusCode.TooManyRequests;
             })
             .WaitAndRetryAsync(retryCount: 3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(x: 3, retryAttempt)));
     }
