@@ -36,7 +36,8 @@
             "command": "npx",
             "cwd": "Haly.WebApp/ClientApp",
             "args": ["eslint", "--fix", "--format=pretty", "${staged}"],
-            "include": ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx"]
+            "include": ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx"],
+            "exclude": ["**/generated/*", "**/*IntegrationTests.ClientApp/*"]
         }
     ]
 }

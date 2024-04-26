@@ -1,0 +1,14 @@
+{
+    "name": "haly.integrationtests.client",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "NODE_NO_WARNINGS=1 http-server ../Haly.WebApp/wwwroot -p 5555",
+        "test": "npx playwright test",
+        "ui": "npx playwright test --ui --project=chromium"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.43.1",
+        "@types/node": "^20.12.7",
+        "http-server": "^14.1.1"
+    }
+}
