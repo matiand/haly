@@ -1,5 +1,13 @@
 import { test, expect } from "@playwright/test";
 
+// Don't use the authenticated storage state.
+test.use({
+    storageState: {
+        cookies: [],
+        origins: [],
+    },
+});
+
 test("has title", async ({ page }) => {
     await page.goto("/");
 
