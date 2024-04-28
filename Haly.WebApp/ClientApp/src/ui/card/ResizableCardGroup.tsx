@@ -42,7 +42,7 @@ function ResizableCardGroup({ title, items, maxRows, href, options, showEmpty }:
     if (cardsPerRow === 0) return <CardGroup.Root ref={sectionRef} />;
 
     return (
-        <CardGroup.Root ref={sectionRef}>
+        <CardGroup.Root ref={sectionRef} data-testid="card-group">
             {title && <CardGroup.Title title={title} href={hasMore ? href : null} />}
 
             {hasOptions && <RadioGroup options={options} />}

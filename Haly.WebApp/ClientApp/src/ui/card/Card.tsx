@@ -63,6 +63,7 @@ function Card({ id, name, uri, href, subtitle, imageUrl }: CardProps) {
             onClick={navigateOnClick}
             onContextMenu={onContextMenu}
             className={clsx({ isCurrentlyPlaying: playbackState === "playing" })}
+            data-testid="card"
         >
             <ImageWrapper className={clsx({ isRounded: !isAlbumOrPlaylist })}>
                 {imageUrl ? <img loading="eager" src={imageUrl} alt="" /> : <EmptyCoverImage type="card" />}
