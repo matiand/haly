@@ -57,7 +57,12 @@ function UserLibraryItem({ item, uri, href, playbackState, isPinned }: UserLibra
 
     return (
         <>
-            <ListItem onDoubleClick={togglePlayback} onContextMenu={onContextMenu} className={clsx({ isListenedTo })}>
+            <ListItem
+                onDoubleClick={togglePlayback}
+                onContextMenu={onContextMenu}
+                className={clsx({ isListenedTo })}
+                data-testid={`library-item-${item.type}`}
+            >
                 <DroppableLibraryItem href={href} area={area}>
                     {isPinned && (
                         <span aria-hidden>

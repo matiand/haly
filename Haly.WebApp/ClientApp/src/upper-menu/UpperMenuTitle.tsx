@@ -24,7 +24,12 @@ function UpperMenuTitle({ name, contextId, contextType }: UpperMenuTitleProps) {
     );
 
     return (
-        <Wrapper ref={draggableRef} {...draggableProps} className={classNames.clampEllipsis}>
+        <Wrapper
+            ref={draggableRef}
+            {...draggableProps}
+            className={classNames.clampEllipsis}
+            data-testid="upper-menu-title"
+        >
             {name}
         </Wrapper>
     );

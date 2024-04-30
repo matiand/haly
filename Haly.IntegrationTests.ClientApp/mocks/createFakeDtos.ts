@@ -91,3 +91,74 @@ export function createFakeUserFeedDto() {
         },
     };
 }
+
+export function createFakePlaylistWithTracksDto() {
+    const tracks = createFakePaginatedTracksDto(25);
+
+    return {
+        id: faker.string.alphanumeric(12),
+        name: faker.music.songName(),
+        imageUrl: faker.helpers.maybe(() => createFakeImageUrl("medium"), { probability: 0.95 }),
+        description: faker.helpers.maybe(() => faker.lorem.sentence(4), { probability: 0.2 }),
+        owner: createFakeOwner(),
+        likesTotal: faker.number.int({ min: 0, max: 1_000_000 }),
+        totalDuration: tracks.totalDuration,
+        tracks,
+    };
+}
+
+export function createFakePaginatedTracksDto(total: number) {
+    const items = faker.helpers
+        .multiple(() => createFakeTrackDto(), { count: total })
+        .map((t, idx) => ({ ...t, positionInPlaylist: idx }));
+
+    return {
+        limit: 200,
+        offset: 0,
+        total,
+        items,
+        totalDuration: `${faker.number.int({
+            min: 0,
+            max: 23,
+        })}h ${faker.number.int({
+            min: 0,
+            max: 59,
+        })}min`,
+    };
+}
+
+export function createFakeTrackDto() {
+    const id = faker.string.alphanumeric(12);
+    return {
+        id,
+        playbackId: faker.datatype.boolean({ probability: 0.8 }) ? id : faker.string.alphanumeric(12),
+        uri: `spotify:track:${id}`,
+        name: faker.music.songName(),
+        album: createFakeAlbumBriefDto(),
+        artists: faker.helpers.multiple(() => createFakeArtistBriefDto(), {
+            count: {
+                min: 1,
+                max: 3,
+            },
+        }),
+        duration: `${faker.number.int({
+            min: 0,
+            max: 15,
+        })}:${faker.number.int({
+            min: 0,
+            max: 59,
+        })}`,
+        addedAt: faker.date.past().toJSON(),
+        isPlayable: faker.datatype.boolean({ probability: 0.9 }),
+        isExplicit: faker.datatype.boolean({ probability: 0.2 }),
+        isSong: true,
+    };
+}
+
+export function createFakeAlbumBriefDto() {
+    return {
+        id: faker.string.alphanumeric(12),
+        name: faker.music.songName(),
+        imageUrl: faker.helpers.maybe(() => createFakeImageUrl("small"), { probability: 0.95 }),
+    };
+}
