@@ -2,6 +2,8 @@ import { faker } from "@faker-js/faker";
 
 // Ideally, we would use a library to get the real types.
 
+faker.seed(9000);
+
 export function createFakePrivateUserDto() {
     return {
         id: faker.string.alphanumeric(12),
@@ -107,6 +109,8 @@ export function createFakePlaylistWithTracksDto() {
     };
 }
 
+export type PlaylistWithTracksDto = ReturnType<typeof createFakePlaylistWithTracksDto>;
+
 export function createFakePaginatedTracksDto(total: number) {
     const items = faker.helpers
         .multiple(() => createFakeTrackDto(), { count: total })
@@ -145,7 +149,7 @@ export function createFakeTrackDto() {
             min: 0,
             max: 15,
         })}:${faker.number.int({
-            min: 0,
+            min: 10,
             max: 59,
         })}`,
         addedAt: faker.date.past().toJSON(),

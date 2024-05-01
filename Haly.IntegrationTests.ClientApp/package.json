@@ -2,7 +2,7 @@
     "name": "haly.integrationtests.client",
     "version": "1.0.0",
     "scripts": {
-        "start": "NODE_NO_WARNINGS=1 http-server ../Haly.WebApp/wwwroot -p 5555",
+        "start": "NODE_NO_WARNINGS=1 http-server ../Haly.WebApp/wwwroot -p 5555 --proxy http://localhost:5555?",
         "test": "npx playwright test",
         "ui": "npx playwright test --ui --project=chromium"
     },
