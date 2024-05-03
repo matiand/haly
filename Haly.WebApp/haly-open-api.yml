@@ -42,13 +42,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  '/Albums/{id}/recomendations':
+  '/Albums/{id}/recommendations':
     get:
       tags:
         - Albums
-      summary: Get album recomendations
+      summary: Get album recommendations
       description: Find similar albums to this one<br/>This endpoint calls Spotify API.
-      operationId: GetAlbumRecomendations
+      operationId: GetAlbumRecommendations
       parameters:
         - name: id
           in: path

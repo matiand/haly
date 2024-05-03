@@ -13,7 +13,7 @@ function SimilarAlbums({ albumId, trackIds }: SimilarAlbumsProps) {
     const query = useQuery({
         queryKey: ["recommendations", albumId],
         queryFn: () =>
-            halyClient.albums.getAlbumRecomendations({
+            halyClient.albums.getAlbumRecommendations({
                 id: albumId,
                 trackIds: trackIds.slice(0, 5).join(","),
             }),

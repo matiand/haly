@@ -22,11 +22,11 @@ public class AlbumsController : ApiControllerBase
         return album;
     }
 
-    [HttpGet("{id}/recomendations")]
-    [SwaggerOperation(Summary = "Get album recomendations", Description = "Find similar albums to this one")]
+    [HttpGet("{id}/recommendations")]
+    [SwaggerOperation(Summary = "Get album recommendations", Description = "Find similar albums to this one")]
     [SwaggerResponse(statusCode: 200, "A list of albums", typeof(IEnumerable<ReleaseItemDto>))]
     [CallsSpotifyApi()]
-    public async Task<IEnumerable<ReleaseItemDto>> GetAlbumRecomendations(string id, string trackIds,
+    public async Task<IEnumerable<ReleaseItemDto>> GetAlbumRecommendations(string id, string trackIds,
         CurrentUserStore meStore)
     {
         var currentUser = meStore.User!;
