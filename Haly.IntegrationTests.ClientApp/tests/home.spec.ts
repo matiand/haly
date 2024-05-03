@@ -26,7 +26,8 @@ test("has title", async ({ page }) => {
 test("has a 'Made for you' section with playlist cards", async ({ page }) => {
     const cardSection = page.getByTestId("card-group").filter({ has: page.getByRole("heading", { name: /Made for/ }) });
 
-    await expect(cardSection).toBeVisible();
+    await expect(cardSection.getByTestId("card").first()).toBeVisible();
+
     expect(await cardSection.getByTestId("card").count()).toBeGreaterThan(0);
 });
 
@@ -69,11 +70,13 @@ test.describe("cards", () => {
         const card = page.getByTestId("card").first();
         await card.click({ button: "right" });
 
-        expect(await page.getByRole("menu").getByRole("menuitem").count()).toBeGreaterThan(0);
+        await expect(page.getByRole("menuitem", { name: "Share" })).toBeVisible();
     });
 
     test("caps the number of cards shown in a card section to available space", async ({ page }) => {
         const cardSection = page.getByTestId("card-group").first();
+
+        await expect(cardSection.getByTestId("card").first()).toBeVisible();
 
         expect(await cardSection.getByTestId("card").count()).toBeLessThan(10);
     });
