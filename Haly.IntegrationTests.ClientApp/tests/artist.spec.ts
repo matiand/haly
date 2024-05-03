@@ -3,20 +3,13 @@ import {
     ArtistDiscographyDto,
     createFakeArtistDetailedDto,
     createFakeArtistDiscographyDto,
-    createFakePlaylistWithTracksDto,
     createFakePrivateUserDto,
-    PlaylistWithTracksDto,
 } from "../mocks/createFakeDtos";
 import { expect, test as base } from "@playwright/test";
 import { mockPutCurrentUser } from "../mocks/putCurrentUser";
 import { mockPutMyLikedSongs } from "../mocks/putMyLikedSongs";
 import { mockPutMyPlaylists } from "../mocks/putMyPlaylists";
 import { mockPostJobs } from "../mocks/postJobs";
-import { mockGetPlaylist } from "../mocks/getPlaylist";
-import { mockPutPlaylist } from "../mocks/putPlaylist";
-import { mockGetPlaylistTracks } from "../mocks/getPlaylistTracks";
-import { mockPutFollowing } from "../mocks/putFollowing";
-import { mockDeleteFollowing } from "../mocks/deleteFollowing";
 import { mockGetArtist } from "../mocks/getArtist";
 import { mockGetArtistDiscography } from "../mocks/getArtistDiscography";
 import { mockGetArtistAppearances } from "../mocks/getArtistAppearances";
@@ -66,7 +59,7 @@ test("page contains information about the playlist", async ({ page, artist }) =>
 
     await test.step("genres", async () => {
         for (const genre of artist.genres) {
-            await expect(page.getByText(genre)).toBeVisible();
+            await expect(page.getByText(genre, { exact: true })).toBeVisible();
         }
     });
 });

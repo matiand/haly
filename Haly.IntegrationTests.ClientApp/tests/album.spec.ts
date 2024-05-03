@@ -55,7 +55,8 @@ test("page contains information about the album", async ({ page, album }) => {
     await test.step("album type", async () => {
         await expect(
             page.getByRole("heading", {
-                name: /album|single|ep/i,
+                name: album.type,
+                exact: true,
             }),
         ).toBeVisible();
     });
@@ -71,8 +72,8 @@ test("page contains information about the album", async ({ page, album }) => {
         }
     });
 
-    await test.step("release year", async () => {
-        await expect(page.getByText(`${album.releaseYear}`, { exact: true })).toBeVisible();
+    await test.step("release date", async () => {
+        await expect(page.getByText(album.formattedReleaseDate)).toBeVisible();
     });
 
     await test.step("duration", async () => {

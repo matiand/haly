@@ -20,11 +20,21 @@ test.beforeEach(async ({ page }) => {
 
 test("back and forward buttons works", async ({ page }) => {
     await test.step("Search page", async () => {
-        await page.getByRole("link", { name: "Search" }).click();
+        await page
+            .getByRole("link", {
+                name: "Search",
+                exact: true,
+            })
+            .click();
     });
 
     await test.step("Home page", async () => {
-        await page.getByRole("link", { name: "Home" }).click();
+        await page
+            .getByRole("link", {
+                name: "Home",
+                exact: true,
+            })
+            .click();
     });
 
     await expect(page).toHaveTitle("Home");
