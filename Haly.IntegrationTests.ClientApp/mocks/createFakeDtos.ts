@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { format } from "date-fns";
 
 // Ideally, we would use a library to get the real types.
 
@@ -77,6 +78,8 @@ export function createFakeReleaseItemDto() {
     };
 }
 
+export type ReleaseItemDto = ReturnType<typeof createFakeReleaseItemDto>;
+
 export function createFakeArtistBriefDto() {
     return {
         id: faker.string.alphanumeric(12),
@@ -127,14 +130,21 @@ export function createFakePaginatedTracksDto(total: number) {
         offset: 0,
         total,
         items,
-        totalDuration: `${faker.number.int({
-            min: 0,
-            max: 23,
-        })}h ${faker.number.int({
-            min: 0,
-            max: 59,
-        })}min`,
+        totalDuration: createFakeTotalDuration(),
     };
+}
+
+function createFakeTotalDuration() {
+    const hours = faker.number.int({
+        min: 0,
+        max: 23,
+    });
+    const minutes = faker.number.int({
+        min: 0,
+        max: 59,
+    });
+
+    return `${hours} h ${minutes} min`;
 }
 
 export function createFakeTrackDto() {
@@ -210,3 +220,39 @@ export function createFakeArtistDiscographyDto() {
 }
 
 export type ArtistDiscographyDto = ReturnType<typeof createFakeArtistDiscographyDto>;
+
+export function createFakeAlbumDetailedDto() {
+    const releaseDate = faker.date.past({ years: 5 });
+
+    return {
+        id: faker.string.alphanumeric(12),
+        name: faker.music.songName(),
+        imageUrl: createFakeImageUrl("medium"),
+        type: faker.helpers.arrayElement(["Album", "Single", "Ep"]),
+        artists: faker.helpers.multiple(() => createFakeArtistBriefDto(), {
+            count: {
+                min: 1,
+                max: 3,
+            },
+        }),
+        totalDuration: createFakeTotalDuration(),
+        releaseYear: releaseDate.getFullYear(),
+        formattedReleaseDate: format(releaseDate, "MMMM d, yyyy"),
+        copyrights: [faker.company.name(), faker.company.name()],
+        tracks: faker.helpers.multiple(() => createFakeAlbumTrackDto(), {
+            count: {
+                min: 12,
+                max: 18,
+            },
+        }),
+    };
+}
+
+export type AlbumDetailedDto = ReturnType<typeof createFakeAlbumDetailedDto>;
+
+export function createFakeAlbumTrackDto() {
+    return {
+        ...createFakeTrackDto(),
+        addedAt: undefined,
+    };
+}
