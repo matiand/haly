@@ -57,7 +57,7 @@ export function createFakeOwner() {
 
 export function createFakeReleaseItemDto() {
     const id = faker.string.alphanumeric(12);
-    const type = faker.helpers.arrayElement(["album", "playlist"]);
+    const type = faker.helpers.arrayElement(["album"]);
     const releaseDate = faker.date.past();
 
     return {
@@ -103,7 +103,10 @@ export function createFakePlaylistWithTracksDto() {
         imageUrl: faker.helpers.maybe(() => createFakeImageUrl("medium"), { probability: 0.95 }),
         description: faker.helpers.maybe(() => faker.lorem.sentence(4), { probability: 0.2 }),
         owner: createFakeOwner(),
-        likesTotal: faker.number.int({ min: 0, max: 1_000_000 }),
+        likesTotal: faker.number.int({
+            min: 0,
+            max: 1_000_000,
+        }),
         totalDuration: tracks.totalDuration,
         tracks,
     };
@@ -114,7 +117,10 @@ export type PlaylistWithTracksDto = ReturnType<typeof createFakePlaylistWithTrac
 export function createFakePaginatedTracksDto(total: number) {
     const items = faker.helpers
         .multiple(() => createFakeTrackDto(), { count: total })
-        .map((t, idx) => ({ ...t, positionInPlaylist: idx }));
+        .map((t, idx) => ({
+            ...t,
+            positionInPlaylist: idx,
+        }));
 
     return {
         limit: 200,
@@ -133,6 +139,7 @@ export function createFakePaginatedTracksDto(total: number) {
 
 export function createFakeTrackDto() {
     const id = faker.string.alphanumeric(12);
+
     return {
         id,
         playbackId: faker.datatype.boolean({ probability: 0.8 }) ? id : faker.string.alphanumeric(12),
@@ -166,3 +173,40 @@ export function createFakeAlbumBriefDto() {
         imageUrl: faker.helpers.maybe(() => createFakeImageUrl("small"), { probability: 0.95 }),
     };
 }
+
+export function createFakeArtistDetailedDto() {
+    return {
+        id: faker.string.alphanumeric(12),
+        name: faker.person.fullName(),
+        imageUrl: faker.helpers.maybe(() => createFakeImageUrl("medium"), { probability: 0.95 }),
+        genres: faker.helpers.multiple(() => faker.music.genre(), {
+            count: 3,
+        }),
+        followersTotal: faker.number.int({
+            min: 1,
+            max: 1_000_000,
+        }),
+        isFollowed: faker.datatype.boolean(),
+        topTracks: faker.helpers.multiple(() => createFakeTrackDto(), { count: 10 }),
+    };
+}
+
+export type ArtistDetailedDto = ReturnType<typeof createFakeArtistDetailedDto>;
+
+export function createFakeArtistDiscographyDto() {
+    const albums = faker.helpers.multiple(() => createFakeReleaseItemDto(), {
+        count: 1,
+    });
+    const singlesAndEps = faker.helpers.multiple(() => createFakeReleaseItemDto(), {
+        count: 3,
+    });
+
+    return {
+        all: albums.concat(singlesAndEps),
+        albums,
+        singlesAndEps,
+        compilations: [],
+    };
+}
+
+export type ArtistDiscographyDto = ReturnType<typeof createFakeArtistDiscographyDto>;
