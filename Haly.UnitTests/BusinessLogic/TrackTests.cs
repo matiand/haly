@@ -29,4 +29,16 @@ public class TrackTests
 
         actual.Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData(TrackType.Song, "spotify:track:foo")]
+    [InlineData(TrackType.Podcast, "spotify:episode:foo")]
+    public void Uri_ReturnsCorrectValue_AccordingToItsType(TrackType type, string expected)
+    {
+        var track = new PlaylistTrack() { Id = "foo", Type = type };
+
+        var actual = track.Uri;
+
+        actual.Should().Be(expected);
+    }
 }
