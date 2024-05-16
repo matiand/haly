@@ -10,7 +10,7 @@ namespace Haly.WebApp.Features.CurrentUser.UpdateLikedSongs;
 
 public record UpdateMyLikedSongsCommand(PrivateUserDto User) : IRequest;
 
-public class UpdateMyLikedSongsHandler(ISpotifyService spotifyService, CurrentUserStore meStore, LibraryContext db)
+public class UpdateMyLikedSongsHandler(ISpotifyService spotifyService, ICurrentUserStore meStore, LibraryContext db)
     : IRequestHandler<UpdateMyLikedSongsCommand>
 {
     public async Task Handle(UpdateMyLikedSongsCommand request, CancellationToken cancellationToken)

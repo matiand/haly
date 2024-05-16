@@ -136,7 +136,7 @@ public class PlayerController : ApiControllerBase
     [SwaggerOperation(Summary = "Add to playback queue")]
     [SwaggerResponse(statusCode: 202, "Accepted")]
     [CallsSpotifyApi(SpotifyScopes.UserModifyPlaybackState)]
-    public async Task<ActionResult> AddToQueue(AddToQueueRequestBody body, CurrentUserStore meStore)
+    public async Task<ActionResult> AddToQueue(AddToQueueRequestBody body, ICurrentUserStore meStore)
     {
         var command = new AddToQueueCommand()
         {

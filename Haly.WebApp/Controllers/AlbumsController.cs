@@ -14,7 +14,7 @@ public class AlbumsController : ApiControllerBase
     [SwaggerOperation(Summary = "Get album", Description = "Fetch album from Spotify")]
     [SwaggerResponse(statusCode: 200, "An album", typeof(AlbumDetailedDto))]
     [CallsSpotifyApi()]
-    public async Task<ActionResult<AlbumDetailedDto>> GetAlbum(string id, CurrentUserStore meStore)
+    public async Task<ActionResult<AlbumDetailedDto>> GetAlbum(string id, ICurrentUserStore meStore)
     {
         var currentUser = meStore.User!;
         var album = await Mediator.Send(new GetAlbumQuery(id, currentUser.Market));
@@ -27,7 +27,7 @@ public class AlbumsController : ApiControllerBase
     [SwaggerResponse(statusCode: 200, "A list of albums", typeof(IEnumerable<ReleaseItemDto>))]
     [CallsSpotifyApi()]
     public async Task<IEnumerable<ReleaseItemDto>> GetAlbumRecommendations(string id, string trackIds,
-        CurrentUserStore meStore)
+        ICurrentUserStore meStore)
     {
         var currentUser = meStore.User!;
         var albums = await Mediator.Send(new GetAlbumRecommendationsQuery(id, currentUser.Market, trackIds));

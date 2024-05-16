@@ -8,7 +8,7 @@ namespace Haly.WebApp.Features.CurrentUser.TokenManagement;
 
 public record UpdateAccessTokenCommand(string Token) : IRequest<PrivateUser>;
 
-public class UpdateAccessTokenHandler(CurrentUserStore meStore, IHttpClientFactory httpClientFactory)
+public class UpdateAccessTokenHandler(ICurrentUserStore meStore, IHttpClientFactory httpClientFactory)
     : IRequestHandler<UpdateAccessTokenCommand, PrivateUser>
 {
     public async Task<PrivateUser> Handle(UpdateAccessTokenCommand request, CancellationToken cancellationToken)

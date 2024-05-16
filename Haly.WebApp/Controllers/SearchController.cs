@@ -31,7 +31,7 @@ public class SearchController : ApiControllerBase
     [SwaggerResponse(statusCode: 200, "Search results", typeof(SpotifySearchResultsDto))]
     [CallsSpotifyApi]
     public async Task<SpotifySearchResultsDto> SearchSpotify(string query, SearchType queryType,
-        CurrentUserStore meStore)
+        ICurrentUserStore meStore)
     {
         var request = new SearchSpotifyQuery(query, queryType, meStore.User!.Market);
         var response = await Mediator.Send(request);

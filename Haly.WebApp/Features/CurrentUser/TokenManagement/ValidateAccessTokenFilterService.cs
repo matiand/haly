@@ -7,7 +7,7 @@ namespace Haly.WebApp.Features.CurrentUser.TokenManagement;
 
 // A filter for returning a '401 Unauthorized' when an action needs to call Spotify
 // API, but the token is missing or invalid.
-public class ValidateAccessTokenFilterService(CurrentUserStore meStore) : IActionFilter
+public class ValidateAccessTokenFilterService(ICurrentUserStore meStore) : IActionFilter
 {
     public void OnActionExecuting(ActionExecutingContext context)
     {

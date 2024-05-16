@@ -34,7 +34,7 @@ builder.Services.AddRefitClient<IGeniusApi>()
 builder.Services.AddTransient<ITotalDurationService, TotalDurationService>();
 builder.Services.AddTransient<IDateOnlyService, DateOnlyService>();
 
-builder.Services.AddSingleton<CurrentUserStore>();
+builder.Services.AddSingleton<ICurrentUserStore, CurrentUserStore>();
 builder.Services.AddSingleton<ApiExceptionFilter>();
 builder.Services.AddSingleton<ValidateAccessTokenFilterService>();
 

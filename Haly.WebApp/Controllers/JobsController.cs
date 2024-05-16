@@ -16,7 +16,7 @@ public class JobsController : ApiControllerBase
         Description = "Update tracks in playlists that have been marked as stale.")]
     [SwaggerResponse(statusCode: 204, "Playlist tracks refetched")]
     [CallsSpotifyApi(SpotifyScopes.PlaylistReadPrivate)]
-    public async Task<ActionResult> RefetchCurrentUserPlaylistTracks(CurrentUserStore meStore)
+    public async Task<ActionResult> RefetchCurrentUserPlaylistTracks(ICurrentUserStore meStore)
     {
         var user = meStore.User!;
         await Mediator.Send(new RefetchPlaylistTracksCommand(user.Id));
@@ -27,7 +27,7 @@ public class JobsController : ApiControllerBase
     [HttpGet("new-releases/completed/latest")]
     [SwaggerOperation(Summary = "Get latest completed 'Collect new releases' job")]
     [SwaggerResponse(statusCode: 200, "A job", typeof(NewReleasesJobDto))]
-    public async Task<ActionResult<NewReleasesJobDto>> GetLatestCompletedNewReleasesJob(CurrentUserStore meStore)
+    public async Task<ActionResult<NewReleasesJobDto>> GetLatestCompletedNewReleasesJob(ICurrentUserStore meStore)
     {
         var user = meStore.User!;
         var job = await Mediator.Send(new GetLatestNewReleasesJobQuery(user.Id));
@@ -42,7 +42,7 @@ public class JobsController : ApiControllerBase
     [SwaggerOperation(Summary = "Collect new releases from current user's followed artists")]
     [SwaggerResponse(statusCode: 204, "New releases collected")]
     [CallsSpotifyApi()]
-    public async Task<NoContentResult> CollectNewReleases(CurrentUserStore meStore)
+    public async Task<NoContentResult> CollectNewReleases(ICurrentUserStore meStore)
     {
         var user = meStore.User!;
         await Mediator.Send(new CollectNewReleasesCommand(user.Id, user.Market));

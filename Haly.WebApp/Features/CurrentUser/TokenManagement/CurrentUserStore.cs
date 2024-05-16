@@ -3,7 +3,7 @@ using Mapster;
 
 namespace Haly.WebApp.Features.CurrentUser.TokenManagement;
 
-public class CurrentUserStore
+public class CurrentUserStore : ICurrentUserStore
 {
     public PrivateUserDto? User { get; private set; }
     public string? Token { get; private set; }

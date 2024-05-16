@@ -38,7 +38,7 @@ public sealed class SpotifyService : ISpotifyService
 
     public SpotifyService(
         HttpClient httpClient,
-        CurrentUserStore meStore,
+        ICurrentUserStore meStore,
         ISpotifyEndpointCollector endpointCollector,
         ILogger<SpotifyService> logger)
     {
