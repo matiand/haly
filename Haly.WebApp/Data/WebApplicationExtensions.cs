@@ -7,6 +7,9 @@ public static class WebApplicationExtensions
 {
     public static void ApplyMigrations(this WebApplication app)
     {
+        var skipMigrationsEnv = app.Configuration["SKIP_DATABASE_MIGRATIONS"];
+        if (skipMigrationsEnv == "true") return;
+
         var serviceScopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
         using var serviceScope = serviceScopeFactory.CreateScope();
         using var ctx = serviceScope.ServiceProvider.GetRequiredService<LibraryContext>();
