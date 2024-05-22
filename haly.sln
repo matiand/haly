@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haly.GeneratedClients", "Ha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haly.UnitTests", "Haly.UnitTests\Haly.UnitTests.csproj", "{EDCEE5AB-8202-4373-8F0D-8B521A2D88E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haly.IntegrationTests", "Haly.IntegrationTests\Haly.IntegrationTests.csproj", "{0703562A-5060-4052-9DA1-AA51C7060D69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,5 +42,9 @@ Global
 		{EDCEE5AB-8202-4373-8F0D-8B521A2D88E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDCEE5AB-8202-4373-8F0D-8B521A2D88E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDCEE5AB-8202-4373-8F0D-8B521A2D88E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0703562A-5060-4052-9DA1-AA51C7060D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0703562A-5060-4052-9DA1-AA51C7060D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0703562A-5060-4052-9DA1-AA51C7060D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0703562A-5060-4052-9DA1-AA51C7060D69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
