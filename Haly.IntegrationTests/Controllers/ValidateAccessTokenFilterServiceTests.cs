@@ -15,7 +15,7 @@ public class ValidateAccessTokenFilterServiceTests(HalyApiFactory apiFactory) : 
     {
         var client = apiFactory.CreateClient();
 
-        var response = await client.GetAsync("Users/foo");
+        var response = await client.GetAsync("/Users/foo");
         var problem = await response.Content.ReadFromJsonAsync<Problem>();
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -23,7 +23,7 @@ public class ValidateAccessTokenFilterServiceTests(HalyApiFactory apiFactory) : 
     }
 
     [Fact]
-    public async Task Allows_CallingProtectedEndpoints_WhenUserIsAuthenticated()
+    public async Task Filter_AllowsCallingProtectedEndpoints_WhenUserIsAuthenticated()
     {
         var user = ModelFactory.Me.Generate();
         var client = apiFactory
@@ -31,7 +31,7 @@ public class ValidateAccessTokenFilterServiceTests(HalyApiFactory apiFactory) : 
             .MockSpotifyService(spotify => { spotify.GetUser(Arg.Any<string>()).ReturnsNull(); })
             .CreateClient();
 
-        var response = await client.GetAsync("Users/foo");
+        var response = await client.GetAsync("/Users/foo");
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
